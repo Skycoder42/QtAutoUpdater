@@ -23,8 +23,6 @@ class AutoUpdater : public QObject
 
 	Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath WRITE setMaintenanceToolPath)
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
-	Q_PROPERTY(QStringList updateArguments READ updateArguments WRITE setUpdateArguments)
-	Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin)
 	Q_PROPERTY(QList<UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
 
 public:
@@ -48,16 +46,13 @@ public:
 
 	QString maintenanceToolPath() const;
 	bool isRunning() const;
-	QStringList updateArguments() const;
-	bool runAsAdmin() const;
 	QList<UpdateInfo> updateInfo() const;
 
 public slots:
 	bool checkForUpdates();
+	void abortUpdateCheck(int maxDelay = 0);
 
 	void setMaintenanceToolPath(QString maintenanceToolPath);
-	void setUpdateArguments(QStringList updateArguments);
-	void setRunAsAdmin(bool runAsAdmin);
 
 signals:
 	void checkUpdatesDone(bool hasUpdates, bool hasError);

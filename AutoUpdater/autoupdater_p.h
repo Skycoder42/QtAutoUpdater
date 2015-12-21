@@ -4,6 +4,7 @@
 #include "autoupdater.h"
 #include <QTimer>
 #include <QProcess>
+#include <exception>
 
 template<typename... Args> struct SELECT {
 	template<typename C, typename R>
@@ -15,32 +16,45 @@ template<typename... Args> struct SELECT {
 class AutoUpdaterPrivate
 {
 private:
-	struct RunInfo
-	{
-		QString toolPath;
-		QStringList runArgs;
-		bool runAdmin;
+	class UpdateParseException : public std::exception {};
+	class NoUpdatesXmlException : public UpdateParseException {
+	public:
+		const char *what() const Q_DECL_OVERRIDE {
+			return "The <updates> node could not be found";
+		}
+	};
+	class InvalidXmlException : public UpdateParseException {
+	public:
+		const char *what() const Q_DECL_OVERRIDE {
+			return "The found XML-part is not of a valid updates-XML-format";
+		}
 	};
 
 	AutoUpdater *q_ptr;
 	Q_DECLARE_PUBLIC(AutoUpdater)
 
-	RunInfo mainInfo;
+	QString toolPath;
 	QList<AutoUpdater::UpdateInfo> updateInfos;
 	bool normalExit;
 	int lastErrorCode;
 	QByteArray lastErrorLog;
 
 	bool running;
-	RunInfo workingInfo;
+	QString workingToolPath;
 	QProcess *mainProcess;
 
-	inline AutoUpdaterPrivate(AutoUpdater *q_ptr);
+	AutoUpdaterPrivate(AutoUpdater *q_ptr);
+	~AutoUpdaterPrivate();
 
 	static const QString toSystemExe(const QString basePath);
 
+	bool startUpdateCheck();
+	void stopUpdateCheck(int delay);
+
 	void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
 	void updaterError(QProcess::ProcessError error);
+
+	QList<AutoUpdater::UpdateInfo> parseResult(const QByteArray &output);
 };
 
 #endif // AUTOUPDATER_P_H

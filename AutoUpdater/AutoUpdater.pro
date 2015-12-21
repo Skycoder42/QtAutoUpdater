@@ -11,7 +11,8 @@ TARGET = $$qtLibraryTarget(AutoUpdater)
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += autoupdater.cpp
+SOURCES += autoupdater.cpp \
+    autoupdater_p.cpp
 
 HEADERS += autoupdater.h \
     autoupdater_p.h
