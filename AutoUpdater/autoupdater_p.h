@@ -5,6 +5,13 @@
 #include <QTimer>
 #include <QProcess>
 
+template<typename... Args> struct SELECT {
+	template<typename C, typename R>
+	static Q_DECL_CONSTEXPR auto OVERLOAD_OF( R (C::*pmf)(Args...) ) -> decltype(pmf) {
+		return pmf;
+	}
+};
+
 class AutoUpdaterPrivate
 {
 private:
@@ -18,23 +25,22 @@ private:
 	AutoUpdater *q_ptr;
 	Q_DECLARE_PUBLIC(AutoUpdater)
 
-	bool running;
 	RunInfo mainInfo;
-
-	QList<AutoUpdater::UpdateInfo> infos;
+	QList<AutoUpdater::UpdateInfo> updateInfos;
+	bool normalExit;
 	int lastErrorCode;
-	QString lastErrorLog;
+	QByteArray lastErrorLog;
 
+	bool running;
 	RunInfo workingInfo;
-	QTimer *waitTimer;
 	QProcess *mainProcess;
 
 	inline AutoUpdaterPrivate(AutoUpdater *q_ptr);
 
 	static const QString toSystemExe(const QString basePath);
 
-	AutoUpdaterPrivate *createWorkingCopy() const;
-//	static int runUpdateChecker(AutoUpdaterPrivate *workingCopy, int delay);
+	void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
+	void updaterError(QProcess::ProcessError error);
 };
 
 #endif // AUTOUPDATER_P_H

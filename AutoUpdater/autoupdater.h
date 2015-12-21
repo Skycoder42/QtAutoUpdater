@@ -9,7 +9,7 @@
 #include <QVersionNumber>
 #else
 struct QVersionNumber : public QString {
-	QVersionNumber(const QString &str) : QString(str) {}
+	QVersionNumber(const QString &str = QString()) : QString(str) {}
 
 	inline QString toString() const {return (*this);}
 	static inline QVersionNumber fromString(const QString &string, int * = 0) {return QVersionNumber(string);}
@@ -33,13 +33,18 @@ public:
 		QString name;
 		QVersionNumber version;
 		quint64 size;
+
+		UpdateInfo();
+		UpdateInfo(const UpdateInfo &other);
+		UpdateInfo(QString name, QVersionNumber version, quint64 size);
 	};
 
 	explicit AutoUpdater(QObject *parent = NULL);
 	~AutoUpdater();
 
+	bool exitedNormally() const;
 	int getErrorCode() const;
-	QString getErrorLog() const;
+	QByteArray getErrorLog() const;
 
 	QString maintenanceToolPath() const;
 	bool isRunning() const;
@@ -48,23 +53,23 @@ public:
 	QList<UpdateInfo> updateInfo() const;
 
 public slots:
-	bool checkForUpdates(int delay = 0);
+	bool checkForUpdates();
 
 	void setMaintenanceToolPath(QString maintenanceToolPath);
 	void setUpdateArguments(QStringList updateArguments);
 	void setRunAsAdmin(bool runAsAdmin);
 
 signals:
-	void checkUpdatesDone(bool hasUpdates);
+	void checkUpdatesDone(bool hasUpdates, bool hasError);
 
 	void runningChanged(bool running);
-	void updateInfoChanged(QList<UpdateInfo> updateInfo);
+	void updateInfoChanged(QList<AutoUpdater::UpdateInfo> updateInfo);
 
 private:
 	AutoUpdaterPrivate *d_ptr;
 	Q_DECLARE_PRIVATE(AutoUpdater)
 };
 
-
+Q_DECLARE_METATYPE(AutoUpdater::UpdateInfo)
 
 #endif // AUTOUPDATER_H
