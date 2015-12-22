@@ -13,7 +13,7 @@ template<typename... Args> struct SELECT {
 	}
 };
 
-class AutoUpdaterPrivate
+class AutoUpdaterPrivate : public QObject
 {
 private:
 	class UpdateParseException : public std::exception {};
@@ -40,8 +40,13 @@ private:
 	QByteArray lastErrorLog;
 
 	bool running;
-	QString workingToolPath;
 	QProcess *mainProcess;
+
+	QHash<int, bool> activeTimers;
+
+	bool runOnExit;
+	QStringList runArguments;
+	bool runAdmin;
 
 	AutoUpdaterPrivate(AutoUpdater *q_ptr);
 	~AutoUpdaterPrivate();
@@ -50,11 +55,16 @@ private:
 
 	bool startUpdateCheck();
 	void stopUpdateCheck(int delay);
-
-	void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
+	void updaterReady(int exitCode);
 	void updaterError(QProcess::ProcessError error);
-
 	QList<AutoUpdater::UpdateInfo> parseResult(const QByteArray &output);
+
+	void runExit(const QStringList &arguments, bool asAdmin);
+	void appAboutToExit();
+
+	// QObject interface
+protected:
+	void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 };
 
 #endif // AUTOUPDATER_P_H

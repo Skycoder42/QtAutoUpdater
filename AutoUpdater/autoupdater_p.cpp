@@ -5,25 +5,28 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QXmlStreamReader>
+#include <QTimerEvent>
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
 
 AutoUpdaterPrivate::AutoUpdaterPrivate(AutoUpdater *q_ptr) :
+	QObject(NULL),
 	q_ptr(q_ptr),
-	toolPath(),
+	toolPath(AutoUpdaterPrivate::toSystemExe(QStringLiteral("./maintenancetool"))),
 	updateInfos(),
 	normalExit(true),
 	lastErrorCode(EXIT_SUCCESS),
 	lastErrorLog(),
 	running(false),
-	workingToolPath(),
-	mainProcess(NULL)
+	mainProcess(NULL),
+	activeTimers(),
+	runOnExit(false),
+	runArguments(),
+	runAdmin(false)
 {
-	//TODO test if ok on mac...
-	this->toolPath = AutoUpdaterPrivate::toSystemExe(QStringLiteral("./maintenancetool"));
-//	this->mainInfo.runArgs = {QStringLiteral("--updater")};
-	//	this->mainInfo.runAdmin = false;
+	connect(qApp, &QCoreApplication::aboutToQuit,
+			this, &AutoUpdaterPrivate::appAboutToExit);
 }
 
 AutoUpdaterPrivate::~AutoUpdaterPrivate()
@@ -52,27 +55,26 @@ bool AutoUpdaterPrivate::startUpdateCheck()
 		return false;
 	else {
 		Q_Q(AutoUpdater);
-		this->workingToolPath = this->toolPath;
+		this->updateInfos.clear();
+		this->normalExit = true;
 		this->lastErrorCode = EXIT_SUCCESS;
 		this->lastErrorLog.clear();
 
-		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->workingToolPath);
-		this->mainProcess = new QProcess(q);
+		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
+		this->mainProcess = new QProcess(this);
 		this->mainProcess->setProgram(toolInfo.absoluteFilePath());
 		this->mainProcess->setArguments({QStringLiteral("--checkupdates")});
 		this->mainProcess->setWorkingDirectory(toolInfo.absolutePath());//TODO mac...
 
-		QObject::connect(this->mainProcess, SELECT<int>::OVERLOAD_OF(&QProcess::finished),
-				q, [this](int exitCode){//QProcess::ExitStatus is not registered as metatype...
-			this->updaterReady(exitCode, this->mainProcess->exitStatus());
-		}, Qt::QueuedConnection);
-		QObject::connect(this->mainProcess, SELECT<QProcess::ProcessError>::OVERLOAD_OF(&QProcess::error),
-				q, [this](const QProcess::ProcessError &error){
-			this->updaterError(error);
-		}, Qt::QueuedConnection);
+		connect(this->mainProcess, SELECT<int>::OVERLOAD_OF(&QProcess::finished),
+				this, &AutoUpdaterPrivate::updaterReady, Qt::QueuedConnection);
+		connect(this->mainProcess, SELECT<QProcess::ProcessError>::OVERLOAD_OF(&QProcess::error),
+				this, &AutoUpdaterPrivate::updaterError, Qt::QueuedConnection);
 
 		this->mainProcess->start(QIODevice::ReadOnly);
 		this->running = true;
+
+		emit q->updateInfoChanged(this->updateInfos);
 		emit q->runningChanged(true);
 		return true;
 	}
@@ -93,10 +95,10 @@ void AutoUpdaterPrivate::stopUpdateCheck(int delay)
 	}
 }
 
-void AutoUpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
+void AutoUpdaterPrivate::updaterReady(int exitCode)
 {
 	if(this->mainProcess) {
-		if(exitStatus == QProcess::NormalExit) {
+		if(this->mainProcess->exitStatus() == QProcess::NormalExit) {
 			this->normalExit = true;
 			this->lastErrorCode = exitCode;
 			this->lastErrorLog = this->mainProcess->readAllStandardError();
@@ -114,6 +116,8 @@ void AutoUpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitSta
 				emit q->runningChanged(false);
 				try {
 					this->updateInfos = this->parseResult(updateOut);
+					if(!this->updateInfos.isEmpty())
+						emit q->updateInfoChanged(this->updateInfos);
 					emit q->checkUpdatesDone(!this->updateInfos.isEmpty(), false);
 				} catch (NoUpdatesXmlException &) {
 					emit q->checkUpdatesDone(false, false);
@@ -154,7 +158,7 @@ QList<AutoUpdater::UpdateInfo> AutoUpdaterPrivate::parseResult(const QByteArray 
 		throw NoUpdatesXmlException();
 
 	QList<AutoUpdater::UpdateInfo> updates;
-	QXmlStreamReader reader(outString.mid(xmlBegin, xmlEnd - xmlBegin + 10).simplified());
+	QXmlStreamReader reader(outString.mid(xmlBegin, xmlEnd - xmlBegin + 10));
 
 	reader.readNextStartElement();
 	//should always work because it was search for
@@ -184,4 +188,36 @@ QList<AutoUpdater::UpdateInfo> AutoUpdaterPrivate::parseResult(const QByteArray 
 	}
 
 	return updates;
+}
+
+void AutoUpdaterPrivate::runExit(const QStringList &arguments, bool asAdmin)
+{
+	this->runOnExit = true;
+	this->runArguments = arguments;
+	this->runAdmin = asAdmin;
+	if(asAdmin)
+		qCritical() << "run as admin not supported!";
+}
+
+void AutoUpdaterPrivate::appAboutToExit()
+{
+	if(this->runOnExit) {
+		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
+		if(!QProcess::startDetached(toolInfo.absoluteFilePath(),
+									this->runArguments,
+									toolInfo.absolutePath()))//TODO mac...
+			qWarning() << "Unable to start" << toolInfo.absolutePath()
+					   << "with arguments" << this->runArguments
+					   << "as" << (this->runAdmin ? "admin" : "user");
+	}
+}
+
+void AutoUpdaterPrivate::timerEvent(QTimerEvent *event)
+{
+	if(!this->activeTimers[event->timerId()]) {
+		this->killTimer(event->timerId());
+		this->activeTimers.remove(event->timerId());
+	}
+	event->accept();
+	this->startUpdateCheck();
 }

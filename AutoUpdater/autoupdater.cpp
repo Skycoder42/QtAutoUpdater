@@ -35,6 +35,12 @@ QString AutoUpdater::maintenanceToolPath() const
 	return d->toolPath;
 }
 
+void AutoUpdater::setMaintenanceToolPath(QString maintenanceToolPath)
+{
+	Q_D(AutoUpdater);
+	d->toolPath = maintenanceToolPath;
+}
+
 bool AutoUpdater::isRunning() const
 {
 	const Q_D(AutoUpdater);
@@ -59,10 +65,25 @@ void AutoUpdater::abortUpdateCheck(int maxDelay)
 	d->stopUpdateCheck(maxDelay);
 }
 
-void AutoUpdater::setMaintenanceToolPath(QString maintenanceToolPath)
+int AutoUpdater::scheduleUpdate(qint64 mDelay, bool repeated, Qt::TimerType timerType)
 {
 	Q_D(AutoUpdater);
-	d->toolPath = maintenanceToolPath;
+	int tId = d->startTimer(mDelay, timerType);
+	d->activeTimers.insert(tId, repeated);
+	return tId;
+}
+
+bool AutoUpdater::cancelScheduledUpdate(int taskId)
+{
+	Q_D(AutoUpdater);
+	d->killTimer(taskId);
+	return (d->activeTimers.remove(taskId) > 0);
+}
+
+void AutoUpdater::runUpdaterOnExit(const QStringList &arguments, bool runAsAdmin)
+{
+	Q_D(AutoUpdater);
+	d->runExit(arguments, runAsAdmin);
 }
 
 
@@ -84,3 +105,12 @@ AutoUpdater::UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint6
 	version(version),
 	size(size)
 {}
+
+QDebug &operator<<(QDebug &debug, const AutoUpdater::UpdateInfo &info)
+{
+	debug << qPrintable(QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")
+						.arg(info.name)
+						.arg(info.version.toString())
+						.arg(info.size));
+	return debug;
+}

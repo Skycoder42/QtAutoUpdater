@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-	UpdaterTest \
-	AutoUpdater
+	AutoUpdater \
+    Tests
 
-UpdaterTest.depends += AutoUpdater
+Tests.depends += AutoUpdater

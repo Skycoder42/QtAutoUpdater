@@ -5,6 +5,7 @@
 #include <QString>
 #include <QList>
 #include <QStringList>
+#include <QDateTime>
 #if QT_VERSION >= 0x050600
 #include <QVersionNumber>
 #else
@@ -15,6 +16,7 @@ struct QVersionNumber : public QString {
 	static inline QVersionNumber fromString(const QString &string, int * = 0) {return QVersionNumber(string);}
 };
 #endif
+#include <QDebug>
 
 class AutoUpdaterPrivate;
 class AutoUpdater : public QObject
@@ -45,6 +47,7 @@ public:
 	QByteArray getErrorLog() const;
 
 	QString maintenanceToolPath() const;
+	void setMaintenanceToolPath(QString maintenanceToolPath);
 	bool isRunning() const;
 	QList<UpdateInfo> updateInfo() const;
 
@@ -52,7 +55,17 @@ public slots:
 	bool checkForUpdates();
 	void abortUpdateCheck(int maxDelay = 0);
 
-	void setMaintenanceToolPath(QString maintenanceToolPath);
+	//IDEA advance managing using an extra class
+	int scheduleUpdate(qint64 mDelay, bool repeated = false, Qt::TimerType timerType = Qt::PreciseTimer);
+	inline int Q_CONSTEXPR scheduleUpdate(const QDateTime &when) {
+		return this->scheduleUpdate(QDateTime::currentDateTime().msecsTo(when), false);
+	}
+	bool cancelScheduledUpdate(int taskId);
+
+	inline void Q_CONSTEXPR runUpdaterOnExit(bool runAsAdmin = false) {
+		this->runUpdaterOnExit({QStringLiteral("--updater")}, runAsAdmin);
+	}
+	void runUpdaterOnExit(const QStringList &arguments, bool runAsAdmin = false);
 
 signals:
 	void checkUpdatesDone(bool hasUpdates, bool hasError);
@@ -66,5 +79,7 @@ private:
 };
 
 Q_DECLARE_METATYPE(AutoUpdater::UpdateInfo)
+
+QDebug &operator<<(QDebug &debug, const AutoUpdater::UpdateInfo &info);
 
 #endif // AUTOUPDATER_H

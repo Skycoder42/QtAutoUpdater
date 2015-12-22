@@ -22,11 +22,12 @@ private Q_SLOTS:
 	void initTestCase();
 	void cleanupTestCase();
 
-	void testMaintenanceTool();
 	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
+
+	void testRunUpdater();
 
 private:
 	AutoUpdater *updater;
@@ -52,20 +53,6 @@ void UpdaterTest::cleanupTestCase()
 	delete this->updateInfoSpy;
 	delete this->runningSpy;
 	delete this->checkSpy;
-	delete this->updater;
-}
-
-void UpdaterTest::testMaintenanceTool()
-{
-//	QProcess proc;
-//	proc.setProgram("C:/Program Files/IcoDroid/maintenancetool.exe");
-//	proc.setArguments({QStringLiteral("--checkupdates")});
-
-//	proc.start();
-//	proc.waitForFinished(-1);
-//	qDebug() << proc.readAllStandardOutput();
-
-//	QVERIFY(proc.exitCode() == 0);
 }
 
 void UpdaterTest::testUpdaterInitState()
@@ -92,6 +79,11 @@ void UpdaterTest::testUpdateCheck_data()
 	QTest::newRow("C:/Program Files/IcoDroid") << "C:/Program Files/IcoDroid/maintenancetool.exe"
 											   << true
 											   << updates;
+
+//	updates.clear();
+//	QTest::newRow("C:/Qt") << "C:/Qt/MaintenanceTool.exe"
+//						   << false
+//						   << updates;
 }
 
 void UpdaterTest::testUpdateCheck()
@@ -109,9 +101,10 @@ void UpdaterTest::testUpdateCheck()
 	QCOMPARE(this->runningSpy->size(), 1);
 	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
 	QVERIFY(this->updater->isRunning());
+	QVERIFY(this->updateInfoSpy->takeFirst()[0].value<QList<AutoUpdater::UpdateInfo>>().isEmpty());
 
-	//wait max 1 min for the process to finish
-	QVERIFY(this->checkSpy->wait(60000));
+	//wait max 2 min for the process to finish
+	QVERIFY(this->checkSpy->wait(120000));
 
 	//show error log before continuing checking
 	QByteArray log = this->updater->getErrorLog();
@@ -122,12 +115,16 @@ void UpdaterTest::testUpdateCheck()
 	QCOMPARE(this->checkSpy->size(), 1);
 	QVariantList varList = this->checkSpy->takeFirst();
 	QVERIFY(this->updater->exitedNormally());
-	QCOMPARE(this->updater->getErrorCode(), EXIT_SUCCESS);
-	QVERIFY(!varList[1].toBool());
+	QCOMPARE(this->updater->getErrorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
+	QCOMPARE(varList[1].toBool(), !hasUpdates);
 
 	//verifiy the "hasUpdates" and "updates" are as expected
 	QCOMPARE(varList[0].toBool(), hasUpdates);
 	QCOMPARE(this->updater->updateInfo(), updates);
+	if(hasUpdates) {
+		QCOMPARE(this->updateInfoSpy->size(), 1);
+		QCOMPARE(this->updateInfoSpy->takeFirst()[0].value<QList<AutoUpdater::UpdateInfo>>(), updates);
+	}
 
 	//runnig should have changed to false
 	QCOMPARE(this->runningSpy->size(), 1);
@@ -138,6 +135,35 @@ void UpdaterTest::testUpdateCheck()
 	QVERIFY(this->checkSpy->isEmpty());
 	QVERIFY(this->runningSpy->isEmpty());
 	QVERIFY(this->updateInfoSpy->isEmpty());
+
+	//-----------schedule mechanism---------------
+
+	int kId = this->updater->scheduleUpdate(1000);
+	this->updater->scheduleUpdate(500);
+	QVERIFY(this->updater->cancelScheduledUpdate(kId));
+	//wait for the update to start
+	QVERIFY(this->runningSpy->wait(600));//allow 100ms delta
+	//should be running
+	QVERIFY(this->runningSpy->size() > 0);
+	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
+	//wait for it to finish if not running
+	if(this->runningSpy->isEmpty())
+		QVERIFY(this->runningSpy->wait(120000));
+	//should have stopped
+	QCOMPARE(this->runningSpy->size(), 1);
+	QVERIFY(!this->runningSpy->takeFirst()[0].toBool());
+
+	//verifiy the runningSpy is empty
+	QVERIFY(this->runningSpy->isEmpty());
+	//clear the rest
+	this->checkSpy->clear();
+	this->updateInfoSpy->clear();
+}
+
+void UpdaterTest::testRunUpdater()
+{
+	//BUG not working because? -> test?
+	this->updater->runUpdaterOnExit();
 }
 
 QTEST_GUILESS_MAIN(UpdaterTest)
