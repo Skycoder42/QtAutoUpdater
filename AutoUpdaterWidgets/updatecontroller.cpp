@@ -1,5 +1,6 @@
 #include "updatecontroller.h"
 #include "updatecontroller_p.h"
+#include "updatepanel.h"
 #include <QMessageBox>
 #include <QProgressBar>
 #include <QCoreApplication>
@@ -40,6 +41,11 @@ QAction *UpdateController::getUpdateAction() const
 {
 	const Q_D(UpdateController);
 	return d->updateAction;
+}
+
+QWidget *UpdateController::createUpdatePanel(QWidget *parentWidget)
+{
+	return new UpdatePanel(this, parentWidget);
 }
 
 QString UpdateController::maintenanceToolPath() const

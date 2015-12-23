@@ -64,6 +64,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 			this->statusBar()->showMessage(running ? "running" : "not running");
 		});
+		this->ui->buttonLayout->addWidget(this->controller->createUpdatePanel(this));
 	} else {
 		this->controller->deleteLater();
 		this->controller = NULL;

@@ -10,3 +10,4 @@ A library (+service) to automatically check for updates and install them. This r
 ##### Icon sources:
  - http://www.fatcow.com/free-icons
  - http://www.oxygen-icons.org/
+ - http://www.ajaxload.info/

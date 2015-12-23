@@ -33,6 +33,7 @@ namespace QtAutoUpdater
 		~UpdateController();
 
 		QAction *getUpdateAction() const;
+		QWidget *createUpdatePanel(QWidget *parentWidget);
 
 		QString maintenanceToolPath() const;
 		DisplayLevel currentDisplayLevel() const;
