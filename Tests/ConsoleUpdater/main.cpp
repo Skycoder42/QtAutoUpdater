@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
 	updater->setMaintenanceToolPath("C:/Program Files/IcoDroid/maintenancetool");
 #elif defined(Q_OS_OSX)
 	updater->setMaintenanceToolPath("/Applications/IcoDroid.app/maintenancetool");
+#elif defined(Q_OS_UNIX)
+    updater->setMaintenanceToolPath("/home/sky/IcoDroid/maintenancetool");
 #endif
 	updater->runUpdaterOnExit();
 

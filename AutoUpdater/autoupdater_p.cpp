@@ -192,7 +192,7 @@ QList<AutoUpdater::UpdateInfo> AutoUpdaterPrivate::parseResult(const QByteArray 
 			throw InvalidXmlException();
 
 		updates.append(info);
-	}
+    }
 
 	if(reader.hasError()) {
 		qWarning() << "XML-reader-error:" << reader.errorString();

@@ -23,6 +23,7 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdater/rele
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdater/debug/ -lAutoUpdaterd
 else:mac:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdater/ -lAutoUpdater
 else:mac:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdater/ -lAutoUpdater_debug
+else:unix: LIBS += -L$$OUT_PWD/../../AutoUpdater/ -lAutoUpdater
 
 INCLUDEPATH += $$PWD/../../AutoUpdater
 DEPENDPATH += $$PWD/../../AutoUpdater
@@ -33,3 +34,4 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PW
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/debug/AutoUpdaterd.lib
 else:mac:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/libAutoUpdater.a
 else:mac:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/libAutoUpdater_debug.a
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/libAutoUpdater.a

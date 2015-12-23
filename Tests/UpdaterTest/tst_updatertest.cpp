@@ -66,6 +66,8 @@ void UpdaterTest::testUpdaterInitState()
 	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.exe"));
 #elif defined(Q_OS_OSX)
 	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.app/Contents/MacOS/maintenancetool"));
+#elif defined(Q_OS_UNIX)
+    QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool"));
 #endif
 	QCOMPARE(this->updater->isRunning(), false);
 	QVERIFY(this->updater->updateInfo().isEmpty());
@@ -99,6 +101,17 @@ void UpdaterTest::testUpdateCheck_data()
 //	QTest::newRow("/Users/sky/Qt") << "/Users/sky/Qt/MaintenanceTool"
 //								   << false
 //								   << updates;
+#elif defined(Q_OS_UNIX)
+    QList<AutoUpdater::UpdateInfo> updates;
+    updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 55737708ull};
+    QTest::newRow("/home/sky/IcoDroid") << "/home/sky/IcoDroid/maintenancetool"
+                                        << true
+                                        << updates;
+
+//    updates.clear();
+//    QTest::newRow("/home/sky/Qt") << "/home/sky/Qt/MaintenanceTool"
+//                                  << false
+//                                  << updates;
 #endif
 }
 
