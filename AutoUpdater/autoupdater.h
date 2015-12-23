@@ -56,9 +56,9 @@ public slots:
 	void abortUpdateCheck(int maxDelay = 0);
 
 	//IDEA advance managing using an extra class
-	int scheduleUpdate(qint64 mDelay, bool repeated = false, Qt::TimerType timerType = Qt::PreciseTimer);
+	int scheduleUpdate(qint64 delay, bool repeated = false);
 	inline int Q_CONSTEXPR scheduleUpdate(const QDateTime &when) {
-		return this->scheduleUpdate(QDateTime::currentDateTime().msecsTo(when), false);
+		return this->scheduleUpdate(QDateTime::currentDateTime().secsTo(when), false);
 	}
 	bool cancelScheduledUpdate(int taskId);
 
@@ -66,6 +66,7 @@ public slots:
 		this->runUpdaterOnExit({QStringLiteral("--updater")}, runAsAdmin);
 	}
 	void runUpdaterOnExit(const QStringList &arguments, bool runAsAdmin = false);
+	void cancelExitRun();
 
 signals:
 	void checkUpdatesDone(bool hasUpdates, bool hasError);

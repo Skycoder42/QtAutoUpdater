@@ -190,15 +190,6 @@ QList<AutoUpdater::UpdateInfo> AutoUpdaterPrivate::parseResult(const QByteArray 
 	return updates;
 }
 
-void AutoUpdaterPrivate::runExit(const QStringList &arguments, bool asAdmin)
-{
-	this->runOnExit = true;
-	this->runArguments = arguments;
-	this->runAdmin = asAdmin;
-	if(asAdmin)
-		qCritical() << "run as admin not supported!";
-}
-
 void AutoUpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {

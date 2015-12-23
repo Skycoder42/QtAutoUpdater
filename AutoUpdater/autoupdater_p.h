@@ -59,7 +59,6 @@ private:
 	void updaterError(QProcess::ProcessError error);
 	QList<AutoUpdater::UpdateInfo> parseResult(const QByteArray &output);
 
-	void runExit(const QStringList &arguments, bool asAdmin);
 	void appAboutToExit();
 
 	// QObject interface

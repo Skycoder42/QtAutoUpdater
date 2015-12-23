@@ -65,10 +65,12 @@ void AutoUpdater::abortUpdateCheck(int maxDelay)
 	d->stopUpdateCheck(maxDelay);
 }
 
-int AutoUpdater::scheduleUpdate(qint64 mDelay, bool repeated, Qt::TimerType timerType)
+int AutoUpdater::scheduleUpdate(qint64 delay, bool repeated)
 {
+	if(delay <= 0)
+		return 0;
 	Q_D(AutoUpdater);
-	int tId = d->startTimer(mDelay, timerType);
+	int tId = d->startTimer(delay * 1000, Qt::VeryCoarseTimer);
 	d->activeTimers.insert(tId, repeated);
 	return tId;
 }
@@ -83,7 +85,16 @@ bool AutoUpdater::cancelScheduledUpdate(int taskId)
 void AutoUpdater::runUpdaterOnExit(const QStringList &arguments, bool runAsAdmin)
 {
 	Q_D(AutoUpdater);
-	d->runExit(arguments, runAsAdmin);
+	d->runOnExit = true;
+	d->runArguments = arguments;
+	d->runAdmin = runAsAdmin;
+	Q_ASSERT_X(!runAsAdmin, Q_FUNC_INFO, "Run as admin is not supported rigth now");
+}
+
+void AutoUpdater::cancelExitRun()
+{
+	Q_D(AutoUpdater);
+	d->runOnExit = false;
 }
 
 

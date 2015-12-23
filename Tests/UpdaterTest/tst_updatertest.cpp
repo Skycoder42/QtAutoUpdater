@@ -27,8 +27,6 @@ private Q_SLOTS:
 	void testUpdateCheck_data();
 	void testUpdateCheck();
 
-	void testRunUpdater();
-
 private:
 	AutoUpdater *updater;
 	QSignalSpy *checkSpy;
@@ -53,6 +51,7 @@ void UpdaterTest::cleanupTestCase()
 	delete this->updateInfoSpy;
 	delete this->runningSpy;
 	delete this->checkSpy;
+	delete this->updater;
 }
 
 void UpdaterTest::testUpdaterInitState()
@@ -138,11 +137,12 @@ void UpdaterTest::testUpdateCheck()
 
 	//-----------schedule mechanism---------------
 
-	int kId = this->updater->scheduleUpdate(1000);
-	this->updater->scheduleUpdate(500);
+	int kId = this->updater->scheduleUpdate(QDateTime::currentDateTime().addDays(5));
+	QVERIFY(kId);
+	QVERIFY(this->updater->scheduleUpdate(1));
 	QVERIFY(this->updater->cancelScheduledUpdate(kId));
 	//wait for the update to start
-	QVERIFY(this->runningSpy->wait(600));//allow 100ms delta
+	QVERIFY(this->runningSpy->wait(1100));//allow 100ms delta
 	//should be running
 	QVERIFY(this->runningSpy->size() > 0);
 	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
@@ -158,12 +158,6 @@ void UpdaterTest::testUpdateCheck()
 	//clear the rest
 	this->checkSpy->clear();
 	this->updateInfoSpy->clear();
-}
-
-void UpdaterTest::testRunUpdater()
-{
-	//BUG not working because? -> test?
-	this->updater->runUpdaterOnExit();
 }
 
 QTEST_GUILESS_MAIN(UpdaterTest)

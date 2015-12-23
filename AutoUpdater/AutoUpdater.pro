@@ -12,7 +12,14 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += autoupdater.cpp \
-    autoupdater_p.cpp
+	autoupdater_p.cpp
 
 HEADERS += autoupdater.h \
-    autoupdater_p.h
+	autoupdater_p.h
+
+#TODO admin...
+#HEADERS += adminauthorization.h
+#win32: SOURCES += adminauthorization_win.cpp
+#else:mac: SOURCES += adminauthorization_mac.cpp
+#else:unix: SOURCES += adminauthorization_x11.cpp
+
