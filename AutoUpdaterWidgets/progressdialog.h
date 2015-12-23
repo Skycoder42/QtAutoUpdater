@@ -8,36 +8,39 @@ namespace Ui {
 	class ProgressDialog;
 }
 
-class ProgressDialog : public QDialog
+namespace QtAutoUpdater
 {
-	Q_OBJECT
+	class ProgressDialog : public QDialog
+	{
+		Q_OBJECT
 
-public:
-	explicit ProgressDialog(QWidget *parent = 0);
-	~ProgressDialog();
+	public:
+		explicit ProgressDialog(QWidget *parent = 0);
+		~ProgressDialog();
 
-	template <class Class>
-	void open(Class *object, void(Class::* member)(int,bool)) {
-		connect(this, &ProgressDialog::canceled, object, [=](){
-			(object->*member)(3000, true);
-		});
-		this->show();
-	}
+		template <class Class>
+		void open(Class *object, void(Class::* member)(int,bool)) {
+			connect(this, &ProgressDialog::canceled, object, [=](){
+				(object->*member)(3000, true);
+			});
+			this->show();
+		}
 
-	void setCanceled();
+		void setCanceled();
 
-public slots:
-	void accept() Q_DECL_OVERRIDE {}
-	void reject() Q_DECL_OVERRIDE {}
+	public slots:
+		void accept() Q_DECL_OVERRIDE {}
+		void reject() Q_DECL_OVERRIDE {}
 
-signals:
-	void canceled();
+	signals:
+		void canceled();
 
-protected:
-	void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+	protected:
+		void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
-private:
-	Ui::ProgressDialog *ui;
-};
+	private:
+		Ui::ProgressDialog *ui;
+	};
+}
 
 #endif // PROGRESSDIALOG_H

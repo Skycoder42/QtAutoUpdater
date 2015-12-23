@@ -2,7 +2,14 @@
 #include "updatecontroller_p.h"
 #include <QMessageBox>
 #include <QProgressBar>
+#include <QCoreApplication>
 using namespace QtAutoUpdater;
+
+static void libInit()
+{
+	Q_INIT_RESOURCE(autoupdaterwidgets_resource);
+}
+Q_COREAPP_STARTUP_FUNCTION(libInit)
 
 UpdateController::UpdateController(QWidget *parentWindow) :
 	QObject(parentWindow),
@@ -117,10 +124,8 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 								 tr("Checking for updates was canceled!"));
 	} else {
 		if(hasUpdates) {
-			if(d->displayLevel >= ProgressLevel) {
-				QMessageBox::information(d->window,
-										 tr("Check for Updates"),
-										 tr("New updates available!"));
+			if(d->displayLevel >= InfoLevel) {
+				qDebug() << d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo());
 			}
 		} else {
 			if(hasError) {
@@ -158,7 +163,8 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 	running(false),
 	mainUpdater(new Updater(NULL)),
 	checkUpdatesProgress(NULL),
-	wasCanceled(false)
+	wasCanceled(false),
+	infoDialog(new UpdateInfoDialog(window))
 {
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
 					 q_ptr, &UpdateController::checkUpdatesDone,

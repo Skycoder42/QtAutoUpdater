@@ -1,6 +1,7 @@
 #include "progressdialog.h"
 #include "ui_progressdialog.h"
 #include <QCloseEvent>
+using namespace QtAutoUpdater;
 
 ProgressDialog::ProgressDialog(QWidget *parent) :
 	QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::MSWindowsFixedSizeDialogHint),

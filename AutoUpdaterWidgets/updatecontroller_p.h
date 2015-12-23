@@ -3,6 +3,7 @@
 
 #include "updatecontroller.h"
 #include "progressdialog.h"
+#include "updateinfodialog.h"
 #include <updater.h>
 
 namespace QtAutoUpdater
@@ -20,6 +21,7 @@ namespace QtAutoUpdater
 
 		ProgressDialog *checkUpdatesProgress;
 		bool wasCanceled;
+		UpdateInfoDialog *infoDialog;
 
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 		~UpdateControllerPrivate();

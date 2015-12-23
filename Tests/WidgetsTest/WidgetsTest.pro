@@ -53,3 +53,6 @@ else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/
 else:mac:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/libAutoUpdater.a
 else:mac:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/libAutoUpdater_debug.a
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdater/libAutoUpdater.a
+
+RESOURCES += \
+    main_res.qrc

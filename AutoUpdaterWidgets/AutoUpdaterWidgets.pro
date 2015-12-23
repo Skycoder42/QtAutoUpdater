@@ -13,15 +13,21 @@ CONFIG += staticlib
 
 SOURCES += \
     updatecontroller.cpp \
-    progressdialog.cpp
+    progressdialog.cpp \
+    updateinfodialog.cpp
 
 HEADERS += \
     updatecontroller.h \
 	updatecontroller_p.h \
-    progressdialog.h
+    progressdialog.h \
+    updateinfodialog.h
 
 INCLUDEPATH += $$PWD/../AutoUpdater
 DEPENDPATH += $$PWD/../AutoUpdater
 
 FORMS += \
-    progressdialog.ui
+    progressdialog.ui \
+    updateinfodialog.ui
+
+RESOURCES += \
+    autoupdaterwidgets_resource.qrc

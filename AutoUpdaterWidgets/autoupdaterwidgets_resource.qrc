@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/updaterIcons">
+        <file alias="update.ico">Fatcow-Farm-Fresh-Update.ico</file>
+    </qresource>
+</RCC>
