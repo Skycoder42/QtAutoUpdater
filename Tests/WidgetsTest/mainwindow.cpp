@@ -52,7 +52,8 @@ void MainWindow::on_checkUpdatesButton_clicked()
 		this->controller->setMaintenanceToolPath(this->ui->maintenanceToolLineEdit->text());
 		this->controller->setDisplayLevel((QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
 		qDebug() << "start controller:" << this->controller->start();
-	}
+	} else
+		qDebug() << "start controller:" << false;
 }
 
 void MainWindow::on_cancelButton_clicked()

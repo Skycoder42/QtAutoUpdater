@@ -43,6 +43,7 @@ UpdaterPrivate::~UpdaterPrivate()
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
 		this->mainProcess->kill();
+		this->mainProcess->waitForFinished(1000);
 	}
 }
 
