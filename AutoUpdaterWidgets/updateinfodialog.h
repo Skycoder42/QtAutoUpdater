@@ -27,6 +27,7 @@ namespace QtAutoUpdater
 		DialogResult showUpdateInfo(QList<Updater::UpdateInfo> updates);
 
 	private slots:
+		void on_acceptButton_clicked();
 		void on_delayButton_clicked();
 
 	private:

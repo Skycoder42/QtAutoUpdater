@@ -119,13 +119,33 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		d->checkUpdatesProgress = NULL;
 	}
 	if(d->wasCanceled) {
-		QMessageBox::information(d->window,
-								 tr("Check for Updates"),
-								 tr("Checking for updates was canceled!"));
+		QMessageBox::warning(d->window,
+							 tr("Check for Updates"),
+							 tr("Checking for updates was canceled!"));
 	} else {
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
-				qDebug() << d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo());
+				bool shouldShutDown = false;
+				switch(d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo())) {
+				case UpdateInfoDialog::InstallNow:
+					shouldShutDown = true;
+				case UpdateInfoDialog::InstallLater:
+					d->mainUpdater->runUpdaterOnExit();
+					if(shouldShutDown)
+						qApp->quit();
+				case UpdateInfoDialog::NoInstall:
+					break;
+				default:
+					Q_UNREACHABLE();
+				}
+			} else {
+				d->mainUpdater->runUpdaterOnExit();
+				if(d->displayLevel == ExitLevel) {
+					QMessageBox::information(d->window,
+											 tr("Install Updates"),
+											 tr("New updates are available. The maintenance tool will be started to install those as soon as you close the application!"));
+				} else
+					qApp->quit();
 			}
 		} else {
 			if(hasError) {
