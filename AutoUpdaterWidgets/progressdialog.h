@@ -17,12 +17,14 @@ public:
 	~ProgressDialog();
 
 	template <class Class>
-	void open(Class *object, void(Class::* member)(int,bool), int maxDelay) {
+	void open(Class *object, void(Class::* member)(int,bool)) {
 		connect(this, &ProgressDialog::canceled, object, [=](){
-			(object->*member)(maxDelay, true);
+			(object->*member)(3000, true);
 		});
 		this->show();
 	}
+
+	void setCanceled();
 
 public slots:
 	void accept() Q_DECL_OVERRIDE {}

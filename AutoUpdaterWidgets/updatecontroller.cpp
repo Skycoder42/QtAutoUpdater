@@ -52,6 +52,7 @@ bool UpdateController::start()
 		return false;
 	d->running = true;
 	emit runningChanged(true);
+	d->wasCanceled = false;
 
 	if(d->displayLevel >= AskLevel) {
 		if(QMessageBox::question(d->window,
@@ -66,9 +67,10 @@ bool UpdateController::start()
 
 	if(d->displayLevel >= ProgressLevel) {
 		d->checkUpdatesProgress = new ProgressDialog(d->window);
-		d->checkUpdatesProgress->open(d->mainUpdater,
-									  &QtAutoUpdater::Updater::abortUpdateCheck,
-									  5000);
+		connect(d->checkUpdatesProgress, &ProgressDialog::canceled, this, [d](){
+			d->wasCanceled = true;
+		});
+		d->checkUpdatesProgress->open(d->mainUpdater, &QtAutoUpdater::Updater::abortUpdateCheck);
 	}
 
 	if(!d->mainUpdater->checkForUpdates()) {
@@ -87,47 +89,64 @@ bool UpdateController::start()
 		return true;
 }
 
-void UpdateController::abort()
+bool UpdateController::cancelUpdate(int maxDelay)
 {
-
+	Q_D(UpdateController);
+	if(d->mainUpdater->isRunning()) {
+		d->wasCanceled = true;
+		if(d->checkUpdatesProgress)
+			d->checkUpdatesProgress->setCanceled();
+		d->mainUpdater->abortUpdateCheck(maxDelay, true);
+		return true;
+	} else
+		return false;
 }
 
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 {
 	Q_D(UpdateController);
-	if(hasUpdates) {
-		if(d->displayLevel >= ProgressLevel) {
-			d->checkUpdatesProgress->hide();
-			d->checkUpdatesProgress->deleteLater();
-			d->checkUpdatesProgress = NULL;
-			QMessageBox::information(d->window,
-									 tr("Check for Updates"),
-									 tr("New updates available!"));
-		}
 
-		d->running = false;
-		emit runningChanged(false);
+	if(d->displayLevel >= ProgressLevel) {
+		d->checkUpdatesProgress->hide();
+		d->checkUpdatesProgress->deleteLater();
+		d->checkUpdatesProgress = NULL;
+	}
+	if(d->wasCanceled) {
+		QMessageBox::information(d->window,
+								 tr("Check for Updates"),
+								 tr("Checking for updates was canceled!"));
 	} else {
-		qDebug() << "hasError:" << hasError
-				 << "\nexitedNormally:" << d->mainUpdater->exitedNormally()
-				 << "\nerrorCode:" << d->mainUpdater->getErrorCode()
-				 << "\nerrorLog:" << d->mainUpdater->getErrorLog();
-//		if(hasError) {
-//			//TODO how to distinguish ok from error...
-//		} else {
+		if(hasUpdates) {
 			if(d->displayLevel >= ProgressLevel) {
-				d->checkUpdatesProgress->hide();
-				d->checkUpdatesProgress->deleteLater();
-				d->checkUpdatesProgress = NULL;
 				QMessageBox::information(d->window,
 										 tr("Check for Updates"),
-										 tr("No new updates available!"));
+										 tr("New updates available!"));
 			}
-//		}
+		} else {
+			if(hasError) {
+				qWarning() << "maintenancetool process finished with exit code"
+						   << d->mainUpdater->getErrorCode()
+						   << "and error string:"
+						   << d->mainUpdater->getErrorLog();
+				if(!d->mainUpdater->exitedNormally()) {
+					QMessageBox::warning(d->window,
+										 tr("Warning"),
+										 tr("The update process crashed!"));
+				}
+			}
 
-		d->running = false;
-		emit runningChanged(false);
+			if(d->mainUpdater->exitedNormally()){
+				if(d->displayLevel >= ProgressLevel) {
+					QMessageBox::critical(d->window,
+										  tr("Check for Updates"),
+										  tr("No new updates available!"));
+				}
+			}
+		}
 	}
+
+	d->running = false;
+	emit runningChanged(false);
 }
 
 //-----------------PRIVATE IMPLEMENTATION-----------------
@@ -138,7 +157,8 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 	displayLevel(UpdateController::InfoLevel),
 	running(false),
 	mainUpdater(new Updater(NULL)),
-	checkUpdatesProgress(NULL)
+	checkUpdatesProgress(NULL),
+	wasCanceled(false)
 {
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
 					 q_ptr, &UpdateController::checkUpdatesDone,

@@ -35,7 +35,7 @@ namespace QtAutoUpdater
 
 	public slots:
 		bool start();
-		void abort();
+		bool cancelUpdate(int maxDelay = 3000);
 
 	signals:
 		void runningChanged(bool running);

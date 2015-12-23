@@ -11,6 +11,15 @@
 #endif
 using namespace QtAutoUpdater;
 
+static void libInit()
+{
+	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ProcessError")))
+		qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
+	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ExitStatus")))
+		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+}
+Q_COREAPP_STARTUP_FUNCTION(libInit)
+
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	QObject(NULL),
 	q_ptr(q_ptr),
@@ -83,9 +92,9 @@ bool UpdaterPrivate::startUpdateCheck()
 		this->mainProcess->setWorkingDirectory(toolInfo.absolutePath());
 
 		connect(this->mainProcess, SELECT<int, QProcess::ExitStatus>::OVERLOAD_OF(&QProcess::finished),
-				this, &UpdaterPrivate::updaterReady);//CRITICAL MUST be queued -> do it somehow
+				this, &UpdaterPrivate::updaterReady, Qt::QueuedConnection);
 		connect(this->mainProcess, SELECT<QProcess::ProcessError>::OVERLOAD_OF(&QProcess::error),
-				this, &UpdaterPrivate::updaterError);//CRITICAL MUST be queued -> do it somehow
+				this, &UpdaterPrivate::updaterError, Qt::QueuedConnection);
 
 		this->mainProcess->start(QIODevice::ReadOnly);
 		this->running = true;

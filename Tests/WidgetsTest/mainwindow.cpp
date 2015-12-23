@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	controller(new QtAutoUpdater::UpdateController(this))
 {
 	ui->setupUi(this);
+	this->statusBar()->showMessage("not running");
+
 	connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 		this->statusBar()->showMessage(running ? "running" : "not running");
 	});
@@ -35,7 +37,9 @@ void MainWindow::on_maintenanceToolButton_clicked()
 											#if defined(Q_OS_WIN32)
 												QStringLiteral("Executables (*.exe);;All Files (*)")
 											#elif defined(Q_OS_OSX)
+												QStringLiteral("Applications (*.app);;All Files (*)")
 											#elif defined(Q_OS_UNIX)
+												QStringLiteral("Executables (*)")
 											#endif
 												);
 	if(!path.isEmpty())

@@ -14,12 +14,17 @@ ProgressDialog::~ProgressDialog()
 	delete ui;
 }
 
+void ProgressDialog::setCanceled()
+{
+	this->ui->label->setText(tr("Canceling update check…"));
+	this->ui->buttonBox->setEnabled(false);
+}
+
 void ProgressDialog::closeEvent(QCloseEvent *event)
 {
 	event->ignore();
 	if(this->ui->buttonBox->isEnabled()) {
-		this->ui->label->setText(tr("Canceling update check…"));
-		this->ui->buttonBox->setEnabled(false);
+		this->setCanceled();
 		emit canceled();
 	}
 }

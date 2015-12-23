@@ -19,6 +19,7 @@ namespace QtAutoUpdater
 		Updater *mainUpdater;
 
 		ProgressDialog *checkUpdatesProgress;
+		bool wasCanceled;
 
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 		~UpdateControllerPrivate();
