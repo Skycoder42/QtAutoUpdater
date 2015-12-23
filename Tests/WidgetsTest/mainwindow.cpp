@@ -54,3 +54,8 @@ void MainWindow::on_checkUpdatesButton_clicked()
 		qDebug() << "start controller:" << this->controller->start();
 	}
 }
+
+void MainWindow::on_cancelButton_clicked()
+{
+	qDebug() << "cancel controller:" << this->controller->cancelUpdate();
+}

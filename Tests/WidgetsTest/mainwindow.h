@@ -21,6 +21,8 @@ private slots:
 
 	void on_checkUpdatesButton_clicked();
 
+	void on_cancelButton_clicked();
+
 private:
 	Ui::MainWindow *ui;
 	QtAutoUpdater::UpdateController *controller;

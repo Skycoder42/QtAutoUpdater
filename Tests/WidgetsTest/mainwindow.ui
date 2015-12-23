@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1">
     <item>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
@@ -91,11 +91,22 @@
        </spacer>
       </item>
       <item row="2" column="1">
-       <widget class="QCommandLinkButton" name="checkUpdatesButton">
-        <property name="text">
-         <string>Check for Updates</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QCommandLinkButton" name="checkUpdatesButton">
+          <property name="text">
+           <string>Check for Updates</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="cancelButton">
+          <property name="text">
+           <string>Send cancel request</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>

@@ -119,9 +119,11 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		d->checkUpdatesProgress = NULL;
 	}
 	if(d->wasCanceled) {
-		QMessageBox::warning(d->window,
-							 tr("Check for Updates"),
-							 tr("Checking for updates was canceled!"));
+		if(d->displayLevel >= ProgressLevel) {
+			QMessageBox::warning(d->window,
+								 tr("Check for Updates"),
+								 tr("Checking for updates was canceled!"));
+		}
 	} else {
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
