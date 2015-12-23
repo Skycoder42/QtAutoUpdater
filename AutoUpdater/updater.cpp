@@ -60,10 +60,10 @@ bool Updater::checkForUpdates()
 	return d->startUpdateCheck();
 }
 
-void Updater::abortUpdateCheck(int maxDelay)
+void Updater::abortUpdateCheck(int maxDelay, bool async)
 {
 	Q_D(Updater);
-	d->stopUpdateCheck(maxDelay);
+	d->stopUpdateCheck(maxDelay, async);
 }
 
 int  Updater::scheduleUpdate(qint64 delay, bool repeated)

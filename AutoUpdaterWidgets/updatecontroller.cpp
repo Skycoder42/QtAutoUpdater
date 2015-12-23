@@ -1,6 +1,7 @@
 #include "updatecontroller.h"
 #include "updatecontroller_p.h"
 #include <QMessageBox>
+#include <QProgressBar>
 using namespace QtAutoUpdater;
 
 UpdateController::UpdateController(QWidget *parentWindow) :
@@ -40,7 +41,7 @@ void UpdateController::setDisplayLevel(UpdateController::DisplayLevel displayLev
 bool UpdateController::isRunning() const
 {
 	const Q_D(UpdateController);
-	return d->running || d->mainUpdater->isRunning();
+	return d->running;// || d->mainUpdater->isRunning();
 }
 
 bool UpdateController::start()
@@ -64,14 +65,10 @@ bool UpdateController::start()
 	}
 
 	if(d->displayLevel >= ProgressLevel) {
-		d->checkUpdatesProgress = new QProgressDialog(d->window,
-													  Qt::CustomizeWindowHint |
-													  Qt::WindowTitleHint |
-													  Qt::MSWindowsFixedSizeDialogHint);
-		d->checkUpdatesProgress->setWindowModality(Qt::ApplicationModal);
-		d->checkUpdatesProgress->setLabelText(tr("Checking for updates…"));
-		d->checkUpdatesProgress->setMinimumDuration(1000);
-		d->checkUpdatesProgress->setRange(0, 0);
+		d->checkUpdatesProgress = new ProgressDialog(d->window);
+		d->checkUpdatesProgress->open(d->mainUpdater,
+									  &QtAutoUpdater::Updater::abortUpdateCheck,
+									  5000);
 	}
 
 	if(!d->mainUpdater->checkForUpdates()) {
@@ -111,6 +108,10 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		d->running = false;
 		emit runningChanged(false);
 	} else {
+		qDebug() << "hasError:" << hasError
+				 << "\nexitedNormally:" << d->mainUpdater->exitedNormally()
+				 << "\nerrorCode:" << d->mainUpdater->getErrorCode()
+				 << "\nerrorLog:" << d->mainUpdater->getErrorLog();
 //		if(hasError) {
 //			//TODO how to distinguish ok from error...
 //		} else {
@@ -140,7 +141,8 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 	checkUpdatesProgress(NULL)
 {
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
-					 q_ptr, &UpdateController::checkUpdatesDone);
+					 q_ptr, &UpdateController::checkUpdatesDone,
+					 Qt::QueuedConnection);
 }
 
 UpdateControllerPrivate::~UpdateControllerPrivate()

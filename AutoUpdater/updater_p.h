@@ -57,7 +57,7 @@ namespace QtAutoUpdater
 		static const QString getWorkingDir(const QString &exePath);
 
 		bool startUpdateCheck();
-		void stopUpdateCheck(int delay);
+		void stopUpdateCheck(int delay, bool async);
 		void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
 		void updaterError(QProcess::ProcessError error);
 		QList<Updater::UpdateInfo> parseResult(const QByteArray &output);

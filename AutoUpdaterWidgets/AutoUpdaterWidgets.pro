@@ -12,11 +12,16 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    updatecontroller.cpp
+    updatecontroller.cpp \
+    progressdialog.cpp
 
 HEADERS += \
     updatecontroller.h \
-	updatecontroller_p.h
+	updatecontroller_p.h \
+    progressdialog.h
 
 INCLUDEPATH += $$PWD/../AutoUpdater
 DEPENDPATH += $$PWD/../AutoUpdater
+
+FORMS += \
+    progressdialog.ui

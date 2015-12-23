@@ -55,7 +55,7 @@ namespace QtAutoUpdater
 
 	public slots:
 		bool checkForUpdates();
-		void abortUpdateCheck(int maxDelay = 0);
+		void abortUpdateCheck(int maxDelay = 5000, bool async = false);
 
 		//IDEA advance managing using an extra class
 		int scheduleUpdate(qint64 delay, bool repeated = false);

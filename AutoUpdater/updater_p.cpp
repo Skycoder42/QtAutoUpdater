@@ -40,8 +40,12 @@ UpdaterPrivate::~UpdaterPrivate()
 const QString UpdaterPrivate::toSystemExe(const QString basePath)
 {
 #if defined(Q_OS_WIN32)
-	return basePath + QStringLiteral(".exe");
+	if(!basePath.endsWith(QStringLiteral(".exe")))
+		return basePath + QStringLiteral(".exe");
+	else
+		return basePath;
 #elif defined(Q_OS_OSX)//TODO check
+	//TODO check full path -> like windows
 	return basePath + QStringLiteral(".app/Contents/MacOS/") + QFileInfo(basePath).fileName();
 #elif defined(Q_OS_UNIX)
 	return basePath;
@@ -79,9 +83,9 @@ bool UpdaterPrivate::startUpdateCheck()
 		this->mainProcess->setWorkingDirectory(toolInfo.absolutePath());
 
 		connect(this->mainProcess, SELECT<int, QProcess::ExitStatus>::OVERLOAD_OF(&QProcess::finished),
-				this, &UpdaterPrivate::updaterReady);
+				this, &UpdaterPrivate::updaterReady);//CRITICAL MUST be queued -> do it somehow
 		connect(this->mainProcess, SELECT<QProcess::ProcessError>::OVERLOAD_OF(&QProcess::error),
-				this, &UpdaterPrivate::updaterError);
+				this, &UpdaterPrivate::updaterError);//CRITICAL MUST be queued -> do it somehow
 
 		this->mainProcess->start(QIODevice::ReadOnly);
 		this->running = true;
@@ -92,18 +96,22 @@ bool UpdaterPrivate::startUpdateCheck()
 	}
 }
 
-void UpdaterPrivate::stopUpdateCheck(int delay)
+void UpdaterPrivate::stopUpdateCheck(int delay, bool async)
 {
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
 		if(delay > 0) {
 			this->mainProcess->terminate();
-			if(this->mainProcess->waitForFinished(delay))
-				return;
-		}
-
-		this->mainProcess->kill();
-		//TODO test if error/finished are still emitted
+			if(async){
+				QTimer::singleShot(delay, this, [this](){
+					this->stopUpdateCheck(0, false);
+				});
+			} else {
+				if(!this->mainProcess->waitForFinished(delay))
+					this->mainProcess->kill();
+			}
+		} else
+			this->mainProcess->kill();
 	}
 }
 

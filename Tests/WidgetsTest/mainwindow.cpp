@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QDebug>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -12,10 +13,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 		this->statusBar()->showMessage(running ? "running" : "not running");
 	});
+
+	QSettings settings("./set.ini", QSettings::IniFormat);
+	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
+	this->ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value("level", QtAutoUpdater::UpdateController::AskLevel).toInt());
 }
 
 MainWindow::~MainWindow()
 {
+	QSettings settings("./set.ini", QSettings::IniFormat);
+	settings.setValue("path", this->ui->maintenanceToolLineEdit->text());
+	settings.setValue("level", this->ui->displayLevelComboBox->currentIndex());
 	delete ui;
 }
 

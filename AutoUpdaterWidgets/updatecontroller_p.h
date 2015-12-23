@@ -2,8 +2,8 @@
 #define UPDATECONTROLLER_P_H
 
 #include "updatecontroller.h"
+#include "progressdialog.h"
 #include <updater.h>
-#include <QProgressDialog>
 
 namespace QtAutoUpdater
 {
@@ -18,7 +18,7 @@ namespace QtAutoUpdater
 		bool running;
 		Updater *mainUpdater;
 
-		QProgressDialog *checkUpdatesProgress;
+		ProgressDialog *checkUpdatesProgress;
 
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 		~UpdateControllerPrivate();
