@@ -3,9 +3,10 @@
 #include <QCoreApplication>
 #include <QSignalSpy>
 
-#include <autoupdater.h>
+#include <updater.h>
+using namespace QtAutoUpdater;
 
-inline bool operator==(const AutoUpdater::UpdateInfo &a, const AutoUpdater::UpdateInfo &b) {
+inline bool operator==(const Updater::UpdateInfo &a, const Updater::UpdateInfo &b) {
 	return (a.name == b.name &&
 			a.version == b.version &&
 			a.size == b.size);
@@ -28,7 +29,7 @@ private Q_SLOTS:
 	void testUpdateCheck();
 
 private:
-	AutoUpdater *updater;
+	Updater *updater;
 	QSignalSpy *checkSpy;
 	QSignalSpy *runningSpy;
 	QSignalSpy *updateInfoSpy;
@@ -36,13 +37,13 @@ private:
 
 void UpdaterTest::initTestCase()
 {
-	this->updater = new AutoUpdater(this);
+	this->updater = new Updater(this);
 	QVERIFY(this->updater);
-	this->checkSpy = new QSignalSpy(this->updater, &AutoUpdater::checkUpdatesDone);
+	this->checkSpy = new QSignalSpy(this->updater, &Updater::checkUpdatesDone);
 	QVERIFY(this->checkSpy->isValid());
-	this->runningSpy = new QSignalSpy(this->updater, &AutoUpdater::runningChanged);
+	this->runningSpy = new QSignalSpy(this->updater, &Updater::runningChanged);
 	QVERIFY(this->runningSpy->isValid());
-	this->updateInfoSpy = new QSignalSpy(this->updater, &AutoUpdater::updateInfoChanged);
+	this->updateInfoSpy = new QSignalSpy(this->updater, &Updater::updateInfoChanged);
 	QVERIFY(this->updateInfoSpy->isValid());
 }
 
@@ -77,10 +78,10 @@ void UpdaterTest::testUpdateCheck_data()
 {
 	QTest::addColumn<QString>("toolPath");
 	QTest::addColumn<bool>("hasUpdates");
-	QTest::addColumn<QList<AutoUpdater::UpdateInfo>>("updates");
+	QTest::addColumn<QList<Updater::UpdateInfo>>("updates");
 
 #ifdef Q_OS_WIN
-	QList<AutoUpdater::UpdateInfo> updates;
+	QList<Updater::UpdateInfo> updates;
 	updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 52300641ull};
 	QTest::newRow("C:/Program Files/IcoDroid") << "C:/Program Files/IcoDroid/maintenancetool"
 											   << true
@@ -119,7 +120,7 @@ void UpdaterTest::testUpdateCheck()
 {
 	QFETCH(QString, toolPath);
 	QFETCH(bool, hasUpdates);
-	QFETCH(QList<AutoUpdater::UpdateInfo>, updates);
+	QFETCH(QList<Updater::UpdateInfo>, updates);
 
 	//start the check updates
 	QVERIFY(!this->updater->isRunning());
@@ -130,7 +131,7 @@ void UpdaterTest::testUpdateCheck()
 	QCOMPARE(this->runningSpy->size(), 1);
 	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
 	QVERIFY(this->updater->isRunning());
-	QVERIFY(this->updateInfoSpy->takeFirst()[0].value<QList<AutoUpdater::UpdateInfo>>().isEmpty());
+	QVERIFY(this->updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>().isEmpty());
 
 	//wait max 2 min for the process to finish
 	QVERIFY(this->checkSpy->wait(120000));
@@ -152,7 +153,7 @@ void UpdaterTest::testUpdateCheck()
 	QCOMPARE(this->updater->updateInfo(), updates);
 	if(hasUpdates) {
 		QCOMPARE(this->updateInfoSpy->size(), 1);
-		QCOMPARE(this->updateInfoSpy->takeFirst()[0].value<QList<AutoUpdater::UpdateInfo>>(), updates);
+		QCOMPARE(this->updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>(), updates);
 	}
 
 	//runnig should have changed to false

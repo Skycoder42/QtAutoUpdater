@@ -2,6 +2,10 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
 	AutoUpdater \
-    Tests
+	AutoUpdaterWidgets \
+	Tests
 
-Tests.depends += AutoUpdater
+DISTFILES += merge_libs_scripts/win/merge_libs.bat
+
+AutoUpdaterWidgets.depends += AutoUpdater
+Tests.depends += AutoUpdater AutoUpdaterWidgets

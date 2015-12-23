@@ -11,11 +11,13 @@ TARGET = $$qtLibraryTarget(AutoUpdater)
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += autoupdater.cpp \
-	autoupdater_p.cpp
+SOURCES += \
+    updater.cpp \
+    updater_p.cpp
 
-HEADERS += autoupdater.h \
-	autoupdater_p.h
+HEADERS += \
+    updater.h \
+    updater_p.h
 
 #TODO admin...
 #HEADERS += adminauthorization.h

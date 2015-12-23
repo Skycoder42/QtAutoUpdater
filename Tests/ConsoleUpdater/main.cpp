@@ -1,12 +1,12 @@
 #include <QCoreApplication>
 #include <QDebug>
-#include <autoupdater.h>
+#include <updater.h>
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	AutoUpdater *updater = new AutoUpdater(/*&a*/NULL);
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(/*&a*/NULL);
 #if defined(Q_OS_WIN32)
 	updater->setMaintenanceToolPath("C:/Program Files/IcoDroid/maintenancetool");
 #elif defined(Q_OS_OSX)
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 #endif
 	updater->runUpdaterOnExit();
 
-	QObject::connect(updater, &AutoUpdater::checkUpdatesDone, [updater](bool a, bool b){
+	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool a, bool b){
 		qDebug() << "Has updates:" << a << "\nHas errors:" << b;
 		qDebug() << updater->updateInfo();
 		qApp->quit();

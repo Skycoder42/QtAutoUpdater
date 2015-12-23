@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
 	UpdaterTest \
-    ConsoleUpdater
+    ConsoleUpdater \
+    WidgetsTest
