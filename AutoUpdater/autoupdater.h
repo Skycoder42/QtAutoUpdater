@@ -57,12 +57,12 @@ public slots:
 
 	//IDEA advance managing using an extra class
 	int scheduleUpdate(qint64 delay, bool repeated = false);
-	inline int Q_CONSTEXPR scheduleUpdate(const QDateTime &when) {
+	inline int scheduleUpdate(const QDateTime &when) {
 		return this->scheduleUpdate(QDateTime::currentDateTime().secsTo(when), false);
 	}
 	bool cancelScheduledUpdate(int taskId);
 
-	inline void Q_CONSTEXPR runUpdaterOnExit(bool runAsAdmin = false) {
+	inline void runUpdaterOnExit(bool runAsAdmin = false) {
 		this->runUpdaterOnExit({QStringLiteral("--updater")}, runAsAdmin);
 	}
 	void runUpdaterOnExit(const QStringList &arguments, bool runAsAdmin = false);

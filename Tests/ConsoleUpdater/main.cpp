@@ -7,7 +7,11 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	AutoUpdater *updater = new AutoUpdater(/*&a*/NULL);
-	updater->setMaintenanceToolPath("C:/Program Files/IcoDroid/maintenancetool.exe");
+#if defined(Q_OS_WIN32)
+	updater->setMaintenanceToolPath("C:/Program Files/IcoDroid/maintenancetool");
+#elif defined(Q_OS_OSX)
+	updater->setMaintenanceToolPath("/Applications/IcoDroid.app/maintenancetool");
+#endif
 	updater->runUpdaterOnExit();
 
 	QObject::connect(updater, &AutoUpdater::checkUpdatesDone, [updater](bool a, bool b){

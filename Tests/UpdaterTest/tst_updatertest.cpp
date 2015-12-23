@@ -62,7 +62,11 @@ void UpdaterTest::testUpdaterInitState()
 	QVERIFY(this->updater->getErrorLog().isEmpty());
 
 	//properties
+#if defined(Q_OS_WIN32)
 	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.exe"));
+#elif defined(Q_OS_OSX)
+	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.app/Contents/MacOS/maintenancetool"));
+#endif
 	QCOMPARE(this->updater->isRunning(), false);
 	QVERIFY(this->updater->updateInfo().isEmpty());
 }
@@ -73,16 +77,29 @@ void UpdaterTest::testUpdateCheck_data()
 	QTest::addColumn<bool>("hasUpdates");
 	QTest::addColumn<QList<AutoUpdater::UpdateInfo>>("updates");
 
+#ifdef Q_OS_WIN
 	QList<AutoUpdater::UpdateInfo> updates;
 	updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 52300641ull};
-	QTest::newRow("C:/Program Files/IcoDroid") << "C:/Program Files/IcoDroid/maintenancetool.exe"
+	QTest::newRow("C:/Program Files/IcoDroid") << "C:/Program Files/IcoDroid/maintenancetool"
 											   << true
 											   << updates;
 
 //	updates.clear();
-//	QTest::newRow("C:/Qt") << "C:/Qt/MaintenanceTool.exe"
+//	QTest::newRow("C:/Qt") << "C:/Qt/MaintenanceTool"
 //						   << false
 //						   << updates;
+#elif defined(Q_OS_OSX)
+	QList<AutoUpdater::UpdateInfo> updates;
+	updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 23144149ull};
+	QTest::newRow("/Applications/IcoDroid.app") << "/Applications/IcoDroid.app/maintenancetool"
+												<< true
+												<< updates;
+
+//	updates.clear();
+//	QTest::newRow("/Users/sky/Qt") << "/Users/sky/Qt/MaintenanceTool"
+//								   << false
+//								   << updates;
+#endif
 }
 
 void UpdaterTest::testUpdateCheck()
@@ -142,7 +159,7 @@ void UpdaterTest::testUpdateCheck()
 	QVERIFY(this->updater->scheduleUpdate(1));
 	QVERIFY(this->updater->cancelScheduledUpdate(kId));
 	//wait for the update to start
-	QVERIFY(this->runningSpy->wait(1100));//allow 100ms delta
+	QVERIFY(this->runningSpy->wait(2000));//allow 1s delta
 	//should be running
 	QVERIFY(this->runningSpy->size() > 0);
 	QVERIFY(this->runningSpy->takeFirst()[0].toBool());

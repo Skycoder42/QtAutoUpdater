@@ -13,7 +13,7 @@
 AutoUpdaterPrivate::AutoUpdaterPrivate(AutoUpdater *q_ptr) :
 	QObject(NULL),
 	q_ptr(q_ptr),
-	toolPath(AutoUpdaterPrivate::toSystemExe(QStringLiteral("./maintenancetool"))),
+	toolPath(toSystemExe(QStringLiteral("./maintenancetool"))),
 	updateInfos(),
 	normalExit(true),
 	lastErrorCode(EXIT_SUCCESS),
@@ -39,13 +39,25 @@ AutoUpdaterPrivate::~AutoUpdaterPrivate()
 
 const QString AutoUpdaterPrivate::toSystemExe(const QString basePath)
 {
-#if defined(Q_OS_WIN)
+#if defined(Q_OS_WIN32)
 	return basePath + QStringLiteral(".exe");
-#elif defined(Q_OS_MAC)//TODO check
-	QFileInfo info(basePath);
-	return basePath + QStringLiteral(".app/Contents/MacOS/") + info.fileName();
-#elif defined(Q_OS_UNIX)//TODO check (x11?)
+#elif defined(Q_OS_OSX)//TODO check
+	return basePath + QStringLiteral(".app/Contents/MacOS/") + QFileInfo(basePath).fileName();
+#elif defined(Q_OS_UNIX)
 	return basePath;
+#endif
+}
+
+const QString AutoUpdaterPrivate::getWorkingDir(const QString &exePath)
+{
+#ifdef Q_OS_OSX//TODO check if ok so -> default is root?!?
+	QDir wDir(exePath);
+	wDir.cdUp();
+	wDir.cdUp();
+	wDir.cdUp();
+	return wDir.absolutePath();
+#else
+	return exePath;
 #endif
 }
 
@@ -60,16 +72,16 @@ bool AutoUpdaterPrivate::startUpdateCheck()
 		this->lastErrorCode = EXIT_SUCCESS;
 		this->lastErrorLog.clear();
 
-		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
+		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
 		this->mainProcess = new QProcess(this);
 		this->mainProcess->setProgram(toolInfo.absoluteFilePath());
 		this->mainProcess->setArguments({QStringLiteral("--checkupdates")});
-		this->mainProcess->setWorkingDirectory(toolInfo.absolutePath());//TODO mac...
+		this->mainProcess->setWorkingDirectory(toolInfo.absolutePath());
 
-		connect(this->mainProcess, SELECT<int>::OVERLOAD_OF(&QProcess::finished),
-				this, &AutoUpdaterPrivate::updaterReady, Qt::QueuedConnection);
+		connect(this->mainProcess, SELECT<int, QProcess::ExitStatus>::OVERLOAD_OF(&QProcess::finished),
+				this, &AutoUpdaterPrivate::updaterReady);
 		connect(this->mainProcess, SELECT<QProcess::ProcessError>::OVERLOAD_OF(&QProcess::error),
-				this, &AutoUpdaterPrivate::updaterError, Qt::QueuedConnection);
+				this, &AutoUpdaterPrivate::updaterError);
 
 		this->mainProcess->start(QIODevice::ReadOnly);
 		this->running = true;
@@ -95,10 +107,10 @@ void AutoUpdaterPrivate::stopUpdateCheck(int delay)
 	}
 }
 
-void AutoUpdaterPrivate::updaterReady(int exitCode)
+void AutoUpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
 {
 	if(this->mainProcess) {
-		if(this->mainProcess->exitStatus() == QProcess::NormalExit) {
+		if(exitStatus == QProcess::NormalExit) {
 			this->normalExit = true;
 			this->lastErrorCode = exitCode;
 			this->lastErrorLog = this->mainProcess->readAllStandardError();
@@ -193,10 +205,10 @@ QList<AutoUpdater::UpdateInfo> AutoUpdaterPrivate::parseResult(const QByteArray 
 void AutoUpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {
-		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
+		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
 		if(!QProcess::startDetached(toolInfo.absoluteFilePath(),
 									this->runArguments,
-									toolInfo.absolutePath()))//TODO mac...
+									toolInfo.absolutePath()))
 			qWarning() << "Unable to start" << toolInfo.absolutePath()
 					   << "with arguments" << this->runArguments
 					   << "as" << (this->runAdmin ? "admin" : "user");

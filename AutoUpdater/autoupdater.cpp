@@ -38,7 +38,7 @@ QString AutoUpdater::maintenanceToolPath() const
 void AutoUpdater::setMaintenanceToolPath(QString maintenanceToolPath)
 {
 	Q_D(AutoUpdater);
-	d->toolPath = maintenanceToolPath;
+	d->toolPath = AutoUpdaterPrivate::toSystemExe(maintenanceToolPath);
 }
 
 bool AutoUpdater::isRunning() const
@@ -65,7 +65,7 @@ void AutoUpdater::abortUpdateCheck(int maxDelay)
 	d->stopUpdateCheck(maxDelay);
 }
 
-int AutoUpdater::scheduleUpdate(qint64 delay, bool repeated)
+int  AutoUpdater::scheduleUpdate(qint64 delay, bool repeated)
 {
 	if(delay <= 0)
 		return 0;

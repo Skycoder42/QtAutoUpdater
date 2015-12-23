@@ -15,17 +15,17 @@ template<typename... Args> struct SELECT {
 
 class AutoUpdaterPrivate : public QObject
 {
-private:
+public:
 	class UpdateParseException : public std::exception {};
 	class NoUpdatesXmlException : public UpdateParseException {
 	public:
-		const char *what() const Q_DECL_OVERRIDE {
+		const char *what() const Q_DECL_NOEXCEPT Q_DECL_OVERRIDE {
 			return "The <updates> node could not be found";
 		}
 	};
 	class InvalidXmlException : public UpdateParseException {
 	public:
-		const char *what() const Q_DECL_OVERRIDE {
+		const char *what() const Q_DECL_NOEXCEPT Q_DECL_OVERRIDE {
 			return "The found XML-part is not of a valid updates-XML-format";
 		}
 	};
@@ -52,10 +52,11 @@ private:
 	~AutoUpdaterPrivate();
 
 	static const QString toSystemExe(const QString basePath);
+	static const QString getWorkingDir(const QString &exePath);
 
 	bool startUpdateCheck();
 	void stopUpdateCheck(int delay);
-	void updaterReady(int exitCode);
+	void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
 	void updaterError(QProcess::ProcessError error);
 	QList<AutoUpdater::UpdateInfo> parseResult(const QByteArray &output);
 
