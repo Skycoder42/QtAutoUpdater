@@ -6,6 +6,26 @@
 #include <QCoreApplication>
 using namespace QtAutoUpdater;
 
+static int showMessage(QWidget *parent, QMessageBox::Icon icon, const QString &title, const QString &text)
+{
+	QMessageBox::StandardButtons btns;
+	switch(icon) {
+	case QMessageBox::Question:
+		btns = QMessageBox::Yes | QMessageBox::No;
+		break;
+	default:
+		btns = QMessageBox::Ok;
+		break;
+	}
+
+	QMessageBox msgBox(icon, title, text, btns, parent);
+#if defined(Q_OS_OSX)
+	msgBox.setWindowModality(Qt::WindowModal);
+#endif
+
+	return msgBox.exec();
+}
+
 static void libInit()
 {
 	Q_INIT_RESOURCE(autoupdaterwidgets_resource);
@@ -84,9 +104,10 @@ bool UpdateController::start(DisplayLevel displayLevel)
 	d->displayLevel = displayLevel;
 
 	if(d->displayLevel >= AskLevel) {
-		if(QMessageBox::question(d->window,
-								 tr("Check for Updates"),
-								 tr("Do you want to check for updates now?"))
+		if(showMessage(d->window,
+					   QMessageBox::Question,
+					   tr("Check for Updates"),
+					   tr("Do you want to check for updates now?"))
 		   != QMessageBox::Yes) {
 			d->running = false;
 			emit runningChanged(false);
@@ -107,9 +128,10 @@ bool UpdateController::start(DisplayLevel displayLevel)
 			d->checkUpdatesProgress->hide();
 			d->checkUpdatesProgress->deleteLater();
 			d->checkUpdatesProgress = NULL;
-			QMessageBox::warning(d->window,
-								 tr("Warning"),
-								 tr("The program is already checking for updates!"));
+			showMessage(d->window,
+						QMessageBox::Warning,
+						tr("Warning"),
+						tr("The program is already checking for updates!"));
 		}
 		d->running = false;
 		emit runningChanged(false);
@@ -142,9 +164,10 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	}
 	if(d->wasCanceled) {
 		if(d->displayLevel >= ExtendedInfoLevel) {
-			QMessageBox::warning(d->window,
-								 tr("Check for Updates"),
-								 tr("Checking for updates was canceled!"));
+			showMessage(d->window,
+						QMessageBox::Warning,
+						tr("Check for Updates"),
+						tr("Checking for updates was canceled!"));
 		}
 	} else {
 		if(hasUpdates) {
@@ -165,9 +188,10 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 			} else {
 				d->mainUpdater->runUpdaterOnExit();
 				if(d->displayLevel == ExitLevel) {
-					QMessageBox::information(d->window,
-											 tr("Install Updates"),
-											 tr("New updates are available. The maintenance tool will be started to install those as soon as you close the application!"));
+					showMessage(d->window,
+								QMessageBox::Information,
+								tr("Install Updates"),
+								tr("New updates are available. The maintenance tool will be started to install those as soon as you close the application!"));
 				} else
 					qApp->quit();
 			}
@@ -178,17 +202,19 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 						   << "and error string:"
 						   << d->mainUpdater->getErrorLog();
 				if(!d->mainUpdater->exitedNormally()) {
-					QMessageBox::warning(d->window,
-										 tr("Warning"),
-										 tr("The update process crashed!"));
+					showMessage(d->window,
+								QMessageBox::Warning,
+								tr("Warning"),
+								tr("The update process crashed!"));
 				}
 			}
 
 			if(d->mainUpdater->exitedNormally()){
 				if(d->displayLevel >= ExtendedInfoLevel) {
-					QMessageBox::critical(d->window,
-										  tr("Check for Updates"),
-										  tr("No new updates available!"));
+					showMessage(d->window,
+								QMessageBox::Critical,
+								tr("Check for Updates"),
+								tr("No new updates available!"));
 				}
 			}
 		}

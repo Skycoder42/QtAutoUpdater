@@ -3,7 +3,7 @@
  <class>UpdateInfoDialog</class>
  <widget class="QDialog" name="UpdateInfoDialog">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
