@@ -219,6 +219,7 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 {
 	this->updateAction->setMenuRole(QAction::ApplicationSpecificRole);
 	this->updateAction->setToolTip(UpdateController::tr("Checks if new updates are available. You will be prompted before updates are installed."));
+	this->updateAction->setIconVisibleInMenu(false);
 
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
 					 q_ptr, &UpdateController::checkUpdatesDone,
