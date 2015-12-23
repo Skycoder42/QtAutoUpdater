@@ -25,7 +25,7 @@ namespace QtAutoUpdater
 	{
 		Q_OBJECT
 
-		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath WRITE setMaintenanceToolPath)
+		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT)
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 		Q_PROPERTY(QList<UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
 
@@ -42,6 +42,7 @@ namespace QtAutoUpdater
 		};
 
 		explicit Updater(QObject *parent = NULL);
+		explicit Updater(const QString &maintenanceToolPath, QObject *parent = NULL);
 		~Updater();
 
 		bool exitedNormally() const;
@@ -49,7 +50,6 @@ namespace QtAutoUpdater
 		QByteArray getErrorLog() const;
 
 		QString maintenanceToolPath() const;
-		void setMaintenanceToolPath(QString maintenanceToolPath);
 		bool isRunning() const;
 		QList<UpdateInfo> updateInfo() const;
 

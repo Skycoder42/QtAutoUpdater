@@ -3,9 +3,16 @@
 using namespace QtAutoUpdater;
 
 Updater::Updater(QObject *parent) :
+	Updater(QStringLiteral("./maintenancetool"), parent)
+{}
+
+Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :
 	QObject(parent),
 	d_ptr(new UpdaterPrivate(this))
-{}
+{
+	Q_D(Updater);
+	d->toolPath = UpdaterPrivate::toSystemExe(maintenanceToolPath);
+}
 
 Updater::~Updater()
 {
@@ -34,12 +41,6 @@ QString Updater::maintenanceToolPath() const
 {
 	const Q_D(Updater);
 	return d->toolPath;
-}
-
-void Updater::setMaintenanceToolPath(QString maintenanceToolPath)
-{
-	Q_D(Updater);
-	d->toolPath = UpdaterPrivate::toSystemExe(maintenanceToolPath);
 }
 
 bool Updater::isRunning() const

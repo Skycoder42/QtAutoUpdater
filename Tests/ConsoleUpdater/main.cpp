@@ -6,13 +6,12 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(/*&a*/NULL);
 #if defined(Q_OS_WIN32)
-	updater->setMaintenanceToolPath("C:/Program Files/IcoDroid/maintenancetool");
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("C:/Program Files/IcoDroid/maintenancetool", NULL);
 #elif defined(Q_OS_OSX)
-	updater->setMaintenanceToolPath("/Applications/IcoDroid.app/maintenancetool");
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("/Applications/IcoDroid.app/maintenancetool", NULL);
 #elif defined(Q_OS_UNIX)
-    updater->setMaintenanceToolPath("/home/sky/IcoDroid/maintenancetool");
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("/home/sky/IcoDroid/maintenancetool", NULL);
 #endif
 	updater->runUpdaterOnExit();
 

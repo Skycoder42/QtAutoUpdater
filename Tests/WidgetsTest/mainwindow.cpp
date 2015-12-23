@@ -7,14 +7,10 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	controller(new QtAutoUpdater::UpdateController(this))
+	controller(NULL)
 {
 	ui->setupUi(this);
 	this->statusBar()->showMessage("not running");
-
-	connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
-		this->statusBar()->showMessage(running ? "running" : "not running");
-	});
 
 	QSettings settings("./set.ini", QSettings::IniFormat);
 	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
@@ -49,9 +45,7 @@ void MainWindow::on_maintenanceToolButton_clicked()
 void MainWindow::on_checkUpdatesButton_clicked()
 {
 	if(!this->controller->isRunning()) {
-		this->controller->setMaintenanceToolPath(this->ui->maintenanceToolLineEdit->text());
-		this->controller->setDisplayLevel((QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
-		qDebug() << "start controller:" << this->controller->start();
+		qDebug() << "start controller:" << this->controller->start((QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
 	} else
 		qDebug() << "start controller:" << false;
 }
@@ -59,4 +53,20 @@ void MainWindow::on_checkUpdatesButton_clicked()
 void MainWindow::on_cancelButton_clicked()
 {
 	qDebug() << "cancel controller:" << this->controller->cancelUpdate();
+}
+
+void MainWindow::on_activeBox_toggled(bool checked)
+{
+	if(checked) {
+		this->controller = new QtAutoUpdater::UpdateController(this, this->ui->maintenanceToolLineEdit->text());
+		this->ui->menuHelp->addAction(this->controller->getUpdateAction());
+		this->ui->mainToolBar->addAction(this->controller->getUpdateAction());
+		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
+			this->statusBar()->showMessage(running ? "running" : "not running");
+		});
+	} else {
+		this->controller->deleteLater();
+		this->controller = NULL;
+		this->statusBar()->showMessage("not running");
+	}
 }

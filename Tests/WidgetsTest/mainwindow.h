@@ -18,10 +18,9 @@ public:
 
 private slots:
 	void on_maintenanceToolButton_clicked();
-
 	void on_checkUpdatesButton_clicked();
-
 	void on_cancelButton_clicked();
+	void on_activeBox_toggled(bool checked);
 
 private:
 	Ui::MainWindow *ui;

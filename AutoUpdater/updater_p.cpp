@@ -23,7 +23,7 @@ Q_COREAPP_STARTUP_FUNCTION(libInit)
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	QObject(NULL),
 	q_ptr(q_ptr),
-	toolPath(toSystemExe(QStringLiteral("./maintenancetool"))),
+	toolPath(),
 	updateInfos(),
 	normalExit(true),
 	lastErrorCode(EXIT_SUCCESS),

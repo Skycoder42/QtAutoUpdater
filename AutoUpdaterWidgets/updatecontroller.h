@@ -2,16 +2,17 @@
 #define UPDATECONTROLLER_H
 
 #include <QObject>
+#include <QAction>
 
 namespace QtAutoUpdater
 {
+	class Updater;
 	class UpdateControllerPrivate;
 	class UpdateController : public QObject
 	{
 		Q_OBJECT
 
-		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath WRITE setMaintenanceToolPath)
-		Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel)
+		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT)
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 
 	public:
@@ -25,17 +26,22 @@ namespace QtAutoUpdater
 		};
 		Q_ENUM(DisplayLevel)
 
-		explicit UpdateController(QWidget *parentWindow = 0);
+		explicit UpdateController(QObject *parent = NULL);
+		explicit UpdateController(QWidget *parentWindow);
+		explicit UpdateController(QObject *parent, const QString &maintenanceToolPath);
+		explicit UpdateController(QWidget *parentWindow, const QString &maintenanceToolPath);
 		~UpdateController();
 
+		QAction *getUpdateAction() const;
+
 		QString maintenanceToolPath() const;
-		void setMaintenanceToolPath(QString maintenanceToolPath);
-		DisplayLevel displayLevel() const;
-		void setDisplayLevel(DisplayLevel displayLevel);
+		DisplayLevel currentDisplayLevel() const;
 		bool isRunning() const;
 
+		Updater *getUpdater() const;
+
 	public slots:
-		bool start();
+		bool start(DisplayLevel displayLevel = ProgressLevel);
 		bool cancelUpdate(int maxDelay = 3000);
 
 	signals:

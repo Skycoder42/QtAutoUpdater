@@ -14,6 +14,7 @@ namespace QtAutoUpdater
 		Q_DECLARE_PUBLIC(UpdateController)
 
 		QWidget *window;
+		QAction *updateAction;
 
 		UpdateController::DisplayLevel displayLevel;
 		bool running;
@@ -24,6 +25,7 @@ namespace QtAutoUpdater
 		UpdateInfoDialog *infoDialog;
 
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
+		UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
 		~UpdateControllerPrivate();
 	};
 }

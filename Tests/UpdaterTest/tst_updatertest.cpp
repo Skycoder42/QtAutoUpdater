@@ -19,9 +19,6 @@ public:
 	inline UpdaterTest() {}
 
 private Q_SLOTS:
-	void initTestCase();
-	void cleanupTestCase();
-
 	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
@@ -34,28 +31,10 @@ private:
 	QSignalSpy *updateInfoSpy;
 };
 
-void UpdaterTest::initTestCase()
-{
-	this->updater = new Updater(this);
-	QVERIFY(this->updater);
-	this->checkSpy = new QSignalSpy(this->updater, &Updater::checkUpdatesDone);
-	QVERIFY(this->checkSpy->isValid());
-	this->runningSpy = new QSignalSpy(this->updater, &Updater::runningChanged);
-	QVERIFY(this->runningSpy->isValid());
-	this->updateInfoSpy = new QSignalSpy(this->updater, &Updater::updateInfoChanged);
-	QVERIFY(this->updateInfoSpy->isValid());
-}
-
-void UpdaterTest::cleanupTestCase()
-{
-	delete this->updateInfoSpy;
-	delete this->runningSpy;
-	delete this->checkSpy;
-	delete this->updater;
-}
-
 void UpdaterTest::testUpdaterInitState()
 {
+	this->updater = new Updater(this);
+
 	//error state
 	QVERIFY(this->updater->exitedNormally());
 	QCOMPARE(this->updater->getErrorCode(), EXIT_SUCCESS);
@@ -71,6 +50,8 @@ void UpdaterTest::testUpdaterInitState()
 #endif
 	QCOMPARE(this->updater->isRunning(), false);
 	QVERIFY(this->updater->updateInfo().isEmpty());
+
+	delete this->updater;
 }
 
 void UpdaterTest::testUpdateCheck_data()
@@ -121,9 +102,17 @@ void UpdaterTest::testUpdateCheck()
 	QFETCH(bool, hasUpdates);
 	QFETCH(QList<Updater::UpdateInfo>, updates);
 
+	this->updater = new Updater(toolPath, this);
+	QVERIFY(this->updater);
+	this->checkSpy = new QSignalSpy(this->updater, &Updater::checkUpdatesDone);
+	QVERIFY(this->checkSpy->isValid());
+	this->runningSpy = new QSignalSpy(this->updater, &Updater::runningChanged);
+	QVERIFY(this->runningSpy->isValid());
+	this->updateInfoSpy = new QSignalSpy(this->updater, &Updater::updateInfoChanged);
+	QVERIFY(this->updateInfoSpy->isValid());
+
 	//start the check updates
 	QVERIFY(!this->updater->isRunning());
-	this->updater->setMaintenanceToolPath(toolPath);
 	QVERIFY(this->updater->checkForUpdates());
 
 	//runnig should have changed to true
@@ -188,6 +177,11 @@ void UpdaterTest::testUpdateCheck()
 	//clear the rest
 	this->checkSpy->clear();
 	this->updateInfoSpy->clear();
+
+	delete this->updateInfoSpy;
+	delete this->runningSpy;
+	delete this->checkSpy;
+	delete this->updater;
 }
 
 QTEST_GUILESS_MAIN(UpdaterTest)
