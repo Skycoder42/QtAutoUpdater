@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QSettings settings("./set.ini", QSettings::IniFormat);
 	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
-	this->ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value("level", QtAutoUpdater::UpdateController::AskLevel).toInt());
+	this->ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value("level", QtAutoUpdater::UpdateController::ProgressLevel).toInt());
 }
 
 MainWindow::~MainWindow()

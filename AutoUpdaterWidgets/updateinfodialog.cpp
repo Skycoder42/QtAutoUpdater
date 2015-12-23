@@ -11,6 +11,12 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	ui->setupUi(this);
 	this->ui->rootLayout->setSpacing(this->ui->rootLayout->contentsMargins().left());
 
+#ifdef Q_OS_OSX
+	QFont font = this->ui->headerLabel->font();
+	font.setPointSize(20);
+	this->ui->headerLabel->setFont(font);
+#endif
+
 	QPalette pal(this->ui->headerLabel->palette());
 #ifdef Q_OS_WIN32
 	// ### hardcoded for now:

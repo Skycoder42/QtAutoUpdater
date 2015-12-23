@@ -19,8 +19,9 @@ namespace QtAutoUpdater
 			AutomaticLevel = 0,
 			ExitLevel = 1,
 			InfoLevel = 2,
-			ProgressLevel = 3,
-			AskLevel = 4
+			ExtendedInfoLevel = 3,
+			ProgressLevel = 4,
+			AskLevel = 5
 		};
 		Q_ENUM(DisplayLevel)
 

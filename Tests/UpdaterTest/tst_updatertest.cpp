@@ -1,16 +1,15 @@
-#include <QString>
-#include <QtTest>
-#include <QCoreApplication>
-#include <QSignalSpy>
-
 #include <updater.h>
 using namespace QtAutoUpdater;
 
-inline bool operator==(const Updater::UpdateInfo &a, const Updater::UpdateInfo &b) {
+inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAutoUpdater::Updater::UpdateInfo &b) {
 	return (a.name == b.name &&
 			a.version == b.version &&
 			a.size == b.size);
 }
+
+#include <QtTest>
+#include <QCoreApplication>
+#include <QSignalSpy>
 
 class UpdaterTest : public QObject
 {
@@ -92,7 +91,7 @@ void UpdaterTest::testUpdateCheck_data()
 //						   << false
 //						   << updates;
 #elif defined(Q_OS_OSX)
-	QList<AutoUpdater::UpdateInfo> updates;
+	QList<Updater::UpdateInfo> updates;
 	updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 23144149ull};
 	QTest::newRow("/Applications/IcoDroid.app") << "/Applications/IcoDroid.app/maintenancetool"
 												<< true
@@ -103,7 +102,7 @@ void UpdaterTest::testUpdateCheck_data()
 //								   << false
 //								   << updates;
 #elif defined(Q_OS_UNIX)
-    QList<AutoUpdater::UpdateInfo> updates;
+	QList<Updater::UpdateInfo> updates;
     updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 55737708ull};
     QTest::newRow("/home/sky/IcoDroid") << "/home/sky/IcoDroid/maintenancetool"
                                         << true

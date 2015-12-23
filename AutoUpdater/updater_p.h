@@ -53,7 +53,7 @@ namespace QtAutoUpdater
 		UpdaterPrivate(Updater *q_ptr);
 		~UpdaterPrivate();
 
-		static const QString toSystemExe(const QString basePath);
+		static const QString toSystemExe(QString basePath);
 		static const QString getWorkingDir(const QString &exePath);
 
 		bool startUpdateCheck();

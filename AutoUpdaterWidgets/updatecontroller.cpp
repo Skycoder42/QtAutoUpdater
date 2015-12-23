@@ -48,7 +48,7 @@ void UpdateController::setDisplayLevel(UpdateController::DisplayLevel displayLev
 bool UpdateController::isRunning() const
 {
 	const Q_D(UpdateController);
-	return d->running;// || d->mainUpdater->isRunning();
+	return d->running;
 }
 
 bool UpdateController::start()
@@ -119,7 +119,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		d->checkUpdatesProgress = NULL;
 	}
 	if(d->wasCanceled) {
-		if(d->displayLevel >= ProgressLevel) {
+		if(d->displayLevel >= ExtendedInfoLevel) {
 			QMessageBox::warning(d->window,
 								 tr("Check for Updates"),
 								 tr("Checking for updates was canceled!"));
@@ -163,7 +163,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 			}
 
 			if(d->mainUpdater->exitedNormally()){
-				if(d->displayLevel >= ProgressLevel) {
+				if(d->displayLevel >= ExtendedInfoLevel) {
 					QMessageBox::critical(d->window,
 										  tr("Check for Updates"),
 										  tr("No new updates available!"));

@@ -47,15 +47,16 @@ UpdaterPrivate::~UpdaterPrivate()
 	}
 }
 
-const QString UpdaterPrivate::toSystemExe(const QString basePath)
+const QString UpdaterPrivate::toSystemExe(QString basePath)
 {
 #if defined(Q_OS_WIN32)
 	if(!basePath.endsWith(QStringLiteral(".exe")))
 		return basePath + QStringLiteral(".exe");
 	else
 		return basePath;
-#elif defined(Q_OS_OSX)//TODO check
-	//TODO check full path -> like windows
+#elif defined(Q_OS_OSX)
+	if(basePath.endsWith(QStringLiteral(".app")))
+		basePath.truncate(basePath.lastIndexOf(QStringLiteral(".")));
 	return basePath + QStringLiteral(".app/Contents/MacOS/") + QFileInfo(basePath).fileName();
 #elif defined(Q_OS_UNIX)
 	return basePath;
