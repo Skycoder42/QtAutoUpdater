@@ -4,6 +4,7 @@
 #include "updater.h"
 #include <QTimer>
 #include <QProcess>
+#include <QScopedPointer>
 #include <exception>
 
 template<typename... Args> struct SELECT {
@@ -48,7 +49,7 @@ namespace QtAutoUpdater
 
 		bool runOnExit;
 		QStringList runArguments;
-		bool runAdmin;
+		QScopedPointer<AdminAuthoriser> adminAuth;
 
 		UpdaterPrivate(Updater *q_ptr);
 		~UpdaterPrivate();

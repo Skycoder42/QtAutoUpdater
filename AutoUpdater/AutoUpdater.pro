@@ -17,11 +17,6 @@ SOURCES += \
 
 HEADERS += \
     updater.h \
-    updater_p.h
-
-#TODO admin...
-#HEADERS += adminauthorization.h
-#win32: SOURCES += adminauthorization_win.cpp
-#else:mac: SOURCES += adminauthorization_mac.cpp
-#else:unix: SOURCES += adminauthorization_x11.cpp
+    updater_p.h \
+	adminauthoriser.h
 

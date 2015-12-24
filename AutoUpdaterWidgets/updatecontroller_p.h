@@ -19,6 +19,9 @@ namespace QtAutoUpdater
 		UpdateController::DisplayLevel displayLevel;
 		bool running;
 		Updater *mainUpdater;
+		bool runAdmin;
+		bool adminUserEdit;
+		QStringList runArgs;
 
 		ProgressDialog *checkUpdatesProgress;
 		bool wasCanceled;

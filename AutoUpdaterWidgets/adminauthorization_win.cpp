@@ -32,22 +32,14 @@
 **
 **************************************************************************/
 #include "adminauthorization.h"
-
-#include "utils.h"
-
-#include <QDebug>
-#include <QDir>
 #include <QSettings>
-
+#include <QVariant>
+#include <QDir>
 #include <qt_windows.h>
+using namespace QtAutoUpdater;
 
-#ifdef Q_CC_MINGW
-# ifndef SEE_MASK_NOASYNC
-#  define SEE_MASK_NOASYNC 0x00000100
-# endif
-#endif
-
-namespace QInstaller {
+// taken from qprocess_win.cpp
+static QString qt_create_commandline(const QString &program, const QStringList &arguments);
 
 struct DeCoInitializer
 {
@@ -62,6 +54,8 @@ struct DeCoInitializer
     }
     bool neededCoInit;
 };
+
+AdminAuthorization::AdminAuthorization() {}
 
 bool AdminAuthorization::hasAdminRights()
 {
@@ -84,7 +78,7 @@ bool AdminAuthorization::hasAdminRights()
     return isInAdminGroup;
 }
 
-bool AdminAuthorization::execute(QWidget *, const QString &program, const QStringList &arguments)
+bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDir)
 {
     DeCoInitializer _;
 
@@ -92,9 +86,8 @@ bool AdminAuthorization::execute(QWidget *, const QString &program, const QStrin
     // administrator yet and the computer's policies are set to not use UAC (which is the case
     // in some corporate networks), the call to execute() will simply succeed and not at all
     // launch the child process. To avoid this, we detect this situation here and return early.
-    if (!hasAdminRights()) {
-        QLatin1String key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\"
-            "Policies\\System");
+	if (!this->hasAdminRights()) {
+		QLatin1String key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System");
         QSettings registry(key, QSettings::NativeFormat);
         const QVariant enableLUA = registry.value(QLatin1String("EnableLUA"));
         if ((enableLUA.type() == QVariant::Int) && (enableLUA.toInt() == 0))
@@ -102,26 +95,57 @@ bool AdminAuthorization::execute(QWidget *, const QString &program, const QStrin
     }
 
     const QString file = QDir::toNativeSeparators(program);
-    const QString args = QInstaller::createCommandline(QString(), arguments);
+	const QString args = qt_create_commandline(QString(), arguments);
 
-    SHELLEXECUTEINFOW shellExecuteInfo = { 0 };
-    shellExecuteInfo.nShow = SW_HIDE;
+	SHELLEXECUTEINFOW shellExecuteInfo = { 0 };
+	shellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
     shellExecuteInfo.lpVerb = L"runas";
-    shellExecuteInfo.lpFile = (wchar_t *)file.utf16();
-    shellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+	shellExecuteInfo.lpFile = (wchar_t *)file.utf16();
     shellExecuteInfo.lpParameters = (wchar_t *)args.utf16();
-    shellExecuteInfo.fMask = SEE_MASK_NOASYNC;
+	shellExecuteInfo.lpDirectory = (wchar_t *)workingDir.utf16();
+	shellExecuteInfo.nShow = SW_SHOW;
 
-    qDebug() << "Starting elevated process" << file << "with arguments" << args;
-
-    if (ShellExecuteExW(&shellExecuteInfo)) {
-        qDebug() << "Finished starting elevated process.";
+	if (ShellExecuteExW(&shellExecuteInfo))
         return true;
-    } else {
-        qWarning() << "Error while starting elevated process" << program
-                   << ":" << QInstaller::windowsErrorString(GetLastError());
-    }
-    return false;
+	else
+		return false;
 }
 
-} // namespace QInstaller
+static QString qt_create_commandline(const QString &program, const QStringList &arguments)
+{
+	QString args;
+	if (!program.isEmpty()) {
+		QString programName = program;
+		if (!programName.startsWith(QLatin1Char('\"')) && !programName.endsWith(QLatin1Char('\"'))
+			&& programName.contains(QLatin1Char(' '))) {
+				programName = QLatin1Char('\"') + programName + QLatin1Char('\"');
+		}
+		programName.replace(QLatin1Char('/'), QLatin1Char('\\'));
+
+		// add the program as the first arg ... it works better
+		args = programName + QLatin1Char(' ');
+	}
+
+	for (int i = 0; i < arguments.size(); ++i) {
+		QString tmp = arguments.at(i);
+		// in the case of \" already being in the string the \ must also be escaped
+		tmp.replace(QLatin1String("\\\""), QLatin1String("\\\\\""));
+		// escape a single " because the arguments will be parsed
+		tmp.replace(QLatin1Char('\"'), QLatin1String("\\\""));
+		if (tmp.isEmpty() || tmp.contains(QLatin1Char(' ')) || tmp.contains(QLatin1Char('\t'))) {
+			// The argument must not end with a \ since this would be interpreted
+			// as escaping the quote -- rather put the \ behind the quote: e.g.
+			// rather use "foo"\ than "foo\"
+			QString endQuote(QLatin1Char('\"'));
+			int i = tmp.length();
+			while (i > 0 && tmp.at(i - 1) == QLatin1Char('\\')) {
+				--i;
+				endQuote += QLatin1Char('\\');
+			}
+			args += QLatin1String(" \"") + tmp.left(i) + endQuote;
+		} else {
+			args += QLatin1Char(' ') + tmp;
+		}
+	}
+	return args;
+}

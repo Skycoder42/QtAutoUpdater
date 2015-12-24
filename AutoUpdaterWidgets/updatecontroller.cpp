@@ -4,6 +4,7 @@
 #include <QProgressBar>
 #include <QCoreApplication>
 #include "messagemaster.h"
+#include "adminauthorization.h"
 using namespace QtAutoUpdater;
 
 static void libInit()
@@ -64,6 +65,41 @@ bool UpdateController::isRunning() const
 {
 	const Q_D(UpdateController);
 	return d->running;
+}
+
+bool UpdateController::runAsAdmin() const
+{
+	const Q_D(UpdateController);
+	return d->runAdmin;
+}
+
+void UpdateController::setRunAsAdmin(bool runAsAdmin, bool userEditable)
+{
+	Q_D(UpdateController);
+	if(d->runAdmin != runAsAdmin) {
+		d->runAdmin = runAsAdmin;
+		if(d->mainUpdater->willRunOnExit())
+			d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
+	}
+	d->adminUserEdit = userEditable;
+}
+
+QStringList UpdateController::updateRunArgs() const
+{
+	const Q_D(UpdateController);
+	return d->runArgs;
+}
+
+void UpdateController::setUpdateRunArgs(QStringList updateRunArgs)
+{
+	Q_D(UpdateController);
+	d->runArgs = updateRunArgs;
+}
+
+void UpdateController::resetUpdateRunArgs()
+{
+	Q_D(UpdateController);
+	d->runArgs = {QStringLiteral("--updater")};
 }
 
 Updater *UpdateController::getUpdater() const
@@ -150,11 +186,11 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
 				bool shouldShutDown = false;
-				switch(d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo())) {
+				switch(d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(), d->adminUserEdit ? &d->runAdmin : NULL)) {
 				case UpdateInfoDialog::InstallNow:
 					shouldShutDown = true;
 				case UpdateInfoDialog::InstallLater:
-					d->mainUpdater->runUpdaterOnExit();
+					d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
 					if(shouldShutDown)
 						qApp->quit();
 				case UpdateInfoDialog::NoInstall:
@@ -163,7 +199,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 					Q_UNREACHABLE();
 				}
 			} else {
-				d->mainUpdater->runUpdaterOnExit();
+				d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
 				if(d->displayLevel == ExitLevel) {
 					MessageMaster::information(d->window,
 											   tr("Install Updates"),
@@ -213,6 +249,9 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	displayLevel(UpdateController::InfoLevel),
 	running(false),
 	mainUpdater(toolPath.isEmpty() ? new Updater(q_ptr) : new Updater(toolPath, q_ptr)),
+	runAdmin(true),
+	adminUserEdit(true),
+	runArgs(QStringLiteral("--updater")),
 	checkUpdatesProgress(NULL),
 	wasCanceled(false),
 	infoDialog(new UpdateInfoDialog(window))

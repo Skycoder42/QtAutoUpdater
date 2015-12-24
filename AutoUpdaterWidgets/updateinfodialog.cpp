@@ -34,7 +34,7 @@ UpdateInfoDialog::~UpdateInfoDialog()
 	delete ui;
 }
 
-UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates)
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool *runAsAdmin)
 {
 	this->ui->headerLabel->setText(tr("Updates for %1 are available!")
 								   .arg(QGuiApplication::applicationDisplayName()));
@@ -57,7 +57,14 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 	this->ui->updateListTreeWidget->resizeColumnToContents(1);
 	this->ui->updateListTreeWidget->resizeColumnToContents(2);
 
-	return (UpdateInfoDialog::DialogResult)this->exec();
+	this->ui->runAdminCheckBox->setEnabled(runAsAdmin);
+	if(runAsAdmin)
+		this->ui->runAdminCheckBox->setChecked(*runAsAdmin);
+
+	DialogResult res = (DialogResult)this->exec();
+	if(runAsAdmin)
+		*runAsAdmin = this->ui->runAdminCheckBox->isChecked();
+	return res;
 }
 
 void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()

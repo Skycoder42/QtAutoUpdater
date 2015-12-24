@@ -37,6 +37,12 @@ QByteArray Updater::getErrorLog() const
 	return d->lastErrorLog;
 }
 
+bool Updater::willRunOnExit() const
+{
+	const Q_D(Updater);
+	return d->runOnExit;
+}
+
 QString Updater::maintenanceToolPath() const
 {
 	const Q_D(Updater);
@@ -84,17 +90,19 @@ bool Updater::cancelScheduledUpdate(int taskId)
 	return (d->activeTimers.remove(taskId) > 0);
 }
 
-void Updater::runUpdaterOnExit(const QStringList &arguments)
+void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)
 {
 	Q_D(Updater);
 	d->runOnExit = true;
 	d->runArguments = arguments;
+	d->adminAuth.reset(authoriser);
 }
 
 void Updater::cancelExitRun()
 {
 	Q_D(Updater);
 	d->runOnExit = false;
+	d->adminAuth.reset();
 }
 
 

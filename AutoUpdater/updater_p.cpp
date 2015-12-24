@@ -32,7 +32,8 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	mainProcess(NULL),
 	activeTimers(),
 	runOnExit(false),
-	runArguments()
+	runArguments(),
+	adminAuth(NULL)
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit);
@@ -225,12 +226,23 @@ void UpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {
 		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
-		if(!QProcess::startDetached(toolInfo.absoluteFilePath(),
-									this->runArguments,
-									toolInfo.absolutePath()))
+		bool ok = false;
+		if(this->adminAuth && !this->adminAuth->hasAdminRights()) {
+			ok = this->adminAuth->executeAsAdmin(toolInfo.absoluteFilePath(),
+												 this->runArguments,
+												 toolInfo.absolutePath());
+
+		} else {
+			ok = QProcess::startDetached(toolInfo.absoluteFilePath(),
+										 this->runArguments,
+										 toolInfo.absolutePath());
+		}
+
+		if(!ok) {
 			qWarning() << "Unable to start" << toolInfo.absolutePath()
 					   << "with arguments" << this->runArguments
-					   << "as" << (this->runAdmin ? "admin" : "user");
+					   << "as" << (this->adminAuth ? "admin" : "user");
+		}
 	}
 }
 

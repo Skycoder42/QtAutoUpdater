@@ -45,6 +45,7 @@ void MainWindow::on_maintenanceToolButton_clicked()
 void MainWindow::on_checkUpdatesButton_clicked()
 {
 	if(!this->controller->isRunning()) {
+		this->controller->setRunAsAdmin(this->ui->adminCheckBox->isChecked(), this->ui->userChangecheckBox->isChecked());
 		qDebug() << "start controller:" << this->controller->start((QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
 	} else
 		qDebug() << "start controller:" << false;

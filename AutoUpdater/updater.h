@@ -17,6 +17,7 @@ struct QVersionNumber : public QString {
 };
 #endif
 #include <QDebug>
+#include "adminauthoriser.h"
 
 namespace QtAutoUpdater
 {
@@ -49,6 +50,8 @@ namespace QtAutoUpdater
 		int getErrorCode() const;
 		QByteArray getErrorLog() const;
 
+		bool willRunOnExit() const;
+
 		QString maintenanceToolPath() const;
 		bool isRunning() const;
 		QList<UpdateInfo> updateInfo() const;
@@ -57,17 +60,16 @@ namespace QtAutoUpdater
 		bool checkForUpdates();
 		void abortUpdateCheck(int maxDelay = 5000, bool async = false);
 
-		//IDEA advance managing using an extra class
 		int scheduleUpdate(qint64 delay, bool repeated = false);
 		inline int scheduleUpdate(const QDateTime &when) {
 			return this->scheduleUpdate(QDateTime::currentDateTime().secsTo(when), false);
 		}
 		bool cancelScheduledUpdate(int taskId);
 
-		inline void runUpdaterOnExit() {
-			this->runUpdaterOnExit({QStringLiteral("--updater")});
+		inline void runUpdaterOnExit(AdminAuthoriser *authoriser = NULL) {
+			this->runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
 		}
-		void runUpdaterOnExit(const QStringList &arguments);
+		void runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser = NULL);
 		void cancelExitRun();
 
 	signals:

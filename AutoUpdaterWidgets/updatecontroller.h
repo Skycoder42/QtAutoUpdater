@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAction>
+#include <QStringList>
 
 namespace QtAutoUpdater
 {
@@ -14,6 +15,8 @@ namespace QtAutoUpdater
 
 		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT)
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
+		Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin)
+		Q_PROPERTY(QStringList updateRunArgs READ updateRunArgs WRITE setUpdateRunArgs RESET resetUpdateRunArgs)
 
 	public:
 		enum DisplayLevel {
@@ -38,6 +41,11 @@ namespace QtAutoUpdater
 		QString maintenanceToolPath() const;
 		DisplayLevel currentDisplayLevel() const;
 		bool isRunning() const;
+		bool runAsAdmin() const;
+		void setRunAsAdmin(bool runAsAdmin, bool userEditable = true);
+		QStringList updateRunArgs() const;
+		void setUpdateRunArgs(QStringList updateRunArgs);
+		void resetUpdateRunArgs();
 
 		Updater *getUpdater() const;
 
