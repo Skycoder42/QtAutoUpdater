@@ -1,5 +1,5 @@
-#ifndef AUTOUPDATER_H
-#define AUTOUPDATER_H
+#ifndef UPDATER_H
+#define UPDATER_H
 
 #include <QObject>
 #include <QString>
@@ -86,4 +86,4 @@ Q_DECLARE_METATYPE(QtAutoUpdater::Updater::UpdateInfo)
 
 QDebug &operator<<(QDebug &debug, const QtAutoUpdater::Updater::UpdateInfo &info);
 
-#endif // AUTOUPDATER_H
+#endif // UPDATER_H

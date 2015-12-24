@@ -1,34 +1,16 @@
 #include "updateinfodialog.h"
 #include "ui_updateinfodialog.h"
 #include <QGuiApplication>
-#include <QMessageBox>
+#include "messagemaster.h"
 using namespace QtAutoUpdater;
-
-static int showMessage(QWidget *parent, QMessageBox::Icon icon, const QString &title, const QString &text)
-{
-	QMessageBox::StandardButtons btns;
-	switch(icon) {
-	case QMessageBox::Question:
-		btns = QMessageBox::Yes | QMessageBox::No;
-		break;
-	default:
-		btns = QMessageBox::Ok;
-		break;
-	}
-
-	QMessageBox msgBox(icon, title, text, btns, parent);
-#if defined(Q_OS_OSX)
-	msgBox.setWindowModality(Qt::WindowModal);
-#endif
-
-	return msgBox.exec();
-}
 
 UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	QDialog(parent, Qt::WindowCloseButtonHint),
 	ui(new Ui::UpdateInfoDialog)
 {
 	ui->setupUi(this);
+	if(!parent)
+		this->setWindowModality(Qt::ApplicationModal);
 	this->ui->rootLayout->setSpacing(this->ui->rootLayout->contentsMargins().left());
 
 #ifdef Q_OS_OSX
@@ -80,10 +62,9 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 
 void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
 {
-	if(showMessage(this,
-				   QMessageBox::Question,
-				   tr("Install Now"),
-				   tr("Close the application and install updates?"))
+	if(MessageMaster::question(this,
+							   tr("Install Now"),
+							   tr("Close the application and install updates?"))
 		== QMessageBox::Yes) {
 		this->accept();
 	}
@@ -91,10 +72,9 @@ void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
 
 void QtAutoUpdater::UpdateInfoDialog::on_delayButton_clicked()
 {
-	showMessage(this,
-				QMessageBox::Information,
-				tr("Install On Exit"),
-				tr("Updates will be installed on exit. The maintenance tool will be started as soon as you close the application!"));
+	MessageMaster::information(this,
+							   tr("Install On Exit"),
+							   tr("Updates will be installed on exit. The maintenance tool will be started as soon as you close the application!"));
 	this->done(InstallLater);
 }
 

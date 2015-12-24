@@ -28,8 +28,8 @@ namespace QtAutoUpdater
 
 		explicit UpdateController(QObject *parent = NULL);
 		explicit UpdateController(QWidget *parentWindow);
-		explicit UpdateController(QObject *parent, const QString &maintenanceToolPath);
-		explicit UpdateController(QWidget *parentWindow, const QString &maintenanceToolPath);
+		explicit UpdateController(const QString &maintenanceToolPath, QObject *parent = NULL);
+		explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow);
 		~UpdateController();
 
 		QAction *getUpdateAction() const;

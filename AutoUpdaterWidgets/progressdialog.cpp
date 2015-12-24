@@ -8,6 +8,8 @@ ProgressDialog::ProgressDialog(QWidget *parent) :
 	ui(new Ui::ProgressDialog)
 {
 	ui->setupUi(this);
+	if(!parent)
+		this->setWindowModality(Qt::ApplicationModal);
 }
 
 ProgressDialog::~ProgressDialog()

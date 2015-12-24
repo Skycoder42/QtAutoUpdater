@@ -22,7 +22,8 @@ HEADERS += \
 	updatecontroller_p.h \
     progressdialog.h \
     updateinfodialog.h \
-    updatepanel.h
+    updatepanel.h \
+    messagemaster.h
 
 INCLUDEPATH += $$PWD/../AutoUpdater
 DEPENDPATH += $$PWD/../AutoUpdater

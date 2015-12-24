@@ -1,5 +1,5 @@
-#ifndef AUTOUPDATER_P_H
-#define AUTOUPDATER_P_H
+#ifndef UPDATER_P_H
+#define UPDATER_P_H
 
 #include "updater.h"
 #include <QTimer>
@@ -70,4 +70,4 @@ namespace QtAutoUpdater
 	};
 }
 
-#endif // AUTOUPDATER_P_H
+#endif // UPDATER_P_H

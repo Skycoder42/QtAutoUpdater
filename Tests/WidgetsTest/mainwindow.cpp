@@ -58,7 +58,7 @@ void MainWindow::on_cancelButton_clicked()
 void MainWindow::on_activeBox_toggled(bool checked)
 {
 	if(checked) {
-		this->controller = new QtAutoUpdater::UpdateController(this, this->ui->maintenanceToolLineEdit->text());
+		this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text());
 		this->ui->menuHelp->addAction(this->controller->getUpdateAction());
 		this->ui->mainToolBar->addAction(this->controller->getUpdateAction());
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
