@@ -17,7 +17,6 @@ namespace MessageMaster
 			box.setWindowModality(Qt::ApplicationModal);
 
 		box.setWindowFlags(box.windowFlags() & ~Qt::WindowContextHelpButtonHint);
-		box.activateWindow();
 		return (QMessageBox::StandardButton)box.exec();
 	}
 

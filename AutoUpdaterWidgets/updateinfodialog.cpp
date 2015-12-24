@@ -57,7 +57,6 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 	this->ui->updateListTreeWidget->resizeColumnToContents(1);
 	this->ui->updateListTreeWidget->resizeColumnToContents(2);
 
-	this->activateWindow();
 	return (UpdateInfoDialog::DialogResult)this->exec();
 }
 
