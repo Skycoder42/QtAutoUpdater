@@ -17,27 +17,28 @@ namespace MessageMaster
 			box.setWindowModality(Qt::ApplicationModal);
 
 		box.setWindowFlags(box.windowFlags() & ~Qt::WindowContextHelpButtonHint);
+		box.activateWindow();
 		return (QMessageBox::StandardButton)box.exec();
 	}
 
 
 
-	inline Q_CONSTEXPR QMessageBox::StandardButton information(QWidget *parent, const QString &title,
+	inline QMessageBox::StandardButton information(QWidget *parent, const QString &title,
 		 const QString &text, QMessageBox::StandardButtons buttons = QMessageBox::Ok,
 		 QMessageBox::StandardButton defaultButton = QMessageBox::Ok) {
 		return msgBox(parent, QMessageBox::Information, title, text, buttons, defaultButton);
 	}
-	inline Q_CONSTEXPR QMessageBox::StandardButton question(QWidget *parent, const QString &title,
+	inline QMessageBox::StandardButton question(QWidget *parent, const QString &title,
 		 const QString &text, QMessageBox::StandardButtons buttons = QMessageBox::StandardButtons(QMessageBox::Yes | QMessageBox::No),
 		 QMessageBox::StandardButton defaultButton = QMessageBox::Yes) {
 		return msgBox(parent, QMessageBox::Question, title, text, buttons, defaultButton);
 	}
-	inline Q_CONSTEXPR QMessageBox::StandardButton warning(QWidget *parent, const QString &title,
+	inline QMessageBox::StandardButton warning(QWidget *parent, const QString &title,
 		 const QString &text, QMessageBox::StandardButtons buttons = QMessageBox::Ok,
 		 QMessageBox::StandardButton defaultButton = QMessageBox::Ok) {
 		return msgBox(parent, QMessageBox::Warning, title, text, buttons, defaultButton);
 	}
-	inline Q_CONSTEXPR QMessageBox::StandardButton critical(QWidget *parent, const QString &title,
+	inline QMessageBox::StandardButton critical(QWidget *parent, const QString &title,
 		 const QString &text, QMessageBox::StandardButtons buttons = QMessageBox::Ok,
 		 QMessageBox::StandardButton defaultButton = QMessageBox::Ok) {
 		return msgBox(parent, QMessageBox::Critical, title, text, buttons, defaultButton);
