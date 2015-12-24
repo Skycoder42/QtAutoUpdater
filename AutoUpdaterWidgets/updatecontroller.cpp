@@ -99,7 +99,7 @@ void UpdateController::setUpdateRunArgs(QStringList updateRunArgs)
 void UpdateController::resetUpdateRunArgs()
 {
 	Q_D(UpdateController);
-	d->runArgs = {QStringLiteral("--updater")};
+	d->runArgs = QStringList(QStringLiteral("--updater"));
 }
 
 Updater *UpdateController::getUpdater() const

@@ -55,8 +55,6 @@ struct DeCoInitializer
     bool neededCoInit;
 };
 
-AdminAuthorization::AdminAuthorization() {}
-
 bool AdminAuthorization::hasAdminRights()
 {
     SID_IDENTIFIER_AUTHORITY authority = { SECURITY_NT_AUTHORITY };

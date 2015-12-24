@@ -9,6 +9,7 @@ namespace QtAutoUpdater
 	class AdminAuthoriser
 	{
 	public:
+		virtual ~AdminAuthoriser() {}
 		virtual bool hasAdminRights() = 0;
 		virtual bool executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDir) = 0;
 	};

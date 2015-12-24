@@ -33,18 +33,19 @@
 **************************************************************************/
 
 #include "adminauthorization.h"
-
-#include <Security/Authorization.h>
-#include <Security/AuthorizationTags.h>
-
 #include <QStringList>
 #include <QVector>
-
+#include <Security/Authorization.h>
+#include <Security/AuthorizationTags.h>
 #include <unistd.h>
+using namespace QtAutoUpdater;
 
-namespace QInstaller {
+bool AdminAuthorization::hasAdminRights()
+{
+	return geteuid() == 0;
+}
 
-bool AdminAuthorization::execute(QWidget *, const QString &program, const QStringList &arguments)
+bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments, const QString &)
 {
     AuthorizationRef authorizationRef;
     OSStatus status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,
@@ -77,10 +78,3 @@ bool AdminAuthorization::execute(QWidget *, const QString &program, const QStrin
     AuthorizationFree(authorizationRef, kAuthorizationFlagDestroyRights);
     return status == errAuthorizationSuccess;
 }
-
-bool AdminAuthorization::hasAdminRights()
-{
-    return geteuid() == 0;
-}
-
-} // namespace QInstaller

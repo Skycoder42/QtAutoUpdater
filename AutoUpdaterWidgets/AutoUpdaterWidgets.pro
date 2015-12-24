@@ -17,11 +17,8 @@ SOURCES += \
     updateinfodialog.cpp \
 	updatepanel.cpp
 
-win32 {
-	SOURCES += adminauthorization_win.cpp
-
-	LIBS += -lAdvapi32 -lOle32
-} else:mac: SOURCES += adminauthorization_mac.cpp
+win32: SOURCES += adminauthorization_win.cpp
+else:mac: SOURCES += adminauthorization_mac.cpp
 else:unix: SOURCES += adminauthorization_x11.cpp
 
 HEADERS += \
