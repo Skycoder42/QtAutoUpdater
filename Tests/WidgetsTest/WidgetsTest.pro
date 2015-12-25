@@ -39,7 +39,7 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdaterWidgets/libAutoUpdaterWi
 
 win32: LIBS += -lAdvapi32 -lOle32
 else:mac: LIBS += -framework Security
-
+else:unix: LIBS += -lutil
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdater/release/ -lAutoUpdater
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdater/debug/ -lAutoUpdaterd
