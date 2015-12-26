@@ -31,6 +31,7 @@
 ** $QT_END_LICENSE$
 **
 **************************************************************************/
+
 #include "adminauthorization.h"
 #include <QSettings>
 #include <QVariant>
