@@ -14,7 +14,8 @@ CONFIG += staticlib
 SOURCES += \
     updater.cpp \
     updater_p.cpp \
-    updatescheduler.cpp
+    updatescheduler.cpp \
+    updatetask.cpp
 
 HEADERS += \
     updater.h \
