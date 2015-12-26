@@ -38,11 +38,15 @@ namespace QtAutoUpdater
 		bool setSettingsGroup(const QString &group);
 		bool setSettingsObject(QSettings *settingsObject);
 
-		void start();
-
 	public slots:
+		void start();
+		void stop();
+
+		void scheduleTask(int taskGroupID, UpdateTask *task);
+		int scheduleTask(UpdateTask *task);
 
 	signals:
+		void taskReady(int taskGroupID);
 
 	private:
 		UpdateScheduler(UpdateSchedulerPrivate *d_ptr);

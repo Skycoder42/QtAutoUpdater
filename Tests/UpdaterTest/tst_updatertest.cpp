@@ -1,4 +1,5 @@
 #include <updater.h>
+#include <updatescheduler.h>
 using namespace QtAutoUpdater;
 
 inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAutoUpdater::Updater::UpdateInfo &b) {
@@ -23,6 +24,8 @@ private Q_SLOTS:
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
+
+	void testScheduler();
 
 private:
 	Updater *updater;
@@ -182,6 +185,17 @@ void UpdaterTest::testUpdateCheck()
 	delete this->runningSpy;
 	delete this->checkSpy;
 	delete this->updater;
+}
+
+void UpdaterTest::testScheduler()
+{
+	UpdateScheduler::instance()->setSettingsObject(new QSettings("C:/temp/baum.ini", QSettings::IniFormat));
+	UpdateScheduler::instance()->start();
+
+	UpdateScheduler::instance()->scheduleTask(42,
+											  new BasicLoopUpdateTask(TimeSpan(42, TimeSpan::Seconds)));
+
+	UpdateScheduler::instance()->stop();
 }
 
 QTEST_GUILESS_MAIN(UpdaterTest)

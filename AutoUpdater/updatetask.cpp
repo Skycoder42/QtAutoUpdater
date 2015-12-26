@@ -1,6 +1,7 @@
 #include "updatetask.h"
 #include "updatescheduler_p.h"
 #include <QDataStream>
+#include <QDebug>
 using namespace QtAutoUpdater;
 
 #define NOW QDateTime::currentDateTime()
@@ -44,7 +45,7 @@ QDateTime TimeSpan::addToDateTime(const QDateTime &base) const
 QDataStream &operator<<(QDataStream &stream, const QtAutoUpdater::TimeSpan &timeSpan)
 {
 	stream << timeSpan.count
-		   << timeSpan.unit;
+		   << (quint64)timeSpan.unit;
 	return stream;
 }
 
@@ -81,13 +82,21 @@ bool LoopUpdateTask::nextTask()
 		return false;
 }
 
+void LoopUpdateTask::init()
+{
+	this->nextPoint = this->startDelay().addToDateTime(NOW);
+	this->repetitionsLeft = this->repetitions();
+}
+
 //-------- DelayedLoopUpdateTask --------
 
 BasicLoopUpdateTask::BasicLoopUpdateTask(TimeSpan loopDelta, qint64 repeats) :
 	LoopUpdateTask(),
 	loopDelta(loopDelta),
 	repCount(repeats)
-{}
+{
+	this->init();
+}
 
 BasicLoopUpdateTask::BasicLoopUpdateTask(const QByteArray &data) :
 	LoopUpdateTask(),
@@ -97,6 +106,7 @@ BasicLoopUpdateTask::BasicLoopUpdateTask(const QByteArray &data) :
 	QDataStream stream(data);
 	stream >> this->loopDelta
 		   >> this->repCount;
+	this->init();
 }
 
 qint64 BasicLoopUpdateTask::repetitions() const

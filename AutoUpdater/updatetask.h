@@ -60,6 +60,9 @@ namespace QtAutoUpdater
 		QDateTime currentTask() const Q_DECL_OVERRIDE;
 		bool nextTask() Q_DECL_OVERRIDE;
 
+	protected:
+		void init();
+
 	private:
 		QDateTime nextPoint;
 		qint64 repetitionsLeft;

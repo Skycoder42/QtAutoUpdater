@@ -1,6 +1,7 @@
 #include "updatescheduler.h"
 #include "updatescheduler_p.h"
 #include <QCoreApplication>
+#include <QDebug>
 using namespace QtAutoUpdater;
 
 Q_GLOBAL_STATIC(UpdateSchedulerPrivate, privateInstance)
@@ -56,6 +57,7 @@ void UpdateScheduler::start()
 		d->settings = new QSettings();
 		d->settings->beginGroup(QStringLiteral("QtAutoUpdater/UpdateScheduler"));
 	}
+	d->settings->sync();
 
 	int max = d->settings->beginReadArray(QStringLiteral("scheduleMemory"));
 	for(int i = 0; i < max; ++i) {
@@ -76,7 +78,68 @@ void UpdateScheduler::start()
 	}
 	d->settings->endArray();
 
+	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
+		qDebug() << info.second
+				 << info.first->typeIndex().hash_code()
+				 << info.first->typeIndex().name()
+				 << info.first->hasTasks()
+				 << info.first->currentTask();
+	}
+
 	d->scheduleNextTask();
+}
+
+void UpdateScheduler::stop()
+{
+	Q_D(UpdateScheduler);
+	if(!d->isActive)
+		return;
+
+	d->settings->remove(QStringLiteral("scheduleMemory"));
+	d->settings->beginWriteArray(QStringLiteral("scheduleMemory"));
+	int i = 0;
+	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
+		if(!info.first->hasTasks())
+			continue;
+		d->settings->setArrayIndex(i++);
+
+		UpdateSchedulerPrivate::TypeInfo tInfo;
+		tInfo = UpdateSchedulerPrivate::tIndexToInfo(info.first->typeIndex());
+		d->settings->setValue(QStringLiteral("hash"), tInfo.first);
+		d->settings->setValue(QStringLiteral("name"), tInfo.second);
+		d->settings->setValue(QStringLiteral("taskID"), info.second);
+		d->settings->setValue(QStringLiteral("data"), info.first->store());
+	}
+	d->settings->endArray();
+	d->settings->sync();
+
+	d->isActive = true;
+}
+
+void UpdateScheduler::scheduleTask(int taskGroupID, UpdateTask *task)
+{
+	Q_D(UpdateScheduler);
+	d->updateTasks.append({task, taskGroupID});
+}
+
+int UpdateScheduler::scheduleTask(UpdateTask *task)
+{
+	Q_D(UpdateScheduler);
+
+	int val;
+	bool hasVal = false;
+	do {
+		val = (INT_MAX - RAND_MAX) + qrand();
+		for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
+			if(info.second == val) {
+				hasVal = true;
+				break;
+			}
+		}
+	} while(hasVal);
+
+	this->scheduleTask(val, task);
+	return val;
 }
 
 UpdateScheduler::UpdateScheduler(UpdateSchedulerPrivate *d_ptr) :
@@ -91,7 +154,12 @@ UpdateSchedulerPrivate::UpdateSchedulerPrivate() :
 	isActive(false),
 	settings(NULL),
 	builderMap()
-{}
+{
+	qsrand(QDateTime::currentMSecsSinceEpoch());
+
+	QObject::connect(qApp, &QCoreApplication::aboutToQuit,
+					 this->q_ptr, &UpdateScheduler::stop);
+}
 
 UpdateSchedulerPrivate::~UpdateSchedulerPrivate()
 {
@@ -114,4 +182,9 @@ UpdateTask *UpdateSchedulerPrivate::buildTask(const TypeInfo &info, const QByteA
 		return builder->buildTask(data);
 	else
 		return NULL;
+}
+
+void UpdateSchedulerPrivate::scheduleNextTask()
+{
+	Q_UNIMPLEMENTED();
 }
