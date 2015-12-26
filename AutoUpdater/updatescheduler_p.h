@@ -10,14 +10,26 @@ namespace QtAutoUpdater
 	class UpdateSchedulerPrivate
 	{
 	public:
+		typedef QPair<quint64, QString> TypeInfo;
+		typedef QPair<UpdateTask*, int> UpdateTaskInfo;
+
 		UpdateSchedulerPrivate();
 		~UpdateSchedulerPrivate();
+
+		static TypeInfo tIndexToInfo(const std::type_index &info);
+		static UpdateTask *buildTask(const TypeInfo &info, const QByteArray &data);
 
 	private:
 		UpdateScheduler *q_ptr;
 		Q_DECLARE_PUBLIC(UpdateScheduler)
 
-		QMap<std::type_index, UpdateTaskBuilder*> builderMap;
+		bool isActive;
+		QSettings *settings;
+		QMap<TypeInfo, UpdateTaskBuilder*> builderMap;
+
+		QList<UpdateTaskInfo> updateTasks;
+
+		void scheduleNextTask();
 	};
 }
 

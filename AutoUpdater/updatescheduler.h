@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QVector>
+#include <QSettings>
 #include <typeindex>
 #include "updatetask.h"
 
@@ -33,6 +34,11 @@ namespace QtAutoUpdater
 		inline void registerTaskBuilder() {
 			this->registerTaskBuilder(typeid(Task), new GenericUpdateTaskBuilder<Task>());
 		}
+
+		bool setSettingsGroup(const QString &group);
+		bool setSettingsObject(QSettings *settingsObject);
+
+		void start();
 
 	public slots:
 

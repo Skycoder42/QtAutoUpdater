@@ -1,4 +1,5 @@
 #include "updatetask.h"
+#include "updatescheduler_p.h"
 #include <QDataStream>
 using namespace QtAutoUpdater;
 
@@ -117,6 +118,11 @@ QByteArray BasicLoopUpdateTask::store() const
 	return data;
 }
 
+std::type_index BasicLoopUpdateTask::typeIndex() const
+{
+	return typeid(BasicLoopUpdateTask);
+}
+
 //-------- TimePointUpdateTask --------
 
 TimePointUpdateTask::TimePointUpdateTask(const QDateTime &timePoint, TimeSpan::TimeUnit repeatFocus) :
@@ -192,4 +198,95 @@ QByteArray TimePointUpdateTask::store() const
 	stream << this->timePoint
 		   << this->focusPoint;
 	return data;
+}
+
+std::type_index TimePointUpdateTask::typeIndex() const
+{
+	return typeid(TimePointUpdateTask);
+}
+
+//-------- UpdateTaskList --------
+
+UpdateTaskList::UpdateTaskList() :
+	QLinkedList(),
+	UpdateTask()
+{}
+
+UpdateTaskList::UpdateTaskList(std::initializer_list<UpdateTask *> list) :
+	QLinkedList(list),
+	UpdateTask()
+{}
+
+UpdateTaskList::UpdateTaskList(const QByteArray &data) :
+	QLinkedList(),
+	UpdateTask()
+{
+	QDataStream stream(data);
+	int size;
+	stream >> size;
+	for(int i = 0; i < size; ++i) {
+		UpdateSchedulerPrivate::TypeInfo tInfo;
+		stream << tInfo.first
+			   << tInfo.second;
+
+		int taskSize;
+		stream >> taskSize;
+		QByteArray taskData(taskSize, Qt::Uninitialized);
+		stream.readRawData(taskData.data(), taskSize);
+
+		UpdateTask *task = UpdateSchedulerPrivate::buildTask(tInfo, taskData);
+		if(task)
+			this->append(task);
+	}
+}
+
+bool UpdateTaskList::hasTasks() const
+{
+	return !this->isEmpty();
+}
+
+QDateTime UpdateTaskList::currentTask() const
+{
+	if(!this->isEmpty())
+		return this->first()->currentTask();
+	else
+		return QDateTime();
+}
+
+bool UpdateTaskList::nextTask()
+{
+	if(this->isEmpty())
+		return false;
+
+	if(this->first()->nextTask())
+		return true;
+	else {
+		do {
+			this->removeFirst();
+			if(this->first()->hasTasks())
+				return true;
+		} while(!this->isEmpty());
+		return false;
+	}
+}
+
+QByteArray UpdateTaskList::store() const
+{
+	QByteArray data;
+	QDataStream stream(&data, QIODevice::WriteOnly);
+	stream << this->size();
+	for(UpdateTask *task : *this) {
+		UpdateSchedulerPrivate::TypeInfo tInfo = UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
+		stream << tInfo.first
+			   << tInfo.second;
+		QByteArray taskData = task->store();
+		stream << taskData.size();
+		stream.writeRawData(taskData.constData(), taskData.size());
+	}
+	return data;
+}
+
+std::type_index UpdateTaskList::typeIndex() const
+{
+	return typeid(UpdateTaskList);
 }

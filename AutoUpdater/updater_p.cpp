@@ -22,6 +22,7 @@ static void libInit()
 	UpdateScheduler *scheduler = UpdateScheduler::instance();
 	scheduler->registerTaskBuilder<BasicLoopUpdateTask>();
 	scheduler->registerTaskBuilder<TimePointUpdateTask>();
+	scheduler->registerTaskBuilder<UpdateTaskList>();
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 

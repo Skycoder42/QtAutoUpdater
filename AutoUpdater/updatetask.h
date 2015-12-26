@@ -3,6 +3,8 @@
 
 #include <QDateTime>
 #include <QVariant>
+#include <QLinkedList>
+#include <typeindex>
 
 namespace QtAutoUpdater
 {
@@ -41,6 +43,7 @@ namespace QtAutoUpdater
 		virtual QDateTime currentTask() const = 0;
 		virtual bool nextTask() = 0;
 
+		virtual std::type_index typeIndex() const = 0;
 		virtual QByteArray store() const = 0;
 	};
 
@@ -53,7 +56,6 @@ namespace QtAutoUpdater
 		virtual qint64 repetitions() const = 0;
 		virtual TimeSpan pauseSpan() const = 0;
 
-		// UpdateTask interface
 		bool hasTasks() const Q_DECL_OVERRIDE;
 		QDateTime currentTask() const Q_DECL_OVERRIDE;
 		bool nextTask() Q_DECL_OVERRIDE;
@@ -69,10 +71,11 @@ namespace QtAutoUpdater
 		BasicLoopUpdateTask(TimeSpan loopDelta, qint64 repeats = -1);
 		BasicLoopUpdateTask(const QByteArray &data);
 
-		// LoopUpdateTask interface
 		qint64 repetitions() const Q_DECL_OVERRIDE;
 		TimeSpan pauseSpan() const Q_DECL_OVERRIDE;
 		QByteArray store() const Q_DECL_OVERRIDE;
+
+		std::type_index typeIndex() const Q_DECL_OVERRIDE;
 
 	private:
 		TimeSpan loopDelta;
@@ -90,11 +93,28 @@ namespace QtAutoUpdater
 		bool nextTask() Q_DECL_OVERRIDE;
 		QByteArray store() const Q_DECL_OVERRIDE;
 
+		std::type_index typeIndex() const Q_DECL_OVERRIDE;
+
 	private:
 		QDateTime timePoint;
 		TimeSpan::TimeUnit focusPoint;
 
 		QDateTime nextPoint;
+	};
+
+	class UpdateTaskList : public QLinkedList<UpdateTask*>, public UpdateTask
+	{
+	public:
+		UpdateTaskList();
+		UpdateTaskList(std::initializer_list<UpdateTask*> list);
+		UpdateTaskList(const QByteArray &data);
+
+		bool hasTasks() const Q_DECL_OVERRIDE;
+		QDateTime currentTask() const Q_DECL_OVERRIDE;
+		bool nextTask() Q_DECL_OVERRIDE;
+		QByteArray store() const Q_DECL_OVERRIDE;
+
+		std::type_index typeIndex() const Q_DECL_OVERRIDE;
 	};
 }
 
