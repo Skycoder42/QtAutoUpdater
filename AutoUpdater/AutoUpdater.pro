@@ -13,10 +13,14 @@ CONFIG += staticlib
 
 SOURCES += \
     updater.cpp \
-    updater_p.cpp
+    updater_p.cpp \
+    updatescheduler.cpp
 
 HEADERS += \
     updater.h \
     updater_p.h \
-	adminauthoriser.h
+	adminauthoriser.h \
+    updatescheduler.h \
+    updatescheduler_p.h \
+    updatetask.h
 

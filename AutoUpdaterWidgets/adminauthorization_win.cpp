@@ -39,7 +39,7 @@
 #include <qt_windows.h>
 using namespace QtAutoUpdater;
 
-static QString AdminAuthorization::qt_create_commandline(const QStringList &arguments);
+static QString qt_create_commandline(const QStringList &arguments);
 
 struct DeCoInitializer
 {
@@ -93,7 +93,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
     }
 
     const QString file = QDir::toNativeSeparators(program);
-	const QString args = qt_create_commandline(QString(), arguments);
+	const QString args = qt_create_commandline(arguments);
 
 	SHELLEXECUTEINFOW shellExecuteInfo = { 0 };
 	shellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
@@ -109,7 +109,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
 		return false;
 }
 
-QString AdminAuthorization::qt_create_commandline(const QStringList &arguments)
+QString qt_create_commandline(const QStringList &arguments)
 {
     QString args;
     for (int i = 0; i < arguments.size(); ++i) {

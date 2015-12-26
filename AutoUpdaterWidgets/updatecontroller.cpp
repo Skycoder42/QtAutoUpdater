@@ -186,7 +186,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
 				bool shouldShutDown = false;
-				switch(d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(), d->adminUserEdit ? &d->runAdmin : NULL)) {
+				switch(d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(), d->runAdmin, d->adminUserEdit)) {
 				case UpdateInfoDialog::InstallNow:
 					shouldShutDown = true;
 				case UpdateInfoDialog::InstallLater:

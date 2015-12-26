@@ -9,6 +9,7 @@
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
+#include "updatescheduler_p.h"
 using namespace QtAutoUpdater;
 
 static void libInit()
@@ -17,6 +18,8 @@ static void libInit()
 		qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
 	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ExitStatus")))
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+	UpdateScheduler *scheduler = UpdateScheduler::instance();
+	Q_ASSERT(scheduler);
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 
