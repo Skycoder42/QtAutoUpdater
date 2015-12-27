@@ -272,7 +272,7 @@ bool UpdateTaskList::nextTask()
 		return true;
 	else {
 		do {
-			this->removeFirst();
+			delete this->takeFirst();
 			if(this->first()->hasTasks())
 				return true;
 		} while(!this->isEmpty());

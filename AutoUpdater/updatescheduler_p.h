@@ -4,6 +4,7 @@
 #include "updatescheduler.h"
 #include "updatetask.h"
 #include <QMap>
+#include "timerobject.h"
 
 namespace QtAutoUpdater
 {
@@ -28,8 +29,7 @@ namespace QtAutoUpdater
 		QMap<TypeInfo, UpdateTaskBuilder*> builderMap;
 
 		QList<UpdateTaskInfo> updateTasks;
-
-		void scheduleNextTask();
+		TimerObject *taskTimer;
 	};
 }
 

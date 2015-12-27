@@ -15,7 +15,8 @@ SOURCES += \
     updater.cpp \
     updater_p.cpp \
     updatescheduler.cpp \
-    updatetask.cpp
+    updatetask.cpp \
+    timerobject.cpp
 
 HEADERS += \
     updater.h \
@@ -23,5 +24,6 @@ HEADERS += \
 	adminauthoriser.h \
     updatescheduler.h \
     updatescheduler_p.h \
-    updatetask.h
+    updatetask.h \
+    timerobject.h
 

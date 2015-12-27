@@ -85,8 +85,6 @@ void UpdateScheduler::start()
 				 << info.first->hasTasks()
 				 << info.first->currentTask();
 	}
-
-	d->scheduleNextTask();
 }
 
 void UpdateScheduler::stop()
@@ -153,7 +151,9 @@ UpdateSchedulerPrivate::UpdateSchedulerPrivate() :
 	q_ptr(new UpdateScheduler(this)),
 	isActive(false),
 	settings(NULL),
-	builderMap()
+	builderMap(),
+	updateTasks(),
+	taskTimer(TimerObject::createTimer(this->q_ptr))
 {
 	qsrand(QDateTime::currentMSecsSinceEpoch());
 
@@ -182,9 +182,4 @@ UpdateTask *UpdateSchedulerPrivate::buildTask(const TypeInfo &info, const QByteA
 		return builder->buildTask(data);
 	else
 		return NULL;
-}
-
-void UpdateSchedulerPrivate::scheduleNextTask()
-{
-	Q_UNIMPLEMENTED();
 }
