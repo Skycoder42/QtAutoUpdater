@@ -17,6 +17,12 @@ Q_DECLARE_METATYPE(TaskFunc)
 #include <QCoreApplication>
 #include <QSignalSpy>
 
+#if defined(Q_OS_WIN32)
+#define TEST_DELAY 100
+#elif defined(Q_OS_OSX)
+#define TEST_DELAY 1000
+#endif
+
 class UpdaterTest : public QObject
 {
 	Q_OBJECT
@@ -68,7 +74,7 @@ void UpdaterTest::cleanupTestCase()
 
 void UpdaterTest::testSchedulerLoad()
 {
-	QVERIFY(this->taskSyp->wait(10100));//wait the 10 seconds of the stored task
+	QVERIFY(this->taskSyp->wait(10000 + TEST_DELAY));//wait the 10 seconds of the stored task
 	QCOMPARE(this->taskSyp->size(), 1);
 	QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), 42);
 
@@ -209,7 +215,7 @@ void UpdaterTest::testUpdateCheck()
 	this->updater->cancelScheduledUpdate(kId);
 
 	//wait for the update to start
-	QVERIFY(this->runningSpy->wait(2100));
+	QVERIFY(this->runningSpy->wait(2000 + TEST_DELAY));
 	//should be running
 	QVERIFY(this->runningSpy->size() > 0);
 	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
@@ -221,7 +227,7 @@ void UpdaterTest::testUpdateCheck()
 	QVERIFY(!this->runningSpy->takeFirst()[0].toBool());
 
 	//wait for the canceled one (max 5 secs)
-	QVERIFY(!this->runningSpy->wait(5100));
+	QVERIFY(!this->runningSpy->wait(5000 + TEST_DELAY));
 
 	//verifiy the runningSpy is empty
 	QVERIFY(this->runningSpy->isEmpty());
@@ -275,12 +281,12 @@ void UpdaterTest::testScheduler()
 	int gId = UpdateScheduler::instance()->scheduleTask(updateTask());
 
 	for(int delay : waitDelays) {
-		QVERIFY(this->taskSyp->wait(delay + 100));
+		QVERIFY(this->taskSyp->wait(delay + TEST_DELAY));
 		QCOMPARE(this->taskSyp->size(), 1);
 		QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), gId);
 	}
 
-	QVERIFY(!this->taskSyp->wait(cleanDelay + 1000));
+	QVERIFY(!this->taskSyp->wait(cleanDelay + TEST_DELAY * 2));
 	QVERIFY(this->taskSyp->isEmpty());
 }
 

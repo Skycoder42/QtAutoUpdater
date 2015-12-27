@@ -14,7 +14,7 @@ UpdateScheduler *UpdateScheduler::instance()
 void UpdateScheduler::registerTaskBuilder(const std::type_index &type, UpdateTaskBuilder *builder)
 {
 	Q_D(UpdateScheduler);
-	UpdateSchedulerPrivate::TypeInfo tInfo = UpdateSchedulerPrivate::tIndexToInfo(type);
+	QString tInfo = UpdateSchedulerPrivate::tIndexToInfo(type);
 
 	delete d->builderMap.take(tInfo);
 	d->builderMap.insert(tInfo, builder);
@@ -63,9 +63,8 @@ void UpdateScheduler::start()
 	for(int i = 0; i < max; ++i) {
 		d->settings->setArrayIndex(i);
 
-		UpdateSchedulerPrivate::TypeInfo info;
-		info.first = d->settings->value(QStringLiteral("hash")).toULongLong();
-		info.second = d->settings->value(QStringLiteral("name")).toString();
+		QString info;
+		info = d->settings->value(QStringLiteral("name")).toString();
 		UpdateTaskBuilder *builder = d->builderMap.value(info, NULL);
 		if(builder) {
 			UpdateTask *task = builder->buildTask(d->settings->value(QStringLiteral("data")).toByteArray());
@@ -107,10 +106,7 @@ void UpdateScheduler::stop()
 			if(task->hasTasks()) {
 				d->settings->setArrayIndex(i++);
 
-				UpdateSchedulerPrivate::TypeInfo tInfo;
-				tInfo = UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
-				d->settings->setValue(QStringLiteral("hash"), tInfo.first);
-				d->settings->setValue(QStringLiteral("name"), tInfo.second);
+				d->settings->setValue(QStringLiteral("name"), UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex()));
 				d->settings->setValue(QStringLiteral("taskID"), groupID);
 				d->settings->setValue(QStringLiteral("data"), task->store());
 			}
@@ -206,15 +202,12 @@ UpdateSchedulerPrivate::~UpdateSchedulerPrivate()
 	delete this->q_ptr;
 }
 
-UpdateSchedulerPrivate::TypeInfo UpdateSchedulerPrivate::tIndexToInfo(const std::type_index &info)
+QString UpdateSchedulerPrivate::tIndexToInfo(const std::type_index &info)
 {
-	TypeInfo tInfo;
-	tInfo.first = info.hash_code();
-	tInfo.second = QString::fromLocal8Bit(info.name());
-	return tInfo;
+	return QString::fromLocal8Bit(info.name());
 }
 
-UpdateTask *UpdateSchedulerPrivate::buildTask(const TypeInfo &info, const QByteArray &data)
+UpdateTask *UpdateSchedulerPrivate::buildTask(const QString &info, const QByteArray &data)
 {
 	UpdateTaskBuilder *builder = privateInstance->builderMap.value(info, NULL);
 	if(builder)

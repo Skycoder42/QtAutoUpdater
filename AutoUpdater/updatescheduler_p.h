@@ -12,13 +12,12 @@ namespace QtAutoUpdater
 	class UpdateSchedulerPrivate
 	{
 	public:
-		typedef QPair<quint64, QString> TypeInfo;
 
 		UpdateSchedulerPrivate();
 		~UpdateSchedulerPrivate();
 
-		static TypeInfo tIndexToInfo(const std::type_index &info);
-		static UpdateTask *buildTask(const TypeInfo &info, const QByteArray &data);
+		static QString tIndexToInfo(const std::type_index &info);
+		static UpdateTask *buildTask(const QString &info, const QByteArray &data);
 
 	private:
 		UpdateScheduler *q_ptr;
@@ -26,7 +25,7 @@ namespace QtAutoUpdater
 
 		bool isActive;
 		QSettings *settings;
-		QMap<TypeInfo, UpdateTaskBuilder*> builderMap;
+		QMap<QString, UpdateTaskBuilder*> builderMap;
 
 		QMultiHash<int, UpdateTask*> updateTasks;
 		TimerObject *taskTimer;

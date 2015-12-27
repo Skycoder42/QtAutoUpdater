@@ -235,9 +235,8 @@ UpdateTaskList::UpdateTaskList(const QByteArray &data) :
 	int size;
 	stream >> size;
 	for(int i = 0; i < size; ++i) {
-		UpdateSchedulerPrivate::TypeInfo tInfo;
-		stream << tInfo.first
-			   << tInfo.second;
+		QString tInfo;
+		stream >> tInfo;
 
 		int taskSize;
 		stream >> taskSize;
@@ -293,9 +292,7 @@ QByteArray UpdateTaskList::store() const
 	QDataStream stream(&data, QIODevice::WriteOnly);
 	stream << this->size();
 	for(UpdateTask *task : *this) {
-		UpdateSchedulerPrivate::TypeInfo tInfo = UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
-		stream << tInfo.first
-			   << tInfo.second;
+		stream << UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
 		QByteArray taskData = task->store();
 		stream << taskData.size();
 		stream.writeRawData(taskData.constData(), taskData.size());
