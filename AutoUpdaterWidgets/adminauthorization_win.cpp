@@ -76,7 +76,7 @@ bool AdminAuthorization::hasAdminRights()
     return isInAdminGroup;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDir)
+bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
     DeCoInitializer _;
 
@@ -99,8 +99,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
 	shellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
     shellExecuteInfo.lpVerb = L"runas";
 	shellExecuteInfo.lpFile = (wchar_t *)file.utf16();
-    shellExecuteInfo.lpParameters = (wchar_t *)args.utf16();
-	shellExecuteInfo.lpDirectory = (wchar_t *)workingDir.utf16();
+	shellExecuteInfo.lpParameters = (wchar_t *)args.utf16();
 	shellExecuteInfo.nShow = SW_SHOW;
 
 	if (ShellExecuteExW(&shellExecuteInfo))

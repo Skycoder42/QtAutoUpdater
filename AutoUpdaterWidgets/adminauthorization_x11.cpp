@@ -65,7 +65,7 @@ bool AdminAuthorization::hasAdminRights()
     return getuid() == 0;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDirectory)
+bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
     // as we cannot pipe the password to su in QProcess, we need to setup a pseudo-terminal for it
     int masterFD = -1;
@@ -237,7 +237,6 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
         ::unsetenv("LANG");
         ::unsetenv("LC_ALL");
 
-        ::chdir(workingDirectory.toUtf8().constData());
         ::execv(SU_COMMAND, argp);
         _exit(0);
         return false;

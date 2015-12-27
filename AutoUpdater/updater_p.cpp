@@ -107,7 +107,6 @@ bool UpdaterPrivate::startUpdateCheck()
 		this->mainProcess = new QProcess(this);
 		this->mainProcess->setProgram(toolInfo.absoluteFilePath());
 		this->mainProcess->setArguments({QStringLiteral("--checkupdates")});
-		this->mainProcess->setWorkingDirectory(toolInfo.absolutePath());
 
 		connect(this->mainProcess, SELECT<int, QProcess::ExitStatus>::OVERLOAD_OF(&QProcess::finished),
 				this, &UpdaterPrivate::updaterReady, Qt::QueuedConnection);
@@ -255,8 +254,7 @@ void UpdaterPrivate::appAboutToExit()
 		bool ok = false;
 		if(this->adminAuth && !this->adminAuth->hasAdminRights()) {
 			ok = this->adminAuth->executeAsAdmin(toolInfo.absoluteFilePath(),
-												 this->runArguments,
-												 toolInfo.absolutePath());
+												 this->runArguments);
 
 		} else {
 			ok = QProcess::startDetached(toolInfo.absoluteFilePath(),

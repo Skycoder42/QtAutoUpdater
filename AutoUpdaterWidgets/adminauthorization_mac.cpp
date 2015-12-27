@@ -45,7 +45,7 @@ bool AdminAuthorization::hasAdminRights()
 	return geteuid() == 0;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments, const QString &)
+bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
     AuthorizationRef authorizationRef;
     OSStatus status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,

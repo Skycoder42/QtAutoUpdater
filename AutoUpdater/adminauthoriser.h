@@ -11,7 +11,7 @@ namespace QtAutoUpdater
 	public:
 		virtual ~AdminAuthoriser() {}
 		virtual bool hasAdminRights() = 0;
-		virtual bool executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDir) = 0;
+		virtual bool executeAsAdmin(const QString &program, const QStringList &arguments) = 0;
 	};
 }
 

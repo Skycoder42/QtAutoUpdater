@@ -9,7 +9,7 @@ namespace QtAutoUpdater
 	{
 	public:
 		bool hasAdminRights() Q_DECL_OVERRIDE;
-        bool executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDir) Q_DECL_OVERRIDE;
+		bool executeAsAdmin(const QString &program, const QStringList &arguments) Q_DECL_OVERRIDE;
     };
 }
 
