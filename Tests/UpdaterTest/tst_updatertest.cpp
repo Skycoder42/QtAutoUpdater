@@ -21,6 +21,8 @@ Q_DECLARE_METATYPE(TaskFunc)
 #define TEST_DELAY 100
 #elif defined(Q_OS_OSX)
 #define TEST_DELAY 1000
+#elif defined(Q_OS_UNIX)
+#define TEST_DELAY 1000
 #endif
 
 class UpdaterTest : public QObject

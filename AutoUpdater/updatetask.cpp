@@ -44,17 +44,17 @@ QDateTime TimeSpan::addToDateTime(const QDateTime &base) const
 
 QDataStream &operator<<(QDataStream &stream, const QtAutoUpdater::TimeSpan &timeSpan)
 {
-	stream << timeSpan.count
-		   << (quint64)timeSpan.unit;
+    stream << timeSpan.count
+           << (quint64)timeSpan.unit;
 	return stream;
 }
 
 QDataStream &operator>>(QDataStream &stream, QtAutoUpdater::TimeSpan &timeSpan)
 {
-	quint64 tmp;
-	stream >> timeSpan.count
-		   >> tmp;
-	timeSpan.unit = (TimeSpan::TimeUnit)tmp;
+    quint64 tmp;
+    stream >> timeSpan.count
+           >> tmp;
+    timeSpan.unit = (TimeSpan::TimeUnit)tmp;
 	return stream;
 }
 
@@ -206,7 +206,7 @@ QByteArray TimePointUpdateTask::store() const
 	QByteArray data;
 	QDataStream stream(&data, QIODevice::WriteOnly);
 	stream << this->timePoint
-		   << this->focusPoint;
+           << (quint64)this->focusPoint;
 	return data;
 }
 
