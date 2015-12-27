@@ -40,3 +40,5 @@ FORMS += \
 
 RESOURCES += \
     autoupdaterwidgets_resource.qrc
+
+DISTFILES +=

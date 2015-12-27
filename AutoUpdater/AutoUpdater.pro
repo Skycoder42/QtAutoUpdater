@@ -27,3 +27,7 @@ HEADERS += \
     updatetask.h \
     timerobject.h
 
+DISTFILES += \
+    adminauthoriser.dox \
+    updater.dox
+
