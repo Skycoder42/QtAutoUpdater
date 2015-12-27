@@ -7,7 +7,8 @@ SUBDIRS += \
 
 DISTFILES += README.md \
 	LICENSE \
-	merge_libs_scripts/win/merge_libs.bat
+	merge_libs_scripts/win/merge_libs.bat \
+	doc/QtAutoUpdater.doxy
 
 AutoUpdaterWidgets.depends += AutoUpdater
 Tests.depends += AutoUpdater AutoUpdaterWidgets
