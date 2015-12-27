@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QAction>
 #include <QStringList>
+#include <updatetask.h>
 
 namespace QtAutoUpdater
 {
@@ -53,11 +54,23 @@ namespace QtAutoUpdater
 		bool start(DisplayLevel displayLevel = ProgressLevel);
 		bool cancelUpdate(int maxDelay = 3000);
 
+		inline int scheduleUpdate(qint64 delayMinutes, bool repeated = false, DisplayLevel displayLevel = InfoLevel) {
+			return this->scheduleUpdate(new BasicLoopUpdateTask(TimeSpan(delayMinutes, TimeSpan::Minutes), repeated ? -1 : 1), displayLevel);
+		}
+		inline int scheduleUpdate(const QDateTime &when, DisplayLevel displayLevel = InfoLevel) {
+			return this->scheduleUpdate(new TimePointUpdateTask(when), displayLevel);
+		}
+		int scheduleUpdate(UpdateTask *task, DisplayLevel displayLevel = InfoLevel);
+		void cancelScheduledUpdate(int taskId);
+
 	signals:
 		void runningChanged(bool running);
 
 	private slots:
 		void checkUpdatesDone(bool hasUpdates, bool hasError);
+
+		void taskReady(int groupID);
+		void taskDone(int groupID);
 
 	private:
 		UpdateControllerPrivate *d_ptr;

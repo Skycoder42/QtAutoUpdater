@@ -1,10 +1,11 @@
 #include "updatecontroller.h"
 #include "updatecontroller_p.h"
-#include "updatepanel.h"
 #include <QProgressBar>
 #include <QCoreApplication>
+#include <updatescheduler.h>
 #include "messagemaster.h"
 #include "adminauthorization.h"
+#include "updatepanel.h"
 using namespace QtAutoUpdater;
 
 static void libInit()
@@ -167,6 +168,20 @@ bool UpdateController::cancelUpdate(int maxDelay)
 		return false;
 }
 
+int UpdateController::scheduleUpdate(UpdateTask *task, UpdateController::DisplayLevel displayLevel)
+{
+	Q_D(UpdateController);
+	UpdateScheduler::instance()->start();
+	int id = UpdateScheduler::instance()->scheduleTask(task);
+	d->updateTasks.insert(id, displayLevel);
+	return id;
+}
+
+void UpdateController::cancelScheduledUpdate(int taskId)
+{
+	UpdateScheduler::instance()->cancelTaskGroup(taskId);
+}
+
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 {
 	Q_D(UpdateController);
@@ -234,6 +249,19 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	emit runningChanged(false);
 }
 
+void UpdateController::taskReady(int groupID)
+{
+	Q_D(UpdateController);
+	if(d->updateTasks.contains(groupID))
+		this->start(d->updateTasks.value(groupID));
+}
+
+void UpdateController::taskDone(int groupID)
+{
+	Q_D(UpdateController);
+	d->updateTasks.remove(groupID);
+}
+
 //-----------------PRIVATE IMPLEMENTATION-----------------
 
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window) :
@@ -269,9 +297,17 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	});
 	QObject::connect(this->q_ptr, &UpdateController::runningChanged,
 					 this->updateAction, &QAction::setDisabled);
+
+	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
+					 q_ptr, &UpdateController::taskReady);
+	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskGroupFinished,
+					 q_ptr, &UpdateController::taskDone);
 }
 
 UpdateControllerPrivate::~UpdateControllerPrivate()
 {
+	for(int taskID : this->updateTasks.keys())
+		UpdateScheduler::instance()->cancelTaskGroup(taskID);
+
 	delete this->mainUpdater;
 }

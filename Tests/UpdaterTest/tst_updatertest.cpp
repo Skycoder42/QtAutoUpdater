@@ -28,6 +28,8 @@ private Q_SLOTS:
 	void initTestCase();
 	void cleanupTestCase();
 
+	void testSchedulerLoad();
+
 	void testScheduler_data();
 	void testScheduler();
 
@@ -35,6 +37,8 @@ private Q_SLOTS:
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
+
+	void testSchedulerSave();
 
 private:
 	Updater *updater;
@@ -48,12 +52,27 @@ private:
 void UpdaterTest::initTestCase()
 {
 	this->taskSyp = new QSignalSpy(UpdateScheduler::instance(), &UpdateScheduler::taskReady);
+	QSettings *settings = new QSettings(QDir::temp().absoluteFilePath("tst_updatertest.cpp.settings.ini"),
+										QSettings::IniFormat);
+	qDebug() << settings->fileName();
+	QVERIFY(settings->isWritable());
+	QVERIFY(UpdateScheduler::instance()->setSettingsObject(settings));
+
 	UpdateScheduler::instance()->start();
 }
 
 void UpdaterTest::cleanupTestCase()
 {
 	UpdateScheduler::instance()->stop();
+}
+
+void UpdaterTest::testSchedulerLoad()
+{
+	QVERIFY(this->taskSyp->wait(10100));//wait the 10 seconds of the stored task
+	QCOMPARE(this->taskSyp->size(), 1);
+	QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), 42);
+
+	UpdateScheduler::instance()->cancelTaskGroup(42);
 }
 
 void UpdaterTest::testUpdaterInitState()
@@ -214,6 +233,11 @@ void UpdaterTest::testUpdateCheck()
 	delete this->runningSpy;
 	delete this->checkSpy;
 	delete this->updater;
+}
+
+void UpdaterTest::testSchedulerSave()
+{
+	UpdateScheduler::instance()->scheduleTask(42, new BasicLoopUpdateTask(TimeSpan(10, TimeSpan::Seconds), 1));
 }
 
 void UpdaterTest::testScheduler_data()

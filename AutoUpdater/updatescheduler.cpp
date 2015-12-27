@@ -104,21 +104,23 @@ void UpdateScheduler::stop()
 	int i = 0;
 	for(int groupID : d->updateTasks.keys()) {
 		for(UpdateTask *task : d->updateTasks.values(groupID)) {
-			if(!task->hasTasks())
-				continue;
-			d->settings->setArrayIndex(i++);
+			if(task->hasTasks()) {
+				d->settings->setArrayIndex(i++);
 
-			UpdateSchedulerPrivate::TypeInfo tInfo;
-			tInfo = UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
-			d->settings->setValue(QStringLiteral("hash"), tInfo.first);
-			d->settings->setValue(QStringLiteral("name"), tInfo.second);
-			d->settings->setValue(QStringLiteral("taskID"), groupID);
-			d->settings->setValue(QStringLiteral("data"), task->store());
+				UpdateSchedulerPrivate::TypeInfo tInfo;
+				tInfo = UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
+				d->settings->setValue(QStringLiteral("hash"), tInfo.first);
+				d->settings->setValue(QStringLiteral("name"), tInfo.second);
+				d->settings->setValue(QStringLiteral("taskID"), groupID);
+				d->settings->setValue(QStringLiteral("data"), task->store());
+			}
+			delete task;
 		}
 	}
 	d->settings->endArray();
 	d->settings->sync();
 
+	d->updateTasks.clear();
 	d->isActive = true;
 }
 
@@ -200,6 +202,7 @@ UpdateSchedulerPrivate::UpdateSchedulerPrivate() :
 UpdateSchedulerPrivate::~UpdateSchedulerPrivate()
 {
 	qDeleteAll(this->builderMap.values());
+
 	delete this->q_ptr;
 }
 

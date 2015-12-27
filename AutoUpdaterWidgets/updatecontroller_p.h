@@ -27,6 +27,8 @@ namespace QtAutoUpdater
 		bool wasCanceled;
 		UpdateInfoDialog *infoDialog;
 
+		QHash<int, UpdateController::DisplayLevel> updateTasks;
+
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 		UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
 		~UpdateControllerPrivate();

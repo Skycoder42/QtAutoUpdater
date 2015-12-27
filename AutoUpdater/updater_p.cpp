@@ -53,6 +53,9 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 
 UpdaterPrivate::~UpdaterPrivate()
 {
+	for(int taskID : this->updateTasks)
+		UpdateScheduler::instance()->cancelTaskGroup(taskID);
+
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
 		this->mainProcess->kill();
