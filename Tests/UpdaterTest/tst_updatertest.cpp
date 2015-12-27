@@ -244,12 +244,12 @@ void UpdaterTest::testScheduler()
 	int gId = UpdateScheduler::instance()->scheduleTask(updateTask());
 
 	for(int delay : waitDelays) {
-		QVERIFY(this->taskSyp->wait(delay + 100));//TODO ???
+		QVERIFY(this->taskSyp->wait(delay + 100));
 		QCOMPARE(this->taskSyp->size(), 1);
 		QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), gId);
 	}
 
-	QVERIFY(!this->taskSyp->wait(cleanDelay + 500));//TODO ???
+	QVERIFY(!this->taskSyp->wait(cleanDelay + 1000));
 	QVERIFY(this->taskSyp->isEmpty());
 }
 
