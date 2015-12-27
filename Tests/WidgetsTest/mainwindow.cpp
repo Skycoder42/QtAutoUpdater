@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	this->statusBar()->showMessage("not running");
+	this->ui->scheduleUpdateDateTimeEdit->setDateTime(QDateTime::currentDateTime());
 
 	QSettings settings("./set.ini", QSettings::IniFormat);
 	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
@@ -46,7 +47,15 @@ void MainWindow::on_checkUpdatesButton_clicked()
 {
 	if(!this->controller->isRunning()) {
 		this->controller->setRunAsAdmin(this->ui->adminCheckBox->isChecked(), this->ui->userChangecheckBox->isChecked());
-		qDebug() << "start controller:" << this->controller->start((QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
+		if(this->ui->scheduleUpdateDateCheckBox->isChecked()) {
+			int id = this->controller->scheduleUpdate(this->ui->scheduleUpdateDateTimeEdit->dateTime(),
+													  (QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
+			if(id)
+				qDebug() << "scheduled controller with id" << id << "to run at" << this->ui->scheduleUpdateDateTimeEdit->dateTime();
+			else
+				qDebug() << "failed to start controller at" << this->ui->scheduleUpdateDateTimeEdit->dateTime();
+		} else
+			qDebug() << "start controller:" << this->controller->start((QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
 	} else
 		qDebug() << "start controller:" << false;
 }

@@ -92,7 +92,7 @@
         </item>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -105,7 +105,7 @@
         </property>
        </spacer>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <layout class="QVBoxLayout" name="buttonLayout">
         <item>
          <widget class="QCommandLinkButton" name="checkUpdatesButton">
@@ -141,7 +141,7 @@
         <item>
          <widget class="QCheckBox" name="adminCheckBox">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="text">
            <string>Run as Admin</string>
@@ -154,7 +154,7 @@
         <item>
          <widget class="QCheckBox" name="userChangecheckBox">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="text">
            <string>User Changeable</string>
@@ -165,6 +165,32 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDateTimeEdit" name="scheduleUpdateDateTimeEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::PlusMinus</enum>
+        </property>
+        <property name="accelerated">
+         <bool>true</bool>
+        </property>
+        <property name="correctionMode">
+         <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+        </property>
+        <property name="displayFormat">
+         <string>dd.MM.yyyy HH:mm:ss</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="scheduleUpdateDateCheckBox">
+        <property name="text">
+         <string>Schedule Update</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -250,7 +276,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>388</x>
-     <y>214</y>
+     <y>240</y>
     </hint>
    </hints>
   </connection>
@@ -271,34 +297,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>activeBox</sender>
+   <sender>scheduleUpdateDateCheckBox</sender>
    <signal>toggled(bool)</signal>
-   <receiver>userChangecheckBox</receiver>
+   <receiver>scheduleUpdateDateTimeEdit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>368</x>
-     <y>57</y>
+     <x>60</x>
+     <y>150</y>
     </hint>
     <hint type="destinationlabel">
-     <x>368</x>
-     <y>129</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>activeBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>adminCheckBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>350</x>
-     <y>58</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>329</x>
-     <y>108</y>
+     <x>185</x>
+     <y>154</y>
     </hint>
    </hints>
   </connection>
