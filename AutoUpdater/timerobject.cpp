@@ -2,15 +2,17 @@
 #include <QTimerEvent>
 #include <QDateTime>
 #include <QThread>
+#include <QDebug>
 using namespace QtAutoUpdater;
 
 TimerObject::TimerObject(QObject *parent) :
 	QObject(parent),
-	idMap()
+	taskMap()
 {}
 
 TimerObject *TimerObject::createTimer(QObject *threadParent)
 {
+	Q_ASSERT(threadParent);
 	QThread *timerThread = new QThread(threadParent);
 
 	TimerObject *timer = new TimerObject(NULL);
@@ -29,20 +31,43 @@ TimerObject *TimerObject::createTimer(QObject *threadParent)
 	return timer;
 }
 
-void TimerObject::addTask(int id, const QDateTime &timePoint)
+void TimerObject::destroyTimer()
 {
-	int tId = this->startTimer(QDateTime::currentDateTime().msecsTo(timePoint),
-							   Qt::PreciseTimer);
-	if(tId != 0)
-		this->idMap.insert(tId, id);
-	else
-		emit taskDone(id);
+	this->disconnect(SIGNAL(taskFired(QtAutoUpdater::UpdateTask*)));
+	this->disconnect(SIGNAL(taskDone(QtAutoUpdater::UpdateTask*)));
+	QThread *thread = this->thread();
+	thread->quit();
+	if(!thread->wait(5000))
+		thread->terminate();
+	thread->deleteLater();
 }
 
+void TimerObject::addTask(UpdateTask *task)
+{
+	Q_ASSERT(task);
+	if(!task->hasTasks())
+		emit taskDone(task);
+	else {
+		int tId = this->startTimer(QDateTime::currentDateTime().msecsTo(task->currentTask()),
+								   Qt::PreciseTimer);
+		if(tId != 0)
+			this->taskMap.insert(tId, task);
+		else
+			emit taskDone(task);
+	}
+}
 
-void QtAutoUpdater::TimerObject::timerEvent(QTimerEvent *event)
+void TimerObject::timerEvent(QTimerEvent *event)
 {
 	this->killTimer(event->timerId());
-	emit taskDone(this->idMap.take(event->timerId()));
+	UpdateTask *task = this->taskMap.take(event->timerId());
 	event->accept();
+
+	if(task) {
+		emit taskFired(task);
+		if(task->nextTask())
+			this->addTask(task);
+		else
+			emit taskDone(task);
+	}
 }

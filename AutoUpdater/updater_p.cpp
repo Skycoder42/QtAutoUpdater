@@ -18,6 +18,7 @@ static void libInit()
 		qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
 	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ExitStatus")))
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+	qRegisterMetaType<QtAutoUpdater::UpdateTask*>("QtAutoUpdater::UpdateTask*");
 
 	UpdateScheduler *scheduler = UpdateScheduler::instance();
 	scheduler->registerTaskBuilder<BasicLoopUpdateTask>();

@@ -42,11 +42,15 @@ namespace QtAutoUpdater
 		void start();
 		void stop();
 
-		void scheduleTask(int taskGroupID, UpdateTask *task);
-		int scheduleTask(UpdateTask *task);
+		void scheduleTask(int taskGroupID, QtAutoUpdater::UpdateTask *task);
+		int scheduleTask(QtAutoUpdater::UpdateTask *task);
 
 	signals:
 		void taskReady(int taskGroupID);
+
+	private slots:
+		void taskFired(QtAutoUpdater::UpdateTask *task);
+		void taskDone(QtAutoUpdater::UpdateTask *task);
 
 	private:
 		UpdateScheduler(UpdateSchedulerPrivate *d_ptr);

@@ -60,10 +60,17 @@ QDataStream &operator>>(QDataStream &stream, QtAutoUpdater::TimeSpan &timeSpan)
 
 //-------- LoopUpdateTask --------
 
-bool LoopUpdateTask::hasTasks() const
+bool LoopUpdateTask::hasTasks()
 {
-	return (this->repetitionsLeft != 0 &&
-			this->nextPoint > NOW);
+	if(this->nextPoint.isNull()) {
+		this->nextPoint = this->startDelay().addToDateTime(NOW);
+		this->repetitionsLeft = this->repetitions();
+	}
+
+	if(this->nextPoint > NOW)
+		return (this->repetitionsLeft != 0);
+	else
+		return false;
 }
 
 QDateTime LoopUpdateTask::currentTask() const
@@ -73,19 +80,15 @@ QDateTime LoopUpdateTask::currentTask() const
 
 bool LoopUpdateTask::nextTask()
 {
-	if(this->repetitionsLeft != 0) {
-		if(this->repetitionsLeft > 0)
-			--this->repetitionsLeft;
-		this->nextPoint = this->pauseSpan().addToDateTime(NOW);
+	if(this->repetitionsLeft > 0) {
+		if(--this->repetitionsLeft > 0) {
+			this->nextPoint = this->pauseSpan().addToDateTime(NOW);
+			return true;
+		}
+	} else if(this->repetitionsLeft < 0)
 		return true;
-	} else
-		return false;
-}
 
-void LoopUpdateTask::init()
-{
-	this->nextPoint = this->startDelay().addToDateTime(NOW);
-	this->repetitionsLeft = this->repetitions();
+	return false;
 }
 
 //-------- DelayedLoopUpdateTask --------
@@ -94,9 +97,7 @@ BasicLoopUpdateTask::BasicLoopUpdateTask(TimeSpan loopDelta, qint64 repeats) :
 	LoopUpdateTask(),
 	loopDelta(loopDelta),
 	repCount(repeats)
-{
-	this->init();
-}
+{}
 
 BasicLoopUpdateTask::BasicLoopUpdateTask(const QByteArray &data) :
 	LoopUpdateTask(),
@@ -106,7 +107,6 @@ BasicLoopUpdateTask::BasicLoopUpdateTask(const QByteArray &data) :
 	QDataStream stream(data);
 	stream >> this->loopDelta
 		   >> this->repCount;
-	this->init();
 }
 
 qint64 BasicLoopUpdateTask::repetitions() const
@@ -154,9 +154,9 @@ TimePointUpdateTask::TimePointUpdateTask(const QByteArray &data) :
 	this->nextPoint = this->timePoint;
 }
 
-bool TimePointUpdateTask::hasTasks() const
+bool TimePointUpdateTask::hasTasks()
 {
-	if(this->focusPoint == TimeSpan::Years)
+	if(this->focusPoint == TimeSpan::MilliSeconds)
 		return this->timePoint > NOW;
 	else
 		return true;
@@ -250,9 +250,15 @@ UpdateTaskList::UpdateTaskList(const QByteArray &data) :
 	}
 }
 
-bool UpdateTaskList::hasTasks() const
+bool UpdateTaskList::hasTasks()
 {
-	return !this->isEmpty();
+	if(!this->isEmpty()) {
+		if(this->first()->hasTasks())
+			return true;
+		else
+			return this->nextTask();
+	} else
+		return false;
 }
 
 QDateTime UpdateTaskList::currentTask() const
@@ -272,9 +278,10 @@ bool UpdateTaskList::nextTask()
 		return true;
 	else {
 		do {
-			delete this->takeFirst();
 			if(this->first()->hasTasks())
 				return true;
+			else
+				delete this->takeFirst();
 		} while(!this->isEmpty());
 		return false;
 	}

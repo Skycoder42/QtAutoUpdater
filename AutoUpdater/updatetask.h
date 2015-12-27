@@ -39,7 +39,7 @@ namespace QtAutoUpdater
 	{
 	public:
 		virtual inline ~UpdateTask() {}
-		virtual bool hasTasks() const = 0;
+		virtual bool hasTasks() = 0;
 		virtual QDateTime currentTask() const = 0;
 		virtual bool nextTask() = 0;
 
@@ -56,12 +56,9 @@ namespace QtAutoUpdater
 		virtual qint64 repetitions() const = 0;
 		virtual TimeSpan pauseSpan() const = 0;
 
-		bool hasTasks() const Q_DECL_OVERRIDE;
+		bool hasTasks() Q_DECL_OVERRIDE;
 		QDateTime currentTask() const Q_DECL_OVERRIDE;
 		bool nextTask() Q_DECL_OVERRIDE;
-
-	protected:
-		void init();
 
 	private:
 		QDateTime nextPoint;
@@ -91,7 +88,7 @@ namespace QtAutoUpdater
 		TimePointUpdateTask(const QDateTime &timePoint, TimeSpan::TimeUnit repeatFocus = TimeSpan::MilliSeconds);
 		TimePointUpdateTask(const QByteArray &data);
 
-		bool hasTasks() const Q_DECL_OVERRIDE;
+		bool hasTasks() Q_DECL_OVERRIDE;
 		QDateTime currentTask() const Q_DECL_OVERRIDE;
 		bool nextTask() Q_DECL_OVERRIDE;
 		QByteArray store() const Q_DECL_OVERRIDE;
@@ -112,7 +109,7 @@ namespace QtAutoUpdater
 		UpdateTaskList(std::initializer_list<UpdateTask*> list);
 		UpdateTaskList(const QByteArray &data);
 
-		bool hasTasks() const Q_DECL_OVERRIDE;
+		bool hasTasks() Q_DECL_OVERRIDE;
 		QDateTime currentTask() const Q_DECL_OVERRIDE;
 		bool nextTask() Q_DECL_OVERRIDE;
 		QByteArray store() const Q_DECL_OVERRIDE;
@@ -120,6 +117,8 @@ namespace QtAutoUpdater
 		std::type_index typeIndex() const Q_DECL_OVERRIDE;
 	};
 }
+
+Q_DECLARE_METATYPE(QtAutoUpdater::UpdateTask*)
 
 QDataStream &operator<<(QDataStream &stream, const QtAutoUpdater::TimeSpan &timeSpan);
 QDataStream &operator>>(QDataStream &stream, QtAutoUpdater::TimeSpan &timeSpan);

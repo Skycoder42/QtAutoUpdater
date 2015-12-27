@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QHash>
+#include "updatetask.h"
 
 namespace QtAutoUpdater
 {
@@ -12,11 +13,14 @@ namespace QtAutoUpdater
 	public:
 		static TimerObject *createTimer(QObject *threadParent);
 
+		void destroyTimer();
+
 	public slots:
-		void addTask(int id, const QDateTime &timePoint);
+		void addTask(QtAutoUpdater::UpdateTask *task);
 
 	signals:
-		void taskDone(int id);
+		void taskFired(QtAutoUpdater::UpdateTask *task);
+		void taskDone(QtAutoUpdater::UpdateTask *task);
 
 	protected:
 		void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
@@ -24,7 +28,7 @@ namespace QtAutoUpdater
 	private:
 		explicit TimerObject(QObject *parent = 0);
 
-		QHash<int, int> idMap;
+		QHash<int, UpdateTask *> taskMap;
 	};
 }
 

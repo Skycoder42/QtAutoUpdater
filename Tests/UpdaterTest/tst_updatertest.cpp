@@ -1,5 +1,7 @@
 #include <updater.h>
 #include <updatescheduler.h>
+#include <QVector>
+#include <functional>
 using namespace QtAutoUpdater;
 
 inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAutoUpdater::Updater::UpdateInfo &b) {
@@ -7,6 +9,9 @@ inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAuto
 			a.version == b.version &&
 			a.size == b.size);
 }
+
+typedef std::function<UpdateTask*()> TaskFunc;
+Q_DECLARE_METATYPE(TaskFunc)
 
 #include <QtTest>
 #include <QCoreApplication>
@@ -20,11 +25,15 @@ public:
 	inline UpdaterTest() {}
 
 private Q_SLOTS:
+	void initTestCase();
+	void cleanupTestCase();
+
 	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
 
+	void testScheduler_data();
 	void testScheduler();
 
 private:
@@ -32,7 +41,20 @@ private:
 	QSignalSpy *checkSpy;
 	QSignalSpy *runningSpy;
 	QSignalSpy *updateInfoSpy;
+
+	QSignalSpy *taskSyp;
 };
+
+void UpdaterTest::initTestCase()
+{
+	this->taskSyp = new QSignalSpy(UpdateScheduler::instance(), &UpdateScheduler::taskReady);
+	UpdateScheduler::instance()->start();
+}
+
+void UpdaterTest::cleanupTestCase()
+{
+	UpdateScheduler::instance()->stop();
+}
 
 void UpdaterTest::testUpdaterInitState()
 {
@@ -70,10 +92,10 @@ void UpdaterTest::testUpdateCheck_data()
 											   << true
 											   << updates;
 
-//	updates.clear();
-//	QTest::newRow("C:/Qt") << "C:/Qt/MaintenanceTool"
-//						   << false
-//						   << updates;
+	updates.clear();
+	QTest::newRow("C:/Qt") << "C:/Qt/MaintenanceTool"
+						   << false
+						   << updates;
 #elif defined(Q_OS_OSX)
 	QList<Updater::UpdateInfo> updates;
 	updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 23144149ull};
@@ -81,21 +103,21 @@ void UpdaterTest::testUpdateCheck_data()
 												<< true
 												<< updates;
 
-//	updates.clear();
-//	QTest::newRow("/Users/sky/Qt") << "/Users/sky/Qt/MaintenanceTool"
-//								   << false
-//								   << updates;
+	updates.clear();
+	QTest::newRow("/Users/sky/Qt") << "/Users/sky/Qt/MaintenanceTool"
+								   << false
+								   << updates;
 #elif defined(Q_OS_UNIX)
 	QList<Updater::UpdateInfo> updates;
-    updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 55737708ull};
-    QTest::newRow("/home/sky/IcoDroid") << "/home/sky/IcoDroid/maintenancetool"
-                                        << true
-                                        << updates;
+	updates += {"IcoDroid", QVersionNumber::fromString("1.0.1"), 55737708ull};
+	QTest::newRow("/home/sky/IcoDroid") << "/home/sky/IcoDroid/maintenancetool"
+										<< true
+										<< updates;
 
-//    updates.clear();
-//    QTest::newRow("/home/sky/Qt") << "/home/sky/Qt/MaintenanceTool"
-//                                  << false
-//                                  << updates;
+	updates.clear();
+	QTest::newRow("/home/sky/Qt") << "/home/sky/Qt/MaintenanceTool"
+								  << false
+								  << updates;
 #endif
 }
 
@@ -187,15 +209,48 @@ void UpdaterTest::testUpdateCheck()
 	delete this->updater;
 }
 
+void UpdaterTest::testScheduler_data()
+{
+	QTest::addColumn<TaskFunc>("updateTask");
+	QTest::addColumn<QList<int>>("waitDelays");
+	QTest::addColumn<int>("cleanDelay");
+
+	QTest::newRow("TimePointUpdateTask") << TaskFunc([]()-> UpdateTask* { return new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(5));})
+										 << QList<int>({5000})
+										 << 5000;
+
+	QTest::newRow("BasicLoopUpdateTask") << TaskFunc([]()-> UpdateTask* { return new BasicLoopUpdateTask(TimeSpan(3, TimeSpan::Seconds), 5);})
+										 << QVector<int>(5, 3000).toList()
+										 << 3000;
+
+	TaskFunc fn = []() -> UpdateTask* {
+		UpdateTaskList *tl = new UpdateTaskList();
+		tl->append(new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(7)));
+		tl->append(new BasicLoopUpdateTask(TimeSpan(2, TimeSpan::Seconds), 3));
+		tl->append(new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(7 + 2*3 + 4)));
+		return tl;
+	};
+	QTest::newRow("UpdateTaskList") << fn
+									<< QList<int>({7000, 2000, 2000, 2000, 4000})
+									<< 7000;
+}
+
 void UpdaterTest::testScheduler()
 {
-	UpdateScheduler::instance()->setSettingsObject(new QSettings("C:/temp/baum.ini", QSettings::IniFormat));
-	UpdateScheduler::instance()->start();
+	QFETCH(TaskFunc, updateTask);
+	QFETCH(QList<int>, waitDelays);
+	QFETCH(int, cleanDelay);
 
-	UpdateScheduler::instance()->scheduleTask(42,
-											  new BasicLoopUpdateTask(TimeSpan(42, TimeSpan::Seconds)));
+	int gId = UpdateScheduler::instance()->scheduleTask(updateTask());
 
-	UpdateScheduler::instance()->stop();
+	for(int delay : waitDelays) {
+		QVERIFY(this->taskSyp->wait(delay + 100));//TODO ???
+		QCOMPARE(this->taskSyp->size(), 1);
+		QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), gId);
+	}
+
+	QVERIFY(!this->taskSyp->wait(cleanDelay + 500));//TODO ???
+	QVERIFY(this->taskSyp->isEmpty());
 }
 
 QTEST_GUILESS_MAIN(UpdaterTest)

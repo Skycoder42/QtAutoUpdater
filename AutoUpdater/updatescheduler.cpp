@@ -78,12 +78,17 @@ void UpdateScheduler::start()
 	}
 	d->settings->endArray();
 
+	d->taskTimer = TimerObject::createTimer(this);
+	QObject::connect(d->taskTimer, &TimerObject::taskFired,
+					 this, &UpdateScheduler::taskFired,
+					 Qt::QueuedConnection);
+	QObject::connect(d->taskTimer, &TimerObject::taskDone,
+					 this, &UpdateScheduler::taskDone,
+					 Qt::QueuedConnection);
+
 	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
-		qDebug() << info.second
-				 << info.first->typeIndex().hash_code()
-				 << info.first->typeIndex().name()
-				 << info.first->hasTasks()
-				 << info.first->currentTask();
+		QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
+								  Q_ARG(QtAutoUpdater::UpdateTask*, info.first));
 	}
 }
 
@@ -92,6 +97,9 @@ void UpdateScheduler::stop()
 	Q_D(UpdateScheduler);
 	if(!d->isActive)
 		return;
+
+	d->taskTimer->destroyTimer();
+	d->taskTimer = NULL;
 
 	d->settings->remove(QStringLiteral("scheduleMemory"));
 	d->settings->beginWriteArray(QStringLiteral("scheduleMemory"));
@@ -118,6 +126,10 @@ void UpdateScheduler::scheduleTask(int taskGroupID, UpdateTask *task)
 {
 	Q_D(UpdateScheduler);
 	d->updateTasks.append({task, taskGroupID});
+	if(d->isActive) {
+		QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
+								  Q_ARG(QtAutoUpdater::UpdateTask*, task));
+	}
 }
 
 int UpdateScheduler::scheduleTask(UpdateTask *task)
@@ -140,6 +152,30 @@ int UpdateScheduler::scheduleTask(UpdateTask *task)
 	return val;
 }
 
+void UpdateScheduler::taskFired(UpdateTask *task)
+{
+	Q_D(UpdateScheduler);
+	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
+		if(info.first == task) {
+			emit taskReady(info.second);
+			break;
+		}
+	}
+}
+
+void UpdateScheduler::taskDone(UpdateTask *task)
+{
+	Q_D(UpdateScheduler);
+	typedef QList<UpdateSchedulerPrivate::UpdateTaskInfo>::iterator iterator;
+	for(iterator it = d->updateTasks.begin(), end = d->updateTasks.end(); it != end; ++it) {
+		if(it->first == task) {
+			delete task;
+			d->updateTasks.erase(it);
+			break;
+		}
+	}
+}
+
 UpdateScheduler::UpdateScheduler(UpdateSchedulerPrivate *d_ptr) :
 	QObject(NULL),
 	d_ptr(d_ptr)
@@ -153,7 +189,7 @@ UpdateSchedulerPrivate::UpdateSchedulerPrivate() :
 	settings(NULL),
 	builderMap(),
 	updateTasks(),
-	taskTimer(TimerObject::createTimer(this->q_ptr))
+	taskTimer(NULL)
 {
 	qsrand(QDateTime::currentMSecsSinceEpoch());
 
