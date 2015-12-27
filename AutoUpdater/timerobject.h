@@ -17,6 +17,7 @@ namespace QtAutoUpdater
 
 	public slots:
 		void addTask(QtAutoUpdater::UpdateTask *task);
+		void removeTask(QtAutoUpdater::UpdateTask *task);
 
 	signals:
 		void taskFired(QtAutoUpdater::UpdateTask *task);

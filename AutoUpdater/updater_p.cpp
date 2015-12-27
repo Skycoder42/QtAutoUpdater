@@ -37,13 +37,18 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	lastErrorLog(),
 	running(false),
 	mainProcess(NULL),
-	activeTimers(),
+	updateTasks(),
 	runOnExit(false),
 	runArguments(),
 	adminAuth(NULL)
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit);
+
+	connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
+			this, &UpdaterPrivate::taskReady);
+	connect(UpdateScheduler::instance(), &UpdateScheduler::taskGroupFinished,
+			this, &UpdaterPrivate::taskDone);
 }
 
 UpdaterPrivate::~UpdaterPrivate()
@@ -134,6 +139,49 @@ void UpdaterPrivate::stopUpdateCheck(int delay, bool async)
 	}
 }
 
+QList<Updater::UpdateInfo> UpdaterPrivate::parseResult(const QByteArray &output)
+{
+	QString outString = QString::fromUtf8(output);
+	int xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
+	if(xmlBegin < 0)
+		throw NoUpdatesXmlException();
+	int xmlEnd = outString.indexOf(QStringLiteral("</updates>"), xmlBegin);
+	if(xmlEnd < 0)
+		throw NoUpdatesXmlException();
+
+	QList<Updater::UpdateInfo> updates;
+	QXmlStreamReader reader(outString.mid(xmlBegin, xmlEnd - xmlBegin + 10));
+
+	reader.readNextStartElement();
+	//should always work because it was search for
+	Q_ASSERT(reader.name() == QStringLiteral("updates"));
+
+	while(reader.readNextStartElement()) {
+		if(reader.name() != QStringLiteral("update"))
+			throw InvalidXmlException();
+
+		bool ok = false;
+		Updater::UpdateInfo info;
+		info.name = reader.attributes().value(QStringLiteral("name")).toString();
+		info.version = QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString());
+		info.size = reader.attributes().value(QStringLiteral("size")).toULongLong(&ok);
+
+		if(info.name.isEmpty() || info.version.isNull() || !ok)
+			throw InvalidXmlException();
+		if(reader.readNextStartElement())
+			throw InvalidXmlException();
+
+		updates.append(info);
+    }
+
+	if(reader.hasError()) {
+		qWarning() << "XML-reader-error:" << reader.errorString();
+		throw InvalidXmlException();
+	}
+
+	return updates;
+}
+
 void UpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
 {
 	if(this->mainProcess) {
@@ -186,47 +234,15 @@ void UpdaterPrivate::updaterError(QProcess::ProcessError error)
 	}
 }
 
-QList<Updater::UpdateInfo> UpdaterPrivate::parseResult(const QByteArray &output)
+void UpdaterPrivate::taskReady(int groupID)
 {
-	QString outString = QString::fromUtf8(output);
-	int xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
-	if(xmlBegin < 0)
-		throw NoUpdatesXmlException();
-	int xmlEnd = outString.indexOf(QStringLiteral("</updates>"), xmlBegin);
-	if(xmlEnd < 0)
-		throw NoUpdatesXmlException();
+	if(this->updateTasks.contains(groupID))
+		this->startUpdateCheck();
+}
 
-	QList<Updater::UpdateInfo> updates;
-	QXmlStreamReader reader(outString.mid(xmlBegin, xmlEnd - xmlBegin + 10));
-
-	reader.readNextStartElement();
-	//should always work because it was search for
-	Q_ASSERT(reader.name() == QStringLiteral("updates"));
-
-	while(reader.readNextStartElement()) {
-		if(reader.name() != QStringLiteral("update"))
-			throw InvalidXmlException();
-
-		bool ok = false;
-		Updater::UpdateInfo info;
-		info.name = reader.attributes().value(QStringLiteral("name")).toString();
-		info.version = QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString());
-		info.size = reader.attributes().value(QStringLiteral("size")).toULongLong(&ok);
-
-		if(info.name.isEmpty() || info.version.isNull() || !ok)
-			throw InvalidXmlException();
-		if(reader.readNextStartElement())
-			throw InvalidXmlException();
-
-		updates.append(info);
-    }
-
-	if(reader.hasError()) {
-		qWarning() << "XML-reader-error:" << reader.errorString();
-		throw InvalidXmlException();
-	}
-
-	return updates;
+void UpdaterPrivate::taskDone(int groupID)
+{
+	this->updateTasks.removeAll(groupID);
 }
 
 void UpdaterPrivate::appAboutToExit()
@@ -251,14 +267,4 @@ void UpdaterPrivate::appAboutToExit()
 					   << "as" << (this->adminAuth ? "admin" : "user");
 		}
 	}
-}
-
-void UpdaterPrivate::timerEvent(QTimerEvent *event)
-{
-	if(!this->activeTimers[event->timerId()]) {
-		this->killTimer(event->timerId());
-		this->activeTimers.remove(event->timerId());
-	}
-	event->accept();
-	this->startUpdateCheck();
 }

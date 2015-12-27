@@ -4,6 +4,7 @@
 #include "updatescheduler.h"
 #include "updatetask.h"
 #include <QMap>
+#include <QMultiHash>
 #include "timerobject.h"
 
 namespace QtAutoUpdater
@@ -12,7 +13,6 @@ namespace QtAutoUpdater
 	{
 	public:
 		typedef QPair<quint64, QString> TypeInfo;
-		typedef QPair<UpdateTask*, int> UpdateTaskInfo;
 
 		UpdateSchedulerPrivate();
 		~UpdateSchedulerPrivate();
@@ -28,7 +28,7 @@ namespace QtAutoUpdater
 		QSettings *settings;
 		QMap<TypeInfo, UpdateTaskBuilder*> builderMap;
 
-		QList<UpdateTaskInfo> updateTasks;
+		QMultiHash<int, UpdateTask*> updateTasks;
 		TimerObject *taskTimer;
 	};
 }

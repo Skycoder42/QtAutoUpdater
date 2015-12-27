@@ -1,5 +1,6 @@
 #include "updater.h"
 #include "updater_p.h"
+#include "updatescheduler.h"
 using namespace QtAutoUpdater;
 
 Updater::Updater(QObject *parent) :
@@ -73,21 +74,18 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 	d->stopUpdateCheck(maxDelay, async);
 }
 
-int  Updater::scheduleUpdate(qint64 delay, bool repeated)
+int Updater::scheduleUpdate(UpdateTask *task)
 {
-	if(delay <= 0)
-		return 0;
 	Q_D(Updater);
-	int tId = d->startTimer(delay * 1000, Qt::VeryCoarseTimer);
-	d->activeTimers.insert(tId, repeated);
-	return tId;
+	UpdateScheduler::instance()->start();
+	int id = UpdateScheduler::instance()->scheduleTask(task);
+	d->updateTasks.append(id);
+	return id;
 }
 
-bool Updater::cancelScheduledUpdate(int taskId)
+void Updater::cancelScheduledUpdate(int taskId)
 {
-	Q_D(Updater);
-	d->killTimer(taskId);
-	return (d->activeTimers.remove(taskId) > 0);
+	UpdateScheduler::instance()->cancelTaskGroup(taskId);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)

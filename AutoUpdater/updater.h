@@ -18,6 +18,7 @@ struct QVersionNumber : public QString {
 #endif
 #include <QDebug>
 #include "adminauthoriser.h"
+#include "updatetask.h"
 
 namespace QtAutoUpdater
 {
@@ -60,11 +61,14 @@ namespace QtAutoUpdater
 		bool checkForUpdates();
 		void abortUpdateCheck(int maxDelay = 5000, bool async = false);
 
-		int scheduleUpdate(qint64 delay, bool repeated = false);
-		inline int scheduleUpdate(const QDateTime &when) {
-			return this->scheduleUpdate(QDateTime::currentDateTime().secsTo(when), false);
+		inline int scheduleUpdate(qint64 delayMinutes, bool repeated = false) {
+			return this->scheduleUpdate(new BasicLoopUpdateTask(TimeSpan(delayMinutes, TimeSpan::Minutes), repeated ? -1 : 1));
 		}
-		bool cancelScheduledUpdate(int taskId);
+		inline int scheduleUpdate(const QDateTime &when) {
+			return this->scheduleUpdate(new TimePointUpdateTask(when));
+		}
+		int scheduleUpdate(UpdateTask *task);
+		void cancelScheduledUpdate(int taskId);
 
 		inline void runUpdaterOnExit(AdminAuthoriser *authoriser = NULL) {
 			this->runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);

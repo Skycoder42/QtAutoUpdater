@@ -45,7 +45,7 @@ namespace QtAutoUpdater
 		bool running;
 		QProcess *mainProcess;
 
-		QHash<int, bool> activeTimers;
+		QList<int> updateTasks;
 
 		bool runOnExit;
 		QStringList runArguments;
@@ -59,15 +59,16 @@ namespace QtAutoUpdater
 
 		bool startUpdateCheck();
 		void stopUpdateCheck(int delay, bool async);
-		void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
-		void updaterError(QProcess::ProcessError error);
 		QList<Updater::UpdateInfo> parseResult(const QByteArray &output);
 
-		void appAboutToExit();
+	public slots:
+		void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
+		void updaterError(QProcess::ProcessError error);
 
-		// QObject interface
-	protected:
-		void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
+		void taskReady(int groupID);
+		void taskDone(int groupID);
+
+		void appAboutToExit();
 	};
 }
 

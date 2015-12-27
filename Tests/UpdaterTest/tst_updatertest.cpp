@@ -28,13 +28,13 @@ private Q_SLOTS:
 	void initTestCase();
 	void cleanupTestCase();
 
+	void testScheduler_data();
+	void testScheduler();
+
 	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
-
-	void testScheduler_data();
-	void testScheduler();
 
 private:
 	Updater *updater;
@@ -181,12 +181,16 @@ void UpdaterTest::testUpdateCheck()
 
 	//-----------schedule mechanism---------------
 
-	int kId = this->updater->scheduleUpdate(QDateTime::currentDateTime().addDays(5));
+	int kId = this->updater->scheduleUpdate(1, true);//every 1 minute
 	QVERIFY(kId);
-	QVERIFY(this->updater->scheduleUpdate(1));
-	QVERIFY(this->updater->cancelScheduledUpdate(kId));
+	this->updater->cancelScheduledUpdate(kId);
+
+	kId = this->updater->scheduleUpdate(QDateTime::currentDateTime().addSecs(5));
+	QVERIFY(this->updater->scheduleUpdate(QDateTime::currentDateTime().addSecs(2)));
+	this->updater->cancelScheduledUpdate(kId);
+
 	//wait for the update to start
-	QVERIFY(this->runningSpy->wait(2000));//allow 1s delta
+	QVERIFY(this->runningSpy->wait(2100));
 	//should be running
 	QVERIFY(this->runningSpy->size() > 0);
 	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
@@ -196,6 +200,9 @@ void UpdaterTest::testUpdateCheck()
 	//should have stopped
 	QCOMPARE(this->runningSpy->size(), 1);
 	QVERIFY(!this->runningSpy->takeFirst()[0].toBool());
+
+	//wait for the canceled one (max 5 secs)
+	QVERIFY(!this->runningSpy->wait(5100));
 
 	//verifiy the runningSpy is empty
 	QVERIFY(this->runningSpy->isEmpty());

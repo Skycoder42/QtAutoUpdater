@@ -57,6 +57,16 @@ void TimerObject::addTask(UpdateTask *task)
 	}
 }
 
+void TimerObject::removeTask(UpdateTask *task)
+{
+	Q_ASSERT(task);
+	int id = this->taskMap.key(task, 0);
+	if(id != 0) {
+		this->taskMap.remove(id);
+		emit taskDone(task);
+	}
+}
+
 void TimerObject::timerEvent(QTimerEvent *event)
 {
 	this->killTimer(event->timerId());

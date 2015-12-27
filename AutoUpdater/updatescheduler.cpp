@@ -68,12 +68,10 @@ void UpdateScheduler::start()
 		info.second = d->settings->value(QStringLiteral("name")).toString();
 		UpdateTaskBuilder *builder = d->builderMap.value(info, NULL);
 		if(builder) {
-			UpdateSchedulerPrivate::UpdateTaskInfo taskInfo;
-			taskInfo.first = builder->buildTask(d->settings->value(QStringLiteral("data")).toByteArray());
-			if(taskInfo.first) {
-				taskInfo.second = d->settings->value(QStringLiteral("taskID")).toInt();
-				d->updateTasks.append(taskInfo);
-			}
+			UpdateTask *task = builder->buildTask(d->settings->value(QStringLiteral("data")).toByteArray());
+			int groupID = d->settings->value(QStringLiteral("taskID")).toInt();
+			if(task && groupID)
+				d->updateTasks.insert(groupID, task);
 		}
 	}
 	d->settings->endArray();
@@ -86,9 +84,9 @@ void UpdateScheduler::start()
 					 this, &UpdateScheduler::taskDone,
 					 Qt::QueuedConnection);
 
-	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
+	for(UpdateTask *task : d->updateTasks) {
 		QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
-								  Q_ARG(QtAutoUpdater::UpdateTask*, info.first));
+								  Q_ARG(QtAutoUpdater::UpdateTask*, task));
 	}
 }
 
@@ -104,17 +102,19 @@ void UpdateScheduler::stop()
 	d->settings->remove(QStringLiteral("scheduleMemory"));
 	d->settings->beginWriteArray(QStringLiteral("scheduleMemory"));
 	int i = 0;
-	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
-		if(!info.first->hasTasks())
-			continue;
-		d->settings->setArrayIndex(i++);
+	for(int groupID : d->updateTasks.keys()) {
+		for(UpdateTask *task : d->updateTasks.values(groupID)) {
+			if(!task->hasTasks())
+				continue;
+			d->settings->setArrayIndex(i++);
 
-		UpdateSchedulerPrivate::TypeInfo tInfo;
-		tInfo = UpdateSchedulerPrivate::tIndexToInfo(info.first->typeIndex());
-		d->settings->setValue(QStringLiteral("hash"), tInfo.first);
-		d->settings->setValue(QStringLiteral("name"), tInfo.second);
-		d->settings->setValue(QStringLiteral("taskID"), info.second);
-		d->settings->setValue(QStringLiteral("data"), info.first->store());
+			UpdateSchedulerPrivate::TypeInfo tInfo;
+			tInfo = UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
+			d->settings->setValue(QStringLiteral("hash"), tInfo.first);
+			d->settings->setValue(QStringLiteral("name"), tInfo.second);
+			d->settings->setValue(QStringLiteral("taskID"), groupID);
+			d->settings->setValue(QStringLiteral("data"), task->store());
+		}
 	}
 	d->settings->endArray();
 	d->settings->sync();
@@ -125,11 +125,14 @@ void UpdateScheduler::stop()
 void UpdateScheduler::scheduleTask(int taskGroupID, UpdateTask *task)
 {
 	Q_D(UpdateScheduler);
-	d->updateTasks.append({task, taskGroupID});
-	if(d->isActive) {
-		QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
-								  Q_ARG(QtAutoUpdater::UpdateTask*, task));
-	}
+	if(taskGroupID != 0) {
+		d->updateTasks.insert(taskGroupID, task);
+		if(d->isActive) {
+			QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
+									  Q_ARG(QtAutoUpdater::UpdateTask*, task));
+		}
+	} else
+		delete task;
 }
 
 int UpdateScheduler::scheduleTask(UpdateTask *task)
@@ -137,42 +140,39 @@ int UpdateScheduler::scheduleTask(UpdateTask *task)
 	Q_D(UpdateScheduler);
 
 	int val;
-	bool hasVal = false;
 	do {
 		val = (INT_MAX - RAND_MAX) + qrand();
-		for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
-			if(info.second == val) {
-				hasVal = true;
-				break;
-			}
-		}
-	} while(hasVal);
+	} while(d->updateTasks.contains(val));
 
 	this->scheduleTask(val, task);
 	return val;
 }
 
+void UpdateScheduler::cancelTaskGroup(int taskGroupID)
+{
+	Q_D(UpdateScheduler);
+	for(UpdateTask *task : d->updateTasks.values(taskGroupID)) {
+		QMetaObject::invokeMethod(d->taskTimer, "removeTask", Qt::QueuedConnection,
+								  Q_ARG(QtAutoUpdater::UpdateTask*, task));
+	}
+}
+
 void UpdateScheduler::taskFired(UpdateTask *task)
 {
 	Q_D(UpdateScheduler);
-	for(UpdateSchedulerPrivate::UpdateTaskInfo info : d->updateTasks) {
-		if(info.first == task) {
-			emit taskReady(info.second);
-			break;
-		}
-	}
+	int groupID = d->updateTasks.key(task, 0);
+	if(groupID)
+		emit taskReady(groupID);
 }
 
 void UpdateScheduler::taskDone(UpdateTask *task)
 {
 	Q_D(UpdateScheduler);
-	typedef QList<UpdateSchedulerPrivate::UpdateTaskInfo>::iterator iterator;
-	for(iterator it = d->updateTasks.begin(), end = d->updateTasks.end(); it != end; ++it) {
-		if(it->first == task) {
-			delete task;
-			d->updateTasks.erase(it);
-			break;
-		}
+	int groupID = d->updateTasks.key(task);
+	if(groupID) {
+		d->updateTasks.remove(groupID, task);
+		if(!d->updateTasks.contains(groupID))
+			emit taskGroupFinished(groupID);
 	}
 }
 
