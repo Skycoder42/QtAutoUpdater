@@ -37,7 +37,7 @@ namespace QtAutoUpdater
 
 	class UpdateTask
 	{
-	public://TODO make tasks cancable and use the scheduler in both Updater and Controller...
+	public:
 		virtual inline ~UpdateTask() {}
 		virtual bool hasTasks() = 0;
 		virtual QDateTime currentTask() const = 0;
