@@ -1,12 +1,14 @@
-# QtAutoUpdater
+# Eat my shorts, Doxygen! This header line is ignored!\n
+# QtAutoUpdater {#mainpage}
+
 [TOC]
 
 A library to automatically check for updates and install them. This repository includes:
  - A library with the basic updater (without any GUI) and an update scheduler
  - A second library that requires the first one and adds basic GUI features
 
-## Main Features
-#### Core Library
+## Main Features {#main_features}
+### Core Library {#core_library_features}
  - Automatic Check for updates using the maintenancetool
  - Can automatically run the maintenancetool after the application finished
    - To run as admin/root, either use the GUI or implement it yourself (via an interface)
@@ -18,7 +20,7 @@ A library to automatically check for updates and install them. This repository i
    - Supports custom Schedule-types (via an interface)
    - can store unfinished tasks and complete them the next time the application runs, if they are valid
 
-#### GUI Library
+### GUI Library {#gui_library_features}
  - Requires Widgets (no direct QML-support, and I'm not intending to create one. If you want to use the updater in QML, do the connection yourself!)
  - Automated controller to guide the user through the check-for-updates process
    - customizable: you can decide what to show
@@ -27,21 +29,21 @@ A library to automatically check for updates and install them. This repository i
  - UpdateAction -> a QAction that starts the updater
  - UpdatePanel -> a button with a busy-indicator to to the same
 
-## Requirements
+## Requirements {#requirements}
  - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at https://download.qt.io/official_releases/qt-installer-framework/)
  - C++11 - The library makes heavy use of it's features
  - Qt 5.5 (the minimum I tested, may work with older versions)
    - If you are using Qt 5.6, the updater will make use of the new QVersionNumber class. If not, it will create a class named the same way that simply inherits QString and adds a few functions.
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library 
 
-## Examples
+## Examples {#examples}
 **Important:**<br>
 Since this library requires the maintenancetool that is deployed with every Qt Installer Framework installation, the examples cannot be tested without a maintenancetool! If you intend to use this library, the maintenancetool will be available for your final application. For testing purpose or the examples, I set the path to the MaintenanceTool that is deployed with the installation of Qt (since you all should have at least that one). So make shure to adjust the path if you try to run the example.
 
-### Updater
+### Updater  {#examples_updater}
 The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "./maintenancetool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
 
-```c++
+```cpp
 #include <QCoreApplication>
 #include <QDebug>
 #include <updater.h>
@@ -70,10 +72,10 @@ int main(int argc, char *argv[])
 }
 ```
 
-### UpdateController
+### UpdateController {#examples_updatecontroller}
 This example will show you the full capability of the controller. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the Tests/WidegtsTest application.
 
-```c++
+```cpp
 #include <QApplication>
 #include <updatecontroller.h>
 
@@ -100,12 +102,12 @@ int main(int argc, char *argv[])
 }
 ```
 
-## Documentation
+## Documentation {#documentation}
 As soon as it is finished, the documentation will be available within the releases and on [github pages](https://skycoder42.github.io/QtAutoUpdater/).
 
 The documentation was created using [doxygen](http://www.stack.nl/~dimitri/doxygen/). It includes an HTML-documentation and Qt-Help files that can be included into QtCreator (QtAssistant) to show F1-Help (See [Adding External Documentation](https://doc.qt.io/qtcreator/creator-help.html#adding-external-documentation) for more details).
 
-## Downloads
+## Downloads {#downloads}
 Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
  - A .pri file for easy project includes (Just add `include(<path_to>/qtautoupdater.pri)` to your project!)
  - Qt5.5.1 precompiled binaries for:
@@ -121,10 +123,10 @@ Downloads are available via [github releases](https://github.com/Skycoder42/QtAu
  - The HTML and QtHelp documentation
  - The (undeployed) widgets example
 
-## Building it yourself
+## Building it yourself {#building}
 If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, there are no other dependencies beside Qt itself. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!
 
-## Icon sources/Links:
+## Icon sources/Links: {#sources}
  - http://www.fatcow.com/free-icons
  - http://www.oxygen-icons.org/
  - http://www.ajaxload.info/
