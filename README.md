@@ -37,6 +37,12 @@ A library to automatically check for updates and install them. This repository i
 ##### UpdateScheduler (comming soon)
 ##### UpdateController (comming soon)
 
+## Documentation
+
+## Downloads
+
+## Building it yourself
+
 ## Icon sources/Links:
  - http://www.fatcow.com/free-icons
  - http://www.oxygen-icons.org/
