@@ -4,7 +4,7 @@
 using namespace QtAutoUpdater;
 
 Updater::Updater(QObject *parent) :
-	Updater(QStringLiteral("./maintenancetool"), parent)
+	Updater(QStringLiteral("./maintenancetool"), parent)//TODO path on mac...
 {}
 
 Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :

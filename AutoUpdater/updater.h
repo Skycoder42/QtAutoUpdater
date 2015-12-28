@@ -30,7 +30,7 @@ namespace QtAutoUpdater
 		Q_OBJECT
 
 		//! Holds the path of the attached maintenancetool
-		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT)
+		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT FINAL)
 		//! Specifies whether the updater is currently checking for updates or not
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 		//! Holds extended information about the last update check

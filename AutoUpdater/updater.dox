@@ -1,5 +1,91 @@
 /*!
+@namespace QtAutoUpdater
+
+@brief The QtAutoUpdater namespace holds all classes that are related with the updater
+
+This namespace includes both, the core library and the widgets library. Please note that
+the two are seperate libraries, that only share the namespace. The Core-Library is
+independet of the Widgets-Library and won't need a gui. The Widgets-Library requires both,
+a gui and the Core-Library.
+
+## Core-Library:
+ - Updater : The main updater class
+ - UpdateScheduler : Responsilbe for update-scheduling. Mainly internal, but public
+accessible
+ - UpdateTask : Base class for all update tasks. The most useful are:
+   - TimeSpan : Represents a timespan with a timeunit
+   - BasicLoopUpdateTask : An (optinally) repeated timespan
+   - TimePointUpdateTask : A specific timepoint (with optional repeating every year/month/...)
+   - UpdateTaskList : An abstract list of different sequential update tasks
+
+## Widgets-Libray:
+ - UpdateController : A gui-controller to automate the update process and show information to the user
 */
 
 /*!
+@class QtAutoUpdater::Updater
+
+The updater class has the task to run the maintenancetool to check for updates. It will
+evalute the results of the tool and generate update information of it. In addition of that,
+it can schedule the maintenancetool to run in updater mode as soon as the application
+finishes. (This requires the Updater instance to exist until QCoreApplication::quit is called).
+*/
+
+/*!
+@property QtAutoUpdater::Updater::maintenanceToolPath
+
+@default{"./maintenancetool"}
+
+The path of the maintenancetool has to be set inside of the constructor and cannot be
+changed later.<br>
+The path will be assumed relative to QCoreApplication::applicationDirPath(), the location
+of the currently running application.
+
+@note On Mac, the current path will be the AppFolder, for example:
+<i>/Applications/MyApp.app</i> instead off <i>/Applications/MyApp.app/Contents/MacOS</i>
+
+The updater will check whether or not the given path has a file-extension. If not, it
+will try to add the given extension. This will result into:
+
+ - **Windows**: "./maintenancetool.exe"
+ - **Mac**: "./maintenancetool.app/Content/MacOS/maintenancetool"
+ - **X11**: "./maintenancetool" (unchanged)
+
+@accessors{
+	@readAc{maintenanceToolPath()}
+	@constantAc
+	@finalAc
+}
+*/
+
+/*!
+@property QtAutoUpdater::Updater::running
+
+@default{false}
+
+The updater can only check for updates once at a time. If this property returns true,
+you will have to wait for it to finish to get your update result or check for updates again.
+
+@accessors{
+	@readAc{isRunning()}
+	@notifyAc{runningChanged()}
+}
+*/
+
+/*!
+@property QtAutoUpdater::Updater::updateInfo
+
+@default{&lt;empty list&gt;}
+
+The update result is only valid for the last update check and won't be updated until
+you check for updates again. When checking for updates, the list will be cleared before
+the updater starts the check.<br>
+To find out whether the list is truly empty or just because the updater is running, use
+the Updater::running property. If it returns false, you can assume that the value of this
+property is the result of the last update check (if one happend).
+
+@accessors{
+	@readAc{updateInfo()}
+	@notifyAc{updateInfoChanged()}
+}
 */
