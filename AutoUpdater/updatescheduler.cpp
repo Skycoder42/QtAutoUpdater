@@ -11,7 +11,7 @@ UpdateScheduler *UpdateScheduler::instance()
 	return privateInstance->q_ptr;
 }
 
-void UpdateScheduler::registerTaskBuilder(const std::type_index &type, UpdateTaskBuilder *builder)
+void UpdateScheduler::registerTaskBuilder(const std::type_index &type, Internal::UpdateTaskBuilder *builder)
 {
 	Q_D(UpdateScheduler);
 	QString tInfo = UpdateSchedulerPrivate::tIndexToInfo(type);
@@ -65,7 +65,7 @@ void UpdateScheduler::start()
 
 		QString info;
 		info = d->settings->value(QStringLiteral("name")).toString();
-		UpdateTaskBuilder *builder = d->builderMap.value(info, NULL);
+		Internal::UpdateTaskBuilder *builder = d->builderMap.value(info, NULL);
 		if(builder) {
 			UpdateTask *task = builder->buildTask(d->settings->value(QStringLiteral("data")).toByteArray());
 			int groupID = d->settings->value(QStringLiteral("taskID")).toInt();
@@ -104,11 +104,15 @@ void UpdateScheduler::stop()
 	for(int groupID : d->updateTasks.keys()) {
 		for(UpdateTask *task : d->updateTasks.values(groupID)) {
 			if(task->hasTasks()) {
-				d->settings->setArrayIndex(i++);
+				QByteArray data = task->store();
+				if(!data.isEmpty()) {
+					d->settings->setArrayIndex(i++);
 
-				d->settings->setValue(QStringLiteral("name"), UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex()));
-				d->settings->setValue(QStringLiteral("taskID"), groupID);
-				d->settings->setValue(QStringLiteral("data"), task->store());
+					d->settings->setValue(QStringLiteral("name"), UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex()));
+					d->settings->setValue(QStringLiteral("taskID"), groupID);
+
+					d->settings->setValue(QStringLiteral("data"), data);
+				}
 			}
 			delete task;
 		}
@@ -209,7 +213,7 @@ QString UpdateSchedulerPrivate::tIndexToInfo(const std::type_index &info)
 
 UpdateTask *UpdateSchedulerPrivate::buildTask(const QString &info, const QByteArray &data)
 {
-	UpdateTaskBuilder *builder = privateInstance->builderMap.value(info, NULL);
+	Internal::UpdateTaskBuilder *builder = privateInstance->builderMap.value(info, NULL);
 	if(builder)
 		return builder->buildTask(data);
 	else

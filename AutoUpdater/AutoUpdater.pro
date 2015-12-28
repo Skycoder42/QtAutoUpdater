@@ -29,5 +29,6 @@ HEADERS += \
 
 DISTFILES += \
     adminauthoriser.dox \
-    updater.dox
+    updater.dox \
+    updatetask.dox
 

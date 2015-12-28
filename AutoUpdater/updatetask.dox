@@ -1,0 +1,127 @@
+/*!
+@class QtAutoUpdater::TimeSpan
+
+A timespan defines an abstract amount of time that consits of a unit, e.g. seconds or
+minutes, and a count. The result could be for example `42 Seconds`.
+
+For now, the timespan is a very simple object, but in future versions it will be extended
+(and propably moved outside of this project) to reach it's full capability.
+*/
+
+/*!
+@fn QtAutoUpdater::TimeSpan::msecs
+
+@returns A number that equals the timespan in milliseconds
+
+To do this, the TimeSpan will simply multiply `count` with `unit`.
+@warning For now, the timespan does **not** check on overflows. This means that it is
+possible for the result to be invalid, if `count × unit` is greater than
+`UNSIGNED_LONG_LONG_MAX`
+*/
+
+/*!
+@fn QtAutoUpdater::TimeSpan::addToDateTime
+
+@param base The datetime to add this timespan to
+@returns The new datetime with the added timespan
+
+Tries to add the timespan to the QDateTime.
+@warning For now, the timespan does **not** check on overflows. This means that for
+example QDateTime::addMonths takes a normal `int` instead of `quint64`. The TimeSpan will
+not handle such overflows.
+*/
+
+/*!
+@class QtAutoUpdater::UpdateTask
+
+The UpdateTask defines the basic methods needed to be scheduled. Tasks can basically be
+anything, e.g. an infinite loop that triggers every 42 seconds, or a task that only fires
+once on a specific date and time, ...
+
+### Subclassing
+If you want to create your own task, you should implement the methods like shown below.
+But before doing that, you should check if the provided subclasses can fullfill your
+task. Those are:
+ - BasicLoopUpdateTask (based on LoopUpdateTask)
+ - TimePointUpdateTask
+ - UpdateTaskList
+
+##### hasTasks:
+Should return true, as long as the Task has timepoints to be fired at. You should also
+add checks inside that function to validate the task. In addition to that, this method
+serves as initialisation, since UpdateTasks can be created any time without beeing used.
+But as soons as hasTasks() gets called the first time, the task is "in schedule", meaning
+it will be take care of it until it completed or the application shuts down.
+
+##### currentTask:
+Should return the next timepoint for this task. Please make shure this function always
+returns the same value for multiple calls until nextTask() was called. Otherwise, it's
+not guaranteed that your task will be properly scheduled. Please note that if your return
+a QDateTime that lays in the past, the whole task-object will be assumed "finished" and
+be deleted.
+
+##### nextTask:
+Your implementation should move on to the next timepoint where it should be fired. After
+a call to this function currentTask() should return a new QDateTime. If you were able to
+proceed to the next task, return true. If it failed, or you don't have any tasks left
+(e.g. your task is a oneshot), return false and the task-object will be assumed "finished" and
+be deleted.
+
+##### typeIndex:
+All this function should do is return `typeid(&lt;MyUpdateTask&gt;)`. This is required
+for a unique identification of each type.
+
+##### store:
+Should write all data this object holds into a bytearray for later usage. This only happens
+if the application is about to shut down. This way, the scheduler can reload the task from
+the settings and continue it. If you don't need to support this, just return an empty QByteArray.
+
+If you however want to make use of it, you will have to make shure that your UpdateTask
+is registered as a storable task. This can be done by calling
+`UpdateScheduler::instance()->registerTaskBuilder&lt;MyUpdateTask&gt;();`. In addition to
+that, your task needs to provide a public constructor that takes a QByteArray as parameter.
+
+@sa UpdateScheduler, LoopUpdateTask, BasicLoopUpdateTask, TimePointUpdateTask,
+UpdateTaskList, Updater::scheduleUpdate(UpdateTask *),
+UpdaterController::scheduleUpdate(UpdateTask *, DisplayLevel)
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTask::hasTasks
+
+@returns `true`, if valid tasks are available, `false` if not
+
+@sa UpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTask::currentTask
+
+@returns the timepoint of the current task of this object
+
+@sa UpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTask::nextTask
+
+@returns `true`, if the UpdateTask was able to proceed to the next subtask, `false` if not
+
+@sa UpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTask::typeIndex
+
+@returns the `typeid` of the class that implements this method
+
+@sa UpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTask::store
+
+@returns A QByteArray that contains a serialized version of the UpdateTask
+
+@sa UpdateTask
+*/

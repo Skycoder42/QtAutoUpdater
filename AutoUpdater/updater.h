@@ -9,7 +9,6 @@
 #if QT_VERSION >= 0x050600
 #include <QVersionNumber>
 #else
-//! A placeholder-class for the Qt5.6 QVersionNumber
 struct QVersionNumber : public QString {
 	inline QVersionNumber(const QString &str = QString()) : QString(str) {}
 	inline QString toString() const {return (*this);}
@@ -42,7 +41,7 @@ namespace QtAutoUpdater
 		{
 			//! The name of the component that has an update
 			QString name;
-			//! The new version for that compontent
+			//! The new version for that compontent (Check <a href="https://doc-snapshots.qt.io/qt5-5.6/qversionnumber.html" target="_blank">Qt 5.6 Documentation snapshot</a>)
 			QVersionNumber version;
 			//! The update download size (in Bytes)
 			quint64 size;

@@ -8,42 +8,47 @@
 
 namespace QtAutoUpdater
 {
+	//! A basic class that provides a timespan
 	struct TimeSpan {
+		//! The "number" of that timespan
 		quint64 count;
+		//! An enum that lists the different possible units for timespans
 		enum TimeUnit : quint64 {
-			MilliSeconds = 1ull,
-			Seconds = MilliSeconds * 1000ull,
-			Minutes = Seconds * 60ull,
-			Hours = Minutes * 60ull,
-			Days = Hours * 24ull,
-			Weeks = Days * 7ull,
-			Months = Days * 30ull,
-			Years = Days * 365ull
-		} unit;
+			MilliSeconds = 1ull, //!< `count` measures milliseconds
+			Seconds = MilliSeconds * 1000ull, //!< `count` measures seconds (1000 milliseconds)
+			Minutes = Seconds * 60ull, //!< `count` measures minutes (60 seconds)
+			Hours = Minutes * 60ull, //!< `count` measures hours (60 minutes)
+			Days = Hours * 24ull, //!< `count` measures days (24 hours)
+			Weeks = Days * 7ull, //!< `count` measures weeks (7 days)
+			Months = Days * 30ull, //!< `count` measures months (30 days)
+			Years = Days * 365ull //!< `count` measures years (365 days)
+		} unit;//!< The unit of the timespan
 
+		//! Constructs a timespan based on a count and unit
 		TimeSpan(quint64 count = 0, TimeUnit unit = MilliSeconds);
 
+		//! returns this timespan in milliseconds
 		quint64 msecs() const;
-		QDateTime addToDateTime(const QDateTime &base) const;
+		//! adds this timespan to a datetime-object
+		QDateTime addToDateTime(const QDateTime &base = QDateTime::currentDateTime()) const;
 	};
 
-	class UpdateTask;
-	class UpdateTaskBuilder
-	{
-	public:
-		virtual inline ~UpdateTaskBuilder() {}
-		virtual UpdateTask *buildTask(const QByteArray &data) = 0;
-	};
-
+	//! An interface for tasks to be handeled by the UpdateScheduler
 	class UpdateTask
 	{
 	public:
+		//! Virtual destructor
 		virtual inline ~UpdateTask() {}
+		//! Returns whether there are tasks left or not
 		virtual bool hasTasks() = 0;
+		//! The current task to be scheduled for this object
 		virtual QDateTime currentTask() const = 0;
+		//! Tries to move on to the next task, if present
 		virtual bool nextTask() = 0;
 
+		//! Returns the type_index of the class
 		virtual std::type_index typeIndex() const = 0;
+		//! Stores the UpdateTask into a bytearray to be saved
 		virtual QByteArray store() const = 0;
 	};
 

@@ -25,7 +25,7 @@ namespace QtAutoUpdater
 
 		bool isActive;
 		QSettings *settings;
-		QMap<QString, UpdateTaskBuilder*> builderMap;
+		QMap<QString, Internal::UpdateTaskBuilder*> builderMap;
 
 		QMultiHash<int, UpdateTask*> updateTasks;
 		TimerObject *taskTimer;

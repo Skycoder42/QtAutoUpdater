@@ -5,6 +5,8 @@ The AdminAuthorisers task is to run a program with elevated rigths. Since the wa
 on every platform, the authoriser is an interface. Since the "default" way to gain elevated privilegs is doing so
 by using a GUI, the default implementation is done in the AutoUpdaterWidgets library. If you intend to use the
 standard library only, you will have to implement admin-authorisation yourself (if you require it)
+
+@sa Updater::runUpdaterOnExit(AdminAuthoriser *)
 */
 
 /*!

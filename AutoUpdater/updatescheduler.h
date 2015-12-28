@@ -10,17 +10,30 @@
 
 namespace QtAutoUpdater
 {
-	template <class Task>
-	class GenericUpdateTaskBuilder : public UpdateTaskBuilder
+	class UpdateScheduler;
+
+	// internal
+	namespace Internal
 	{
-		friend class UpdateScheduler;
-	public:
-		inline UpdateTask *buildTask(const QByteArray &data) Q_DECL_OVERRIDE {
-			return new Task(data);
-		}
-	private:
-		inline GenericUpdateTaskBuilder() {}
-	};
+		class UpdateTaskBuilder
+		{
+		public:
+			virtual inline ~UpdateTaskBuilder() {}
+			virtual UpdateTask *buildTask(const QByteArray &data) = 0;
+		};
+
+		template <class Task>
+		class GenericUpdateTaskBuilder : public UpdateTaskBuilder
+		{
+			friend class QtAutoUpdater::UpdateScheduler;
+		public:
+			inline UpdateTask *buildTask(const QByteArray &data) Q_DECL_OVERRIDE {
+				return new Task(data);
+			}
+		private:
+			inline GenericUpdateTaskBuilder() {}
+		};
+	}
 
 	class UpdateSchedulerPrivate;
 	class UpdateScheduler : public QObject
@@ -29,10 +42,9 @@ namespace QtAutoUpdater
 	public:
 		static UpdateScheduler *instance();
 
-		void registerTaskBuilder(const std::type_index &type, UpdateTaskBuilder *builder);
 		template <class Task>
 		inline void registerTaskBuilder() {
-			this->registerTaskBuilder(typeid(Task), new GenericUpdateTaskBuilder<Task>());
+			this->registerTaskBuilder(typeid(Task), new Internal::GenericUpdateTaskBuilder<Task>());
 		}
 
 		bool setSettingsGroup(const QString &group);
@@ -57,6 +69,7 @@ namespace QtAutoUpdater
 
 	private:
 		UpdateScheduler(UpdateSchedulerPrivate *d_ptr);
+		void registerTaskBuilder(const std::type_index &type, Internal::UpdateTaskBuilder *builder);
 
 		UpdateSchedulerPrivate *d_ptr;
 		Q_DECLARE_PRIVATE(UpdateScheduler)
