@@ -33,9 +33,31 @@ A library to automatically check for updates and install them. This repository i
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library 
 
 ## Examples
-##### Updater (comming soon)
-##### UpdateScheduler (comming soon)
-##### UpdateController (comming soon)
+##### Updater
+```c++
+#include <QCoreApplication>
+#include <QDebug>
+#include <updater.h>
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("<path_to>/maintenancetool", &a);
+    updater->runUpdaterOnExit();
+    
+    QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool a, bool b){
+        qDebug() << "Has updates:" << a << "\nHas errors:" << b;
+        qDebug() << updater->updateInfo();
+        qApp->quit();
+    });
+    
+    updater->checkForUpdates();
+    return a.exec();
+}
+```
+
+##### UpdateScheduler
+##### UpdateController
 
 ## Documentation
 
