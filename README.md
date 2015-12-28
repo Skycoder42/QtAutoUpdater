@@ -34,6 +34,8 @@ A library to automatically check for updates and install them. This repository i
 
 ## Examples
 ##### Updater
+The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "./maintenancetool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
+
 ```c++
 #include <QCoreApplication>
 #include <QDebug>
@@ -42,15 +44,21 @@ A library to automatically check for updates and install them. This repository i
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("<path_to>/maintenancetool", &a);
-    updater->runUpdaterOnExit();
+    //create the updater with the application as parent -> will live long enough start the tool on exit
+    QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(&a);
     
-    QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool a, bool b){
-        qDebug() << "Has updates:" << a << "\nHas errors:" << b;
-        qDebug() << updater->updateInfo();
+    QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError) {
+        qDebug() << "Has updates:" << hasUpdate << "\nHas errors:" << hasError;
+        if(hasUpdate) {
+            //As soon as the application quits, the maintenancetool will be started in update mode
+            updater->runUpdaterOnExit();
+            qDebug() << "Update info:" << updater->updateInfo();
+        }
+        //Quit the application
         qApp->quit();
     });
     
+    //start the update check
     updater->checkForUpdates();
     return a.exec();
 }
