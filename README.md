@@ -1,4 +1,6 @@
 # QtAutoUpdater
+[TOC]
+
 A library to automatically check for updates and install them. This repository includes:
  - A library with the basic updater (without any GUI) and an update scheduler
  - A second library that requires the first one and adds basic GUI features
