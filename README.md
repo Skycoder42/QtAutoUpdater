@@ -4,7 +4,7 @@ A library to automatically check for updates and install them. This repository i
  - A second library that requires the first one and adds basic GUI features
 
 ## Main Features
-##### Core Library
+#### Core Library
  - Automatic Check for updates using the maintenancetool
  - Can automatically run the maintenancetool after the application finished
    - To run as admin/root, either use the GUI or implement it yourself (via an interface)
@@ -16,7 +16,7 @@ A library to automatically check for updates and install them. This repository i
    - Supports custom Schedule-types (via an interface)
    - can store unfinished tasks and complete them the next time the application runs, if they are valid
 
-##### GUI Library
+#### GUI Library
  - Requires Widgets (no direct QML-support, and I'm not intending to create one. If you want to use the updater in QML, do the connection yourself!)
  - Automated controller to guide the user through the check-for-updates process
    - customizable: you can decide what to show
@@ -33,7 +33,10 @@ A library to automatically check for updates and install them. This repository i
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library 
 
 ## Examples
-##### Updater
+**Important:**<br>
+Since this library requires the maintenancetool that is deployed with every Qt Installer Framework installation, the examples cannot be tested without a maintenancetool! If you intend to use this library, the maintenancetool will be available for your final application. For testing purpose or the examples, I set the path to the MaintenanceTool that is deployed with the installation of Qt (since you all should have at least that one). So make shure to adjust the path if you try to run the example.
+
+#### Updater
 The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "./maintenancetool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
 
 ```c++
@@ -45,7 +48,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     //create the updater with the application as parent -> will live long enough start the tool on exit
-    QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(&a);
+    //QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(&a);
+    QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
     
     QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError) {
         qDebug() << "Has updates:" << hasUpdate << "\nHas errors:" << hasError;
@@ -64,8 +68,35 @@ int main(int argc, char *argv[])
 }
 ```
 
-##### UpdateScheduler
-##### UpdateController
+#### UpdateController
+This example will show you the full capability of the controller. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the Tests/WidegtsTest application.
+
+```c++
+#include <QApplication>
+#include <updatecontroller.h>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    //Since there is no mainwindow, the various dialogs should not quit the app
+    QApplication::setQuitOnLastWindowClosed(false);
+    //create the update controller with the application as parent -> will live long enough start the tool on exit
+    //since the parent is not a widget, all dialogs will be top-level windows
+    //QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController(&a);
+    QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
+    
+    QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
+        qDebug() << "Running changed:" << running;
+        //quit the application as soon as the updating finished
+        if(!running)
+            qApp->quit();
+    });
+    
+    //start the update check -> AskLevel to give the user maximum control
+    controller->start(QtAutoUpdater::UpdateController::AskLevel);
+    return a.exec();
+}
+```
 
 ## Documentation
 
