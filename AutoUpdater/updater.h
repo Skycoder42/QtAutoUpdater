@@ -62,17 +62,16 @@ namespace QtAutoUpdater
 		//! Destructor
 		~Updater();
 
-		//! Returns true, if the updater exited normally
+		//! Returns `true`, if the updater exited normally
 		bool exitedNormally() const;
 		//! Returns the result-code of the last update
 		int getErrorCode() const;
 		//! returns the error output of the last update
 		QByteArray getErrorLog() const;
 
-		//! Returns true if the maintenancetool will be started on exit
+		//! Returns `true` if the maintenancetool will be started on exit
 		bool willRunOnExit() const;
 
-		//TODO check if ok so
 		//! READ-Accessor for Updater::maintenanceToolPath
 		QString maintenanceToolPath() const;
 		//! READ-Accessor for Updater::running
