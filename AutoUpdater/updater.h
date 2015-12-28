@@ -109,7 +109,7 @@ namespace QtAutoUpdater
 
 	signals:
 		//! Will be emitted as soon as the updater finished checking for updates
-		void checkUpdatesDone(bool hasUpdates, bool hasError);
+		void checkUpdatesDone(bool hasUpdates, bool hasError = false);
 
 		//! NOTIFY-Accessor for Updater::running
 		void runningChanged(bool running);
