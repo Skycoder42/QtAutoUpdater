@@ -1,4 +1,4 @@
-# Eat my shorts, Doxygen! This header line is ignored!\n
+A project by Skycoder42.
 # QtAutoUpdater {#mainpage}
 
 [TOC]
