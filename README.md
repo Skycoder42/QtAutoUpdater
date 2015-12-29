@@ -5,7 +5,7 @@ A library to automatically check for updates and install them. This repository i
  - A second library that requires the first one and adds basic GUI features
 
 ## Main Features
-#### Core Library
+### Core Library
  - Automatic Check for updates using the maintenancetool
  - Can automatically run the maintenancetool after the application finished
    - To run as admin/root, either use the GUI or implement it yourself (via an interface)
@@ -17,7 +17,7 @@ A library to automatically check for updates and install them. This repository i
    - Supports custom Schedule-types (via an interface)
    - can store unfinished tasks and complete them the next time the application runs, if they are valid
 
-#### GUI Library
+### GUI Library
  - Requires Widgets (no direct QML-support, and I'm not intending to create one. If you want to use the updater in QML, do the connection yourself!)
  - Automated controller to guide the user through the check-for-updates process
    - customizable: you can decide what to show
@@ -25,6 +25,16 @@ A library to automatically check for updates and install them. This repository i
  - "Run as Admin/root" fully supported on all 3 platforms
  - UpdateAction -> a QAction that starts the updater
  - UpdatePanel -> a button with a busy-indicator to to the same
+
+#### Screenshots
+Here some sample screenshots of the gui
+
+| Dialog Sample      | Windows                                   | Mac                                       | X11                                       |
+|--------------------|-------------------------------------------|-------------------------------------------|-------------------------------------------|
+| Progress Dialog    | ![](./doc/images/win/dialog_progress.png) | ![](./doc/images/mac/dialog_progress.png) | ![](./doc/images/x11/dialog_progress.png) |
+| Information Dialog | ![](./doc/images/win/dialog_info.png)     | ![](./doc/images/mac/dialog_info.png)     | ![](./doc/images/x11/dialog_info.png)     |
+| Update Panel       | ![](./doc/images/win/panel_checking.png)  | ![](./doc/images/mac/panel_checking.png)  | ![](./doc/images/x11/panel_checking.png)  |
+| Update Action      | ![](./doc/images/win/action.png)          | ![](./doc/images/mac/action.png)          | ![](./doc/images/x11/action.png)          |
 
 ## Requirements
  - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at https://download.qt.io/official_releases/qt-installer-framework/)
