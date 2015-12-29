@@ -276,20 +276,22 @@ QDateTime UpdateTaskList::currentTask() const
 
 bool UpdateTaskList::nextTask()
 {
-	if(this->isEmpty())
-		return false;
+    if(this->isEmpty())
+        return false;
 
-	if(this->first()->nextTask())
-		return true;
-	else {
-		do {
-			if(this->first()->hasTasks())
-				return true;
-			else
-				delete this->takeFirst();
-		} while(!this->isEmpty());
-		return false;
-	}
+    if(this->first()->nextTask())
+        return true;
+    else {
+        bool blockFirstHas = false;
+        do {
+            if(blockFirstHas && this->first()->hasTasks())
+                return true;
+            else
+                delete this->takeFirst();
+            blockFirstHas = true;
+        } while(!this->isEmpty());
+        return false;
+    }
 }
 
 QByteArray UpdateTaskList::store() const
