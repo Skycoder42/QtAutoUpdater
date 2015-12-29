@@ -794,14 +794,14 @@ WARN_LOGFILE           =
 
 INPUT                  = ../README.md \
                          ../AutoUpdater/updater.h \
-						 ../AutoUpdater/updater.dox \
-						 ../AutoUpdater/adminauthoriser.h \
-						 ../AutoUpdater/adminauthoriser.dox \
+                         ../AutoUpdater/updater.dox \
+                         ../AutoUpdater/adminauthoriser.h \
+                         ../AutoUpdater/adminauthoriser.dox \
                          ../AutoUpdater/updatetask.h \
-						 ../AutoUpdater/updatetask.dox \
-						 ../AutoUpdater/updateschedulercontroller.h \
+                         ../AutoUpdater/updatetask.dox \
+                         ../AutoUpdater/updateschedulercontroller.h \
                          ../AutoUpdater/updateschedulercontroller.dox \
-						 ../AutoUpdaterWidgets/updatecontroller.h \
+                         ../AutoUpdaterWidgets/updatecontroller.h \
                          ../AutoUpdaterWidgets/updatecontroller.dox
 
 # This tag can be used to specify the character encoding of the source files
