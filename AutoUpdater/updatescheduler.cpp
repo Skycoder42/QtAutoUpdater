@@ -1,192 +1,182 @@
 #include "updatescheduler.h"
-#include "updatescheduler_p.h"
 #include <QCoreApplication>
 #include <QDebug>
 using namespace QtAutoUpdater;
 
+#define LOCKER QMutexLocker(&this->mutex)
+
+class UpdateSchedulerPrivate : public UpdateScheduler{};
 Q_GLOBAL_STATIC(UpdateSchedulerPrivate, privateInstance)
+
+QString UpdateScheduler::tIndexToInfo(const std::type_index &info)
+{
+	return QString::fromLocal8Bit(info.name());
+}
+
+UpdateTask *UpdateScheduler::buildTask(const QString &info, const QByteArray &data)
+{
+	QMutexLocker(&privateInstance->mutex);
+
+	Internal::UpdateTaskBuilder *builder = privateInstance->builderMap.value(info, NULL);
+	if(builder)
+		return builder->buildTask(data);
+	else
+		return NULL;
+}
 
 UpdateScheduler *UpdateScheduler::instance()
 {
-	return privateInstance->q_ptr;
+	return privateInstance;
 }
 
-void UpdateScheduler::registerTaskBuilder(const std::type_index &type, Internal::UpdateTaskBuilder *builder)
+bool UpdateScheduler::start(QSettings *settings)
 {
-	Q_D(UpdateScheduler);
-	QString tInfo = UpdateSchedulerPrivate::tIndexToInfo(type);
+	LOCKER;
 
-	delete d->builderMap.take(tInfo);
-	d->builderMap.insert(tInfo, builder);
-}
-
-bool UpdateScheduler::setSettingsGroup(const QString &group)
-{
-	Q_D(UpdateScheduler);
-	if(d->isActive)
+	if(this->isActive)
 		return false;
+	this->isActive = true;
 
-	if(d->settings)
-		d->settings->deleteLater();
-	d->settings = new QSettings();
-	d->settings->beginGroup(group);
-	return true;
-}
-
-bool UpdateScheduler::setSettingsObject(QSettings *settingsObject)
-{
-	Q_D(UpdateScheduler);
-	if(d->isActive || !settingsObject)
-		return false;
-
-	if(d->settings)
-		d->settings->deleteLater();
-	d->settings = settingsObject;
-	d->settings->setParent(this);
-	return true;
-}
-
-void UpdateScheduler::start()
-{
-	Q_D(UpdateScheduler);
-	if(d->isActive)
-		return;
-	d->isActive = true;
-
-	if(!d->settings) {
-		d->settings = new QSettings();
-		d->settings->beginGroup(QStringLiteral("QtAutoUpdater/UpdateScheduler"));
+	if(!settings) {
+		settings = new QSettings(this);
+		settings->beginGroup(QStringLiteral("QtAutoUpdater/UpdateScheduler"));
 	}
-	d->settings->sync();
+	this->settings = settings;
+	this->settings->sync();
 
-	int max = d->settings->beginReadArray(QStringLiteral("scheduleMemory"));
+	int max = this->settings->beginReadArray(QStringLiteral("scheduleMemory"));
 	for(int i = 0; i < max; ++i) {
-		d->settings->setArrayIndex(i);
+		this->settings->setArrayIndex(i);
 
 		QString info;
-		info = d->settings->value(QStringLiteral("name")).toString();
-		Internal::UpdateTaskBuilder *builder = d->builderMap.value(info, NULL);
+		info = this->settings->value(QStringLiteral("name")).toString();
+		Internal::UpdateTaskBuilder *builder = this->builderMap.value(info, NULL);
 		if(builder) {
-			UpdateTask *task = builder->buildTask(d->settings->value(QStringLiteral("data")).toByteArray());
-			int groupID = d->settings->value(QStringLiteral("taskID")).toInt();
-			if(task && groupID)
-				d->updateTasks.insert(groupID, task);
+			UpdateTask *task = builder->buildTask(this->settings->value(QStringLiteral("data")).toByteArray());
+			int taskID = this->settings->value(QStringLiteral("taskID")).toInt();
+			if(task && taskID)
+				this->updateTasks.insert(task, taskID);
 		}
 	}
-	d->settings->endArray();
+	this->settings->endArray();
 
-	d->taskTimer = TimerObject::createTimer(this);
-	QObject::connect(d->taskTimer, &TimerObject::taskFired,
+	this->taskTimer = TimerObject::createTimer(this);
+	QObject::connect(this->taskTimer, &TimerObject::taskFired,
 					 this, &UpdateScheduler::taskFired,
 					 Qt::QueuedConnection);
-	QObject::connect(d->taskTimer, &TimerObject::taskDone,
+	QObject::connect(this->taskTimer, &TimerObject::taskDone,
 					 this, &UpdateScheduler::taskDone,
 					 Qt::QueuedConnection);
 
-	for(UpdateTask *task : d->updateTasks) {
-		QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
+	for(UpdateTask *task : this->updateTasks.keys()) {
+		QMetaObject::invokeMethod(this->taskTimer, "addTask", Qt::QueuedConnection,
 								  Q_ARG(QtAutoUpdater::UpdateTask*, task));
 	}
+
+	return true;
 }
 
-void UpdateScheduler::stop()
+bool UpdateScheduler::stop(bool writeSettings)
 {
-	Q_D(UpdateScheduler);
-	if(!d->isActive)
-		return;
+	LOCKER;
 
-	d->taskTimer->destroyTimer();
-	d->taskTimer = NULL;
+	if(!this->isActive)
+		return false;
 
-	d->settings->remove(QStringLiteral("scheduleMemory"));
-	d->settings->beginWriteArray(QStringLiteral("scheduleMemory"));
+	this->taskTimer->destroyTimer();
+	this->taskTimer = NULL;
+
+	this->settings->remove(QStringLiteral("scheduleMemory"));
+	if(writeSettings)
+		this->settings->beginWriteArray(QStringLiteral("scheduleMemory"));
 	int i = 0;
-	for(int groupID : d->updateTasks.keys()) {
-		for(UpdateTask *task : d->updateTasks.values(groupID)) {
-			if(task->hasTasks()) {
-				QByteArray data = task->store();
-				if(!data.isEmpty()) {
-					d->settings->setArrayIndex(i++);
+	typedef QHash<UpdateTask*, int>::iterator itr;
+	for(itr it = this->updateTasks.begin(), end = this->updateTasks.end(); it != end; ++it) {
+		if(writeSettings && it.key()->hasTasks()) {
+			QByteArray data = it.key()->store();
+			if(!data.isEmpty()) {
+				this->settings->setArrayIndex(i++);
 
-					d->settings->setValue(QStringLiteral("name"), UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex()));
-					d->settings->setValue(QStringLiteral("taskID"), groupID);
+				this->settings->setValue(QStringLiteral("name"), UpdateScheduler::tIndexToInfo(it.key()->typeIndex()));
+				this->settings->setValue(QStringLiteral("taskID"), it.value());
 
-					d->settings->setValue(QStringLiteral("data"), data);
-				}
+				this->settings->setValue(QStringLiteral("data"), data);
 			}
-			delete task;
 		}
+		delete it.key();
 	}
-	d->settings->endArray();
-	d->settings->sync();
+	if(writeSettings)
+		this->settings->endArray();
+	this->settings->sync();
+	this->settings->deleteLater();
+	this->settings = NULL;
 
-	d->updateTasks.clear();
-	d->isActive = true;
+	this->updateTasks.clear();
+	this->isActive = false;
+	return true;
 }
 
-void UpdateScheduler::scheduleTask(int taskGroupID, UpdateTask *task)
+void UpdateScheduler::addBuilder(const QString &id, Internal::UpdateTaskBuilder *builder)
 {
-	Q_D(UpdateScheduler);
-	if(taskGroupID != 0) {
-		d->updateTasks.insert(taskGroupID, task);
-		if(d->isActive) {
-			QMetaObject::invokeMethod(d->taskTimer, "addTask", Qt::QueuedConnection,
-									  Q_ARG(QtAutoUpdater::UpdateTask*, task));
-		}
-	} else
-		delete task;
+	LOCKER;
+
+	delete this->builderMap.take(id);
+	this->builderMap.insert(id, builder);
 }
 
 int UpdateScheduler::scheduleTask(UpdateTask *task)
 {
-	Q_D(UpdateScheduler);
+	LOCKER;
+
+	if(!this->isActive)
+		this->start();
 
 	int val;
 	do {
-		val = (INT_MAX - RAND_MAX) + qrand();
-	} while(d->updateTasks.contains(val));
+		val = (qrand() << 16) + qrand() + 1;
+	} while(this->updateTasks.values().contains(val));
 
-	this->scheduleTask(val, task);
+	this->updateTasks.insert(task, val);
+	QMetaObject::invokeMethod(this->taskTimer, "addTask", Qt::QueuedConnection,
+							  Q_ARG(QtAutoUpdater::UpdateTask*, task));
 	return val;
 }
 
-void UpdateScheduler::cancelTaskGroup(int taskGroupID)
+void UpdateScheduler::cancelTask(int taskID)
 {
-	Q_D(UpdateScheduler);
-	for(UpdateTask *task : d->updateTasks.values(taskGroupID)) {
-		QMetaObject::invokeMethod(d->taskTimer, "removeTask", Qt::QueuedConnection,
+	LOCKER;
+
+	UpdateTask *task = this->updateTasks.key(taskID, NULL);
+	if(task) {
+		QMetaObject::invokeMethod(this->taskTimer, "removeTask", Qt::QueuedConnection,
 								  Q_ARG(QtAutoUpdater::UpdateTask*, task));
 	}
 }
 
 void UpdateScheduler::taskFired(UpdateTask *task)
 {
-	Q_D(UpdateScheduler);
-	int groupID = d->updateTasks.key(task, 0);
-	if(groupID)
-		emit taskReady(groupID);
+	LOCKER;
+
+	int taskID = this->updateTasks.value(task, 0);
+	if(taskID)
+		emit taskReady(taskID);
 }
 
 void UpdateScheduler::taskDone(UpdateTask *task)
 {
-	Q_D(UpdateScheduler);
-	int groupID = d->updateTasks.key(task);
-	if(groupID) {
-		d->updateTasks.remove(groupID, task);
-		if(!d->updateTasks.contains(groupID))
-			emit taskGroupFinished(groupID);
+	LOCKER;
+
+	int taskID = this->updateTasks.value(task, 0);
+	if(taskID) {
+		this->updateTasks.remove(task);
+		delete task;
+		emit taskFinished(taskID);
 	}
 }
 
-UpdateScheduler::UpdateScheduler(UpdateSchedulerPrivate *d_ptr) :
+UpdateScheduler::UpdateScheduler() :
 	QObject(NULL),
-	d_ptr(d_ptr)
-{}
-
-// ------------ PRIVATE IMPLEMENTATION ------------
-
-UpdateSchedulerPrivate::UpdateSchedulerPrivate() :
-	q_ptr(new UpdateScheduler(this)),
+	mutex(QMutex::NonRecursive),
 	isActive(false),
 	settings(NULL),
 	builderMap(),
@@ -196,26 +186,12 @@ UpdateSchedulerPrivate::UpdateSchedulerPrivate() :
 	qsrand(QDateTime::currentMSecsSinceEpoch());
 
 	QObject::connect(qApp, &QCoreApplication::aboutToQuit,
-					 this->q_ptr, &UpdateScheduler::stop);
+					 this, [this](){
+		this->stop(true);
+	});
 }
 
-UpdateSchedulerPrivate::~UpdateSchedulerPrivate()
+UpdateScheduler::~UpdateScheduler()
 {
 	qDeleteAll(this->builderMap.values());
-
-	delete this->q_ptr;
-}
-
-QString UpdateSchedulerPrivate::tIndexToInfo(const std::type_index &info)
-{
-	return QString::fromLocal8Bit(info.name());
-}
-
-UpdateTask *UpdateSchedulerPrivate::buildTask(const QString &info, const QByteArray &data)
-{
-	Internal::UpdateTaskBuilder *builder = privateInstance->builderMap.value(info, NULL);
-	if(builder)
-		return builder->buildTask(data);
-	else
-		return NULL;
 }

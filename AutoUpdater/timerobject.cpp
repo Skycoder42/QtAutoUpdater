@@ -27,7 +27,7 @@ TimerObject *TimerObject::createTimer(QObject *threadParent)
 			timerThread->terminate();
 	}, Qt::DirectConnection);
 
-	timerThread->start(QThread::HighPriority);
+	timerThread->start();
 	return timer;
 }
 
@@ -49,7 +49,7 @@ void TimerObject::addTask(UpdateTask *task)
 		emit taskDone(task);
 	else {
 		int tId = this->startTimer(QDateTime::currentDateTime().msecsTo(task->currentTask()),
-								   Qt::PreciseTimer);
+								   Qt::VeryCoarseTimer);
 		if(tId != 0)
 			this->taskMap.insert(tId, task);
 		else

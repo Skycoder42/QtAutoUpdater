@@ -65,8 +65,8 @@ namespace QtAutoUpdater
 		void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
 		void updaterError(QProcess::ProcessError error);
 
-		void taskReady(int groupID);
-		void taskDone(int groupID);
+		void taskReady(int taskID);
+		void taskDone(int taskID);
 
 		void appAboutToExit();
 	};

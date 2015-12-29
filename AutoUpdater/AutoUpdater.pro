@@ -16,16 +16,17 @@ SOURCES += \
     updater_p.cpp \
     updatescheduler.cpp \
     updatetask.cpp \
-    timerobject.cpp
+    timerobject.cpp \
+    updateschedulercontroller.cpp
 
 HEADERS += \
     updater.h \
     updater_p.h \
 	adminauthoriser.h \
     updatescheduler.h \
-    updatescheduler_p.h \
     updatetask.h \
-    timerobject.h
+    timerobject.h \
+    updateschedulercontroller.h
 
 DISTFILES += \
     adminauthoriser.dox \

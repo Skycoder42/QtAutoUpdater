@@ -20,10 +20,9 @@ static void libInit()
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
 	qRegisterMetaType<QtAutoUpdater::UpdateTask*>("QtAutoUpdater::UpdateTask*");
 
-	UpdateScheduler *scheduler = UpdateScheduler::instance();
-	scheduler->registerTaskBuilder<BasicLoopUpdateTask>();
-	scheduler->registerTaskBuilder<TimePointUpdateTask>();
-	scheduler->registerTaskBuilder<UpdateTaskList>();
+	UpdateSchedulerController::registerTaskBuilder<BasicLoopUpdateTask>();
+	UpdateSchedulerController::registerTaskBuilder<TimePointUpdateTask>();
+	UpdateSchedulerController::registerTaskBuilder<UpdateTaskList>();
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 
@@ -46,15 +45,17 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 			this, &UpdaterPrivate::appAboutToExit);
 
 	connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
-			this, &UpdaterPrivate::taskReady);
-	connect(UpdateScheduler::instance(), &UpdateScheduler::taskGroupFinished,
-			this, &UpdaterPrivate::taskDone);
+			this, &UpdaterPrivate::taskReady,
+			Qt::QueuedConnection);
+	connect(UpdateScheduler::instance(), &UpdateScheduler::taskFinished,
+			this, &UpdaterPrivate::taskDone,
+			Qt::QueuedConnection);
 }
 
 UpdaterPrivate::~UpdaterPrivate()
 {
 	for(int taskID : this->updateTasks)
-		UpdateScheduler::instance()->cancelTaskGroup(taskID);
+		UpdateScheduler::instance()->cancelTask(taskID);
 
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
@@ -237,15 +238,15 @@ void UpdaterPrivate::updaterError(QProcess::ProcessError error)
 	}
 }
 
-void UpdaterPrivate::taskReady(int groupID)
+void UpdaterPrivate::taskReady(int taskID)
 {
-	if(this->updateTasks.contains(groupID))
+	if(this->updateTasks.contains(taskID))
 		this->startUpdateCheck();
 }
 
-void UpdaterPrivate::taskDone(int groupID)
+void UpdaterPrivate::taskDone(int taskID)
 {
-	this->updateTasks.removeAll(groupID);
+	this->updateTasks.removeAll(taskID);
 }
 
 void UpdaterPrivate::appAboutToExit()

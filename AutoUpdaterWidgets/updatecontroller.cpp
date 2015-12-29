@@ -171,7 +171,6 @@ bool UpdateController::cancelUpdate(int maxDelay)
 int UpdateController::scheduleUpdate(UpdateTask *task, UpdateController::DisplayLevel displayLevel)
 {
 	Q_D(UpdateController);
-	UpdateScheduler::instance()->start();
 	int id = UpdateScheduler::instance()->scheduleTask(task);
 	d->updateTasks.insert(id, displayLevel);
 	return id;
@@ -179,7 +178,7 @@ int UpdateController::scheduleUpdate(UpdateTask *task, UpdateController::Display
 
 void UpdateController::cancelScheduledUpdate(int taskId)
 {
-	UpdateScheduler::instance()->cancelTaskGroup(taskId);
+	UpdateScheduler::instance()->cancelTask(taskId);
 }
 
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
@@ -299,15 +298,17 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 					 this->updateAction, &QAction::setDisabled);
 
 	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
-					 q_ptr, &UpdateController::taskReady);
-	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskGroupFinished,
-					 q_ptr, &UpdateController::taskDone);
+					 q_ptr, &UpdateController::taskReady,
+					 Qt::QueuedConnection);
+	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskFinished,
+					 q_ptr, &UpdateController::taskDone,
+					 Qt::QueuedConnection);
 }
 
 UpdateControllerPrivate::~UpdateControllerPrivate()
 {
 	for(int taskID : this->updateTasks.keys())
-		UpdateScheduler::instance()->cancelTaskGroup(taskID);
+		UpdateScheduler::instance()->cancelTask(taskID);
 
 	delete this->mainUpdater;
 }

@@ -77,7 +77,6 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 int Updater::scheduleUpdate(UpdateTask *task)
 {
 	Q_D(Updater);
-	UpdateScheduler::instance()->start();
 	int id = UpdateScheduler::instance()->scheduleTask(task);
 	d->updateTasks.append(id);
 	return id;
@@ -85,7 +84,7 @@ int Updater::scheduleUpdate(UpdateTask *task)
 
 void Updater::cancelScheduledUpdate(int taskId)
 {
-	UpdateScheduler::instance()->cancelTaskGroup(taskId);
+	UpdateScheduler::instance()->cancelTask(taskId);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)

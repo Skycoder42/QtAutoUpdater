@@ -17,13 +17,7 @@ Q_DECLARE_METATYPE(TaskFunc)
 #include <QCoreApplication>
 #include <QSignalSpy>
 
-#if defined(Q_OS_WIN32)
-#define TEST_DELAY 100
-#elif defined(Q_OS_OSX)
 #define TEST_DELAY 1000
-#elif defined(Q_OS_UNIX)
-#define TEST_DELAY 1000
-#endif
 
 class UpdaterTest : public QObject
 {
@@ -54,33 +48,34 @@ private:
 	QSignalSpy *runningSpy;
 	QSignalSpy *updateInfoSpy;
 
+	QSettings *taskSettings;
 	QSignalSpy *taskSyp;
 };
 
 void UpdaterTest::initTestCase()
 {
 	this->taskSyp = new QSignalSpy(UpdateScheduler::instance(), &UpdateScheduler::taskReady);
-	QSettings *settings = new QSettings(QDir::temp().absoluteFilePath("tst_updatertest.cpp.settings.ini"),
-										QSettings::IniFormat);
-	qDebug() << settings->fileName();
-	QVERIFY(settings->isWritable());
-	QVERIFY(UpdateScheduler::instance()->setSettingsObject(settings));
-
-	UpdateScheduler::instance()->start();
+	this->taskSettings = new QSettings(QDir::temp().absoluteFilePath("tst_updatertest.cpp.settings.ini"),
+									   QSettings::IniFormat);
+	qDebug() << this->taskSettings->fileName();
+	QVERIFY(this->taskSettings->isWritable());
+	QVERIFY(UpdateScheduler::instance()->start(this->taskSettings));
 }
 
 void UpdaterTest::cleanupTestCase()
 {
-	UpdateScheduler::instance()->stop();
+	QVERIFY(UpdateScheduler::instance()->stop(true));
 }
 
 void UpdaterTest::testSchedulerLoad()
 {
+	int id = this->taskSettings->value("testID", 0).toInt();
+	QVERIFY(id);
 	QVERIFY(this->taskSyp->wait(10000 + TEST_DELAY));//wait the 10 seconds of the stored task
 	QCOMPARE(this->taskSyp->size(), 1);
-	QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), 42);
+	QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), id);
 
-	UpdateScheduler::instance()->cancelTaskGroup(42);
+	UpdateScheduler::instance()->cancelTask(id);
 }
 
 void UpdaterTest::testUpdaterInitState()
@@ -245,7 +240,13 @@ void UpdaterTest::testUpdateCheck()
 
 void UpdaterTest::testSchedulerSave()
 {
-	UpdateScheduler::instance()->scheduleTask(42, new BasicLoopUpdateTask(TimeSpan(10, TimeSpan::Seconds), 1));
+	int id = UpdateScheduler::instance()->scheduleTask(new BasicLoopUpdateTask(TimeSpan(10,
+																						TimeSpan::Seconds),
+																			   1));
+	QVERIFY(id);
+	this->taskSettings->setValue("testID", id);
+	QCOMPARE(this->taskSettings->value("testID", 0).toInt(), id);
+	this->taskSettings->sync();
 }
 
 void UpdaterTest::testScheduler_data()

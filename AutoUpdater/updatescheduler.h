@@ -5,74 +5,54 @@
 #include <QDateTime>
 #include <QVector>
 #include <QSettings>
+#include <QMap>
+#include <QMultiHash>
+#include <QMutex>
 #include <typeindex>
 #include "updatetask.h"
+#include "timerobject.h"
+#include "updateschedulercontroller.h"
 
 namespace QtAutoUpdater
 {
-	class UpdateScheduler;
-
-	// internal
-	namespace Internal
-	{
-		class UpdateTaskBuilder
-		{
-		public:
-			virtual inline ~UpdateTaskBuilder() {}
-			virtual UpdateTask *buildTask(const QByteArray &data) = 0;
-		};
-
-		template <class Task>
-		class GenericUpdateTaskBuilder : public UpdateTaskBuilder
-		{
-			friend class QtAutoUpdater::UpdateScheduler;
-		public:
-			inline UpdateTask *buildTask(const QByteArray &data) Q_DECL_OVERRIDE {
-				return new Task(data);
-			}
-		private:
-			inline GenericUpdateTaskBuilder() {}
-		};
-	}
-
-	class UpdateSchedulerPrivate;
 	class UpdateScheduler : public QObject
 	{
 		Q_OBJECT
+
 	public:
+		static QString tIndexToInfo(const std::type_index &info);
+		static UpdateTask *buildTask(const QString &info, const QByteArray &data);
+
 		static UpdateScheduler *instance();
 
-		template <class Task>
-		inline void registerTaskBuilder() {
-			this->registerTaskBuilder(typeid(Task), new Internal::GenericUpdateTaskBuilder<Task>());
-		}
+		bool start(QSettings *settings = NULL);
+		bool stop(bool writeSettings);
+		void addBuilder(const QString &id, Internal::UpdateTaskBuilder *builder);
 
-		bool setSettingsGroup(const QString &group);
-		bool setSettingsObject(QSettings *settingsObject);
-
-	public slots:
-		void start();
-		void stop();
-
-		void scheduleTask(int taskGroupID, QtAutoUpdater::UpdateTask *task);
 		int scheduleTask(QtAutoUpdater::UpdateTask *task);
-
-		void cancelTaskGroup(int taskGroupID);
+		void cancelTask(int taskID);
 
 	signals:
-		void taskReady(int taskGroupID);
-		void taskGroupFinished(int taskGroupID);
+		void taskReady(int taskID);
+		void taskFinished(int taskID);
 
 	private slots:
 		void taskFired(QtAutoUpdater::UpdateTask *task);
 		void taskDone(QtAutoUpdater::UpdateTask *task);
 
-	private:
-		UpdateScheduler(UpdateSchedulerPrivate *d_ptr);
-		void registerTaskBuilder(const std::type_index &type, Internal::UpdateTaskBuilder *builder);
+	protected:
+		UpdateScheduler();
+		~UpdateScheduler();
 
-		UpdateSchedulerPrivate *d_ptr;
-		Q_DECLARE_PRIVATE(UpdateScheduler)
+	private:
+		QMutex mutex;
+
+		bool isActive;
+		QSettings *settings;
+		QHash<QString, Internal::UpdateTaskBuilder*> builderMap;
+
+		QHash<UpdateTask*, int> updateTasks;
+		TimerObject *taskTimer;
 	};
 }
 

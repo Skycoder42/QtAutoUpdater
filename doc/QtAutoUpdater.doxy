@@ -794,7 +794,6 @@ WARN_LOGFILE           =
 
 INPUT                  = ../AutoUpdater/adminauthoriser.h \
                          ../AutoUpdater/updater.h \
-                         ../AutoUpdater/updatescheduler.h \
                          ../AutoUpdater/updatetask.h \
                          ../AutoUpdaterWidgets/updatecontroller.h \
                          ../README.md \
@@ -802,7 +801,9 @@ INPUT                  = ../AutoUpdater/adminauthoriser.h \
                          ../AutoUpdater/adminauthoriser.h \
                          ../AutoUpdater/updater.dox \
                          ../AutoUpdater/adminauthoriser.h \
-                         ../AutoUpdater/updatetask.dox
+                         ../AutoUpdater/updatetask.dox \
+                         ../AutoUpdater/updateschedulercontroller.h \
+                         ../AutoUpdater/adminauthoriser.h
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

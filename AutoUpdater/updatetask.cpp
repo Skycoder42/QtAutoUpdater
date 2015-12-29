@@ -1,5 +1,5 @@
 #include "updatetask.h"
-#include "updatescheduler_p.h"
+#include "updatescheduler.h"
 #include <QDataStream>
 #include <QDebug>
 using namespace QtAutoUpdater;
@@ -248,7 +248,7 @@ UpdateTaskList::UpdateTaskList(const QByteArray &data) :
 		if(taskSize > 0) {
 			QByteArray taskData(taskSize, Qt::Uninitialized);
 			stream.readRawData(taskData.data(), taskSize);
-			UpdateTask *task = UpdateSchedulerPrivate::buildTask(tInfo, taskData);
+			UpdateTask *task = UpdateScheduler::buildTask(tInfo, taskData);
 			if(task)
 				this->append(task);
 		}
@@ -298,7 +298,7 @@ QByteArray UpdateTaskList::store() const
 	QDataStream stream(&data, QIODevice::WriteOnly);
 	stream << this->size();
 	for(UpdateTask *task : *this) {
-		stream << UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
+		stream << UpdateScheduler::tIndexToInfo(task->typeIndex());
 		QByteArray taskData = task->store();
 		stream << taskData.size();
 		if(taskData.size() > 0)
