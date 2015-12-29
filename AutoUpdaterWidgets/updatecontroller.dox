@@ -1,4 +1,61 @@
 /*!
+@page image_page Image Page
+
+@brief Shows sample images for the updater for all the supported platforms
+
+## Windows - Windows 10
+#### The Updater Elements
+@image html ./doc/images/win/dialog_ask.png "Ask Dialog"<br>
+@image html ./doc/images/win/dialog_progress.png "Progress Dialog"<br>
+@image html ./doc/images/win/dialog_no_updates.png "No Updates Dialog"<br>
+@image html ./doc/images/win/dialog_info.png "Update Information Dialog"<br>
+@image html ./doc/images/win/dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+
+#### The Update Panel
+@image html ./doc/images/win/panel_idle.png "Panel before clicking"<br>
+@image html ./doc/images/win/panel_checking.png "Panel while checking"<br>
+@image html ./doc/images/win/panel_updates.png "Panel with updates"<br>
+@image html ./doc/images/win/panel_no_updates.png "Panel without updates"<br>
+
+#### The Action
+@image html ./doc/images/win/action.png "Update action inside a menu and a toolbar"<br>
+
+## Mac - OsX 10.11
+#### The Updater Elements
+@image html ./doc/images/mac/dialog_ask.png "Ask Dialog"<br>
+@image html ./doc/images/mac/dialog_progress.png "Progress Dialog"<br>
+@image html ./doc/images/mac/dialog_no_updates.png "No Updates Dialog"<br>
+@image html ./doc/images/mac/dialog_info.png "Update Information Dialog"<br>
+@image html ./doc/images/mac/dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+
+#### The Update Panel
+@image html ./doc/images/mac/panel_idle.png "Panel before clicking"<br>
+@image html ./doc/images/mac/panel_checking.png "Panel while checking"<br>
+@image html ./doc/images/mac/panel_updates.png "Panel with updates"<br>
+@image html ./doc/images/mac/panel_no_updates.png "Panel without updates"<br>
+
+#### The Action
+@image html ./doc/images/mac/action.png "Update action inside a menu and a toolbar"<br>
+
+## X11 - Ubuntu 14.04
+#### The Updater Elements
+@image html ./doc/images/x11/dialog_ask.png "Ask Dialog"<br>
+@image html ./doc/images/x11/dialog_progress.png "Progress Dialog"<br>
+@image html ./doc/images/x11/dialog_no_updates.png "No Updates Dialog"<br>
+@image html ./doc/images/x11/dialog_info.png "Update Information Dialog"<br>
+@image html ./doc/images/x11/dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+
+#### The Update Panel
+@image html ./doc/images/x11/panel_idle.png "Panel before clicking"<br>
+@image html ./doc/images/x11/panel_checking.png "Panel while checking"<br>
+@image html ./doc/images/x11/panel_updates.png "Panel with updates"<br>
+@image html ./doc/images/x11/panel_no_updates.png "Panel without updates"<br>
+
+#### The Action
+@image html ./doc/images/x11/action.png "Update action inside a menu and a toolbar"<br>
+*/
+
+/*!
 @class QtAutoUpdater::UpdateController
 
 The update-controller is a helpful tool if you want to show a simple GUI to the users.
@@ -10,7 +67,7 @@ to do is starting this controller. This can be done in 4 ways:
  - Add the widget returned by UpdateController::createUpdatePanel somewhere in your gui
 
 ## Images
-<comming soon>
+For a full collection of all immages, please go to the @ref image_page "Image Page"
 
 ## Example
 This example will show you the full capability of the controller. Since there is no
