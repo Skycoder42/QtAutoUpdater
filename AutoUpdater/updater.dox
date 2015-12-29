@@ -30,7 +30,7 @@ evalute the results of the tool and generate update information of it. In additi
 it can schedule the maintenancetool to run in updater mode as soon as the application
 finishes. (This requires the Updater instance to exist until QCoreApplication::quit is called).
 
-### Example:
+## Example
 The following example shows the basic usage of the updater. It creates a new updater
 instance that is connected to the maintenancetool located at "./maintenancetool". As
 soon as the application starts, it will check for updates and print the update result.
@@ -80,21 +80,18 @@ int main(int argc, char *argv[])
 /*!
 @property QtAutoUpdater::Updater::maintenanceToolPath
 
-@default{"./maintenancetool"}
+@default{"./maintenancetool" on Windows/X11, "../../maintenancetool" on mac}
 
 The path of the maintenancetool has to be set inside of the constructor and cannot be
 changed later.<br>
 The path will be assumed relative to QCoreApplication::applicationDirPath(), the location
 of the currently running application.
 
-@note On Mac, the current path will be the AppFolder, for example:
-<i>/Applications/MyApp.app</i> instead off <i>/Applications/MyApp.app/Contents/MacOS</i>
-
 The updater will check whether or not the given path has a file-extension. If not, it
 will try to add the given extension. This will result into:
 
  - **Windows**: "./maintenancetool.exe"
- - **Mac**: "./maintenancetool.app/Content/MacOS/maintenancetool"
+ - **Mac**: "../../maintenancetool.app/Content/MacOS/maintenancetool"
  - **X11**: "./maintenancetool" (unchanged)
 
 @accessors{

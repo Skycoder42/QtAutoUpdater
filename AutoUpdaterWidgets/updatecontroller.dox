@@ -1,0 +1,56 @@
+/*!
+@class QtAutoUpdater::UpdateController
+
+The update-controller is a helpful tool if you want to show a simple GUI to the users.
+It offers an automated update process, controlled by the user. All thats left for you
+to do is starting this controller. This can be done in 4 ways:
+ - Call UpdateController::start somewhere in your code
+ - Schedule an update using UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
+ - Add the QAction returned by UpdateController::getUpdateAction somewhere in your gui
+ - Add the widget returned by UpdateController::createUpdatePanel somewhere in your gui
+
+## Images
+<comming soon>
+
+## Example
+This example will show you the full capability of the controller. Since there is no
+mainwindow in this example, you will only see the controller dialogs. Please not that
+you can control how much of that dialogset will be shown to the user. This example is
+reduced! for a full example with all parts of the controller, check the
+Tests/WidegtsTest application.
+
+@attention Since this library requires the maintenancetool that is deployed with every
+Qt Installer Framework installation, the examples cannot be tested without a
+maintenancetool! If you intend to use this library, the maintenancetool will be
+available for your final application. For testing purpose or the examples, I set the
+path to the MaintenanceTool that is deployed with the installation of Qt (since you
+all should have at least that one). So make shure to adjust the path if you try to run
+the example.
+
+@code{.cpp}
+#include <QApplication>
+#include <updatecontroller.h>
+
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	//Since there is no mainwindow, the various dialogs should not quit the app
+	QApplication::setQuitOnLastWindowClosed(false);
+	//create the update controller with the application as parent -> will live long enough start the tool on exit
+	//since the parent is not a widget, all dialogs will be top-level windows
+	//QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController(&a);
+	QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
+
+	QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
+		qDebug() << "Running changed:" << running;
+		//quit the application as soon as the updating finished
+		if(!running)
+			qApp->quit();
+	});
+
+	//start the update check -> AskLevel to give the user maximum control
+	controller->start(QtAutoUpdater::UpdateController::AskLevel);
+	return a.exec();
+}
+@endcode
+*/

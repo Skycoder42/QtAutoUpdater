@@ -21,7 +21,6 @@ struct QVersionNumber : public QString {
 
 namespace QtAutoUpdater
 {
-	//! @internal Private implementation
 	class UpdaterPrivate;
 	//! The main updater. Can check for updates and run the updater
 	class Updater : public QObject

@@ -792,19 +792,17 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../AutoUpdater/adminauthoriser.h \
+INPUT                  = ../README.md \
                          ../AutoUpdater/updater.h \
+						 ../AutoUpdater/updater.dox \
+						 ../AutoUpdater/adminauthoriser.h \
+						 ../AutoUpdater/adminauthoriser.dox \
                          ../AutoUpdater/updatetask.h \
-                         ../AutoUpdaterWidgets/updatecontroller.h \
-                         ../README.md \
-                         ../AutoUpdater/adminauthoriser.dox \
-                         ../AutoUpdater/adminauthoriser.h \
-                         ../AutoUpdater/updater.dox \
-                         ../AutoUpdater/adminauthoriser.h \
-                         ../AutoUpdater/updatetask.dox \
-                         ../AutoUpdater/updateschedulercontroller.h \
-                         ../AutoUpdater/adminauthoriser.h \
-                         ../AutoUpdater/updateschedulercontroller.dox
+						 ../AutoUpdater/updatetask.dox \
+						 ../AutoUpdater/updateschedulercontroller.h \
+                         ../AutoUpdater/updateschedulercontroller.dox \
+						 ../AutoUpdaterWidgets/updatecontroller.h \
+                         ../AutoUpdaterWidgets/updatecontroller.dox
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -2140,35 +2138,35 @@ SKIP_FUNCTION_MACROS   = YES
 # run, you must also specify the path to the tagfile here.
 
 TAGFILES               = C:/Qt/Docs/Qt-5.5/qtwebengine/qtwebengine.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtgraphicaleffects/qtgraphicaleffects.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qt3dcollision/qt3dcollision.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qt3dlogic/qt3dlogic.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qt3dcore/qt3dcore.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qt3drenderer/qt3drenderer.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtwebchannel/qtwebchannel.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtwebsockets/qtwebsockets.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtbluetooth/qtbluetooth.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtnfc/qtnfc.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtsensors/qtsensors.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtlocation/qtlocation.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtpositioning/qtpositioning.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/activeqt/activeqt.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtquickcontrols/qtquickcontrols.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtqml/qtqml.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtquick/qtquick.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtxmlpatterns/qtxmlpatterns.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtsvg/qtsvg.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qdoc/qdoc.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtprintsupport/qtprintsupport.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtconcurrent/qtconcurrent.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtgui/qtgui.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qttestlib/qttestlib.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtwidgets/qtwidgets.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtcore/qtcore.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtnetwork/qtnetwork.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtsql/qtsql.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtxml/qtxml.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.5/qtwebenginewidgets/qtwebenginewidgets.tags=http://doc.qt.io/qt-5
+                         C:/Qt/Docs/Qt-5.5/qtgraphicaleffects/qtgraphicaleffects.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qt3dcollision/qt3dcollision.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qt3dlogic/qt3dlogic.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qt3dcore/qt3dcore.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qt3drenderer/qt3drenderer.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtwebchannel/qtwebchannel.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtwebsockets/qtwebsockets.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtbluetooth/qtbluetooth.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtnfc/qtnfc.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtsensors/qtsensors.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtlocation/qtlocation.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtpositioning/qtpositioning.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/activeqt/activeqt.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtquickcontrols/qtquickcontrols.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtqml/qtqml.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtquick/qtquick.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtxmlpatterns/qtxmlpatterns.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtsvg/qtsvg.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qdoc/qdoc.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtprintsupport/qtprintsupport.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtconcurrent/qtconcurrent.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtgui/qtgui.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qttestlib/qttestlib.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtwidgets/qtwidgets.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtcore/qtcore.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtnetwork/qtnetwork.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtsql/qtsql.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtxml/qtxml.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.5/qtwebenginewidgets/qtwebenginewidgets.tags=http://doc.qt.io/qt-5
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create a
 # tag file that is based on the input files it reads. See section "Linking to

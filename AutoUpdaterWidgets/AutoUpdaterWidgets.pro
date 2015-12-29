@@ -41,4 +41,5 @@ FORMS += \
 RESOURCES += \
     autoupdaterwidgets_resource.qrc
 
-DISTFILES +=
+DISTFILES += \
+    updatecontroller.dox

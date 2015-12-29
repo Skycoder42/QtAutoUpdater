@@ -9,61 +9,91 @@
 namespace QtAutoUpdater
 {
 	class Updater;
+	//! @internal Private implementation
 	class UpdateControllerPrivate;
+	//! A class to show a controlled update GUI to the user
 	class UpdateController : public QObject
 	{
 		Q_OBJECT
 
+		//! Holds the path of the attached maintenancetool
 		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT)
+		//! Specifies whether the controller is currently active or not
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
+		//! Specifies whether the controller should run the updater as admin or not
 		Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin)
+		//! Holds the arguments to invoke the updater with
 		Q_PROPERTY(QStringList updateRunArgs READ updateRunArgs WRITE setUpdateRunArgs RESET resetUpdateRunArgs)
 
 	public:
+		//! Defines the different display-levels of the dialog
 		enum DisplayLevel {
-			AutomaticLevel = 0,
-			ExitLevel = 1,
-			InfoLevel = 2,
-			ExtendedInfoLevel = 3,
-			ProgressLevel = 4,
-			AskLevel = 5
+			AutomaticLevel = 0,//!< The lowest level. Nothing will be displayed at all.
+			ExitLevel = 1,//!< The whole updating works completly automatically. Only a notification that updates are ready to install will be shown.
+			InfoLevel = 2,//!< Will show information about updates if available, nothing otherwise
+			ExtendedInfoLevel = 3,//!< Will shwo information about the update result, for both cases, updates and no updates
+			ProgressLevel = 4,//!< Shows a (modal) progress dialog while checking for updates
+			AskLevel = 5//!< The highest level. Will ask the user if he wants to check for updates before actually checking
 		};
 		Q_ENUM(DisplayLevel)
 
+		//! Constructs a new controller with a parent. Will be application modal
 		explicit UpdateController(QObject *parent = NULL);
+		//! Constructs a new controller with a parent. Will modal to the parent window
 		explicit UpdateController(QWidget *parentWindow);
+		//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
 		explicit UpdateController(const QString &maintenanceToolPath, QObject *parent = NULL);
+		//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
 		explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow);
+		//! Destructor
 		~UpdateController();
 
+		//! Returns an QAction to start this controller from
 		QAction *getUpdateAction() const;
+		//! Creates a new "UpdatePanel" widget to place in your GUI
 		QWidget *createUpdatePanel(QWidget *parentWidget);
 
+		//! READ-Accessor for UpdateController::maintenanceToolPath
 		QString maintenanceToolPath() const;
+		//! READ-Accessor for UpdateController::currentDisplayLevel
 		DisplayLevel currentDisplayLevel() const;
+		//! READ-Accessor for UpdateController::running
 		bool isRunning() const;
+		//! READ-Accessor for UpdateController::runAsAdmin
 		bool runAsAdmin() const;
+		//! WRITE-Accessor for UpdateController::runAsAdmin
 		void setRunAsAdmin(bool runAsAdmin, bool userEditable = true);
+		//! READ-Accessor for UpdateController::updateRunArgs
 		QStringList updateRunArgs() const;
+		//! WRITE-Accessor for UpdateController::updateRunArgs
 		void setUpdateRunArgs(QStringList updateRunArgs);
+		//! RESET-Accessor for UpdateController::updateRunArgs
 		void resetUpdateRunArgs();
 
+		//! Returns the Updater object used by the controller
 		Updater *getUpdater() const;
 
 	public slots:
+		//! Starts the controller with the specified level.
 		bool start(DisplayLevel displayLevel = ProgressLevel);
+		//! Tries to cancel the controllers update
 		bool cancelUpdate(int maxDelay = 3000);
 
+		//! Schedules an update after a specific delay, optionally repeated
 		inline int scheduleUpdate(qint64 delayMinutes, bool repeated = false, DisplayLevel displayLevel = InfoLevel) {
 			return this->scheduleUpdate(new BasicLoopUpdateTask(TimeSpan(delayMinutes, TimeSpan::Minutes), repeated ? -1 : 1), displayLevel);
 		}
+		//! Schedules an update for a specific timepoint
 		inline int scheduleUpdate(const QDateTime &when, DisplayLevel displayLevel = InfoLevel) {
 			return this->scheduleUpdate(new TimePointUpdateTask(when), displayLevel);
 		}
+		//! Schedules an update using an UpdateTask
 		int scheduleUpdate(UpdateTask *task, DisplayLevel displayLevel = InfoLevel);
+		//! Cancels the update with taskId
 		void cancelScheduledUpdate(int taskId);
 
 	signals:
+		//! NOTIFY-Accessor for UpdateController::running
 		void runningChanged(bool running);
 
 	private slots:
