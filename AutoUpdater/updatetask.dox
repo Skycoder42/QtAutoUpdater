@@ -83,7 +83,7 @@ the settings and continue it. If you don't need to support this, just return an 
 
 If you however want to make use of it, you will have to make shure that your UpdateTask
 is registered as a storable task. This can be done by calling
-`UpdateScheduler::instance()->registerTaskBuilder&lt;MyUpdateTask&gt;();`. In addition to
+`UpdateSchedulerController::registerStoredTask&lt;MyUpdateTask&gt;();`. In addition to
 that, your task needs to provide a public constructor that takes a QByteArray as parameter.
 
 @sa UpdateScheduler, LoopUpdateTask, BasicLoopUpdateTask, TimePointUpdateTask,

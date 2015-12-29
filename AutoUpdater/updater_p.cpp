@@ -20,9 +20,9 @@ static void libInit()
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
 	qRegisterMetaType<QtAutoUpdater::UpdateTask*>("QtAutoUpdater::UpdateTask*");
 
-	UpdateSchedulerController::registerTaskBuilder<BasicLoopUpdateTask>();
-	UpdateSchedulerController::registerTaskBuilder<TimePointUpdateTask>();
-	UpdateSchedulerController::registerTaskBuilder<UpdateTaskList>();
+	UpdateSchedulerController::registerStoredTask<BasicLoopUpdateTask>();
+	UpdateSchedulerController::registerStoredTask<TimePointUpdateTask>();
+	UpdateSchedulerController::registerStoredTask<UpdateTaskList>();
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 

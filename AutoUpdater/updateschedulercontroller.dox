@@ -1,0 +1,70 @@
+/*!
+@class QtAutoUpdater::UpdateSchedulerController
+
+The controller allows you simple access to the UpdateScheduler. It allows you to register
+custom UpdateTask subclasses for storage and to change the settings and key to store those
+to.
+
+You can not directly access the UpdateScheduler. To schedule updates, user the Updater
+or UpdateController classes.
+
+@attention For the scheduler to be able to store Tasks, you have to make shure that the
+default constructor of QSettings returns a valid QSettings object. To do this, make
+shure that QCoreApplication::applicationName (and QCoreApplication::organizationName)
+are set properly or use UpdateSchedulerController::setSettingsObject for a custom settings
+object.
+
+@sa Updater::scheduleUpdate(UpdateTask *), UpdateController::scheduleUpdate(UpdateTask *),
+QSettings::QSettings(QObject *)
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateSchedulerController::registerStoredTask
+
+@tparam Task The custom task type to be registered for storing.
+
+@note `Task` must be a subclass of UpdateTask.
+
+Tasks registered for storage can be stored using UpdateTask::store and later restored
+by the UpdateScheduler. For a task to be storable, you will have to implement the store
+method to return valid data and provide a public constructor that takes a QByteArray
+as parameter.
+
+@sa UpdateTask, UpdateTask::store
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateSchedulerController::setSettingsGroup
+
+@param group The custom group to be used by the UpdateScheduler
+
+The scheduler will now use `group` as prefix for all settings entries instead of the
+default (which is `"QtAutoUpdater/UpdateScheduler"`). The settings object will be created
+using the default constructor.
+
+@attention Calling this function will reset the scheduler. This means all currently active
+tasks will be canceled and deleted **without** storing them. The scheduler will check the
+new settings for tasks to be loaded and loads them, if present
+
+@sa UpdateTask, UpdateTask::store, QSettings::QSettings(QObject *)
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateSchedulerController::setSettingsObject
+
+@param settingsObject The QSettings object to be used by the UpdateScheduler
+
+The scheduler will now use `settingsObject` to store tasks. If you want it to use a special
+group inside that settings, call QSettings::beginGroup before passing the object. If you
+pass `NULL`, the scheduler will reset it's internal settings and use the default. (A
+default-constructed QSettings object with the group `"QtAutoUpdater/UpdateScheduler"`)
+
+@warning The scheduler will take ownership of the `settingsObject` and delete it whenever
+he needs to. Make shure to not pass a stack object or delete it by your own.
+
+@attention Calling this function will reset the scheduler. This means all currently active
+tasks will be canceled and deleted **without** storing them. The scheduler will check the
+new settings for tasks to be loaded and loads them, if present
+
+@sa UpdateTask, UpdateTask::store, QSettings::QSettings(QObject *)
+*/

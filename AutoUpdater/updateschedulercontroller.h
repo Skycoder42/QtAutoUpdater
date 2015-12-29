@@ -33,20 +33,24 @@ namespace QtAutoUpdater
 		};
 	}
 
+	//! A static controller class to allow minor scheduler control
 	class UpdateSchedulerController
 	{
 	public:
+		//! Registers an UpdateTask subclass for storing
 		template <class Task>
-		static inline void registerTaskBuilder() {
-			UpdateSchedulerController::registerTaskBuilder(typeid(Task),
-														   new Internal::GenericUpdateTaskBuilder<Task>());
+		static inline void registerStoredTask() {
+			UpdateSchedulerController::addTaskBuilder(typeid(Task),
+													  new Internal::GenericUpdateTaskBuilder<Task>());
 		}
 
+		//! Changes the settings group
 		static void setSettingsGroup(const QString &group);
+		//! Changes the settings object
 		static void setSettingsObject(QSettings *settingsObject);
 
 	private:
-		static void registerTaskBuilder(const std::type_index &type, Internal::UpdateTaskBuilder *builder);
+		static void addTaskBuilder(const std::type_index &type, Internal::UpdateTaskBuilder *builder);
 	};
 }
 

@@ -31,5 +31,6 @@ HEADERS += \
 DISTFILES += \
     adminauthoriser.dox \
     updater.dox \
-    updatetask.dox
+    updatetask.dox \
+    updateschedulercontroller.dox
 
