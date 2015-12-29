@@ -52,28 +52,39 @@ namespace QtAutoUpdater
 		virtual QByteArray store() const = 0;
 	};
 
+	//! An interface to create basic looped tasks
 	class LoopUpdateTask : public UpdateTask
 	{
 	public:
+		//! The delay to be waited before the first trigger
 		virtual inline TimeSpan startDelay() const {
 			return this->pauseSpan();
 		}
+		//! The number of repetitions to be done
 		virtual qint64 repetitions() const = 0;
+		//! The timespan between each trigger
 		virtual TimeSpan pauseSpan() const = 0;
 
 		bool hasTasks() Q_DECL_OVERRIDE;
 		QDateTime currentTask() const Q_DECL_OVERRIDE;
 		bool nextTask() Q_DECL_OVERRIDE;
 
+	protected:
+		//! Returns the number of repetitions that are left
+		qint64 getLeftReps() const;
+
 	private:
 		QDateTime nextPoint;
 		qint64 repetitionsLeft;
 	};
 
+	//! A basic looped task
 	class BasicLoopUpdateTask : public LoopUpdateTask
 	{
 	public:
+		//! Constructs a loop task from a timespan and repetitions
 		BasicLoopUpdateTask(TimeSpan loopDelta, qint64 repeats = -1);
+		//! Constructs a loop task from stored data
 		BasicLoopUpdateTask(const QByteArray &data);
 
 		qint64 repetitions() const Q_DECL_OVERRIDE;
@@ -87,10 +98,13 @@ namespace QtAutoUpdater
 		qint64 repCount;
 	};
 
+	//! A task for a specific timepoint with optional repetitions
 	class TimePointUpdateTask : public UpdateTask
 	{
 	public:
+		//! Constructs a timepoint task for a specific timepoint
 		TimePointUpdateTask(const QDateTime &timePoint, TimeSpan::TimeUnit repeatFocus = TimeSpan::MilliSeconds);
+		//! Constructs a timepoint task from stored data
 		TimePointUpdateTask(const QByteArray &data);
 
 		bool hasTasks() Q_DECL_OVERRIDE;
@@ -107,11 +121,15 @@ namespace QtAutoUpdater
 		QDateTime nextPoint;
 	};
 
+	//! A simple list of tasks to be handeled sequentially
 	class UpdateTaskList : public QLinkedList<UpdateTask*>, public UpdateTask
 	{
 	public:
+		//! Constructs an emtpy task list
 		UpdateTaskList();
-		UpdateTaskList(std::initializer_list<UpdateTask*> list);
+		//! Constructs a task list from a list of UpdateTasks
+		UpdateTaskList(const std::initializer_list<UpdateTask*> &list);
+		//! Constructs a task list from stored data
 		UpdateTaskList(const QByteArray &data);
 
 		bool hasTasks() Q_DECL_OVERRIDE;

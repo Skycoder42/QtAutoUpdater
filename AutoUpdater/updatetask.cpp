@@ -91,6 +91,11 @@ bool LoopUpdateTask::nextTask()
 	return false;
 }
 
+qint64 LoopUpdateTask::getLeftReps() const
+{
+	return this->repetitionsLeft;
+}
+
 //-------- DelayedLoopUpdateTask --------
 
 BasicLoopUpdateTask::BasicLoopUpdateTask(TimeSpan loopDelta, qint64 repeats) :
@@ -124,7 +129,7 @@ QByteArray BasicLoopUpdateTask::store() const
 	QByteArray data;
 	QDataStream stream(&data, QIODevice::WriteOnly);
 	stream << this->loopDelta
-		   << this->repCount;
+		   << this->getLeftReps();
 	return data;
 }
 
@@ -222,7 +227,7 @@ UpdateTaskList::UpdateTaskList() :
 	UpdateTask()
 {}
 
-UpdateTaskList::UpdateTaskList(std::initializer_list<UpdateTask *> list) :
+UpdateTaskList::UpdateTaskList(const std::initializer_list<UpdateTask *> &list) :
 	QLinkedList(list),
 	UpdateTask()
 {}
@@ -240,12 +245,13 @@ UpdateTaskList::UpdateTaskList(const QByteArray &data) :
 
 		int taskSize;
 		stream >> taskSize;
-		QByteArray taskData(taskSize, Qt::Uninitialized);
-		stream.readRawData(taskData.data(), taskSize);
-
-		UpdateTask *task = UpdateSchedulerPrivate::buildTask(tInfo, taskData);
-		if(task)
-			this->append(task);
+		if(taskSize > 0) {
+			QByteArray taskData(taskSize, Qt::Uninitialized);
+			stream.readRawData(taskData.data(), taskSize);
+			UpdateTask *task = UpdateSchedulerPrivate::buildTask(tInfo, taskData);
+			if(task)
+				this->append(task);
+		}
 	}
 }
 
@@ -295,7 +301,8 @@ QByteArray UpdateTaskList::store() const
 		stream << UpdateSchedulerPrivate::tIndexToInfo(task->typeIndex());
 		QByteArray taskData = task->store();
 		stream << taskData.size();
-		stream.writeRawData(taskData.constData(), taskData.size());
+		if(taskData.size() > 0)
+			stream.writeRawData(taskData.constData(), taskData.size());
 	}
 	return data;
 }

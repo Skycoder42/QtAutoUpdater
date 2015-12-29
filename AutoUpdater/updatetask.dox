@@ -38,6 +38,11 @@ The UpdateTask defines the basic methods needed to be scheduled. Tasks can basic
 anything, e.g. an infinite loop that triggers every 42 seconds, or a task that only fires
 once on a specific date and time, ...
 
+@warning This is important for all UpdateTask subclasses! The UpdateScheduler will take
+ownership of the tasks and handel them in a different thread. The classes do not have
+to be thread-safe, as long as you don't access them anymore after passing them to the
+scheduler!
+
 ### Subclassing
 If you want to create your own task, you should implement the methods like shown below.
 But before doing that, you should check if the provided subclasses can fullfill your
@@ -124,4 +129,231 @@ UpdaterController::scheduleUpdate(UpdateTask *, DisplayLevel)
 @returns A QByteArray that contains a serialized version of the UpdateTask
 
 @sa UpdateTask
+*/
+
+/*!
+@class QtAutoUpdater::LoopUpdateTask
+
+The LoopUpdateTask is a baseclass to simplify the implementation of looped tasks. Please
+note that this implementation will not care about storing and loading data. It only
+"translates" the returns of the prue virtual functions into the ones required by an
+UpdateTask
+
+@sa UpdateTask, BasicLoopUpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::LoopUpdateTask::startDelay
+
+@returns A TimeSpan to be waited from the activation until the first trigger
+
+The default implementation will return LoopUpdateTask::pauseSpan.
+
+@sa LoopUpdateTask::pauseSpan, UpdateTask, BasicLoopUpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::LoopUpdateTask::repetitions
+
+@returns The number of repetitions to be done
+
+Should return how often this task should be triggered. Should be at least 1 (0 is invalid).
+If you want the task to be infinite, return any number below 0 (e.g. -1).
+
+@sa UpdateTask, BasicLoopUpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::LoopUpdateTask::pauseSpan
+
+@returns A TimeSpan to be waited between each trigger
+
+Return the wait-delay between each trigger. Make shure the value is great enough, since
+very small timespans (e.g. 1 Second) will propably fail or slow down the program.
+
+@sa LoopUpdateTask::startDelay, UpdateTask, BasicLoopUpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::LoopUpdateTask::getLeftReps
+
+@returns The repetitions that are left to be done
+
+This number will decrease on every triggered task (except if it's below 0, since that
+are infinite loops). If this value reaches 0, the task will be destroyed
+
+@sa LoopUpdateTask::repetitions, UpdateTask, BasicLoopUpdateTask
+*/
+
+/*!
+@class QtAutoUpdater::BasicLoopUpdateTask
+
+The BasicLoopUpdateTask is a simple implementation of a LoopUpdateTask. It consists of
+a timespan that serves as startDelay and pauseSpan, and a number of repetitions.
+
+@note This task will be stored automatically. It will save the delay and the
+repetitions left. If all repetions are done, the task will be deleted (and thus not
+stored anymore)
+
+@sa LoopUpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::BasicLoopUpdateTask::BasicLoopUpdateTask(TimeSpan, qint64)
+
+@overload
+@param loopDelta The TimeSpan to wait between repetitons
+@param repeats The number of repetitions for this task
+
+Creates a BasicLoopUpdateTask from a timespan and repetitions. if `repeats` is below
+0, the task will be an infinite loop
+
+@overloads{
+	@povElem{BasicLoopUpdateTask(TimeSpan, qint64)}
+	@ovElem{BasicLoopUpdateTask(const QByteArray &)}
+}
+*/
+
+/*!
+@fn QtAutoUpdater::BasicLoopUpdateTask::BasicLoopUpdateTask(const QByteArray &)
+
+@overload
+@param data The raw data to create this task from
+
+@attention This Constructor is required for internal use. You should not call it
+yourself!
+
+Creates a BasicLoopUpdateTask from stored data.
+Any data returned from BasicLoopUpdateTask::store can be passed to this constructor.
+Invalid data will result in an invalid object.
+
+@overloads{
+	@povElem{BasicLoopUpdateTask(TimeSpan, qint64)}
+	@ovElem{BasicLoopUpdateTask(const QByteArray &)}
+}
+
+@sa BasicLoopUpdateTask::store
+*/
+
+/*!
+@class QtAutoUpdater::TimePointUpdateTask
+
+The TimePointUpdateTask represents a task to be triggered at a specific timepoint.
+It optionally offers to repeat that timepoint on a specific focus. For example,
+you can set the task to a specific timepoint and tell it to repeat every month. This
+would mean that beginning with the timepoint, the task will be triggered every month
+at the same day and time.
+
+@note This task will be stored automatically. It will save the next time and the
+repetition focus. If all repetions are done, the task will be deleted (and thus not
+stored anymore)
+
+@sa UpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::TimePointUpdateTask::TimePointUpdateTask(const QDateTime &, TimeSpan::TimeUnit)
+
+@overload
+@param timePoint The first timepoint this task should be triggered
+@param repeatFocus The focus for repetitions
+
+Creates a TimePointUpdateTask to be triggered the first time at `timePoint`. If
+`repeatFocus` equals something different than TimeSpan::MilliSeconds, the task will
+repeat every "focus". (e.g. if focus equals week, the task will be triggered every week
+at the same weekday and time). If it equals TimeSpan::MilliSeconds (the default), it
+will not be repeated and only triggered once at `timePoint`.
+
+@overloads{
+	@povElem{TimePointUpdateTask(const QDateTime &, TimeSpan::TimeUnit)}
+	@ovElem{TimePointUpdateTask(const QByteArray &)}
+}
+*/
+
+/*!
+@fn QtAutoUpdater::TimePointUpdateTask::TimePointUpdateTask(const QByteArray &)
+
+@overload
+@param data The raw data to create this task from
+
+@attention This Constructor is required for internal use. You should not call it
+yourself!
+
+Creates a TimePointUpdateTask from stored data.
+Any data returned from TimePointUpdateTask::store can be passed to this constructor.
+Invalid data will result in an invalid object.
+
+@overloads{
+	@povElem{TimePointUpdateTask(const QDateTime &, TimeSpan::TimeUnit)}
+	@ovElem{TimePointUpdateTask(const QByteArray &)}
+}
+
+@sa TimePointUpdateTask::store
+*/
+
+/*!
+@class QtAutoUpdater::UpdateTaskList
+
+The UpdateTaskList represents a list of tasks. These tasks can be any kind of UpdateTasks.
+The list itself will simply handle one task after another. This means all added tasks
+(except of the last one) should not be infinite, because this way the list would stick
+with that task forever.
+
+@note This task will be stored automatically. It will store all the task in the list
+that are storeable. If a task is not, it will simply be discarded.
+
+@sa UpdateTask
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTaskList::UpdateTaskList()
+
+@overload
+
+The tasklist will be empty. Since this class inherits QLinkedList, you can add tasks
+using for example QLinkedList::append.
+
+@attention Please remember that the UpdateScheduler will take ownership of the task
+once you pass it. You must not add new tasks once this task is scheduled
+
+@overloads{
+	@povElem{UpdateTaskList()}
+	@ovElem{UpdateTaskList(const std::initializer_list<UpdateTask*> &)}
+	@ovElem{UpdateTaskList(const QByteArray &)}
+}
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTaskList::UpdateTaskList(const std::initializer_list<UpdateTask*> &)
+
+@overload
+@param list An initializer list of UpdateTasks to fill this list with
+
+@overloads{
+	@povElem{UpdateTaskList()}
+	@ovElem{UpdateTaskList(const std::initializer_list<UpdateTask*> &)}
+	@ovElem{UpdateTaskList(const QByteArray &)}
+}
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateTaskList::UpdateTaskList(const QByteArray &)
+
+@overload
+@param data The raw data to create this task from
+
+@attention This Constructor is required for internal use. You should not call it
+yourself!
+
+Creates a UpdateTaskList from stored data.
+Any data returned from UpdateTaskList::store can be passed to this constructor.
+Invalid data will result in an invalid object.
+
+@overloads{
+	@povElem{UpdateTaskList()}
+	@ovElem{UpdateTaskList(const std::initializer_list<UpdateTask*> &)}
+	@ovElem{UpdateTaskList(const QByteArray &)}
+}
+
+@sa UpdateTaskList::store
 */
