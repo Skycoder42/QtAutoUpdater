@@ -47,7 +47,7 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
 
 ## Getting started
 The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create and installer/updater. If you already now how to to that, just check out the examples below. If not, you can check out my 
-[Tutorial: Create a simple auto-updated application]()
+[Tutorial: Create a simple auto-updated application](https://skycoder42.github.io/QtAutoUpdater/tutorial_page.html)
 
 ## Examples
 **Important:**<br>
