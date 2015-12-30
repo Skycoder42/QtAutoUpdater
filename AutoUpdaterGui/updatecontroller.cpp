@@ -10,7 +10,7 @@ using namespace QtAutoUpdater;
 
 static void libInit()
 {
-	Q_INIT_RESOURCE(autoupdaterwidgets_resource);
+	Q_INIT_RESOURCE(autoupdatergui_resource);
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 

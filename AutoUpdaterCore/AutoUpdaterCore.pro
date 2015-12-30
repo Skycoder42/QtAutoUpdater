@@ -7,7 +7,7 @@
 QT -= gui
 CONFIG += C++11
 
-TARGET = $$qtLibraryTarget(AutoUpdater)
+TARGET = $$qtLibraryTarget(QtAutoUpdater)
 TEMPLATE = lib
 CONFIG += staticlib
 

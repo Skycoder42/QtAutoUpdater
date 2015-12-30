@@ -7,7 +7,7 @@
 QT       += widgets
 CONFIG += C++11
 
-TARGET = $$qtLibraryTarget(AutoUpdaterWidgets)
+TARGET = $$qtLibraryTarget(QtAutoUpdaterController)
 TEMPLATE = lib
 CONFIG += staticlib
 
@@ -30,8 +30,8 @@ HEADERS += \
     messagemaster.h \
     adminauthorization.h
 
-INCLUDEPATH += $$PWD/../AutoUpdater
-DEPENDPATH += $$PWD/../AutoUpdater
+INCLUDEPATH += $$PWD/../AutoUpdaterCore
+DEPENDPATH += $$PWD/../AutoUpdaterCore
 
 FORMS += \
     progressdialog.ui \
@@ -39,7 +39,7 @@ FORMS += \
     updatepanel.ui
 
 RESOURCES += \
-    autoupdaterwidgets_resource.qrc
+	autoupdatergui_resource.qrc
 
 DISTFILES += \
     updatecontroller.dox

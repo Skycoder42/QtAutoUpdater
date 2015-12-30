@@ -1,13 +1,13 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-	AutoUpdater \
-	AutoUpdaterWidgets \
+	AutoUpdaterCore \
+	AutoUpdaterGui \
 	Tests
 
 DISTFILES += README.md \
 	LICENSE \
 	doc/QtAutoUpdater.doxy
 
-AutoUpdaterWidgets.depends += AutoUpdater
-Tests.depends += AutoUpdater AutoUpdaterWidgets
+AutoUpdaterGui.depends += AutoUpdaterCore
+Tests.depends += AutoUpdaterCore AutoUpdaterGui
