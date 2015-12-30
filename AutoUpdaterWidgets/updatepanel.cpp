@@ -22,11 +22,11 @@ UpdatePanel::UpdatePanel(UpdateController *controller, QWidget *parent) :
 
 	connect(this->ui->checkButton, &QPushButton::clicked,
 			this, &UpdatePanel::startUpdate);
-	connect(this->controller, &UpdateController::runningChanged,
+    connect(this->controller.data(), &UpdateController::runningChanged,
 			this, &UpdatePanel::changeUpdaterState);
 	connect(this->controller->getUpdater(), &Updater::checkUpdatesDone,
 			this, &UpdatePanel::updatesReady);
-	connect(this->controller, &UpdateController::destroyed,
+    connect(this->controller.data(), &UpdateController::destroyed,
 			this, [this](){
 		this->setDisabled(true);
 	});
