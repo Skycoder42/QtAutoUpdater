@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+  <namespace>org.doxygen.QtAutoUpdater</namespace>
+  <virtualFolder>doc</virtualFolder>
+  <filterSection>
+    <filterAttribute>doxygen</filterAttribute>
+    <toc>
+      <section title="QtAutoUpdater 1.0.0" ref="index.html">
+        <section title="Image Page" ref="image_page.html" />
+        <section title="Namespaces">
+          <section title="Namespace List" ref="namespaces.html">
+            <section title="QtAutoUpdater" ref="namespace_qt_auto_updater.html" />
+          </section>
+        </section>
+        <section title="Classes" ref="annotated.html">
+          <section title="Class List" ref="annotated.html">
+            <section title="QtAutoUpdater" ref="namespace_qt_auto_updater.html">
+              <section title="AdminAuthoriser" ref="class_qt_auto_updater_1_1_admin_authoriser.html">
+                <section title="~AdminAuthoriser" ref="class_qt_auto_updater_1_1_admin_authoriser.html#a71fa6a5ba3cee8eb2f4d095539a74139" />
+                <section title="executeAsAdmin" ref="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034" />
+                <section title="hasAdminRights" ref="class_qt_auto_updater_1_1_admin_authoriser.html#af1271ea824ad19a7442745c6cb79a4ac" />
+              </section>
+              <section title="BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html">
+                <section title="BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a68a56af476ae19e454d4660c6c39b275" />
+                <section title="BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a4827e92ce355aae3c48a0f16bf66ded0" />
+                <section title="pauseSpan" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a099f33778fb77078fa9eed4352df76dd" />
+                <section title="repetitions" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a1acb2341f440ef83a8f56a88e660dc3b" />
+                <section title="store" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#abf5b74a19a1993741fab521c2722e0e2" />
+                <section title="typeIndex" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a28708485e196b9405caa972b8af0ad41" />
+              </section>
+              <section title="LoopUpdateTask" ref="class_qt_auto_updater_1_1_loop_update_task.html">
+                <section title="currentTask" ref="class_qt_auto_updater_1_1_loop_update_task.html#a77f564b65c06db8773a4ad348263cc02" />
+                <section title="getLeftReps" ref="class_qt_auto_updater_1_1_loop_update_task.html#a19dcc6e798e48ab2d24a6104dbd542cd" />
+                <section title="hasTasks" ref="class_qt_auto_updater_1_1_loop_update_task.html#a56d55aa565894f743826153fa06030e4" />
+                <section title="nextTask" ref="class_qt_auto_updater_1_1_loop_update_task.html#a2c3ac788456fa50f564833b9207edb6c" />
+                <section title="pauseSpan" ref="class_qt_auto_updater_1_1_loop_update_task.html#a71ac84411139bfea3d23ccb6b5510d10" />
+                <section title="repetitions" ref="class_qt_auto_updater_1_1_loop_update_task.html#a9ac64bf7b406d83a46c0bf016e9d562c" />
+                <section title="startDelay" ref="class_qt_auto_updater_1_1_loop_update_task.html#a05f5546aebe54a216c8283260dbc4c7e" />
+              </section>
+              <section title="TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html">
+                <section title="TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a5689ef390a2d210333384afe0811482c" />
+                <section title="TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a7b1f3f4cabc13d106eaee59d10fadbe2" />
+                <section title="currentTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#aa9b99b79a3b20eac169d97f159903d83" />
+                <section title="hasTasks" ref="class_qt_auto_updater_1_1_time_point_update_task.html#aeeeb0cdb4bf9640ddfabdf98d4ba1cae" />
+                <section title="nextTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a95722b1f17cf59d6d27bb61d129b938c" />
+                <section title="store" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a210037a579f811cdd3ac728e757879cc" />
+                <section title="typeIndex" ref="class_qt_auto_updater_1_1_time_point_update_task.html#ac46ae85c056493dbc7b6927bd2176a2b" />
+              </section>
+              <section title="TimeSpan" ref="struct_qt_auto_updater_1_1_time_span.html">
+                <section title="TimeUnit" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340f">
+                  <section title="MilliSeconds" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fa2810cc25993ecea4db9121bae76ddbe0" />
+                  <section title="Seconds" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340facf58b9cb5a057891d2cc5cd2db624517" />
+                  <section title="Minutes" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fad85922d8104f0faf56415d499508df0d" />
+                  <section title="Hours" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fab83dd5a748e200d9a7310f8e819bf9ea" />
+                  <section title="Days" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fa7cf43d90b77b713efab2660e3e0dedd3" />
+                  <section title="Weeks" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fa51787805e34f6d811fbcf8206f0cea18" />
+                  <section title="Months" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340faca154c92ad2309dc42197e147e48d953" />
+                  <section title="Years" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fabcd135c707cefe367550fabb4287ad9b" />
+                </section>
+                <section title="TimeSpan" ref="struct_qt_auto_updater_1_1_time_span.html#ae65747cf60cfa97671f1a27a9d5cf349" />
+                <section title="addToDateTime" ref="struct_qt_auto_updater_1_1_time_span.html#a24621de889d3a3618857df777fb41303" />
+                <section title="msecs" ref="struct_qt_auto_updater_1_1_time_span.html#a5a32b79b848ccd3f1ec0e1a5cc07f89f" />
+                <section title="count" ref="struct_qt_auto_updater_1_1_time_span.html#af0df7fc925ead228b2d03aa72bef37d6" />
+                <section title="unit" ref="struct_qt_auto_updater_1_1_time_span.html#adeb4cf9cc727389a48492969c6d6d4ac" />
+              </section>
+              <section title="UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html">
+                <section title="DisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2">
+                  <section title="AutomaticLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a218e6b929fa2dafddd6a22c9428032e5" />
+                  <section title="ExitLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2aa33ac71236ae4be38c5aee9fa71518f1" />
+                  <section title="InfoLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a43b3e1289758645dc665b719f0742227" />
+                  <section title="ExtendedInfoLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a468838bf2f9bb49c6c135f1402623f77" />
+                  <section title="ProgressLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a0afbb2b505b5e446b5d0209f36e8ae10" />
+                  <section title="AskLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a4478273347d97859fd591b5c302ecc54" />
+                </section>
+                <section title="UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a79768eee4eb12efbdc52b15cb7170802" />
+                <section title="UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a3ccd3630f271f0af7a7a031acfefc7ac" />
+                <section title="UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a5b4310db6a993341947cf19ef7a13c08" />
+                <section title="UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a09292d50ed763e6e25f17ba0436a86e1" />
+                <section title="~UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#abacdda249401974823d69bb5024e495d" />
+                <section title="cancelScheduledUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a0f91fab099be5305ff435c9828b72178" />
+                <section title="cancelUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a27c3ec1b1274b11788524a49c7137591" />
+                <section title="createUpdatePanel" ref="class_qt_auto_updater_1_1_update_controller.html#ae7e9db4151f70d6f8ece97879db32658" />
+                <section title="currentDisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a8594aa5086925be4c96203b44b0fdd54" />
+                <section title="getUpdateAction" ref="class_qt_auto_updater_1_1_update_controller.html#a0716b4d92ec66f13cdd5b4a176122a08" />
+                <section title="getUpdater" ref="class_qt_auto_updater_1_1_update_controller.html#a65e94b952ae4ba82138ac38f49bd99ea" />
+                <section title="isRunning" ref="class_qt_auto_updater_1_1_update_controller.html#a83c017bdbfa9f5aafba1814dd03314f9" />
+                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#a03e6a8f8954064bde910aee6d87a1b11" />
+                <section title="parentWidget" ref="class_qt_auto_updater_1_1_update_controller.html#a8d144708b57a05c2f38603dc3b2b9ec2" />
+                <section title="resetUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a0ed0142907a599ba3e2664ad1f5c4927" />
+                <section title="runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#aaefbe486ef930596e9bc0cc0225537ce" />
+                <section title="runAsAdminChanged" ref="class_qt_auto_updater_1_1_update_controller.html#a52524eb5edae5f4f73cb7f11c1068772" />
+                <section title="runningChanged" ref="class_qt_auto_updater_1_1_update_controller.html#a652a18702e98bf3d8bcb8af4293b6198" />
+                <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#ab1da1140579c77dcaad87d1ecbc0771a" />
+                <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#ad838c16546b206df338137d8d0bd6ab4" />
+                <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#aa0de51652fd8c42442a029811c39c4e8" />
+                <section title="setParent" ref="class_qt_auto_updater_1_1_update_controller.html#a78fc64b53328a5339276144673ed81b8" />
+                <section title="setParent" ref="class_qt_auto_updater_1_1_update_controller.html#a8d02b19f113e3f2c8815ace90dda0e89" />
+                <section title="setRunAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#ac0816c7d65dcbc47878360940062c64d" />
+                <section title="setUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a12d10f4df120aeff4e626aa1c20a960f" />
+                <section title="start" ref="class_qt_auto_updater_1_1_update_controller.html#a393ea9c15ea826922c76bc871f1ad1aa" />
+                <section title="updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a1d1f854857c3efed3f2cae28c221b2d5" />
+                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#af5e95a106017414f0b78cf81ef6c364f" />
+                <section title="runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#a1c5a18c8728e9803a1e3ed927f038a53" />
+                <section title="running" ref="class_qt_auto_updater_1_1_update_controller.html#a7fa2f115bc28f412003822cc0dfdb3d0" />
+                <section title="updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a6c6a5e6092b18483497e7fb7f6b5c8ec" />
+              </section>
+              <section title="Updater" ref="class_qt_auto_updater_1_1_updater.html">
+                <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html">
+                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#aea1b47276eec750f1357c4a96d7dc546" />
+                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a8fcd3743ce4846a15667d84f0be3d85e" />
+                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#acb4f2b04b4304d5bfc5063db38936b05" />
+                  <section title="name" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a28760ca994913fe3c19f34e0f4f25c21" />
+                  <section title="size" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a526ebb1045a57eefb2287906a3b82c8c" />
+                  <section title="version" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#abcad59ff52bcc1f7fa500a053095bb2b" />
+                </section>
+                <section title="Updater" ref="class_qt_auto_updater_1_1_updater.html#a78c4bf8ef0ac1a9720a087cc9d441512" />
+                <section title="Updater" ref="class_qt_auto_updater_1_1_updater.html#a4f6b269555a477a0039d3aac638df007" />
+                <section title="~Updater" ref="class_qt_auto_updater_1_1_updater.html#a1294129a47405b4e29932555bb9cdf43" />
+                <section title="abortUpdateCheck" ref="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" />
+                <section title="cancelExitRun" ref="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" />
+                <section title="cancelScheduledUpdate" ref="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" />
+                <section title="checkForUpdates" ref="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" />
+                <section title="checkUpdatesDone" ref="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5" />
+                <section title="exitedNormally" ref="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" />
+                <section title="getErrorCode" ref="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" />
+                <section title="getErrorLog" ref="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" />
+                <section title="isRunning" ref="class_qt_auto_updater_1_1_updater.html#a59f0da8efb9bdf94f8c01768b7e14298" />
+                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#af6267596d51b9224fedb4108f1e8f9af" />
+                <section title="runningChanged" ref="class_qt_auto_updater_1_1_updater.html#a95be75ea3c2c917cf2b7d1006d1eff93" />
+                <section title="runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" />
+                <section title="runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#a262b3fe8de198746af8d43243f8f9a04" />
+                <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#a81e939b61f337437cdb1d2fdb1d03e36" />
+                <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" />
+                <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e" />
+                <section title="updateInfo" ref="class_qt_auto_updater_1_1_updater.html#a43ac62f5fc35cd3ff608aaa74452e770" />
+                <section title="updateInfoChanged" ref="class_qt_auto_updater_1_1_updater.html#ad8911bff3cf527089eed208340686c0c" />
+                <section title="willRunOnExit" ref="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" />
+                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" />
+                <section title="running" ref="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" />
+                <section title="updateInfo" ref="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" />
+              </section>
+              <section title="UpdateSchedulerController" ref="class_qt_auto_updater_1_1_update_scheduler_controller.html" />
+              <section title="UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html">
+                <section title="~UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba" />
+                <section title="currentTask" ref="class_qt_auto_updater_1_1_update_task.html#af9071665bb71a580f16d39b8ce6b76f1" />
+                <section title="hasTasks" ref="class_qt_auto_updater_1_1_update_task.html#a313b3a9bcf5db91833ebb4a672ec348c" />
+                <section title="nextTask" ref="class_qt_auto_updater_1_1_update_task.html#ab146b9a23674cdddb9c4e45ed93d43f4" />
+                <section title="store" ref="class_qt_auto_updater_1_1_update_task.html#a9f7c07bae15e2bc0df400bbb741451b4" />
+                <section title="typeIndex" ref="class_qt_auto_updater_1_1_update_task.html#a4ef311a95cd34b534bcc585441052a7b" />
+              </section>
+              <section title="UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html">
+                <section title="UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html#af4459b10ddd246115cfea2eb2338f0f8" />
+                <section title="UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html#a64bcfa5d2fc69b68fe8733f16443d8fb" />
+                <section title="UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html#ab69f4f2437403066853e69954c1f792e" />
+                <section title="currentTask" ref="class_qt_auto_updater_1_1_update_task_list.html#a88473d11533aae5926851991e3eff801" />
+                <section title="hasTasks" ref="class_qt_auto_updater_1_1_update_task_list.html#a12c73abbe2d396db921c50cc6b7b3753" />
+                <section title="nextTask" ref="class_qt_auto_updater_1_1_update_task_list.html#a941ed9869bcd22a568ff5c9b8ca6849e" />
+                <section title="store" ref="class_qt_auto_updater_1_1_update_task_list.html#ae8321a04b03ad85a81d201da082a00e7" />
+                <section title="typeIndex" ref="class_qt_auto_updater_1_1_update_task_list.html#a548e1ded30b8ea67946d7bb7025c5f71" />
+              </section>
+            </section>
+          </section>
+          <section title="Class Index" ref="classes.html" />
+          <section title="Class Hierarchy" ref="hierarchy.html">
+            <section title="QtAutoUpdater::AdminAuthoriser" ref="class_qt_auto_updater_1_1_admin_authoriser.html" />
+            <section title="QLinkedList&lt; UpdateTask * &gt;" ref="qlinkedlist.html">
+              <section title="QtAutoUpdater::UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html" />
+            </section>
+            <section title="QObject" ref="qobject.html">
+              <section title="QtAutoUpdater::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html" />
+              <section title="QtAutoUpdater::Updater" ref="class_qt_auto_updater_1_1_updater.html" />
+            </section>
+            <section title="QtAutoUpdater::TimeSpan" ref="struct_qt_auto_updater_1_1_time_span.html" />
+            <section title="QtAutoUpdater::Updater::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html" />
+            <section title="QtAutoUpdater::UpdateSchedulerController" ref="class_qt_auto_updater_1_1_update_scheduler_controller.html" />
+            <section title="QtAutoUpdater::UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html">
+              <section title="QtAutoUpdater::LoopUpdateTask" ref="class_qt_auto_updater_1_1_loop_update_task.html">
+                <section title="QtAutoUpdater::BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html" />
+              </section>
+              <section title="QtAutoUpdater::TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html" />
+              <section title="QtAutoUpdater::UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html" />
+            </section>
+            <section title="typedef" ref="classtypedef.html" />
+          </section>
+          <section title="Class Members" ref="functions.html">
+            <section title="All" ref="functions.html" />
+            <section title="Functions" ref="functions_func.html" />
+            <section title="Variables" ref="functions_vars.html" />
+            <section title="Enumerations" ref="functions_enum.html" />
+            <section title="Enumerator" ref="functions_eval.html" />
+            <section title="Properties" ref="functions_prop.html" />
+          </section>
+        </section>
+        <section title="Files">
+          <section title="File List" ref="files.html">
+            <section title="AutoUpdater" ref="dir_e70041d101dc8b1c23d2644820ea880c.html">
+              <section title="adminauthoriser.h" ref="adminauthoriser_8h_source.html" />
+              <section title="updater.h" ref="updater_8h_source.html" />
+              <section title="updateschedulercontroller.h" ref="updateschedulercontroller_8h_source.html" />
+              <section title="updatetask.h" ref="updatetask_8h_source.html" />
+            </section>
+            <section title="AutoUpdaterWidgets" ref="dir_98bb3407f3d6c4e9de7db4ae7ef9e1cd.html">
+              <section title="updatecontroller.h" ref="updatecontroller_8h_source.html" />
+            </section>
+          </section>
+        </section>
+      </section>
+    </toc>
+    <keywords>
+      <keyword name="Image Page" id="Image Page" ref="image_page.html" />
+      <keyword name="typedef" id="typedef" ref="classtypedef.html" />
+      <keyword name="QtAutoUpdater" id="QtAutoUpdater" ref="namespace_qt_auto_updater.html" />
+      <keyword name="QtAutoUpdater::AdminAuthoriser" id="QtAutoUpdater::AdminAuthoriser" ref="class_qt_auto_updater_1_1_admin_authoriser.html" />
+      <keyword name="~AdminAuthoriser" id="QtAutoUpdater::AdminAuthoriser::~AdminAuthoriser" ref="class_qt_auto_updater_1_1_admin_authoriser.html#a71fa6a5ba3cee8eb2f4d095539a74139" />
+      <keyword name="hasAdminRights" id="QtAutoUpdater::AdminAuthoriser::hasAdminRights" ref="class_qt_auto_updater_1_1_admin_authoriser.html#af1271ea824ad19a7442745c6cb79a4ac" />
+      <keyword name="executeAsAdmin" id="QtAutoUpdater::AdminAuthoriser::executeAsAdmin" ref="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034" />
+      <keyword name="QtAutoUpdater::BasicLoopUpdateTask" id="QtAutoUpdater::BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html" />
+      <keyword name="BasicLoopUpdateTask" id="QtAutoUpdater::BasicLoopUpdateTask::BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a68a56af476ae19e454d4660c6c39b275" />
+      <keyword name="BasicLoopUpdateTask" id="QtAutoUpdater::BasicLoopUpdateTask::BasicLoopUpdateTask" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a4827e92ce355aae3c48a0f16bf66ded0" />
+      <keyword name="repetitions" id="QtAutoUpdater::BasicLoopUpdateTask::repetitions" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a1acb2341f440ef83a8f56a88e660dc3b" />
+      <keyword name="pauseSpan" id="QtAutoUpdater::BasicLoopUpdateTask::pauseSpan" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a099f33778fb77078fa9eed4352df76dd" />
+      <keyword name="store" id="QtAutoUpdater::BasicLoopUpdateTask::store" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#abf5b74a19a1993741fab521c2722e0e2" />
+      <keyword name="typeIndex" id="QtAutoUpdater::BasicLoopUpdateTask::typeIndex" ref="class_qt_auto_updater_1_1_basic_loop_update_task.html#a28708485e196b9405caa972b8af0ad41" />
+      <keyword name="startDelay" id="QtAutoUpdater::LoopUpdateTask::startDelay" ref="class_qt_auto_updater_1_1_loop_update_task.html#a05f5546aebe54a216c8283260dbc4c7e" />
+      <keyword name="hasTasks" id="QtAutoUpdater::LoopUpdateTask::hasTasks" ref="class_qt_auto_updater_1_1_loop_update_task.html#a56d55aa565894f743826153fa06030e4" />
+      <keyword name="currentTask" id="QtAutoUpdater::LoopUpdateTask::currentTask" ref="class_qt_auto_updater_1_1_loop_update_task.html#a77f564b65c06db8773a4ad348263cc02" />
+      <keyword name="nextTask" id="QtAutoUpdater::LoopUpdateTask::nextTask" ref="class_qt_auto_updater_1_1_loop_update_task.html#a2c3ac788456fa50f564833b9207edb6c" />
+      <keyword name="~UpdateTask" id="QtAutoUpdater::UpdateTask::~UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba" />
+      <keyword name="getLeftReps" id="QtAutoUpdater::LoopUpdateTask::getLeftReps" ref="class_qt_auto_updater_1_1_loop_update_task.html#a19dcc6e798e48ab2d24a6104dbd542cd" />
+      <keyword name="QtAutoUpdater::LoopUpdateTask" id="QtAutoUpdater::LoopUpdateTask" ref="class_qt_auto_updater_1_1_loop_update_task.html" />
+      <keyword name="startDelay" id="QtAutoUpdater::LoopUpdateTask::startDelay" ref="class_qt_auto_updater_1_1_loop_update_task.html#a05f5546aebe54a216c8283260dbc4c7e" />
+      <keyword name="repetitions" id="QtAutoUpdater::LoopUpdateTask::repetitions" ref="class_qt_auto_updater_1_1_loop_update_task.html#a9ac64bf7b406d83a46c0bf016e9d562c" />
+      <keyword name="pauseSpan" id="QtAutoUpdater::LoopUpdateTask::pauseSpan" ref="class_qt_auto_updater_1_1_loop_update_task.html#a71ac84411139bfea3d23ccb6b5510d10" />
+      <keyword name="hasTasks" id="QtAutoUpdater::LoopUpdateTask::hasTasks" ref="class_qt_auto_updater_1_1_loop_update_task.html#a56d55aa565894f743826153fa06030e4" />
+      <keyword name="currentTask" id="QtAutoUpdater::LoopUpdateTask::currentTask" ref="class_qt_auto_updater_1_1_loop_update_task.html#a77f564b65c06db8773a4ad348263cc02" />
+      <keyword name="nextTask" id="QtAutoUpdater::LoopUpdateTask::nextTask" ref="class_qt_auto_updater_1_1_loop_update_task.html#a2c3ac788456fa50f564833b9207edb6c" />
+      <keyword name="~UpdateTask" id="QtAutoUpdater::UpdateTask::~UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba" />
+      <keyword name="typeIndex" id="QtAutoUpdater::UpdateTask::typeIndex" ref="class_qt_auto_updater_1_1_update_task.html#a4ef311a95cd34b534bcc585441052a7b" />
+      <keyword name="store" id="QtAutoUpdater::UpdateTask::store" ref="class_qt_auto_updater_1_1_update_task.html#a9f7c07bae15e2bc0df400bbb741451b4" />
+      <keyword name="getLeftReps" id="QtAutoUpdater::LoopUpdateTask::getLeftReps" ref="class_qt_auto_updater_1_1_loop_update_task.html#a19dcc6e798e48ab2d24a6104dbd542cd" />
+      <keyword name="QtAutoUpdater::TimePointUpdateTask" id="QtAutoUpdater::TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html" />
+      <keyword name="TimePointUpdateTask" id="QtAutoUpdater::TimePointUpdateTask::TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a5689ef390a2d210333384afe0811482c" />
+      <keyword name="TimePointUpdateTask" id="QtAutoUpdater::TimePointUpdateTask::TimePointUpdateTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a7b1f3f4cabc13d106eaee59d10fadbe2" />
+      <keyword name="hasTasks" id="QtAutoUpdater::TimePointUpdateTask::hasTasks" ref="class_qt_auto_updater_1_1_time_point_update_task.html#aeeeb0cdb4bf9640ddfabdf98d4ba1cae" />
+      <keyword name="currentTask" id="QtAutoUpdater::TimePointUpdateTask::currentTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#aa9b99b79a3b20eac169d97f159903d83" />
+      <keyword name="nextTask" id="QtAutoUpdater::TimePointUpdateTask::nextTask" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a95722b1f17cf59d6d27bb61d129b938c" />
+      <keyword name="store" id="QtAutoUpdater::TimePointUpdateTask::store" ref="class_qt_auto_updater_1_1_time_point_update_task.html#a210037a579f811cdd3ac728e757879cc" />
+      <keyword name="typeIndex" id="QtAutoUpdater::TimePointUpdateTask::typeIndex" ref="class_qt_auto_updater_1_1_time_point_update_task.html#ac46ae85c056493dbc7b6927bd2176a2b" />
+      <keyword name="~UpdateTask" id="QtAutoUpdater::UpdateTask::~UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba" />
+      <keyword name="QtAutoUpdater::TimeSpan" id="QtAutoUpdater::TimeSpan" ref="struct_qt_auto_updater_1_1_time_span.html" />
+      <keyword name="TimeSpan" id="QtAutoUpdater::TimeSpan::TimeSpan" ref="struct_qt_auto_updater_1_1_time_span.html#ae65747cf60cfa97671f1a27a9d5cf349" />
+      <keyword name="msecs" id="QtAutoUpdater::TimeSpan::msecs" ref="struct_qt_auto_updater_1_1_time_span.html#a5a32b79b848ccd3f1ec0e1a5cc07f89f" />
+      <keyword name="addToDateTime" id="QtAutoUpdater::TimeSpan::addToDateTime" ref="struct_qt_auto_updater_1_1_time_span.html#a24621de889d3a3618857df777fb41303" />
+      <keyword name="count" id="QtAutoUpdater::TimeSpan::count" ref="struct_qt_auto_updater_1_1_time_span.html#af0df7fc925ead228b2d03aa72bef37d6" />
+      <keyword name="unit" id="QtAutoUpdater::TimeSpan::unit" ref="struct_qt_auto_updater_1_1_time_span.html#adeb4cf9cc727389a48492969c6d6d4ac" />
+      <keyword name="MilliSeconds" id="QtAutoUpdater::TimeSpan::MilliSeconds" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fa2810cc25993ecea4db9121bae76ddbe0" />
+      <keyword name="Seconds" id="QtAutoUpdater::TimeSpan::Seconds" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340facf58b9cb5a057891d2cc5cd2db624517" />
+      <keyword name="Minutes" id="QtAutoUpdater::TimeSpan::Minutes" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fad85922d8104f0faf56415d499508df0d" />
+      <keyword name="Hours" id="QtAutoUpdater::TimeSpan::Hours" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fab83dd5a748e200d9a7310f8e819bf9ea" />
+      <keyword name="Days" id="QtAutoUpdater::TimeSpan::Days" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fa7cf43d90b77b713efab2660e3e0dedd3" />
+      <keyword name="Weeks" id="QtAutoUpdater::TimeSpan::Weeks" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fa51787805e34f6d811fbcf8206f0cea18" />
+      <keyword name="Months" id="QtAutoUpdater::TimeSpan::Months" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340faca154c92ad2309dc42197e147e48d953" />
+      <keyword name="Years" id="QtAutoUpdater::TimeSpan::Years" ref="struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fabcd135c707cefe367550fabb4287ad9b" />
+      <keyword name="QtAutoUpdater::UpdateController" id="QtAutoUpdater::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html" />
+      <keyword name="start" id="QtAutoUpdater::UpdateController::start" ref="class_qt_auto_updater_1_1_update_controller.html#a393ea9c15ea826922c76bc871f1ad1aa" />
+      <keyword name="cancelUpdate" id="QtAutoUpdater::UpdateController::cancelUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a27c3ec1b1274b11788524a49c7137591" />
+      <keyword name="scheduleUpdate" id="QtAutoUpdater::UpdateController::scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#ab1da1140579c77dcaad87d1ecbc0771a" />
+      <keyword name="scheduleUpdate" id="QtAutoUpdater::UpdateController::scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#ad838c16546b206df338137d8d0bd6ab4" />
+      <keyword name="scheduleUpdate" id="QtAutoUpdater::UpdateController::scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#aa0de51652fd8c42442a029811c39c4e8" />
+      <keyword name="cancelScheduledUpdate" id="QtAutoUpdater::UpdateController::cancelScheduledUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a0f91fab099be5305ff435c9828b72178" />
+      <keyword name="runningChanged" id="QtAutoUpdater::UpdateController::runningChanged" ref="class_qt_auto_updater_1_1_update_controller.html#a652a18702e98bf3d8bcb8af4293b6198" />
+      <keyword name="runAsAdminChanged" id="QtAutoUpdater::UpdateController::runAsAdminChanged" ref="class_qt_auto_updater_1_1_update_controller.html#a52524eb5edae5f4f73cb7f11c1068772" />
+      <keyword name="UpdateController" id="QtAutoUpdater::UpdateController::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a79768eee4eb12efbdc52b15cb7170802" />
+      <keyword name="UpdateController" id="QtAutoUpdater::UpdateController::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a3ccd3630f271f0af7a7a031acfefc7ac" />
+      <keyword name="UpdateController" id="QtAutoUpdater::UpdateController::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a5b4310db6a993341947cf19ef7a13c08" />
+      <keyword name="UpdateController" id="QtAutoUpdater::UpdateController::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a09292d50ed763e6e25f17ba0436a86e1" />
+      <keyword name="~UpdateController" id="QtAutoUpdater::UpdateController::~UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#abacdda249401974823d69bb5024e495d" />
+      <keyword name="getUpdateAction" id="QtAutoUpdater::UpdateController::getUpdateAction" ref="class_qt_auto_updater_1_1_update_controller.html#a0716b4d92ec66f13cdd5b4a176122a08" />
+      <keyword name="createUpdatePanel" id="QtAutoUpdater::UpdateController::createUpdatePanel" ref="class_qt_auto_updater_1_1_update_controller.html#ae7e9db4151f70d6f8ece97879db32658" />
+      <keyword name="maintenanceToolPath" id="QtAutoUpdater::UpdateController::maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#a03e6a8f8954064bde910aee6d87a1b11" />
+      <keyword name="currentDisplayLevel" id="QtAutoUpdater::UpdateController::currentDisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a8594aa5086925be4c96203b44b0fdd54" />
+      <keyword name="isRunning" id="QtAutoUpdater::UpdateController::isRunning" ref="class_qt_auto_updater_1_1_update_controller.html#a83c017bdbfa9f5aafba1814dd03314f9" />
+      <keyword name="runAsAdmin" id="QtAutoUpdater::UpdateController::runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#aaefbe486ef930596e9bc0cc0225537ce" />
+      <keyword name="setRunAsAdmin" id="QtAutoUpdater::UpdateController::setRunAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#ac0816c7d65dcbc47878360940062c64d" />
+      <keyword name="updateRunArgs" id="QtAutoUpdater::UpdateController::updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a1d1f854857c3efed3f2cae28c221b2d5" />
+      <keyword name="setUpdateRunArgs" id="QtAutoUpdater::UpdateController::setUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a12d10f4df120aeff4e626aa1c20a960f" />
+      <keyword name="resetUpdateRunArgs" id="QtAutoUpdater::UpdateController::resetUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a0ed0142907a599ba3e2664ad1f5c4927" />
+      <keyword name="getUpdater" id="QtAutoUpdater::UpdateController::getUpdater" ref="class_qt_auto_updater_1_1_update_controller.html#a65e94b952ae4ba82138ac38f49bd99ea" />
+      <keyword name="parentWidget" id="QtAutoUpdater::UpdateController::parentWidget" ref="class_qt_auto_updater_1_1_update_controller.html#a8d144708b57a05c2f38603dc3b2b9ec2" />
+      <keyword name="setParent" id="QtAutoUpdater::UpdateController::setParent" ref="class_qt_auto_updater_1_1_update_controller.html#a78fc64b53328a5339276144673ed81b8" />
+      <keyword name="setParent" id="QtAutoUpdater::UpdateController::setParent" ref="class_qt_auto_updater_1_1_update_controller.html#a8d02b19f113e3f2c8815ace90dda0e89" />
+      <keyword name="QObject" id="QObject::QObject" ref="qobject.html#QObject" />
+      <keyword name="event" id="QObject::event" ref="qobject.html#event" />
+      <keyword name="eventFilter" id="QObject::eventFilter" ref="qobject.html#eventFilter" />
+      <keyword name="metaObject" id="QObject::metaObject" ref="qobject.html#metaObject" />
+      <keyword name="objectName" id="QObject::objectName" ref="qobject.html#objectName-prop" />
+      <keyword name="setObjectName" id="QObject::setObjectName" ref="qobject.html#objectName-prop" />
+      <keyword name="isWidgetType" id="QObject::isWidgetType" ref="qobject.html#isWidgetType" />
+      <keyword name="isWindowType" id="QObject::isWindowType" ref="qobject.html#isWindowType" />
+      <keyword name="signalsBlocked" id="QObject::signalsBlocked" ref="qobject.html#signalsBlocked" />
+      <keyword name="blockSignals" id="QObject::blockSignals" ref="qobject.html#blockSignals" />
+      <keyword name="thread" id="QObject::thread" ref="qobject.html#thread" />
+      <keyword name="moveToThread" id="QObject::moveToThread" ref="qobject.html#moveToThread" />
+      <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer" />
+      <keyword name="killTimer" id="QObject::killTimer" ref="qobject.html#killTimer" />
+      <keyword name="findChild" id="QObject::findChild" ref="qobject.html#findChild" />
+      <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren" />
+      <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren-2" />
+      <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren-3" />
+      <keyword name="children" id="QObject::children" ref="qobject.html#children" />
+      <keyword name="setParent" id="QObject::setParent" ref="qobject.html#setParent" />
+      <keyword name="installEventFilter" id="QObject::installEventFilter" ref="qobject.html#installEventFilter" />
+      <keyword name="removeEventFilter" id="QObject::removeEventFilter" ref="qobject.html#removeEventFilter" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-3" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-4" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-5" />
+      <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree" />
+      <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo" />
+      <keyword name="setProperty" id="QObject::setProperty" ref="qobject.html#setProperty" />
+      <keyword name="property" id="QObject::property" ref="qobject.html#property" />
+      <keyword name="dynamicPropertyNames" id="QObject::dynamicPropertyNames" ref="qobject.html#dynamicPropertyNames" />
+      <keyword name="destroyed" id="QObject::destroyed" ref="qobject.html#destroyed" />
+      <keyword name="objectNameChanged" id="QObject::objectNameChanged" ref="qobject.html#objectName-prop" />
+      <keyword name="parent" id="QObject::parent" ref="qobject.html#parent" />
+      <keyword name="inherits" id="QObject::inherits" ref="qobject.html#inherits" />
+      <keyword name="deleteLater" id="QObject::deleteLater" ref="qobject.html#deleteLater" />
+      <keyword name="maintenanceToolPath" id="QtAutoUpdater::UpdateController::maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#af5e95a106017414f0b78cf81ef6c364f" />
+      <keyword name="running" id="QtAutoUpdater::UpdateController::running" ref="class_qt_auto_updater_1_1_update_controller.html#a7fa2f115bc28f412003822cc0dfdb3d0" />
+      <keyword name="runAsAdmin" id="QtAutoUpdater::UpdateController::runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#a1c5a18c8728e9803a1e3ed927f038a53" />
+      <keyword name="updateRunArgs" id="QtAutoUpdater::UpdateController::updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a6c6a5e6092b18483497e7fb7f6b5c8ec" />
+      <keyword name="objectName" id="QObject::objectName" ref="qobject.html#objectName-prop" />
+      <keyword name="tr" id="QObject::tr" ref="qobject.html#tr" />
+      <keyword name="trUtf8" id="QObject::trUtf8" ref="qobject.html#trUtf8" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-2" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-4" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-5" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-6" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-2" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-3" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-6" />
+      <keyword name="sender" id="QObject::sender" ref="qobject.html#sender" />
+      <keyword name="senderSignalIndex" id="QObject::senderSignalIndex" ref="qobject.html#senderSignalIndex" />
+      <keyword name="receivers" id="QObject::receivers" ref="qobject.html#receivers" />
+      <keyword name="isSignalConnected" id="QObject::isSignalConnected" ref="qobject.html#isSignalConnected" />
+      <keyword name="timerEvent" id="QObject::timerEvent" ref="qobject.html#timerEvent" />
+      <keyword name="childEvent" id="QObject::childEvent" ref="qobject.html#childEvent" />
+      <keyword name="customEvent" id="QObject::customEvent" ref="qobject.html#customEvent" />
+      <keyword name="connectNotify" id="QObject::connectNotify" ref="qobject.html#connectNotify" />
+      <keyword name="disconnectNotify" id="QObject::disconnectNotify" ref="qobject.html#disconnectNotify" />
+      <keyword name="AutomaticLevel" id="QtAutoUpdater::UpdateController::AutomaticLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a218e6b929fa2dafddd6a22c9428032e5" />
+      <keyword name="ExitLevel" id="QtAutoUpdater::UpdateController::ExitLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2aa33ac71236ae4be38c5aee9fa71518f1" />
+      <keyword name="InfoLevel" id="QtAutoUpdater::UpdateController::InfoLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a43b3e1289758645dc665b719f0742227" />
+      <keyword name="ExtendedInfoLevel" id="QtAutoUpdater::UpdateController::ExtendedInfoLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a468838bf2f9bb49c6c135f1402623f77" />
+      <keyword name="ProgressLevel" id="QtAutoUpdater::UpdateController::ProgressLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a0afbb2b505b5e446b5d0209f36e8ae10" />
+      <keyword name="AskLevel" id="QtAutoUpdater::UpdateController::AskLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2a4478273347d97859fd591b5c302ecc54" />
+      <keyword name="QtAutoUpdater::Updater" id="QtAutoUpdater::Updater" ref="class_qt_auto_updater_1_1_updater.html" />
+      <keyword name="checkForUpdates" id="QtAutoUpdater::Updater::checkForUpdates" ref="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" />
+      <keyword name="abortUpdateCheck" id="QtAutoUpdater::Updater::abortUpdateCheck" ref="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" />
+      <keyword name="scheduleUpdate" id="QtAutoUpdater::Updater::scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#a81e939b61f337437cdb1d2fdb1d03e36" />
+      <keyword name="scheduleUpdate" id="QtAutoUpdater::Updater::scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" />
+      <keyword name="scheduleUpdate" id="QtAutoUpdater::Updater::scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e" />
+      <keyword name="cancelScheduledUpdate" id="QtAutoUpdater::Updater::cancelScheduledUpdate" ref="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" />
+      <keyword name="runUpdaterOnExit" id="QtAutoUpdater::Updater::runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" />
+      <keyword name="runUpdaterOnExit" id="QtAutoUpdater::Updater::runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#a262b3fe8de198746af8d43243f8f9a04" />
+      <keyword name="cancelExitRun" id="QtAutoUpdater::Updater::cancelExitRun" ref="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" />
+      <keyword name="checkUpdatesDone" id="QtAutoUpdater::Updater::checkUpdatesDone" ref="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5" />
+      <keyword name="runningChanged" id="QtAutoUpdater::Updater::runningChanged" ref="class_qt_auto_updater_1_1_updater.html#a95be75ea3c2c917cf2b7d1006d1eff93" />
+      <keyword name="updateInfoChanged" id="QtAutoUpdater::Updater::updateInfoChanged" ref="class_qt_auto_updater_1_1_updater.html#ad8911bff3cf527089eed208340686c0c" />
+      <keyword name="Updater" id="QtAutoUpdater::Updater::Updater" ref="class_qt_auto_updater_1_1_updater.html#a78c4bf8ef0ac1a9720a087cc9d441512" />
+      <keyword name="Updater" id="QtAutoUpdater::Updater::Updater" ref="class_qt_auto_updater_1_1_updater.html#a4f6b269555a477a0039d3aac638df007" />
+      <keyword name="~Updater" id="QtAutoUpdater::Updater::~Updater" ref="class_qt_auto_updater_1_1_updater.html#a1294129a47405b4e29932555bb9cdf43" />
+      <keyword name="exitedNormally" id="QtAutoUpdater::Updater::exitedNormally" ref="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" />
+      <keyword name="getErrorCode" id="QtAutoUpdater::Updater::getErrorCode" ref="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" />
+      <keyword name="getErrorLog" id="QtAutoUpdater::Updater::getErrorLog" ref="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" />
+      <keyword name="willRunOnExit" id="QtAutoUpdater::Updater::willRunOnExit" ref="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" />
+      <keyword name="maintenanceToolPath" id="QtAutoUpdater::Updater::maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#af6267596d51b9224fedb4108f1e8f9af" />
+      <keyword name="isRunning" id="QtAutoUpdater::Updater::isRunning" ref="class_qt_auto_updater_1_1_updater.html#a59f0da8efb9bdf94f8c01768b7e14298" />
+      <keyword name="updateInfo" id="QtAutoUpdater::Updater::updateInfo" ref="class_qt_auto_updater_1_1_updater.html#a43ac62f5fc35cd3ff608aaa74452e770" />
+      <keyword name="QObject" id="QObject::QObject" ref="qobject.html#QObject" />
+      <keyword name="event" id="QObject::event" ref="qobject.html#event" />
+      <keyword name="eventFilter" id="QObject::eventFilter" ref="qobject.html#eventFilter" />
+      <keyword name="metaObject" id="QObject::metaObject" ref="qobject.html#metaObject" />
+      <keyword name="objectName" id="QObject::objectName" ref="qobject.html#objectName-prop" />
+      <keyword name="setObjectName" id="QObject::setObjectName" ref="qobject.html#objectName-prop" />
+      <keyword name="isWidgetType" id="QObject::isWidgetType" ref="qobject.html#isWidgetType" />
+      <keyword name="isWindowType" id="QObject::isWindowType" ref="qobject.html#isWindowType" />
+      <keyword name="signalsBlocked" id="QObject::signalsBlocked" ref="qobject.html#signalsBlocked" />
+      <keyword name="blockSignals" id="QObject::blockSignals" ref="qobject.html#blockSignals" />
+      <keyword name="thread" id="QObject::thread" ref="qobject.html#thread" />
+      <keyword name="moveToThread" id="QObject::moveToThread" ref="qobject.html#moveToThread" />
+      <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer" />
+      <keyword name="killTimer" id="QObject::killTimer" ref="qobject.html#killTimer" />
+      <keyword name="findChild" id="QObject::findChild" ref="qobject.html#findChild" />
+      <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren" />
+      <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren-2" />
+      <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren-3" />
+      <keyword name="children" id="QObject::children" ref="qobject.html#children" />
+      <keyword name="setParent" id="QObject::setParent" ref="qobject.html#setParent" />
+      <keyword name="installEventFilter" id="QObject::installEventFilter" ref="qobject.html#installEventFilter" />
+      <keyword name="removeEventFilter" id="QObject::removeEventFilter" ref="qobject.html#removeEventFilter" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-3" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-4" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-5" />
+      <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree" />
+      <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo" />
+      <keyword name="setProperty" id="QObject::setProperty" ref="qobject.html#setProperty" />
+      <keyword name="property" id="QObject::property" ref="qobject.html#property" />
+      <keyword name="dynamicPropertyNames" id="QObject::dynamicPropertyNames" ref="qobject.html#dynamicPropertyNames" />
+      <keyword name="destroyed" id="QObject::destroyed" ref="qobject.html#destroyed" />
+      <keyword name="objectNameChanged" id="QObject::objectNameChanged" ref="qobject.html#objectName-prop" />
+      <keyword name="parent" id="QObject::parent" ref="qobject.html#parent" />
+      <keyword name="inherits" id="QObject::inherits" ref="qobject.html#inherits" />
+      <keyword name="deleteLater" id="QObject::deleteLater" ref="qobject.html#deleteLater" />
+      <keyword name="maintenanceToolPath" id="QtAutoUpdater::Updater::maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" />
+      <keyword name="running" id="QtAutoUpdater::Updater::running" ref="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" />
+      <keyword name="updateInfo" id="QtAutoUpdater::Updater::updateInfo" ref="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" />
+      <keyword name="objectName" id="QObject::objectName" ref="qobject.html#objectName-prop" />
+      <keyword name="tr" id="QObject::tr" ref="qobject.html#tr" />
+      <keyword name="trUtf8" id="QObject::trUtf8" ref="qobject.html#trUtf8" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-2" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-4" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-5" />
+      <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-6" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-2" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-3" />
+      <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-6" />
+      <keyword name="sender" id="QObject::sender" ref="qobject.html#sender" />
+      <keyword name="senderSignalIndex" id="QObject::senderSignalIndex" ref="qobject.html#senderSignalIndex" />
+      <keyword name="receivers" id="QObject::receivers" ref="qobject.html#receivers" />
+      <keyword name="isSignalConnected" id="QObject::isSignalConnected" ref="qobject.html#isSignalConnected" />
+      <keyword name="timerEvent" id="QObject::timerEvent" ref="qobject.html#timerEvent" />
+      <keyword name="childEvent" id="QObject::childEvent" ref="qobject.html#childEvent" />
+      <keyword name="customEvent" id="QObject::customEvent" ref="qobject.html#customEvent" />
+      <keyword name="connectNotify" id="QObject::connectNotify" ref="qobject.html#connectNotify" />
+      <keyword name="disconnectNotify" id="QObject::disconnectNotify" ref="qobject.html#disconnectNotify" />
+      <keyword name="QtAutoUpdater::Updater::UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html" />
+      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#aea1b47276eec750f1357c4a96d7dc546" />
+      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a8fcd3743ce4846a15667d84f0be3d85e" />
+      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#acb4f2b04b4304d5bfc5063db38936b05" />
+      <keyword name="name" id="QtAutoUpdater::Updater::UpdateInfo::name" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a28760ca994913fe3c19f34e0f4f25c21" />
+      <keyword name="version" id="QtAutoUpdater::Updater::UpdateInfo::version" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#abcad59ff52bcc1f7fa500a053095bb2b" />
+      <keyword name="size" id="QtAutoUpdater::Updater::UpdateInfo::size" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a526ebb1045a57eefb2287906a3b82c8c" />
+      <keyword name="QtAutoUpdater::UpdateSchedulerController" id="QtAutoUpdater::UpdateSchedulerController" ref="class_qt_auto_updater_1_1_update_scheduler_controller.html" />
+      <keyword name="registerStoredTask" id="QtAutoUpdater::UpdateSchedulerController::registerStoredTask" ref="class_qt_auto_updater_1_1_update_scheduler_controller.html#a273159e2a958237f68ed1f3b94ec3450" />
+      <keyword name="setSettingsGroup" id="QtAutoUpdater::UpdateSchedulerController::setSettingsGroup" ref="class_qt_auto_updater_1_1_update_scheduler_controller.html#ad12a75ddf60d84e718967d08e906a0df" />
+      <keyword name="setSettingsObject" id="QtAutoUpdater::UpdateSchedulerController::setSettingsObject" ref="class_qt_auto_updater_1_1_update_scheduler_controller.html#ade023a82b326926c888cde71323e2150" />
+      <keyword name="QtAutoUpdater::UpdateTask" id="QtAutoUpdater::UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html" />
+      <keyword name="~UpdateTask" id="QtAutoUpdater::UpdateTask::~UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba" />
+      <keyword name="hasTasks" id="QtAutoUpdater::UpdateTask::hasTasks" ref="class_qt_auto_updater_1_1_update_task.html#a313b3a9bcf5db91833ebb4a672ec348c" />
+      <keyword name="currentTask" id="QtAutoUpdater::UpdateTask::currentTask" ref="class_qt_auto_updater_1_1_update_task.html#af9071665bb71a580f16d39b8ce6b76f1" />
+      <keyword name="nextTask" id="QtAutoUpdater::UpdateTask::nextTask" ref="class_qt_auto_updater_1_1_update_task.html#ab146b9a23674cdddb9c4e45ed93d43f4" />
+      <keyword name="typeIndex" id="QtAutoUpdater::UpdateTask::typeIndex" ref="class_qt_auto_updater_1_1_update_task.html#a4ef311a95cd34b534bcc585441052a7b" />
+      <keyword name="store" id="QtAutoUpdater::UpdateTask::store" ref="class_qt_auto_updater_1_1_update_task.html#a9f7c07bae15e2bc0df400bbb741451b4" />
+      <keyword name="QtAutoUpdater::UpdateTaskList" id="QtAutoUpdater::UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html" />
+      <keyword name="UpdateTaskList" id="QtAutoUpdater::UpdateTaskList::UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html#af4459b10ddd246115cfea2eb2338f0f8" />
+      <keyword name="UpdateTaskList" id="QtAutoUpdater::UpdateTaskList::UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html#a64bcfa5d2fc69b68fe8733f16443d8fb" />
+      <keyword name="UpdateTaskList" id="QtAutoUpdater::UpdateTaskList::UpdateTaskList" ref="class_qt_auto_updater_1_1_update_task_list.html#ab69f4f2437403066853e69954c1f792e" />
+      <keyword name="hasTasks" id="QtAutoUpdater::UpdateTaskList::hasTasks" ref="class_qt_auto_updater_1_1_update_task_list.html#a12c73abbe2d396db921c50cc6b7b3753" />
+      <keyword name="currentTask" id="QtAutoUpdater::UpdateTaskList::currentTask" ref="class_qt_auto_updater_1_1_update_task_list.html#a88473d11533aae5926851991e3eff801" />
+      <keyword name="nextTask" id="QtAutoUpdater::UpdateTaskList::nextTask" ref="class_qt_auto_updater_1_1_update_task_list.html#a941ed9869bcd22a568ff5c9b8ca6849e" />
+      <keyword name="store" id="QtAutoUpdater::UpdateTaskList::store" ref="class_qt_auto_updater_1_1_update_task_list.html#ae8321a04b03ad85a81d201da082a00e7" />
+      <keyword name="typeIndex" id="QtAutoUpdater::UpdateTaskList::typeIndex" ref="class_qt_auto_updater_1_1_update_task_list.html#a548e1ded30b8ea67946d7bb7025c5f71" />
+      <keyword name="QLinkedList" id="QLinkedList&lt; UpdateTask * &gt;::QLinkedList" ref="qlinkedlist.html#QLinkedList-2" />
+      <keyword name="QLinkedList" id="QLinkedList&lt; UpdateTask * &gt;::QLinkedList" ref="qlinkedlist.html#QLinkedList-3" />
+      <keyword name="QLinkedList" id="QLinkedList&lt; UpdateTask * &gt;::QLinkedList" ref="qlinkedlist.html#QLinkedList-4" />
+      <keyword name="operator=" id="QLinkedList&lt; UpdateTask * &gt;::operator=" ref="qlinkedlist.html#operator-eq" />
+      <keyword name="operator=" id="QLinkedList&lt; UpdateTask * &gt;::operator=" ref="qlinkedlist.html#operator-eq-2" />
+      <keyword name="swap" id="QLinkedList&lt; UpdateTask * &gt;::swap" ref="qlinkedlist.html#swap" />
+      <keyword name="operator==" id="QLinkedList&lt; UpdateTask * &gt;::operator==" ref="qlinkedlist.html#operator-eq-eq" />
+      <keyword name="operator!=" id="QLinkedList&lt; UpdateTask * &gt;::operator!=" ref="qlinkedlist.html#operator-not-eq" />
+      <keyword name="size" id="QLinkedList&lt; UpdateTask * &gt;::size" ref="qlinkedlist.html#size" />
+      <keyword name="isEmpty" id="QLinkedList&lt; UpdateTask * &gt;::isEmpty" ref="qlinkedlist.html#isEmpty" />
+      <keyword name="clear" id="QLinkedList&lt; UpdateTask * &gt;::clear" ref="qlinkedlist.html#clear" />
+      <keyword name="append" id="QLinkedList&lt; UpdateTask * &gt;::append" ref="qlinkedlist.html#append" />
+      <keyword name="prepend" id="QLinkedList&lt; UpdateTask * &gt;::prepend" ref="qlinkedlist.html#prepend" />
+      <keyword name="takeFirst" id="QLinkedList&lt; UpdateTask * &gt;::takeFirst" ref="qlinkedlist.html#takeFirst" />
+      <keyword name="takeLast" id="QLinkedList&lt; UpdateTask * &gt;::takeLast" ref="qlinkedlist.html#takeLast" />
+      <keyword name="removeAll" id="QLinkedList&lt; UpdateTask * &gt;::removeAll" ref="qlinkedlist.html#removeAll" />
+      <keyword name="removeOne" id="QLinkedList&lt; UpdateTask * &gt;::removeOne" ref="qlinkedlist.html#removeOne" />
+      <keyword name="contains" id="QLinkedList&lt; UpdateTask * &gt;::contains" ref="qlinkedlist.html#contains" />
+      <keyword name="count" id="QLinkedList&lt; UpdateTask * &gt;::count" ref="qlinkedlist.html#count" />
+      <keyword name="count" id="QLinkedList&lt; UpdateTask * &gt;::count" ref="qlinkedlist.html#count-2" />
+      <keyword name="begin" id="QLinkedList&lt; UpdateTask * &gt;::begin" ref="qlinkedlist.html#begin" />
+      <keyword name="begin" id="QLinkedList&lt; UpdateTask * &gt;::begin" ref="qlinkedlist.html#begin-2" />
+      <keyword name="cbegin" id="QLinkedList&lt; UpdateTask * &gt;::cbegin" ref="qlinkedlist.html#cbegin" />
+      <keyword name="constBegin" id="QLinkedList&lt; UpdateTask * &gt;::constBegin" ref="qlinkedlist.html#constBegin" />
+      <keyword name="end" id="QLinkedList&lt; UpdateTask * &gt;::end" ref="qlinkedlist.html#end" />
+      <keyword name="end" id="QLinkedList&lt; UpdateTask * &gt;::end" ref="qlinkedlist.html#end-2" />
+      <keyword name="cend" id="QLinkedList&lt; UpdateTask * &gt;::cend" ref="qlinkedlist.html#cend" />
+      <keyword name="constEnd" id="QLinkedList&lt; UpdateTask * &gt;::constEnd" ref="qlinkedlist.html#constEnd" />
+      <keyword name="insert" id="QLinkedList&lt; UpdateTask * &gt;::insert" ref="qlinkedlist.html#insert" />
+      <keyword name="erase" id="QLinkedList&lt; UpdateTask * &gt;::erase" ref="qlinkedlist.html#erase" />
+      <keyword name="erase" id="QLinkedList&lt; UpdateTask * &gt;::erase" ref="qlinkedlist.html#erase-2" />
+      <keyword name="first" id="QLinkedList&lt; UpdateTask * &gt;::first" ref="qlinkedlist.html#first" />
+      <keyword name="first" id="QLinkedList&lt; UpdateTask * &gt;::first" ref="qlinkedlist.html#first-2" />
+      <keyword name="last" id="QLinkedList&lt; UpdateTask * &gt;::last" ref="qlinkedlist.html#last" />
+      <keyword name="last" id="QLinkedList&lt; UpdateTask * &gt;::last" ref="qlinkedlist.html#last-2" />
+      <keyword name="removeFirst" id="QLinkedList&lt; UpdateTask * &gt;::removeFirst" ref="qlinkedlist.html#removeFirst" />
+      <keyword name="removeLast" id="QLinkedList&lt; UpdateTask * &gt;::removeLast" ref="qlinkedlist.html#removeLast" />
+      <keyword name="startsWith" id="QLinkedList&lt; UpdateTask * &gt;::startsWith" ref="qlinkedlist.html#startsWith" />
+      <keyword name="endsWith" id="QLinkedList&lt; UpdateTask * &gt;::endsWith" ref="qlinkedlist.html#endsWith" />
+      <keyword name="push_back" id="QLinkedList&lt; UpdateTask * &gt;::push_back" ref="qlinkedlist.html#push_back" />
+      <keyword name="push_front" id="QLinkedList&lt; UpdateTask * &gt;::push_front" ref="qlinkedlist.html#push_front" />
+      <keyword name="front" id="QLinkedList&lt; UpdateTask * &gt;::front" ref="qlinkedlist.html#front" />
+      <keyword name="front" id="QLinkedList&lt; UpdateTask * &gt;::front" ref="qlinkedlist.html#front-2" />
+      <keyword name="back" id="QLinkedList&lt; UpdateTask * &gt;::back" ref="qlinkedlist.html#back" />
+      <keyword name="back" id="QLinkedList&lt; UpdateTask * &gt;::back" ref="qlinkedlist.html#back-2" />
+      <keyword name="pop_front" id="QLinkedList&lt; UpdateTask * &gt;::pop_front" ref="qlinkedlist.html#pop_front" />
+      <keyword name="pop_back" id="QLinkedList&lt; UpdateTask * &gt;::pop_back" ref="qlinkedlist.html#pop_back" />
+      <keyword name="empty" id="QLinkedList&lt; UpdateTask * &gt;::empty" ref="qlinkedlist.html#empty" />
+      <keyword name="toStdList" id="QLinkedList&lt; UpdateTask * &gt;::toStdList" ref="qlinkedlist.html#toStdList" />
+      <keyword name="operator+=" id="QLinkedList&lt; UpdateTask * &gt;::operator+=" ref="qlinkedlist.html#operator-2b-eq" />
+      <keyword name="operator+=" id="QLinkedList&lt; UpdateTask * &gt;::operator+=" ref="qlinkedlist.html#operator-2b-eq-2" />
+      <keyword name="operator+" id="QLinkedList&lt; UpdateTask * &gt;::operator+" ref="qlinkedlist.html#operator-2b" />
+      <keyword name="operator&lt;&lt;" id="QLinkedList&lt; UpdateTask * &gt;::operator&lt;&lt;" ref="qlinkedlist.html#operator-lt-lt-2" />
+      <keyword name="operator&lt;&lt;" id="QLinkedList&lt; UpdateTask * &gt;::operator&lt;&lt;" ref="qlinkedlist.html#operator-lt-lt" />
+      <keyword name="~UpdateTask" id="QtAutoUpdater::UpdateTask::~UpdateTask" ref="class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba" />
+      <keyword name="fromStdList" id="QLinkedList&lt; UpdateTask * &gt;::fromStdList" ref="qlinkedlist.html#fromStdList" />
+      <keyword name="Iterator" id="QLinkedList&lt; UpdateTask * &gt;::Iterator" ref="qlinkedlist.html#Iterator-typedef" />
+      <keyword name="ConstIterator" id="QLinkedList&lt; UpdateTask * &gt;::ConstIterator" ref="qlinkedlist.html#ConstIterator-typedef" />
+      <keyword name="size_type" id="QLinkedList&lt; UpdateTask * &gt;::size_type" ref="qlinkedlist.html#size_type-typedef" />
+      <keyword name="value_type" id="QLinkedList&lt; UpdateTask * &gt;::value_type" ref="qlinkedlist.html#value_type-typedef" />
+      <keyword name="pointer" id="QLinkedList&lt; UpdateTask * &gt;::pointer" ref="qlinkedlist.html#pointer-typedef" />
+      <keyword name="const_pointer" id="QLinkedList&lt; UpdateTask * &gt;::const_pointer" ref="qlinkedlist.html#const_pointer-typedef" />
+      <keyword name="reference" id="QLinkedList&lt; UpdateTask * &gt;::reference" ref="qlinkedlist.html#reference-typedef" />
+      <keyword name="const_reference" id="QLinkedList&lt; UpdateTask * &gt;::const_reference" ref="qlinkedlist.html#const_reference-typedef" />
+      <keyword name="difference_type" id="QLinkedList&lt; UpdateTask * &gt;::difference_type" ref="qlinkedlist.html#difference_type-typedef" />
+    </keywords>
+    <files>
+      <file>tabs.css</file>
+      <file>tab_a.png</file>
+      <file>tab_b.png</file>
+      <file>tab_h.png</file>
+      <file>tab_s.png</file>
+      <file>nav_h.png</file>
+      <file>nav_f.png</file>
+      <file>bc_s.png</file>
+      <file>doxygen.png</file>
+      <file>closed.png</file>
+      <file>open.png</file>
+      <file>bdwn.png</file>
+      <file>sync_on.png</file>
+      <file>sync_off.png</file>
+      <file>doc.png</file>
+      <file>folderopen.png</file>
+      <file>folderclosed.png</file>
+      <file>arrowdown.png</file>
+      <file>arrowright.png</file>
+      <file>splitbar.png</file>
+      <file>doxygen.css</file>
+      <file>search/search_l.png</file>
+      <file>search/search_m.png</file>
+      <file>search/search_r.png</file>
+      <file>search/close.png</file>
+      <file>search/mag_sel.png</file>
+      <file>search/search.css</file>
+      <file>search/search.js</file>
+      <file>adminauthoriser_8h_source.html</file>
+      <file>updater_8h_source.html</file>
+      <file>updateschedulercontroller_8h_source.html</file>
+      <file>updatetask_8h_source.html</file>
+      <file>updatecontroller_8h_source.html</file>
+      <file>image_page.html</file>
+      <file>classtypedef.html</file>
+      <file>namespace_qt_auto_updater.html</file>
+      <file>class_qt_auto_updater_1_1_admin_authoriser.html</file>
+      <file>class_qt_auto_updater_1_1_admin_authoriser-members.html</file>
+      <file>class_qt_auto_updater_1_1_basic_loop_update_task.html</file>
+      <file>class_qt_auto_updater_1_1_basic_loop_update_task.png</file>
+      <file>class_qt_auto_updater_1_1_basic_loop_update_task-members.html</file>
+      <file>class_qt_auto_updater_1_1_loop_update_task.html</file>
+      <file>class_qt_auto_updater_1_1_loop_update_task.png</file>
+      <file>class_qt_auto_updater_1_1_loop_update_task-members.html</file>
+      <file>class_qt_auto_updater_1_1_time_point_update_task.html</file>
+      <file>class_qt_auto_updater_1_1_time_point_update_task.png</file>
+      <file>class_qt_auto_updater_1_1_time_point_update_task-members.html</file>
+      <file>struct_qt_auto_updater_1_1_time_span.html</file>
+      <file>class_qt_auto_updater_1_1_time_span-members.html</file>
+      <file>class_qt_auto_updater_1_1_update_controller.html</file>
+      <file>class_qt_auto_updater_1_1_update_controller.png</file>
+      <file>class_qt_auto_updater_1_1_update_controller-members.html</file>
+      <file>class_qt_auto_updater_1_1_updater.html</file>
+      <file>class_qt_auto_updater_1_1_updater.png</file>
+      <file>class_qt_auto_updater_1_1_updater-members.html</file>
+      <file>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</file>
+      <file>struct_qt_auto_updater_1_1_updater_1_1_update_info-members.html</file>
+      <file>class_qt_auto_updater_1_1_update_scheduler_controller.html</file>
+      <file>class_qt_auto_updater_1_1_update_scheduler_controller-members.html</file>
+      <file>class_qt_auto_updater_1_1_update_task.html</file>
+      <file>class_qt_auto_updater_1_1_update_task.png</file>
+      <file>class_qt_auto_updater_1_1_update_task-members.html</file>
+      <file>class_qt_auto_updater_1_1_update_task_list.html</file>
+      <file>class_qt_auto_updater_1_1_update_task_list.png</file>
+      <file>class_qt_auto_updater_1_1_update_task_list-members.html</file>
+      <file>dir_e70041d101dc8b1c23d2644820ea880c.html</file>
+      <file>dir_98bb3407f3d6c4e9de7db4ae7ef9e1cd.html</file>
+      <file>index.html</file>
+      <file>pages.html</file>
+      <file>namespaces.html</file>
+      <file>annotated.html</file>
+      <file>classes.html</file>
+      <file>hierarchy.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_func.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_enum.html</file>
+      <file>functions_enum.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_eval.html</file>
+      <file>functions_prop.html</file>
+      <file>functions_prop.html</file>
+      <file>functions_prop.html</file>
+      <file>files.html</file>
+    </files>
+  </filterSection>
+</QtHelpProject>

@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/icons">
-        <file alias="main.ico">Oxygen-Icons.org-Oxygen-Actions-fork.ico</file>
-    </qresource>
-</RCC>
