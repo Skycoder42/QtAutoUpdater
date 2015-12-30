@@ -273,6 +273,15 @@ UpdateController::maintenanceToolPath for more details.
 */
 
 /*!
+@fn QtAutoUpdater::UpdateController::~UpdateController
+
+@warning Do not destroy the controller while UpdateController::running returns `true`!!!
+This will crash your program!!!
+
+@sa UpdateController::running, UpdateController::cancelUpdate
+*/
+
+/*!
 @fn QtAutoUpdater::UpdateController::UpdateController(const QString &, QWidget *)
 
 @overload

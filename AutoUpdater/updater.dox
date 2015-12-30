@@ -9,17 +9,18 @@ independet of the Widgets-Library and won't need a gui. The Widgets-Library requ
 a gui and the Core-Library.
 
 ## Core-Library:
- - Updater : The main updater class
- - UpdateScheduler : Responsilbe for update-scheduling. Internal class, indirectly accessible
-by the Updater (and UpdateController)
- - UpdateTask : Base class for all update tasks. The most useful are:
-   - TimeSpan : Represents a timespan with a timeunit
-   - BasicLoopUpdateTask : An (optinally) repeated timespan
-   - TimePointUpdateTask : A specific timepoint (with optional repeating every year/month/...)
-   - UpdateTaskList : An abstract list of different sequential update tasks
+ - Updater
+ - UpdateSchedulerController
+ - TimeSpan
+ - UpdateTask
+   - LoopUpdateTask
+	 - BasicLoopUpdateTask
+   - TimePointUpdateTask
+   - UpdateTaskList
+ - AdminAuthoriser
 
 ## Widgets-Libray:
- - UpdateController : A gui-controller to automate the update process and show information to the user
+ - UpdateController
 */
 
 /*!

@@ -14,7 +14,7 @@ shure that QCoreApplication::applicationName (and QCoreApplication::organization
 are set properly or use UpdateSchedulerController::setSettingsObject for a custom settings
 object.
 
-@sa Updater::scheduleUpdate(UpdateTask *), UpdateController::scheduleUpdate(UpdateTask *),
+@sa Updater::scheduleUpdate(UpdateTask *), UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel),
 QSettings::QSettings(QObject *)
 */
 
