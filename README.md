@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 ```
 
 ## Documentation
-As soon as it is finished, the documentation will be available within the releases and on [github pages](https://skycoder42.github.io/QtAutoUpdater/).
+The documentation is available within the releases and on [github pages](https://skycoder42.github.io/QtAutoUpdater/).
 
 The documentation was created using [doxygen](http://www.stack.nl/~dimitri/doxygen/). It includes an HTML-documentation and Qt-Help files that can be included into QtCreator (QtAssistant) to show F1-Help (See [Adding External Documentation](https://doc.qt.io/qtcreator/creator-help.html#adding-external-documentation) for more details).
 
