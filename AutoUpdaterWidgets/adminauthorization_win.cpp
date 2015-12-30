@@ -95,7 +95,8 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
     const QString file = QDir::toNativeSeparators(program);
 	const QString args = qt_create_commandline(arguments);
 
-	SHELLEXECUTEINFOW shellExecuteInfo = { 0 };
+	SHELLEXECUTEINFOW shellExecuteInfo;
+	ZeroMemory(&shellExecuteInfo, sizeof(SHELLEXECUTEINFOW));
 	shellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
     shellExecuteInfo.lpVerb = L"runas";
 	shellExecuteInfo.lpFile = (wchar_t *)file.utf16();
