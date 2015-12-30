@@ -104,7 +104,7 @@ void UpdateController::resetUpdateRunArgs()
 	d->runArgs = QStringList(QStringLiteral("--updater"));
 }
 
-Updater *UpdateController::getUpdater() const
+const Updater * UpdateController::getUpdater() const
 {
 	const Q_D(UpdateController);
 	return d->mainUpdater;

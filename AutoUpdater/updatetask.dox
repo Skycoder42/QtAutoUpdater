@@ -86,9 +86,9 @@ is registered as a storable task. This can be done by calling
 `UpdateSchedulerController::registerStoredTask&lt;MyUpdateTask&gt;();`. In addition to
 that, your task needs to provide a public constructor that takes a QByteArray as parameter.
 
-@sa UpdateScheduler, LoopUpdateTask, BasicLoopUpdateTask, TimePointUpdateTask,
+@sa LoopUpdateTask, BasicLoopUpdateTask, TimePointUpdateTask,
 UpdateTaskList, Updater::scheduleUpdate(UpdateTask *),
-UpdaterController::scheduleUpdate(UpdateTask *, DisplayLevel)
+UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
 */
 
 /*!

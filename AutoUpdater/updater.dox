@@ -10,8 +10,8 @@ a gui and the Core-Library.
 
 ## Core-Library:
  - Updater : The main updater class
- - UpdateScheduler : Responsilbe for update-scheduling. Mainly internal, but public
-accessible
+ - UpdateScheduler : Responsilbe for update-scheduling. Internal class, indirectly accessible
+by the Updater (and UpdateController)
  - UpdateTask : Base class for all update tasks. The most useful are:
    - TimeSpan : Represents a timespan with a timeunit
    - BasicLoopUpdateTask : An (optinally) repeated timespan
@@ -299,16 +299,13 @@ Schedules an update to be run after `delayMinutes` minutes. If `repeated` is `tr
 updater will not just be run once, but every `delayMinutes` minutes (infinitly, until
 this instance is destroyed or the task canceled).
 
-To cancel the update task, call Updater::cancelScheduledUpdate.
-
 @overloads{
 	@povElem{scheduleUpdate(UpdateTask *)}
 	@ovElem{scheduleUpdate(qint64 , bool)}
 	@ovElem{scheduleUpdate(const QDateTime &)}
 }
 
-@sa Updater::cancelScheduledUpdate, UpdateScheduler, UpdateTask
-}
+@sa Updater::cancelScheduledUpdate, BasicLoopUpdateTask, Updater::checkForUpdates
 */
 
 /*!
@@ -322,15 +319,13 @@ Schedules an update to be run at `when`. If `when` lays in the past, nothing wil
 The update will be started once that time is reached (assuming that this updater instance
 is still alive at that timepoint).
 
-To cancel the update task, call Updater::cancelScheduledUpdate.
-
 @overloads{
 	@povElem{scheduleUpdate(UpdateTask *)}
 	@ovElem{scheduleUpdate(qint64 , bool)}
 	@ovElem{scheduleUpdate(const QDateTime &)}
 }
 
-@sa Updater::cancelScheduledUpdate, UpdateScheduler, UpdateTask
+@sa Updater::cancelScheduledUpdate, TimePointUpdateTask, Updater::checkForUpdates
 */
 
 /*!
@@ -362,7 +357,22 @@ To cancel the update task, call Updater::cancelScheduledUpdate.
 	@ovElem{scheduleUpdate(const QDateTime &)}
 }
 
-@sa Updater::cancelScheduledUpdate, UpdateScheduler, UpdateTask
+@sa Updater::cancelScheduledUpdate, UpdateTask, Updater::checkForUpdates
+*/
+
+/*!
+@fn QtAutoUpdater::Updater::cancelScheduledUpdate
+
+@param taskId The id of the task to be canceled
+
+Cancels the task with the id `taskId`. If there was a task with that ID, you can be shure
+that it will be canceled.
+
+@attention The canceling will happen, but may be a little delayed (because of
+multithreading). This means that it's possible that a canceled task fires one or more
+updates that have reached their timepoint before they could be canceled.
+
+@sa Updater::scheduleUpdate(UpdateTask *)
 */
 
 /*!

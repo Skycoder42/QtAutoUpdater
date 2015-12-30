@@ -354,3 +354,197 @@ change them)
 
 @sa UpdateController::runAsAdmin
 */
+
+/*!
+@fn QtAutoUpdater::UpdateController::getUpdater
+
+@returns The Updater object this controller uses internally to check for updates
+
+The returned object is owned by the controller and should not be deleted. The returned
+object is `const` because manually changing the updater (e.g. by calling
+Updater::checkForUpdates) could break the controller and lead to a crash! You may only
+use this function to e.g. get extended error information.
+
+@note Some functions, like Updater::abortUpdateCheck or Updater::cancelExitRun may be safe
+to call, even though they are not `const` However, I will give no guarantee for any of the
+unconstant functions. If you need to do something like that, you can cast the returned
+point and try it out.
+
+@sa Updater
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::parentWidget
+
+@returns The parent widget, if available
+
+This function will only return a value if the parent of the updater is a widget. If thats
+not the case, `NULL` will be returned.
+
+@note Even if `NULL` is returned, the controller can have an object parent. Check
+QObject::parent if you want to now whether the controller has any parent or not.
+
+@sa QObject::parent, UpdateController::setParent(QWidget *), UpdateController::setParent(QObject *)
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::setParent(QWidget *)
+
+@overload
+@param parent The new parent widget for the controller and it's windows
+
+Sets the parent for this object to `parent` **and** sets `parent` to be the parent window for
+all dialogs of the controller.
+
+@overloads{
+	@ovElem{setParent(QWidget *)}
+	@ovElem{setParent(QObject *)}
+}
+
+@sa QObject::parent, UpdateController::parentWidget, UpdateController::UpdateController(QWidget *)
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::setParent(QObject *)
+
+@overload
+@param parent The new parent object for the controller
+
+Sets the parent for this object to `parent` **and** sets parent widget of all the
+controllers dialogs to `NULL`! This means they will become top-level windows without a
+parent.
+
+@overloads{
+	@ovElem{setParent(QWidget *)}
+	@ovElem{setParent(QObject *)}
+}
+
+@sa QObject::parent, UpdateController::parentWidget, UpdateController::UpdateController(QObject *)
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::start
+
+@param displayLevel The DisplayLevel to be used for this run
+@return `true`, if the controller started, `false` if it already was running
+
+start will only work if the updater isn't already running, but if it isn't, this function
+will always succeed.
+
+@note This function will not return until the maintenancetool has started checking for
+updates (or immediatly if already running). If the level is for example
+UpdateController::AskLevel, this function will block while the question box is shown to
+the user.
+
+@sa UpdateController::running, UpdateController::cancelUpdate
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::cancelUpdate
+
+@param maxDelay the maximal (asynchrounus) delay to wait
+@return `true`, if the canceling was started, `false` if not
+
+This function will only return `true` if the canceling was **started** successfully. It
+will not wait for the controller to be actually canceled. However, you can be shure that
+the controller will be canceled before `maxDelay` has passed.
+
+If `false` is returned, this can either mean that the controller is currently not running
+(user UpdateController::running to check that) or that it is showing an "uncancelable" dialog
+to the user (Any dialog but the progress dialog is "uncancelable"). If thats the case, you
+have no other choice but to wait for the user to close all those dialogs.
+
+@sa UpdateController::running, UpdateController::start
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::scheduleUpdate(qint64 , bool, DisplayLevel)
+
+@overload
+@param delayMinutes The time (in minutes) to wait until the update is started
+@param repeated Specifies, whether the updater should be started every `delayMinutes`
+or only once
+@param displayLevel The display-level to be used by the controller
+@returns The internal ID of this update task. Can be used to cancel the task
+
+Schedules an update to be run after `delayMinutes` minutes. If `repeated` is `true`, the
+controller will not just be run once, but every `delayMinutes` minutes (infinitly, until
+this instance is destroyed or the task canceled).
+
+@overloads{
+	@povElem{scheduleUpdate(UpdateTask *, DisplayLevel)}
+	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
+}
+
+@sa UpdateController::cancelScheduledUpdate, BasicLoopUpdateTask, UpdateController::start
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::scheduleUpdate(const QDateTime &, DisplayLevel)
+
+@overload
+@param when The timepoint where the update should be started
+@param displayLevel The display-level to be used by the controller
+@returns The internal ID of this update task. Can be used to cancel the task
+
+Schedules an update to be run at `when`. If `when` lays in the past, nothing will happen.
+The update will be started once that time is reached (assuming that this controller instance
+is still alive at that timepoint).
+
+@overloads{
+	@povElem{scheduleUpdate(UpdateTask *, DisplayLevel)}
+	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
+}
+
+@sa UpdateController::cancelScheduledUpdate, TimePointUpdateTask, UpdateController::start
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
+
+@overload
+@param task The task to be scheduled
+@param displayLevel The display-level to be used by the controller
+@returns The internal ID of this update task. Can be used to cancel the task
+
+Uses `task` to schedule updates. For more details about the different tasks, check
+the UpdateTask documentation.
+
+@warning The scheduler will take ownership of `task`. Since `task` will be used in a
+different thread, you must not access it after passing it to this function
+
+Scheduling an update means that the controller will use the UpdateScheduler to schedule an
+update. as soons as the UpdateTask reached the point where it "matched" (meets the
+timepoint it was scheduled for), the scheduler will notify the controller, and the
+controller will autmatically start checking for updates.
+
+@note After scheduling the update, you will have no way to take track of the schedule.
+If the controller is already running while the task is triggered, nothing will happend.
+
+To cancel the update task, call UpdateController::cancelScheduledUpdate.
+
+@overloads{
+	@povElem{scheduleUpdate(UpdateTask *, DisplayLevel)}
+	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
+}
+
+@sa UpdateController::cancelScheduledUpdate, UpdateTask, UpdateController::start
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::cancelScheduledUpdate
+
+@param taskId The id of the task to be canceled
+
+Cancels the task with the id `taskId`. If there was a task with that ID, you can be shure
+that it will be canceled.
+
+@attention The canceling will happen, but may be a little delayed (because of
+multithreading). This means that it's possible that a canceled task fires one or more
+updates that have reached their timepoint before they could be canceled.
+
+@sa UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
+*/

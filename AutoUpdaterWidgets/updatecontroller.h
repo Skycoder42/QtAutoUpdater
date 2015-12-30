@@ -73,7 +73,7 @@ namespace QtAutoUpdater
 		void resetUpdateRunArgs();
 
 		//! Returns the Updater object used by the controller
-		Updater *getUpdater() const;
+		const Updater * getUpdater() const;
 
 		//! Returns the parent window
 		QWidget* parentWidget() const;
