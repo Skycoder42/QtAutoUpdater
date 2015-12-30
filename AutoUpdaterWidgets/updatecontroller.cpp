@@ -68,6 +68,19 @@ bool UpdateController::isRunning() const
 	return d->running;
 }
 
+QWidget *UpdateController::parentWindow() const
+{
+	const Q_D(UpdateController);
+	return d->window;
+}
+
+void UpdateController::setParentWindow(QWidget *parentWindow)
+{
+	Q_D(UpdateController);
+	d->window = parentWindow;
+	d->infoDialog->setNewParent(parentWindow);
+}
+
 bool UpdateController::runAsAdmin() const
 {
 	const Q_D(UpdateController);
@@ -307,8 +320,12 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 
 UpdateControllerPrivate::~UpdateControllerPrivate()
 {
+	if(this->running) {
+		qWarning("UpdaterController destroyed while still running! "
+				 "This may crash your application!");
+	}
+
+	this->infoDialog->deleteLater();
 	for(int taskID : this->updateTasks.keys())
 		UpdateScheduler::instance()->cancelTask(taskID);
-
-	delete this->mainUpdater;
 }

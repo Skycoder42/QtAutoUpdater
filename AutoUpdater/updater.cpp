@@ -3,8 +3,14 @@
 #include "updatescheduler.h"
 using namespace QtAutoUpdater;
 
+#ifdef Q_OS_OSX
+#define TOOL_PATH QStringLiteral("../../maintenancetool")//TODO test if ok...
+#else
+#define TOOL_PATH QStringLiteral("./maintenancetool")
+#endif
+
 Updater::Updater(QObject *parent) :
-	Updater(QStringLiteral("./maintenancetool"), parent)//TODO path on mac...
+	Updater(TOOL_PATH, parent)
 {}
 
 Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :

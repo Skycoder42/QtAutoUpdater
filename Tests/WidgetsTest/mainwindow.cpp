@@ -15,14 +15,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QSettings settings("./set.ini", QSettings::IniFormat);
 	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
+	this->ui->hasParentWindowCheckBox->setChecked(settings.value("hasParent", true).toBool());
 	this->ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value("level", QtAutoUpdater::UpdateController::ProgressLevel).toInt());
+	this->ui->adminCheckBox->setChecked(settings.value("admin", true).toBool());
+	this->ui->userChangecheckBox->setChecked(settings.value("adminChangable", true).toBool());
 }
 
 MainWindow::~MainWindow()
 {
 	QSettings settings("./set.ini", QSettings::IniFormat);
 	settings.setValue("path", this->ui->maintenanceToolLineEdit->text());
+	settings.setValue("hasParent", this->ui->hasParentWindowCheckBox->isChecked());
 	settings.setValue("level", this->ui->displayLevelComboBox->currentIndex());
+	settings.setValue("admin", this->ui->adminCheckBox->isChecked());
+	settings.setValue("adminChangable", this->ui->userChangecheckBox->isChecked());
 	delete ui;
 }
 
@@ -68,7 +74,8 @@ void MainWindow::on_cancelButton_clicked()
 void MainWindow::on_activeBox_toggled(bool checked)
 {
 	if(checked) {
-		this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), this);
+		this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(),
+															   this->ui->hasParentWindowCheckBox->isChecked() ? this : NULL);
 		this->ui->menuHelp->addAction(this->controller->getUpdateAction());
 		this->ui->mainToolBar->addAction(this->controller->getUpdateAction());
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
@@ -80,4 +87,10 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		this->controller = NULL;
 		this->statusBar()->showMessage("not running");
 	}
+}
+
+void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)
+{
+	if(this->controller)
+		this->controller->setParentWindow(checked ? this : NULL);
 }

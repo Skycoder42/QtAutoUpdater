@@ -21,6 +21,10 @@
 @image html ./doc/images/win/action.png "Update action inside a menu and a toolbar"<br>
 
 ## Mac - OsX 10.11
+The following pictures show the controller with a parent windows. Thus, all dialogs
+are shown as "sheets" to that window. If you create the UpdateController without a widget,
+they will show as normal toplevel windows instead.
+
 #### The Updater Elements
 @image html ./doc/images/mac/dialog_ask.png "Ask Dialog"<br>
 @image html ./doc/images/mac/dialog_progress.png "Progress Dialog"<br>

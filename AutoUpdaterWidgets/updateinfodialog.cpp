@@ -34,6 +34,15 @@ UpdateInfoDialog::~UpdateInfoDialog()
 	delete ui;
 }
 
+void UpdateInfoDialog::setNewParent(QWidget *parent)
+{
+	this->setParent(parent);
+	if(parent)
+		this->setWindowModality(Qt::WindowModal);
+	else
+		this->setWindowModality(Qt::ApplicationModal);
+}
+
 UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable)
 {
 	this->ui->headerLabel->setText(tr("Updates for %1 are available!")

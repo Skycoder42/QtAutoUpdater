@@ -104,7 +104,6 @@ bool UpdaterPrivate::startUpdateCheck()
 		this->lastErrorCode = EXIT_SUCCESS;
 		this->lastErrorLog.clear();
 
-		//TODO change on mac
 		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
 		this->mainProcess = new QProcess(this);
 		this->mainProcess->setProgram(toolInfo.absoluteFilePath());
@@ -252,7 +251,6 @@ void UpdaterPrivate::taskDone(int taskID)
 void UpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {
-		//TODO change on mac
 		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
 		bool ok = false;
 		if(this->adminAuth && !this->adminAuth->hasAdminRights()) {

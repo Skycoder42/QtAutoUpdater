@@ -91,7 +91,7 @@ void UpdaterTest::testUpdaterInitState()
 #if defined(Q_OS_WIN32)
 	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.exe"));
 #elif defined(Q_OS_OSX)
-	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.app/Contents/MacOS/maintenancetool"));
+	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("../../maintenancetool.app/Contents/MacOS/maintenancetool"));
 #elif defined(Q_OS_UNIX)
     QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool"));
 #endif

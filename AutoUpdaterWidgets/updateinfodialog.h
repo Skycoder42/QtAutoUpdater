@@ -24,6 +24,8 @@ namespace QtAutoUpdater
 		explicit UpdateInfoDialog(QWidget *parent = 0);
 		~UpdateInfoDialog();
 
+		void setNewParent(QWidget *parent);
+
 		DialogResult showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable);
 
 	private slots:
