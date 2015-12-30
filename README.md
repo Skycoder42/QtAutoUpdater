@@ -46,8 +46,12 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library
 
 ## Getting started
-The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create and installer/updater. If you already now how to to that, just check out the examples below. If not, you can check out my 
-[Tutorial: Create a simple auto-updated application](https://skycoder42.github.io/QtAutoUpdater/tutorial_page.html)
+The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create and installer/updater. If you already now how to to that, just check out the examples below. If not, here are some links that
+will explain how to create an online-installer using the framework. Once you have figured out how to do that, it's only a small step
+to the updater library:
+ - [QtIFW - Tutorial: Creating an Installer](https://doc.qt.io/qtinstallerframework/ifw-tutorial.html): Check this to learn how to create an installer in general. Don't be afraid, it's a very short tutorial
+ - [QtIFW - Creating Online Installers](https://doc.qt.io/qtinstallerframework/ifw-online-installers.html): This page will tell you how to create an online installer from your offline installer - in just 2 steps
+ - [QtIFW - Promoting Updates](https://doc.qt.io/qtinstallerframework/ifw-updates.html): And this site explains how to create updates
 
 ## Examples
 **Important:**<br>
