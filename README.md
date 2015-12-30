@@ -29,7 +29,7 @@ Github repository: https://github.com/Skycoder42/QtAutoUpdater
  - UpdatePanel -> a button with a busy-indicator to to the same
 
 #### Screenshots
-Here some sample screenshots of the gui
+Here some sample screenshots of the gui (The rocket of the information dialog is the "application icon" and depends on your application)
 
 | Dialog Sample      | Windows                                   | Mac                                       | X11                                       |
 |--------------------|-------------------------------------------|-------------------------------------------|-------------------------------------------|
@@ -43,7 +43,11 @@ Here some sample screenshots of the gui
  - C++11 - The library makes heavy use of it's features
  - Qt 5.5 (the minimum I tested, may work with older versions)
    - If you are using Qt 5.6, the updater will make use of the new QVersionNumber class. If not, it will create a class named the same way that simply inherits QString and adds a few functions.
- - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library 
+ - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library
+
+## Getting started
+The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create and installer/updater. If you already now how to to that, just check out the examples below. If not, you can check out my 
+[Tutorial: Create a simple auto-updated application]()
 
 ## Examples
 **Important:**<br>
@@ -118,16 +122,16 @@ The documentation was created using [doxygen](http://www.stack.nl/~dimitri/doxyg
 
 ## Downloads
 Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
- - A .pri file for easy project includes (Just add `include(<path_to>/qtautoupdater.pri)` to your project!)
+ - A .pri file for easy project includes (Just add `include(<path_to>/qtautoupdater.pri)` to your project and all the includes/libray imports/... will be done by that file!)
  - Qt5.5.1 precompiled binaries for:
    - Windows
      - msvc2013 x86
      - msvc2013 x64
      - mingw
-   - X11 (Linux)
-     - gcc x64
    - OsX
      - clang x64
+   - X11 (Linux)
+     - gcc x64
  - The (public) header files needed for these binaries
  - The HTML and QtHelp documentation
  - The (undeployed) widgets example
