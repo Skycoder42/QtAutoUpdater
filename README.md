@@ -53,11 +53,14 @@ to the updater library:
  - [QtIFW - Creating Online Installers](https://doc.qt.io/qtinstallerframework/ifw-online-installers.html): This page will tell you how to create an online installer from your offline installer - in just 2 steps
  - [QtIFW - Promoting Updates](https://doc.qt.io/qtinstallerframework/ifw-updates.html): And this site explains how to create updates
 
-## Examples
+### Examples
 **Important:**<br>
 Since this library requires the maintenancetool that is deployed with every Qt Installer Framework installation, the examples cannot be tested without a maintenancetool! If you intend to use this library, the maintenancetool will be available for your final application. For testing purpose or the examples, I set the path to the MaintenanceTool that is deployed with the installation of Qt (since you all should have at least that one). So make shure to adjust the path if you try to run the example.
 
-### Updater
+#### IcoDroid
+Not a real example, but an application of mine that makes use of the library. If you want to see a full and working example with an installer, check out https://github.com/Skycoder42/IcoDroid
+
+#### Updater
 The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "./maintenancetool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
 
 ```cpp
@@ -89,7 +92,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-### UpdateController
+#### UpdateController
 This example will show you the full capability of the controller. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the Tests/WidegtsTest application.
 
 ```cpp
