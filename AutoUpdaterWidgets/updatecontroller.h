@@ -21,7 +21,7 @@ namespace QtAutoUpdater
 		//! Specifies whether the controller is currently active or not
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 		//! Specifies whether the controller should run the updater as admin or not
-		Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin)
+		Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin NOTIFY runAsAdminChanged)
 		//! Holds the arguments to invoke the updater with
 		Q_PROPERTY(QStringList updateRunArgs READ updateRunArgs WRITE setUpdateRunArgs RESET resetUpdateRunArgs)
 
@@ -29,22 +29,24 @@ namespace QtAutoUpdater
 		//! Defines the different display-levels of the dialog
 		enum DisplayLevel {
 			AutomaticLevel = 0,//!< The lowest level. Nothing will be displayed at all.
-			ExitLevel = 1,//!< The whole updating works completly automatically. Only a notification that updates are ready to install will be shown.
-			InfoLevel = 2,//!< Will show information about updates if available, nothing otherwise
-			ExtendedInfoLevel = 3,//!< Will shwo information about the update result, for both cases, updates and no updates
-			ProgressLevel = 4,//!< Shows a (modal) progress dialog while checking for updates
-			AskLevel = 5//!< The highest level. Will ask the user if he wants to check for updates before actually checking
+			ExitLevel = 1,/*!< The whole updating works completly automatically without displaying anything. Only
+						   *   a notification that updates are ready to install will be shown if updates are available.
+						   */
+			InfoLevel = 2,//!< Will show information about updates if available, nothing otherwise.
+			ExtendedInfoLevel = 3,//!< Will show information about the update result, for both cases, updates and no updates.
+			ProgressLevel = 4,//!< Shows a (modal) progress dialog while checking for updates.
+			AskLevel = 5//!< The highest level. Will ask the user if he wants to check for updates before actually checking.
 		};
 		Q_ENUM(DisplayLevel)
 
 		//! Constructs a new controller with a parent. Will be application modal
 		explicit UpdateController(QObject *parent = NULL);
 		//! Constructs a new controller with a parent. Will modal to the parent window
-		explicit UpdateController(QWidget *parentWindow);
+		explicit UpdateController(QWidget *parentWidget);
 		//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
 		explicit UpdateController(const QString &maintenanceToolPath, QObject *parent = NULL);
 		//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
-		explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow);
+		explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget);
 		//! Destructor
 		~UpdateController();
 
@@ -102,6 +104,8 @@ namespace QtAutoUpdater
 	signals:
 		//! NOTIFY-Accessor for UpdateController::running
 		void runningChanged(bool running);
+		//! NOTIFY-Accessor for UpdateController::runAsAdmin
+		void runAsAdminChanged(bool runAsAdmin);
 
 	private slots:
 		void checkUpdatesDone(bool hasUpdates, bool hasError);

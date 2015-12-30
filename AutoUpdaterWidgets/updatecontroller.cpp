@@ -19,9 +19,9 @@ UpdateController::UpdateController(QObject *parent) :
 	d_ptr(new UpdateControllerPrivate(this, NULL))
 {}
 
-UpdateController::UpdateController(QWidget *parentWindow) :
-	QObject(parentWindow),
-	d_ptr(new UpdateControllerPrivate(this, parentWindow))
+UpdateController::UpdateController(QWidget *parentWidget) :
+	QObject(parentWidget),
+	d_ptr(new UpdateControllerPrivate(this, parentWidget))
 {}
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *parent) :
@@ -29,9 +29,9 @@ UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *
 	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, NULL))
 {}
 
-UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow) :
-	QObject(parentWindow),
-	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, parentWindow))
+UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget) :
+	QObject(parentWidget),
+	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, parentWidget))
 {}
 
 UpdateController::~UpdateController()
@@ -81,6 +81,7 @@ void UpdateController::setRunAsAdmin(bool runAsAdmin, bool userEditable)
 		d->runAdmin = runAsAdmin;
 		if(d->mainUpdater->willRunOnExit())
 			d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
+		emit runAsAdminChanged(runAsAdmin);
 	}
 	d->adminUserEdit = userEditable;
 }
@@ -222,7 +223,14 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
 				bool shouldShutDown = false;
-				switch(d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(), d->runAdmin, d->adminUserEdit)) {
+				bool oldRunAdmin = d->runAdmin;
+				UpdateInfoDialog::DialogResult res = d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(),
+																				   d->runAdmin,
+																				   d->adminUserEdit);
+				if(d->runAdmin != oldRunAdmin)
+					emit runAsAdminChanged(d->runAdmin);
+
+				switch(res) {
 				case UpdateInfoDialog::InstallNow:
 					shouldShutDown = true;
 				case UpdateInfoDialog::InstallLater:

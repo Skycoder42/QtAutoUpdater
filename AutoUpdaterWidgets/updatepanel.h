@@ -2,6 +2,7 @@
 #define UPDATEPANEL_H
 
 #include <QWidget>
+#include <QPointer>
 #include <QMovie>
 
 namespace Ui {
@@ -25,7 +26,7 @@ namespace QtAutoUpdater
 		void updatesReady(bool hasUpdate, bool);
 
 	private:
-		UpdateController *controller;
+		QPointer<UpdateController> controller;
 		Ui::UpdatePanel *ui;
 		QMovie *loadingGif;
 	};

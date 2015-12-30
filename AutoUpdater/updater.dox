@@ -156,7 +156,7 @@ See Updater::maintenanceToolPath for more details.
 @fn QtAutoUpdater::Updater::Updater(const QString &, QObject *)
 
 @overload
-@param maintenanceToolPath The path to the maintenancetool executable
+@param maintenanceToolPath The path to the maintenancetool
 @param parent The object parent for QObject
 
 The maintenancetool path will be set to the given one (and cannot be changed).

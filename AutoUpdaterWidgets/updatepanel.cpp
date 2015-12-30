@@ -26,6 +26,10 @@ UpdatePanel::UpdatePanel(UpdateController *controller, QWidget *parent) :
 			this, &UpdatePanel::changeUpdaterState);
 	connect(this->controller->getUpdater(), &Updater::checkUpdatesDone,
 			this, &UpdatePanel::updatesReady);
+	connect(this->controller, &UpdateController::destroyed,
+			this, [this](){
+		this->setDisabled(true);
+	});
 }
 
 UpdatePanel::~UpdatePanel()
@@ -35,7 +39,8 @@ UpdatePanel::~UpdatePanel()
 
 void UpdatePanel::startUpdate()
 {
-	this->controller->start(UpdateController::ExtendedInfoLevel);
+	if(!this->controller.isNull())
+		this->controller->start(UpdateController::ExtendedInfoLevel);
 }
 
 void UpdatePanel::changeUpdaterState(bool isRunning)
