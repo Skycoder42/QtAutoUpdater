@@ -3,6 +3,8 @@
 
 @brief Shows sample images for the updater for all the supported platforms
 
+Back to UpdaterController.
+
 ## Windows - Windows 10
 #### The Updater Elements
 @image html ./doc/images/win/dialog_ask.png "Ask Dialog"<br>
@@ -74,11 +76,11 @@ to do is starting this controller. This can be done in 4 ways:
 For a full collection of all immages, please go to the @ref image_page "Image Page"
 
 ## Example
-This example will show you the full capability of the controller. Since there is no
+This example will show you the basic capabilities of the controller. Since there is no
 mainwindow in this example, you will only see the controller dialogs. Please not that
 you can control how much of that dialogset will be shown to the user. This example is
 reduced! for a full example with all parts of the controller, check the
-Tests/WidegtsTest application.
+Tests/WidegtsTest application!
 
 @attention Since this library requires the maintenancetool that is deployed with every
 Qt Installer Framework installation, the examples cannot be tested without a
@@ -114,4 +116,60 @@ int main(int argc, char *argv[])
 	return a.exec();
 }
 @endcode
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::maintenanceToolPath
+
+@default{Updater::maintenanceToolPath}
+
+This property is simply the forewarded Updater::maintenanceToolPath. Check the
+documentation of that property for more details.
+
+@accessors{
+	@readAc{maintenanceToolPath()}
+	@constantAc
+	@finalAc
+}
+
+@sa Updater::maintenanceToolPath
+*/
+
+/*!
+@property QtAutoUpdater::Updater::running
+
+@default{`false`}
+
+The controller can only run once at a time. If this property returns `true`, you will
+have to wait for it to finish to start it again. Please note that "running" includes
+not just that actual update check, but all the dialogs too. This means the Updater::running
+property of the attached updater can return `false` while this one returns `true`.
+
+@accessors{
+	@readAc{isRunning()}
+	@notifyAc{runningChanged()}
+}
+
+@sa UpdateController::getUpdater, UpdateController::start, UpdateController::cancelUpdate
+*/
+
+/*!
+@property QtAutoUpdater::Updater::runAsAdmin
+
+@default{`true`}
+
+Specifies whether the controller should run the updater (**not** the update check) as
+admin/root. If set `true`, the user will be prompted to allow this elevation (and enter
+his password).
+
+@note This property only specifies a "suggestion" to the user. If you want to disallow
+the user to change this, you will have to explicitly set it to be unchangable using
+the write accessor function of this property.
+
+@accessors{
+	@readAc{runAsAdmin()}
+	@writeAc{setRunAsAdmin()}
+}
+
+@sa UpdateController::getUpdater, UpdateController::start, UpdateController::cancelUpdate
 */

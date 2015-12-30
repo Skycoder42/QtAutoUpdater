@@ -114,7 +114,7 @@ you will have to wait for it to finish to get your update result or check for up
 	@notifyAc{runningChanged()}
 }
 
-@sa Updater::exitedNormally, Updater::getErrorCode, Updater::getErrorLog
+@sa Updater::checkForUpdates, Updater::abortUpdateCheck, Updater::exitedNormally, Updater::getErrorCode, Updater::getErrorLog
 */
 
 /*!

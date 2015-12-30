@@ -1,10 +1,10 @@
 #ifndef UPDATECONTROLLER_P_H
 #define UPDATECONTROLLER_P_H
 
+#include <updater.h>
 #include "updatecontroller.h"
 #include "progressdialog.h"
 #include "updateinfodialog.h"
-#include <updater.h>
 
 namespace QtAutoUpdater
 {

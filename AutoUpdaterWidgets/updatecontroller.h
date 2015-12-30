@@ -17,11 +17,9 @@ namespace QtAutoUpdater
 		Q_OBJECT
 
 		//! Holds the path of the attached maintenancetool
-		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT)
+		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT FINAL)
 		//! Specifies whether the controller is currently active or not
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
-		//! Holds the window to be used as parent for all dialogs
-		Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow)
 		//! Specifies whether the controller should run the updater as admin or not
 		Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin)
 		//! Holds the arguments to invoke the updater with
@@ -61,10 +59,6 @@ namespace QtAutoUpdater
 		DisplayLevel currentDisplayLevel() const;
 		//! READ-Accessor for UpdateController::running
 		bool isRunning() const;
-		//! READ-Accessor for UpdateController::parentWindow
-		QWidget* parentWindow() const;
-		//! WRITE-Accessor for UpdateController::parentWindow
-		void setParentWindow(QWidget* parentWindow);
 		//! READ-Accessor for UpdateController::runAsAdmin
 		bool runAsAdmin() const;
 		//! WRITE-Accessor for UpdateController::runAsAdmin
@@ -78,6 +72,13 @@ namespace QtAutoUpdater
 
 		//! Returns the Updater object used by the controller
 		Updater *getUpdater() const;
+
+		//! Returns the parent window
+		QWidget* parentWidget() const;
+		//! Changes the updaters parent to a new widget
+		void setParent(QWidget* parent);
+		//! Changes the updaters parent to an object without a widget
+		void setParent(QObject* parent);
 
 	public slots:
 		//! Starts the controller with the specified level.

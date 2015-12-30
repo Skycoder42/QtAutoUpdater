@@ -74,8 +74,10 @@ void MainWindow::on_cancelButton_clicked()
 void MainWindow::on_activeBox_toggled(bool checked)
 {
 	if(checked) {
-		this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(),
-															   this->ui->hasParentWindowCheckBox->isChecked() ? this : NULL);
+		if(this->ui->hasParentWindowCheckBox->isChecked())
+			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), this);
+		else
+			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), (QObject*)this);
 		this->ui->menuHelp->addAction(this->controller->getUpdateAction());
 		this->ui->mainToolBar->addAction(this->controller->getUpdateAction());
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
@@ -91,6 +93,10 @@ void MainWindow::on_activeBox_toggled(bool checked)
 
 void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)
 {
-	if(this->controller)
-		this->controller->setParentWindow(checked ? this : NULL);
+	if(this->controller) {
+		if(checked)
+			this->controller->setParent(this);
+		else
+			this->controller->setParent((QObject*)this);
+	}
 }

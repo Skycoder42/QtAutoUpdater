@@ -68,19 +68,6 @@ bool UpdateController::isRunning() const
 	return d->running;
 }
 
-QWidget *UpdateController::parentWindow() const
-{
-	const Q_D(UpdateController);
-	return d->window;
-}
-
-void UpdateController::setParentWindow(QWidget *parentWindow)
-{
-	Q_D(UpdateController);
-	d->window = parentWindow;
-	d->infoDialog->setNewParent(parentWindow);
-}
-
 bool UpdateController::runAsAdmin() const
 {
 	const Q_D(UpdateController);
@@ -120,6 +107,28 @@ Updater *UpdateController::getUpdater() const
 {
 	const Q_D(UpdateController);
 	return d->mainUpdater;
+}
+
+QWidget *UpdateController::parentWidget() const
+{
+	const Q_D(UpdateController);
+	return d->window;
+}
+
+void UpdateController::setParent(QWidget *parent)
+{
+	Q_D(UpdateController);
+	d->window = parent;
+	d->infoDialog->setNewParent(parent);
+	this->QObject::setParent(parent);
+}
+
+void UpdateController::setParent(QObject *parent)
+{
+	Q_D(UpdateController);
+	d->window = NULL;
+	d->infoDialog->setNewParent(NULL);
+	this->QObject::setParent(parent);
 }
 
 bool UpdateController::start(DisplayLevel displayLevel)

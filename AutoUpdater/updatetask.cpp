@@ -85,8 +85,10 @@ bool LoopUpdateTask::nextTask()
 			this->nextPoint = this->pauseSpan().addToDateTime(NOW);
 			return true;
 		}
-	} else if(this->repetitionsLeft < 0)
+	} else if(this->repetitionsLeft < 0) {
+		this->nextPoint = this->pauseSpan().addToDateTime(NOW);
 		return true;
+	}
 
 	return false;
 }
