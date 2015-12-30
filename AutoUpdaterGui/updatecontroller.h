@@ -84,7 +84,7 @@ namespace QtAutoUpdater
 
 	public slots:
 		//! Starts the controller with the specified level.
-		bool start(DisplayLevel displayLevel = ProgressLevel);
+		bool start(DisplayLevel displayLevel = InfoLevel);
 		//! Tries to cancel the controllers update
 		bool cancelUpdate(int maxDelay = 3000);
 
