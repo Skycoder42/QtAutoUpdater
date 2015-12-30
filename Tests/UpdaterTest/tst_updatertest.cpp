@@ -326,8 +326,16 @@ void setup(TestManager *manager)
 	manager->addParallelTest("testScheduler", "UpdateTaskList");
 
 	manager->addParallelTest("testUpdaterInitState");
+#if defined(Q_OS_WIN)
 	manager->addParallelTest("testUpdateCheck", "C:/Program Files/IcoDroid");
 	manager->addParallelTest("testUpdateCheck", "C:/Qt");
+#elif defined(Q_OS_OSX)
+	manager->addParallelTest("testUpdateCheck", "/Applications/IcoDroid.app");
+	manager->addParallelTest("testUpdateCheck", "/Users/sky/Qt");
+#elif defined(Q_OS_UNIX)
+	manager->addParallelTest("testUpdateCheck", "/home/sky/IcoDroid");
+	manager->addParallelTest("testUpdateCheck", "/home/sky/Qt");
+#endif
 
 	manager->addSequentialTest("testSchedulerSave");
 }

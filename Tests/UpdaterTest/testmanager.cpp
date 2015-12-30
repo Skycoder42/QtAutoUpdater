@@ -10,7 +10,12 @@ TestManager::TestManager(const QString &testProgramPath) :
 	passCount(0),
 	failCount(0),
 	activeProcesses()
-{}
+{
+	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ProcessError")))
+		qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
+	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ExitStatus")))
+		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+}
 
 void TestManager::addSequentialTest(const QString &testName, const QString &testData)
 {
@@ -133,9 +138,11 @@ void TestManager::runNextGroup()
 			proc->setArguments(info.arguments);
 
 			connect(proc, SIGNAL(finished(int,QProcess::ExitStatus)),
-					this, SLOT(processReady(int,QProcess::ExitStatus)));
+					this, SLOT(processReady(int,QProcess::ExitStatus)),
+					Qt::QueuedConnection);
 			connect(proc, SIGNAL(error(QProcess::ProcessError)),
-					this, SLOT(processError(QProcess::ProcessError)));
+					this, SLOT(processError(QProcess::ProcessError)),
+					Qt::QueuedConnection);
 
 			this->activeProcesses.insert(proc, info);
 			proc->start(QIODevice::ReadOnly);
