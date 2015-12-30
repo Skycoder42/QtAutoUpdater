@@ -4,6 +4,8 @@ A library to automatically check for updates and install them. This repository i
  - A library with the basic updater (without any GUI) and an update scheduler
  - A second library that requires the first one and adds basic GUI features
 
+Github repository: https://github.com/Skycoder42/QtAutoUpdater
+
 ## Main Features
 ### Core Library
  - Automatic Check for updates using the maintenancetool
