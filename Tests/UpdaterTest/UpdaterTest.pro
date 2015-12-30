@@ -24,7 +24,7 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/debug/ -lQtAutoUpdaterd
 else:mac:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/ -lQtAutoUpdater
 else:mac:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/ -lQtAutoUpdater_debug
-else:unix: LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/ -lAutoUpdater
+else:unix: LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/ -lQtAutoUpdater
 
 INCLUDEPATH += $$PWD/../../AutoUpdaterCore
 DEPENDPATH += $$PWD/../../AutoUpdaterCore
