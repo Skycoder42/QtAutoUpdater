@@ -793,16 +793,16 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ../README.md \
-                         ../AutoUpdater/updater.h \
-                         ../AutoUpdater/updater.dox \
-                         ../AutoUpdater/adminauthoriser.h \
-                         ../AutoUpdater/adminauthoriser.dox \
-                         ../AutoUpdater/updatetask.h \
-                         ../AutoUpdater/updatetask.dox \
-                         ../AutoUpdater/updateschedulercontroller.h \
-                         ../AutoUpdater/updateschedulercontroller.dox \
-                         ../AutoUpdaterWidgets/updatecontroller.h \
-                         ../AutoUpdaterWidgets/updatecontroller.dox
+                         ../AutoUpdaterCore/updater.h \
+                         ../AutoUpdaterCore/updater.dox \
+                         ../AutoUpdaterCore/adminauthoriser.h \
+                         ../AutoUpdaterCore/adminauthoriser.dox \
+                         ../AutoUpdaterCore/updatetask.h \
+                         ../AutoUpdaterCore/updatetask.dox \
+                         ../AutoUpdaterCore/updateschedulercontroller.h \
+                         ../AutoUpdaterCore/updateschedulercontroller.dox \
+                         ../AutoUpdaterGui/updatecontroller.h \
+                         ../AutoUpdaterGui/updatecontroller.dox
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
