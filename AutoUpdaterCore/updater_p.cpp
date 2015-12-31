@@ -80,19 +80,6 @@ const QString UpdaterPrivate::toSystemExe(QString basePath)
 #endif
 }
 
-const QString UpdaterPrivate::getWorkingDir(const QString &exePath)
-{
-#ifdef Q_OS_OSX//TODO check if ok so -> default is root?!?
-	QDir wDir(exePath);
-	wDir.cdUp();
-	wDir.cdUp();
-	wDir.cdUp();
-	return wDir.absolutePath();
-#else
-	return exePath;
-#endif
-}
-
 bool UpdaterPrivate::startUpdateCheck()
 {
 	if(this->running)
@@ -104,7 +91,7 @@ bool UpdaterPrivate::startUpdateCheck()
 		this->lastErrorCode = EXIT_SUCCESS;
 		this->lastErrorLog.clear();
 
-		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
+		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
 		this->mainProcess = new QProcess(this);
 		this->mainProcess->setProgram(toolInfo.absoluteFilePath());
 		this->mainProcess->setArguments({QStringLiteral("--checkupdates")});
@@ -251,7 +238,7 @@ void UpdaterPrivate::taskDone(int taskID)
 void UpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {
-		QFileInfo toolInfo(getWorkingDir(QCoreApplication::applicationDirPath()), this->toolPath);
+		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
 		bool ok = false;
 		if(this->adminAuth && !this->adminAuth->hasAdminRights()) {
 			ok = this->adminAuth->executeAsAdmin(toolInfo.absoluteFilePath(),
