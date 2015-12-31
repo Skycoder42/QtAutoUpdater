@@ -34,3 +34,4 @@ Makefile*
 *.qmlproject.user.*
 
 doc_generated
+*.qm

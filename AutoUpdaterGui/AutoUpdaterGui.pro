@@ -43,3 +43,5 @@ RESOURCES += \
 
 DISTFILES += \
     updatecontroller.dox
+
+include(./translations/translations.pri)
