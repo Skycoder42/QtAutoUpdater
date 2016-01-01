@@ -1,3 +1,5 @@
-TRANSLATIONS += $$PWD/QtAutoUpdaterController_de.ts
+TRANSLATIONS += $$PWD/QtAutoUpdaterController_de.ts \
+	$$PWD/QtAutoUpdaterController_template.ts
 
-DISTFILES += $$PWD/QtAutoUpdaterController_de.ts
+DISTFILES += $$PWD/QtAutoUpdaterController_de.ts \
+	$$PWD/QtAutoUpdaterController_template.ts
