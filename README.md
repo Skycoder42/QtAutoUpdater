@@ -27,6 +27,7 @@ Github repository: https://github.com/Skycoder42/QtAutoUpdater
  - "Run as Admin/root" fully supported on all 3 platforms
  - UpdateAction -> a QAction that starts the updater
  - UpdatePanel -> a button with a busy-indicator to to the same
+ - *Prepared* for translation
 
 #### Screenshots
 Here some sample screenshots of the gui (The rocket of the information dialog is the "application icon" and depends on your application)
@@ -126,6 +127,9 @@ int main(int argc, char *argv[])
 The documentation is available within the releases and on [github pages](https://skycoder42.github.io/QtAutoUpdater/).
 
 The documentation was created using [doxygen](http://www.stack.nl/~dimitri/doxygen/). It includes an HTML-documentation and Qt-Help files that can be included into QtCreator (QtAssistant) to show F1-Help (See [Adding External Documentation](https://doc.qt.io/qtcreator/creator-help.html#adding-external-documentation) for more details).
+
+## Translations
+The core library does not need any translation, since it won't show anything to the user. The Gui library however does. The project is prepared for translation. But since I speak only english and german, those are the only languages I can provide translations for. However, you can easily create the translations yourself. The file `AutoUpdaterGui/translations/QtAutoUpdaterController_template.ts` is a ready-made TS file. Just rename it (e.g to `QtAutoUpdaterController_jp.ts`) and open it with the QtLinguist to create the translations.
 
 ## Downloads
 Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
