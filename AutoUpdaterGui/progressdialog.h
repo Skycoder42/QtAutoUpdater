@@ -3,11 +3,9 @@
 
 #include <QDialog>
 #include <functional>
-#ifdef Q_OS_WIN
-#include <QPointer>
-#include <QWinTaskbarButton>
-#include <QWinTaskbarProgress>
 #include <QMessageBox>
+#ifdef Q_OS_WIN
+#include <QWinTaskbarButton>
 #endif
 
 namespace Ui {

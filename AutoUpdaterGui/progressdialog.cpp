@@ -1,6 +1,9 @@
 #include "progressdialog.h"
 #include "ui_progressdialog.h"
 #include <QCloseEvent>
+#ifdef Q_OS_WIN
+#include <QWinTaskbarProgress>
+#endif
 using namespace QtAutoUpdater;
 
 ProgressDialog::ProgressDialog(QWidget *parent) :
