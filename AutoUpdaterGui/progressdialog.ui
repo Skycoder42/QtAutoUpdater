@@ -17,7 +17,7 @@
    <string>Check for Updates</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="autoupdaterwidgets_resource.qrc">
+   <iconset resource="autoupdatergui_resource.qrc">
     <normaloff>:/updaterIcons/update.ico</normaloff>:/updaterIcons/update.ico</iconset>
   </property>
   <property name="modal">
@@ -57,7 +57,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="autoupdaterwidgets_resource.qrc"/>
+  <include location="autoupdatergui_resource.qrc"/>
  </resources>
  <connections>
   <connection>

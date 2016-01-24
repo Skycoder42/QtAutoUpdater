@@ -37,6 +37,7 @@ else:mac:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoU
 else:mac:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdaterGui/libQtAutoUpdaterController_debug.a
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdaterGui/libQtAutoUpdaterController.a
 
+win32: QT += winextras
 win32: LIBS += -lAdvapi32 -lOle32
 else:mac: LIBS += -framework Security
 else:unix: LIBS += -lutil

@@ -135,6 +135,10 @@ void UpdateController::setParent(QWidget *parent)
 	Q_D(UpdateController);
 	d->window = parent;
 	d->infoDialog->setNewParent(parent);
+	if(d->tProgress) {
+		d->tProgress->hide();
+		d->tProgress = NULL;
+	}
 	this->QObject::setParent(parent);
 }
 
@@ -143,6 +147,10 @@ void UpdateController::setParent(QObject *parent)
 	Q_D(UpdateController);
 	d->window = NULL;
 	d->infoDialog->setNewParent(NULL);
+	if(d->tProgress) {
+		d->tProgress->hide();
+		d->tProgress = NULL;
+	}
 	this->QObject::setParent(parent);
 }
 
@@ -168,19 +176,8 @@ bool UpdateController::start(DisplayLevel displayLevel)
 		}
 	}
 
-	if(d->displayLevel >= ProgressLevel) {
-		d->checkUpdatesProgress = new ProgressDialog(d->window);
-		connect(d->checkUpdatesProgress, &ProgressDialog::canceled, this, [d](){
-			d->wasCanceled = true;
-		});
-		d->checkUpdatesProgress->open(d->mainUpdater, &QtAutoUpdater::Updater::abortUpdateCheck);
-	}
-
 	if(!d->mainUpdater->checkForUpdates()) {
 		if(d->displayLevel >= ProgressLevel) {
-			d->checkUpdatesProgress->hide();
-			d->checkUpdatesProgress->deleteLater();
-			d->checkUpdatesProgress = NULL;
 			MessageMaster::warning(d->window,
 								   tr("Warning"),
 								   tr("The program is already checking for updates!"));
@@ -188,8 +185,23 @@ bool UpdateController::start(DisplayLevel displayLevel)
 		d->running = false;
 		emit runningChanged(false);
 		return false;
-	} else
+	} else {
+		if(d->displayLevel >= ProgressLevel) {
+			d->checkUpdatesProgress = new ProgressDialog(d->window);
+			connect(d->checkUpdatesProgress, &ProgressDialog::canceled, this, [d](){
+				d->wasCanceled = true;
+			});
+			d->checkUpdatesProgress->open(d->mainUpdater, &QtAutoUpdater::Updater::abortUpdateCheck);
+		}
+
+		if(d->tProgress && d->displayLevel >= ExtendedInfoLevel) {
+			d->tProgress->setRange(0, 0);
+			d->tProgress->resume();
+			d->tProgress->show();
+		}
+
 		return true;
+	}
 }
 
 bool UpdateController::cancelUpdate(int maxDelay)
@@ -229,13 +241,26 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	}
 	if(d->wasCanceled) {
 		if(d->displayLevel >= ExtendedInfoLevel) {
+			if(d->tProgress) {
+				d->tProgress->setRange(0, 1);
+				d->tProgress->setValue(1);
+				d->tProgress->pause();
+			}
 			MessageMaster::warning(d->window,
 								   tr("Check for Updates"),
 								   tr("Checking for updates was canceled!"));
+			if(d->tProgress)
+				d->tProgress->hide();
 		}
 	} else {
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
+				if(d->tProgress && d->displayLevel >= ExtendedInfoLevel){
+					d->tProgress->setRange(0, 1);
+					d->tProgress->setValue(1);
+					d->tProgress->resume();
+				}
+
 				bool shouldShutDown = false;
 				bool oldRunAdmin = d->runAdmin;
 				UpdateInfoDialog::DialogResult res = d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(),
@@ -275,16 +300,29 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 
 			if(d->displayLevel >= ExtendedInfoLevel) {
 				if(d->mainUpdater->exitedNormally()) {
+					if(d->tProgress) {
+						d->tProgress->setRange(0, 1);
+						d->tProgress->setValue(1);
+						d->tProgress->stop();
+					}
 					MessageMaster::critical(d->window,
 											tr("Check for Updates"),
 											tr("No new updates available!"));
 				} else {
+					if(d->tProgress) {
+						d->tProgress->setRange(0, 1);
+						d->tProgress->setValue(1);
+						d->tProgress->pause();
+					}
 					MessageMaster::warning(d->window,
 										   tr("Warning"),
 										   tr("The update process crashed!"));
 				}
 			}
 		}
+
+		if(d->tProgress && d->displayLevel >= ExtendedInfoLevel)
+			d->tProgress->hide();
 	}
 
 	d->running = false;
@@ -321,7 +359,12 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	runArgs(QStringLiteral("--updater")),
 	checkUpdatesProgress(NULL),
 	wasCanceled(false),
-	infoDialog(new UpdateInfoDialog(window))
+	infoDialog(new UpdateInfoDialog(window)),
+#ifdef Q_OS_WIN
+	tButton(new QWinTaskbarButton(q_ptr)),
+	tProgress(NULL),
+#endif
+	updateTasks()
 {
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
 					 q_ptr, &UpdateController::checkUpdatesDone,
@@ -333,6 +376,17 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskFinished,
 					 q_ptr, &UpdateController::taskDone,
 					 Qt::QueuedConnection);
+
+#ifdef Q_OS_WIN
+	ShowEventFilter *evFilter = new ShowEventFilter(this);
+	if(this->window) {
+		if(this->window->window()->windowHandle()) {
+			QEvent ev(QEvent::Show);
+			evFilter->eventFilter(this->window->window(), &ev);
+		} else
+			this->window->window()->installEventFilter(evFilter);
+	}
+#endif
 }
 
 UpdateControllerPrivate::~UpdateControllerPrivate()
@@ -346,3 +400,23 @@ UpdateControllerPrivate::~UpdateControllerPrivate()
 	for(int taskID : this->updateTasks.keys())
 		UpdateScheduler::instance()->cancelTask(taskID);
 }
+
+
+#ifdef Q_OS_WIN
+ShowEventFilter::ShowEventFilter(UpdateControllerPrivate *controller) :
+	QObject(controller->q_ptr),
+	controller(controller)
+{}
+
+bool ShowEventFilter::eventFilter(QObject *obj, QEvent *event)
+{
+	if(event->type() == QEvent::Show) {
+		Q_ASSERT(dynamic_cast<QWidget*>(obj));
+		QWidget *widget = static_cast<QWidget*>(obj);
+		this->controller->tButton->setWindow(widget->windowHandle());
+		this->controller->tProgress = this->controller->tButton->progress();
+		this->deleteLater();
+	}
+	return false;
+}
+#endif
