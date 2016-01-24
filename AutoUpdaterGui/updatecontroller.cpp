@@ -39,10 +39,24 @@ UpdateController::~UpdateController()
 	delete this->d_ptr;
 }
 
-QAction *UpdateController::getUpdateAction() const
+QAction *UpdateController::createUpdateAction(QObject *parent)
 {
-	const Q_D(UpdateController);
-	return d->updateAction;
+	QAction *updateAction = new QAction(QIcon(QStringLiteral(":/updaterIcons/update.ico")),
+										tr("Check for Updates"),
+										parent);
+	updateAction->setMenuRole(QAction::ApplicationSpecificRole);
+	updateAction->setToolTip(tr("Checks if new updates are available. You will be prompted before updates are installed."));
+	updateAction->setIconVisibleInMenu(false);
+
+	connect(updateAction, &QAction::triggered, this, [this](){
+		this->start(UpdateController::ProgressLevel);
+	});
+	connect(this, &UpdateController::runningChanged,
+			updateAction, &QAction::setDisabled);
+	connect(this, &UpdateController::destroyed,
+			updateAction, &QAction::deleteLater);
+
+	return updateAction;
 }
 
 QWidget *UpdateController::createUpdatePanel(QWidget *parentWidget)
@@ -257,18 +271,17 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 						   << d->mainUpdater->getErrorCode()
 						   << "and error string:"
 						   << d->mainUpdater->getErrorLog();
-				if(!d->mainUpdater->exitedNormally()) {
-					MessageMaster::warning(d->window,
-										   tr("Warning"),
-										   tr("The update process crashed!"));
-				}
 			}
 
-			if(d->mainUpdater->exitedNormally()){
-				if(d->displayLevel >= ExtendedInfoLevel) {
+			if(d->displayLevel >= ExtendedInfoLevel) {
+				if(d->mainUpdater->exitedNormally()) {
 					MessageMaster::critical(d->window,
 											tr("Check for Updates"),
 											tr("No new updates available!"));
+				} else {
+					MessageMaster::warning(d->window,
+										   tr("Warning"),
+										   tr("The update process crashed!"));
 				}
 			}
 		}
@@ -300,9 +313,6 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window) :
 	q_ptr(q_ptr),
 	window(window),
-	updateAction(new QAction(QIcon(QStringLiteral(":/updaterIcons/update.ico")),
-							 UpdateController::tr("Check for Updates"),
-							 q_ptr)),
 	displayLevel(UpdateController::InfoLevel),
 	running(false),
 	mainUpdater(toolPath.isEmpty() ? new Updater(q_ptr) : new Updater(toolPath, q_ptr)),
@@ -313,19 +323,9 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	wasCanceled(false),
 	infoDialog(new UpdateInfoDialog(window))
 {
-	this->updateAction->setMenuRole(QAction::ApplicationSpecificRole);
-	this->updateAction->setToolTip(UpdateController::tr("Checks if new updates are available. You will be prompted before updates are installed."));
-	this->updateAction->setIconVisibleInMenu(false);
-
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
 					 q_ptr, &UpdateController::checkUpdatesDone,
 					 Qt::QueuedConnection);
-
-	QObject::connect(this->updateAction, &QAction::triggered, q_ptr, [this](){
-		this->q_ptr->start(UpdateController::ProgressLevel);
-	});
-	QObject::connect(this->q_ptr, &UpdateController::runningChanged,
-					 this->updateAction, &QAction::setDisabled);
 
 	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
 					 q_ptr, &UpdateController::taskReady,

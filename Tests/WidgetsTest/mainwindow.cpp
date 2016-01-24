@@ -78,8 +78,8 @@ void MainWindow::on_activeBox_toggled(bool checked)
 			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), this);
 		else
 			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), (QObject*)this);
-		this->ui->menuHelp->addAction(this->controller->getUpdateAction());
-		this->ui->mainToolBar->addAction(this->controller->getUpdateAction());
+		this->ui->menuHelp->addAction(this->controller->createUpdateAction(this));
+		this->ui->mainToolBar->addAction(this->controller->createUpdateAction(this));
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 			this->statusBar()->showMessage(running ? "running" : "not running");
 		});

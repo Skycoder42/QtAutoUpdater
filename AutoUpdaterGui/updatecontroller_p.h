@@ -14,7 +14,6 @@ namespace QtAutoUpdater
 		Q_DECLARE_PUBLIC(UpdateController)
 
 		QWidget *window;
-		QAction *updateAction;
 
 		UpdateController::DisplayLevel displayLevel;
 		bool running;

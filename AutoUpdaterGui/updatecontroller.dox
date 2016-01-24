@@ -69,7 +69,7 @@ It offers an automated update process, controlled by the user. All thats left fo
 to do is starting this controller. This can be done in 4 ways:
  - Call UpdateController::start somewhere in your code
  - Schedule an update using UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
- - Add the QAction returned by UpdateController::getUpdateAction somewhere in your gui
+ - Add the QAction returned by UpdateController::createUpdateAction somewhere in your gui
  - Add the widget returned by UpdateController::createUpdatePanel somewhere in your gui
 
 ## Images
@@ -302,9 +302,10 @@ UpdateController::maintenanceToolPath for more details.
 */
 
 /*!
-@fn QtAutoUpdater::UpdateController::getUpdateAction
+@fn QtAutoUpdater::UpdateController::createUpdateAction
 
-@returns The action associated with this controller
+@param parent The parent object the action should belong to
+@returns a newly created action associated with this controller
 
 The action will automatically start the controller with the display-level
 `UpdateController::ProgressLevel`. In addition to that, the action will be automatically
@@ -314,11 +315,6 @@ disabled if the controller is already running. For images check the
 The action has a text, an icon and a tooltip. The icon is set to be only visibile in a
 toolbar, not in a menu. On Mac, the action will be place in the Applications menu if
 added to the Menubar.
-
-@attention This function will always return the same QAction object for each controller.
-Thus, you may never delete the action. It will be deleted on destruction of the the
-controller. Take in mind that any change you make to this action (for example change the
-icon) will thus be that way for *all* components that use this action.
 
 @sa UpdateController::createUpdatePanel, @ref image_page "Image Page"
 */
@@ -343,7 +339,7 @@ it will not crash if the button is clicked).
 QWidget and does not add any new public accessible functions. Thus, even if the class would
 be returned, there would be no difference to a QWidget except of the pointer type.
 
-@sa UpdateController::getUpdateAction, @ref image_page "Image Page"
+@sa UpdateController::createUpdateAction, @ref image_page "Image Page"
 */
 
 /*!

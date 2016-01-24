@@ -4,7 +4,7 @@
 using namespace QtAutoUpdater;
 
 #ifdef Q_OS_OSX
-#define TOOL_PATH QStringLiteral("../../maintenancetool")//TODO test if ok...
+#define TOOL_PATH QStringLiteral("../../maintenancetool")
 #else
 #define TOOL_PATH QStringLiteral("./maintenancetool")
 #endif
