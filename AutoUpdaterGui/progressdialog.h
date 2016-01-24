@@ -3,6 +3,12 @@
 
 #include <QDialog>
 #include <functional>
+#ifdef Q_OS_WIN
+#include <QPointer>
+#include <QWinTaskbarButton>
+#include <QWinTaskbarProgress>
+#include <QMessageBox>
+#endif
 
 namespace Ui {
 	class ProgressDialog;
@@ -32,14 +38,24 @@ namespace QtAutoUpdater
 		void accept() Q_DECL_OVERRIDE {}
 		void reject() Q_DECL_OVERRIDE {}
 
+		void hide(QMessageBox::Icon hideType);
+
 	signals:
 		void canceled();
 
 	protected:
+#ifdef Q_OS_WIN
+		void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+#endif
 		void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 	private:
 		Ui::ProgressDialog *ui;
+#ifdef Q_OS_WIN
+		QWinTaskbarButton *tButton;
+
+		void setupTaskbar(QWidget *window);
+#endif
 	};
 }
 
