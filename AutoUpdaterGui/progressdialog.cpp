@@ -14,10 +14,12 @@ ProgressDialog::ProgressDialog(QWidget *parent) :
 #endif
 {
 	ui->setupUi(this);
-	if(parent)
-		this->setupTaskbar(parent);
-	else
+	if(!parent)
 		this->setWindowModality(Qt::ApplicationModal);
+#ifdef Q_OS_WIN
+	else
+		this->setupTaskbar(parent);
+#endif
 }
 
 ProgressDialog::~ProgressDialog()
