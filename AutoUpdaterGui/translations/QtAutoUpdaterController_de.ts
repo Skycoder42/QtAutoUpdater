@@ -36,7 +36,7 @@
 <context>
     <name>QtAutoUpdater::ProgressDialog</name>
     <message>
-        <location filename="../progressdialog.cpp" line="22"/>
+        <location filename="../progressdialog.cpp" line="35"/>
         <source>Canceling update check…</source>
         <translation>Update-Suche wird abgebrochen…</translation>
     </message>
@@ -44,56 +44,56 @@
 <context>
     <name>QtAutoUpdater::UpdateController</name>
     <message>
-        <location filename="../updatecontroller.cpp" line="148"/>
-        <location filename="../updatecontroller.cpp" line="219"/>
-        <location filename="../updatecontroller.cpp" line="270"/>
-        <location filename="../updatecontroller.cpp" line="304"/>
+        <location filename="../updatecontroller.cpp" line="45"/>
+        <location filename="../updatecontroller.cpp" line="172"/>
+        <location filename="../updatecontroller.cpp" line="253"/>
+        <location filename="../updatecontroller.cpp" line="301"/>
         <source>Check for Updates</source>
         <translation>Suche nach Updates</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="149"/>
+        <location filename="../updatecontroller.cpp" line="173"/>
         <source>Do you want to check for updates now?</source>
         <translation>Möchten Sie jetzt nach Updates suchen?</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="171"/>
-        <location filename="../updatecontroller.cpp" line="262"/>
+        <location filename="../updatecontroller.cpp" line="184"/>
+        <location filename="../updatecontroller.cpp" line="305"/>
         <source>Warning</source>
         <translation>Achtung</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="172"/>
+        <location filename="../updatecontroller.cpp" line="185"/>
         <source>The program is already checking for updates!</source>
         <translation>Das Programm sucht bereits nach neuen Updates!</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="220"/>
+        <location filename="../updatecontroller.cpp" line="254"/>
         <source>Checking for updates was canceled!</source>
         <translation>Suche nach Updates wurde abgebrochen!</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="249"/>
+        <location filename="../updatecontroller.cpp" line="285"/>
         <source>Install Updates</source>
         <translation>Updates Installieren</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="250"/>
+        <location filename="../updatecontroller.cpp" line="286"/>
         <source>New updates are available. The maintenance tool will be started to install those as soon as you close the application!</source>
         <translation>Neue Updates sind verfügbar. Das Wartungstool wird starten um diese zu installieren, sobald Sie die Anwendung schließen!</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="263"/>
+        <location filename="../updatecontroller.cpp" line="306"/>
         <source>The update process crashed!</source>
         <translation>Der Update-Prozess ist abgestürzt!</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="271"/>
+        <location filename="../updatecontroller.cpp" line="302"/>
         <source>No new updates available!</source>
         <translation>Es sind keine neuen Updates verfügbar!</translation>
     </message>
     <message>
-        <location filename="../updatecontroller.cpp" line="317"/>
+        <location filename="../updatecontroller.cpp" line="48"/>
         <source>Checks if new updates are available. You will be prompted before updates are installed.</source>
         <translation>Überprüft, ob neue Updates verfügbar sind. Sie erhalten eine entsprechende Meldung bevor Diese installiert werden.</translation>
     </message>
@@ -101,48 +101,76 @@
 <context>
     <name>QtAutoUpdater::UpdateInfoDialog</name>
     <message>
-        <location filename="../updateinfodialog.cpp" line="48"/>
+        <location filename="../updateinfodialog.cpp" line="32"/>
+        <location filename="../updateinfodialog.cpp" line="57"/>
         <source>Updates for %1 are available!</source>
         <translation>Updates für %1 sind verfügbar!</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="63"/>
-        <location filename="../updateinfodialog.cpp" line="109"/>
+        <location filename="../updateinfodialog.cpp" line="106"/>
+        <location filename="../updateinfodialog.cpp" line="153"/>
         <source>%L1 Bytes</source>
         <translation>%L1 Byte</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="81"/>
+        <location filename="../updateinfodialog.cpp" line="75"/>
+        <location filename="../updateinfodialog.cpp" line="125"/>
         <source>Install Now</source>
         <translation>Jetzt Installieren</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="82"/>
+        <location filename="../updateinfodialog.cpp" line="126"/>
         <source>Close the application and install updates?</source>
         <translation>Programm schließen und Updates installieren?</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="91"/>
+        <location filename="../updateinfodialog.cpp" line="76"/>
+        <location filename="../updateinfodialog.cpp" line="135"/>
         <source>Install On Exit</source>
-        <translation>Installation bei Programmende</translation>
+        <translation>Beim Beenden Installieren</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="92"/>
+        <location filename="../updateinfodialog.cpp" line="54"/>
+        <source>Check for Updates</source>
+        <translation>Suche nach Updates</translation>
+    </message>
+    <message>
+        <location filename="../updateinfodialog.cpp" line="60"/>
+        <source>There are new updates available! You can install them now or later.</source>
+        <translation>Es sind neue Updates verfügbar! Sie können diese jetzt oder später installieren.</translation>
+    </message>
+    <message>
+        <location filename="../updateinfodialog.cpp" line="63"/>
+        <source>%1 v%2 — %3</source>
+        <translation>%1 v%2 — %3</translation>
+    </message>
+    <message>
+        <location filename="../updateinfodialog.cpp" line="70"/>
+        <source>Run with &amp;elevated rights</source>
+        <translation>Mit &amp;erhöhten Rechten starten</translation>
+    </message>
+    <message>
+        <location filename="../updateinfodialog.cpp" line="77"/>
+        <source>Install later</source>
+        <translation>Später Installieren</translation>
+    </message>
+    <message>
+        <location filename="../updateinfodialog.cpp" line="136"/>
         <source>Updates will be installed on exit. The maintenance tool will be started as soon as you close the application!</source>
         <translation>Updates werden am Programmende installiert. Das Wartungstool wird starten, um diese zu installieren, sobald sie die Anwendung schließen!</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="111"/>
+        <location filename="../updateinfodialog.cpp" line="155"/>
         <source>%L1 KiB</source>
         <translation>%L1 KiB</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="113"/>
+        <location filename="../updateinfodialog.cpp" line="157"/>
         <source>%L1 MiB</source>
         <translation>%L1 MiB</translation>
     </message>
     <message>
-        <location filename="../updateinfodialog.cpp" line="115"/>
+        <location filename="../updateinfodialog.cpp" line="159"/>
         <source>%L1 GiB</source>
         <translation>%L1 GiB</translation>
     </message>
@@ -210,7 +238,7 @@
     <message>
         <location filename="../updateinfodialog.ui" line="188"/>
         <source>Install On Exit</source>
-        <translation>Installation bei Programmende</translation>
+        <translation>Beim Beenden Installieren</translation>
     </message>
     <message>
         <location filename="../updateinfodialog.ui" line="198"/>
