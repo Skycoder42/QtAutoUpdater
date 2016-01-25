@@ -84,8 +84,6 @@ void MainWindow::on_activeBox_toggled(bool checked)
 			this->statusBar()->showMessage(running ? "running" : "not running");
 		});
 		this->ui->buttonLayout->addWidget(this->controller->createUpdatePanel(this));
-
-		this->controller->createJumplistEntry();
 	} else {
 		this->controller->deleteLater();
 		this->controller = NULL;
