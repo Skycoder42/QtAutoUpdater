@@ -54,7 +54,9 @@ namespace QtAutoUpdater
 		QAction *createUpdateAction(QObject *parent);
 		//! Creates a new "UpdatePanel" widget to place in your GUI
 		QWidget *createUpdatePanel(QWidget *parentWidget);
-
+#ifdef Q_OS_WIN
+		void createJumplistEntry();
+#endif
 		//TODO add jumplist entry creation for windows and dock item creation for mac
 
 		//! READ-Accessor for UpdateController::maintenanceToolPath

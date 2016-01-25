@@ -1,6 +1,7 @@
 #include "updateinfodialog.h"
 #include "ui_updateinfodialog.h"
 #include <QGuiApplication>
+#include <QScreen>
 #include "messagemaster.h"
 using namespace QtAutoUpdater;
 
@@ -27,6 +28,15 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	pal.setColor(QPalette::WindowText, QGuiApplication::palette().color(QPalette::Highlight));
 #endif
 	this->ui->headerLabel->setPalette(pal);
+
+	this->ui->headerLabel->setText(tr("Updates for %1 are available!")
+								   .arg(QGuiApplication::applicationDisplayName()));
+	if(QGuiApplication::windowIcon().isNull())
+		this->ui->imageLabel->hide();
+	else {
+		this->ui->imageLabel->show();
+		this->ui->imageLabel->setPixmap(QGuiApplication::windowIcon().pixmap(64, 64));//TODO hdpi
+	}
 }
 
 UpdateInfoDialog::~UpdateInfoDialog()
@@ -34,44 +44,27 @@ UpdateInfoDialog::~UpdateInfoDialog()
 	delete ui;
 }
 
-void UpdateInfoDialog::setNewParent(QWidget *parent)
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable, QWidget *parent)
 {
-	this->setParent(parent);
-	if(parent)
-		this->setWindowModality(Qt::WindowModal);
-	else
-		this->setWindowModality(Qt::ApplicationModal);
-}
+	UpdateInfoDialog dialog(parent);
 
-UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable)
-{
-	this->ui->headerLabel->setText(tr("Updates for %1 are available!")
-								   .arg(QGuiApplication::applicationDisplayName()));
-	if(QGuiApplication::windowIcon().isNull())
-		this->ui->imageLabel->hide();
-	else {
-		this->ui->imageLabel->show();
-		this->ui->imageLabel->setPixmap(QGuiApplication::windowIcon().pixmap(64, 64));
-	}
-
-	this->ui->updateListTreeWidget->clear();
 	for(Updater::UpdateInfo info : updates) {
-		QTreeWidgetItem *item = new QTreeWidgetItem(this->ui->updateListTreeWidget);
+		QTreeWidgetItem *item = new QTreeWidgetItem(dialog.ui->updateListTreeWidget);
 		item->setText(0, info.name);
 		item->setText(1, info.version.toString());
 		item->setText(2, getByteText(info.size));
 		item->setToolTip(2, tr("%L1 Bytes").arg(info.size));
 	}
-	this->ui->updateListTreeWidget->resizeColumnToContents(0);
-	this->ui->updateListTreeWidget->resizeColumnToContents(1);
-	this->ui->updateListTreeWidget->resizeColumnToContents(2);
+	dialog.ui->updateListTreeWidget->resizeColumnToContents(0);
+	dialog.ui->updateListTreeWidget->resizeColumnToContents(1);
+	dialog.ui->updateListTreeWidget->resizeColumnToContents(2);
 
-	this->ui->runAdminCheckBox->setEnabled(editable);
-	this->ui->runAdminCheckBox->setChecked(runAsAdmin);
+	dialog.ui->runAdminCheckBox->setEnabled(editable);
+	dialog.ui->runAdminCheckBox->setChecked(runAsAdmin);
 
-	DialogResult res = (DialogResult)this->exec();
+	DialogResult res = (DialogResult)dialog.exec();
 	if(editable && res != NoInstall)
-		runAsAdmin = this->ui->runAdminCheckBox->isChecked();
+		runAsAdmin = dialog.ui->runAdminCheckBox->isChecked();
 	return res;
 }
 

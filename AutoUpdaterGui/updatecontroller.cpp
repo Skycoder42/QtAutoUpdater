@@ -2,6 +2,12 @@
 #include "updatecontroller_p.h"
 #include <QProgressBar>
 #include <QCoreApplication>
+#ifdef Q_OS_WIN
+#include <QDir>
+#include <QStandardPaths>
+#include <QWinJumpList>
+#include <QWinJumpListCategory>
+#endif
 #include <updatescheduler.h>
 #include "messagemaster.h"
 #include "adminauthorization.h"
@@ -63,6 +69,24 @@ QWidget *UpdateController::createUpdatePanel(QWidget *parentWidget)
 {
 	return new UpdatePanel(this, parentWidget);
 }
+
+#ifdef Q_OS_WIN
+void UpdateController::createJumplistEntry()
+{
+	Q_D(UpdateController);
+	QWinJumpList jumplist;
+	jumplist.tasks()->clear();
+	if(d->runAdmin) {
+		qWarning("Jumplist creation for admin is not supported right now!\n"
+				 "The created shortcut will run as user only");
+	}
+	jumplist.tasks()->addLink(tr("Check for updates"),
+							  QDir(QCoreApplication::applicationDirPath())
+							  .absoluteFilePath(d->mainUpdater->maintenanceToolPath()),
+							  d->runArgs);
+	jumplist.tasks()->setVisible(true);
+}
+#endif
 
 QString UpdateController::maintenanceToolPath() const
 {
@@ -134,7 +158,6 @@ void UpdateController::setParent(QWidget *parent)
 {
 	Q_D(UpdateController);
 	d->window = parent;
-	d->infoDialog->setNewParent(parent);
 	this->QObject::setParent(parent);
 }
 
@@ -142,7 +165,6 @@ void UpdateController::setParent(QObject *parent)
 {
 	Q_D(UpdateController);
 	d->window = NULL;
-	d->infoDialog->setNewParent(NULL);
 	this->QObject::setParent(parent);
 }
 
@@ -248,9 +270,10 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 			if(d->displayLevel >= InfoLevel) {
 				bool shouldShutDown = false;
 				bool oldRunAdmin = d->runAdmin;
-				UpdateInfoDialog::DialogResult res = d->infoDialog->showUpdateInfo(d->mainUpdater->updateInfo(),
-																				   d->runAdmin,
-																				   d->adminUserEdit);
+				UpdateInfoDialog::DialogResult res = UpdateInfoDialog::showUpdateInfo(d->mainUpdater->updateInfo(),
+																					  d->runAdmin,
+																					  d->adminUserEdit,
+																					  d->window);
 				if(d->runAdmin != oldRunAdmin)
 					emit runAsAdminChanged(d->runAdmin);
 
@@ -331,7 +354,6 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	runArgs(QStringLiteral("--updater")),
 	checkUpdatesProgress(NULL),
 	wasCanceled(false),
-	infoDialog(new UpdateInfoDialog(window)),
 	updateTasks()
 {
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
@@ -353,7 +375,6 @@ UpdateControllerPrivate::~UpdateControllerPrivate()
 				 "This may crash your application!");
 	}
 
-	this->infoDialog->deleteLater();
 	for(int taskID : this->updateTasks.keys())
 		UpdateScheduler::instance()->cancelTask(taskID);
 }

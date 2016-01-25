@@ -24,7 +24,6 @@ namespace QtAutoUpdater
 
 		ProgressDialog *checkUpdatesProgress;
 		bool wasCanceled;
-		UpdateInfoDialog *infoDialog;
 
 		QHash<int, UpdateController::DisplayLevel> updateTasks;
 

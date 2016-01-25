@@ -21,13 +21,10 @@ namespace QtAutoUpdater
 			NoInstall = QDialog::Rejected
 		};
 
-		explicit UpdateInfoDialog(QWidget *parent = 0);
-		~UpdateInfoDialog();
-
-		void setNewParent(QWidget *parent);
-
-		//TODO make static
-		DialogResult showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable);
+		static DialogResult showUpdateInfo(QList<Updater::UpdateInfo> updates,
+										   bool &runAsAdmin,
+										   bool editable,
+										   QWidget *parent);
 
 	private slots:
 		void on_acceptButton_clicked();
@@ -35,6 +32,9 @@ namespace QtAutoUpdater
 
 	private:
 		Ui::UpdateInfoDialog *ui;
+
+		explicit UpdateInfoDialog(QWidget *parent = 0);
+		~UpdateInfoDialog();
 
 		static QString getByteText(qint64 bytes);
 	};
