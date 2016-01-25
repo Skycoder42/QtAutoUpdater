@@ -118,6 +118,18 @@ void UpdateController::resetUpdateRunArgs()
 	d->runArgs = QStringList(QStringLiteral("--updater"));
 }
 
+bool UpdateController::isDetailedUpdateInfo() const
+{
+	const Q_D(UpdateController);
+	return d->detailedInfo;
+}
+
+void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
+{
+	Q_D(UpdateController);
+	d->detailedInfo = detailedUpdateInfo;
+}
+
 const Updater * UpdateController::getUpdater() const
 {
 	const Q_D(UpdateController);
@@ -249,6 +261,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 				UpdateInfoDialog::DialogResult res = UpdateInfoDialog::showUpdateInfo(d->mainUpdater->updateInfo(),
 																					  d->runAdmin,
 																					  d->adminUserEdit,
+																					  d->detailedInfo,
 																					  d->window);
 				if(d->runAdmin != oldRunAdmin)
 					emit runAsAdminChanged(d->runAdmin);
@@ -328,6 +341,7 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	runAdmin(true),
 	adminUserEdit(true),
 	runArgs(QStringLiteral("--updater")),
+	detailedInfo(true),
 	checkUpdatesProgress(NULL),
 	wasCanceled(false),
 	updateTasks()

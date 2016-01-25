@@ -1,7 +1,7 @@
 #include "updateinfodialog.h"
 #include "ui_updateinfodialog.h"
 #include <QGuiApplication>
-#include <QScreen>
+#include <QMessageBox>
 #include "messagemaster.h"
 using namespace QtAutoUpdater;
 
@@ -44,28 +44,79 @@ UpdateInfoDialog::~UpdateInfoDialog()
 	delete ui;
 }
 
-UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable, QWidget *parent)
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable, bool detailed, QWidget *parent)
 {
-	UpdateInfoDialog dialog(parent);
+	if(!detailed) {
+		QMessageBox mBox(parent);
+		mBox.setWindowModality(parent ? Qt::WindowModal : Qt::ApplicationModal);//TODO master dialog
+		mBox.setWindowFlags(mBox.windowFlags() & ~Qt::WindowContextHelpButtonHint);
+		mBox.setIcon(QMessageBox::Information);
+		mBox.setWindowTitle(tr("Check for Updates"));
+		mBox.setWindowIcon(QIcon(QStringLiteral(":/updaterIcons/update.ico")));
+		mBox.setText(QStringLiteral("<b>") +
+					 tr("Updates for %1 are available!")
+					 .arg(QGuiApplication::applicationDisplayName()) +
+					 QStringLiteral("</b>"));
+		mBox.setInformativeText(tr("There are new updates available! You can install them now or later."));
+		QStringList details;
+		for(Updater::UpdateInfo info : updates) {
+			details << tr("%1 v%2 — %3")
+					   .arg(info.name)
+					   .arg(info.version.toString())
+					   .arg(getByteText(info.size));
+		}
+		mBox.setDetailedText(details.join(QLatin1Char('\n')));
 
-	for(Updater::UpdateInfo info : updates) {
-		QTreeWidgetItem *item = new QTreeWidgetItem(dialog.ui->updateListTreeWidget);
-		item->setText(0, info.name);
-		item->setText(1, info.version.toString());
-		item->setText(2, getByteText(info.size));
-		item->setToolTip(2, tr("%L1 Bytes").arg(info.size));
+		QCheckBox *cBox = new QCheckBox(tr("Run with &elevated rights"), &mBox);
+		cBox->setEnabled(editable);
+		cBox->setChecked(runAsAdmin);
+		mBox.setCheckBox(cBox);
+
+		mBox.setDefaultButton(mBox.addButton(tr("Install Now"), QMessageBox::AcceptRole));
+		mBox.addButton(tr("Install On Exit"), QMessageBox::ActionRole);
+		mBox.setEscapeButton(mBox.addButton(tr("Install later"), QMessageBox::RejectRole));
+
+		DialogResult res;
+		mBox.exec();
+		switch (mBox.buttonRole(mBox.clickedButton())) {
+		case QMessageBox::AcceptRole:
+			res = InstallNow;
+			break;
+		case QMessageBox::ActionRole:
+			res = InstallLater;
+			break;
+		case QMessageBox::RejectRole:
+			res = NoInstall;
+			break;
+		default:
+			Q_UNREACHABLE();
+		}
+
+		if(editable && res != NoInstall)
+			runAsAdmin = cBox->isChecked();
+		return res;
+	} else {
+		UpdateInfoDialog dialog(parent);
+
+		for(Updater::UpdateInfo info : updates) {
+			QTreeWidgetItem *item = new QTreeWidgetItem(dialog.ui->updateListTreeWidget);
+			item->setText(0, info.name);
+			item->setText(1, info.version.toString());
+			item->setText(2, getByteText(info.size));
+			item->setToolTip(2, tr("%L1 Bytes").arg(info.size));
+		}
+		dialog.ui->updateListTreeWidget->resizeColumnToContents(0);
+		dialog.ui->updateListTreeWidget->resizeColumnToContents(1);
+		dialog.ui->updateListTreeWidget->resizeColumnToContents(2);
+
+		dialog.ui->runAdminCheckBox->setEnabled(editable);
+		dialog.ui->runAdminCheckBox->setChecked(runAsAdmin);
+
+		DialogResult res = (DialogResult)dialog.exec();
+		if(editable && res != NoInstall)
+			runAsAdmin = dialog.ui->runAdminCheckBox->isChecked();
+		return res;
 	}
-	dialog.ui->updateListTreeWidget->resizeColumnToContents(0);
-	dialog.ui->updateListTreeWidget->resizeColumnToContents(1);
-	dialog.ui->updateListTreeWidget->resizeColumnToContents(2);
-
-	dialog.ui->runAdminCheckBox->setEnabled(editable);
-	dialog.ui->runAdminCheckBox->setChecked(runAsAdmin);
-
-	DialogResult res = (DialogResult)dialog.exec();
-	if(editable && res != NoInstall)
-		runAsAdmin = dialog.ui->runAdminCheckBox->isChecked();
-	return res;
 }
 
 void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()

@@ -92,7 +92,7 @@
         </item>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="6" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -105,7 +105,7 @@
         </property>
        </spacer>
       </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <layout class="QVBoxLayout" name="buttonLayout">
         <item>
          <widget class="QCommandLinkButton" name="checkUpdatesButton">
@@ -129,14 +129,14 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="adminLabel">
         <property name="text">
-         <string>Admin</string>
+         <string>Admin:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QCheckBox" name="adminCheckBox">
@@ -166,7 +166,7 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QDateTimeEdit" name="scheduleUpdateDateTimeEdit">
         <property name="enabled">
          <bool>false</bool>
@@ -185,22 +185,36 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QCheckBox" name="scheduleUpdateDateCheckBox">
         <property name="text">
-         <string>Schedule Update</string>
+         <string>Schedule Update:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="hasParentWindowLabel">
         <property name="text">
-         <string>Has Parent Window</string>
+         <string>Has Parent Window:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QCheckBox" name="hasParentWindowCheckBox">
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="detailedInfoDialogLabel">
+        <property name="text">
+         <string>Detailed InfoDialog:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="detailedInfoDialogCheckBox">
         <property name="checked">
          <bool>true</bool>
         </property>

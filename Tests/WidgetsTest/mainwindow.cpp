@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
 	this->ui->hasParentWindowCheckBox->setChecked(settings.value("hasParent", true).toBool());
 	this->ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value("level", QtAutoUpdater::UpdateController::ProgressLevel).toInt());
+	this->ui->detailedInfoDialogCheckBox->setChecked(settings.value("detailed", true).toBool());
 	this->ui->adminCheckBox->setChecked(settings.value("admin", true).toBool());
 	this->ui->userChangecheckBox->setChecked(settings.value("adminChangable", true).toBool());
 }
@@ -27,6 +28,7 @@ MainWindow::~MainWindow()
 	settings.setValue("path", this->ui->maintenanceToolLineEdit->text());
 	settings.setValue("hasParent", this->ui->hasParentWindowCheckBox->isChecked());
 	settings.setValue("level", this->ui->displayLevelComboBox->currentIndex());
+	settings.setValue("detailed", this->ui->detailedInfoDialogCheckBox->isChecked());
 	settings.setValue("admin", this->ui->adminCheckBox->isChecked());
 	settings.setValue("adminChangable", this->ui->userChangecheckBox->isChecked());
 	delete ui;
@@ -78,6 +80,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), this);
 		else
 			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), (QObject*)this);
+		this->controller->setDetailedUpdateInfo(this->ui->detailedInfoDialogCheckBox->isChecked());
 		this->ui->menuHelp->addAction(this->controller->createUpdateAction(this));
 		this->ui->mainToolBar->addAction(this->controller->createUpdateAction(this));
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
@@ -99,4 +102,10 @@ void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)
 		else
 			this->controller->setParent((QObject*)this);
 	}
+}
+
+void MainWindow::on_detailedInfoDialogCheckBox_clicked(bool checked)
+{
+	if(this->controller)
+		this->controller->setDetailedUpdateInfo(checked);
 }

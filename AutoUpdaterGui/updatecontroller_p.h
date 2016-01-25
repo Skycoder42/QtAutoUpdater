@@ -21,6 +21,7 @@ namespace QtAutoUpdater
 		bool runAdmin;
 		bool adminUserEdit;
 		QStringList runArgs;
+		bool detailedInfo;
 
 		ProgressDialog *checkUpdatesProgress;
 		bool wasCanceled;

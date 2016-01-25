@@ -24,6 +24,8 @@ namespace QtAutoUpdater
 		Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin NOTIFY runAsAdminChanged)
 		//! Holds the arguments to invoke the updater with
 		Q_PROPERTY(QStringList updateRunArgs READ updateRunArgs WRITE setUpdateRunArgs RESET resetUpdateRunArgs)
+		//! Specifies whether the update infos should be detailed or not
+		Q_PROPERTY(bool detailedUpdateInfo READ isDetailedUpdateInfo WRITE setDetailedUpdateInfo)
 
 	public:
 		//! Defines the different display-levels of the dialog
@@ -71,6 +73,10 @@ namespace QtAutoUpdater
 		void setUpdateRunArgs(QStringList updateRunArgs);
 		//! RESET-Accessor for UpdateController::updateRunArgs
 		void resetUpdateRunArgs();
+		//! READ-Accessor for UpdateController::detailedUpdateInfo
+		bool isDetailedUpdateInfo() const;
+		//! WRITE-Accessor for UpdateController::detailedUpdateInfo
+		void setDetailedUpdateInfo(bool detailedUpdateInfo);
 
 		//! Returns the Updater object used by the controller
 		const Updater * getUpdater() const;
