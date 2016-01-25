@@ -83,6 +83,13 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		this->controller->setDetailedUpdateInfo(this->ui->detailedInfoDialogCheckBox->isChecked());
 		this->ui->menuHelp->addAction(this->controller->createUpdateAction(this));
 		this->ui->mainToolBar->addAction(this->controller->createUpdateAction(this));
+#ifdef Q_OS_OSX
+		QMenu *dockMenu = new QMenu(this);
+		QAction *action = this->controller->createUpdateAction(this);
+		action->setMenuRole(QAction::NoRole);
+		dockMenu->addAction(action);
+		qt_mac_set_dock_menu(dockMenu);
+#endif
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 			this->statusBar()->showMessage(running ? "running" : "not running");
 		});

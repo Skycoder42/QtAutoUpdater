@@ -73,7 +73,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		mBox.setCheckBox(cBox);
 
 		mBox.setDefaultButton(mBox.addButton(tr("Install Now"), QMessageBox::AcceptRole));
-		mBox.addButton(tr("Install On Exit"), QMessageBox::ActionRole);
+		mBox.addButton(tr("Install On Exit"), QMessageBox::ApplyRole);
 		mBox.setEscapeButton(mBox.addButton(tr("Install later"), QMessageBox::RejectRole));
 
 		DialogResult res;
@@ -82,7 +82,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		case QMessageBox::AcceptRole:
 			res = InstallNow;
 			break;
-		case QMessageBox::ActionRole:
+		case QMessageBox::ApplyRole:
 			res = InstallLater;
 			break;
 		case QMessageBox::RejectRole:

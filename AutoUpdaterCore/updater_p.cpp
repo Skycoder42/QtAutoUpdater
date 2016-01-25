@@ -251,7 +251,7 @@ void UpdaterPrivate::appAboutToExit()
 		}
 
 		if(!ok) {
-			qWarning() << "Unable to start" << toolInfo.absolutePath()
+			qWarning() << "Unable to start" << toolInfo.absoluteFilePath()
 					   << "with arguments" << this->runArguments
 					   << "as" << (this->adminAuth ? "admin" : "user");
 		}
