@@ -2,7 +2,6 @@
 #define MESSAGEMASTER_H
 
 #include <QMessageBox>
-#include <QDebug>
 
 namespace MessageMaster
 {

@@ -185,7 +185,7 @@ bool UpdateController::start(DisplayLevel displayLevel)
 		if(d->displayLevel >= ExtendedInfoLevel) {
 			d->checkUpdatesProgress = new ProgressDialog(d->window);
 			if(d->displayLevel >= ProgressLevel) {
-				connect(d->checkUpdatesProgress, &ProgressDialog::canceled, this, [d](){
+                connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [d](){
 					d->wasCanceled = true;
 				});
 				d->checkUpdatesProgress->open(d->mainUpdater, &QtAutoUpdater::Updater::abortUpdateCheck);
