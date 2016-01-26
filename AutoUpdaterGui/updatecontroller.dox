@@ -10,7 +10,8 @@ Back to UpdaterController.
 @image html ./doc/images/win/dialog_ask.png "Ask Dialog"<br>
 @image html ./doc/images/win/dialog_progress.png "Progress Dialog"<br>
 @image html ./doc/images/win/dialog_no_updates.png "No Updates Dialog"<br>
-@image html ./doc/images/win/dialog_info.png "Update Information Dialog"<br>
+@image html ./doc/images/win/dialog_info.png "Detailed Update Information Dialog"<br>
+@image html ./doc/images/win/dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html ./doc/images/win/dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
 #### The Update Panel
@@ -31,7 +32,8 @@ they will show as normal toplevel windows instead.
 @image html ./doc/images/mac/dialog_ask.png "Ask Dialog"<br>
 @image html ./doc/images/mac/dialog_progress.png "Progress Dialog"<br>
 @image html ./doc/images/mac/dialog_no_updates.png "No Updates Dialog"<br>
-@image html ./doc/images/mac/dialog_info.png "Update Information Dialog"<br>
+@image html ./doc/images/mac/dialog_info.png "Detailed Update Information Dialog"<br>
+@image html ./doc/images/mac/dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html ./doc/images/mac/dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
 #### The Update Panel
@@ -48,7 +50,8 @@ they will show as normal toplevel windows instead.
 @image html ./doc/images/x11/dialog_ask.png "Ask Dialog"<br>
 @image html ./doc/images/x11/dialog_progress.png "Progress Dialog"<br>
 @image html ./doc/images/x11/dialog_no_updates.png "No Updates Dialog"<br>
-@image html ./doc/images/x11/dialog_info.png "Update Information Dialog"<br>
+@image html ./doc/images/x11/dialog_info.png "Detailed Update Information Dialog"<br>
+@image html ./doc/images/x11/dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html ./doc/images/x11/dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
 #### The Update Panel
@@ -147,6 +150,29 @@ documentation of that property for more details.
 */
 
 /*!
+@property QtAutoUpdater::UpdateController::parentWindow
+
+@default{`NULL` (depends on constructor)}
+
+The parent window is the window that should be used as "parent" for all dialogs the
+updater will show. If it is set to `NULL`, all dialogs will be toplevel windows and
+application modal. If it is set to a valid widget, that widget will be the parent window
+for all dialogs and they will be window-modal to that window. (On OsX, the dialogs become
+sheets).
+
+@note This property has nothing to do with the actual parent object of the controller. This means
+even if the window gets destroyed while the updater is active, the controller will stay active. It
+will automatically show the dialogs without a parent again.
+
+@accessors{
+	@readAc{parentWindow()}
+	@writeAc{setParentWindow()}
+}
+
+@sa UpdateController::UpdateController
+*/
+
+/*!
 @property QtAutoUpdater::UpdateController::running
 
 @default{`false`}
@@ -167,7 +193,7 @@ property of the attached updater can return `false` while this one returns `true
 /*!
 @property QtAutoUpdater::UpdateController::runAsAdmin
 
-@default{`true`}
+@default{`true` (on unix platforms, it will be runtime-determined)}
 
 Specifies whether the controller should run the updater (**not** the update check) as
 admin/root. If set `true`, the user will be prompted to allow this elevation (and enter
@@ -176,6 +202,10 @@ his password).
 @note This property only specifies a "suggestion" to the user. If you want to disallow
 the user to change this, you will have to explicitly set it to be unchangable using
 the write accessor function of this property.
+
+On Unix-Systems (X11 and Mac) the controller will check whether the maintenancetool belongs to root
+or not (owner-id == 0). It it belongs to root, the property will be set to `true`,
+otherwise to `false`. For windows, there is currently no easy way to get this information.
 
 @accessors{
 	@readAc{runAsAdmin()}
@@ -206,50 +236,77 @@ will be run with elevated rights.
 */
 
 /*!
+@property QtAutoUpdater::UpdateController::detailedUpdateInfo
+
+@default{`true`}
+
+The controller supports two different update-info-dialogs. The detailed one will
+show a "big" dialog with the information, in a wide format. The simple one is just
+a messagebox that provides the same functionality, but is much smaller. This property
+is used to switch between the two dialogs. If the DisplayLevel is set to not show an
+info-dialog at all, neither of the two will be shown.
+
+For a comparison how each of these dialogs looks on each platform, check the
+@ref image_page "Image Page".
+
+@accessors{
+	@readAc{isDetailedUpdateInfo()}
+	@notifyAc{setDetailedUpdateInfo()}
+}
+
+@sa UpdateController::DisplayLevel, @ref image_page "Image Page"
+*/
+
+/*!
 @fn QtAutoUpdater::UpdateController::UpdateController(QObject *)
 
 @overload
 @param parent The parent object. Will serve as parent for the controller
 
 The created controller will not be bound to a specific window. Instead, all it's dialogs
-will be top-level windows without a parent and application modal.
+will be top-level windows without a parent and application modal. You can later change the
+window using the UpdateController::parentWindow property.
 
 @note If you set `parent` to anything but `NULL`, make shure the parent object lives long
 enough for the controller to receive the QCoreApplication::aboutToQuit signal, since thats
-required for the updater to show the maintenancetool as updater.
+required for the updater to show the maintenancetool as updater. One good approach to make
+shure the controller gets deleted and that it will happen after the signal is to use `qApp`
+as parent (QCoreApplication::instance()).
 
 @overloads{
 	@povElem{UpdateController(QObject *)}
-	@povElem{UpdateController(QWidget *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
 	@ovElem{UpdateController(const QString &, QObject *)}
-	@ovElem{UpdateController(const QString &, QWidget *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
 }
 
-@sa QObject::parent, UpdateController::setParent(QObject *)
+@sa UpdateController::parentWindow
 */
 
 /*!
-@fn QtAutoUpdater::UpdateController::UpdateController(QWidget *)
+@fn QtAutoUpdater::UpdateController::UpdateController(QWidget *, QObject *)
 
 @overload
-@param parentWidget The parent widget. Will serve as parent for the controller and windows
+@param parentWindow The parent window. Will serve as parent for the windows
+@param parent The parent object. Will serve as parent for the controller
 
 The created controller will be bound to the widget. This means all dialogs will be child
 windows of the widgets window. On Mac, dialogs will be shown as "Sheets" of the parent
-window.
+window. You can later change the window using the UpdateController::parentWindow property.
 
-@note If you set `parent` to anything but `NULL`, make shure the parent object lives long
-enough for the controller to receive the QCoreApplication::aboutToQuit signal, since thats
-required for the updater to show the maintenancetool as updater.
+@note Settings the window will not change the "object-parent" of the controller, this can be
+done using `parent`. If you set `parent` to anything but `NULL`, make shure the parent object
+lives long enough for the controller to receive the QCoreApplication::aboutToQuit signal,
+since thats required for the updater to show the maintenancetool as updater.
 
 @overloads{
 	@povElem{UpdateController(QObject *)}
-	@povElem{UpdateController(QWidget *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
 	@ovElem{UpdateController(const QString &, QObject *)}
-	@ovElem{UpdateController(const QString &, QWidget *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
 }
 
-@sa UpdateController::parentWidget, UpdateController::setParent(QWidget *)
+@sa UpdateController::parentWindow
 */
 
 /*!
@@ -264,41 +321,42 @@ UpdateController::maintenanceToolPath for more details.
 
 @overloads{
 	@povElem{UpdateController(QObject *)}
-	@povElem{UpdateController(QWidget *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
 	@ovElem{UpdateController(const QString &, QObject *)}
-	@ovElem{UpdateController(const QString &, QWidget *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
 }
 
-@sa QObject::parent, UpdateController::setParent(QObject *), UpdateController::maintenanceToolPath
+@sa UpdateController::parentWindow, UpdateController::maintenanceToolPath
 */
 
 /*!
-@fn QtAutoUpdater::UpdateController::~UpdateController
-
-@warning Do not destroy the controller while UpdateController::running returns `true`!!!
-This will crash your program!!!
-
-@sa UpdateController::running, UpdateController::cancelUpdate
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateController::UpdateController(const QString &, QWidget *)
+@fn QtAutoUpdater::UpdateController::UpdateController(const QString &, QWidget *, QObject *)
 
 @overload
 @param maintenanceToolPath The path to the maintenancetool
 @param parentWidget The parent widget. Will serve as parent for the controller and windows
+@param parent The parent object. Will serve as parent for the controller
 
 The maintenancetool path will be set to the given one (and cannot be changed). See
 UpdateController::maintenanceToolPath for more details.
 
 @overloads{
 	@povElem{UpdateController(QObject *)}
-	@povElem{UpdateController(QWidget *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
 	@ovElem{UpdateController(const QString &, QObject *)}
-	@ovElem{UpdateController(const QString &, QWidget *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
 }
 
-@sa UpdateController::parentWidget, UpdateController::setParent(QWidget *), UpdateController::maintenanceToolPath
+@sa UpdateController::parentWindow, UpdateController::maintenanceToolPath
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::~UpdateController
+
+@warning Do not destroy the controller while UpdateController::running returns `true`!!!
+This will crash your program in almost all cases!!!
+
+@sa UpdateController::running, UpdateController::cancelUpdate
 */
 
 /*!
@@ -309,14 +367,15 @@ UpdateController::maintenanceToolPath for more details.
 
 The action will automatically start the controller with the display-level
 `UpdateController::ProgressLevel`. In addition to that, the action will be automatically
-disabled if the controller is already running. For images check the
-@ref image_page "Image Page".
+disabled if the controller is already running and deleted together with the controller
+(or `parent`, whoever gets destroyed first). For images check the @ref image_page "Image Page".
 
 The action has a text, an icon and a tooltip. The icon is set to be only visibile in a
-toolbar, not in a menu. On Mac, the action will be place in the Applications menu if
-added to the Menubar.
+toolbar, not in a menu. On Mac, the action will be placed in the Applications menu if
+added to the Menubar. To show it in other places (for example as dock-menu), create a new
+action and unset the role
 
-@sa UpdateController::createUpdatePanel, @ref image_page "Image Page"
+@sa UpdateController::createUpdatePanel, @ref image_page "Image Page", QAction::menuRole
 */
 
 /*!
@@ -376,55 +435,6 @@ unconstant functions. If you need to do something like that, you can cast the re
 point and try it out.
 
 @sa Updater
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateController::parentWidget
-
-@returns The parent widget, if available
-
-This function will only return a value if the parent of the updater is a widget. If thats
-not the case, `NULL` will be returned.
-
-@note Even if `NULL` is returned, the controller can have an object parent. Check
-QObject::parent if you want to now whether the controller has any parent or not.
-
-@sa QObject::parent, UpdateController::setParent(QWidget *), UpdateController::setParent(QObject *)
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateController::setParent(QWidget *)
-
-@overload
-@param parent The new parent widget for the controller and it's windows
-
-Sets the parent for this object to `parent` **and** sets `parent` to be the parent window for
-all dialogs of the controller.
-
-@overloads{
-	@ovElem{setParent(QWidget *)}
-	@ovElem{setParent(QObject *)}
-}
-
-@sa QObject::parent, UpdateController::parentWidget, UpdateController::UpdateController(QWidget *)
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateController::setParent(QObject *)
-
-@overload
-@param parent The new parent object for the controller
-
-Sets the parent for this object to `parent` **and** sets parent widget of all the
-controllers dialogs to `NULL`! This means they will become top-level windows without a
-parent.
-
-@overloads{
-	@ovElem{setParent(QWidget *)}
-	@ovElem{setParent(QObject *)}
-}
-
-@sa QObject::parent, UpdateController::parentWidget, UpdateController::UpdateController(QObject *)
 */
 
 /*!

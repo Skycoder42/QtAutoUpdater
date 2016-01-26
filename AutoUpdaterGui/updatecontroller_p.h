@@ -2,6 +2,7 @@
 #define UPDATECONTROLLER_P_H
 
 #include <updater.h>
+#include <QPointer>
 #include "updatecontroller.h"
 #include "progressdialog.h"
 #include "updateinfodialog.h"
@@ -13,7 +14,7 @@ namespace QtAutoUpdater
 		UpdateController *q_ptr;
 		Q_DECLARE_PUBLIC(UpdateController)
 
-		QWidget *window;
+		QPointer<QWidget> window;
 
 		UpdateController::DisplayLevel displayLevel;
 		bool running;
@@ -23,7 +24,7 @@ namespace QtAutoUpdater
 		QStringList runArgs;
 		bool detailedInfo;
 
-		ProgressDialog *checkUpdatesProgress;
+		QPointer<ProgressDialog> checkUpdatesProgress;
 		bool wasCanceled;
 
 		QHash<int, UpdateController::DisplayLevel> updateTasks;

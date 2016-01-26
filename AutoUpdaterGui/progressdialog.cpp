@@ -7,7 +7,7 @@
 using namespace QtAutoUpdater;
 
 ProgressDialog::ProgressDialog(QWidget *parent) :
-	QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::MSWindowsFixedSizeDialogHint),
+	QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::MSWindowsFixedSizeDialogHint),//TODO no maximize on linux...
 	ui(new Ui::ProgressDialog)
 #ifdef Q_OS_WIN
 	,tButton(new QWinTaskbarButton(this))

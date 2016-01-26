@@ -48,7 +48,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 {
 	if(!detailed) {
 		QMessageBox mBox(parent);
-		mBox.setWindowModality(parent ? Qt::WindowModal : Qt::ApplicationModal);//TODO master dialog
+		mBox.setWindowModality(parent ? Qt::WindowModal : Qt::ApplicationModal);
 		mBox.setWindowFlags(mBox.windowFlags() & ~Qt::WindowContextHelpButtonHint);
 		mBox.setIcon(QMessageBox::Information);
 		mBox.setWindowTitle(tr("Check for Updates"));

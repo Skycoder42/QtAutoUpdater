@@ -2,6 +2,8 @@
 #include "updatecontroller_p.h"
 #include <QProgressBar>
 #include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
 #include <updatescheduler.h>
 #include "messagemaster.h"
 #include "adminauthorization.h"
@@ -19,8 +21,8 @@ UpdateController::UpdateController(QObject *parent) :
 	d_ptr(new UpdateControllerPrivate(this, NULL))
 {}
 
-UpdateController::UpdateController(QWidget *parentWidget) :
-	QObject(parentWidget),
+UpdateController::UpdateController(QWidget *parentWidget, QObject *parent) :
+	QObject(parent),
 	d_ptr(new UpdateControllerPrivate(this, parentWidget))
 {}
 
@@ -29,8 +31,8 @@ UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *
 	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, NULL))
 {}
 
-UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget) :
-	QObject(parentWidget),
+UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget, QObject *parent) :
+	QObject(parent),
 	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, parentWidget))
 {}
 
@@ -68,6 +70,18 @@ QString UpdateController::maintenanceToolPath() const
 {
 	const Q_D(UpdateController);
 	return d->mainUpdater->maintenanceToolPath();
+}
+
+QWidget *UpdateController::parentWindow() const
+{
+	const Q_D(UpdateController);
+	return d->window;
+}
+
+void UpdateController::setParentWindow(QWidget *parentWindow)
+{
+	Q_D(UpdateController);
+	d->window = parentWindow;
 }
 
 UpdateController::DisplayLevel UpdateController::currentDisplayLevel() const
@@ -134,26 +148,6 @@ const Updater * UpdateController::getUpdater() const
 {
 	const Q_D(UpdateController);
 	return d->mainUpdater;
-}
-
-QWidget *UpdateController::parentWidget() const
-{
-	const Q_D(UpdateController);
-	return d->window;
-}
-
-void UpdateController::setParent(QWidget *parent)
-{
-	Q_D(UpdateController);
-	d->window = parent;
-	this->QObject::setParent(parent);
-}
-
-void UpdateController::setParent(QObject *parent)
-{
-	Q_D(UpdateController);
-	d->window = NULL;
-	this->QObject::setParent(parent);
 }
 
 bool UpdateController::start(DisplayLevel displayLevel)
@@ -243,9 +237,11 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 				iconType = QMessageBox::Critical;
 		}
 
-		d->checkUpdatesProgress->hide(iconType);
-		d->checkUpdatesProgress->deleteLater();
-		d->checkUpdatesProgress = NULL;
+		if(d->checkUpdatesProgress) {
+			d->checkUpdatesProgress->hide(iconType);
+			d->checkUpdatesProgress->deleteLater();
+			d->checkUpdatesProgress = NULL;
+		}
 	}
 	if(d->wasCanceled) {
 		if(d->displayLevel >= ExtendedInfoLevel) {
@@ -332,6 +328,7 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 	UpdateControllerPrivate(q_ptr, QString(), window)
 {}
 
+#include <QDebug>
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window) :
 	q_ptr(q_ptr),
 	window(window),
@@ -356,6 +353,14 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskFinished,
 					 q_ptr, &UpdateController::taskDone,
 					 Qt::QueuedConnection);
+
+#ifdef Q_OS_UNIX
+	//TODO test
+	QFileInfo maintenanceInfo(QCoreApplication::applicationDirPath(),
+							  this->mainUpdater->maintenanceToolPath());
+	qDebug() << maintenanceInfo.ownerId();
+	this->runAdmin = (maintenanceInfo.ownerId() == 0);
+#endif
 }
 
 UpdateControllerPrivate::~UpdateControllerPrivate()
@@ -365,6 +370,8 @@ UpdateControllerPrivate::~UpdateControllerPrivate()
 				 "This may crash your application!");
 	}
 
+	if(this->checkUpdatesProgress)
+		this->checkUpdatesProgress->deleteLater();
 	for(int taskID : this->updateTasks.keys())
 		UpdateScheduler::instance()->cancelTask(taskID);
 }

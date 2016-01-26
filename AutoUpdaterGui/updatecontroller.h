@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <updatetask.h>
 
+//TODO detailed doku
 namespace QtAutoUpdater
 {
 	class Updater;
@@ -18,6 +19,8 @@ namespace QtAutoUpdater
 
 		//! Holds the path of the attached maintenancetool
 		Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT FINAL)
+		//! Holds the widget who's window should be used as parent for all dialogs
+		Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow)
 		//! Specifies whether the controller is currently active or not
 		Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 		//! Specifies whether the controller should run the updater as admin or not
@@ -44,21 +47,25 @@ namespace QtAutoUpdater
 		//! Constructs a new controller with a parent. Will be application modal
 		explicit UpdateController(QObject *parent = NULL);
 		//! Constructs a new controller with a parent. Will modal to the parent window
-		explicit UpdateController(QWidget *parentWidget);
+		explicit UpdateController(QWidget *parentWindow, QObject *parent = NULL);
 		//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
 		explicit UpdateController(const QString &maintenanceToolPath, QObject *parent = NULL);
 		//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
-		explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget);
+		explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow, QObject *parent = NULL);
 		//! Destructor
 		~UpdateController();
 
 		//! Create a QAction to start this controller from
 		QAction *createUpdateAction(QObject *parent);
 		//! Creates a new "UpdatePanel" widget to place in your GUI
-		QWidget *createUpdatePanel(QWidget *parentWidget);
+		QWidget *createUpdatePanel(QWidget *parentWindow);
 
 		//! READ-Accessor for UpdateController::maintenanceToolPath
 		QString maintenanceToolPath() const;
+		//! READ-Accessor for UpdateController::parentWindow
+		QWidget* parentWindow() const;
+		//! WRITE-Accessor for UpdateController::parentWindow
+		void setParentWindow(QWidget* parentWindow);
 		//! READ-Accessor for UpdateController::currentDisplayLevel
 		DisplayLevel currentDisplayLevel() const;
 		//! READ-Accessor for UpdateController::running
@@ -80,13 +87,6 @@ namespace QtAutoUpdater
 
 		//! Returns the Updater object used by the controller
 		const Updater * getUpdater() const;
-
-		//! Returns the parent window
-		QWidget* parentWidget() const;
-		//! Changes the updaters parent to a new widget
-		void setParent(QWidget* parent);
-		//! Changes the updaters parent to an object without a widget
-		void setParent(QObject* parent);
 
 	public slots:
 		//! Starts the controller with the specified level.
