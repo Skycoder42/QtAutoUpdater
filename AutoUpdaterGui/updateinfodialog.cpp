@@ -1,6 +1,6 @@
 #include "updateinfodialog.h"
 #include "ui_updateinfodialog.h"
-#include <QGuiApplication>
+#include <QApplication>
 #include <QMessageBox>
 #include "messagemaster.h"
 using namespace QtAutoUpdater;
@@ -25,17 +25,17 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	// ### hardcoded for now:
 	pal.setColor(QPalette::WindowText, QColor(0x00, 0x33, 0x99));
 #else
-	pal.setColor(QPalette::WindowText, QGuiApplication::palette().color(QPalette::Highlight));
+	pal.setColor(QPalette::WindowText, QApplication::palette().color(QPalette::Highlight));
 #endif
 	this->ui->headerLabel->setPalette(pal);
 
 	this->ui->headerLabel->setText(tr("Updates for %1 are available!")
-								   .arg(QGuiApplication::applicationDisplayName()));
-	if(QGuiApplication::windowIcon().isNull())
+								   .arg(QApplication::applicationDisplayName()));
+	if(QApplication::windowIcon().isNull())
 		this->ui->imageLabel->hide();
 	else {
-		this->ui->imageLabel->show();
-		this->ui->imageLabel->setPixmap(QGuiApplication::windowIcon().pixmap(64, 64));//TODO hdpi
+		this->ui->imageLabel->show();//TODO icon ok? or app icon?!?
+		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/updaterIcons/update.ico")).pixmap(64, 64));//TODO hdpi
 	}
 }
 
@@ -50,12 +50,11 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		QMessageBox mBox(parent);
 		mBox.setWindowModality(parent ? Qt::WindowModal : Qt::ApplicationModal);
 		mBox.setWindowFlags(mBox.windowFlags() & ~Qt::WindowContextHelpButtonHint);
-		mBox.setIcon(QMessageBox::Information);
 		mBox.setWindowTitle(tr("Check for Updates"));
-		mBox.setWindowIcon(QIcon(QStringLiteral(":/updaterIcons/update.ico")));
+		mBox.setIconPixmap(QIcon(QStringLiteral(":/updaterIcons/update.ico")).pixmap(48, 48));//TODO hdpi
 		mBox.setText(QStringLiteral("<b>") +
 					 tr("Updates for %1 are available!")
-					 .arg(QGuiApplication::applicationDisplayName()) +
+					 .arg(QApplication::applicationDisplayName()) +
 					 QStringLiteral("</b>"));
 		mBox.setInformativeText(tr("There are new updates available! You can install them now or later."));
 		QStringList details;

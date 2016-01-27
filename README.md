@@ -32,12 +32,12 @@ Github repository: https://github.com/Skycoder42/QtAutoUpdater
 #### Screenshots
 Here some sample screenshots of the gui (The rocket of the information dialog is the "application icon" and depends on your application)
 
-| Windows                                                  | Mac                                                      | X11                                                      |
-|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-| ![Progress Dialog](./doc/images/win_dialog_progress.png) | ![Progress Dialog](./doc/images/mac_dialog_progress.png) | ![Progress Dialog](./doc/images/x11_dialog_progress.png) |
-| ![Information Dialog](./doc/images/win_dialog_info.png)  | ![Information Dialog](./doc/images/mac_dialog_info.png)  | ![Information Dialog](./doc/images/x11_dialog_info.png)  |
-| ![Update Panel](./doc/images/win_panel_checking.png)     | ![Update Panel](./doc/images/mac_panel_checking.png)     | ![Update Panel](./doc/images/x11_panel_checking.png)     |
-| ![Update Action](./doc/images/win_action.png)            | ![Update Action](./doc/images/mac_action.png)            | ![Update Action](./doc/images/x11_action.png)            |
+| Dialog Sample      | Windows                                                  | Mac                                                      | X11                                                      |
+|--------------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
+| Progress Dialog    | ![Progress Dialog](./doc/images/win_dialog_progress.png) | ![Progress Dialog](./doc/images/mac_dialog_progress.png) | ![Progress Dialog](./doc/images/x11_dialog_progress.png) |
+| Information Dialog | ![Information Dialog](./doc/images/win_dialog_info.png)  | ![Information Dialog](./doc/images/mac_dialog_info.png)  | ![Information Dialog](./doc/images/x11_dialog_info.png)  |
+| Update Panel       | ![Update Panel](./doc/images/win_panel_checking.png)     | ![Update Panel](./doc/images/mac_panel_checking.png)     | ![Update Panel](./doc/images/x11_panel_checking.png)     |
+| Update Action      | ![Update Action](./doc/images/win_action.png)            | ![Update Action](./doc/images/mac_action.png)            | ![Update Action](./doc/images/x11_action.png)            |
 
 ## Requirements
  - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at https://download.qt.io/official_releases/qt-installer-framework/)
@@ -150,6 +150,11 @@ Downloads are available via [github releases](https://github.com/Skycoder42/QtAu
 If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, there are no other dependencies beside Qt itself. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!
 
 ## Icon sources/Links
+Most icons have been found using [IconArchive](http://www.iconarchive.com/)
+
+### GUI Library
  - http://www.fatcow.com/free-icons
- - http://www.oxygen-icons.org/
  - http://www.ajaxload.info/
+
+### Test Project
+ - http://www.oxygen-icons.org/

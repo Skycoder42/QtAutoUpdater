@@ -48,7 +48,6 @@ QAction *UpdateController::createUpdateAction(QObject *parent)
 										parent);
 	updateAction->setMenuRole(QAction::ApplicationSpecificRole);
 	updateAction->setToolTip(tr("Checks if new updates are available. You will be prompted before updates are installed."));
-	updateAction->setIconVisibleInMenu(false);
 
 	connect(updateAction, &QAction::triggered, this, [this](){
 		this->start(UpdateController::ProgressLevel);

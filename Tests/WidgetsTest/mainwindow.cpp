@@ -81,8 +81,10 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		else
 			this->controller = new QtAutoUpdater::UpdateController(this->ui->maintenanceToolLineEdit->text(), qApp);
 		this->controller->setDetailedUpdateInfo(this->ui->detailedInfoDialogCheckBox->isChecked());
-		this->ui->menuHelp->addAction(this->controller->createUpdateAction(this));
-		this->ui->mainToolBar->addAction(this->controller->createUpdateAction(this));
+		QAction *a = this->controller->createUpdateAction(this);
+		a->setIconVisibleInMenu(false);
+		this->ui->menuHelp->addAction(a);
+		this->ui->mainToolBar->addAction(a);
 #ifdef Q_OS_OSX
 		QMenu *dockMenu = new QMenu(this);
 		QAction *action = this->controller->createUpdateAction(this);

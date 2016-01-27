@@ -9,7 +9,7 @@
 
 namespace QtAutoUpdater
 {
-	class UpdateControllerPrivate
+	class UpdateControllerPrivate//TODO load icon indirectly -> easier replacement
 	{
 		UpdateController *q_ptr;
 		Q_DECLARE_PUBLIC(UpdateController)

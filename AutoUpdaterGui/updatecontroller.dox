@@ -119,6 +119,17 @@ int main(int argc, char *argv[])
 	return a.exec();
 }
 @endcode
+
+## Changing the update icon
+The controller uses one special icon in many of it's dialogs. This icon is a resource fail and can
+be replaced by overwriting the resource. Simply create an entry in a resource file with the following path:
+`:/updaterIcons/update.ico`. This way the controller will use your icon instead of the default one.
+The same goes for the "progress indicator" of the Update panel. The path for this none is `:/updaterIcons/updateRunning.gif`.
+The file type of both need to stay the same, i.e. .ico for the icon and .gif for the progress. Otherwise loading will fail.
+
+@note This "replacement" is nothing I have implemented, but a result of how the resource system of Qt works. This may change
+in different version. If you intend to make use of it, please try it out! If this feature is requested without the "hack", I
+will add it in a future release.
 */
 
 /*!
@@ -370,10 +381,9 @@ The action will automatically start the controller with the display-level
 disabled if the controller is already running and deleted together with the controller
 (or `parent`, whoever gets destroyed first). For images check the @ref image_page "Image Page".
 
-The action has a text, an icon and a tooltip. The icon is set to be only visibile in a
-toolbar, not in a menu. On Mac, the action will be placed in the Applications menu if
-added to the Menubar. To show it in other places (for example as dock-menu), create a new
-action and unset the role
+The action has a text, an icon and a tooltip. On Mac, the action will be placed in the
+Applications menu if added to the Menubar. To show it in other places (for example as dock-menu),
+create a new action and unset the role
 
 @sa UpdateController::createUpdatePanel, @ref image_page "Image Page", QAction::menuRole
 */
