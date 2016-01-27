@@ -34,10 +34,10 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
 
 | Dialog Sample      | Windows                                   | Mac                                       | X11                                       |
 |--------------------|-------------------------------------------|-------------------------------------------|-------------------------------------------|
-| Progress Dialog    | ![](./doc/images/win/dialog_progress.png) | ![](./doc/images/mac/dialog_progress.png) | ![](./doc/images/x11/dialog_progress.png) |
-| Information Dialog | ![](./doc/images/win/dialog_info.png)     | ![](./doc/images/mac/dialog_info.png)     | ![](./doc/images/x11/dialog_info.png)     |
-| Update Panel       | ![](./doc/images/win/panel_checking.png)  | ![](./doc/images/mac/panel_checking.png)  | ![](./doc/images/x11/panel_checking.png)  |
-| Update Action      | ![](./doc/images/win/action.png)          | ![](./doc/images/mac/action.png)          | ![](./doc/images/x11/action.png)          |
+| Progress Dialog    | ![](./doc/images/win_dialog_progress.png) | ![](./doc/images/mac_dialog_progress.png) | ![](./doc/images/x11_dialog_progress.png) |
+| Information Dialog | ![](./doc/images/win_dialog_info.png)     | ![](./doc/images/mac_dialog_info.png)     | ![](./doc/images/x11_dialog_info.png)     |
+| Update Panel       | ![](./doc/images/win_panel_checking.png)  | ![](./doc/images/mac_panel_checking.png)  | ![](./doc/images/x11_panel_checking.png)  |
+| Update Action      | ![](./doc/images/win_action.png)          | ![](./doc/images/mac_action.png)          | ![](./doc/images/x11_action.png)          |
 
 ## Requirements
  - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at https://download.qt.io/official_releases/qt-installer-framework/)
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 ```
 
 #### UpdateController
-This example will show you the full capability of the controller. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the Tests/WidegtsTest application.
+This example will show you the full capability of the controller. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the `Tests/WidegtsTest` application.
 
 ```cpp
 #include <QApplication>
@@ -106,9 +106,9 @@ int main(int argc, char *argv[])
     //Since there is no mainwindow, the various dialogs should not quit the app
     QApplication::setQuitOnLastWindowClosed(false);
     //create the update controller with the application as parent -> will live long enough start the tool on exit
-    //since the parent is not a widget, all dialogs will be top-level windows
+	//since there is no parent window, all dialogs will be top-level windows
     //QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController(&a);
-    QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
+	QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
     
     QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
         qDebug() << "Running changed:" << running;
@@ -129,7 +129,7 @@ The documentation is available within the releases and on [github pages](https:/
 The documentation was created using [doxygen](http://www.stack.nl/~dimitri/doxygen/). It includes an HTML-documentation and Qt-Help files that can be included into QtCreator (QtAssistant) to show F1-Help (See [Adding External Documentation](https://doc.qt.io/qtcreator/creator-help.html#adding-external-documentation) for more details).
 
 ## Translations
-The core library does not need any translation, because it won't show anything to the user. The Gui library however does. The project is prepared for translation. But since I speak only english and german, those are the only languages I can provide translations for. However, you can easily create the translations yourself. The file `AutoUpdaterGui/translations/QtAutoUpdaterController_template.ts` is a ready-made TS file. Just rename it (e.g to `QtAutoUpdaterController_jp.ts`) and open it with the QtLinguist to create the translations.
+The core library does not need any translation, because it won't show anything to the user. The Gui library however does. The project is prepared for translation. But since I speak only english and german, those are the only languages I can provide translations for. However, you can easily create the translations yourself. The file `AutoUpdaterGui/translations/QtAutoUpdaterController_template.ts` is a ready-made TS file. Just rename it (e.g. to `QtAutoUpdaterController_jp.ts`) and open it with the QtLinguist to create the translations.
 
 ## Downloads
 Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
