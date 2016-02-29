@@ -7,21 +7,21 @@ Back to UpdaterController.
 
 ## Windows - Windows 10
 #### The Updater Elements
-@image html ./doc/images/win_dialog_ask.png "Ask Dialog"<br>
-@image html ./doc/images/win_dialog_progress.png "Progress Dialog"<br>
-@image html ./doc/images/win_dialog_no_updates.png "No Updates Dialog"<br>
-@image html ./doc/images/win_dialog_info.png "Detailed Update Information Dialog"<br>
-@image html ./doc/images/win_dialog_info_simple.png "Simple Update Information Dialog"<br>
-@image html ./doc/images/win_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+@image html win_dialog_ask.png "Ask Dialog"<br>
+@image html win_dialog_progress.png "Progress Dialog"<br>
+@image html win_dialog_no_updates.png "No Updates Dialog"<br>
+@image html win_dialog_info.png "Detailed Update Information Dialog"<br>
+@image html win_dialog_info_simple.png "Simple Update Information Dialog"<br>
+@image html win_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
 #### The Update Panel
-@image html ./doc/images/win_panel_idle.png "Panel before clicking"<br>
-@image html ./doc/images/win_panel_checking.png "Panel while checking"<br>
-@image html ./doc/images/win_panel_updates.png "Panel with updates"<br>
-@image html ./doc/images/win_panel_no_updates.png "Panel without updates"<br>
+@image html win_panel_idle.png "Panel before clicking"<br>
+@image html win_panel_checking.png "Panel while checking"<br>
+@image html win_panel_updates.png "Panel with updates"<br>
+@image html win_panel_no_updates.png "Panel without updates"<br>
 
 #### The Action
-@image html ./doc/images/win_action.png "Update action inside a menu and a toolbar"<br>
+@image html win_action.png "Update action inside a menu and a toolbar"<br>
 
 ## Mac - OsX 10.11
 The following pictures show the controller with a parent windows. Thus, all dialogs
@@ -29,39 +29,39 @@ are shown as "sheets" to that window. If you create the UpdateController without
 they will show as normal toplevel windows instead.
 
 #### The Updater Elements
-@image html ./doc/images/mac_dialog_ask.png "Ask Dialog"<br>
-@image html ./doc/images/mac_dialog_progress.png "Progress Dialog"<br>
-@image html ./doc/images/mac_dialog_no_updates.png "No Updates Dialog"<br>
-@image html ./doc/images/mac_dialog_info.png "Detailed Update Information Dialog"<br>
-@image html ./doc/images/mac_dialog_info_simple.png "Simple Update Information Dialog"<br>
-@image html ./doc/images/mac_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+@image html mac_dialog_ask.png "Ask Dialog"<br>
+@image html mac_dialog_progress.png "Progress Dialog"<br>
+@image html mac_dialog_no_updates.png "No Updates Dialog"<br>
+@image html mac_dialog_info.png "Detailed Update Information Dialog"<br>
+@image html mac_dialog_info_simple.png "Simple Update Information Dialog"<br>
+@image html mac_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
 #### The Update Panel
-@image html ./doc/images/mac_panel_idle.png "Panel before clicking"<br>
-@image html ./doc/images/mac_panel_checking.png "Panel while checking"<br>
-@image html ./doc/images/mac_panel_updates.png "Panel with updates"<br>
-@image html ./doc/images/mac_panel_no_updates.png "Panel without updates"<br>
+@image html mac_panel_idle.png "Panel before clicking"<br>
+@image html mac_panel_checking.png "Panel while checking"<br>
+@image html mac_panel_updates.png "Panel with updates"<br>
+@image html mac_panel_no_updates.png "Panel without updates"<br>
 
 #### The Action
-@image html ./doc/images/mac_action.png "Update action inside a menu and a toolbar"<br>
+@image html mac_action.png "Update action inside a menu and a toolbar"<br>
 
 ## X11 - Ubuntu 14.04
 #### The Updater Elements
-@image html ./doc/images/x11_dialog_ask.png "Ask Dialog"<br>
-@image html ./doc/images/x11_dialog_progress.png "Progress Dialog"<br>
-@image html ./doc/images/x11_dialog_no_updates.png "No Updates Dialog"<br>
-@image html ./doc/images/x11_dialog_info.png "Detailed Update Information Dialog"<br>
-@image html ./doc/images/x11_dialog_info_simple.png "Simple Update Information Dialog"<br>
-@image html ./doc/images/x11_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+@image html x11_dialog_ask.png "Ask Dialog"<br>
+@image html x11_dialog_progress.png "Progress Dialog"<br>
+@image html x11_dialog_no_updates.png "No Updates Dialog"<br>
+@image html x11_dialog_info.png "Detailed Update Information Dialog"<br>
+@image html x11_dialog_info_simple.png "Simple Update Information Dialog"<br>
+@image html x11_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
 #### The Update Panel
-@image html ./doc/images/x11_panel_idle.png "Panel before clicking"<br>
-@image html ./doc/images/x11_panel_checking.png "Panel while checking"<br>
-@image html ./doc/images/x11_panel_updates.png "Panel with updates"<br>
-@image html ./doc/images/x11_panel_no_updates.png "Panel without updates"<br>
+@image html x11_panel_idle.png "Panel before clicking"<br>
+@image html x11_panel_checking.png "Panel while checking"<br>
+@image html x11_panel_updates.png "Panel with updates"<br>
+@image html x11_panel_no_updates.png "Panel without updates"<br>
 
 #### The Action
-@image html ./doc/images/x11_action.png "Update action inside a menu and a toolbar"<br>
+@image html x11_action.png "Update action inside a menu and a toolbar"<br>
 */
 
 /*!
