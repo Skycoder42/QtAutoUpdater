@@ -58,7 +58,7 @@ PROJECT_LOGO           =
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = ../doc_generated
+OUTPUT_DIRECTORY       = ../../QtAutoUpdater_doc_generated
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -2160,41 +2160,41 @@ SKIP_FUNCTION_MACROS   = YES
 # run, you must also specify the path to the tagfile here.
 
 TAGFILES               = C:/Qt/Docs/Qt-5.6/qtwebengine/qtwebengine.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtgraphicaleffects/qtgraphicaleffects.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qt3dcollision/qt3dcollision.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qt3dlogic/qt3dlogic.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qt3dcore/qt3dcore.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qt3drenderer/qt3drenderer.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtwebchannel/qtwebchannel.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtwebsockets/qtwebsockets.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtbluetooth/qtbluetooth.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtnfc/qtnfc.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtsensors/qtsensors.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtlocation/qtlocation.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtpositioning/qtpositioning.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/activeqt/activeqt.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtquickcontrols/qtquickcontrols.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtqml/qtqml.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtquick/qtquick.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtxmlpatterns/qtxmlpatterns.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtsvg/qtsvg.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qdoc/qdoc.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtprintsupport/qtprintsupport.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtconcurrent/qtconcurrent.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtgui/qtgui.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qttestlib/qttestlib.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtwidgets/qtwidgets.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtnetwork/qtnetwork.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtsql/qtsql.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtxml/qtxml.tags=http://doc.qt.io/qt-5 \
-						 C:/Qt/Docs/Qt-5.6/qtwebenginewidgets/qtwebenginewidgets.tags=http://doc.qt.io/qt-5
+                         C:/Qt/Docs/Qt-5.6/qtgraphicaleffects/qtgraphicaleffects.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qt3dcollision/qt3dcollision.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qt3dlogic/qt3dlogic.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qt3dcore/qt3dcore.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qt3drenderer/qt3drenderer.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtwebchannel/qtwebchannel.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtwebsockets/qtwebsockets.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtbluetooth/qtbluetooth.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtnfc/qtnfc.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtsensors/qtsensors.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtlocation/qtlocation.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtpositioning/qtpositioning.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/activeqt/activeqt.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtquickcontrols/qtquickcontrols.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtqml/qtqml.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtquick/qtquick.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtxmlpatterns/qtxmlpatterns.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtsvg/qtsvg.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qdoc/qdoc.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtprintsupport/qtprintsupport.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtconcurrent/qtconcurrent.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtgui/qtgui.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qttestlib/qttestlib.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtwidgets/qtwidgets.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtnetwork/qtnetwork.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtsql/qtsql.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtxml/qtxml.tags=http://doc.qt.io/qt-5 \
+                         C:/Qt/Docs/Qt-5.6/qtwebenginewidgets/qtwebenginewidgets.tags=http://doc.qt.io/qt-5
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create a
 # tag file that is based on the input files it reads. See section "Linking to
 # external documentation" for more information about the usage of tag files.
 
-GENERATE_TAGFILE       = ../doc_generated/QtAutoUpdater.tag
+GENERATE_TAGFILE       = ../../QtAutoUpdater_doc_generated/QtAutoUpdater.tags
 
 # If the ALLEXTERNALS tag is set to YES, all external class will be listed in
 # the class index. If set to NO, only the inherited external classes will be
