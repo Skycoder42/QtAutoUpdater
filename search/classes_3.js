@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['dependency',['Dependency',['http://doc.qt.io/qt-5/qt3d-dependency.html',0,'Qt3D']]],
-  ['dependencyhandler',['DependencyHandler',['http://doc.qt.io/qt-5/qt3d-dependencyhandler.html',0,'Qt3D']]]
+  ['element',['Element',['http://doc.qt.io/qt-5/qpainterpath-element.html',0,'QPainterPath']]],
+  ['extraselection',['ExtraSelection',['http://doc.qt.io/qt-5/qtextedit-extraselection.html',0,'QTextEdit']]]
 ];

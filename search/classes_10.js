@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['scrollbar',['ScrollBar',['http://doc.qt.io/qt-5/qml-scrollbar.html',0,'']]],
-  ['scrollviewhelper',['ScrollViewHelper',['http://doc.qt.io/qt-5/qml-scrollviewhelper.html',0,'']]],
-  ['selection',['Selection',['http://doc.qt.io/qt-5/qabstracttextdocumentlayout-selection.html',0,'QAbstractTextDocumentLayout']]],
-  ['sequence',['Sequence',['http://doc.qt.io/qt-5/qbluetoothserviceinfo-sequence.html',0,'QBluetoothServiceInfo']]],
-  ['signalevent',['SignalEvent',['http://doc.qt.io/qt-5/qstatemachine-signalevent.html',0,'QStateMachine']]],
-  ['spherecollider',['SphereCollider',['http://doc.qt.io/qt-5/qml-spherecollider.html',0,'']]],
-  ['stackviewslidedelegate',['StackViewSlideDelegate',['http://doc.qt.io/qt-5/qml-stackviewslidedelegate.html',0,'']]],
-  ['state',['State',['http://doc.qt.io/qt-5/qaccessible-state.html',0,'QAccessible']]],
-  ['style',['Style',['http://doc.qt.io/qt-5/qml-style.html',0,'']]],
-  ['synctaskrunnable',['SyncTaskRunnable',['http://doc.qt.io/qt-5/qt3d-synctaskrunnable.html',0,'Qt3D']]]
+  ['uicomponents_2eprogressbar',['UIComponents.ProgressBar',['http://doc.qt.io/qt-5/qml-uicomponents-progressbar.html',0,'']]],
+  ['uicomponents_2eswitch',['UIComponents.Switch',['http://doc.qt.io/qt-5/qml-uicomponents-switch.html',0,'']]],
+  ['uicomponents_2etabwidget',['UIComponents.TabWidget',['http://doc.qt.io/qt-5/qml-uicomponents-tabwidget.html',0,'']]],
+  ['updatecontroller',['UpdateController',['../class_qt_auto_updater_1_1_update_controller.html',1,'QtAutoUpdater']]],
+  ['updateinfo',['UpdateInfo',['../struct_qt_auto_updater_1_1_updater_1_1_update_info.html',1,'QtAutoUpdater::Updater']]],
+  ['updatepaintnodedata',['UpdatePaintNodeData',['http://doc.qt.io/qt-5/qquickitem-updatepaintnodedata.html',0,'QQuickItem']]],
+  ['updater',['Updater',['../class_qt_auto_updater_1_1_updater.html',1,'QtAutoUpdater']]],
+  ['updateschedulercontroller',['UpdateSchedulerController',['../class_qt_auto_updater_1_1_update_scheduler_controller.html',1,'QtAutoUpdater']]],
+  ['updatetask',['UpdateTask',['../class_qt_auto_updater_1_1_update_task.html',1,'QtAutoUpdater']]],
+  ['updatetasklist',['UpdateTaskList',['../class_qt_auto_updater_1_1_update_task_list.html',1,'QtAutoUpdater']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['g',['g',['http://doc.qt.io/qt-5/qt3d-quick-quick3dcolorvaluetype.html#g-prop',0,'Qt3D::Quick::Quick3DColorValueType']]],
   ['geometry',['geometry',['http://doc.qt.io/qt-5/qscreen.html#geometry-prop',0,'QScreen::geometry()'],['http://doc.qt.io/qt-5/qgraphicswidget.html#geometry-prop',0,'QGraphicsWidget::geometry()'],['http://doc.qt.io/qt-5/qwidget.html#geometry-prop',0,'QWidget::geometry()']]],
   ['gesturecancelpolicy',['gestureCancelPolicy',['http://doc.qt.io/qt-5/qgesture.html#gestureCancelPolicy-prop',0,'QGesture']]],
   ['gesturetype',['gestureType',['http://doc.qt.io/qt-5/qgesture.html#gestureType-prop',0,'QGesture']]],

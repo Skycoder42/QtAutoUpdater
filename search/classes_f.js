@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['record',['Record',['http://doc.qt.io/qt-5/qndeffilter-record.html',0,'QNdefFilter']]],
-  ['renderer',['Renderer',['http://doc.qt.io/qt-5/qquickframebufferobject-renderer.html',0,'QQuickFramebufferObject']]],
-  ['renderstate',['RenderState',['http://doc.qt.io/qt-5/qsgmaterialshader-renderstate.html',0,'QSGMaterialShader']]],
-  ['requestid',['RequestId',['http://doc.qt.io/qt-5/qnearfieldtarget-requestid.html',0,'QNearFieldTarget']]],
-  ['requestidprivate',['RequestIdPrivate',['http://doc.qt.io/qt-5/qnearfieldtarget-requestidprivate.html',0,'QNearFieldTarget']]],
-  ['runnableinterface',['RunnableInterface',['http://doc.qt.io/qt-5/qt3d-runnableinterface.html',0,'Qt3D']]]
+  ['tab',['Tab',['http://doc.qt.io/qt-5/qtextoption-tab.html',0,'QTextOption']]],
+  ['tabbar',['TabBar',['http://doc.qt.io/qt-5/qml-tabbar.html',0,'']]],
+  ['tableviewitemdelegateloader',['TableViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-tableviewitemdelegateloader.html',0,'']]],
+  ['texturedpoint2d',['TexturedPoint2D',['http://doc.qt.io/qt-5/qsggeometry-texturedpoint2d.html',0,'QSGGeometry']]],
+  ['timepointupdatetask',['TimePointUpdateTask',['../class_qt_auto_updater_1_1_time_point_update_task.html',1,'QtAutoUpdater']]],
+  ['timerinfo',['TimerInfo',['http://doc.qt.io/qt-5/qabstracteventdispatcher-timerinfo.html',0,'QAbstractEventDispatcher']]],
+  ['timespan',['TimeSpan',['../struct_qt_auto_updater_1_1_time_span.html',1,'QtAutoUpdater']]],
+  ['touchpoint',['TouchPoint',['http://doc.qt.io/qt-5/qtouchevent-touchpoint.html',0,'QTouchEvent']]],
+  ['treeviewitemdelegateloader',['TreeViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-treeviewitemdelegateloader.html',0,'']]]
 ];

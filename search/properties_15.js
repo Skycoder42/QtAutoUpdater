@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['w',['w',['http://doc.qt.io/qt-5/qt3d-quick-quick3dvector4dvaluetype.html#w-prop',0,'Qt3D::Quick::Quick3DVector4DValueType']]],
   ['wascanceled',['wasCanceled',['http://doc.qt.io/qt-5/qprogressdialog.html#wasCanceled-prop',0,'QProgressDialog']]],
-  ['washeld',['wasHeld',['http://doc.qt.io/qt-5/qt3d-q3dmouseevent.html#wasHeld-prop',0,'Qt3D::Q3DMouseEvent']]],
   ['whatsthis',['whatsThis',['http://doc.qt.io/qt-5/qaction.html#whatsThis-prop',0,'QAction::whatsThis()'],['http://doc.qt.io/qt-5/qshortcut.html#whatsThis-prop',0,'QShortcut::whatsThis()'],['http://doc.qt.io/qt-5/qwidget.html#whatsThis-prop',0,'QWidget::whatsThis()']]],
   ['wheelscrolllines',['wheelScrollLines',['http://doc.qt.io/qt-5/qapplication.html#wheelScrollLines-prop',0,'QApplication']]],
   ['widgetresizable',['widgetResizable',['http://doc.qt.io/qt-5/qscrollarea.html#widgetResizable-prop',0,'QScrollArea']]],
@@ -10,7 +8,7 @@ var searchData=
   ['windowfilepath',['windowFilePath',['http://doc.qt.io/qt-5/qwidget.html#windowFilePath-prop',0,'QWidget']]],
   ['windowflags',['windowFlags',['http://doc.qt.io/qt-5/qgraphicswidget.html#windowFlags-prop',0,'QGraphicsWidget::windowFlags()'],['http://doc.qt.io/qt-5/qwidget.html#windowFlags-prop',0,'QWidget::windowFlags()']]],
   ['windowicon',['windowIcon',['http://doc.qt.io/qt-5/qguiapplication.html#windowIcon-prop',0,'QGuiApplication::windowIcon()'],['http://doc.qt.io/qt-5/qapplication.html#windowIcon-prop',0,'QApplication::windowIcon()'],['http://doc.qt.io/qt-5/qwidget.html#windowIcon-prop',0,'QWidget::windowIcon()']]],
-  ['windowicontext',['windowIconText',['http://doc.qt.io/qt-5/qwidget.html#windowIconText-prop',0,'QWidget']]],
+  ['windowicontext',['windowIconText',['http://doc.qt.io/qt-5/qwidget-obsolete.html#windowIconText-prop',0,'QWidget']]],
   ['windowmodality',['windowModality',['http://doc.qt.io/qt-5/qwidget.html#windowModality-prop',0,'QWidget']]],
   ['windowmodified',['windowModified',['http://doc.qt.io/qt-5/qwidget.html#windowModified-prop',0,'QWidget']]],
   ['windowopacity',['windowOpacity',['http://doc.qt.io/qt-5/qwidget.html#windowOpacity-prop',0,'QWidget']]],

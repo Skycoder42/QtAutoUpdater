@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['farplane',['farPlane',['http://doc.qt.io/qt-5/qt3d-qcamera.html#farPlane-prop',0,'Qt3D::QCamera::farPlane()'],['http://doc.qt.io/qt-5/qt3d-qcameralens.html#farPlane-prop',0,'Qt3D::QCameraLens::farPlane()']]],
   ['features',['features',['http://doc.qt.io/qt-5/qdockwidget.html#features-prop',0,'QDockWidget']]],
   ['fieldgrowthpolicy',['fieldGrowthPolicy',['http://doc.qt.io/qt-5/qformlayout.html#fieldGrowthPolicy-prop',0,'QFormLayout']]],
-  ['fieldofview',['fieldOfView',['http://doc.qt.io/qt-5/qt3d-qcamera.html#fieldOfView-prop',0,'Qt3D::QCamera::fieldOfView()'],['http://doc.qt.io/qt-5/qt3d-qcameralens.html#fieldOfView-prop',0,'Qt3D::QCameraLens::fieldOfView()'],['http://doc.qt.io/qt-5/qlightsensor.html#fieldOfView-prop',0,'QLightSensor::fieldOfView()']]],
+  ['fieldofview',['fieldOfView',['http://doc.qt.io/qt-5/qlightsensor.html#fieldOfView-prop',0,'QLightSensor']]],
   ['filemode',['fileMode',['http://doc.qt.io/qt-5/qfiledialog.html#fileMode-prop',0,'QFileDialog']]],
   ['filename',['fileName',['http://doc.qt.io/qt-5/qsvggenerator.html#fileName-prop',0,'QSvgGenerator::fileName()'],['http://doc.qt.io/qt-5/qlibrary.html#fileName-prop',0,'QLibrary::fileName()'],['http://doc.qt.io/qt-5/qpluginloader.html#fileName-prop',0,'QPluginLoader::fileName()']]],
   ['fillcolor',['fillColor',['http://doc.qt.io/qt-5/qquickpainteditem.html#fillColor-prop',0,'QQuickPaintedItem']]],
@@ -18,7 +17,7 @@ var searchData=
   ['floatable',['floatable',['http://doc.qt.io/qt-5/qtoolbar.html#floatable-prop',0,'QToolBar']]],
   ['floating',['floating',['http://doc.qt.io/qt-5/qdockwidget.html#floating-prop',0,'QDockWidget::floating()'],['http://doc.qt.io/qt-5/qtoolbar.html#floating-prop',0,'QToolBar::floating()']]],
   ['flow',['flow',['http://doc.qt.io/qt-5/qlistview.html#flow-prop',0,'QListView']]],
-  ['focus',['focus',['http://doc.qt.io/qt-5/qt3d-qkeyboardinput.html#focus-prop',0,'Qt3D::QKeyboardInput::focus()'],['http://doc.qt.io/qt-5/qquickitem.html#focus-prop',0,'QQuickItem::focus()'],['http://doc.qt.io/qt-5/qwidget.html#focus-prop',0,'QWidget::focus()']]],
+  ['focus',['focus',['http://doc.qt.io/qt-5/qquickitem.html#focus-prop',0,'QQuickItem::focus()'],['http://doc.qt.io/qt-5/qwidget.html#focus-prop',0,'QWidget::focus()']]],
   ['focuspolicy',['focusPolicy',['http://doc.qt.io/qt-5/qgraphicswidget.html#focusPolicy-prop',0,'QGraphicsWidget::focusPolicy()'],['http://doc.qt.io/qt-5/qwidget.html#focusPolicy-prop',0,'QWidget::focusPolicy()']]],
   ['font',['font',['http://doc.qt.io/qt-5/qgraphicsscene.html#font-prop',0,'QGraphicsScene::font()'],['http://doc.qt.io/qt-5/qgraphicswidget.html#font-prop',0,'QGraphicsWidget::font()'],['http://doc.qt.io/qt-5/qaction.html#font-prop',0,'QAction::font()'],['http://doc.qt.io/qt-5/qwidget.html#font-prop',0,'QWidget::font()']]],
   ['fontfilters',['fontFilters',['http://doc.qt.io/qt-5/qfontcombobox.html#fontFilters-prop',0,'QFontComboBox']]],

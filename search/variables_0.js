@@ -8,8 +8,6 @@ var searchData=
   ['applicationstates',['ApplicationStates',['http://doc.qt.io/qt-5/qt.html#ApplicationState-enum',0,'Qt']]],
   ['areamonitorfeatures',['AreaMonitorFeatures',['http://doc.qt.io/qt-5/qgeoareamonitorsource.html#AreaMonitorFeature-enum',0,'QGeoAreaMonitorSource']]],
   ['areaoptions',['AreaOptions',['http://doc.qt.io/qt-5/qmdiarea.html#AreaOption-enum',0,'QMdiArea']]],
-  ['array_5frange',['array_range',['http://doc.qt.io/qt-5/qt3d-qcircularbuffer.html#array_range-typedef',0,'Qt3D::QCircularBuffer']]],
-  ['arrayrange',['ArrayRange',['http://doc.qt.io/qt-5/qt3d-qcircularbuffer.html#ArrayRange-typedef',0,'Qt3D::QCircularBuffer']]],
   ['atfunction',['AtFunction',['http://doc.qt.io/qt-5/qqmllistproperty.html#AtFunction-typedef',0,'QQmlListProperty']]],
   ['attributesmap',['AttributesMap',['http://doc.qt.io/qt-5/qnetworkcachemetadata.html#AttributesMap-typedef',0,'QNetworkCacheMetaData']]],
   ['autoformatting',['AutoFormatting',['http://doc.qt.io/qt-5/qtextedit.html#AutoFormattingFlag-enum',0,'QTextEdit']]]

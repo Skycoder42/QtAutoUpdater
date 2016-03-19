@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['data',['data',['http://doc.qt.io/qt-5/qt3d-qabstractbuffer.html#data-prop',0,'Qt3D::QAbstractBuffer::data()'],['http://doc.qt.io/qt-5/qt3d-quick-quick3dnode.html#data-prop',0,'Qt3D::Quick::Quick3DNode::data()']]],
   ['datarate',['dataRate',['http://doc.qt.io/qt-5/qsensor.html#dataRate-prop',0,'QSensor']]],
-  ['datasize',['dataSize',['http://doc.qt.io/qt-5/qt3d-qabstractattribute.html#dataSize-prop',0,'Qt3D::QAbstractAttribute']]],
-  ['datatype',['dataType',['http://doc.qt.io/qt-5/qt3d-qabstractattribute.html#dataType-prop',0,'Qt3D::QAbstractAttribute']]],
   ['date',['date',['http://doc.qt.io/qt-5/qdatetimeedit.html#date-prop',0,'QDateTimeEdit']]],
   ['dateeditacceptdelay',['dateEditAcceptDelay',['http://doc.qt.io/qt-5/qcalendarwidget.html#dateEditAcceptDelay-prop',0,'QCalendarWidget']]],
   ['dateeditenabled',['dateEditEnabled',['http://doc.qt.io/qt-5/qcalendarwidget.html#dateEditEnabled-prop',0,'QCalendarWidget']]],
@@ -18,12 +15,13 @@ var searchData=
   ['defaultstylesheet',['defaultStyleSheet',['http://doc.qt.io/qt-5/qtextdocument.html#defaultStyleSheet-prop',0,'QTextDocument']]],
   ['defaultsuffix',['defaultSuffix',['http://doc.qt.io/qt-5/qfiledialog.html#defaultSuffix-prop',0,'QFileDialog']]],
   ['defaulttextoption',['defaultTextOption',['http://doc.qt.io/qt-5/qtextdocument.html#defaultTextOption-prop',0,'QTextDocument']]],
+  ['defaulttransition',['defaultTransition',['http://doc.qt.io/qt-5/qhistorystate.html#defaultTransition-prop',0,'QHistoryState']]],
   ['defaultup',['defaultUp',['http://doc.qt.io/qt-5/qmenubar.html#defaultUp-prop',0,'QMenuBar']]],
-  ['delegate',['delegate',['http://doc.qt.io/qt-5/qt3d-quick-quick3dnodeinstantiator.html#delegate-prop',0,'Qt3D::Quick::Quick3DNodeInstantiator']]],
   ['delta',['delta',['http://doc.qt.io/qt-5/qpangesture.html#delta-prop',0,'QPanGesture']]],
   ['depth',['depth',['http://doc.qt.io/qt-5/qscreen.html#depth-prop',0,'QScreen']]],
   ['description',['description',['http://doc.qt.io/qt-5/qsensor.html#description-prop',0,'QSensor::description()'],['http://doc.qt.io/qt-5/qsvggenerator.html#description-prop',0,'QSvgGenerator::description()'],['http://doc.qt.io/qt-5/qcommandlinkbutton.html#description-prop',0,'QCommandLinkButton::description()']]],
   ['detailedtext',['detailedText',['http://doc.qt.io/qt-5/qmessagebox.html#detailedText-prop',0,'QMessageBox']]],
+  ['detailedupdateinfo',['detailedUpdateInfo',['../class_qt_auto_updater_1_1_update_controller.html#a7aef590344a0ec1249f7a2b10a2a776b',1,'QtAutoUpdater::UpdateController']]],
   ['devicepixelratio',['devicePixelRatio',['http://doc.qt.io/qt-5/qscreen.html#devicePixelRatio-prop',0,'QScreen']]],
   ['digitcount',['digitCount',['http://doc.qt.io/qt-5/qlcdnumber.html#digitCount-prop',0,'QLCDNumber']]],
   ['direction',['direction',['http://doc.qt.io/qt-5/qabstractanimation.html#direction-prop',0,'QAbstractAnimation::direction()'],['http://doc.qt.io/qt-5/qtimeline.html#direction-prop',0,'QTimeLine::direction()']]],
@@ -32,7 +30,6 @@ var searchData=
   ['displayintegerbase',['displayIntegerBase',['http://doc.qt.io/qt-5/qspinbox.html#displayIntegerBase-prop',0,'QSpinBox']]],
   ['displaytext',['displayText',['http://doc.qt.io/qt-5/qlineedit.html#displayText-prop',0,'QLineEdit']]],
   ['distance',['distance',['http://doc.qt.io/qt-5/qdistancereading.html#distance-prop',0,'QDistanceReading']]],
-  ['divisor',['divisor',['http://doc.qt.io/qt-5/qt3d-qabstractattribute.html#divisor-prop',0,'Qt3D::QAbstractAttribute']]],
   ['docknestingenabled',['dockNestingEnabled',['http://doc.qt.io/qt-5/qmainwindow.html#dockNestingEnabled-prop',0,'QMainWindow']]],
   ['dockoptions',['dockOptions',['http://doc.qt.io/qt-5/qmainwindow.html#dockOptions-prop',0,'QMainWindow']]],
   ['document',['document',['http://doc.qt.io/qt-5/qtextedit.html#document-prop',0,'QTextEdit']]],
@@ -53,8 +50,5 @@ var searchData=
   ['drawbase',['drawBase',['http://doc.qt.io/qt-5/qtabbar.html#drawBase-prop',0,'QTabBar']]],
   ['duplicatesenabled',['duplicatesEnabled',['http://doc.qt.io/qt-5/qcombobox.html#duplicatesEnabled-prop',0,'QComboBox']]],
   ['duration',['duration',['http://doc.qt.io/qt-5/qabstractanimation.html#duration-prop',0,'QAbstractAnimation::duration()'],['http://doc.qt.io/qt-5/qpauseanimation.html#duration-prop',0,'QPauseAnimation::duration()'],['http://doc.qt.io/qt-5/qvariantanimation.html#duration-prop',0,'QVariantAnimation::duration()'],['http://doc.qt.io/qt-5/qtimeline.html#duration-prop',0,'QTimeLine::duration()']]],
-  ['dx',['dx',['http://doc.qt.io/qt-5/qt3d-qtranslatetransform.html#dx-prop',0,'Qt3D::QTranslateTransform']]],
-  ['dy',['dy',['http://doc.qt.io/qt-5/qt3d-qtranslatetransform.html#dy-prop',0,'Qt3D::QTranslateTransform']]],
-  ['dynamicsortfilter',['dynamicSortFilter',['http://doc.qt.io/qt-5/qsortfilterproxymodel.html#dynamicSortFilter-prop',0,'QSortFilterProxyModel']]],
-  ['dz',['dz',['http://doc.qt.io/qt-5/qt3d-qtranslatetransform.html#dz-prop',0,'Qt3D::QTranslateTransform']]]
+  ['dynamicsortfilter',['dynamicSortFilter',['http://doc.qt.io/qt-5/qsortfilterproxymodel.html#dynamicSortFilter-prop',0,'QSortFilterProxyModel']]]
 ];

@@ -16,5 +16,9 @@ var searchData=
   ['horizontalscrollmode',['horizontalScrollMode',['http://doc.qt.io/qt-5/qabstractitemview.html#horizontalScrollMode-prop',0,'QAbstractItemView']]],
   ['horizontalspacing',['horizontalSpacing',['http://doc.qt.io/qt-5/qformlayout.html#horizontalSpacing-prop',0,'QFormLayout::horizontalSpacing()'],['http://doc.qt.io/qt-5/qgridlayout.html#horizontalSpacing-prop',0,'QGridLayout::horizontalSpacing()']]],
   ['hotspot',['hotSpot',['http://doc.qt.io/qt-5/qgesture.html#hotSpot-prop',0,'QGesture']]],
-  ['html',['html',['http://doc.qt.io/qt-5/qtextedit.html#html-prop',0,'QTextEdit']]]
+  ['html',['html',['http://doc.qt.io/qt-5/qtextedit.html#html-prop',0,'QTextEdit']]],
+  ['httpacceptlanguage',['httpAcceptLanguage',['http://doc.qt.io/qt-5/qquickwebengineprofile.html#httpAcceptLanguage-prop',0,'QQuickWebEngineProfile']]],
+  ['httpcachemaximumsize',['httpCacheMaximumSize',['http://doc.qt.io/qt-5/qquickwebengineprofile.html#httpCacheMaximumSize-prop',0,'QQuickWebEngineProfile']]],
+  ['httpcachetype',['httpCacheType',['http://doc.qt.io/qt-5/qquickwebengineprofile.html#httpCacheType-prop',0,'QQuickWebEngineProfile']]],
+  ['httpuseragent',['httpUserAgent',['http://doc.qt.io/qt-5/qquickwebengineprofile.html#httpUserAgent-prop',0,'QQuickWebEngineProfile']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['r',['r',['http://doc.qt.io/qt-5/qt3d-quick-quick3dcolorvaluetype.html#r-prop',0,'Qt3D::Quick::Quick3DColorValueType']]],
   ['radius',['radius',['http://doc.qt.io/qt-5/qgeocircle.html#radius-prop',0,'QGeoCircle']]],
   ['reading',['reading',['http://doc.qt.io/qt-5/qsensor.html#reading-prop',0,'QSensor']]],
   ['readonly',['readOnly',['http://doc.qt.io/qt-5/qfiledialog-obsolete.html#readOnly-prop',0,'QFileDialog::readOnly()'],['http://doc.qt.io/qt-5/qfilesystemmodel.html#readOnly-prop',0,'QFileSystemModel::readOnly()'],['http://doc.qt.io/qt-5/qdirmodel.html#readOnly-prop',0,'QDirModel::readOnly()'],['http://doc.qt.io/qt-5/qabstractspinbox.html#readOnly-prop',0,'QAbstractSpinBox::readOnly()'],['http://doc.qt.io/qt-5/qlineedit.html#readOnly-prop',0,'QLineEdit::readOnly()'],['http://doc.qt.io/qt-5/qplaintextedit.html#readOnly-prop',0,'QPlainTextEdit::readOnly()'],['http://doc.qt.io/qt-5/qtextbrowser.html#readOnly-prop',0,'QTextBrowser::readOnly()'],['http://doc.qt.io/qt-5/qtextedit.html#readOnly-prop',0,'QTextEdit::readOnly()']]],
@@ -22,7 +21,6 @@ var searchData=
   ['resolvesymlinks',['resolveSymlinks',['http://doc.qt.io/qt-5/qfiledialog-obsolete.html#resolveSymlinks-prop',0,'QFileDialog::resolveSymlinks()'],['http://doc.qt.io/qt-5/qfilesystemmodel.html#resolveSymlinks-prop',0,'QFileSystemModel::resolveSymlinks()'],['http://doc.qt.io/qt-5/qdirmodel.html#resolveSymlinks-prop',0,'QDirModel::resolveSymlinks()']]],
   ['returndoubletapevents',['returnDoubleTapEvents',['http://doc.qt.io/qt-5/qtapsensor.html#returnDoubleTapEvents-prop',0,'QTapSensor']]],
   ['returngeovalues',['returnGeoValues',['http://doc.qt.io/qt-5/qmagnetometer.html#returnGeoValues-prop',0,'QMagnetometer']]],
-  ['right',['right',['http://doc.qt.io/qt-5/qt3d-qcamera.html#right-prop',0,'Qt3D::QCamera::right()'],['http://doc.qt.io/qt-5/qt3d-qcameralens.html#right-prop',0,'Qt3D::QCameraLens::right()']]],
   ['rootisdecorated',['rootIsDecorated',['http://doc.qt.io/qt-5/qtreeview.html#rootIsDecorated-prop',0,'QTreeView']]],
   ['rotation',['rotation',['http://doc.qt.io/qt-5/qquickitem.html#rotation-prop',0,'QQuickItem::rotation()'],['http://doc.qt.io/qt-5/qgraphicsobject.html#rotation-prop',0,'QGraphicsObject::rotation()']]],
   ['rotationangle',['rotationAngle',['http://doc.qt.io/qt-5/qpinchgesture.html#rotationAngle-prop',0,'QPinchGesture']]],

@@ -1,14 +1,6 @@
 var searchData=
 [
-  ['tab',['Tab',['http://doc.qt.io/qt-5/qtextoption-tab.html',0,'QTextOption']]],
-  ['tabbar',['TabBar',['http://doc.qt.io/qt-5/qml-tabbar.html',0,'']]],
-  ['tableviewitemdelegateloader',['TableViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-tableviewitemdelegateloader.html',0,'']]],
-  ['texturedpoint2d',['TexturedPoint2D',['http://doc.qt.io/qt-5/qsggeometry-texturedpoint2d.html',0,'QSGGeometry']]],
-  ['timepointupdatetask',['TimePointUpdateTask',['../class_qt_auto_updater_1_1_time_point_update_task.html',1,'QtAutoUpdater']]],
-  ['timerinfo',['TimerInfo',['http://doc.qt.io/qt-5/qabstracteventdispatcher-timerinfo.html',0,'QAbstractEventDispatcher']]],
-  ['timespan',['TimeSpan',['../struct_qt_auto_updater_1_1_time_span.html',1,'QtAutoUpdater']]],
-  ['touchpoint',['TouchPoint',['http://doc.qt.io/qt-5/qtouchevent-touchpoint.html',0,'QTouchEvent']]],
-  ['transform',['Transform',['http://doc.qt.io/qt-5/qml-transform.html',0,'']]],
-  ['treeviewitemdelegateloader',['TreeViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-treeviewitemdelegateloader.html',0,'']]],
-  ['typedcircularbufferdata',['TypedCircularBufferData',['http://doc.qt.io/qt-5/qt3d-typedcircularbufferdata.html',0,'Qt3D']]]
+  ['visualdatagroup',['VisualDataGroup',['http://doc.qt.io/qt-5/qml-visualdatagroup.html',0,'']]],
+  ['visualdatamodel',['VisualDataModel',['http://doc.qt.io/qt-5/qml-visualdatamodel.html',0,'']]],
+  ['visualitemmodel',['VisualItemModel',['http://doc.qt.io/qt-5/qml-visualitemmodel.html',0,'']]]
 ];

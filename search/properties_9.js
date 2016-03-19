@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['key',['key',['http://doc.qt.io/qt-5/qt3d-q3dkeyevent.html#key-prop',0,'Qt3D::Q3DKeyEvent::key()'],['http://doc.qt.io/qt-5/qshortcut.html#key-prop',0,'QShortcut::key()'],['http://doc.qt.io/qt-5/qkeyeventtransition.html#key-prop',0,'QKeyEventTransition::key()']]],
+  ['key',['key',['http://doc.qt.io/qt-5/qshortcut.html#key-prop',0,'QShortcut::key()'],['http://doc.qt.io/qt-5/qkeyeventtransition.html#key-prop',0,'QKeyEventTransition::key()']]],
   ['keyboardautorepeatrate',['keyboardAutoRepeatRate',['http://doc.qt.io/qt-5/qstylehints.html#keyboardAutoRepeatRate-prop',0,'QStyleHints']]],
   ['keyboardinputinterval',['keyboardInputInterval',['http://doc.qt.io/qt-5/qstylehints.html#keyboardInputInterval-prop',0,'QStyleHints::keyboardInputInterval()'],['http://doc.qt.io/qt-5/qapplication.html#keyboardInputInterval-prop',0,'QApplication::keyboardInputInterval()']]],
   ['keyboardpagestep',['keyboardPageStep',['http://doc.qt.io/qt-5/qmdisubwindow.html#keyboardPageStep-prop',0,'QMdiSubWindow']]],
