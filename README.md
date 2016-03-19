@@ -145,6 +145,7 @@ Downloads are available via [github releases](https://github.com/Skycoder42/QtAu
      - gcc x64
  - The (public) header files needed for these binaries
  - The HTML and QtHelp documentation
+ - The german translations and the translation template file
 
 ## Building it yourself
 If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, there are no other dependencies beside Qt itself. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!
