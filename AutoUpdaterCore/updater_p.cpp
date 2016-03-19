@@ -98,7 +98,7 @@ bool UpdaterPrivate::startUpdateCheck()
 
 		connect(this->mainProcess, SELECT<int, QProcess::ExitStatus>::OVERLOAD_OF(&QProcess::finished),
 				this, &UpdaterPrivate::updaterReady, Qt::QueuedConnection);
-		connect(this->mainProcess, SELECT<QProcess::ProcessError>::OVERLOAD_OF(&QProcess::error),
+		connect(this->mainProcess, &QProcess::errorOccurred,
 				this, &UpdaterPrivate::updaterError, Qt::QueuedConnection);
 
 		this->mainProcess->start(QIODevice::ReadOnly);

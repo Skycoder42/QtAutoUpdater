@@ -140,7 +140,7 @@ void TestManager::runNextGroup()
 			connect(proc, SIGNAL(finished(int,QProcess::ExitStatus)),
 					this, SLOT(processReady(int,QProcess::ExitStatus)),
 					Qt::QueuedConnection);
-			connect(proc, SIGNAL(error(QProcess::ProcessError)),
+			connect(proc, SIGNAL(errorOccurred(QProcess::ProcessError)),
 					this, SLOT(processError(QProcess::ProcessError)),
 					Qt::QueuedConnection);
 
