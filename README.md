@@ -42,8 +42,8 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
 ## Requirements
  - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at https://download.qt.io/official_releases/qt-installer-framework/)
  - C++11 - The library makes heavy use of it's features
- - Qt 5.5 (the minimum I tested, may work with older versions)
-   - If you are using Qt 5.6, the updater will make use of the new QVersionNumber class. If not, it will create a class named the same way that simply inherits QString and adds a few functions.
+ - Qt 5.6 (Since I'm using new features of 5.6, older Versions won't work without modification)
+   - If you are using Qt 5.5, you can download version 1.0.0. It's the only one that supports earlier Versions
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library
 
 ## Getting started
@@ -134,11 +134,11 @@ The core library does not need any translation, because it won't show anything t
 ## Downloads
 Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
  - A .pri file for easy project includes (Just add `include(<path_to>/qtautoupdater.pri)` to your project and all the includes/libray imports/... will be done by that file!)
- - Qt5.5.1 precompiled binaries for:
+ - Qt5.6 precompiled binaries for:
    - Windows
-     - msvc2013 x86
-     - msvc2013 x64
-     - mingw
+	 - msvc2015 x86
+	 - msvc2015 x64
+	 - mingw 4.9.2
    - OsX
      - clang x64
    - X11 (Linux)

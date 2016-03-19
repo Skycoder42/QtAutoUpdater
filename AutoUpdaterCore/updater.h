@@ -6,15 +6,7 @@
 #include <QList>
 #include <QStringList>
 #include <QDateTime>
-#if QT_VERSION >= 0x050600
 #include <QVersionNumber>
-#else
-struct QVersionNumber : public QString {
-	inline QVersionNumber(const QString &str = QString()) : QString(str) {}
-	inline QString toString() const {return (*this);}
-	static inline QVersionNumber fromString(const QString &string, int * = 0) {return QVersionNumber(string);}
-};
-#endif
 #include <QDebug>
 #include "adminauthoriser.h"
 #include "updatetask.h"
