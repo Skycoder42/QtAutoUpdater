@@ -45,7 +45,7 @@ namespace QtAutoUpdater
 		bool running;
 		QProcess *mainProcess;
 
-		QList<int> repeatTasks;
+		QSet<int> repeatTasks;
 
 		bool runOnExit;
 		QStringList runArguments;

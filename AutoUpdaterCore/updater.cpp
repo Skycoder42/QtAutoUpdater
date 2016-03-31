@@ -83,8 +83,8 @@ int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
 	Q_D(Updater);
 	int id = d->startTimer(delaySeconds * 1000, Qt::VeryCoarseTimer);
-	if(repeated)
-		d->repeatTasks += id;
+	if(repeated && id != 0)
+		d->repeatTasks.insert(id);
 	return id;
 }
 
@@ -102,7 +102,7 @@ void Updater::cancelScheduledUpdate(int taskId)
 {
 	Q_D(Updater);
 	d->killTimer(taskId);
-	d->repeatTasks.removeOne(taskId);
+	d->repeatTasks.remove(taskId);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)

@@ -4,9 +4,7 @@
 #include <QObject>
 #include <QAction>
 #include <QStringList>
-#include <updatetask.h>
 
-//TODO detailed doku
 namespace QtAutoUpdater
 {
 	class Updater;
@@ -95,15 +93,9 @@ namespace QtAutoUpdater
 		bool cancelUpdate(int maxDelay = 3000);
 
 		//! Schedules an update after a specific delay, optionally repeated
-		inline int scheduleUpdate(qint64 delayMinutes, bool repeated = false, DisplayLevel displayLevel = InfoLevel) {
-			return this->scheduleUpdate(new BasicLoopUpdateTask(TimeSpan(delayMinutes, TimeSpan::Minutes), repeated ? -1 : 1), displayLevel);
-		}
+		int scheduleUpdate(int delayMinutes, bool repeated = false, DisplayLevel displayLevel = InfoLevel);
 		//! Schedules an update for a specific timepoint
-		inline int scheduleUpdate(const QDateTime &when, DisplayLevel displayLevel = InfoLevel) {
-			return this->scheduleUpdate(new TimePointUpdateTask(when), displayLevel);
-		}
-		//! Schedules an update using an UpdateTask
-		int scheduleUpdate(UpdateTask *task, DisplayLevel displayLevel = InfoLevel);
+		int scheduleUpdate(const QDateTime &when, DisplayLevel displayLevel = InfoLevel);
 		//! Cancels the update with taskId
 		void cancelScheduledUpdate(int taskId);
 
@@ -112,6 +104,10 @@ namespace QtAutoUpdater
 		void runningChanged(bool running);
 		//! NOTIFY-Accessor for UpdateController::runAsAdmin
 		void runAsAdminChanged(bool runAsAdmin);
+
+	protected:
+		//! Reimplemented to allow update scheduling
+		void timerEvent(QTimerEvent *event) Q_DECL_FINAL;
 
 	private slots:
 		void checkUpdatesDone(bool hasUpdates, bool hasError);

@@ -4,7 +4,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
-#include <updatescheduler.h>
+#include <QTimerEvent>
 #include "messagemaster.h"
 #include "adminauthorization.h"
 #include "updatepanel.h"
@@ -208,17 +208,49 @@ bool UpdateController::cancelUpdate(int maxDelay)
 		return false;
 }
 
-int UpdateController::scheduleUpdate(UpdateTask *task, UpdateController::DisplayLevel displayLevel)
+int UpdateController::scheduleUpdate(int delayMinutes, bool repeated, UpdateController::DisplayLevel displayLevel)
 {
 	Q_D(UpdateController);
-	int id = UpdateScheduler::instance()->scheduleTask(task);
-	d->updateTasks.insert(id, displayLevel);
+	int id = this->startTimer(delayMinutes, Qt::VeryCoarseTimer);
+	if(id != 0)
+		d->updateTasks.insert(id, {displayLevel, repeated});
 	return id;
+}
+
+int UpdateController::scheduleUpdate(const QDateTime &when, UpdateController::DisplayLevel displayLevel)
+{
+	qint64 delta = QDateTime::currentDateTime().secsTo(when);
+	if(delta > INT_MAX) {
+		qWarning("Time interval to big");//TODO logging cat
+		return 0;
+	} else
+		return this->scheduleUpdate((int)delta, false, displayLevel);
 }
 
 void UpdateController::cancelScheduledUpdate(int taskId)
 {
-	UpdateScheduler::instance()->cancelTask(taskId);
+	Q_D(UpdateController);
+	this->killTimer(taskId);
+	d->updateTasks.remove(taskId);
+}
+
+void UpdateController::timerEvent(QTimerEvent *event)
+{
+	Q_D(UpdateController);
+	int tId = event->timerId();
+	if(d->updateTasks.contains(tId)) {
+		UpdateControllerPrivate::UpdateTask task = d->updateTasks[tId];
+		if(!task.second) {
+			d->updateTasks.remove(tId);
+			this->killTimer(tId);
+		}
+		event->accept();
+
+		this->start(task.first);
+	} else {
+		this->killTimer(tId);
+		event->ignore();
+	}
 }
 
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
@@ -308,19 +340,6 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	emit runningChanged(false);
 }
 
-void UpdateController::taskReady(int groupID)
-{
-	Q_D(UpdateController);
-	if(d->updateTasks.contains(groupID))
-		this->start(d->updateTasks.value(groupID));
-}
-
-void UpdateController::taskDone(int groupID)
-{
-	Q_D(UpdateController);
-	d->updateTasks.remove(groupID);
-}
-
 //-----------------PRIVATE IMPLEMENTATION-----------------
 
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window) :
@@ -346,13 +365,6 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 					 q_ptr, &UpdateController::checkUpdatesDone,
 					 Qt::QueuedConnection);
 
-	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
-					 q_ptr, &UpdateController::taskReady,
-					 Qt::QueuedConnection);
-	QObject::connect(UpdateScheduler::instance(), &UpdateScheduler::taskFinished,
-					 q_ptr, &UpdateController::taskDone,
-					 Qt::QueuedConnection);
-
 #ifdef Q_OS_UNIX
 	//TODO test
 	QFileInfo maintenanceInfo(QCoreApplication::applicationDirPath(),
@@ -371,6 +383,4 @@ UpdateControllerPrivate::~UpdateControllerPrivate()
 
 	if(this->checkUpdatesProgress)
 		this->checkUpdatesProgress->deleteLater();
-	for(int taskID : this->updateTasks.keys())
-		UpdateScheduler::instance()->cancelTask(taskID);
 }

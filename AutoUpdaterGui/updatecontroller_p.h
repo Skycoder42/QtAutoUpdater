@@ -11,6 +11,8 @@ namespace QtAutoUpdater
 {
 	class UpdateControllerPrivate//TODO load icon indirectly -> easier replacement
 	{
+		typedef QPair<UpdateController::DisplayLevel, bool> UpdateTask;
+
 		UpdateController *q_ptr;
 		Q_DECLARE_PUBLIC(UpdateController)
 
@@ -27,7 +29,7 @@ namespace QtAutoUpdater
 		QPointer<ProgressDialog> checkUpdatesProgress;
 		bool wasCanceled;
 
-		QHash<int, UpdateController::DisplayLevel> updateTasks;
+		QHash<int, UpdateTask> updateTasks;
 
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 		UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
