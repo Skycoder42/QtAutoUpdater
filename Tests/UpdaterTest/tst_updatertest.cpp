@@ -1,5 +1,4 @@
 #include <updater.h>
-#include <updatescheduler.h>
 #include <QVector>
 #include <functional>
 using namespace QtAutoUpdater;
@@ -9,9 +8,6 @@ inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAuto
 			a.version == b.version &&
 			a.size == b.size);
 }
-
-typedef std::function<UpdateTask*()> TaskFunc;
-Q_DECLARE_METATYPE(TaskFunc)
 
 #include <QtTest>
 #include <QCoreApplication>
@@ -27,56 +23,17 @@ public:
 	inline UpdaterTest() {}
 
 private Q_SLOTS:
-	void initTestCase();
-	void cleanupTestCase();
-
-	void testSchedulerLoad();
-
-	void testScheduler_data();
-	void testScheduler();
-
 	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
-
-	void testSchedulerSave();
 
 private:
 	Updater *updater;
 	QSignalSpy *checkSpy;
 	QSignalSpy *runningSpy;
 	QSignalSpy *updateInfoSpy;
-
-	QSettings *taskSettings;
-	QSignalSpy *taskSyp;
 };
-
-void UpdaterTest::initTestCase()
-{
-	this->taskSyp = new QSignalSpy(UpdateScheduler::instance(), &UpdateScheduler::taskReady);
-	this->taskSettings = new QSettings(QDir::temp().absoluteFilePath("tst_updatertest.cpp.settings.ini"),
-									   QSettings::IniFormat);
-	qDebug() << this->taskSettings->fileName();
-	QVERIFY(this->taskSettings->isWritable());
-	QVERIFY(UpdateScheduler::instance()->start(this->taskSettings));
-}
-
-void UpdaterTest::cleanupTestCase()
-{
-	QVERIFY(UpdateScheduler::instance()->stop(true));
-}
-
-void UpdaterTest::testSchedulerLoad()
-{
-	int id = this->taskSettings->value("testID", 0).toInt();
-	QVERIFY(id);
-	QVERIFY(this->taskSyp->wait(10000 + TEST_DELAY));//wait the 10 seconds of the stored task
-	QCOMPARE(this->taskSyp->size(), 1);
-	QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), id);
-
-	UpdateScheduler::instance()->cancelTask(id);
-}
 
 void UpdaterTest::testUpdaterInitState()
 {
@@ -238,108 +195,6 @@ void UpdaterTest::testUpdateCheck()
 	delete this->updater;
 }
 
-void UpdaterTest::testSchedulerSave()
-{
-	int id = UpdateScheduler::instance()->scheduleTask(new BasicLoopUpdateTask(TimeSpan(10,
-																						TimeSpan::Seconds),
-																			   1));
-	QVERIFY(id);
-	this->taskSettings->setValue("testID", id);
-	QCOMPARE(this->taskSettings->value("testID", 0).toInt(), id);
-	this->taskSettings->sync();
-}
-
-void UpdaterTest::testScheduler_data()
-{
-	QTest::addColumn<TaskFunc>("updateTask");
-	QTest::addColumn<QList<int>>("waitDelays");
-	QTest::addColumn<bool>("mustCancel");
-	QTest::addColumn<int>("cleanDelay");
-
-	QTest::newRow("TimePointUpdateTask") << TaskFunc([]()-> UpdateTask* { return new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(5));})
-										 << QList<int>({5000})
-										 << false
-										 << 5000;
-
-	QTest::newRow("repeatedTimePointUpdateTask") << TaskFunc([]()-> UpdateTask* { return new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(3), TimeSpan::Minutes);})
-												 << QList<int>({3000, 60000, 60000})
-												 << true
-												 << 60000;
-
-	QTest::newRow("BasicLoopUpdateTask") << TaskFunc([]()-> UpdateTask* { return new BasicLoopUpdateTask(TimeSpan(3, TimeSpan::Seconds), 5);})
-										 << QVector<int>(5, 3000).toList()
-										 << false
-										 << 3000;
-
-	int randCount = ((qrand() / (double)RAND_MAX) * 4) + 1;
-	QTest::newRow("infiniteBasicLoopUpdateTask") << TaskFunc([]()-> UpdateTask* { return new BasicLoopUpdateTask(TimeSpan(4, TimeSpan::Seconds), -1);})
-												 << QVector<int>(randCount, 4000).toList()
-												 << true
-												 << 4000;
-
-	TaskFunc fn = []() -> UpdateTask* {
-		UpdateTaskList *tl = new UpdateTaskList();
-		tl->append(new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(7)));
-		tl->append(new BasicLoopUpdateTask(TimeSpan(2, TimeSpan::Seconds), 3));
-		tl->append(new TimePointUpdateTask(QDateTime::currentDateTime().addSecs(7 + 2*3 + 4)));
-		return tl;
-	};
-	QTest::newRow("UpdateTaskList") << fn
-									<< QList<int>({7000, 2000, 2000, 2000, 4000})
-									<< false
-									<< 7000;
-}
-
-void UpdaterTest::testScheduler()
-{
-	QFETCH(TaskFunc, updateTask);
-	QFETCH(QList<int>, waitDelays);
-	QFETCH(bool, mustCancel);
-	QFETCH(int, cleanDelay);
-
-	int taskID = UpdateScheduler::instance()->scheduleTask(updateTask());
-	QVERIFY(taskID);
-
-	for(int delay : waitDelays) {
-		QVERIFY(this->taskSyp->wait(delay + TEST_DELAY));
-		QCOMPARE(this->taskSyp->size(), 1);
-		QCOMPARE(this->taskSyp->takeFirst()[0].toInt(), taskID);
-	}
-	if(mustCancel)
-		UpdateScheduler::instance()->cancelTask(taskID);
-
-	QVERIFY(!this->taskSyp->wait(cleanDelay + TEST_DELAY * 2));
-	QVERIFY(this->taskSyp->isEmpty());
-}
-
-// MAIN
-
-#include <testmanager.h>
-void setup(TestManager *manager)
-{
-	manager->addSequentialTest("testSchedulerLoad");
-
-	manager->addSequentialTest("testScheduler", "TimePointUpdateTask");
-	manager->addParallelTest("testScheduler", "repeatedTimePointUpdateTask");
-	manager->addParallelTest("testScheduler", "BasicLoopUpdateTask");
-	manager->addParallelTest("testScheduler", "infiniteBasicLoopUpdateTask");
-	manager->addParallelTest("testScheduler", "UpdateTaskList");
-
-	manager->addParallelTest("testUpdaterInitState");
-#if defined(Q_OS_WIN)
-	manager->addParallelTest("testUpdateCheck", "C:/Program Files/IcoDroid");
-	manager->addParallelTest("testUpdateCheck", "C:/Qt");
-#elif defined(Q_OS_OSX)
-	manager->addParallelTest("testUpdateCheck", "/Applications/IcoDroid.app");
-	manager->addParallelTest("testUpdateCheck", "/Users/sky/Qt");
-#elif defined(Q_OS_UNIX)
-	manager->addParallelTest("testUpdateCheck", "/home/sky/IcoDroid");
-	manager->addParallelTest("testUpdateCheck", "/home/sky/Qt");
-#endif
-
-	manager->addSequentialTest("testSchedulerSave");
-}
-
-TESTMANAGER_GUILESS_MAIN(UpdaterTest, setup)
+QTEST_GUILESS_MAIN(UpdaterTest)
 
 #include "tst_updatertest.moc"

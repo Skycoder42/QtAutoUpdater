@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-	#UpdaterTest \
+	UpdaterTest \
     ConsoleUpdater \
     WidgetsTest

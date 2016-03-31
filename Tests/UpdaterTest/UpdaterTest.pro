@@ -16,8 +16,7 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += tst_updatertest.cpp \
-    testmanager.cpp
+SOURCES += tst_updatertest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterCore/release/ -lQtAutoUpdater
@@ -37,5 +36,4 @@ else:mac:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoU
 else:mac:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdaterCore/libQtAutoUpdater_debug.a
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../AutoUpdaterCore/libQtAutoUpdater.a
 
-HEADERS += \
-    testmanager.h
+HEADERS +=
