@@ -13,24 +13,14 @@ CONFIG += staticlib
 
 SOURCES += \
     updater.cpp \
-    updater_p.cpp \
-    updatescheduler.cpp \
-    updatetask.cpp \
-    timerobject.cpp \
-    updateschedulercontroller.cpp
+    updater_p.cpp
 
 HEADERS += \
     updater.h \
     updater_p.h \
-	adminauthoriser.h \
-    updatescheduler.h \
-    updatetask.h \
-    timerobject.h \
-    updateschedulercontroller.h
+	adminauthoriser.h
 
 DISTFILES += \
     adminauthoriser.dox \
-    updater.dox \
-    updatetask.dox \
-    updateschedulercontroller.dox
+    updater.dox
 

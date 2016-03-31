@@ -1,6 +1,5 @@
 #include "updater.h"
 #include "updater_p.h"
-#include "updatescheduler.h"
 using namespace QtAutoUpdater;
 
 #ifdef Q_OS_OSX
@@ -80,17 +79,30 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 	d->stopUpdateCheck(maxDelay, async);
 }
 
-int Updater::scheduleUpdate(UpdateTask *task)
+int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
 	Q_D(Updater);
-	int id = UpdateScheduler::instance()->scheduleTask(task);
-	d->updateTasks.append(id);
+	int id = d->startTimer(delaySeconds * 1000, Qt::VeryCoarseTimer);
+	if(repeated)
+		d->repeatTasks += id;
 	return id;
+}
+
+int Updater::scheduleUpdate(const QDateTime &when)
+{
+	qint64 delta = QDateTime::currentDateTime().secsTo(when);
+	if(delta > INT_MAX) {
+		qWarning("Time interval to big");//TODO logging cat
+		return 0;
+	} else
+		return this->scheduleUpdate((int)delta, false);
 }
 
 void Updater::cancelScheduledUpdate(int taskId)
 {
-	UpdateScheduler::instance()->cancelTask(taskId);
+	Q_D(Updater);
+	d->killTimer(taskId);
+	d->repeatTasks.removeOne(taskId);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)

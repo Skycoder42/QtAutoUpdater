@@ -9,7 +9,6 @@
 #include <QVersionNumber>
 #include <QDebug>
 #include "adminauthoriser.h"
-#include "updatetask.h"
 
 namespace QtAutoUpdater
 {
@@ -76,15 +75,9 @@ namespace QtAutoUpdater
 		void abortUpdateCheck(int maxDelay = 5000, bool async = false);
 
 		//! Schedules an update after a specific delay, optionally repeated
-		inline int scheduleUpdate(qint64 delayMinutes, bool repeated = false) {
-			return this->scheduleUpdate(new BasicLoopUpdateTask(TimeSpan(delayMinutes, TimeSpan::Minutes), repeated ? -1 : 1));
-		}
+		int scheduleUpdate(int delaySeconds, bool repeated = false);
 		//! Schedules an update for a specific timepoint
-		inline int scheduleUpdate(const QDateTime &when) {
-			return this->scheduleUpdate(new TimePointUpdateTask(when));
-		}
-		//! Schedules an update using an UpdateTask
-		int scheduleUpdate(UpdateTask *task);
+		int scheduleUpdate(const QDateTime &when);
 		//! Cancels the update with taskId
 		void cancelScheduledUpdate(int taskId);
 

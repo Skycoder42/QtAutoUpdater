@@ -9,20 +9,18 @@
 #ifndef QT_NO_DEBUG
 #include <QDebug>
 #endif
-#include "updatescheduler.h"
 using namespace QtAutoUpdater;
 
 static void libInit()
 {
 	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ProcessError")))
 		qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
+	else
+		qDebug("QProcess::ProcessError already registered");
 	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ExitStatus")))
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
-	qRegisterMetaType<QtAutoUpdater::UpdateTask*>("QtAutoUpdater::UpdateTask*");
-
-	UpdateSchedulerController::registerStoredTask<BasicLoopUpdateTask>();
-	UpdateSchedulerController::registerStoredTask<TimePointUpdateTask>();
-	UpdateSchedulerController::registerStoredTask<UpdateTaskList>();
+	else
+		qDebug("QProcess::ExitStatus already registered");
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 
@@ -36,27 +34,17 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	lastErrorLog(),
 	running(false),
 	mainProcess(NULL),
-	updateTasks(),
+	repeatTasks(),
 	runOnExit(false),
 	runArguments(),
 	adminAuth(NULL)
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit);
-
-	connect(UpdateScheduler::instance(), &UpdateScheduler::taskReady,
-			this, &UpdaterPrivate::taskReady,
-			Qt::QueuedConnection);
-	connect(UpdateScheduler::instance(), &UpdateScheduler::taskFinished,
-			this, &UpdaterPrivate::taskDone,
-			Qt::QueuedConnection);
 }
 
 UpdaterPrivate::~UpdaterPrivate()
 {
-	for(int taskID : this->updateTasks)
-		UpdateScheduler::instance()->cancelTask(taskID);
-
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
 		this->mainProcess->kill();
@@ -224,17 +212,6 @@ void UpdaterPrivate::updaterError(QProcess::ProcessError error)
 	}
 }
 
-void UpdaterPrivate::taskReady(int taskID)
-{
-	if(this->updateTasks.contains(taskID))
-		this->startUpdateCheck();
-}
-
-void UpdaterPrivate::taskDone(int taskID)
-{
-	this->updateTasks.removeAll(taskID);
-}
-
 void UpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {
@@ -256,4 +233,13 @@ void UpdaterPrivate::appAboutToExit()
 					   << "as" << (this->adminAuth ? "admin" : "user");
 		}
 	}
+}
+
+void UpdaterPrivate::timerEvent(QTimerEvent *event)
+{
+	if(!this->repeatTasks.contains(event->timerId()))
+		this->killTimer(event->timerId());
+	event->accept();
+
+	this->startUpdateCheck();
 }

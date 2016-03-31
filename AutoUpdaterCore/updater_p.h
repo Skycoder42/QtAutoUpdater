@@ -45,7 +45,7 @@ namespace QtAutoUpdater
 		bool running;
 		QProcess *mainProcess;
 
-		QList<int> updateTasks;
+		QList<int> repeatTasks;
 
 		bool runOnExit;
 		QStringList runArguments;
@@ -64,10 +64,10 @@ namespace QtAutoUpdater
 		void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
 		void updaterError(QProcess::ProcessError error);
 
-		void taskReady(int taskID);
-		void taskDone(int taskID);
-
 		void appAboutToExit();
+
+	protected:
+		void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 	};
 }
 
