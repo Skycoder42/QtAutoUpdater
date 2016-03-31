@@ -5,12 +5,11 @@
 using namespace QtAutoUpdater;
 
 UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
-	QDialog(parent, Qt::WindowCloseButtonHint),
+	QDialog(parent),
 	ui(new Ui::UpdateInfoDialog)
 {
 	ui->setupUi(this);
-	if(!parent)
-		this->setWindowModality(Qt::ApplicationModal);
+	DialogMaster::masterDialog(this);
 	this->ui->rootLayout->setSpacing(this->ui->rootLayout->contentsMargins().left());
 
 #ifdef Q_OS_OSX
