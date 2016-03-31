@@ -93,7 +93,7 @@ namespace QtAutoUpdater
 		bool cancelUpdate(int maxDelay = 3000);
 
 		//! Schedules an update after a specific delay, optionally repeated
-		int scheduleUpdate(int delayMinutes, bool repeated = false, DisplayLevel displayLevel = InfoLevel);
+		int scheduleUpdate(int delaySeconds, bool repeated = false, DisplayLevel displayLevel = InfoLevel);
 		//! Schedules an update for a specific timepoint
 		int scheduleUpdate(const QDateTime &when, DisplayLevel displayLevel = InfoLevel);
 		//! Cancels the update with taskId
@@ -111,9 +111,6 @@ namespace QtAutoUpdater
 
 	private slots:
 		void checkUpdatesDone(bool hasUpdates, bool hasError);
-
-		void taskReady(int groupID);
-		void taskDone(int groupID);
 
 	private:
 		UpdateControllerPrivate *d_ptr;

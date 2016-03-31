@@ -59,7 +59,7 @@ void MainWindow::on_checkUpdatesButton_clicked()
 			int id = this->controller->scheduleUpdate(this->ui->scheduleUpdateDateTimeEdit->dateTime(),
 													  (QtAutoUpdater::UpdateController::DisplayLevel)this->ui->displayLevelComboBox->currentIndex());
 			if(id)
-				qDebug() << "scheduled controller with id" << id << "to run at" << this->ui->scheduleUpdateDateTimeEdit->dateTime();
+				qDebug() << "update scheduled with id" << id << "to run at" << this->ui->scheduleUpdateDateTimeEdit->dateTime();
 			else
 				qDebug() << "failed to start controller at" << this->ui->scheduleUpdateDateTimeEdit->dateTime();
 		} else

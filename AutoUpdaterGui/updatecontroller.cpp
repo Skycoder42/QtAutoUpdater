@@ -208,10 +208,10 @@ bool UpdateController::cancelUpdate(int maxDelay)
 		return false;
 }
 
-int UpdateController::scheduleUpdate(int delayMinutes, bool repeated, UpdateController::DisplayLevel displayLevel)
+int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateController::DisplayLevel displayLevel)
 {
 	Q_D(UpdateController);
-	int id = this->startTimer(delayMinutes, Qt::VeryCoarseTimer);
+	int id = this->startTimer(delaySeconds * 1000, Qt::VeryCoarseTimer);
 	if(id != 0)
 		d->updateTasks.insert(id, {displayLevel, repeated});
 	return id;
