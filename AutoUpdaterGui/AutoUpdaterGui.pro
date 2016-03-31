@@ -12,6 +12,11 @@ TARGET = $$qtLibraryTarget(QtAutoUpdaterController)
 TEMPLATE = lib
 CONFIG += staticlib
 
+include(./DialogMaster/dialogmaster.pri)
+
+INCLUDEPATH += $$PWD/../AutoUpdaterCore
+DEPENDPATH += $$PWD/../AutoUpdaterCore
+
 SOURCES += \
     updatecontroller.cpp \
     progressdialog.cpp \
@@ -28,11 +33,7 @@ HEADERS += \
     progressdialog.h \
     updateinfodialog.h \
     updatepanel.h \
-    messagemaster.h \
-    adminauthorization.h
-
-INCLUDEPATH += $$PWD/../AutoUpdaterCore
-DEPENDPATH += $$PWD/../AutoUpdaterCore
+	adminauthorization.h
 
 FORMS += \
     progressdialog.ui \

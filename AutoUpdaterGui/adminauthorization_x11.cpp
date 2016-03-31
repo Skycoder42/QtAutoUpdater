@@ -54,7 +54,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-#include "messagemaster.h"
+#include <dialogmaster.h>
 using namespace QtAutoUpdater;
 
 #define SU_COMMAND "/usr/bin/sudo"
@@ -156,7 +156,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
                 const QString line = QString::fromLatin1(data);
                 if (re.indexIn(line) != -1) {
                     if(!errData.isEmpty()) {
-                        MessageMaster::warning(NULL, QCoreApplication::translate("AdminAuthorization", "Error"), QString::fromLocal8Bit(errData));
+						DialogMaster::critical(NULL, QString::fromLocal8Bit(errData));
                         errData.clear();
                     }
 
@@ -186,8 +186,8 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
             if (bytes == 0)
                 ::usleep(100000);
         }
-        if (!errData.isEmpty()) {
-            MessageMaster::warning(NULL, QCoreApplication::translate("AdminAuthorization", "Error"), QString::fromLocal8Bit(errData));
+		if (!errData.isEmpty()) {
+			DialogMaster::critical(NULL, QString::fromLocal8Bit(errData));
             return false;
         }
 

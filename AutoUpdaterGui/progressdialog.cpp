@@ -1,6 +1,7 @@
 #include "progressdialog.h"
 #include "ui_progressdialog.h"
 #include <QCloseEvent>
+#include <dialogmaster.h>
 #ifdef Q_OS_WIN
 #include <QWinTaskbarProgress>
 #endif
@@ -8,17 +9,20 @@
 using namespace QtAutoUpdater;
 
 ProgressDialog::ProgressDialog(QWidget *parent) :
-    QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowSystemMenuHint),
+	QDialog(parent),
 	ui(new Ui::ProgressDialog)
 #ifdef Q_OS_WIN
 	,tButton(new QWinTaskbarButton(this))
 #endif
 {
 	ui->setupUi(this);
-	if(!parent)
-		this->setWindowModality(Qt::ApplicationModal);
+	DialogMaster::masterDialog(this, true, Qt::CustomizeWindowHint);//TODO 2 methods
+	Qt::WindowFlags flags = this->windowFlags();
+	flags &= ~Qt::WindowSystemMenuHint;
+	flags &= ~Qt::WindowCloseButtonHint;
+	this->setWindowFlags(flags);
 #ifdef Q_OS_WIN
-	else
+	if(parent)
 		this->setupTaskbar(parent);
 #endif
 }
