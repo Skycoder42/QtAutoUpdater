@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QSettings>
+#include <dialogmaster.h>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -20,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	this->ui->detailedInfoDialogCheckBox->setChecked(settings.value("detailed", true).toBool());
 	this->ui->adminCheckBox->setChecked(settings.value("admin", true).toBool());
 	this->ui->userChangecheckBox->setChecked(settings.value("adminChangable", true).toBool());
+
+	DialogMaster::TitleAsWindowTitle = false;
+	DialogMaster::warning(Q_NULLPTR, "text", "title", "windowTitle");
 }
 
 MainWindow::~MainWindow()
