@@ -45,16 +45,12 @@ UpdateInfoDialog::~UpdateInfoDialog()
 UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable, bool detailed, QWidget *parent)
 {
 	if(!detailed) {
-		QMessageBox mBox(parent);
-		mBox.setWindowModality(parent ? Qt::WindowModal : Qt::ApplicationModal);
-		mBox.setWindowFlags(mBox.windowFlags() & ~Qt::WindowContextHelpButtonHint);
-		mBox.setWindowTitle(tr("Check for Updates"));
-		mBox.setIconPixmap(QIcon(QStringLiteral(":/updaterIcons/update.ico")).pixmap(48, 48));//TODO hdpi
-		mBox.setText(QStringLiteral("<b>") +
-					 tr("Updates for %1 are available!")
-					 .arg(QApplication::applicationDisplayName()) +
-					 QStringLiteral("</b>"));
-		mBox.setInformativeText(tr("There are new updates available! You can install them now or later."));
+		DialogMaster::MessageBoxInfo boxInfo;
+		boxInfo.windowTitle = tr("Check for Updates");
+		boxInfo.icon = QIcon(QStringLiteral(":/updaterIcons/update.ico"));
+		boxInfo.title = tr("Updates for %1 are available!")
+						.arg(QApplication::applicationDisplayName());
+		boxInfo.text = tr("There are new updates available! You can install them now or later.");
 		QStringList details;
 		for(Updater::UpdateInfo info : updates) {
 			details << tr("%1 v%2 — %3")
@@ -62,36 +58,28 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 					   .arg(info.version.toString())
 					   .arg(getByteText(info.size));
 		}
-		mBox.setDetailedText(details.join(QLatin1Char('\n')));
+		boxInfo.details = details.join(QLatin1Char('\n'));
 
-		QCheckBox *cBox = new QCheckBox(tr("Run with &elevated rights"), &mBox);
-		cBox->setEnabled(editable);
-		cBox->setChecked(runAsAdmin);
-		mBox.setCheckBox(cBox);
+		boxInfo.checked = &runAsAdmin;
+		boxInfo.checkString = tr("Run with &elevated rights");
 
-		mBox.setDefaultButton(mBox.addButton(tr("Install Now"), QMessageBox::AcceptRole));
-		mBox.addButton(tr("Install On Exit"), QMessageBox::ApplyRole);
-		mBox.setEscapeButton(mBox.addButton(tr("Install later"), QMessageBox::RejectRole));
+		boxInfo.buttonTexts.insert(QMessageBox::Ok, tr("Install Now"));
+		boxInfo.buttonTexts.insert(QMessageBox::Apply, tr("Install On Exit"));
+		boxInfo.buttonTexts.insert(QMessageBox::Cancel, tr("Install later"));
 
-		DialogResult res;
-		mBox.exec();
-		switch (mBox.buttonRole(mBox.clickedButton())) {
-		case QMessageBox::AcceptRole:
-			res = InstallNow;
-			break;
-		case QMessageBox::ApplyRole:
-			res = InstallLater;
-			break;
-		case QMessageBox::RejectRole:
-			res = NoInstall;
-			break;
+		QScopedPointer<QMessageBox> box(DialogMaster::createMsgBox(boxInfo));
+		box->checkBox()->setEnabled(editable);
+
+		switch (box->exec()) {
+		case QMessageBox::Ok:
+			return InstallNow;
+		case QMessageBox::Apply:
+			return InstallLater;
+		case QMessageBox::Cancel:
+			return NoInstall;
 		default:
 			Q_UNREACHABLE();
 		}
-
-		if(editable && res != NoInstall)
-			runAsAdmin = cBox->isChecked();
-		return res;
 	} else {
 		UpdateInfoDialog dialog(parent);
 

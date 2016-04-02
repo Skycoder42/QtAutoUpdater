@@ -13,7 +13,6 @@ using namespace QtAutoUpdater;
 static void libInit()
 {
 	Q_INIT_RESOURCE(autoupdatergui_resource);
-	DialogMaster::TitleAsWindowTitle = true;
 }
 Q_COREAPP_STARTUP_FUNCTION(libInit)
 
@@ -162,9 +161,9 @@ bool UpdateController::start(DisplayLevel displayLevel)
 	d->displayLevel = displayLevel;
 
 	if(d->displayLevel >= AskLevel) {
-		if(DialogMaster::question(d->window,
-								  tr("Do you want to check for updates now?"),
-								  tr("Check for Updates"))
+		if(DialogMaster::questionT(d->window,
+								   tr("Check for Updates"),
+								   tr("Do you want to check for updates now?"))
 		   != QMessageBox::Yes) {
 			d->running = false;
 			emit runningChanged(false);
@@ -174,8 +173,9 @@ bool UpdateController::start(DisplayLevel displayLevel)
 
 	if(!d->mainUpdater->checkForUpdates()) {
 		if(d->displayLevel >= ProgressLevel) {
-			DialogMaster::warning(d->window,
-								  tr("The program is already checking for updates!"));
+			DialogMaster::warningT(d->window,
+								   tr("Check for Updates"),
+								   tr("The program is already checking for updates!"));
 		}
 		d->running = false;
 		emit runningChanged(false);
@@ -276,9 +276,9 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	}
 	if(d->wasCanceled) {
 		if(d->displayLevel >= ExtendedInfoLevel) {
-			DialogMaster::warning(d->window,
-								  tr("Checking for updates was canceled!"),
-								  tr("Check for Updates"));
+			DialogMaster::warningT(d->window,
+								   tr("Check for Updates"),
+								   tr("Checking for updates was canceled!"));
 		}
 	} else {
 		if(hasUpdates) {
@@ -308,10 +308,10 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 			} else {
 				d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
 				if(d->displayLevel == ExitLevel) {
-					DialogMaster::information(d->window,
-											  tr("New updates are available. The maintenance tool will be "
-												 "started to install those as soon as you close the application!"),
-											  tr("Install Updates"));
+					DialogMaster::informationT(d->window,
+											   tr("Install Updates"),
+											   tr("New updates are available. The maintenance tool will be "
+												  "started to install those as soon as you close the application!"));
 				} else
 					qApp->quit();
 			}
@@ -325,12 +325,13 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 
 			if(d->displayLevel >= ExtendedInfoLevel) {
 				if(d->mainUpdater->exitedNormally()) {
-					DialogMaster::critical(d->window,
-										   tr("No new updates available!"),
-										   tr("Check for Updates"));
+					DialogMaster::criticalT(d->window,
+											tr("Check for Updates"),
+											tr("No new updates available!"));
 				} else {
-					DialogMaster::warning(d->window,
-										  tr("The update process crashed!"));
+					DialogMaster::warningT(d->window,
+										   tr("Check for Updates"),
+										   tr("The update process crashed!"));
 				}
 			}
 		}

@@ -12,8 +12,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = WidgetsTest
 TEMPLATE = app
 
-include(../../AutoUpdaterGui/DialogMaster/dialogmaster.pri)
-
 SOURCES += main.cpp\
         mainwindow.cpp
 
