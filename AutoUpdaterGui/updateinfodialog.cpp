@@ -33,7 +33,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 		this->ui->imageLabel->hide();
 	else {
 		this->ui->imageLabel->show();//TODO icon ok? or app icon?!?
-		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/updaterIcons/update.ico")).pixmap(64, 64));//TODO hdpi
+		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/updaterIcons/update.ico")).pixmap(64, 64));
 	}
 }
 
