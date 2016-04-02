@@ -1,5 +1,6 @@
 #include "updater.h"
 #include "updater_p.h"
+#include <QDebug>
 using namespace QtAutoUpdater;
 
 #ifdef Q_OS_OSX
@@ -7,6 +8,8 @@ using namespace QtAutoUpdater;
 #else
 #define TOOL_PATH QStringLiteral("./maintenancetool")
 #endif
+
+Q_LOGGING_CATEGORY(logQtAutoUpdater, "QtAutoUpdater")
 
 Updater::Updater(QObject *parent) :
 	Updater(TOOL_PATH, parent)
@@ -92,7 +95,7 @@ int Updater::scheduleUpdate(const QDateTime &when)
 {
 	qint64 delta = QDateTime::currentDateTime().secsTo(when);
 	if(delta > INT_MAX) {
-		qWarning("Time interval to big");//TODO logging cat
+		qCWarning(logQtAutoUpdater, "Time interval to big, timepoint to far in the future.");
 		return 0;
 	} else
 		return this->scheduleUpdate((int)delta, false);

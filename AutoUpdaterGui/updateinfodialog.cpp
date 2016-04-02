@@ -106,9 +106,9 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 
 void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
 {
-	if(DialogMaster::question(this,
-							  tr("Close the application and install updates?"),
-							  tr("Install Now"))
+	if(DialogMaster::questionT(this,
+							   tr("Install Now?"),
+							   tr("Close the application and install updates?"))
 		== QMessageBox::Yes) {
 		this->accept();
 	}
@@ -116,10 +116,10 @@ void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
 
 void QtAutoUpdater::UpdateInfoDialog::on_delayButton_clicked()
 {
-	DialogMaster::information(this,
-							  tr("Updates will be installed on exit. The maintenance tool "
-								 "will be started as soon as you close the application!"),
-							  tr("Install On Exit"));
+	DialogMaster::informationT(this,
+							   tr("Install On Exit"),
+							   tr("Updates will be installed on exit. The maintenance tool "
+								  "will be started as soon as you close the application!"));
 	this->done(InstallLater);
 }
 

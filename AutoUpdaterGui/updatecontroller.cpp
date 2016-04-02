@@ -221,7 +221,7 @@ int UpdateController::scheduleUpdate(const QDateTime &when, UpdateController::Di
 {
 	qint64 delta = QDateTime::currentDateTime().secsTo(when);
 	if(delta > INT_MAX) {
-		qWarning("Time interval to big");//TODO logging cat
+		qCWarning(logQtAutoUpdater, "Time interval to big, timepoint to far in the future.");
 		return 0;
 	} else
 		return this->scheduleUpdate((int)delta, false, displayLevel);
@@ -317,10 +317,10 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 			}
 		} else {
 			if(hasError) {
-				qWarning() << "maintenancetool process finished with exit code"
-						   << d->mainUpdater->getErrorCode()
-						   << "and error string:"
-						   << d->mainUpdater->getErrorLog();
+				qCWarning(logQtAutoUpdater) << "maintenancetool process finished with exit code"
+										   << d->mainUpdater->getErrorCode()
+										   << "and error string:"
+										   << d->mainUpdater->getErrorLog();
 			}
 
 			if(d->displayLevel >= ExtendedInfoLevel) {
@@ -378,8 +378,8 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 UpdateControllerPrivate::~UpdateControllerPrivate()
 {
 	if(this->running) {
-		qWarning("UpdaterController destroyed while still running! "
-				 "This may crash your application!");
+		qCWarning(logQtAutoUpdater, "UpdaterController destroyed while still running! "
+									"This may crash your application!");
 	}
 
 	if(this->checkUpdatesProgress)

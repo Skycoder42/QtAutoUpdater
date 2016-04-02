@@ -7,7 +7,7 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QVersionNumber>
-#include <QDebug>
+#include <QLoggingCategory>
 #include "adminauthoriser.h"
 
 namespace QtAutoUpdater
@@ -106,6 +106,7 @@ namespace QtAutoUpdater
 }
 
 Q_DECLARE_METATYPE(QtAutoUpdater::Updater::UpdateInfo)
+Q_DECLARE_LOGGING_CATEGORY(logQtAutoUpdater)
 
 QDebug &operator<<(QDebug &debug, const QtAutoUpdater::Updater::UpdateInfo &info);
 

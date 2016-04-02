@@ -5,7 +5,6 @@
 #ifdef Q_OS_WIN
 #include <QWinTaskbarProgress>
 #endif
-#include <QDebug>
 using namespace QtAutoUpdater;
 
 ProgressDialog::ProgressDialog(QWidget *parent) :

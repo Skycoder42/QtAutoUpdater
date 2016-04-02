@@ -6,23 +6,7 @@
 #include <QDir>
 #include <QXmlStreamReader>
 #include <QTimerEvent>
-#ifndef QT_NO_DEBUG
-#include <QDebug>
-#endif
 using namespace QtAutoUpdater;
-
-static void libInit()
-{
-	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ProcessError")))
-		qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
-	else
-		qDebug("QProcess::ProcessError already registered");
-	if(!QMetaType::isRegistered(QMetaType::type("QProcess::ExitStatus")))
-		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
-	else
-		qDebug("QProcess::ExitStatus already registered");
-}
-Q_COREAPP_STARTUP_FUNCTION(libInit)
 
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	QObject(NULL),
@@ -153,7 +137,7 @@ QList<Updater::UpdateInfo> UpdaterPrivate::parseResult(const QByteArray &output)
     }
 
 	if(reader.hasError()) {
-		qWarning() << "XML-reader-error:" << reader.errorString();
+		qCWarning(logQtAutoUpdater) << "XML-reader-error:" << reader.errorString();
 		throw InvalidXmlException();
 	}
 
@@ -228,9 +212,9 @@ void UpdaterPrivate::appAboutToExit()
 		}
 
 		if(!ok) {
-			qWarning() << "Unable to start" << toolInfo.absoluteFilePath()
-					   << "with arguments" << this->runArguments
-					   << "as" << (this->adminAuth ? "admin" : "user");
+			qCWarning(logQtAutoUpdater) << "Unable to start" << toolInfo.absoluteFilePath()
+										<< "with arguments" << this->runArguments
+										<< "as" << (this->adminAuth ? "admin" : "user");
 		}
 	}
 }
