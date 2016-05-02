@@ -33,7 +33,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 		this->ui->imageLabel->hide();
 	else {
 		this->ui->imageLabel->show();//TODO icon ok? or app icon?!?
-		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/updaterIcons/update.ico")).pixmap(64, 64));
+		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")).pixmap(64, 64));
 	}
 }
 
@@ -47,7 +47,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 	if(!detailed) {
 		DialogMaster::MessageBoxInfo boxInfo;
 		boxInfo.windowTitle = tr("Check for Updates");
-		boxInfo.icon = QIcon(QStringLiteral(":/updaterIcons/update.ico"));
+		boxInfo.icon = QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico"));
 		boxInfo.title = tr("Updates for %1 are available!")
 						.arg(QApplication::applicationDisplayName());
 		boxInfo.text = tr("There are new updates available! You can install them now or later.");

@@ -43,7 +43,7 @@ UpdateController::~UpdateController()
 
 QAction *UpdateController::createUpdateAction(QObject *parent)
 {
-	QAction *updateAction = new QAction(QIcon(QStringLiteral(":/updaterIcons/update.ico")),
+	QAction *updateAction = new QAction(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")),
 										tr("Check for Updates"),
 										parent);
 	updateAction->setMenuRole(QAction::ApplicationSpecificRole);

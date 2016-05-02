@@ -123,8 +123,8 @@ int main(int argc, char *argv[])
 ## Changing the update icon
 The controller uses one special icon in many of it's dialogs. This icon is a resource fail and can
 be replaced by overwriting the resource. Simply create an entry in a resource file with the following path:
-`:/updaterIcons/update.ico`. This way the controller will use your icon instead of the default one.
-The same goes for the "progress indicator" of the Update panel. The path for this none is `:/updaterIcons/updateRunning.gif`.
+`:/QtAutoUpdater/icons/update.ico`. This way the controller will use your icon instead of the default one.
+The same goes for the "progress indicator" of the Update panel. The path for this one is `:/QtAutoUpdater/icons/updateRunning.gif`.
 The file type of both need to stay the same, i.e. .ico for the icon and .gif for the progress. Otherwise loading will fail.
 
 @note This "replacement" is nothing I have implemented, but a result of how the resource system of Qt works. This may change

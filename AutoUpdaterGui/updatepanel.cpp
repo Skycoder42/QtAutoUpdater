@@ -8,7 +8,7 @@ UpdatePanel::UpdatePanel(UpdateController *controller, QWidget *parent) :
 	QWidget(parent),
 	controller(controller),
 	ui(new Ui::UpdatePanel),
-	loadingGif(new QMovie(QStringLiteral(":/updaterIcons/updateRunning.gif"), "gif", this))
+	loadingGif(new QMovie(QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"), "gif", this))
 {
 	connect(controller, &UpdateController::destroyed,
 			this, &UpdatePanel::deleteLater);
