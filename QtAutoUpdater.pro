@@ -7,7 +7,8 @@ SUBDIRS += \
 
 DISTFILES += README.md \
 	LICENSE \
-    doc/QtAutoUpdater.doxy
+    doc/QtAutoUpdater.doxy \
+	qtautoupdater.pri
 
 AutoUpdaterGui.depends += AutoUpdaterCore
 Tests.depends += AutoUpdaterCore AutoUpdaterGui
