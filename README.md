@@ -148,7 +148,7 @@ Downloads are available via [github releases](https://github.com/Skycoder42/QtAu
  - The german translations and the translation template file
 
 ## Building it yourself
-If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, the only other dependencies beside Qt itself is the DialogMaster, which is referenced as submodule. Just make shure to clone the repository recursivly. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!
+If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, the only other dependencies beside Qt itself is the [DialogMaster](https://github.com/Skycoder42/DialogMaster), which is referenced as submodule. Just make shure to clone the repository recursivly. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!
 
 ## Icon sources/Links
 Most icons have been found using [IconArchive](http://www.iconarchive.com/)
