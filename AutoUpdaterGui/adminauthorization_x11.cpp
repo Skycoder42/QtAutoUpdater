@@ -156,12 +156,12 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
                 const QString line = QString::fromLatin1(data);
                 if (re.indexIn(line) != -1) {
                     if(!errData.isEmpty()) {
-						DialogMaster::critical(NULL, QString::fromLocal8Bit(errData));
+						DialogMaster::critical(nullptr, QString::fromLocal8Bit(errData));
                         errData.clear();
                     }
 
                     bool ok = false;
-                    const QString password = QInputDialog::getText(NULL,
+                    const QString password = QInputDialog::getText(nullptr,
                                                                    QCoreApplication::translate("AdminAuthorization", "Enter Password"),
                                                                    QCoreApplication::translate("AdminAuthorization", "Enter your root password to run the maintenancetool:"),
                                                                    QLineEdit::Password,
@@ -187,7 +187,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
                 ::usleep(100000);
         }
 		if (!errData.isEmpty()) {
-			DialogMaster::critical(NULL, QString::fromLocal8Bit(errData));
+			DialogMaster::critical(nullptr, QString::fromLocal8Bit(errData));
             return false;
         }
 

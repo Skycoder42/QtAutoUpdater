@@ -18,7 +18,7 @@ Q_COREAPP_STARTUP_FUNCTION(libInit)
 
 UpdateController::UpdateController(QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdateControllerPrivate(this, NULL))
+	d_ptr(new UpdateControllerPrivate(this, nullptr))
 {}
 
 UpdateController::UpdateController(QWidget *parentWidget, QObject *parent) :
@@ -28,7 +28,7 @@ UpdateController::UpdateController(QWidget *parentWidget, QObject *parent) :
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, NULL))
+	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, nullptr))
 {}
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget, QObject *parent) :
@@ -107,7 +107,7 @@ void UpdateController::setRunAsAdmin(bool runAsAdmin, bool userEditable)
 	if(d->runAdmin != runAsAdmin) {
 		d->runAdmin = runAsAdmin;
 		if(d->mainUpdater->willRunOnExit())
-			d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
+			d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
 		emit runAsAdminChanged(runAsAdmin);
 	}
 	d->adminUserEdit = userEditable;
@@ -271,7 +271,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		if(d->checkUpdatesProgress) {
 			d->checkUpdatesProgress->hide(iconType);
 			d->checkUpdatesProgress->deleteLater();
-			d->checkUpdatesProgress = NULL;
+			d->checkUpdatesProgress = nullptr;
 		}
 	}
 	if(d->wasCanceled) {
@@ -297,7 +297,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 				case UpdateInfoDialog::InstallNow:
 					shouldShutDown = true;
 				case UpdateInfoDialog::InstallLater:
-					d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
+					d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
 					if(shouldShutDown)
 						qApp->quit();
 				case UpdateInfoDialog::NoInstall:
@@ -306,7 +306,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 					Q_UNREACHABLE();
 				}
 			} else {
-				d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : NULL);
+				d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
 				if(d->displayLevel == ExitLevel) {
 					DialogMaster::informationT(d->window,
 											   tr("Install Updates"),
@@ -358,7 +358,7 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	adminUserEdit(true),
 	runArgs(QStringLiteral("--updater")),
 	detailedInfo(true),
-	checkUpdatesProgress(NULL),
+	checkUpdatesProgress(nullptr),
 	wasCanceled(false),
 	updateTasks()
 {

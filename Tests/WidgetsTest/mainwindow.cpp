@@ -7,7 +7,7 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	controller(NULL)
+	controller(nullptr)
 {
 	ui->setupUi(this);
 	this->statusBar()->showMessage("not running");
@@ -98,7 +98,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		this->ui->buttonLayout->addWidget(this->controller->createUpdatePanel(this));
 	} else {
 		this->controller->deleteLater();
-		this->controller = NULL;
+		this->controller = nullptr;
 		this->statusBar()->showMessage("not running");
 	}
 }
@@ -106,7 +106,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)
 {
 	if(this->controller) {
-		this->controller->setParentWindow(checked ? this : NULL);
+		this->controller->setParentWindow(checked ? this : nullptr);
 	}
 }
 

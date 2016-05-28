@@ -45,9 +45,9 @@ namespace QtAutoUpdater
 		};
 
 		//! Default constructor. Can take a parent object
-		explicit Updater(QObject *parent = NULL);
+		explicit Updater(QObject *parent = nullptr);
 		//! Constructer with an explicitly set path. Can take a parent object
-		explicit Updater(const QString &maintenanceToolPath, QObject *parent = NULL);
+		explicit Updater(const QString &maintenanceToolPath, QObject *parent = nullptr);
 		//! Destroyes the updater and kills the update check
 		~Updater();
 
@@ -82,11 +82,11 @@ namespace QtAutoUpdater
 		void cancelScheduledUpdate(int taskId);
 
 		//! Runs the maintenancetool as updater on exit, using the given admin authorisation
-		inline void runUpdaterOnExit(AdminAuthoriser *authoriser = NULL) {
+		inline void runUpdaterOnExit(AdminAuthoriser *authoriser = nullptr) {
 			this->runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
 		}
 		//! Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation
-		void runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser = NULL);
+		void runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser = nullptr);
 		//! The updater will not run the updater on exit anymore
 		void cancelExitRun();
 

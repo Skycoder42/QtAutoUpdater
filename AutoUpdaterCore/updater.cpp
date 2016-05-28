@@ -84,6 +84,11 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
+	if(delaySeconds < 0) {
+		qCWarning(logQtAutoUpdater, "Cannot schedule update tasks for the past!");
+		return 0;
+	}
+
 	Q_D(Updater);
 	int id = d->startTimer(delaySeconds * 1000, Qt::VeryCoarseTimer);
 	if(repeated && id != 0)

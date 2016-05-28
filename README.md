@@ -64,7 +64,7 @@ Since this library requires the maintenancetool that is deployed with every Qt I
 Not a real example, but an application of mine that makes use of the library. If you want to see a full and working example with an installer, check out https://github.com/Skycoder42/IcoDroid
 
 #### Updater
-The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "./maintenancetool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
+The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "C:/Qt/MaintenanceTool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
 
 ```cpp
 #include <QCoreApplication>

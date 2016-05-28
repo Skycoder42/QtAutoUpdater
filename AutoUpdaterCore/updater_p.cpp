@@ -9,7 +9,7 @@
 using namespace QtAutoUpdater;
 
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
-	QObject(NULL),
+	QObject(nullptr),
 	q_ptr(q_ptr),
 	toolPath(),
 	updateInfos(),
@@ -17,11 +17,11 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	lastErrorCode(EXIT_SUCCESS),
 	lastErrorLog(),
 	running(false),
-	mainProcess(NULL),
+	mainProcess(nullptr),
 	repeatTasks(),
 	runOnExit(false),
 	runArguments(),
-	adminAuth(NULL)
+	adminAuth(nullptr)
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit);
@@ -29,6 +29,9 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 
 UpdaterPrivate::~UpdaterPrivate()
 {
+	if(this->runOnExit)
+		qCWarning(logQtAutoUpdater, "Updater destroyed with run on exit active before the application quit");
+
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
 		this->mainProcess->kill();
@@ -153,7 +156,7 @@ void UpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
 			this->lastErrorLog = this->mainProcess->readAllStandardError();
 			QByteArray updateOut = this->mainProcess->readAllStandardOutput();
 			this->mainProcess->deleteLater();
-			this->mainProcess = NULL;
+			this->mainProcess = nullptr;
 
 			Q_Q(Updater);
 			if(this->lastErrorCode != EXIT_SUCCESS) {
@@ -188,7 +191,7 @@ void UpdaterPrivate::updaterError(QProcess::ProcessError error)
 		this->lastErrorCode = error;
 		this->lastErrorLog = this->mainProcess->errorString().toUtf8();
 		this->mainProcess->deleteLater();
-		this->mainProcess = NULL;
+		this->mainProcess = nullptr;
 
 		this->running = false;
 		emit q->runningChanged(false);
@@ -216,6 +219,8 @@ void UpdaterPrivate::appAboutToExit()
 										<< "with arguments" << this->runArguments
 										<< "as" << (this->adminAuth ? "admin" : "user");
 		}
+
+		this->runOnExit = false;//prevent warning
 	}
 }
 
