@@ -25,19 +25,19 @@ it can schedule the maintenancetool to run in updater mode as soon as the applic
 finishes. (This requires the Updater instance to exist until QCoreApplication::quit is called).
 
 ## Example
-The following example shows the basic usage of the updater. It creates a new updater
-instance that is connected to the maintenancetool located at "C:/Qt/MaintenanceTool". As
-soon as the application starts, it will check for updates and print the update result.
-If updates are available, their details will be printed and the maintenancetool is
-scheduled to start on exit. In both cases, the application will quit afterwards.
+The following example shows the basic usage of the updater. Only the core library is
+required for this example. It creates a new updater instance that is connected to the
+maintenancetool located at "C:/Qt/MaintenanceTool". As soon as the application starts, it will
+check for updates and print the update result. If updates are available, their details will
+be printed and the maintenancetool is scheduled to start on exit. In both cases, the
+application will quit afterwards.
 
 @attention Since this library requires the maintenancetool that is deployed with every
 Qt Installer Framework installation, the examples cannot be tested without a
 maintenancetool! If you intend to use this library, the maintenancetool will be
 available for your final application. For testing purpose or the examples, I set the
-path to the MaintenanceTool that is deployed with the installation of Qt (since you
-all should have at least that one). So make shure to adjust the path if you try to run
-the example.
+path to the `MaintenanceTool` that is deployed with the installation of Qt (or any
+other maintenancetool). So make shure to adjust the path if you try to run the examples.
 
 @code{.cpp}
 #include <QCoreApplication>
@@ -48,7 +48,6 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 	//create the updater with the application as parent -> will live long enough start the tool on exit
-	//QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(&a);
 	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
 
 	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError) {

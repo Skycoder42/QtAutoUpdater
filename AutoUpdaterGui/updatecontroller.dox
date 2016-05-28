@@ -163,10 +163,10 @@ documentation of that property for more details.
 /*!
 @property QtAutoUpdater::UpdateController::parentWindow
 
-@default{`NULL` (depends on constructor)}
+@default{`nullptr` (depends on constructor)}
 
 The parent window is the window that should be used as "parent" for all dialogs the
-updater will show. If it is set to `NULL`, all dialogs will be toplevel windows and
+updater will show. If it is set to `nullptr`, all dialogs will be toplevel windows and
 application modal. If it is set to a valid widget, that widget will be the parent window
 for all dialogs and they will be window-modal to that window. (On OsX, the dialogs become
 sheets).
@@ -278,7 +278,7 @@ The created controller will not be bound to a specific window. Instead, all it's
 will be top-level windows without a parent and application modal. You can later change the
 window using the UpdateController::parentWindow property.
 
-@note If you set `parent` to anything but `NULL`, make shure the parent object lives long
+@note If you set `parent` to anything but `nullptr`, make shure the parent object lives long
 enough for the controller to receive the QCoreApplication::aboutToQuit signal, since thats
 required for the updater to show the maintenancetool as updater. One good approach to make
 shure the controller gets deleted and that it will happen after the signal is to use `qApp`
@@ -306,7 +306,7 @@ windows of the widgets window. On Mac, dialogs will be shown as "Sheets" of the 
 window. You can later change the window using the UpdateController::parentWindow property.
 
 @note Settings the window will not change the "object-parent" of the controller, this can be
-done using `parent`. If you set `parent` to anything but `NULL`, make shure the parent object
+done using `parent`. If you set `parent` to anything but `nullptr`, make shure the parent object
 lives long enough for the controller to receive the QCoreApplication::aboutToQuit signal,
 since thats required for the updater to show the maintenancetool as updater.
 
