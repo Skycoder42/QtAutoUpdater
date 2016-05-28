@@ -143,7 +143,7 @@ void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
 	d->detailedInfo = detailedUpdateInfo;
 }
 
-const Updater * UpdateController::getUpdater() const
+const Updater * UpdateController::updater() const
 {
 	const Q_D(UpdateController);
 	return d->mainUpdater;
@@ -379,7 +379,7 @@ UpdateControllerPrivate::~UpdateControllerPrivate()
 {
 	if(this->running) {
 		qCWarning(logQtAutoUpdater, "UpdaterController destroyed while still running! "
-									"This may crash your application!");
+									"This can crash your application!");
 	}
 
 	if(this->checkUpdatesProgress)

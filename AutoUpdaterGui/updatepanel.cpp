@@ -24,7 +24,7 @@ UpdatePanel::UpdatePanel(UpdateController *controller, QWidget *parent) :
 			this, &UpdatePanel::startUpdate);
     connect(this->controller.data(), &UpdateController::runningChanged,
 			this, &UpdatePanel::changeUpdaterState);
-	connect(this->controller->getUpdater(), &Updater::checkUpdatesDone,
+	connect(this->controller->updater(), &Updater::checkUpdatesDone,
 			this, &UpdatePanel::updatesReady);
     connect(this->controller.data(), &UpdateController::destroyed,
 			this, [this](){

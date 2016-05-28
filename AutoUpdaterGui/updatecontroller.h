@@ -31,7 +31,7 @@ namespace QtAutoUpdater
 	public:
 		//! Defines the different display-levels of the dialog
 		enum DisplayLevel {
-			AutomaticLevel = 0,//!< The lowest level. Nothing will be displayed at all.
+			AutomaticLevel = 0,//!< The lowest level. Nothing will be displayed at all. The programm will be auto-closed.
 			ExitLevel = 1,/*!< The whole updating works completly automatically without displaying anything. Only
 						   *   a notification that updates are ready to install will be shown if updates are available.
 						   */
@@ -84,7 +84,7 @@ namespace QtAutoUpdater
 		void setDetailedUpdateInfo(bool detailedUpdateInfo);
 
 		//! Returns the Updater object used by the controller
-		const Updater * getUpdater() const;
+		const Updater *updater() const;
 
 	public slots:
 		//! Starts the controller with the specified level.

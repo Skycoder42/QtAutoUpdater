@@ -11,7 +11,7 @@ namespace Ui {
 
 namespace QtAutoUpdater
 {
-	class UpdateController;
+	class UpdateController;//TODO make public
 	class UpdatePanel : public QWidget
 	{
 		Q_OBJECT
