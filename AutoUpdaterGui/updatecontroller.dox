@@ -3,7 +3,7 @@
 
 @brief Shows sample images for the updater for all the supported platforms
 
-Back to UpdaterController.
+Back to QtAutoUpdater::UpdateController.
 
 ## Windows - Windows 10
 #### The Updater Elements
@@ -71,7 +71,7 @@ The update-controller is a helpful tool if you want to show a simple GUI to the 
 It offers an automated update process, controlled by the user. All thats left for you
 to do is starting this controller. This can be done in 4 ways:
  - Call UpdateController::start somewhere in your code
- - Schedule an update using UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
+ - Schedule an update using UpdateController::scheduleUpdate
  - Add the QAction returned by UpdateController::createUpdateAction somewhere in your gui
  - Add the widget returned by UpdateController::createUpdatePanel somewhere in your gui
 
@@ -79,19 +79,18 @@ to do is starting this controller. This can be done in 4 ways:
 For a full collection of all immages, please go to the @ref image_page "Image Page"
 
 ## Example
-This example will show you the basic capabilities of the controller. Since there is no
-mainwindow in this example, you will only see the controller dialogs. Please not that
-you can control how much of that dialogset will be shown to the user. This example is
-reduced! for a full example with all parts of the controller, check the
-Tests/WidegtsTest application!
+This example will show you the full dialog flow of the controller. Both libraries are
+required for this example. Since there is no mainwindow in this example, you will only
+see the controller dialogs. Please not that you can control how much of that dialogset
+will be shown to the user. This example is *reduced*! for a full example with all parts
+of the controller, check the `Tests/WidgetsTest` application.
 
 @attention Since this library requires the maintenancetool that is deployed with every
 Qt Installer Framework installation, the examples cannot be tested without a
 maintenancetool! If you intend to use this library, the maintenancetool will be
 available for your final application. For testing purpose or the examples, I set the
-path to the MaintenanceTool that is deployed with the installation of Qt (since you
-all should have at least that one). So make shure to adjust the path if you try to run
-the example.
+path to the `MaintenanceTool` that is deployed with the installation of Qt (or any
+other maintenancetool). So make shure to adjust the path if you try to run the examples.
 
 @code{.cpp}
 #include <QApplication>
@@ -104,7 +103,6 @@ int main(int argc, char *argv[])
 	QApplication::setQuitOnLastWindowClosed(false);
 	//create the update controller with the application as parent -> will live long enough start the tool on exit
 	//since the parent is not a widget, all dialogs will be top-level windows
-	//QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController(&a);
 	QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
 
 	QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
@@ -125,7 +123,7 @@ The controller uses one special icon in many of it's dialogs. This icon is a res
 be replaced by overwriting the resource. Simply create an entry in a resource file with the following path:
 `:/QtAutoUpdater/icons/update.ico`. This way the controller will use your icon instead of the default one.
 The same goes for the "progress indicator" of the Update panel. The path for this one is `:/QtAutoUpdater/icons/updateRunning.gif`.
-The file type of both need to stay the same, i.e. .ico for the icon and .gif for the progress. Otherwise loading will fail.
+The file type of both need to stay the same, i.e. `.ico` for the icon and `.gif` for the progress. Otherwise loading will fail.
 
 @note This "replacement" is nothing I have implemented, but a result of how the resource system of Qt works. This may change
 in different version. If you intend to make use of it, please try it out! If this feature is requested without the "hack", I
@@ -198,7 +196,7 @@ property of the attached updater can return `false` while this one returns `true
 	@notifyAc{runningChanged()}
 }
 
-@sa UpdateController::getUpdater, UpdateController::start, UpdateController::cancelUpdate
+@sa UpdateController::updater, UpdateController::start, UpdateController::cancelUpdate
 */
 
 /*!
@@ -216,7 +214,12 @@ the write accessor function of this property.
 
 On Unix-Systems (X11 and Mac) the controller will check whether the maintenancetool belongs to root
 or not (owner-id == 0). It it belongs to root, the property will be set to `true`,
-otherwise to `false`. For windows, there is currently no easy way to get this information.
+otherwise to `false`. For windows, there is currently no easy way to get this information. And since
+programs are typically installed for all users, the default is `true`
+
+@note This property will not modify already planned runs on exit. If you need to modify it,
+make shure to call this function before checking for updates, or use
+Updater::runUpdaterOnExit(AdminAuthoriser *) instead
 
 @accessors{
 	@readAc{runAsAdmin()}
@@ -224,7 +227,8 @@ otherwise to `false`. For windows, there is currently no easy way to get this in
 	@notifyAc{runAsAdminChanged()}
 }
 
-@sa UpdateController::setRunAsAdmin, UpdateController::updateRunArgs
+@sa UpdateController::setRunAsAdmin, UpdateController::updateRunArgs,
+Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::Updater
 */
 
 /*!
@@ -237,13 +241,17 @@ available). See Updater::runUpdaterOnExit(AdminAuthoriser *) for more details ab
 "running on exit". If UpdateController::runAsAdmin is set to `true`, the maintenancetool
 will be run with elevated rights.
 
+@note This property will not modify already planned runs on exit. If you need to modify it,
+make shure to call this function before checking for updates, or use
+Updater::runUpdaterOnExit(AdminAuthoriser *) instead
+
 @accessors{
 	@readAc{updateRunArgs()}
 	@writeAc{setUpdateRunArgs()}
 	@resetAc{resetUpdateRunArgs()}
 }
 
-@sa UpdateController::runAsAdmin, Updater::runUpdaterOnExit(AdminAuthoriser *)
+@sa UpdateController::runAsAdmin, Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::Updater
 */
 
 /*!
@@ -383,7 +391,7 @@ disabled if the controller is already running and deleted together with the cont
 
 The action has a text, an icon and a tooltip. On Mac, the action will be placed in the
 Applications menu if added to the Menubar. To show it in other places (for example as dock-menu),
-create a new action and unset the role
+unset the QAction::menuRole.
 
 @sa UpdateController::createUpdatePanel, @ref image_page "Image Page", QAction::menuRole
 */
@@ -430,11 +438,11 @@ change them)
 */
 
 /*!
-@fn QtAutoUpdater::UpdateController::getUpdater
+@fn QtAutoUpdater::UpdateController::updater
 
 @returns The Updater object this controller uses internally to check for updates
 
-The returned object is owned by the controller and should not be deleted. The returned
+The returned object is owned by the controller and must not be deleted. The returned
 object is `const` because manually changing the updater (e.g. by calling
 Updater::checkForUpdates) could break the controller and lead to a crash! You may only
 use this function to e.g. get extended error information.
@@ -442,9 +450,9 @@ use this function to e.g. get extended error information.
 @note Some functions, like Updater::abortUpdateCheck or Updater::cancelExitRun may be safe
 to call, even though they are not `const` However, I will give no guarantee for any of the
 unconstant functions. If you need to do something like that, you can cast the returned
-point and try it out.
+pointer and try it out.
 
-@sa Updater
+@sa QtAutoUpdater::Updater
 */
 
 /*!
@@ -479,30 +487,34 @@ If `false` is returned, this can either mean that the controller is currently no
 to the user (Any dialog but the progress dialog is "uncancelable"). If thats the case, you
 have no other choice but to wait for the user to close all those dialogs.
 
-@sa UpdateController::running, UpdateController::start
+@sa UpdateController::running, UpdateController::start, Updater::abortUpdateCheck
 */
 
 /*!
 @fn QtAutoUpdater::UpdateController::scheduleUpdate(qint64 , bool, DisplayLevel)
 
 @overload
-@param delayMinutes The time (in minutes) to wait until the update is started
-@param repeated Specifies, whether the updater should be started every `delayMinutes`
+@param delaySeconds The time (in seconds) to wait until the update is started
+@param repeated Specifies, whether the updater should be started every `delaySeconds`
 or only once
 @param displayLevel The display-level to be used by the controller
 @returns The internal ID of this update task. Can be used to cancel the task
 
-Schedules an update to be run after `delayMinutes` minutes. If `repeated` is `true`, the
-controller will not just be run once, but every `delayMinutes` minutes (infinitly, until
+Schedules an update to be run after `delaySeconds` seconds. If `repeated` is `true`, the
+controller will not just be run once, but every `delaySeconds` seconds (infinitly, until
 this instance is destroyed or the task canceled).
 
+@note After scheduling the update, you will have no way to take track of the schedule.
+If the controller is already running while the task is triggered, nothing will happend.
+The scheduled update will only work if this same instance of the controller is still alive
+at that time.
+
 @overloads{
-	@povElem{scheduleUpdate(UpdateTask *, DisplayLevel)}
 	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
 	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
 }
 
-@sa UpdateController::cancelScheduledUpdate, BasicLoopUpdateTask, UpdateController::start
+@sa UpdateController::cancelScheduledUpdate, UpdateController::start
 */
 
 /*!
@@ -517,46 +529,17 @@ Schedules an update to be run at `when`. If `when` lays in the past, nothing wil
 The update will be started once that time is reached (assuming that this controller instance
 is still alive at that timepoint).
 
-@overloads{
-	@povElem{scheduleUpdate(UpdateTask *, DisplayLevel)}
-	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
-	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
-}
-
-@sa UpdateController::cancelScheduledUpdate, TimePointUpdateTask, UpdateController::start
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
-
-@overload
-@param task The task to be scheduled
-@param displayLevel The display-level to be used by the controller
-@returns The internal ID of this update task. Can be used to cancel the task
-
-Uses `task` to schedule updates. For more details about the different tasks, check
-the UpdateTask documentation.
-
-@warning The scheduler will take ownership of `task`. Since `task` will be used in a
-different thread, you must not access it after passing it to this function
-
-Scheduling an update means that the controller will use the UpdateScheduler to schedule an
-update. as soons as the UpdateTask reached the point where it "matched" (meets the
-timepoint it was scheduled for), the scheduler will notify the controller, and the
-controller will autmatically start checking for updates.
-
 @note After scheduling the update, you will have no way to take track of the schedule.
 If the controller is already running while the task is triggered, nothing will happend.
-
-To cancel the update task, call UpdateController::cancelScheduledUpdate.
+The scheduled update will only work if this same instance of the controller is still alive
+at that time.
 
 @overloads{
-	@povElem{scheduleUpdate(UpdateTask *, DisplayLevel)}
 	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
 	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
 }
 
-@sa UpdateController::cancelScheduledUpdate, UpdateTask, UpdateController::start
+@sa UpdateController::cancelScheduledUpdate, UpdateController::start
 */
 
 /*!
@@ -565,11 +548,10 @@ To cancel the update task, call UpdateController::cancelScheduledUpdate.
 @param taskId The id of the task to be canceled
 
 Cancels the task with the id `taskId`. If there was a task with that ID, you can be shure
-that it will be canceled.
+that it will be canceled. If the task was not until the point you call this function, it
+will not be triggered anymore.
 
-@attention The canceling will happen, but may be a little delayed (because of
-multithreading). This means that it's possible that a canceled task fires one or more
-updates that have reached their timepoint before they could be canceled.
-
-@sa UpdateController::scheduleUpdate(UpdateTask *, DisplayLevel)
+@sa UpdateController::scheduleUpdate(qint64 , bool, DisplayLevel),
+UpdateController::scheduleUpdate(const QDateTime &, DisplayLevel),
+UpdateController::cancelUpdate
 */

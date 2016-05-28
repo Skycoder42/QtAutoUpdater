@@ -93,7 +93,7 @@ will try to add the given extension. This will result into:
 	@finalAc
 }
 
-@sa QtAutoUpdater::Updater::Updater(QObject *), QtAutoUpdater::Updater::Updater(const QString &, QObject *)
+@sa Updater::Updater(QObject *), Updater::Updater(const QString &, QObject *)
 */
 
 /*!
@@ -351,9 +351,9 @@ Cancels the task with the id `taskId`. If there was a task with that ID, you can
 that it will be canceled. If the task was not until the point you call this function, it
 will not be triggered anymore.
 
-@sa QtAutoUpdater::Updater::scheduleUpdate(qint64 , bool),
-QtAutoUpdater::Updater::scheduleUpdate(const QDateTime &),
-QtAutoUpdater::Updater::abortUpdateCheck
+@sa Updater::scheduleUpdate(qint64 , bool),
+Updater::scheduleUpdate(const QDateTime &),
+Updater::abortUpdateCheck
 */
 
 /*!

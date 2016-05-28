@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 ```
 
 #### UpdateController
-This example will show you the full dialog flow of the controller. Both libraries are required for this example. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the `Tests/WidegtsTest` application.
+This example will show you the full dialog flow of the controller. Both libraries are required for this example. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the `Tests/WidgetsTest` application.
 
 ```cpp
 #include <QApplication>
