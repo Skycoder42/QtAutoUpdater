@@ -13,7 +13,7 @@
 namespace QtAutoUpdater
 {
 	class UpdaterPrivate;
-	//! The main updater. Can check for updates and run the updater
+	//! The main updater. Can check for updates and run the maintenancetool as updater
 	class Updater : public QObject
 	{
 		Q_OBJECT
@@ -31,7 +31,7 @@ namespace QtAutoUpdater
 		{
 			//! The name of the component that has an update
 			QString name;
-			//! The new version for that compontent (Check <a href="https://doc-snapshots.qt.io/qt5-5.6/qversionnumber.html" target="_blank">Qt 5.6 Documentation snapshot</a>)
+			//! The new version for that compontent
 			QVersionNumber version;
 			//! The update download size (in Bytes)
 			quint64 size;
@@ -48,15 +48,15 @@ namespace QtAutoUpdater
 		explicit Updater(QObject *parent = NULL);
 		//! Constructer with an explicitly set path. Can take a parent object
 		explicit Updater(const QString &maintenanceToolPath, QObject *parent = NULL);
-		//! Destructor
+		//! Destroyes the updater and kills the update check
 		~Updater();
 
 		//! Returns `true`, if the updater exited normally
 		bool exitedNormally() const;
 		//! Returns the result-code of the last update
-		int getErrorCode() const;
+		int errorCode() const;
 		//! returns the error output of the last update
-		QByteArray getErrorLog() const;
+		QByteArray errorLog() const;
 
 		//! Returns `true` if the maintenancetool will be started on exit
 		bool willRunOnExit() const;

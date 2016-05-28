@@ -34,13 +34,13 @@ bool Updater::exitedNormally() const
 	return d->normalExit;
 }
 
-int Updater::getErrorCode() const
+int Updater::errorCode() const
 {
 	const Q_D(Updater);
 	return d->lastErrorCode;
 }
 
-QByteArray Updater::getErrorLog() const
+QByteArray Updater::errorLog() const
 {
 	const Q_D(Updater);
 	return d->lastErrorLog;

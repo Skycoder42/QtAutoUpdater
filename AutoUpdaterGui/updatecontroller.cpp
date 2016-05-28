@@ -318,9 +318,9 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		} else {
 			if(hasError) {
 				qCWarning(logQtAutoUpdater) << "maintenancetool process finished with exit code"
-										   << d->mainUpdater->getErrorCode()
+										   << d->mainUpdater->errorCode()
 										   << "and error string:"
-										   << d->mainUpdater->getErrorLog();
+										   << d->mainUpdater->errorLog();
 			}
 
 			if(d->displayLevel >= ExtendedInfoLevel) {

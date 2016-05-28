@@ -41,8 +41,8 @@ void UpdaterTest::testUpdaterInitState()
 
 	//error state
 	QVERIFY(this->updater->exitedNormally());
-	QCOMPARE(this->updater->getErrorCode(), EXIT_SUCCESS);
-	QVERIFY(this->updater->getErrorLog().isEmpty());
+	QCOMPARE(this->updater->errorCode(), EXIT_SUCCESS);
+	QVERIFY(this->updater->errorLog().isEmpty());
 
 	//properties
 #if defined(Q_OS_WIN32)
@@ -129,7 +129,7 @@ void UpdaterTest::testUpdateCheck()
 	QVERIFY(this->checkSpy->wait(120000));
 
 	//show error log before continuing checking
-	QByteArray log = this->updater->getErrorLog();
+	QByteArray log = this->updater->errorLog();
 	if(!log.isEmpty())
 		qWarning() << "Error log:" << log;
 
@@ -137,7 +137,7 @@ void UpdaterTest::testUpdateCheck()
 	QCOMPARE(this->checkSpy->size(), 1);
 	QVariantList varList = this->checkSpy->takeFirst();
 	QVERIFY(this->updater->exitedNormally());
-	QCOMPARE(this->updater->getErrorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
+	QCOMPARE(this->updater->errorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
 	QCOMPARE(varList[1].toBool(), !hasUpdates);
 
 	//verifiy the "hasUpdates" and "updates" are as expected
