@@ -38,13 +38,13 @@ PROJECT_NAME           = QtAutoUpdater
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.1.0
+PROJECT_NUMBER         = 1.2.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "A library to automatically check for updates and install them"
+PROJECT_BRIEF          = "A Qt library to automatically check for updates and install them"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
@@ -803,10 +803,6 @@ INPUT                  = ../README.md \
                          ../AutoUpdaterCore/updater.dox \
                          ../AutoUpdaterCore/adminauthoriser.h \
                          ../AutoUpdaterCore/adminauthoriser.dox \
-                         ../AutoUpdaterCore/updatetask.h \
-                         ../AutoUpdaterCore/updatetask.dox \
-                         ../AutoUpdaterCore/updateschedulercontroller.h \
-                         ../AutoUpdaterCore/updateschedulercontroller.dox \
                          ../AutoUpdaterGui/updatecontroller.h \
                          ../AutoUpdaterGui/updatecontroller.dox
 
@@ -1274,7 +1270,7 @@ HTML_TIMESTAMP         = YES
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_DYNAMIC_SECTIONS  = NO
+HTML_DYNAMIC_SECTIONS  = YES
 
 # With HTML_INDEX_NUM_ENTRIES one can control the preferred number of entries
 # shown in the various tree structured indices initially; the user can expand
@@ -2166,10 +2162,6 @@ SKIP_FUNCTION_MACROS   = YES
 
 TAGFILES               = C:/Qt/Docs/Qt-5.6/qtwebengine/qtwebengine.tags=http://doc.qt.io/qt-5 \
                          C:/Qt/Docs/Qt-5.6/qtgraphicaleffects/qtgraphicaleffects.tags=http://doc.qt.io/qt-5 \
-                         C:/Qt/Docs/Qt-5.6/qt3dcollision/qt3dcollision.tags=http://doc.qt.io/qt-5 \
-                         C:/Qt/Docs/Qt-5.6/qt3dlogic/qt3dlogic.tags=http://doc.qt.io/qt-5 \
-                         C:/Qt/Docs/Qt-5.6/qt3dcore/qt3dcore.tags=http://doc.qt.io/qt-5 \
-                         C:/Qt/Docs/Qt-5.6/qt3drenderer/qt3drenderer.tags=http://doc.qt.io/qt-5 \
                          C:/Qt/Docs/Qt-5.6/qtwebchannel/qtwebchannel.tags=http://doc.qt.io/qt-5 \
                          C:/Qt/Docs/Qt-5.6/qtwebsockets/qtwebsockets.tags=http://doc.qt.io/qt-5 \
                          C:/Qt/Docs/Qt-5.6/qtbluetooth/qtbluetooth.tags=http://doc.qt.io/qt-5 \
@@ -2192,8 +2184,7 @@ TAGFILES               = C:/Qt/Docs/Qt-5.6/qtwebengine/qtwebengine.tags=http://d
                          C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags=http://doc.qt.io/qt-5 \
                          C:/Qt/Docs/Qt-5.6/qtnetwork/qtnetwork.tags=http://doc.qt.io/qt-5 \
                          C:/Qt/Docs/Qt-5.6/qtsql/qtsql.tags=http://doc.qt.io/qt-5 \
-                         C:/Qt/Docs/Qt-5.6/qtxml/qtxml.tags=http://doc.qt.io/qt-5 \
-                         C:/Qt/Docs/Qt-5.6/qtwebenginewidgets/qtwebenginewidgets.tags=http://doc.qt.io/qt-5
+                         C:/Qt/Docs/Qt-5.6/qtxml/qtxml.tags=http://doc.qt.io/qt-5
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create a
 # tag file that is based on the input files it reads. See section "Linking to

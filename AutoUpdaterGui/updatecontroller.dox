@@ -128,6 +128,8 @@ The file type of both need to stay the same, i.e. `.ico` for the icon and `.gif`
 @note This "replacement" is nothing I have implemented, but a result of how the resource system of Qt works. This may change
 in different version. If you intend to make use of it, please try it out! If this feature is requested without the "hack", I
 will add it in a future release.
+
+@sa QtAutoUpdater::Updater
 */
 
 /*!
@@ -228,7 +230,7 @@ Updater::runUpdaterOnExit(AdminAuthoriser *) instead
 }
 
 @sa UpdateController::setRunAsAdmin, UpdateController::updateRunArgs,
-Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::Updater
+Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::updater
 */
 
 /*!
@@ -251,7 +253,7 @@ Updater::runUpdaterOnExit(AdminAuthoriser *) instead
 	@resetAc{resetUpdateRunArgs()}
 }
 
-@sa UpdateController::runAsAdmin, Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::Updater
+@sa UpdateController::runAsAdmin, Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::updater
 */
 
 /*!
@@ -491,7 +493,7 @@ have no other choice but to wait for the user to close all those dialogs.
 */
 
 /*!
-@fn QtAutoUpdater::UpdateController::scheduleUpdate(qint64 , bool, DisplayLevel)
+@fn QtAutoUpdater::UpdateController::scheduleUpdate(int , bool, DisplayLevel)
 
 @overload
 @param delaySeconds The time (in seconds) to wait until the update is started
@@ -510,7 +512,7 @@ The scheduled update will only work if this same instance of the controller is s
 at that time.
 
 @overloads{
-	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(int , bool, DisplayLevel)}
 	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
 }
 
@@ -535,7 +537,7 @@ The scheduled update will only work if this same instance of the controller is s
 at that time.
 
 @overloads{
-	@ovElem{scheduleUpdate(qint64 , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(int , bool, DisplayLevel)}
 	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
 }
 
@@ -551,7 +553,7 @@ Cancels the task with the id `taskId`. If there was a task with that ID, you can
 that it will be canceled. If the task was not until the point you call this function, it
 will not be triggered anymore.
 
-@sa UpdateController::scheduleUpdate(qint64 , bool, DisplayLevel),
+@sa UpdateController::scheduleUpdate(int , bool, DisplayLevel),
 UpdateController::scheduleUpdate(const QDateTime &, DisplayLevel),
 UpdateController::cancelUpdate
 */

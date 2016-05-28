@@ -293,7 +293,7 @@ your system. If possible, do not abort the check, but instead just wait for it t
 */
 
 /*!
-@fn QtAutoUpdater::Updater::scheduleUpdate(qint64 , bool)
+@fn QtAutoUpdater::Updater::scheduleUpdate(int , bool)
 
 @overload
 @param delaySeconds The time (in seconds) to wait until the update is started
@@ -311,7 +311,7 @@ The scheduled update will only work if this same instance of the updater is stil
 at that time.
 
 @overloads{
-	@ovElem{scheduleUpdate(qint64 , bool)}
+	@ovElem{scheduleUpdate(int , bool)}
 	@ovElem{scheduleUpdate(const QDateTime &)}
 }
 
@@ -335,7 +335,7 @@ The scheduled update will only work if this same instance of the updater is stil
 at that time.
 
 @overloads{
-	@ovElem{scheduleUpdate(qint64 , bool)}
+	@ovElem{scheduleUpdate(int , bool)}
 	@ovElem{scheduleUpdate(const QDateTime &)}
 }
 
@@ -351,7 +351,7 @@ Cancels the task with the id `taskId`. If there was a task with that ID, you can
 that it will be canceled. If the task was not until the point you call this function, it
 will not be triggered anymore.
 
-@sa Updater::scheduleUpdate(qint64 , bool),
+@sa Updater::scheduleUpdate(int , bool),
 Updater::scheduleUpdate(const QDateTime &),
 Updater::abortUpdateCheck
 */
