@@ -27,7 +27,6 @@ ProgressDialog::~ProgressDialog()
 #ifdef Q_OS_WIN
 	this->tButton->progress()->hide();
 #endif
-	delete ui;
 }
 
 void ProgressDialog::setCanceled()

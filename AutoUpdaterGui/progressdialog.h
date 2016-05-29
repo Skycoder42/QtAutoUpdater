@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <functional>
 #include <QMessageBox>
+#include <QScopedPointer>
 #ifdef Q_OS_WIN
 #include <QWinTaskbarButton>
 #endif
@@ -48,7 +49,7 @@ namespace QtAutoUpdater
 		void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 	private:
-		Ui::ProgressDialog *ui;
+		QScopedPointer<Ui::ProgressDialog> ui;
 #ifdef Q_OS_WIN
 		QWinTaskbarButton *tButton;
 

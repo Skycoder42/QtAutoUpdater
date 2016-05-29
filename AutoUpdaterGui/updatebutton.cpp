@@ -152,10 +152,7 @@ QtAutoUpdater::UpdateButtonPrivate::UpdateButtonPrivate(UpdateButton *q_ptr, Upd
 	this->updateController(controller);
 }
 
-UpdateButtonPrivate::~UpdateButtonPrivate()
-{
-	delete this->ui;
-}
+UpdateButtonPrivate::~UpdateButtonPrivate() {}
 
 void UpdateButtonPrivate::updateController(UpdateController *controller)
 {

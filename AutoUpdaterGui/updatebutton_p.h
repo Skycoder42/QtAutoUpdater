@@ -3,6 +3,7 @@
 
 #include <QPointer>
 #include <QMovie>
+#include <QScopedPointer>
 #include "updatebutton.h"
 
 namespace Ui {
@@ -18,7 +19,7 @@ namespace QtAutoUpdater
 		Q_DECLARE_PUBLIC(UpdateButton)
 
 		QPointer<UpdateController> controller;
-		Ui::UpdateButton *ui;
+		QScopedPointer<Ui::UpdateButton> ui;
 		UpdateController::DisplayLevel level;
 		QMovie *loadingGif;
 		bool showResult;

@@ -37,10 +37,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	}
 }
 
-UpdateInfoDialog::~UpdateInfoDialog()
-{
-	delete ui;
-}
+UpdateInfoDialog::~UpdateInfoDialog(){}
 
 UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable, bool detailed, QWidget *parent)
 {

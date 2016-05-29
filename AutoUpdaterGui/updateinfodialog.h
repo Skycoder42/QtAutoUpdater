@@ -32,7 +32,7 @@ namespace QtAutoUpdater
 		void on_delayButton_clicked();
 
 	private:
-		Ui::UpdateInfoDialog *ui;
+		QScopedPointer<Ui::UpdateInfoDialog> ui;
 
 		explicit UpdateInfoDialog(QWidget *parent = nullptr);
 		~UpdateInfoDialog();
