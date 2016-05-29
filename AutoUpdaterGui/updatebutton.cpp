@@ -127,6 +127,7 @@ void UpdateButton::updatesReady(bool hasUpdate, bool)
 
 void UpdateButton::controllerDestroyed()
 {
+	this->resetState();
 	this->setDisabled(true);
 	emit controllerChanged(nullptr);
 }

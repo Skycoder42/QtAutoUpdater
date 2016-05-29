@@ -38,7 +38,7 @@ PROJECT_NAME           = QtAutoUpdater
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.2.0
+PROJECT_NUMBER         = 2.0.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -804,7 +804,9 @@ INPUT                  = ../README.md \
                          ../AutoUpdaterCore/adminauthoriser.h \
                          ../AutoUpdaterCore/adminauthoriser.dox \
                          ../AutoUpdaterGui/updatecontroller.h \
-                         ../AutoUpdaterGui/updatecontroller.dox
+                         ../AutoUpdaterGui/updatecontroller.dox \
+                         ../AutoUpdaterGui/updatebutton.h \
+                         ../AutoUpdaterGui/updatebutton.dox
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1486,7 +1488,7 @@ DISABLE_INDEX          = NO
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index
 # structure should be generated to display hierarchical information. If the tag
-# value is set to YES, a side button will be generated containing a tree-like
+# value is set to YES, a side panel will be generated containing a tree-like
 # index structure (just like the one that is generated for HTML Help). For this
 # to work a browser that supports JavaScript, DHTML, CSS and frames is required
 # (i.e. any modern browser). Windows users are probably better off using the
