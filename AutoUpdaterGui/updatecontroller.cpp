@@ -60,11 +60,6 @@ QAction *UpdateController::createUpdateAction(QObject *parent)
 	return updateAction;
 }
 
-QWidget *UpdateController::createUpdatePanel(QWidget *parentWidget)
-{
-	return new UpdatePanel(this, parentWidget);
-}
-
 QString UpdateController::maintenanceToolPath() const
 {
 	const Q_D(UpdateController);

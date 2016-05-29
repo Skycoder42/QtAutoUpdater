@@ -55,8 +55,6 @@ namespace QtAutoUpdater
 
 		//! Create a QAction to start this controller from
 		QAction *createUpdateAction(QObject *parent);
-		//! Creates a new "UpdatePanel" widget to place in your GUI
-		QWidget *createUpdatePanel(QWidget *parentWidget);
 
 		//! READ-Accessor for UpdateController::maintenanceToolPath
 		QString maintenanceToolPath() const;
