@@ -84,33 +84,24 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
-	if(delaySeconds < 0) {
-		qCWarning(logQtAutoUpdater, "Cannot schedule update tasks for the past!");
+	if((((qint64)delaySeconds) * 1000) > INT_MAX) {
+		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
-
 	Q_D(Updater);
-	int id = d->startTimer(delaySeconds * 1000, Qt::VeryCoarseTimer);
-	if(repeated && id != 0)
-		d->repeatTasks.insert(id);
-	return id;
+	return d->scheduler->startSchedule(delaySeconds * 1000, repeated);
 }
 
 int Updater::scheduleUpdate(const QDateTime &when)
 {
-	qint64 delta = QDateTime::currentDateTime().secsTo(when);
-	if(delta > INT_MAX) {
-		qCWarning(logQtAutoUpdater, "Time interval to big, timepoint to far in the future.");
-		return 0;
-	} else
-		return this->scheduleUpdate((int)delta, false);
+	Q_D(Updater);
+	return d->scheduler->startSchedule(when);
 }
 
 void Updater::cancelScheduledUpdate(int taskId)
 {
 	Q_D(Updater);
-	d->killTimer(taskId);
-	d->repeatTasks.remove(taskId);
+	d->scheduler->cancelSchedule(taskId);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)

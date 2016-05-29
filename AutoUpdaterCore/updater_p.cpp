@@ -5,7 +5,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QXmlStreamReader>
-#include <QTimerEvent>
+#include <QTimer>
 using namespace QtAutoUpdater;
 
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
@@ -18,13 +18,15 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	lastErrorLog(),
 	running(false),
 	mainProcess(nullptr),
-	repeatTasks(),
+	scheduler(new SimpleScheduler(this)),
 	runOnExit(false),
 	runArguments(),
 	adminAuth(nullptr)
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit);
+	connect(this->scheduler, &SimpleScheduler::scheduleTriggered,
+			this, &UpdaterPrivate::startUpdateCheck);
 }
 
 UpdaterPrivate::~UpdaterPrivate()
@@ -222,13 +224,4 @@ void UpdaterPrivate::appAboutToExit()
 
 		this->runOnExit = false;//prevent warning
 	}
-}
-
-void UpdaterPrivate::timerEvent(QTimerEvent *event)
-{
-	if(!this->repeatTasks.contains(event->timerId()))
-		this->killTimer(event->timerId());
-	event->accept();
-
-	this->startUpdateCheck();
 }

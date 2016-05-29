@@ -103,12 +103,9 @@ namespace QtAutoUpdater
 		//! NOTIFY-Accessor for UpdateController::runAsAdmin
 		void runAsAdminChanged(bool runAsAdmin);
 
-	protected:
-		//! Reimplemented to allow update scheduling
-		void timerEvent(QTimerEvent *event) Q_DECL_FINAL;
-
 	private slots:
 		void checkUpdatesDone(bool hasUpdates, bool hasError);
+		void timerTriggered(int, const QVariant &parameter);
 
 	private:
 		UpdateControllerPrivate *d_ptr;

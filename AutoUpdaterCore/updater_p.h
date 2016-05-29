@@ -2,10 +2,10 @@
 #define UPDATER_P_H
 
 #include "updater.h"
-#include <QTimer>
 #include <QProcess>
 #include <QScopedPointer>
 #include <exception>
+#include "simplescheduler.h"
 
 template<typename... Args> struct SELECT {
 	template<typename C, typename R>
@@ -45,7 +45,7 @@ namespace QtAutoUpdater
 		bool running;
 		QProcess *mainProcess;
 
-		QSet<int> repeatTasks;
+		SimpleScheduler *scheduler;
 
 		bool runOnExit;
 		QStringList runArguments;
@@ -65,9 +65,6 @@ namespace QtAutoUpdater
 		void updaterError(QProcess::ProcessError error);
 
 		void appAboutToExit();
-
-	protected:
-		void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 	};
 }
 

@@ -4,7 +4,6 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
-#include <QTimerEvent>
 #include <dialogmaster.h>
 #include "adminauthorization.h"
 #include "updatebutton.h"
@@ -205,47 +204,24 @@ bool UpdateController::cancelUpdate(int maxDelay)
 
 int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateController::DisplayLevel displayLevel)
 {
+	if((((qint64)delaySeconds) * 1000) > INT_MAX) {
+		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
+		return 0;
+	}
 	Q_D(UpdateController);
-	int id = this->startTimer(delaySeconds * 1000, Qt::VeryCoarseTimer);
-	if(id != 0)
-		d->updateTasks.insert(id, {displayLevel, repeated});
-	return id;
+	return d->scheduler->startSchedule(delaySeconds * 1000, repeated, QVariant::fromValue(displayLevel));
 }
 
 int UpdateController::scheduleUpdate(const QDateTime &when, UpdateController::DisplayLevel displayLevel)
 {
-	qint64 delta = QDateTime::currentDateTime().secsTo(when);
-	if(delta > INT_MAX) {
-		qCWarning(logQtAutoUpdater, "Time interval to big, timepoint to far in the future.");
-		return 0;
-	} else
-		return this->scheduleUpdate((int)delta, false, displayLevel);
+	Q_D(UpdateController);
+	return d->scheduler->startSchedule(when, QVariant::fromValue(displayLevel));
 }
 
 void UpdateController::cancelScheduledUpdate(int taskId)
 {
 	Q_D(UpdateController);
-	this->killTimer(taskId);
-	d->updateTasks.remove(taskId);
-}
-
-void UpdateController::timerEvent(QTimerEvent *event)
-{
-	Q_D(UpdateController);
-	int tId = event->timerId();
-	if(d->updateTasks.contains(tId)) {
-		UpdateControllerPrivate::UpdateTask task = d->updateTasks[tId];
-		if(!task.second) {
-			d->updateTasks.remove(tId);
-			this->killTimer(tId);
-		}
-		event->accept();
-
-		this->start(task.first);
-	} else {
-		this->killTimer(tId);
-		event->ignore();
-	}
+	d->scheduler->cancelSchedule(taskId);
 }
 
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
@@ -336,13 +312,18 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	emit runningChanged(false);
 }
 
+void UpdateController::timerTriggered(int, const QVariant &parameter)
+{
+	if(parameter.canConvert<DisplayLevel>())
+		this->start(parameter.value<DisplayLevel>());
+}
+
 //-----------------PRIVATE IMPLEMENTATION-----------------
 
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window) :
 	UpdateControllerPrivate(q_ptr, QString(), window)
 {}
 
-#include <QDebug>
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window) :
 	q_ptr(q_ptr),
 	window(window),
@@ -355,11 +336,13 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	detailedInfo(true),
 	checkUpdatesProgress(nullptr),
 	wasCanceled(false),
-	updateTasks()
+	scheduler(new SimpleScheduler(q_ptr))
 {
 	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
 					 q_ptr, &UpdateController::checkUpdatesDone,
 					 Qt::QueuedConnection);
+	QObject::connect(this->scheduler, &SimpleScheduler::scheduleTriggered,
+					 q_ptr, &UpdateController::timerTriggered);
 
 #ifdef Q_OS_UNIX
 	//TODO test

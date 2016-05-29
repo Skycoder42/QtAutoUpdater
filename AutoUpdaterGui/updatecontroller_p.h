@@ -6,6 +6,7 @@
 #include "updatecontroller.h"
 #include "progressdialog.h"
 #include "updateinfodialog.h"
+#include "simplescheduler.h"
 
 namespace QtAutoUpdater
 {
@@ -29,7 +30,7 @@ namespace QtAutoUpdater
 		QPointer<ProgressDialog> checkUpdatesProgress;
 		bool wasCanceled;
 
-		QHash<int, UpdateTask> updateTasks;
+		SimpleScheduler *scheduler;
 
 		UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 		UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
