@@ -7,7 +7,7 @@
 #include <QTimerEvent>
 #include <dialogmaster.h>
 #include "adminauthorization.h"
-#include "updatepanel.h"
+#include "updatebutton.h"
 using namespace QtAutoUpdater;
 
 static void libInit()

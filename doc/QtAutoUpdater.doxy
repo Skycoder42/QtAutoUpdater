@@ -1486,7 +1486,7 @@ DISABLE_INDEX          = NO
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index
 # structure should be generated to display hierarchical information. If the tag
-# value is set to YES, a side panel will be generated containing a tree-like
+# value is set to YES, a side button will be generated containing a tree-like
 # index structure (just like the one that is generated for HTML Help). For this
 # to work a browser that supports JavaScript, DHTML, CSS and frames is required
 # (i.e. any modern browser). Windows users are probably better off using the

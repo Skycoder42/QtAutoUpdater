@@ -21,7 +21,7 @@ SOURCES += \
     updatecontroller.cpp \
     progressdialog.cpp \
     updateinfodialog.cpp \
-	updatepanel.cpp
+    updatebutton.cpp
 
 win32: SOURCES += adminauthorization_win.cpp
 else:mac: SOURCES += adminauthorization_mac.cpp
@@ -32,19 +32,20 @@ HEADERS += \
 	updatecontroller_p.h \
     progressdialog.h \
     updateinfodialog.h \
-    updatepanel.h \
 	adminauthorization.h \
-    updatepanel_p.h
+    updatebutton.h \
+    updatebutton_p.h
 
 FORMS += \
     progressdialog.ui \
     updateinfodialog.ui \
-    updatepanel.ui
+    updatebutton.ui
 
 RESOURCES += \
 	autoupdatergui_resource.qrc
 
 DISTFILES += \
-    updatecontroller.dox
+    updatecontroller.dox \
+    updatebutton.dox
 
 include(./translations/translations.pri)

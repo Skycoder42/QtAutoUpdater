@@ -1,71 +1,71 @@
-#include "updatepanel.h"
-#include "updatepanel_p.h"
-#include "ui_updatepanel.h"
+#include "updatebutton.h"
+#include "updatebutton_p.h"
+#include "ui_updatebutton.h"
 #include "updatecontroller.h"
 #include "updater.h"
 using namespace QtAutoUpdater;
 
-UpdatePanel::UpdatePanel(UpdateController *controller, QWidget *parent) :
+UpdateButton::UpdateButton(UpdateController *controller, QWidget *parent) :
 	QWidget(parent),
-	d_ptr(new UpdatePanelPrivate(this, controller))
+	d_ptr(new UpdateButtonPrivate(this, controller))
 {}
 
-UpdatePanel::~UpdatePanel()
+UpdateButton::~UpdateButton()
 {
 	delete this->d_ptr;
 }
 
-QString UpdatePanel::animationFile() const
+QString UpdateButton::animationFile() const
 {
-	const Q_D(UpdatePanel);
+	const Q_D(UpdateButton);
 	return d->loadingGif->fileName();
 }
 
-bool UpdatePanel::isShowingResult() const
+bool UpdateButton::isShowingResult() const
 {
-	const Q_D(UpdatePanel);
+	const Q_D(UpdateButton);
 	return d->showResult;
 }
 
-UpdateController::DisplayLevel UpdatePanel::displayLevel() const
+UpdateController::DisplayLevel UpdateButton::displayLevel() const
 {
-	const Q_D(UpdatePanel);
+	const Q_D(UpdateButton);
 	return d->level;
 }
 
-void UpdatePanel::resetState()
+void UpdateButton::resetState()
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	d->loadingGif->setPaused(true);
 	d->ui->loaderLabel->setVisible(false);
 	d->ui->statusLabel->setVisible(false);
 	d->ui->checkButton->setEnabled(true);
 }
 
-void UpdatePanel::setAnimationFile(QString animationFile)
+void UpdateButton::setAnimationFile(QString animationFile)
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	d->loadingGif->setFileName(animationFile);
 	emit animationFileChanged(animationFile);
 }
 
-void UpdatePanel::setAnimationDevice(QIODevice *animationDevice)
+void UpdateButton::setAnimationDevice(QIODevice *animationDevice)
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	d->loadingGif->setDevice(animationDevice);
 	emit animationFileChanged(QString());
 }
 
-void UpdatePanel::resetAnimationFile()
+void UpdateButton::resetAnimationFile()
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	d->loadingGif->setFileName(QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"));
 	emit animationFileChanged(d->loadingGif->fileName());
 }
 
-void UpdatePanel::setShowResult(bool showResult)
+void UpdateButton::setShowResult(bool showResult)
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	if (d->showResult == showResult)
 		return;
 
@@ -73,9 +73,9 @@ void UpdatePanel::setShowResult(bool showResult)
 	emit showResultChanged(showResult);
 }
 
-void UpdatePanel::setDisplayLevel(UpdateController::DisplayLevel displayLevel)
+void UpdateButton::setDisplayLevel(UpdateController::DisplayLevel displayLevel)
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	if (d->level == displayLevel)
 		return;
 
@@ -83,16 +83,16 @@ void UpdatePanel::setDisplayLevel(UpdateController::DisplayLevel displayLevel)
 	emit displayLevelChanged(displayLevel);
 }
 
-void UpdatePanel::startUpdate()
+void UpdateButton::startUpdate()
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	if(!d->controller.isNull())
 		d->controller->start(d->level);
 }
 
-void UpdatePanel::changeUpdaterState(bool isRunning)
+void UpdateButton::changeUpdaterState(bool isRunning)
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	if(isRunning && d->loadingGif->state() != QMovie::Running) {
 		d->loadingGif->start();
 		d->ui->loaderLabel->setVisible(true);
@@ -107,9 +107,9 @@ void UpdatePanel::changeUpdaterState(bool isRunning)
 	}
 }
 
-void UpdatePanel::updatesReady(bool hasUpdate, bool)
+void UpdateButton::updatesReady(bool hasUpdate, bool)
 {
-	Q_D(UpdatePanel);
+	Q_D(UpdateButton);
 	this->changeUpdaterState(false);
 	if(d->showResult) {
 		d->ui->checkButton->setEnabled(!hasUpdate);
@@ -120,16 +120,16 @@ void UpdatePanel::updatesReady(bool hasUpdate, bool)
 
 //-----------------PRIVATE IMPLEMENTATION-----------------
 
-QtAutoUpdater::UpdatePanelPrivate::UpdatePanelPrivate(UpdatePanel *q_ptr, UpdateController *controller) :
+QtAutoUpdater::UpdateButtonPrivate::UpdateButtonPrivate(UpdateButton *q_ptr, UpdateController *controller) :
 	q_ptr(q_ptr),
 	controller(controller),
-	ui(new Ui::UpdatePanel),
+	ui(new Ui::UpdateButton),
 	level(UpdateController::ExtendedInfoLevel),
 	loadingGif(new QMovie(QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"), QByteArray(), q_ptr)),
 	showResult(true)
 {
 	QObject::connect(controller, &UpdateController::destroyed,
-					 this->q_ptr, &UpdatePanel::deleteLater);
+					 this->q_ptr, &UpdateButton::deleteLater);
 
 	this->ui->setupUi(this->q_ptr);
 	this->loadingGif->setSpeed(200);
@@ -139,18 +139,18 @@ QtAutoUpdater::UpdatePanelPrivate::UpdatePanelPrivate(UpdatePanel *q_ptr, Update
 	this->ui->statusLabel->setVisible(false);
 
 	QObject::connect(this->ui->checkButton, &QPushButton::clicked,
-					 this->q_ptr, &UpdatePanel::startUpdate);
+					 this->q_ptr, &UpdateButton::startUpdate);
 	QObject::connect(this->controller.data(), &UpdateController::runningChanged,
-					 this->q_ptr, &UpdatePanel::changeUpdaterState);
+					 this->q_ptr, &UpdateButton::changeUpdaterState);
 	QObject::connect(this->controller->updater(), &Updater::checkUpdatesDone,
-					 this->q_ptr, &UpdatePanel::updatesReady);
+					 this->q_ptr, &UpdateButton::updatesReady);
 	QObject::connect(this->controller.data(), &UpdateController::destroyed,
 					 this->q_ptr, [this](){
 		this->q_ptr->setDisabled(true);
 	});
 }
 
-UpdatePanelPrivate::~UpdatePanelPrivate()
+UpdateButtonPrivate::~UpdateButtonPrivate()
 {
 	delete this->ui;
 }

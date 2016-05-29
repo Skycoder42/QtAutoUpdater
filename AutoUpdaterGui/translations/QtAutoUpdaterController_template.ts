@@ -176,9 +176,9 @@
     </message>
 </context>
 <context>
-    <name>QtAutoUpdater::UpdatePanel</name>
+    <name>QtAutoUpdater::UpdateButton</name>
     <message>
-        <location filename="../updatepanel.cpp" line="+51"/>
+        <location filename="../updatebutton.cpp" line="+51"/>
         <source>Checking for updates…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -247,9 +247,9 @@
     </message>
 </context>
 <context>
-    <name>UpdatePanel</name>
+    <name>UpdateButton</name>
     <message>
-        <location filename="../updatepanel.ui" line="+35"/>
+        <location filename="../updatebutton.ui" line="+35"/>
         <source>Check for Updates</source>
         <translation type="unfinished"></translation>
     </message>

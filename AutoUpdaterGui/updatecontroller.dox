@@ -14,11 +14,11 @@ Back to QtAutoUpdater::UpdateController.
 @image html win_dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html win_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
-#### The Update Panel
-@image html win_panel_idle.png "Panel before clicking"<br>
-@image html win_panel_checking.png "Panel while checking"<br>
-@image html win_panel_updates.png "Panel with updates"<br>
-@image html win_panel_no_updates.png "Panel without updates"<br>
+#### The Update Button
+@image html win_button_idle.png "Button before clicking"<br>
+@image html win_button_checking.png "Button while checking"<br>
+@image html win_button_updates.png "Button with updates"<br>
+@image html win_button_no_updates.png "Button without updates"<br>
 
 #### The Action
 @image html win_action.png "Update action inside a menu and a toolbar"<br>
@@ -36,11 +36,11 @@ they will show as normal toplevel windows instead.
 @image html mac_dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html mac_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
-#### The Update Panel
-@image html mac_panel_idle.png "Panel before clicking"<br>
-@image html mac_panel_checking.png "Panel while checking"<br>
-@image html mac_panel_updates.png "Panel with updates"<br>
-@image html mac_panel_no_updates.png "Panel without updates"<br>
+#### The Update Button
+@image html mac_button_idle.png "Button before clicking"<br>
+@image html mac_button_checking.png "Button while checking"<br>
+@image html mac_button_updates.png "Button with updates"<br>
+@image html mac_button_no_updates.png "Button without updates"<br>
 
 #### The Action
 @image html mac_action.png "Update action inside a menu and a toolbar"<br>
@@ -54,11 +54,11 @@ they will show as normal toplevel windows instead.
 @image html x11_dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html x11_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
-#### The Update Panel
-@image html x11_panel_idle.png "Panel before clicking"<br>
-@image html x11_panel_checking.png "Panel while checking"<br>
-@image html x11_panel_updates.png "Panel with updates"<br>
-@image html x11_panel_no_updates.png "Panel without updates"<br>
+#### The Update Button
+@image html x11_button_idle.png "Button before clicking"<br>
+@image html x11_button_checking.png "Button while checking"<br>
+@image html x11_button_updates.png "Button with updates"<br>
+@image html x11_button_no_updates.png "Button without updates"<br>
 
 #### The Action
 @image html x11_action.png "Update action inside a menu and a toolbar"<br>
@@ -73,7 +73,7 @@ to do is starting this controller. This can be done in 4 ways:
  - Call UpdateController::start somewhere in your code
  - Schedule an update using UpdateController::scheduleUpdate
  - Add the QAction returned by UpdateController::createUpdateAction somewhere in your gui
- - Add the widget returned by UpdateController::createUpdatePanel somewhere in your gui
+ - Add the UpdateButton widget somewhere in your gui
 
 ## Images
 For a full collection of all immages, please go to the @ref image_page "Image Page"
@@ -122,14 +122,13 @@ int main(int argc, char *argv[])
 The controller uses one special icon in many of it's dialogs. This icon is a resource fail and can
 be replaced by overwriting the resource. Simply create an entry in a resource file with the following path:
 `:/QtAutoUpdater/icons/update.ico`. This way the controller will use your icon instead of the default one.
-The same goes for the "progress indicator" of the Update panel. The path for this one is `:/QtAutoUpdater/icons/updateRunning.gif`.
-The file type of both need to stay the same, i.e. `.ico` for the icon and `.gif` for the progress. Otherwise loading will fail.
+The file type of the icon has to stay the same, i.e. `.ico`. Otherwise loading will fail.
 
 @note This "replacement" is nothing I have implemented, but a result of how the resource system of Qt works. This may change
 in different version. If you intend to make use of it, please try it out! If this feature is requested without the "hack", I
 will add it in a future release.
 
-@sa QtAutoUpdater::Updater
+@sa QtAutoUpdater::Updater, QtAutoUpdater::UpdateButton
 */
 
 /*!
@@ -395,30 +394,7 @@ The action has a text, an icon and a tooltip. On Mac, the action will be placed 
 Applications menu if added to the Menubar. To show it in other places (for example as dock-menu),
 unset the QAction::menuRole.
 
-@sa UpdateController::createUpdatePanel, @ref image_page "Image Page", QAction::menuRole
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateController::createUpdatePanel
-
-@param parentWidget The parent widget of the update panel widget
-@returns The action associated with this controller
-
-The UpdatePanel is a ready-made "button" to check for updates. It is connected to this
-controller and thus will automatically start checking for updates with the level
-`UpdateController::ExtendedInfoLevel`. Since the panel itself shows a progress, no progress
-dialog is needed here. For images check the @ref image_page "Image Page".
-
-The panel will represent the controllers state and automatically enable/disable itself to
-avoid start beeing called twice. In addition to that, the whole panel widget will be disabled
-if the controller gets deleted while the panel is still existings. (Even if it wasn't,
-it will not crash if the button is clicked).
-
-@note The UpdatePanel class itself is an internal class. Reason: It directly derives from
-QWidget and does not add any new public accessible functions. Thus, even if the class would
-be returned, there would be no difference to a QWidget except of the pointer type.
-
-@sa UpdateController::createUpdateAction, @ref image_page "Image Page"
+@sa QtAutoUpdater::UpdateButton, @ref image_page "Image Page", QAction::menuRole
 */
 
 /*!

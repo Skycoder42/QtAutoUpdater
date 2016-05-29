@@ -3,7 +3,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QSettings>
-#include <updatepanel.h>
+#include <updatebutton.h>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -96,7 +96,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 			this->statusBar()->showMessage(running ? "running" : "not running");
 		});
-		this->ui->buttonLayout->addWidget(new QtAutoUpdater::UpdatePanel(this->controller, this));
+		this->ui->buttonLayout->addWidget(new QtAutoUpdater::UpdateButton(this->controller, this));
 	} else {
 		this->controller->deleteLater();
 		this->controller = nullptr;

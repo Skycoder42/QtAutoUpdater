@@ -22,7 +22,7 @@ Github repository: https://github.com/Skycoder42/QtAutoUpdater
    - extended information dialog or simple dialog to show basic information about the update
  - "Run as Admin/root" fully supported on all 3 platforms
  - UpdateAction -> a QAction that starts the updater
- - UpdatePanel -> a button with a busy-indicator to to the same
+ - UpdateButton -> a button with a busy-indicator to to the same
  - *Prepared* for translation
 
 #### Screenshots
@@ -32,7 +32,7 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
 |--------------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
 | Progress Dialog    | ![Progress Dialog](./doc/images/win_dialog_progress.png) | ![Progress Dialog](./doc/images/mac_dialog_progress.png) | ![Progress Dialog](./doc/images/x11_dialog_progress.png) |
 | Information Dialog | ![Information Dialog](./doc/images/win_dialog_info.png)  | ![Information Dialog](./doc/images/mac_dialog_info.png)  | ![Information Dialog](./doc/images/x11_dialog_info.png)  |
-| Update Panel       | ![Update Panel](./doc/images/win_panel_checking.png)     | ![Update Panel](./doc/images/mac_panel_checking.png)     | ![Update Panel](./doc/images/x11_panel_checking.png)     |
+| Update Button       | ![Update Button](./doc/images/win_button_checking.png)     | ![Update Button](./doc/images/mac_button_checking.png)     | ![Update Button](./doc/images/x11_button_checking.png)     |
 | Update Action      | ![Update Action](./doc/images/win_action.png)            | ![Update Action](./doc/images/mac_action.png)            | ![Update Action](./doc/images/x11_action.png)            |
 
 ## Requirements
