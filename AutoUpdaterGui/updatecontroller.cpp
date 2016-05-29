@@ -342,10 +342,8 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 					 q_ptr, &UpdateController::timerTriggered);
 
 #ifdef Q_OS_UNIX
-	//TODO test
 	QFileInfo maintenanceInfo(QCoreApplication::applicationDirPath(),
-							  this->mainUpdater->maintenanceToolPath());
-	qDebug() << maintenanceInfo.ownerId();
+                              this->mainUpdater->maintenanceToolPath());
 	this->runAdmin = (maintenanceInfo.ownerId() == 0);
 #endif
 }
