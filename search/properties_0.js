@@ -25,6 +25,7 @@ var searchData=
   ['angle',['angle',['http://doc.qt.io/qt-5/qgraphicsrotation.html#angle-prop',0,'QGraphicsRotation']]],
   ['animated',['animated',['http://doc.qt.io/qt-5/qtreeview.html#animated-prop',0,'QTreeView::animated()'],['http://doc.qt.io/qt-5/qmainwindow.html#animated-prop',0,'QMainWindow::animated()'],['http://doc.qt.io/qt-5/qstatemachine.html#animated-prop',0,'QStateMachine::animated()']]],
   ['animating',['animating',['http://doc.qt.io/qt-5/qinputmethod.html#animating-prop',0,'QInputMethod']]],
+  ['animationfile',['animationFile',['../class_qt_auto_updater_1_1_update_button.html#ab8a36c835631135c0118fe8951ae31d2',1,'QtAutoUpdater::UpdateButton']]],
   ['antialiasing',['antialiasing',['http://doc.qt.io/qt-5/qquickitem.html#antialiasing-prop',0,'QQuickItem']]],
   ['applicationdisplayname',['applicationDisplayName',['http://doc.qt.io/qt-5/qguiapplication.html#applicationDisplayName-prop',0,'QGuiApplication']]],
   ['applicationname',['applicationName',['http://doc.qt.io/qt-5/qcoreapplication.html#applicationName-prop',0,'QCoreApplication']]],

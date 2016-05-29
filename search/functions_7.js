@@ -80,7 +80,6 @@ var searchData=
   ['hassize',['hasSize',['http://doc.qt.io/qt-5/qndefnfcsmartposterrecord.html#hasSize',0,'QNdefNfcSmartPosterRecord']]],
   ['hasstaticcontents',['hasStaticContents',['http://doc.qt.io/qt-5/qbackingstore.html#hasStaticContents',0,'QBackingStore']]],
   ['hasstockevents',['hasStockEvents',['http://doc.qt.io/qt-5/qaxfactory.html#hasStockEvents',0,'QAxFactory']]],
-  ['hastasks',['hasTasks',['../class_qt_auto_updater_1_1_update_task.html#a313b3a9bcf5db91833ebb4a672ec348c',1,'QtAutoUpdater::UpdateTask::hasTasks()'],['../class_qt_auto_updater_1_1_loop_update_task.html#a56d55aa565894f743826153fa06030e4',1,'QtAutoUpdater::LoopUpdateTask::hasTasks()'],['../class_qt_auto_updater_1_1_time_point_update_task.html#aeeeb0cdb4bf9640ddfabdf98d4ba1cae',1,'QtAutoUpdater::TimePointUpdateTask::hasTasks()'],['../class_qt_auto_updater_1_1_update_task_list.html#a12c73abbe2d396db921c50cc6b7b3753',1,'QtAutoUpdater::UpdateTaskList::hasTasks()']]],
   ['hastext',['hasText',['http://doc.qt.io/qt-5/qmimedata.html#hasText',0,'QMimeData']]],
   ['hasthemeicon',['hasThemeIcon',['http://doc.qt.io/qt-5/qicon.html#hasThemeIcon',0,'QIcon']]],
   ['hastitle',['hasTitle',['http://doc.qt.io/qt-5/qndefnfcsmartposterrecord.html#hasTitle',0,'QNdefNfcSmartPosterRecord']]],

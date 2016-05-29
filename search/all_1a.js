@@ -698,8 +698,8 @@ var searchData=
   ['_7erenderer',['~Renderer',['http://doc.qt.io/qt-5/qquickframebufferobject-renderer.html#dtor.Renderer',0,'QQuickFramebufferObject::Renderer']]],
   ['_7erequestid',['~RequestId',['http://doc.qt.io/qt-5/qnearfieldtarget-requestid.html#dtor.RequestId',0,'QNearFieldTarget::RequestId']]],
   ['_7esignalevent',['~SignalEvent',['http://doc.qt.io/qt-5/qstatemachine-signalevent.html#dtor.SignalEvent',0,'QStateMachine::SignalEvent']]],
+  ['_7eupdatebutton',['~UpdateButton',['../class_qt_auto_updater_1_1_update_button.html#afcdef6ddaf473e4c743ccb579f6f8b6e',1,'QtAutoUpdater::UpdateButton']]],
   ['_7eupdatecontroller',['~UpdateController',['../class_qt_auto_updater_1_1_update_controller.html#abacdda249401974823d69bb5024e495d',1,'QtAutoUpdater::UpdateController']]],
   ['_7eupdater',['~Updater',['../class_qt_auto_updater_1_1_updater.html#a1294129a47405b4e29932555bb9cdf43',1,'QtAutoUpdater::Updater']]],
-  ['_7eupdatetask',['~UpdateTask',['../class_qt_auto_updater_1_1_update_task.html#a32baf4590167659c502f1b8d0d4fa5ba',1,'QtAutoUpdater::UpdateTask']]],
   ['_7ewrappedevent',['~WrappedEvent',['http://doc.qt.io/qt-5/qstatemachine-wrappedevent.html#dtor.WrappedEvent',0,'QStateMachine::WrappedEvent']]]
 ];

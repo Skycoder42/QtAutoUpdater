@@ -42,6 +42,7 @@ var searchData=
   ['context',['context',['http://doc.qt.io/qt-5/qshortcut.html#context-prop',0,'QShortcut']]],
   ['contextmenupolicy',['contextMenuPolicy',['http://doc.qt.io/qt-5/qwidget.html#contextMenuPolicy-prop',0,'QWidget']]],
   ['control',['control',['http://doc.qt.io/qt-5/qaxbase.html#control-prop',0,'QAxBase']]],
+  ['controller',['controller',['../class_qt_auto_updater_1_1_update_button.html#a607115185059dbc525c5040d94a1329e',1,'QtAutoUpdater::UpdateButton']]],
   ['cornerbuttonenabled',['cornerButtonEnabled',['http://doc.qt.io/qt-5/qtableview.html#cornerButtonEnabled-prop',0,'QTableView']]],
   ['correctionmode',['correctionMode',['http://doc.qt.io/qt-5/qabstractspinbox.html#correctionMode-prop',0,'QAbstractSpinBox']]],
   ['count',['count',['http://doc.qt.io/qt-5/qlistwidget.html#count-prop',0,'QListWidget::count()'],['http://doc.qt.io/qt-5/qstackedlayout.html#count-prop',0,'QStackedLayout::count()'],['http://doc.qt.io/qt-5/qcombobox.html#count-prop',0,'QComboBox::count()'],['http://doc.qt.io/qt-5/qstackedwidget.html#count-prop',0,'QStackedWidget::count()'],['http://doc.qt.io/qt-5/qtabbar.html#count-prop',0,'QTabBar::count()'],['http://doc.qt.io/qt-5/qtabwidget.html#count-prop',0,'QTabWidget::count()'],['http://doc.qt.io/qt-5/qtoolbox.html#count-prop',0,'QToolBox::count()']]],

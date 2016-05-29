@@ -14,7 +14,7 @@ var searchData=
   ['featurepermissionrequested',['featurePermissionRequested',['http://doc.qt.io/qt-5/qwebenginepage.html#featurePermissionRequested',0,'QWebEnginePage']]],
   ['features',['features',['http://doc.qt.io/qt-5/qdockwidget.html#features-prop',0,'QDockWidget::features()'],['http://doc.qt.io/qt-5/qdockwidget.html#features-prop',0,'QDockWidget::features() const'],['http://doc.qt.io/qt-5/qopengltexture.html#Feature-enum',0,'QOpenGLTexture::Features()']]],
   ['featureschanged',['featuresChanged',['http://doc.qt.io/qt-5/qdockwidget.html#featuresChanged',0,'QDockWidget']]],
-  ['featuretypes',['featureTypes',['http://doc.qt.io/qt-5/qgeorouterequest.html#featureTypes',0,'QGeoRouteRequest::featureTypes() const'],['http://doc.qt.io/qt-5/qgeorouterequest.html#FeatureType-enum',0,'QGeoRouteRequest::FeatureTypes()']]],
+  ['featuretypes',['FeatureTypes',['http://doc.qt.io/qt-5/qgeorouterequest.html#FeatureType-enum',0,'QGeoRouteRequest::FeatureTypes()'],['http://doc.qt.io/qt-5/qgeorouterequest.html#featureTypes',0,'QGeoRouteRequest::featureTypes() const']]],
   ['featureweight',['featureWeight',['http://doc.qt.io/qt-5/qgeorouterequest.html#featureWeight',0,'QGeoRouteRequest']]],
   ['featureweights',['FeatureWeights',['http://doc.qt.io/qt-5/qgeorouterequest.html#FeatureWeight-enum',0,'QGeoRouteRequest']]],
   ['fetch',['fetch',['http://doc.qt.io/qt-5/qsqlresult.html#fetch',0,'QSqlResult']]],

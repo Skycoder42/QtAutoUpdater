@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['loopupdatetask',['LoopUpdateTask',['../class_qt_auto_updater_1_1_loop_update_task.html',1,'QtAutoUpdater']]]
+  ['margins',['Margins',['http://doc.qt.io/qt-5/qpagedpaintdevice-margins.html',0,'QPagedPaintDevice']]],
+  ['memorylayout',['MemoryLayout',['http://doc.qt.io/qt-5/qlist-memorylayout.html',0,'QList']]],
+  ['modalpopupbehavior',['ModalPopupBehavior',['http://doc.qt.io/qt-5/qml-modalpopupbehavior.html',0,'']]]
 ];

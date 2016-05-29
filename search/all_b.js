@@ -166,7 +166,6 @@ var searchData=
   ['lookupid',['lookupId',['http://doc.qt.io/qt-5/qhostinfo.html#lookupId',0,'QHostInfo']]],
   ['loopcount',['loopCount',['http://doc.qt.io/qt-5/qabstractanimation.html#loopCount-prop',0,'QAbstractAnimation::loopCount()'],['http://doc.qt.io/qt-5/qtimeline.html#loopCount-prop',0,'QTimeLine::loopCount()'],['http://doc.qt.io/qt-5/qimageiohandler.html#loopCount',0,'QImageIOHandler::loopCount()'],['http://doc.qt.io/qt-5/qimagereader.html#loopCount',0,'QImageReader::loopCount()'],['http://doc.qt.io/qt-5/qmovie.html#loopCount',0,'QMovie::loopCount()'],['http://doc.qt.io/qt-5/qabstractanimation.html#loopCount-prop',0,'QAbstractAnimation::loopCount()'],['http://doc.qt.io/qt-5/qtimeline.html#loopCount-prop',0,'QTimeLine::loopCount()']]],
   ['looplevel',['loopLevel',['http://doc.qt.io/qt-5/qthread.html#loopLevel',0,'QThread']]],
-  ['loopupdatetask',['LoopUpdateTask',['../class_qt_auto_updater_1_1_loop_update_task.html',1,'QtAutoUpdater']]],
   ['lostfocus',['lostFocus',['http://doc.qt.io/qt-5/qfocusevent.html#lostFocus',0,'QFocusEvent']]],
   ['lower',['lower',['http://doc.qt.io/qt-5/qwindow.html#lower',0,'QWindow::lower()'],['http://doc.qt.io/qt-5/qwidget.html#lower',0,'QWidget::lower()']]],
   ['lowerbound',['lowerBound',['http://doc.qt.io/qt-5/qmap.html#lowerBound',0,'QMap::lowerBound(const Key &amp;key)'],['http://doc.qt.io/qt-5/qmap.html#lowerBound-1',0,'QMap::lowerBound(const Key &amp;key) const']]],

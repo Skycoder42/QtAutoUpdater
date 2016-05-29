@@ -285,7 +285,6 @@ var searchData=
   ['movetothread',['moveToThread',['http://doc.qt.io/qt-5/qobject.html#moveToThread',0,'QObject']]],
   ['movie',['movie',['http://doc.qt.io/qt-5/qlabel.html#movie',0,'QLabel']]],
   ['msec',['msec',['http://doc.qt.io/qt-5/qtime.html#msec',0,'QTime']]],
-  ['msecs',['msecs',['../struct_qt_auto_updater_1_1_time_span.html#a5a32b79b848ccd3f1ec0e1a5cc07f89f',1,'QtAutoUpdater::TimeSpan']]],
   ['msecssincereference',['msecsSinceReference',['http://doc.qt.io/qt-5/qelapsedtimer.html#msecsSinceReference',0,'QElapsedTimer']]],
   ['msecssincestartofday',['msecsSinceStartOfDay',['http://doc.qt.io/qt-5/qtime.html#msecsSinceStartOfDay',0,'QTime']]],
   ['msecsto',['msecsTo',['http://doc.qt.io/qt-5/qtime.html#msecsTo',0,'QTime::msecsTo()'],['http://doc.qt.io/qt-5/qdatetime.html#msecsTo',0,'QDateTime::msecsTo()'],['http://doc.qt.io/qt-5/qelapsedtimer.html#msecsTo',0,'QElapsedTimer::msecsTo()']]],

@@ -24,9 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtAutoUpdater
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
-   <div id="projectbrief">A library to automatically check for updates and install them</div>
+   <div id="projectbrief">A Qt library to automatically check for updates and install them</div>
   </td>
  </tr>
  </tbody>
@@ -118,8 +118,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An interface to run programs with elevated rights. </p>
-<p>The AdminAuthorisers task is to run a program with elevated rigths. Since the way to archive this is different on every platform, the authoriser is an interface. Since the "default" way to gain elevated privilegs is doing so by using a GUI, the default implementation is done in the AutoUpdaterWidgets library. If you intend to use the standard library only, you will have to implement admin-authorisation yourself (if you require it)</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">Updater::runUpdaterOnExit(AdminAuthoriser *)</a> </dd></dl>
+<p>The AdminAuthorisers task is to run a program with elevated rigths. Since the way to archive this is different on every platform, the authoriser is an interface. Because the "default" way to gain elevated privilegs is doing so by using a GUI, the default implementation is done in the AutoUpdaterWidgets library. If you intend to use the core library only, you will have to implement admin-authorisation yourself (if you require it)</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">Updater::runUpdaterOnExit(AdminAuthoriser *)</a> </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a6d2da8f9983fa25c331394ff82c61034"></a>
 <div class="memitem">
@@ -162,7 +162,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the program could be started with <b>elevated rights</b>, <code>false</code> if not</dd></dl>
-<p>The actual elevation and execution should be done using this function. Please note that it's possible that this function is called while the <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> is shutting down. If <code>false</code> is returned, no error will be shown to the user. If you want to do so, do it inside that function. </p>
+<p>The actual elevation and execution should be done using this function. Please note that it's possible that this function is called while the <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> is shutting down. If <code>false</code> is returned, no error will be shown to the user. If you want to do so, do it inside that function.</p>
+<dl class="section note"><dt>Note</dt><dd><code>program</code> will return an absolute path using normal slashes <code>/</code>, even on windows. If you need to use native APIs, get the correct path using <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qdir.html#toNativeSeparators">QDir::toNativeSeparators</a>. </dd></dl>
 
 </div>
 </div>
@@ -200,7 +201,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 19 2016 15:09:23 for QtAutoUpdater by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 29 2016 21:21:25 for QtAutoUpdater by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

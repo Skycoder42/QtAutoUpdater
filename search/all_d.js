@@ -82,7 +82,6 @@ var searchData=
   ['nextroutesegment',['nextRouteSegment',['http://doc.qt.io/qt-5/qgeoroutesegment.html#nextRouteSegment',0,'QGeoRouteSegment']]],
   ['nextsibling',['nextSibling',['http://doc.qt.io/qt-5/qsgnode.html#nextSibling',0,'QSGNode::nextSibling()'],['http://doc.qt.io/qt-5/qdomnode.html#nextSibling',0,'QDomNode::nextSibling()']]],
   ['nextsiblingelement',['nextSiblingElement',['http://doc.qt.io/qt-5/qdomnode.html#nextSiblingElement',0,'QDomNode']]],
-  ['nexttask',['nextTask',['../class_qt_auto_updater_1_1_update_task.html#ab146b9a23674cdddb9c4e45ed93d43f4',1,'QtAutoUpdater::UpdateTask::nextTask()'],['../class_qt_auto_updater_1_1_loop_update_task.html#a2c3ac788456fa50f564833b9207edb6c',1,'QtAutoUpdater::LoopUpdateTask::nextTask()'],['../class_qt_auto_updater_1_1_time_point_update_task.html#a95722b1f17cf59d6d27bb61d129b938c',1,'QtAutoUpdater::TimePointUpdateTask::nextTask()'],['../class_qt_auto_updater_1_1_update_task_list.html#a941ed9869bcd22a568ff5c9b8ca6849e',1,'QtAutoUpdater::UpdateTaskList::nextTask()']]],
   ['nexttransition',['nextTransition',['http://doc.qt.io/qt-5/qtimezone.html#nextTransition',0,'QTimeZone']]],
   ['nlerp',['nlerp',['http://doc.qt.io/qt-5/qquaternion.html#nlerp',0,'QQuaternion']]],
   ['nodename',['nodeName',['http://doc.qt.io/qt-5/qdomnode.html#nodeName',0,'QDomNode']]],

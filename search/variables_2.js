@@ -19,7 +19,6 @@ var searchData=
   ['conversionflags',['ConversionFlags',['http://doc.qt.io/qt-5/qtextcodec.html#ConversionFlag-enum',0,'QTextCodec']]],
   ['coreconfigurations',['CoreConfigurations',['http://doc.qt.io/qt-5/qbluetoothdeviceinfo.html#CoreConfiguration-enum',0,'QBluetoothDeviceInfo']]],
   ['cornerwidgets',['CornerWidgets',['http://doc.qt.io/qt-5/qstyleoptiontab.html#CornerWidget-enum',0,'QStyleOptionTab']]],
-  ['count',['count',['../struct_qt_auto_updater_1_1_time_span.html#af0df7fc925ead228b2d03aa72bef37d6',1,'QtAutoUpdater::TimeSpan']]],
   ['countfunction',['CountFunction',['http://doc.qt.io/qt-5/qqmllistproperty.html#CountFunction-typedef',0,'QQmlListProperty']]],
   ['createtextureoptions',['CreateTextureOptions',['http://doc.qt.io/qt-5/qquickwindow.html#CreateTextureOption-enum',0,'QQuickWindow::CreateTextureOptions()'],['http://doc.qt.io/qt-5/qsgengine.html#CreateTextureOption-enum',0,'QSGEngine::CreateTextureOptions()']]]
 ];

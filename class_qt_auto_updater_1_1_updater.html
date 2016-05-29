@@ -24,9 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtAutoUpdater
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
-   <div id="projectbrief">A library to automatically check for updates and install them</div>
+   <div id="projectbrief">A Qt library to automatically check for updates and install them</div>
   </td>
  </tr>
  </tbody>
@@ -102,13 +102,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>The main updater. Can check for updates and run the updater.  
+<p>The main updater. Can check for updates and run the maintenancetool as updater.  
  <a href="class_qt_auto_updater_1_1_updater.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="updater_8h_source.html">updater.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for QtAutoUpdater::Updater:</div>
-<div class="dyncontent">
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for QtAutoUpdater::Updater:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
  <div class="center">
   <img src="class_qt_auto_updater_1_1_updater.png" usemap="#QtAutoUpdater::Updater_map" alt=""/>
   <map id="QtAutoUpdater::Updater_map" name="QtAutoUpdater::Updater_map">
@@ -130,24 +132,21 @@ Public Slots</h2></td></tr>
 <tr class="memitem:acebfb662db8ab87c89dbaf96d61d131c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c">abortUpdateCheck</a> (int maxDelay=5000, bool async=false)</td></tr>
 <tr class="memdesc:acebfb662db8ab87c89dbaf96d61d131c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aborts checking for updates.  <a href="#acebfb662db8ab87c89dbaf96d61d131c">More...</a><br /></td></tr>
 <tr class="separator:acebfb662db8ab87c89dbaf96d61d131c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81e939b61f337437cdb1d2fdb1d03e36"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a81e939b61f337437cdb1d2fdb1d03e36">scheduleUpdate</a> (qint64 delayMinutes, bool repeated=false)</td></tr>
-<tr class="memdesc:a81e939b61f337437cdb1d2fdb1d03e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules an update after a specific delay, optionally repeated.  <a href="#a81e939b61f337437cdb1d2fdb1d03e36">More...</a><br /></td></tr>
-<tr class="separator:a81e939b61f337437cdb1d2fdb1d03e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bbec105cd9e538bf5e7aff1f5309c26"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a2bbec105cd9e538bf5e7aff1f5309c26">scheduleUpdate</a> (int delaySeconds, bool repeated=false)</td></tr>
+<tr class="memdesc:a2bbec105cd9e538bf5e7aff1f5309c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules an update after a specific delay, optionally repeated.  <a href="#a2bbec105cd9e538bf5e7aff1f5309c26">More...</a><br /></td></tr>
+<tr class="separator:a2bbec105cd9e538bf5e7aff1f5309c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3653cd691f5966e26b5ea6b5f71d902"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902">scheduleUpdate</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qdatetime.html">QDateTime</a> &amp;when)</td></tr>
 <tr class="memdesc:ae3653cd691f5966e26b5ea6b5f71d902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules an update for a specific timepoint.  <a href="#ae3653cd691f5966e26b5ea6b5f71d902">More...</a><br /></td></tr>
 <tr class="separator:ae3653cd691f5966e26b5ea6b5f71d902"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d966e203ac7261ea28ac5231eeb1c4e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e">scheduleUpdate</a> (<a class="el" href="class_qt_auto_updater_1_1_update_task.html">UpdateTask</a> *task)</td></tr>
-<tr class="memdesc:a4d966e203ac7261ea28ac5231eeb1c4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules an update using an <a class="el" href="class_qt_auto_updater_1_1_update_task.html" title="An interface for tasks to be handeled by the UpdateScheduler. ">UpdateTask</a>.  <a href="#a4d966e203ac7261ea28ac5231eeb1c4e">More...</a><br /></td></tr>
-<tr class="separator:a4d966e203ac7261ea28ac5231eeb1c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62affe5f6d482482b239b7d3822657dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd">cancelScheduledUpdate</a> (int taskId)</td></tr>
 <tr class="memdesc:a62affe5f6d482482b239b7d3822657dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels the update with taskId.  <a href="#a62affe5f6d482482b239b7d3822657dd">More...</a><br /></td></tr>
 <tr class="separator:a62affe5f6d482482b239b7d3822657dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85d5f18c68075b24366d78fac781686"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686">runUpdaterOnExit</a> (<a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html">AdminAuthoriser</a> *authoriser=NULL)</td></tr>
-<tr class="memdesc:aa85d5f18c68075b24366d78fac781686"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the maintenancetool as updater on exit, using the given admin authorisation.  <a href="#aa85d5f18c68075b24366d78fac781686">More...</a><br /></td></tr>
-<tr class="separator:aa85d5f18c68075b24366d78fac781686"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a262b3fe8de198746af8d43243f8f9a04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a262b3fe8de198746af8d43243f8f9a04">runUpdaterOnExit</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstringlist.html">QStringList</a> &amp;arguments, <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html">AdminAuthoriser</a> *authoriser=NULL)</td></tr>
-<tr class="memdesc:a262b3fe8de198746af8d43243f8f9a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation.  <a href="#a262b3fe8de198746af8d43243f8f9a04">More...</a><br /></td></tr>
-<tr class="separator:a262b3fe8de198746af8d43243f8f9a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab23679ad18072646028085b9e77ecc0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d">runUpdaterOnExit</a> (<a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html">AdminAuthoriser</a> *authoriser=nullptr)</td></tr>
+<tr class="memdesc:ab23679ad18072646028085b9e77ecc0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the maintenancetool as updater on exit, using the given admin authorisation.  <a href="#ab23679ad18072646028085b9e77ecc0d">More...</a><br /></td></tr>
+<tr class="separator:ab23679ad18072646028085b9e77ecc0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a9d1ea846df1be2fc94bd3654cb48ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a5a9d1ea846df1be2fc94bd3654cb48ec">runUpdaterOnExit</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstringlist.html">QStringList</a> &amp;arguments, <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html">AdminAuthoriser</a> *authoriser=nullptr)</td></tr>
+<tr class="memdesc:a5a9d1ea846df1be2fc94bd3654cb48ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation.  <a href="#a5a9d1ea846df1be2fc94bd3654cb48ec">More...</a><br /></td></tr>
+<tr class="separator:a5a9d1ea846df1be2fc94bd3654cb48ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5320a29ffba285d40100a1e98e8950a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a">cancelExitRun</a> ()</td></tr>
 <tr class="memdesc:ac5320a29ffba285d40100a1e98e8950a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The updater will not run the updater on exit anymore.  <a href="#ac5320a29ffba285d40100a1e98e8950a">More...</a><br /></td></tr>
 <tr class="separator:ac5320a29ffba285d40100a1e98e8950a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,24 +167,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a78c4bf8ef0ac1a9720a087cc9d441512"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a78c4bf8ef0ac1a9720a087cc9d441512">Updater</a> (<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html">QObject</a> *<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html#parent">parent</a>=NULL)</td></tr>
-<tr class="memdesc:a78c4bf8ef0ac1a9720a087cc9d441512"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Can take a parent object.  <a href="#a78c4bf8ef0ac1a9720a087cc9d441512">More...</a><br /></td></tr>
-<tr class="separator:a78c4bf8ef0ac1a9720a087cc9d441512"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f6b269555a477a0039d3aac638df007"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a4f6b269555a477a0039d3aac638df007">Updater</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstring.html">QString</a> &amp;<a class="el" href="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05">maintenanceToolPath</a>, <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html">QObject</a> *<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html#parent">parent</a>=NULL)</td></tr>
-<tr class="memdesc:a4f6b269555a477a0039d3aac638df007"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructer with an explicitly set path. Can take a parent object.  <a href="#a4f6b269555a477a0039d3aac638df007">More...</a><br /></td></tr>
-<tr class="separator:a4f6b269555a477a0039d3aac638df007"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d1cea9097292bd2169c1a29a119a3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#aa9d1cea9097292bd2169c1a29a119a3d">Updater</a> (<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html">QObject</a> *<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html#parent">parent</a>=nullptr)</td></tr>
+<tr class="memdesc:aa9d1cea9097292bd2169c1a29a119a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Can take a parent object.  <a href="#aa9d1cea9097292bd2169c1a29a119a3d">More...</a><br /></td></tr>
+<tr class="separator:aa9d1cea9097292bd2169c1a29a119a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339064ee3c12bd04297630dc172b3978"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a339064ee3c12bd04297630dc172b3978">Updater</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstring.html">QString</a> &amp;<a class="el" href="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05">maintenanceToolPath</a>, <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html">QObject</a> *<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html#parent">parent</a>=nullptr)</td></tr>
+<tr class="memdesc:a339064ee3c12bd04297630dc172b3978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructer with an explicitly set path. Can take a parent object.  <a href="#a339064ee3c12bd04297630dc172b3978">More...</a><br /></td></tr>
+<tr class="separator:a339064ee3c12bd04297630dc172b3978"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1294129a47405b4e29932555bb9cdf43"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a1294129a47405b4e29932555bb9cdf43">~Updater</a> ()</td></tr>
-<tr class="memdesc:a1294129a47405b4e29932555bb9cdf43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a1294129a47405b4e29932555bb9cdf43">More...</a><br /></td></tr>
+<tr class="memdesc:a1294129a47405b4e29932555bb9cdf43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroyes the updater and kills the update check.  <a href="#a1294129a47405b4e29932555bb9cdf43">More...</a><br /></td></tr>
 <tr class="separator:a1294129a47405b4e29932555bb9cdf43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53b3f8154cd19b46f8d97c9c1ca5701a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a">exitedNormally</a> () const </td></tr>
 <tr class="memdesc:a53b3f8154cd19b46f8d97c9c1ca5701a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>true</code>, if the updater exited normally.  <a href="#a53b3f8154cd19b46f8d97c9c1ca5701a">More...</a><br /></td></tr>
 <tr class="separator:a53b3f8154cd19b46f8d97c9c1ca5701a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61ecb06ecbd80dab0931f3c78b458db5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5">getErrorCode</a> () const </td></tr>
-<tr class="memdesc:a61ecb06ecbd80dab0931f3c78b458db5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the result-code of the last update.  <a href="#a61ecb06ecbd80dab0931f3c78b458db5">More...</a><br /></td></tr>
-<tr class="separator:a61ecb06ecbd80dab0931f3c78b458db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae25e2214233714b3ed0383aae8841be5"><td class="memItemLeft" align="right" valign="top"><a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qbytearray.html">QByteArray</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5">getErrorLog</a> () const </td></tr>
-<tr class="memdesc:ae25e2214233714b3ed0383aae8841be5"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the error output of the last update  <a href="#ae25e2214233714b3ed0383aae8841be5">More...</a><br /></td></tr>
-<tr class="separator:ae25e2214233714b3ed0383aae8841be5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3471bdd938f695c0f039001c0dc85c4c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c">errorCode</a> () const </td></tr>
+<tr class="memdesc:a3471bdd938f695c0f039001c0dc85c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the result-code of the last update.  <a href="#a3471bdd938f695c0f039001c0dc85c4c">More...</a><br /></td></tr>
+<tr class="separator:a3471bdd938f695c0f039001c0dc85c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adda5c9e8ec5bd57eb2b98c37e4dccf59"><td class="memItemLeft" align="right" valign="top"><a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qbytearray.html">QByteArray</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59">errorLog</a> () const </td></tr>
+<tr class="memdesc:adda5c9e8ec5bd57eb2b98c37e4dccf59"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the error output of the last update  <a href="#adda5c9e8ec5bd57eb2b98c37e4dccf59">More...</a><br /></td></tr>
+<tr class="separator:adda5c9e8ec5bd57eb2b98c37e4dccf59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c81b1d6d66a3049a46f8cd49ed82937"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937">willRunOnExit</a> () const </td></tr>
 <tr class="memdesc:a0c81b1d6d66a3049a46f8cd49ed82937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>true</code> if the maintenancetool will be started on exit.  <a href="#a0c81b1d6d66a3049a46f8cd49ed82937">More...</a><br /></td></tr>
 <tr class="separator:a0c81b1d6d66a3049a46f8cd49ed82937"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -390,14 +389,14 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <tr class="separator:disconnectNotify inherit pro_methods_qobject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The main updater. Can check for updates and run the updater. </p>
-<p>The updater class has the task to run the maintenancetool to check for updates. It will evalute the results of the tool and generate update information of it. In addition of that, it can schedule the maintenancetool to run in updater mode as soon as the application finishes. (This requires the <a class="el" href="class_qt_auto_updater_1_1_updater.html" title="The main updater. Can check for updates and run the updater. ">Updater</a> instance to exist until <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html#quit">QCoreApplication::quit</a> is called).</p>
+<div class="textblock"><p>The main updater. Can check for updates and run the maintenancetool as updater. </p>
+<p>The updater class has the task to run the maintenancetool to check for updates. It will evalute the results of the tool and generate update information of it. In addition of that, it can schedule the maintenancetool to run in updater mode as soon as the application finishes. (This requires the <a class="el" href="class_qt_auto_updater_1_1_updater.html" title="The main updater. Can check for updates and run the maintenancetool as updater. ">Updater</a> instance to exist until <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html#quit">QCoreApplication::quit</a> is called).</p>
 <h2>Example</h2>
-<p>The following example shows the basic usage of the updater. It creates a new updater instance that is connected to the maintenancetool located at "./maintenancetool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.</p>
-<dl class="section attention"><dt>Attention</dt><dd>Since this library requires the maintenancetool that is deployed with every <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qt.html">Qt</a> Installer Framework installation, the examples cannot be tested without a maintenancetool! If you intend to use this library, the maintenancetool will be available for your final application. For testing purpose or the examples, I set the path to the MaintenanceTool that is deployed with the installation of <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qt.html">Qt</a> (since you all should have at least that one). So make shure to adjust the path if you try to run the example.</dd></dl>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;QDebug&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;updater.h&gt;</span></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <a class="codeRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> a(argc, argv);</div><div class="line">    <span class="comment">//create the updater with the application as parent -&gt; will live long enough start the tool on exit</span></div><div class="line">    <span class="comment">//QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(&amp;a);</span></div><div class="line">    <a class="code" href="class_qt_auto_updater_1_1_updater.html">QtAutoUpdater::Updater</a> *updater = <span class="keyword">new</span> <a class="code" href="class_qt_auto_updater_1_1_updater.html">QtAutoUpdater::Updater</a>(<span class="stringliteral">&quot;C:/Qt/MaintenanceTool&quot;</span>, &amp;a);<span class="comment">//.exe is automatically added</span></div><div class="line"></div><div class="line">    <a class="codeRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html#connect">QObject::connect</a>(updater, &amp;<a class="code" href="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5">QtAutoUpdater::Updater::checkUpdatesDone</a>, [updater](<span class="keywordtype">bool</span> hasUpdate, <span class="keywordtype">bool</span> hasError) {</div><div class="line">        qDebug() &lt;&lt; <span class="stringliteral">&quot;Has updates:&quot;</span> &lt;&lt; hasUpdate &lt;&lt; <span class="stringliteral">&quot;\nHas errors:&quot;</span> &lt;&lt; hasError;</div><div class="line">        <span class="keywordflow">if</span>(hasUpdate) {</div><div class="line">            <span class="comment">//As soon as the application quits, the maintenancetool will be started in update mode</span></div><div class="line">            updater-&gt;<a class="code" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686">runUpdaterOnExit</a>();</div><div class="line">            qDebug() &lt;&lt; <span class="stringliteral">&quot;Update info:&quot;</span> &lt;&lt; updater-&gt;<a class="code" href="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4">updateInfo</a>();</div><div class="line">        }</div><div class="line">        <span class="comment">//Quit the application</span></div><div class="line">        qApp-&gt;quit();</div><div class="line">    });</div><div class="line"></div><div class="line">    <span class="comment">//start the update check</span></div><div class="line">    updater-&gt;<a class="code" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9">checkForUpdates</a>();</div><div class="line">    <span class="keywordflow">return</span> a.exec();</div><div class="line">}</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_update_controller.html" title="A class to show a controlled update GUI to the user. ">QtAutoUpdater::UpdateController</a> </dd></dl>
+<p>The following example shows the basic usage of the updater. Only the core library is required for this example. It creates a new updater instance that is connected to the maintenancetool located at "C:/Qt/MaintenanceTool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.</p>
+<dl class="section attention"><dt>Attention</dt><dd>Since this library requires the maintenancetool that is deployed with every <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qt.html">Qt</a> Installer Framework installation, the examples cannot be tested without a maintenancetool! If you intend to use this library, the maintenancetool will be available for your final application. For testing purpose or the examples, I set the path to the <code>MaintenanceTool</code> that is deployed with the installation of <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qt.html">Qt</a> (or any other maintenancetool). So make shure to adjust the path if you try to run the examples.</dd></dl>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;QDebug&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;updater.h&gt;</span></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <a class="codeRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> a(argc, argv);</div><div class="line">    <span class="comment">//create the updater with the application as parent -&gt; will live long enough start the tool on exit</span></div><div class="line">    <a class="code" href="class_qt_auto_updater_1_1_updater.html">QtAutoUpdater::Updater</a> *updater = <span class="keyword">new</span> <a class="code" href="class_qt_auto_updater_1_1_updater.html">QtAutoUpdater::Updater</a>(<span class="stringliteral">&quot;C:/Qt/MaintenanceTool&quot;</span>, &amp;a);<span class="comment">//.exe is automatically added</span></div><div class="line"></div><div class="line">    <a class="codeRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html#connect">QObject::connect</a>(updater, &amp;<a class="code" href="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5">QtAutoUpdater::Updater::checkUpdatesDone</a>, [updater](<span class="keywordtype">bool</span> hasUpdate, <span class="keywordtype">bool</span> hasError) {</div><div class="line">        qDebug() &lt;&lt; <span class="stringliteral">&quot;Has updates:&quot;</span> &lt;&lt; hasUpdate &lt;&lt; <span class="stringliteral">&quot;\nHas errors:&quot;</span> &lt;&lt; hasError;</div><div class="line">        <span class="keywordflow">if</span>(hasUpdate) {</div><div class="line">            <span class="comment">//As soon as the application quits, the maintenancetool will be started in update mode</span></div><div class="line">            updater-&gt;<a class="code" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d">runUpdaterOnExit</a>();</div><div class="line">            qDebug() &lt;&lt; <span class="stringliteral">&quot;Update info:&quot;</span> &lt;&lt; updater-&gt;<a class="code" href="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4">updateInfo</a>();</div><div class="line">        }</div><div class="line">        <span class="comment">//Quit the application</span></div><div class="line">        qApp-&gt;quit();</div><div class="line">    });</div><div class="line"></div><div class="line">    <span class="comment">//start the update check</span></div><div class="line">    updater-&gt;<a class="code" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9">checkForUpdates</a>();</div><div class="line">    <span class="keywordflow">return</span> a.exec();</div><div class="line">}</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_update_controller.html" title="A class to show a controlled update GUI to the user. ">QtAutoUpdater::UpdateController</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a78c4bf8ef0ac1a9720a087cc9d441512"></a>
+<a class="anchor" id="aa9d1cea9097292bd2169c1a29a119a3d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -408,7 +407,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
           <td class="memname">QtAutoUpdater::Updater::Updater </td>
           <td>(</td>
           <td class="paramtype"><a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html">QObject</a> *&#160;</td>
-          <td class="paramname"><em>parent</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -429,14 +428,15 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>The maintenancetool path will be set to the default one (and cannot be changed). See <a class="el" href="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" title="Holds the path of the attached maintenancetool. ">Updater::maintenanceToolPath</a> for more details.</p>
 <p><b>Overloads:</b></p><ul>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a78c4bf8ef0ac1a9720a087cc9d441512" title="Default constructor. Can take a parent object. ">Updater(QObject *)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#aa9d1cea9097292bd2169c1a29a119a3d" title="Default constructor. Can take a parent object. ">Updater(QObject *)</a> </li>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a4f6b269555a477a0039d3aac638df007" title="Constructer with an explicitly set path. Can take a parent object. ">Updater(const QString &amp;, QObject *)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#a339064ee3c12bd04297630dc172b3978" title="Constructer with an explicitly set path. Can take a parent object. ">Updater(const QString &amp;, QObject *)</a> </li>
 </ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" title="Holds the path of the attached maintenancetool. ">Updater::maintenanceToolPath</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a4f6b269555a477a0039d3aac638df007"></a>
+<a class="anchor" id="a339064ee3c12bd04297630dc172b3978"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -453,7 +453,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qobject.html">QObject</a> *&#160;</td>
-          <td class="paramname"><em>parent</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -479,10 +479,11 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>The maintenancetool path will be set to the given one (and cannot be changed). See <a class="el" href="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" title="Holds the path of the attached maintenancetool. ">Updater::maintenanceToolPath</a> for more details.</p>
 <p><b>Overloads:</b></p><ul>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a78c4bf8ef0ac1a9720a087cc9d441512" title="Default constructor. Can take a parent object. ">Updater(QObject *)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#aa9d1cea9097292bd2169c1a29a119a3d" title="Default constructor. Can take a parent object. ">Updater(QObject *)</a> </li>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a4f6b269555a477a0039d3aac638df007" title="Constructer with an explicitly set path. Can take a parent object. ">Updater(const QString &amp;, QObject *)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#a339064ee3c12bd04297630dc172b3978" title="Constructer with an explicitly set path. Can take a parent object. ">Updater(const QString &amp;, QObject *)</a> </li>
 </ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" title="Holds the path of the attached maintenancetool. ">Updater::maintenanceToolPath</a> </dd></dl>
 
 </div>
 </div>
@@ -499,8 +500,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
       </table>
 </div><div class="memdoc">
 
-<p>Destructor. </p>
-<p>Desytroyes the updater. If the maintenancetool process is still running, it will be killed (hard, not friendly). To avoid this, check if <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> returns <code>false</code> or use <a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a> to gracefully shut down the maintenancetool </p>
+<p>Destroyes the updater and kills the update check. </p>
+<p>Desytroyes the updater. If the maintenancetool process is still running, it will be killed (hard, not friendly). To avoid this, check if <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> returns <code>false</code> or use <a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a> to gracefully shut down the maintenancetool</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a> </dd></dl>
 
 </div>
 </div>
@@ -540,15 +542,16 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>Aborts checking for updates. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">maxDelay</td><td>The maximum delay to wait for the process to finish </td></tr>
+    <tr><td class="paramname">maxDelay</td><td>The maximum delay to wait for the process to gracefully finish </td></tr>
     <tr><td class="paramname">async</td><td>If <code>true</code>, the wait will be done asynchrounusly</td></tr>
   </table>
   </dd>
 </dl>
 <p>Tries to abort the update check. If no update is currently running (<a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> returns <code>false</code>), nothing will happen.</p>
 <p>If <code>maxDelay</code> is greater than 0, the updater will try to gracefully terminate (<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qprocess.html#terminate">QProcess::terminate</a>) the process. After this is done, the updater will wait at most <code>maxDelay</code> milliseconds for the process to finish. If it doesn't, it will be killed (<a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qprocess.html#kill">QProcess::kill</a>).</p>
-<p>If <code>async</code> is <code>false</code>, this function will not return until the process was actually terminated (or killed). If it's <code>true</code>, the function will return immediately. You can use <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>. To find out when the process actually finishes.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> </dd></dl>
+<p>If <code>async</code> is <code>false</code>, this function will block and not return until the process was actually terminated (or killed). If it's <code>true</code>, the function will return immediately. You can use <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>. To find out when the process actually finishes.</p>
+<dl class="section warning"><dt>Warning</dt><dd>In most cases there will be no side-effects of a abort. However, if the tool has to be killed, this may cause unwanted effects. As an example, you may not be able to start the tool until you restart your system. If possible, do not abort the check, but instead just wait for it to finish.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a> </dd></dl>
 
 </div>
 </div>
@@ -575,7 +578,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 
 <p>The updater will not run the updater on exit anymore. </p>
 <p>Cancels the "run on exit". If the maintenancetool was scheduled to be run at exit, this function will cancel that and nothing will happend on exit.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" title="Returns true if the maintenancetool will be started on exit. ">Updater::willRunOnExit</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">Updater::runUpdaterOnExit(AdminAuthoriser *)</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" title="Returns true if the maintenancetool will be started on exit. ">Updater::willRunOnExit</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">Updater::runUpdaterOnExit(AdminAuthoriser *)</a> </dd></dl>
 
 </div>
 </div>
@@ -608,9 +611,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
   </table>
   </dd>
 </dl>
-<p>Cancels the task with the id <code>taskId</code>. If there was a task with that ID, you can be shure that it will be canceled.</p>
-<dl class="section attention"><dt>Attention</dt><dd>The canceling will happen, but may be a little delayed (because of multithreading). This means that it's possible that a canceled task fires one or more updates that have reached their timepoint before they could be canceled.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e" title="Schedules an update using an UpdateTask. ">Updater::scheduleUpdate(UpdateTask *)</a> </dd></dl>
+<p>Cancels the task with the id <code>taskId</code>. If there was a task with that ID, you can be shure that it will be canceled. If the task was not until the point you call this function, it will not be triggered anymore.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a2bbec105cd9e538bf5e7aff1f5309c26" title="Schedules an update after a specific delay, optionally repeated. ">Updater::scheduleUpdate(int , bool)</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" title="Schedules an update for a specific timepoint. ">Updater::scheduleUpdate(const QDateTime &amp;)</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a> </dd></dl>
 
 </div>
 </div>
@@ -639,7 +641,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the check for updates process was started</dd></dl>
 <p>Checking for updates means that the maintenancetool will be run in background using <code>--checkupdates</code> as parameter. The function will return immideatly after the process was started.</p>
 <p>If no update process is currently running, <code>true</code> will be returned, no matter whether the maintenancetool was actually startet or not. To check if it was successfull, wait for <a class="el" href="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5" title="Will be emitted as soon as the updater finished checking for updates. ">checkUpdatesDone()</a> to be emitted and check the result using the error functions. <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> will be set to <code>true</code>.</p>
-<p>If the updater is already running the maintenancetool, <code>false</code> will be returned and nothing will happen</p>
+<p>If the updater is already running the maintenancetool, <code>false</code> will be returned and nothing will happen.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5" title="Will be emitted as soon as the updater finished checking for updates. ">Updater::checkUpdatesDone</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" title="Holds extended information about the last update check. ">Updater::updateInfo</a> </dd></dl>
 
 </div>
@@ -686,7 +688,54 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 </dl>
 <p><code>hasUpdates</code> can be used to determine if there are updates. If it is set to true, you can assume that <a class="el" href="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" title="Holds extended information about the last update check. ">Updater::updateInfo</a> contains at least one value (but it's not guaranteed).</p>
 <p><code>hasError</code> basically summarises the error state. If it is <code>false</code>, everything is ok. If it is <code>true</code>, the maintenancetool either did not finish normally or returned an error code different from success. You can use the error functions to find out if and what went wrong.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" title="Holds extended information about the last update check. ">Updater::updateInfo</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" title="Returns the result-code of the last update. ">Updater::getErrorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" title="returns the error output of the last update ">Updater::getErrorLog</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If <code>hasError</code> is true, it does not neccesarily mean that something went wrong. Since the maintenancetool returns <code>EXIT_FAILURE (1)</code> if no new updates are available, you will have to use the other functions provided to get the actual error.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" title="Holds extended information about the last update check. ">Updater::updateInfo</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" title="Returns the result-code of the last update. ">Updater::errorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" title="returns the error output of the last update ">Updater::errorLog</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3471bdd938f695c0f039001c0dc85c4c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QtAutoUpdater::Updater::errorCode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the result-code of the last update. </p>
+<dl class="section return"><dt>Returns</dt><dd>The exit-code of the maintenancetool or an error code</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The meaning of this functions return value depends on what <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a> returns</dd></dl>
+<p>If the maintenancetool exited normally, this function will return the actual exit code of the maintenancetool. Please note that <code>EXIT_SUCCESS (0)</code> means that there are updates available and <code>EXIT_FAILURE (1)</code> can mean either no updates or some other kind of error. Please check the <a href="https://doc.qt.io/qtinstallerframework/" target="_blank">Qt Installer Framework</a> documentation for more details about the tool itself.</p>
+<p>If the maintenancetool did not exit normally, the returned error-code will be one of QProcess::ProcessError.</p>
+<p>While the updater is running, this function will always return 0.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" title="returns the error output of the last update ">Updater::errorLog</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="adda5c9e8ec5bd57eb2b98c37e4dccf59"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QtAutoUpdater::Updater::errorLog </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>returns the error output of the last update </p>
+<dl class="section return"><dt>Returns</dt><dd>The error log of the last run of the maintenancetool</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The meaning of this functions return value depends on what <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a> returns</dd></dl>
+<p>If the maintenancetool exited normally, this function will return the cerr (standard error) output generated by the maintenancetool. If the maintenancetool actually fails, you can use this to find out why.</p>
+<p>If the maintenancetool did not exit normally, the returned error-code will be the error string of the last devide error of the process, i.e. <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qiodevice.html#errorString">QProcess::errorString</a></p>
+<p>While the updater is running, this function will always return an empty <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qbytearray.html">QByteArray</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" title="Returns the result-code of the last update. ">Updater::errorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> </dd></dl>
 
 </div>
 </div>
@@ -706,60 +755,14 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>Returns <code>true</code>, if the updater exited normally. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the maintenancetool finished normally, <code>false</code> if not</dd></dl>
 <p>Exiting normally does <b>not</b> mean the the update was successfull, only that the maintenancetool exited itself and was not killed or crashed.<br />
- If <code>false</code> is returned, in most cases the process either crashed or was never even able to start.</p>
+ If <code>false</code> is returned, in most cases the process either crashed or was never even able to start. Use <a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" title="Returns the result-code of the last update. ">Updater::errorCode</a> to get the code. If the tool failed to start, it's most certanly because of an invalid path to the maintenancetool.</p>
 <p>While the updater is running, this function will always return <code>true</code>.</p>
-<dl class="section note"><dt>Note</dt><dd>Depending on the return of this function, the meaning of <a class="el" href="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" title="Returns the result-code of the last update. ">Updater::getErrorCode</a> and <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" title="returns the error output of the last update ">Updater::getErrorLog</a> will change!</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" title="Returns the result-code of the last update. ">Updater::getErrorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" title="returns the error output of the last update ">Updater::getErrorLog</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Depending on the return of this function, the meaning of <a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" title="Returns the result-code of the last update. ">Updater::errorCode</a> and <a class="el" href="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" title="returns the error output of the last update ">Updater::errorLog</a> will change!</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" title="Returns the result-code of the last update. ">Updater::errorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" title="returns the error output of the last update ">Updater::errorLog</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a61ecb06ecbd80dab0931f3c78b458db5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">QtAutoUpdater::Updater::getErrorCode </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the result-code of the last update. </p>
-<dl class="section return"><dt>Returns</dt><dd>The exit-code of the maintenancetool or an error code</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The meaning of this functions return value depends on what <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a> returns</dd></dl>
-<p>If the maintenancetool exited normally, this function will return the actual exit code of the maintenancetool. Please not that <code>EXIT_SUCCESS (0)</code> means that there are updates available and <code>EXIT_FAILURE (1)</code> can mean either no updates or some other kind of error. Please check the <a href="https://doc.qt.io/qtinstallerframework/" target="_blank">Qt Installer Framework</a> documentation for more details about the tool itself.</p>
-<p>If the maintenancetool did not exit normally, the returned error-code will be one of QProcess::ProcessError.</p>
-<p>While the updater is running, this function will always return 0.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" title="returns the error output of the last update ">Updater::getErrorLog</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae25e2214233714b3ed0383aae8841be5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">QtAutoUpdater::Updater::getErrorLog </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>returns the error output of the last update </p>
-<dl class="section return"><dt>Returns</dt><dd>The error log of the last run of the maintenancetool</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The meaning of this functions return value depends on what <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a> returns</dd></dl>
-<p>If the maintenancetool exited normally, this function will return the cerr (standard error) output generated by the maintenancetool. If the maintenancetool actually fails, you can use this to find out why.</p>
-<p>If the maintenancetool did not exit normally, the returned error-code will be the error string of the last devide error of the process, i.e. <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qiodevice.html#errorString">QProcess::errorString</a></p>
-<p>While the updater is running, this function will always return an empty <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qbytearray.html">QByteArray</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" title="Returns the result-code of the last update. ">Updater::getErrorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aa85d5f18c68075b24366d78fac781686"></a>
+<a class="anchor" id="ab23679ad18072646028085b9e77ecc0d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -770,7 +773,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
           <td class="memname">QtAutoUpdater::Updater::runUpdaterOnExit </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html">AdminAuthoriser</a> *&#160;</td>
-          <td class="paramname"><em>authoriser</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"><em>authoriser</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -784,26 +787,25 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>Runs the maintenancetool as updater on exit, using the given admin authorisation. </p>
 <p><em>This is an overloaded function.</em> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">authoriser</td><td>An optional admin authoriser to execture the updater as admin</td></tr>
+    <tr><td class="paramname">authoriser</td><td>An optional admin authoriser instance to execture the updater as admin</td></tr>
   </table>
   </dd>
 </dl>
 <p>Schedules the maintenancetool to be run on exit. This means that as soon as the application exits, the updater will run the maintenancetool (with the paramter <code>--updater</code>) detached. This way you can let the user do the actual update if you found that there are new updates.</p>
-<dl class="section attention"><dt>Attention</dt><dd>For this to work, this updater instance must exist (not be deleted) until <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html#aboutToQuit">QCoreApplication::aboutToQuit</a> was emitted, since that's what the updater will use to determine that the application is exiting and to start the maintenancetool.</dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>For this to work, this updater instance must exist (not be deleted) until <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html#aboutToQuit">QCoreApplication::aboutToQuit</a> was emitted, since that's what the updater will use to determine that the application is exiting and to start the maintenancetool. If an updater with a run on exit is destroyed, a warning will be generated.</dd></dl>
 <p>The <code>authoriser</code> is an optional parameter that can be used to provide elevated rights. If it points to an <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html" title="An interface to run programs with elevated rights. ">AdminAuthoriser</a>, that one will be used to start the maintenancetool with elevated rights (as admin/root) instead of starting it with the current user.</p>
 <p>If the updater is already scheduled to run on exit, this function will overwrite the arguments and admin authorisation, i.e. the last call to this function will determine how the updater starts. To cancel this (stop the maintenancetool from beeing started), you cann use <a class="el" href="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" title="The updater will not run the updater on exit anymore. ">Updater::cancelExitRun</a>.</p>
-<p>To cancel the update task, call <a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>.</p>
 <p><b>Overloads:</b></p><ul>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">runUpdaterOnExit(AdminAuthoriser *)</a> <em>(primary, check for more details)</em> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">runUpdaterOnExit(AdminAuthoriser *)</a> <em>(primary, check for more details)</em> </li>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a262b3fe8de198746af8d43243f8f9a04" title="Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation. ">runUpdaterOnExit(const QStringList &amp;, AdminAuthoriser *)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#a5a9d1ea846df1be2fc94bd3654cb48ec" title="Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation. ">runUpdaterOnExit(const QStringList &amp;, AdminAuthoriser *)</a> </li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" title="Returns true if the maintenancetool will be started on exit. ">Updater::willRunOnExit</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" title="The updater will not run the updater on exit anymore. ">Updater::cancelExitRun</a>, <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html" title="An interface to run programs with elevated rights. ">AdminAuthoriser</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a262b3fe8de198746af8d43243f8f9a04"></a>
+<a class="anchor" id="a5a9d1ea846df1be2fc94bd3654cb48ec"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -820,7 +822,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html">AdminAuthoriser</a> *&#160;</td>
-          <td class="paramname"><em>authoriser</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>authoriser</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -846,15 +848,15 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>This overload will use custom arguments for the invokation of the maintenancetool instead of using <code>--updater</code></p>
 <p><b>Overloads:</b></p><ul>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">runUpdaterOnExit(AdminAuthoriser *)</a> <em>(primary, check for more details)</em> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">runUpdaterOnExit(AdminAuthoriser *)</a> <em>(primary, check for more details)</em> </li>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a262b3fe8de198746af8d43243f8f9a04" title="Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation. ">runUpdaterOnExit(const QStringList &amp;, AdminAuthoriser *)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#a5a9d1ea846df1be2fc94bd3654cb48ec" title="Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation. ">runUpdaterOnExit(const QStringList &amp;, AdminAuthoriser *)</a> </li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" title="Returns true if the maintenancetool will be started on exit. ">Updater::willRunOnExit</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" title="The updater will not run the updater on exit anymore. ">Updater::cancelExitRun</a>, <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html" title="An interface to run programs with elevated rights. ">AdminAuthoriser</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a81e939b61f337437cdb1d2fdb1d03e36"></a>
+<a class="anchor" id="a2bbec105cd9e538bf5e7aff1f5309c26"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -864,8 +866,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
         <tr>
           <td class="memname">QtAutoUpdater::Updater::scheduleUpdate </td>
           <td>(</td>
-          <td class="paramtype">qint64&#160;</td>
-          <td class="paramname"><em>delayMinutes</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>delaySeconds</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -881,7 +883,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -889,22 +891,21 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <p>Schedules an update after a specific delay, optionally repeated. </p>
 <p><em>This is an overloaded function.</em> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">delayMinutes</td><td>The time (in minutes) to wait until the update is started </td></tr>
-    <tr><td class="paramname">repeated</td><td>Specifies, whether the updater should be started every <code>delayMinutes</code> or only once </td></tr>
+    <tr><td class="paramname">delaySeconds</td><td>The time (in seconds) to wait until the update is started </td></tr>
+    <tr><td class="paramname">repeated</td><td>Specifies, whether the updater should be started every <code>delaySeconds</code> or only once </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The internal ID of this update task. Can be used to cancel the task</dd></dl>
-<p>Schedules an update to be run after <code>delayMinutes</code> minutes. If <code>repeated</code> is <code>true</code>, the updater will not just be run once, but every <code>delayMinutes</code> minutes (infinitly, until this instance is destroyed or the task canceled).</p>
+<p>Schedules an update to be run after <code>delaySeconds</code> seconds. If <code>repeated</code> is <code>true</code>, the updater will not just be run once, but every <code>delaySeconds</code> seconds (infinitly, until this instance is destroyed or the task canceled).</p>
+<dl class="section note"><dt>Note</dt><dd>After scheduling the update, you will have no way to take track of the schedule. If the updater is already running while the task is triggered, nothing will happend. The scheduled update will only work if this same instance of the updater is still alive at that time.</dd></dl>
 <p><b>Overloads:</b></p><ul>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e" title="Schedules an update using an UpdateTask. ">scheduleUpdate(UpdateTask *)</a> <em>(primary, check for more details)</em> </li>
-<li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a81e939b61f337437cdb1d2fdb1d03e36" title="Schedules an update after a specific delay, optionally repeated. ">scheduleUpdate(qint64 , bool)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#a2bbec105cd9e538bf5e7aff1f5309c26" title="Schedules an update after a specific delay, optionally repeated. ">scheduleUpdate(int , bool)</a> </li>
 <li>
 <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" title="Schedules an update for a specific timepoint. ">scheduleUpdate(const QDateTime &amp;)</a> </li>
 </ul>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>, <a class="el" href="class_qt_auto_updater_1_1_basic_loop_update_task.html" title="A basic looped task. ">BasicLoopUpdateTask</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a> </dd></dl>
 
 </div>
 </div>
@@ -925,7 +926,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -938,63 +939,15 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The internal ID of this update task. Can be used to cancel the task</dd></dl>
-<p>Schedules an update to be run at <code>when</code>. If <code>when</code> lays in the past, nothing will happen. The update will be started once that time is reached (assuming that this updater instance is still alive at that timepoint).</p>
+<p>Schedules an update to be run at <code>when</code>. If <code>when</code> is in the past, nothing will happen and 0 will be returned. The update will be started once that time is reached (assuming that this updater instance is still alive at that timepoint).</p>
+<dl class="section note"><dt>Note</dt><dd>After scheduling the update, you will have no way to take track of the schedule. If the updater is already running while the task is triggered, nothing will happend. The scheduled update will only work if this same instance of the updater is still alive at that time.</dd></dl>
 <p><b>Overloads:</b></p><ul>
 <li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e" title="Schedules an update using an UpdateTask. ">scheduleUpdate(UpdateTask *)</a> <em>(primary, check for more details)</em> </li>
-<li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a81e939b61f337437cdb1d2fdb1d03e36" title="Schedules an update after a specific delay, optionally repeated. ">scheduleUpdate(qint64 , bool)</a> </li>
+<a class="el" href="class_qt_auto_updater_1_1_updater.html#a2bbec105cd9e538bf5e7aff1f5309c26" title="Schedules an update after a specific delay, optionally repeated. ">scheduleUpdate(int , bool)</a> </li>
 <li>
 <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" title="Schedules an update for a specific timepoint. ">scheduleUpdate(const QDateTime &amp;)</a> </li>
 </ul>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>, <a class="el" href="class_qt_auto_updater_1_1_time_point_update_task.html" title="A task for a specific timepoint with optional repetitions. ">TimePointUpdateTask</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a4d966e203ac7261ea28ac5231eeb1c4e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QtAutoUpdater::Updater::scheduleUpdate </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_qt_auto_updater_1_1_update_task.html">UpdateTask</a> *&#160;</td>
-          <td class="paramname"><em>task</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Schedules an update using an <a class="el" href="class_qt_auto_updater_1_1_update_task.html" title="An interface for tasks to be handeled by the UpdateScheduler. ">UpdateTask</a>. </p>
-<p><em>This is an overloaded function.</em> </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The task to be scheduled </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The internal ID of this update task. Can be used to cancel the task</dd></dl>
-<p>Uses <code>task</code> to schedule updates. For more details about the different tasks, check the <a class="el" href="class_qt_auto_updater_1_1_update_task.html" title="An interface for tasks to be handeled by the UpdateScheduler. ">UpdateTask</a> documentation.</p>
-<dl class="section warning"><dt>Warning</dt><dd>The scheduler will take ownership of <code>task</code>. Since <code>task</code> will be used in a different thread, you must not access it after passing it to this function</dd></dl>
-<p>Scheduling an update means that the updater will use the UpdateScheduler to schedule an update. as soons as the <a class="el" href="class_qt_auto_updater_1_1_update_task.html" title="An interface for tasks to be handeled by the UpdateScheduler. ">UpdateTask</a> reached the point where it "matched" (meets the timepoint it was scheduled for), the scheduler will notify the updater, and the updater will autmatically start checking for updates.</p>
-<dl class="section note"><dt>Note</dt><dd>After scheduling the update, you will have no way to take track of the schedule. If the updater is already running while the task is triggered, nothing will happend.</dd></dl>
-<p>To cancel the update task, call <a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>.</p>
-<p><b>Overloads:</b></p><ul>
-<li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a4d966e203ac7261ea28ac5231eeb1c4e" title="Schedules an update using an UpdateTask. ">scheduleUpdate(UpdateTask *)</a> <em>(primary, check for more details)</em> </li>
-<li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#a81e939b61f337437cdb1d2fdb1d03e36" title="Schedules an update after a specific delay, optionally repeated. ">scheduleUpdate(qint64 , bool)</a> </li>
-<li>
-<a class="el" href="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" title="Schedules an update for a specific timepoint. ">scheduleUpdate(const QDateTime &amp;)</a> </li>
-</ul>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>, <a class="el" href="class_qt_auto_updater_1_1_update_task.html" title="An interface for tasks to be handeled by the UpdateScheduler. ">UpdateTask</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" title="Cancels the update with taskId. ">Updater::cancelScheduledUpdate</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a> </dd></dl>
 
 </div>
 </div>
@@ -1013,7 +966,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 
 <p>Returns <code>true</code> if the maintenancetool will be started on exit. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the maintenancetool will run on application exit</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#aa85d5f18c68075b24366d78fac781686" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">Updater::runUpdaterOnExit(AdminAuthoriser *)</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" title="The updater will not run the updater on exit anymore. ">Updater::cancelExitRun</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" title="Runs the maintenancetool as updater on exit, using the given admin authorisation. ...">Updater::runUpdaterOnExit(AdminAuthoriser *)</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" title="The updater will not run the updater on exit anymore. ">Updater::cancelExitRun</a> </dd></dl>
 
 </div>
 </div>
@@ -1037,15 +990,15 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 </div><div class="memdoc">
 
 <p>Holds the path of the attached maintenancetool. </p>
-<p><b>Default:</b> "./maintenancetool" on Windows/X11, "../../maintenancetool" on mac <br />
+<p><b>Default:</b> <code>./maintenancetool</code> on Windows/X11, <code>../../maintenancetool</code> on mac <br />
 </p>
 <p>The path of the maintenancetool has to be set inside of the constructor and cannot be changed later.<br />
  The path will be assumed relative to <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html#applicationDirPath">QCoreApplication::applicationDirPath()</a>, the location of the currently running application.</p>
 <p>The updater will check whether or not the given path has a file-extension. If not, it will try to add the given extension. This will result into:</p>
 <ul>
-<li><b>Windows</b>: "./maintenancetool.exe"</li>
-<li><b>Mac</b>: "../../maintenancetool.app/Content/MacOS/maintenancetool"</li>
-<li><b>X11</b>: "./maintenancetool" (unchanged)</li>
+<li><b>Windows</b>: <code>./maintenancetool.exe</code> (e.g. <code>C:/Program Files/MyApp/maintenancetool.exe</code>)</li>
+<li><b>Mac</b>: <code>../../maintenancetool.app/Content/MacOS/maintenancetool</code> (e.g. <code>/Applications/MyApp.app/maintenancetool.app/Content/MacOS/maintenancetool</code>)</li>
+<li><b>X11</b>: <code>./maintenancetool</code> (unchanged, e.g. <code>/opt/MyApp/maintenancetool</code>)</li>
 </ul>
 <table class="doxtable">
 <tr>
@@ -1057,6 +1010,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <tr>
 <td colspan="2"><b>FINAL</b> </td></tr>
 </table>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#aa9d1cea9097292bd2169c1a29a119a3d" title="Default constructor. Can take a parent object. ">Updater::Updater(QObject *)</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a339064ee3c12bd04297630dc172b3978" title="Constructer with an explicitly set path. Can take a parent object. ">Updater::Updater(const QString &amp;, QObject *)</a> </dd></dl>
 
 </div>
 </div>
@@ -1090,7 +1044,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 <tr>
 <td><b>NOTIFY</b></td><td><a class="el" href="class_qt_auto_updater_1_1_updater.html#a95be75ea3c2c917cf2b7d1006d1eff93" title="NOTIFY-Accessor for Updater::running. ">runningChanged()</a> </td></tr>
 </table>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a61ecb06ecbd80dab0931f3c78b458db5" title="Returns the result-code of the last update. ">Updater::getErrorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#ae25e2214233714b3ed0383aae8841be5" title="returns the error output of the last update ">Updater::getErrorLog</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" title="Starts checking for updates. ">Updater::checkForUpdates</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#acebfb662db8ab87c89dbaf96d61d131c" title="Aborts checking for updates. ">Updater::abortUpdateCheck</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" title="Returns true, if the updater exited normally. ">Updater::exitedNormally</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" title="Returns the result-code of the last update. ">Updater::errorCode</a>, <a class="el" href="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" title="returns the error output of the last update ">Updater::errorLog</a> </dd></dl>
 
 </div>
 </div>
@@ -1113,7 +1067,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 </div><div class="memdoc">
 
 <p>Holds extended information about the last update check. </p>
-<p><b>Default:</b> &lt;empty list&gt; <br />
+<p><b>Default:</b> <em>&lt;empty list&gt;</em> <br />
 </p>
 <p>The update result is only valid for the last update check and won't be updated until you check for updates again. When checking for updates, the list will be cleared before the updater starts the check.<br />
  To find out whether the list is truly empty or just because the updater is running, use the <a class="el" href="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" title="Specifies whether the updater is currently checking for updates or not. ">Updater::running</a> property. If it returns <code>false</code>, you can assume that the value of this property is the result of the last update check (if one happend).</p>
@@ -1136,7 +1090,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef"
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 19 2016 15:09:23 for QtAutoUpdater by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 29 2016 21:21:25 for QtAutoUpdater by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -28,6 +28,7 @@ var searchData=
   ['displayedsections',['displayedSections',['http://doc.qt.io/qt-5/qdatetimeedit.html#displayedSections-prop',0,'QDateTimeEdit']]],
   ['displayformat',['displayFormat',['http://doc.qt.io/qt-5/qdatetimeedit.html#displayFormat-prop',0,'QDateTimeEdit']]],
   ['displayintegerbase',['displayIntegerBase',['http://doc.qt.io/qt-5/qspinbox.html#displayIntegerBase-prop',0,'QSpinBox']]],
+  ['displaylevel',['displayLevel',['../class_qt_auto_updater_1_1_update_button.html#a89596b1a23ece0adec7ccebc9f75d83b',1,'QtAutoUpdater::UpdateButton']]],
   ['displaytext',['displayText',['http://doc.qt.io/qt-5/qlineedit.html#displayText-prop',0,'QLineEdit']]],
   ['distance',['distance',['http://doc.qt.io/qt-5/qdistancereading.html#distance-prop',0,'QDistanceReading']]],
   ['docknestingenabled',['dockNestingEnabled',['http://doc.qt.io/qt-5/qmainwindow.html#dockNestingEnabled-prop',0,'QMainWindow']]],

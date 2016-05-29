@@ -523,6 +523,7 @@ var searchData=
   ['issetuidallowed',['isSetuidAllowed',['http://doc.qt.io/qt-5/qcoreapplication.html#isSetuidAllowed',0,'QCoreApplication']]],
   ['isshaded',['isShaded',['http://doc.qt.io/qt-5/qmdisubwindow.html#isShaded',0,'QMdiSubWindow']]],
   ['isshareinprogress',['isShareInProgress',['http://doc.qt.io/qt-5/qnearfieldsharetarget.html#isShareInProgress',0,'QNearFieldShareTarget']]],
+  ['isshowingresult',['isShowingResult',['../class_qt_auto_updater_1_1_update_button.html#aa492f1197ff539ab7b8f03d035216492',1,'QtAutoUpdater::UpdateButton']]],
   ['issignalconnected',['isSignalConnected',['http://doc.qt.io/qt-5/qobject.html#isSignalConnected',0,'QObject']]],
   ['issignalproperty',['isSignalProperty',['http://doc.qt.io/qt-5/qqmlproperty.html#isSignalProperty',0,'QQmlProperty']]],
   ['issingleshot',['isSingleShot',['http://doc.qt.io/qt-5/qtimer.html#singleShot-prop',0,'QTimer']]],

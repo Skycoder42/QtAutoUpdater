@@ -5,7 +5,6 @@ var searchData=
   ['y2',['y2',['http://doc.qt.io/qt-5/qline.html#y2',0,'QLine::y2()'],['http://doc.qt.io/qt-5/qlinef.html#y2',0,'QLineF::y2()']]],
   ['ychanged',['yChanged',['http://doc.qt.io/qt-5/qwindow.html#y-prop',0,'QWindow::yChanged()'],['http://doc.qt.io/qt-5/qgraphicsobject.html#yChanged',0,'QGraphicsObject::yChanged()']]],
   ['year',['year',['http://doc.qt.io/qt-5/qdate.html#year',0,'QDate']]],
-  ['years',['Years',['../struct_qt_auto_updater_1_1_time_span.html#a13ac2a0b442eafa547bdc471c728340fabcd135c707cefe367550fabb4287ad9b',1,'QtAutoUpdater::TimeSpan']]],
   ['yearshown',['yearShown',['http://doc.qt.io/qt-5/qcalendarwidget.html#yearShown',0,'QCalendarWidget']]],
   ['yellow',['yellow',['http://doc.qt.io/qt-5/qcolor.html#yellow',0,'QColor']]],
   ['yellowf',['yellowF',['http://doc.qt.io/qt-5/qcolor.html#yellowF',0,'QColor']]],

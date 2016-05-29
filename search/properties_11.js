@@ -27,6 +27,7 @@ var searchData=
   ['showgroupseparator',['showGroupSeparator',['http://doc.qt.io/qt-5/qabstractspinbox.html#showGroupSeparator-prop',0,'QAbstractSpinBox']]],
   ['showisfullscreen',['showIsFullScreen',['http://doc.qt.io/qt-5/qstylehints.html#showIsFullScreen-prop',0,'QStyleHints']]],
   ['showismaximized',['showIsMaximized',['http://doc.qt.io/qt-5/qstylehints.html#showIsMaximized-prop',0,'QStyleHints']]],
+  ['showresult',['showResult',['../class_qt_auto_updater_1_1_update_button.html#a1f8896a26f98af3b772a6acea73a8e1a',1,'QtAutoUpdater::UpdateButton']]],
   ['showsortindicator',['showSortIndicator',['http://doc.qt.io/qt-5/qheaderview.html#showSortIndicator-prop',0,'QHeaderView']]],
   ['signal',['signal',['http://doc.qt.io/qt-5/qsignaltransition.html#signal-prop',0,'QSignalTransition']]],
   ['singleclickactivation',['singleClickActivation',['http://doc.qt.io/qt-5/qstylehints.html#singleClickActivation-prop',0,'QStyleHints']]],

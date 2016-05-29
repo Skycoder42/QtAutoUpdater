@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['scrollbar',['ScrollBar',['http://doc.qt.io/qt-5/qml-scrollbar.html',0,'']]],
-  ['scrollviewhelper',['ScrollViewHelper',['http://doc.qt.io/qt-5/qml-scrollviewhelper.html',0,'']]],
-  ['selection',['Selection',['http://doc.qt.io/qt-5/qabstracttextdocumentlayout-selection.html',0,'QAbstractTextDocumentLayout']]],
-  ['sequence',['Sequence',['http://doc.qt.io/qt-5/qbluetoothserviceinfo-sequence.html',0,'QBluetoothServiceInfo']]],
-  ['signalevent',['SignalEvent',['http://doc.qt.io/qt-5/qstatemachine-signalevent.html',0,'QStateMachine']]],
-  ['stackviewslidedelegate',['StackViewSlideDelegate',['http://doc.qt.io/qt-5/qml-stackviewslidedelegate.html',0,'']]],
-  ['state',['State',['http://doc.qt.io/qt-5/qaccessible-state.html',0,'QAccessible']]],
-  ['style',['Style',['http://doc.qt.io/qt-5/qml-style.html',0,'']]]
+  ['tab',['Tab',['http://doc.qt.io/qt-5/qtextoption-tab.html',0,'QTextOption']]],
+  ['tabbar',['TabBar',['http://doc.qt.io/qt-5/qml-tabbar.html',0,'']]],
+  ['tableviewitemdelegateloader',['TableViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-tableviewitemdelegateloader.html',0,'']]],
+  ['texturedpoint2d',['TexturedPoint2D',['http://doc.qt.io/qt-5/qsggeometry-texturedpoint2d.html',0,'QSGGeometry']]],
+  ['timerinfo',['TimerInfo',['http://doc.qt.io/qt-5/qabstracteventdispatcher-timerinfo.html',0,'QAbstractEventDispatcher']]],
+  ['touchpoint',['TouchPoint',['http://doc.qt.io/qt-5/qtouchevent-touchpoint.html',0,'QTouchEvent']]],
+  ['treeviewitemdelegateloader',['TreeViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-treeviewitemdelegateloader.html',0,'']]]
 ];

@@ -22,7 +22,6 @@ var searchData=
   ['baseuri',['baseUri',['http://doc.qt.io/qt-5/qabstractxmlnodemodel.html#baseUri',0,'QAbstractXmlNodeModel::baseUri()'],['http://doc.qt.io/qt-5/qsimplexmlnodemodel.html#baseUri',0,'QSimpleXmlNodeModel::baseUri()']]],
   ['baseurl',['baseUrl',['http://doc.qt.io/qt-5/qqmlcontext.html#baseUrl',0,'QQmlContext::baseUrl()'],['http://doc.qt.io/qt-5/qqmlengine.html#baseUrl',0,'QQmlEngine::baseUrl()'],['http://doc.qt.io/qt-5/qqmlextensionplugin.html#baseUrl',0,'QQmlExtensionPlugin::baseUrl()'],['http://doc.qt.io/qt-5/qtextdocument.html#baseUrl-prop',0,'QTextDocument::baseUrl()']]],
   ['baseurlchanged',['baseUrlChanged',['http://doc.qt.io/qt-5/qtextdocument.html#baseUrl-prop',0,'QTextDocument']]],
-  ['basicloopupdatetask',['BasicLoopUpdateTask',['../class_qt_auto_updater_1_1_basic_loop_update_task.html#a68a56af476ae19e454d4660c6c39b275',1,'QtAutoUpdater::BasicLoopUpdateTask::BasicLoopUpdateTask(TimeSpan loopDelta, qint64 repeats=-1)'],['../class_qt_auto_updater_1_1_basic_loop_update_task.html#a4827e92ce355aae3c48a0f16bf66ded0',1,'QtAutoUpdater::BasicLoopUpdateTask::BasicLoopUpdateTask(const QByteArray &amp;data)']]],
   ['batchsize',['batchSize',['http://doc.qt.io/qt-5/qlistview.html#batchSize-prop',0,'QListView']]],
   ['bcp47name',['bcp47Name',['http://doc.qt.io/qt-5/qlocale.html#bcp47Name',0,'QLocale']]],
   ['bearertype',['bearerType',['http://doc.qt.io/qt-5/qnetworkconfiguration.html#bearerType',0,'QNetworkConfiguration']]],

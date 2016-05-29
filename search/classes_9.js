@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['null',['Null',['http://doc.qt.io/qt-5/qstring-null.html',0,'QString']]]
+  ['offsetdata',['OffsetData',['http://doc.qt.io/qt-5/qtimezone-offsetdata.html',0,'QTimeZone']]]
 ];
