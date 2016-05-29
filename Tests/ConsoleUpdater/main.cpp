@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 #if defined(Q_OS_WIN32)
-	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("C:/Program Files/IcoDroid/maintenancetool", nullptr);
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("D:/Program Files/IcoDroid/maintenancetool", nullptr);
 #elif defined(Q_OS_OSX)
 	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("/Applications/IcoDroid.app/maintenancetool", nullptr);
 #elif defined(Q_OS_UNIX)
@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
 	updater->runUpdaterOnExit();
 
 	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool a, bool b){
-		qDebug() << "Has updates:" << a << "\nHas errors:" << b;
+		qDebug() << "Has updates:" << a
+				 << "\nHas errors:" << b
+				 << "\nError string:" << updater->errorLog();
 		qDebug() << updater->updateInfo();
 		qApp->quit();
 	});

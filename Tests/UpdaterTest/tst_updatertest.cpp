@@ -67,7 +67,7 @@ void UpdaterTest::testUpdateCheck_data()
 #ifdef Q_OS_WIN
 	QList<Updater::UpdateInfo> updates;
 	updates += {"IcoDroid", QVersionNumber::fromString("1.1.2"), 52459213ull};
-	QTest::newRow("C:/Program Files/IcoDroid") << "D:/Program Files/IcoDroid/maintenancetool"
+	QTest::newRow("D:/Program Files/IcoDroid") << "D:/Program Files/IcoDroid/maintenancetool"
 											   << true
 											   << updates;
 
