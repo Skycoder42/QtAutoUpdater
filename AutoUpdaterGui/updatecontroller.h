@@ -105,7 +105,7 @@ namespace QtAutoUpdater
 
 	private slots:
 		void checkUpdatesDone(bool hasUpdates, bool hasError);
-		void timerTriggered(int, const QVariant &parameter);
+		void timerTriggered(const QVariant &parameter);
 
 	private:
 		UpdateControllerPrivate *d_ptr;

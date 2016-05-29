@@ -19,7 +19,7 @@ public slots:
 	void cancelSchedule(int id);
 
 signals:
-	void scheduleTriggered(int id, const QVariant &parameter);
+	void scheduleTriggered(const QVariant &parameter);
 
 protected:
 	void timerEvent(QTimerEvent *event) override;

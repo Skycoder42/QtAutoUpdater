@@ -312,7 +312,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	emit runningChanged(false);
 }
 
-void UpdateController::timerTriggered(int, const QVariant &parameter)
+void UpdateController::timerTriggered(const QVariant &parameter)
 {
 	if(parameter.canConvert<DisplayLevel>())
 		this->start(parameter.value<DisplayLevel>());

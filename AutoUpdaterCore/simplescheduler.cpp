@@ -42,6 +42,6 @@ void SimpleScheduler::timerEvent(QTimerEvent *event)
 	TimerInfo info = this->timerHash.value(id, {false, QVariant()});
 	if(!info.first)
 		this->cancelSchedule(id);
-	emit scheduleTriggered(id, info.second);
+	emit scheduleTriggered(info.second);
 	event->accept();
 }
