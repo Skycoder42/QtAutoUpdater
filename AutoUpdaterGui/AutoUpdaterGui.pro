@@ -33,7 +33,8 @@ HEADERS += \
     progressdialog.h \
     updateinfodialog.h \
     updatepanel.h \
-	adminauthorization.h
+	adminauthorization.h \
+    updatepanel_p.h
 
 FORMS += \
     progressdialog.ui \
