@@ -43,6 +43,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 {
 	if(!detailed) {
 		DialogMaster::MessageBoxInfo boxInfo;
+		boxInfo.parent = parent;
 		boxInfo.windowTitle = tr("Check for Updates");
 		boxInfo.icon = QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico"));
 		boxInfo.title = tr("Updates for %1 are available!")
