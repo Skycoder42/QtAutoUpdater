@@ -23,10 +23,7 @@ Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :
 	d->toolPath = UpdaterPrivate::toSystemExe(maintenanceToolPath);
 }
 
-Updater::~Updater()
-{
-	delete this->d_ptr;
-}
+Updater::~Updater() {}
 
 bool Updater::exitedNormally() const
 {

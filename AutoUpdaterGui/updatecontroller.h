@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QAction>
 #include <QStringList>
+#include <QScopedPointer>
 
 namespace QtAutoUpdater
 {
@@ -108,7 +109,7 @@ namespace QtAutoUpdater
 		void timerTriggered(const QVariant &parameter);
 
 	private:
-		UpdateControllerPrivate *d_ptr;
+		QScopedPointer<UpdateControllerPrivate> d_ptr;
 		Q_DECLARE_PRIVATE(UpdateController)
 	};
 }

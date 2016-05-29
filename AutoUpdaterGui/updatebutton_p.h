@@ -13,6 +13,7 @@ namespace QtAutoUpdater
 {
 	class UpdateButtonPrivate
 	{
+	public:
 		UpdateButton *q_ptr;
 		Q_DECLARE_PUBLIC(UpdateButton)
 

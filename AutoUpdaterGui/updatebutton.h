@@ -2,6 +2,7 @@
 #define UPDATEBUTTON_H
 
 #include <QWidget>
+#include <QScopedPointer>
 #include "updatecontroller.h"
 
 namespace QtAutoUpdater
@@ -65,7 +66,7 @@ namespace QtAutoUpdater
 		void controllerDestroyed();
 
 	private:
-		UpdateButtonPrivate *d_ptr;
+		QScopedPointer<UpdateButtonPrivate> d_ptr;
 		Q_DECLARE_PRIVATE(UpdateButton)
 		UpdateController* m_controller;
 	};

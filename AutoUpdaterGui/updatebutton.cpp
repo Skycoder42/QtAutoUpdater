@@ -10,10 +10,7 @@ UpdateButton::UpdateButton(QWidget *parent, UpdateController *controller) :
 	d_ptr(new UpdateButtonPrivate(this, controller))
 {}
 
-UpdateButton::~UpdateButton()
-{
-	delete this->d_ptr;
-}
+UpdateButton::~UpdateButton(){}
 
 QString UpdateButton::animationFile() const
 {

@@ -35,10 +35,7 @@ UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *
 	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, parentWidget))
 {}
 
-UpdateController::~UpdateController()
-{
-	delete this->d_ptr;
-}
+UpdateController::~UpdateController(){}
 
 QAction *UpdateController::createUpdateAction(QObject *parent)
 {

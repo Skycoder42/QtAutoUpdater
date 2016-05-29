@@ -12,6 +12,7 @@ namespace QtAutoUpdater
 {
 	class UpdateControllerPrivate//TODO load icon indirectly -> easier replacement
 	{
+	public:
 		typedef QPair<UpdateController::DisplayLevel, bool> UpdateTask;
 
 		UpdateController *q_ptr;

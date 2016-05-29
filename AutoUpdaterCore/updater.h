@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QVersionNumber>
 #include <QLoggingCategory>
+#include <QScopedPointer>
 #include "adminauthoriser.h"
 
 namespace QtAutoUpdater
@@ -100,7 +101,7 @@ namespace QtAutoUpdater
 		void updateInfoChanged(QList<QtAutoUpdater::Updater::UpdateInfo> updateInfo);
 
 	private:
-		UpdaterPrivate *d_ptr;
+		QScopedPointer<UpdaterPrivate> d_ptr;
 		Q_DECLARE_PRIVATE(Updater)
 	};
 }
