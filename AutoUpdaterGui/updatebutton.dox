@@ -84,6 +84,30 @@ happens is nothing: The button will be there, but just nothing happens if it is 
 	@notifyAc{controllerChanged()}
 }
 
-@sa QtAutoUpdater::UpdateController, UpdateController::resetState
+@sa QtAutoUpdater::UpdateController, UpdateButton::resetState
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateButton::UpdateButton
+
+@param parent The parent widget of the button
+@param controller The UpdateController to be used by the button
+
+If `controller` is `nullptr`, the button will be disabled until you set a controller manually.
+
+@sa UpdateButton::controller
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateButton::resetState
+
+The button will look like it looks after it's creation. Any progress or message will be reset.
+However, if the UpdateButton itself is disabled because of a missing controller, this will not be
+reset. Neither will the animation file or the display level be reset.
+
+@note Calling this slot while the updater is running will still reset the button, but after the updater
+has finished, the button will show the result (if enabled).
+
+@sa UpdateButton::showResult, UpdateButton::animationFile, UpdateController::running
 */
 
