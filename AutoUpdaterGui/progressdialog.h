@@ -19,7 +19,7 @@ namespace QtAutoUpdater
 		Q_OBJECT
 
 	public:
-		explicit ProgressDialog(QWidget *parent = 0);
+		explicit ProgressDialog(QWidget *parent = nullptr);
 		~ProgressDialog();
 
 		template <class Class>

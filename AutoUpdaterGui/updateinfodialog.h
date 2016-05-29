@@ -34,7 +34,7 @@ namespace QtAutoUpdater
 	private:
 		Ui::UpdateInfoDialog *ui;
 
-		explicit UpdateInfoDialog(QWidget *parent = 0);
+		explicit UpdateInfoDialog(QWidget *parent = nullptr);
 		~UpdateInfoDialog();
 
 		static QString getByteText(qint64 bytes);

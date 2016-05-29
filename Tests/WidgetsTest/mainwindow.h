@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <updatecontroller.h>
+#include <updatebutton.h>
 
 namespace Ui {
 	class MainWindow;
@@ -27,6 +28,7 @@ private slots:
 private:
 	Ui::MainWindow *ui;
 	QtAutoUpdater::UpdateController *controller;
+	QtAutoUpdater::UpdateButton *button;
 };
 
 #endif // MAINWINDOW_H

@@ -8,11 +8,13 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	controller(nullptr)
+	controller(nullptr),
+	button(new QtAutoUpdater::UpdateButton(this))
 {
 	ui->setupUi(this);
 	this->statusBar()->showMessage("not running");
 	this->ui->scheduleUpdateDateTimeEdit->setDateTime(QDateTime::currentDateTime());
+	this->ui->buttonLayout->addWidget(this->button);
 
 	QSettings settings("./set.ini", QSettings::IniFormat);
 	this->ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
@@ -96,12 +98,12 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		connect(this->controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 			this->statusBar()->showMessage(running ? "running" : "not running");
 		});
-		this->ui->buttonLayout->addWidget(new QtAutoUpdater::UpdateButton(this->controller, this));
 	} else {
 		this->controller->deleteLater();
 		this->controller = nullptr;
 		this->statusBar()->showMessage("not running");
 	}
+	this->button->setController(this->controller);
 }
 
 void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)

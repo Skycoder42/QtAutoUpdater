@@ -24,6 +24,8 @@ namespace QtAutoUpdater
 
 		UpdateButtonPrivate(UpdateButton *q_ptr, UpdateController *controller);
 		~UpdateButtonPrivate();
+
+		void updateController(UpdateController *controller);
 	};
 }
 

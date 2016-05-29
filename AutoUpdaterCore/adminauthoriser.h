@@ -11,7 +11,7 @@ namespace QtAutoUpdater
 	{
 	public:
 		//! Destructor
-		virtual ~AdminAuthoriser() {}
+		virtual inline ~AdminAuthoriser() {}
 		//! Specifies whether this program already has elevated rights or not
 		virtual bool hasAdminRights() = 0;
 		//! Runs a program with the given arguments with elevated rights

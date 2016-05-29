@@ -14,15 +14,17 @@ namespace QtAutoUpdater
 		Q_OBJECT
 
 		//! The file of the animation to be shown
-		Q_PROPERTY(QString animationFile READ animationFile WRITE setAnimationFile RESET resetAnimationFile NOTIFY animationFileChanged)
+		Q_PROPERTY(QString animationFile READ animationFile WRITE setAnimationFile RESET resetAnimationFile)
 		//! Specifies whether a result should be shown within the button or not
-		Q_PROPERTY(bool showResult READ isShowingResult WRITE setShowResult NOTIFY showResultChanged)
+		Q_PROPERTY(bool showResult READ isShowingResult WRITE setShowResult)
 		//! The display level to start the controller with
-		Q_PROPERTY(UpdateController::DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
+		Q_PROPERTY(UpdateController::DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel)
+		//! The update controller this button works with
+		Q_PROPERTY(UpdateController* controller READ controller WRITE setController NOTIFY controllerChanged)
 
 	public:
 		//! Creates a new update button to place in your GUI
-		explicit UpdateButton(UpdateController *controller, QWidget *parent = 0);
+		explicit UpdateButton(QWidget *parent = nullptr, UpdateController *controller = nullptr);
 		//! Destructor
 		~UpdateButton();
 
@@ -32,6 +34,8 @@ namespace QtAutoUpdater
 		bool isShowingResult() const;
 		//! READ-Accessor for UpdateButton::displayLevel
 		UpdateController::DisplayLevel displayLevel() const;
+		//! READ-Accessor for UpdateButton::controller
+		UpdateController* controller() const;
 
 	public slots:
 		//! Rests the buttons visual state
@@ -47,23 +51,23 @@ namespace QtAutoUpdater
 		void setShowResult(bool showResult);
 		//! WRITE-Accessor for UpdateButton::displayLevel
 		void setDisplayLevel(UpdateController::DisplayLevel displayLevel);
+		//! WRITE-Accessor for UpdateButton::controller
+		bool setController(UpdateController* controller);
 
 	signals:
-		//! NOTIFY-Accessor for UpdateButton::animationFile
-		void animationFileChanged(QString animationFile);
-		//! NOTIFY-Accessor for UpdateButton::showResult
-		void showResultChanged(bool showResult);
-		//! NOTIFY-Accessor for UpdateButton::displayLevel
-		void displayLevelChanged(UpdateController::DisplayLevel displayLevel);
+		//! NOTIFY-Accessor for UpdateButton::controller
+		void controllerChanged(UpdateController* controller);
 
 	private slots:
 		void startUpdate();
 		void changeUpdaterState(bool isRunning);
 		void updatesReady(bool hasUpdate, bool);
+		void controllerDestroyed();
 
 	private:
 		UpdateButtonPrivate *d_ptr;
 		Q_DECLARE_PRIVATE(UpdateButton)
+		UpdateController* m_controller;
 	};
 }
 
