@@ -32,7 +32,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	if(QApplication::windowIcon().isNull())
 		this->ui->imageLabel->hide();
 	else {
-		this->ui->imageLabel->show();//TODO icon ok? or app icon?!?
+		this->ui->imageLabel->show();
 		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")).pixmap(64, 64));
 	}
 }
