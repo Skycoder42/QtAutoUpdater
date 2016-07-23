@@ -128,7 +128,7 @@ The core library does not need any translation, because it won't show anything t
 ## Downloads
 Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
  - A .pri file for easy project includes (Just add `include(<path_to>/qtautoupdater.pri)` to your project and all the includes/libray imports/... will be done by that file!)
- - Qt5.6 precompiled binaries for:
+ - Qt5.7 precompiled binaries for:
    - Windows
 	 - msvc2015 x86
 	 - msvc2015 x64
