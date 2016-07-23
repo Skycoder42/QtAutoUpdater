@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtAutoUpdater
-   &#160;<span id="projectnumber">2.0.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
    <div id="projectbrief">A Qt library to automatically check for updates and install them</div>
   </td>
@@ -112,7 +112,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:af1271ea824ad19a7442745c6cb79a4ac"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html#af1271ea824ad19a7442745c6cb79a4ac">hasAdminRights</a> ()=0</td></tr>
 <tr class="memdesc:af1271ea824ad19a7442745c6cb79a4ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies whether this program already has elevated rights or not.  <a href="#af1271ea824ad19a7442745c6cb79a4ac">More...</a><br /></td></tr>
 <tr class="separator:af1271ea824ad19a7442745c6cb79a4ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d2da8f9983fa25c331394ff82c61034"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034">executeAsAdmin</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstring.html">QString</a> &amp;program, const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstringlist.html">QStringList</a> &amp;arguments)=0</td></tr>
+<tr class="memitem:a6d2da8f9983fa25c331394ff82c61034"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034">executeAsAdmin</a> (const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstring.html">QString</a> &amp;program, const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstringlist.html">QStringList</a> &amp;arguments)=0</td></tr>
 <tr class="memdesc:a6d2da8f9983fa25c331394ff82c61034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a program with the given arguments with elevated rights.  <a href="#a6d2da8f9983fa25c331394ff82c61034">More...</a><br /></td></tr>
 <tr class="separator:a6d2da8f9983fa25c331394ff82c61034"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -131,13 +131,13 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
         <tr>
           <td class="memname">QtAutoUpdater::AdminAuthoriser::executeAsAdmin </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstring.html">QString</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstring.html">QString</a> &amp;&#160;</td>
           <td class="paramname"><em>program</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstringlist.html">QStringList</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qstringlist.html">QStringList</a> &amp;&#160;</td>
           <td class="paramname"><em>arguments</em>&#160;</td>
         </tr>
         <tr>
@@ -162,8 +162,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the program could be started with <b>elevated rights</b>, <code>false</code> if not</dd></dl>
-<p>The actual elevation and execution should be done using this function. Please note that it's possible that this function is called while the <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> is shutting down. If <code>false</code> is returned, no error will be shown to the user. If you want to do so, do it inside that function.</p>
-<dl class="section note"><dt>Note</dt><dd><code>program</code> will return an absolute path using normal slashes <code>/</code>, even on windows. If you need to use native APIs, get the correct path using <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qdir.html#toNativeSeparators">QDir::toNativeSeparators</a>. </dd></dl>
+<p>The actual elevation and execution should be done using this function. Please note that it's possible that this function is called while the <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> is shutting down. If <code>false</code> is returned, no error will be shown to the user. If you want to do so, do it inside that function.</p>
+<dl class="section note"><dt>Note</dt><dd><code>program</code> will return an absolute path using normal slashes <code>/</code>, even on windows. If you need to use native APIs, get the correct path using <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qdir.html#toNativeSeparators">QDir::toNativeSeparators</a>. </dd></dl>
 
 </div>
 </div>
@@ -190,7 +190,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 <p>Specifies whether this program already has elevated rights or not. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if this program does have elevated rights, <code>false</code> if not</dd></dl>
-<p>If <code>true</code> is returned, the updater assumes that by starting a normal <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.6/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qprocess.html">QProcess</a> the launched process will inherit this elevation and will be elevated too. If thats not the case, return <code>false</code>. The updater will call <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034" title="Runs a program with the given arguments with elevated rights. ">AdminAuthoriser::executeAsAdmin</a> instead. </p>
+<p>If <code>true</code> is returned, the updater assumes that by starting a normal <a class="elRef" target="_blank" doxygen="C:/Qt/Docs/Qt-5.7/qtcore/qtcore.tags:http://doc.qt.io/qt-5/" href="http://doc.qt.io/qt-5/qprocess.html">QProcess</a> the launched process will inherit this elevation and will be elevated too. If thats not the case, return <code>false</code>. The updater will call <a class="el" href="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034" title="Runs a program with the given arguments with elevated rights. ">AdminAuthoriser::executeAsAdmin</a> instead. </p>
 
 </div>
 </div>
@@ -201,7 +201,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 29 2016 21:21:25 for QtAutoUpdater by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 23 2016 12:36:05 for QtAutoUpdater by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

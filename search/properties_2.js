@@ -38,7 +38,7 @@ var searchData=
   ['contentitem',['contentItem',['http://doc.qt.io/qt-5/qquickwindow.html#contentItem-prop',0,'QQuickWindow']]],
   ['contentorientation',['contentOrientation',['http://doc.qt.io/qt-5/qwindow.html#contentOrientation-prop',0,'QWindow']]],
   ['contentsscale',['contentsScale',['http://doc.qt.io/qt-5/qquickpainteditem-obsolete.html#contentsScale-prop',0,'QQuickPaintedItem']]],
-  ['contentssize',['contentsSize',['http://doc.qt.io/qt-5/qquickpainteditem-obsolete.html#contentsSize-prop',0,'QQuickPaintedItem']]],
+  ['contentssize',['contentsSize',['http://doc.qt.io/qt-5/qwebenginepage.html#contentsSize-prop',0,'QWebEnginePage::contentsSize()'],['http://doc.qt.io/qt-5/qquickpainteditem-obsolete.html#contentsSize-prop',0,'QQuickPaintedItem::contentsSize()']]],
   ['context',['context',['http://doc.qt.io/qt-5/qshortcut.html#context-prop',0,'QShortcut']]],
   ['contextmenupolicy',['contextMenuPolicy',['http://doc.qt.io/qt-5/qwidget.html#contextMenuPolicy-prop',0,'QWidget']]],
   ['control',['control',['http://doc.qt.io/qt-5/qaxbase.html#control-prop',0,'QAxBase']]],

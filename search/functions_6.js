@@ -53,7 +53,7 @@ var searchData=
   ['getpaintcontext',['getPaintContext',['http://doc.qt.io/qt-5/qplaintextedit.html#getPaintContext',0,'QPlainTextEdit']]],
   ['getplacecontent',['getPlaceContent',['http://doc.qt.io/qt-5/qplacemanager.html#getPlaceContent',0,'QPlaceManager::getPlaceContent()'],['http://doc.qt.io/qt-5/qplacemanagerengine.html#getPlaceContent',0,'QPlaceManagerEngine::getPlaceContent()']]],
   ['getplacedetails',['getPlaceDetails',['http://doc.qt.io/qt-5/qplacemanager.html#getPlaceDetails',0,'QPlaceManager::getPlaceDetails()'],['http://doc.qt.io/qt-5/qplacemanagerengine.html#getPlaceDetails',0,'QPlaceManagerEngine::getPlaceDetails()']]],
-  ['getprocaddress',['getProcAddress',['http://doc.qt.io/qt-5/qopenglcontext.html#getProcAddress',0,'QOpenGLContext']]],
+  ['getprocaddress',['getProcAddress',['http://doc.qt.io/qt-5/qopenglcontext.html#getProcAddress',0,'QOpenGLContext::getProcAddress(const QByteArray &amp;procName) const'],['http://doc.qt.io/qt-5/qopenglcontext.html#getProcAddress-1',0,'QOpenGLContext::getProcAddress(const char *procName) const']]],
   ['getrange',['getRange',['http://doc.qt.io/qt-5/qsplitter.html#getRange',0,'QSplitter']]],
   ['getrect',['getRect',['http://doc.qt.io/qt-5/qrect.html#getRect',0,'QRect::getRect()'],['http://doc.qt.io/qt-5/qrectf.html#getRect',0,'QRectF::getRect()']]],
   ['getrgb',['getRgb',['http://doc.qt.io/qt-5/qcolor.html#getRgb',0,'QColor']]],

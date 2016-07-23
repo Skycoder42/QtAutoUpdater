@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['icon',['icon',['http://doc.qt.io/qt-5/qmessagebox.html#icon-prop',0,'QMessageBox::icon()'],['http://doc.qt.io/qt-5/qaction.html#icon-prop',0,'QAction::icon()'],['http://doc.qt.io/qt-5/qsystemtrayicon.html#icon-prop',0,'QSystemTrayIcon::icon()'],['http://doc.qt.io/qt-5/qabstractbutton.html#icon-prop',0,'QAbstractButton::icon()'],['http://doc.qt.io/qt-5/qmenu.html#icon-prop',0,'QMenu::icon()']]],
+  ['icon',['icon',['http://doc.qt.io/qt-5/qwebenginepage.html#icon-prop',0,'QWebEnginePage::icon()'],['http://doc.qt.io/qt-5/qwebengineview.html#icon-prop',0,'QWebEngineView::icon()'],['http://doc.qt.io/qt-5/qmessagebox.html#icon-prop',0,'QMessageBox::icon()'],['http://doc.qt.io/qt-5/qaction.html#icon-prop',0,'QAction::icon()'],['http://doc.qt.io/qt-5/qsystemtrayicon.html#icon-prop',0,'QSystemTrayIcon::icon()'],['http://doc.qt.io/qt-5/qabstractbutton.html#icon-prop',0,'QAbstractButton::icon()'],['http://doc.qt.io/qt-5/qmenu.html#icon-prop',0,'QMenu::icon()']]],
   ['iconpixmap',['iconPixmap',['http://doc.qt.io/qt-5/qmessagebox.html#iconPixmap-prop',0,'QMessageBox']]],
   ['iconsize',['iconSize',['http://doc.qt.io/qt-5/qabstractitemview.html#iconSize-prop',0,'QAbstractItemView::iconSize()'],['http://doc.qt.io/qt-5/qabstractbutton.html#iconSize-prop',0,'QAbstractButton::iconSize()'],['http://doc.qt.io/qt-5/qcombobox.html#iconSize-prop',0,'QComboBox::iconSize()'],['http://doc.qt.io/qt-5/qmainwindow.html#iconSize-prop',0,'QMainWindow::iconSize()'],['http://doc.qt.io/qt-5/qtabbar.html#iconSize-prop',0,'QTabBar::iconSize()'],['http://doc.qt.io/qt-5/qtabwidget.html#iconSize-prop',0,'QTabWidget::iconSize()'],['http://doc.qt.io/qt-5/qtoolbar.html#iconSize-prop',0,'QToolBar::iconSize()']]],
   ['icontext',['iconText',['http://doc.qt.io/qt-5/qaction.html#iconText-prop',0,'QAction']]],
@@ -16,6 +16,7 @@ var searchData=
   ['informativetext',['informativeText',['http://doc.qt.io/qt-5/qmessagebox.html#informativeText-prop',0,'QMessageBox']]],
   ['initialstate',['initialState',['http://doc.qt.io/qt-5/qstate.html#initialState-prop',0,'QState']]],
   ['inputdirection',['inputDirection',['http://doc.qt.io/qt-5/qinputmethod.html#inputDirection-prop',0,'QInputMethod']]],
+  ['inputitemcliprectangle',['inputItemClipRectangle',['http://doc.qt.io/qt-5/qinputmethod.html#inputItemClipRectangle-prop',0,'QInputMethod']]],
   ['inputmask',['inputMask',['http://doc.qt.io/qt-5/qlineedit.html#inputMask-prop',0,'QLineEdit']]],
   ['inputmethodhints',['inputMethodHints',['http://doc.qt.io/qt-5/qwidget.html#inputMethodHints-prop',0,'QWidget']]],
   ['inputmode',['inputMode',['http://doc.qt.io/qt-5/qinputdialog.html#inputMode-prop',0,'QInputDialog']]],

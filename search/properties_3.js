@@ -20,6 +20,7 @@ var searchData=
   ['delta',['delta',['http://doc.qt.io/qt-5/qpangesture.html#delta-prop',0,'QPanGesture']]],
   ['depth',['depth',['http://doc.qt.io/qt-5/qscreen.html#depth-prop',0,'QScreen']]],
   ['description',['description',['http://doc.qt.io/qt-5/qsensor.html#description-prop',0,'QSensor::description()'],['http://doc.qt.io/qt-5/qsvggenerator.html#description-prop',0,'QSvgGenerator::description()'],['http://doc.qt.io/qt-5/qcommandlinkbutton.html#description-prop',0,'QCommandLinkButton::description()']]],
+  ['desktopfilename',['desktopFileName',['http://doc.qt.io/qt-5/qguiapplication.html#desktopFileName-prop',0,'QGuiApplication']]],
   ['detailedtext',['detailedText',['http://doc.qt.io/qt-5/qmessagebox.html#detailedText-prop',0,'QMessageBox']]],
   ['detailedupdateinfo',['detailedUpdateInfo',['../class_qt_auto_updater_1_1_update_controller.html#a7aef590344a0ec1249f7a2b10a2a776b',1,'QtAutoUpdater::UpdateController']]],
   ['devicepixelratio',['devicePixelRatio',['http://doc.qt.io/qt-5/qscreen.html#devicePixelRatio-prop',0,'QScreen']]],

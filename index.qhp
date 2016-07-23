@@ -5,7 +5,7 @@
   <filterSection>
     <filterAttribute>doxygen</filterAttribute>
     <toc>
-      <section title="QtAutoUpdater 2.0.0" ref="index.html">
+      <section title="QtAutoUpdater 2.0.1" ref="index.html">
         <section title="Image Page" ref="image_page.html" />
         <section title="Namespaces">
           <section title="Namespace List" ref="namespaces.html">
@@ -389,8 +389,8 @@
       <keyword name="setAcceptDrops" id="QWidget::setAcceptDrops" ref="qwidget.html#acceptDrops-prop" />
       <keyword name="addAction" id="QWidget::addAction" ref="qwidget.html#addAction" />
       <keyword name="addActions" id="QWidget::addActions" ref="qwidget.html#addActions" />
-      <keyword name="insertAction" id="QWidget::insertAction" ref="qwidget.html#insertAction" />
       <keyword name="insertActions" id="QWidget::insertActions" ref="qwidget.html#insertActions" />
+      <keyword name="insertAction" id="QWidget::insertAction" ref="qwidget.html#insertAction" />
       <keyword name="removeAction" id="QWidget::removeAction" ref="qwidget.html#removeAction" />
       <keyword name="actions" id="QWidget::actions" ref="qwidget.html#actions" />
       <keyword name="parentWidget" id="QWidget::parentWidget" ref="qwidget.html#parentWidget" />
@@ -453,7 +453,6 @@
       <keyword name="inherits" id="QObject::inherits" ref="qobject.html#inherits" />
       <keyword name="deleteLater" id="QObject::deleteLater" ref="qobject.html#deleteLater" />
       <keyword name="paintingActive" id="QPaintDevice::paintingActive" ref="qpaintdevice.html#paintingActive" />
-      <keyword name="paintEngine" id="QPaintDevice::paintEngine" ref="qpaintdevice.html#paintEngine" />
       <keyword name="width" id="QPaintDevice::width" ref="qpaintdevice.html#width" />
       <keyword name="height" id="QPaintDevice::height" ref="qpaintdevice.html#height" />
       <keyword name="widthMM" id="QPaintDevice::widthMM" ref="qpaintdevice.html#widthMM" />

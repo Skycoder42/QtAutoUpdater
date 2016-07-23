@@ -3,6 +3,7 @@ var searchData=
   ['radius',['radius',['http://doc.qt.io/qt-5/qgeocircle.html#radius-prop',0,'QGeoCircle']]],
   ['reading',['reading',['http://doc.qt.io/qt-5/qsensor.html#reading-prop',0,'QSensor']]],
   ['readonly',['readOnly',['http://doc.qt.io/qt-5/qfiledialog-obsolete.html#readOnly-prop',0,'QFileDialog::readOnly()'],['http://doc.qt.io/qt-5/qfilesystemmodel.html#readOnly-prop',0,'QFileSystemModel::readOnly()'],['http://doc.qt.io/qt-5/qdirmodel.html#readOnly-prop',0,'QDirModel::readOnly()'],['http://doc.qt.io/qt-5/qabstractspinbox.html#readOnly-prop',0,'QAbstractSpinBox::readOnly()'],['http://doc.qt.io/qt-5/qlineedit.html#readOnly-prop',0,'QLineEdit::readOnly()'],['http://doc.qt.io/qt-5/qplaintextedit.html#readOnly-prop',0,'QPlainTextEdit::readOnly()'],['http://doc.qt.io/qt-5/qtextbrowser.html#readOnly-prop',0,'QTextBrowser::readOnly()'],['http://doc.qt.io/qt-5/qtextedit.html#readOnly-prop',0,'QTextEdit::readOnly()']]],
+  ['recentlyaudible',['recentlyAudible',['http://doc.qt.io/qt-5/qwebenginepage.html#recentlyAudible-prop',0,'QWebEnginePage']]],
   ['record',['record',['http://doc.qt.io/qt-5/qqmlndefrecord.html#record-prop',0,'QQmlNdefRecord']]],
   ['rect',['rect',['http://doc.qt.io/qt-5/qwidget.html#rect-prop',0,'QWidget']]],
   ['redoavailable',['redoAvailable',['http://doc.qt.io/qt-5/qlineedit.html#redoAvailable-prop',0,'QLineEdit']]],
