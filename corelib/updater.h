@@ -29,7 +29,7 @@ namespace QtAutoUpdater
 
 	public:
 		//! Provides information about updates for components
-		struct UpdateInfo
+		struct QTAUTOUPDATERSHARED_EXPORT UpdateInfo
 		{
 			//! The name of the component that has an update
 			QString name;
@@ -110,6 +110,6 @@ namespace QtAutoUpdater
 Q_DECLARE_METATYPE(QtAutoUpdater::Updater::UpdateInfo)
 Q_DECLARE_LOGGING_CATEGORY(logQtAutoUpdater)
 
-QDebug &operator<<(QDebug &debug, const QtAutoUpdater::Updater::UpdateInfo &info);
+QDebug QTAUTOUPDATERSHARED_EXPORT &operator<<(QDebug &debug, const QtAutoUpdater::Updater::UpdateInfo &info);
 
 #endif // UPDATER_H
