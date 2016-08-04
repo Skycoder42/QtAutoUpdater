@@ -23,7 +23,7 @@ win32 {
 }
 
 include(../AutoUpdater/autoupdater.pri)
-include(./DialogMaster/dialogmaster.pri)
+include(./QtUtils/DialogMaster/dialogmaster.pri)
 
 HEADERS += \
 	updatecontroller.h \
