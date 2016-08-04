@@ -7,10 +7,10 @@
 QT -= gui
 CONFIG += C++11
 
-TARGET = $$qtLibraryTarget(QtAutoUpdater)
+TARGET = $$qtLibraryTarget(QtAutoUpdaterCore)
 TEMPLATE = lib
 
 DEFINES += QTAUTOUPDATER_LIBRARY
 
-include(../corelib/corelib.pri)
+include(../AutoUpdater/autoupdater.pri)
 

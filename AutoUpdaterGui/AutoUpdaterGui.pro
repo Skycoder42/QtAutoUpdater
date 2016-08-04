@@ -8,7 +8,7 @@ QT       += widgets
 win32: QT += winextras
 CONFIG += C++11
 
-TARGET = $$qtLibraryTarget(QtAutoUpdaterController)
+TARGET = $$qtLibraryTarget(QtAutoUpdaterGui)
 TEMPLATE = lib
 
 DEFINES += QTAUTOUPDATER_LIBRARY
@@ -22,7 +22,7 @@ win32 {
 	LIBS += -lutil
 }
 
-include(../corelib/corelib.pri)
+include(../AutoUpdater/autoupdater.pri)
 include(./DialogMaster/dialogmaster.pri)
 
 HEADERS += \
