@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QStringList>
 #include <QScopedPointer>
+#include "qtautoupdater_global.h"
 
 namespace QtAutoUpdater
 {
@@ -12,7 +13,7 @@ namespace QtAutoUpdater
 	//! @internal Private implementation
 	class UpdateControllerPrivate;
 	//! A class to show a controlled update GUI to the user
-	class UpdateController : public QObject
+	class QTAUTOUPDATERSHARED_EXPORT UpdateController : public QObject
 	{
 		Q_OBJECT
 

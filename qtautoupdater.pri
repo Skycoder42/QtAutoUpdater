@@ -4,8 +4,6 @@ win32 {
 			contains(QT, widgets) {
 				CONFIG(release, debug|release): LIBS += -L$$PWD/msvc64/release/ -lQtAutoUpdaterController
 				else:CONFIG(debug, debug|release): LIBS += -L$$PWD/msvc64/debug/ -lQtAutoUpdaterControllerd
-				QT += winextras
-				LIBS += -lAdvapi32 -lOle32
 			}
 			CONFIG(release, debug|release): LIBS += -L$$PWD/msvc64/release/ -lQtAutoUpdater
 			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/msvc64/debug/ -lQtAutoUpdaterd
@@ -13,8 +11,6 @@ win32 {
 			contains(QT, widgets) {
 				CONFIG(release, debug|release): LIBS += -L$$PWD/msvc/release/ -lQtAutoUpdaterController
 				else:CONFIG(debug, debug|release): LIBS += -L$$PWD/msvc/debug/ -lQtAutoUpdaterControllerd
-				QT += winextras
-				LIBS += -lAdvapi32 -lOle32
 			}
 			CONFIG(release, debug|release): LIBS += -L$$PWD/msvc/release/ -lQtAutoUpdater
 			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/msvc/debug/ -lQtAutoUpdaterd
@@ -23,8 +19,6 @@ win32 {
 		contains(QT, widgets) {
 			CONFIG(release, debug|release): LIBS += -L$$PWD/mingw/release/ -lQtAutoUpdaterController
 			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/mingw/debug/ -lQtAutoUpdaterControllerd
-			QT += winextras
-			LIBS += -lAdvapi32 -lOle32
 		}
 		CONFIG(release, debug|release): LIBS += -L$$PWD/mingw/release/ -lQtAutoUpdater
 		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/mingw/debug/ -lQtAutoUpdaterd
@@ -34,7 +28,6 @@ win32 {
 		contains(QT, widgets) {
 			CONFIG(release, debug|release): LIBS += -L$$PWD/clang64/release/ -lQtAutoUpdaterController
 			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/clang64/debug/ -lQtAutoUpdaterController_debug
-			LIBS += -framework Security
 		}
 		CONFIG(release, debug|release): LIBS += -L$$PWD/clang64/release/ -lQtAutoUpdater
 		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/clang64/debug/ -lQtAutoUpdater_debug
@@ -44,7 +37,6 @@ win32 {
 		contains(QT, widgets) {
 			CONFIG(release, debug|release): LIBS += -L$$PWD/gcc64/release/ -lQtAutoUpdaterController
 			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/gcc64/debug/ -lQtAutoUpdaterController
-			LIBS += -lutil
 		}
 		CONFIG(release, debug|release): LIBS += -L$$PWD/gcc64/release -lQtAutoUpdater
 		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/gcc64/debug -lQtAutoUpdater

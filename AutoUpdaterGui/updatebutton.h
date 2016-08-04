@@ -4,13 +4,14 @@
 #include <QWidget>
 #include <QScopedPointer>
 #include "updatecontroller.h"
+#include "qtautoupdater_global.h"
 
 namespace QtAutoUpdater
 {
 	//! @internal Private implementation
 	class UpdateButtonPrivate;
 	//! A simple button for update checks
-	class UpdateButton : public QWidget
+	class QTAUTOUPDATERSHARED_EXPORT UpdateButton : public QWidget
 	{
 		Q_OBJECT
 

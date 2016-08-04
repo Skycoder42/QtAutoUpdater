@@ -3,11 +3,12 @@
 
 #include <QString>
 #include <QStringList>
+#include "qtautoupdater_global.h"
 
 namespace QtAutoUpdater
 {
 	//! An interface to run programs with elevated rights
-	class AdminAuthoriser
+	class QTAUTOUPDATERSHARED_EXPORT AdminAuthoriser
 	{
 	public:
 		//! Destructor

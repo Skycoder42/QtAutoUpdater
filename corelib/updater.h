@@ -10,12 +10,13 @@
 #include <QLoggingCategory>
 #include <QScopedPointer>
 #include "adminauthoriser.h"
+#include "qtautoupdater_global.h"
 
 namespace QtAutoUpdater
 {
 	class UpdaterPrivate;
 	//! The main updater. Can check for updates and run the maintenancetool as updater
-	class Updater : public QObject
+	class QTAUTOUPDATERSHARED_EXPORT Updater : public QObject
 	{
 		Q_OBJECT
 

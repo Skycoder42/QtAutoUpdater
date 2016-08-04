@@ -9,20 +9,8 @@ CONFIG += C++11
 
 TARGET = $$qtLibraryTarget(QtAutoUpdater)
 TEMPLATE = lib
-CONFIG += staticlib
 
-SOURCES += \
-    updater.cpp \
-    updater_p.cpp \
-    simplescheduler.cpp
+DEFINES += QTAUTOUPDATER_LIBRARY
 
-HEADERS += \
-    updater.h \
-    updater_p.h \
-	adminauthoriser.h \
-    simplescheduler.h
-
-DISTFILES += \
-    adminauthoriser.dox \
-    updater.dox
+include(../corelib/corelib.pri)
 
