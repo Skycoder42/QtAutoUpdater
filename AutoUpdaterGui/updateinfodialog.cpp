@@ -65,7 +65,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		boxInfo.buttonTexts.insert(QMessageBox::Apply, tr("Install On Exit"));
 		boxInfo.buttonTexts.insert(QMessageBox::Cancel, tr("Install later"));
 
-		QScopedPointer<QMessageBox> box(DialogMaster::createMsgBox(boxInfo));
+		QScopedPointer<QMessageBox> box(DialogMaster::createMessageBox(boxInfo));
 		box->checkBox()->setEnabled(editable);
 
 		switch (box->exec()) {
