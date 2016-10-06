@@ -64,39 +64,25 @@ void UpdaterTest::testUpdateCheck_data()
 	QTest::addColumn<bool>("hasUpdates");
 	QTest::addColumn<QList<Updater::UpdateInfo>>("updates");
 
-#ifdef Q_OS_WIN
 	QList<Updater::UpdateInfo> updates;
-	updates += {"IcoDroid", QVersionNumber::fromString("1.1.2"), 52459213ull};
-	QTest::newRow("D:/Program Files/IcoDroid") << "D:/Program Files/IcoDroid/maintenancetool"
-											   << true
-											   << updates;
+	updates += {"QtAutoUpdaterTestInstaller", QVersionNumber::fromString("1.0.1"), 45ull};
+	QString homePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+	QString path = homePath + "/QtAutoUpdaterTestInstaller";
+	QTest::newRow(qPrintable(path)) << path + "/maintenancetool"
+									<< true
+									<< updates;
 
 	updates.clear();
+
+#ifdef Q_OS_WIN
 	QTest::newRow("C:/Qt") << "C:/Qt/MaintenanceTool"
 						   << false
 						   << updates;
-#elif defined(Q_OS_OSX)
-	QList<Updater::UpdateInfo> updates;
-	updates += {"IcoDroid", QVersionNumber::fromString("1.1.2"), 23391377ull};
-	QTest::newRow("/Applications/IcoDroid.app") << "/Applications/IcoDroid.app/maintenancetool"
-												<< true
-												<< updates;
-
-	updates.clear();
-	QTest::newRow("/Users/sky/Qt") << "/Users/sky/Qt/MaintenanceTool"
-								   << false
-								   << updates;
-#elif defined(Q_OS_UNIX)
-	QList<Updater::UpdateInfo> updates;
-	updates += {"IcoDroid", QVersionNumber::fromString("1.1.2"), 55979275ull};
-	QTest::newRow("/home/sky/IcoDroid") << "/home/sky/IcoDroid/maintenancetool"
-										<< true
-										<< updates;
-
-	updates.clear();
-	QTest::newRow("/home/sky/Qt") << "/home/sky/Qt/MaintenanceTool"
-								  << false
-								  << updates;
+#else
+	path = homePath + "/Qt";
+	QTest::newRow(qPrintable(path)) << path + "/MaintenanceTool"
+									<< false
+									<< updates;
 #endif
 }
 
