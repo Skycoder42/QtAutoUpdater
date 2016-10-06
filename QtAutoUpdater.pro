@@ -13,3 +13,6 @@ DISTFILES += README.md \
 
 AutoUpdaterGui.depends += AutoUpdaterCore
 Tests.depends += AutoUpdaterCore AutoUpdaterGui
+
+### from installer
+include(./Tests/TestInstaller/installer_target.pri)
