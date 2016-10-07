@@ -84,7 +84,7 @@ namespace QtAutoUpdater
 		void setDetailedUpdateInfo(bool detailedUpdateInfo);
 
 		//! Returns the Updater object used by the controller
-		const Updater *updater() const;
+		Updater *updater() const;
 
 	public slots:
 		//! Starts the controller with the specified level.

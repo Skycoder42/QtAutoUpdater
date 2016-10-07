@@ -49,7 +49,7 @@
        <item>
         <widget class="QLabel" name="stateLabel">
          <property name="text">
-          <string>There are new updates available! You can install them now or later.</string>
+          <string>There are new updates available! You can install them now or automatically, when you exit the application. If you don't want to install updates right know, you can install them later.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -145,6 +145,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="skipButton">
+         <property name="toolTip">
+          <string>Close and do nothing. You can install updates later.</string>
+         </property>
          <property name="text">
           <string>Install later</string>
          </property>
@@ -168,6 +171,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="delayButton">
+         <property name="toolTip">
+          <string>You proceed using the application, and as soon as you close it, the updater will start automatically to install the updates.</string>
+         </property>
          <property name="text">
           <string>Install On Exit</string>
          </property>
@@ -178,6 +184,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="acceptButton">
+         <property name="toolTip">
+          <string>Closes the application and opens the installer to update the app.</string>
+         </property>
          <property name="text">
           <string>Install Now</string>
          </property>

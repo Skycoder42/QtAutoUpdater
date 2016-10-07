@@ -20,6 +20,7 @@ namespace QtAutoUpdater
 			InstallLater = QDialog::Accepted + 1,
 			NoInstall = QDialog::Rejected
 		};
+		Q_ENUM(DialogResult)
 
 		static DialogResult showUpdateInfo(QList<Updater::UpdateInfo> updates,
 										   bool &runAsAdmin,

@@ -29,7 +29,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 
 	this->ui->headerLabel->setText(tr("Updates for %1 are available!")
 								   .arg(QApplication::applicationDisplayName()));
-	if(QApplication::windowIcon().isNull())
+	if(QApplication::windowIcon().isNull())//TODO makes no sense
 		this->ui->imageLabel->hide();
 	else {
 		this->ui->imageLabel->show();
@@ -50,7 +50,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 						.arg(QApplication::applicationDisplayName());
 		boxInfo.text = tr("There are new updates available! You can install them now or later.");
 		QStringList details;
-		for(Updater::UpdateInfo info : updates) {
+		for(auto info : updates) {
 			details << tr("%1 v%2 — %3")
 					   .arg(info.name)
 					   .arg(info.version.toString())
@@ -81,8 +81,8 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 	} else {
 		UpdateInfoDialog dialog(parent);
 
-		for(Updater::UpdateInfo info : updates) {
-			QTreeWidgetItem *item = new QTreeWidgetItem(dialog.ui->updateListTreeWidget);
+		for(auto info : updates) {
+			auto item = new QTreeWidgetItem(dialog.ui->updateListTreeWidget);
 			item->setText(0, info.name);
 			item->setText(1, info.version.toString());
 			item->setText(2, getByteText(info.size));
@@ -95,7 +95,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		dialog.ui->runAdminCheckBox->setEnabled(editable);
 		dialog.ui->runAdminCheckBox->setChecked(runAsAdmin);
 
-		DialogResult res = (DialogResult)dialog.exec();
+		auto res = (DialogResult)dialog.exec();
 		if(editable && res != NoInstall)
 			runAsAdmin = dialog.ui->runAdminCheckBox->isChecked();
 		return res;
@@ -123,8 +123,8 @@ void QtAutoUpdater::UpdateInfoDialog::on_delayButton_clicked()
 
 QString UpdateInfoDialog::getByteText(qint64 bytes)
 {
-	int counter = 0;
-	double disNum = bytes;
+	auto counter = 0;
+	auto disNum = (double)bytes;
 
 	while((bytes / 1024) > 0 && counter < 3) {
 		disNum = bytes / 1024.;

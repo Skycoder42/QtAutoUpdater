@@ -9,12 +9,6 @@
 #include "updatebutton.h"
 using namespace QtAutoUpdater;
 
-static void libInit()
-{
-	Q_INIT_RESOURCE(autoupdatergui_resource);
-}
-Q_COREAPP_STARTUP_FUNCTION(libInit)
-
 UpdateController::UpdateController(QObject *parent) :
 	QObject(parent),
 	d_ptr(new UpdateControllerPrivate(this, nullptr))
@@ -39,9 +33,9 @@ UpdateController::~UpdateController(){}
 
 QAction *UpdateController::createUpdateAction(QObject *parent)
 {
-	QAction *updateAction = new QAction(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")),
-										tr("Check for Updates"),
-										parent);
+	auto updateAction = new QAction(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")),
+									tr("Check for Updates"),
+									parent);
 	updateAction->setMenuRole(QAction::ApplicationSpecificRole);
 	updateAction->setToolTip(tr("Checks if new updates are available. You will be prompted before updates are installed."));
 
@@ -134,7 +128,7 @@ void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
 	d->detailedInfo = detailedUpdateInfo;
 }
 
-const Updater * UpdateController::updater() const
+Updater *UpdateController::updater() const
 {
 	const Q_D(UpdateController);
 	return d->mainUpdater;
@@ -201,7 +195,7 @@ bool UpdateController::cancelUpdate(int maxDelay)
 
 int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateController::DisplayLevel displayLevel)
 {
-	if((((qint64)delaySeconds) * 1000) > INT_MAX) {
+	if((((qint64)delaySeconds) * 1000) > (qint64)INT_MAX) {
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
@@ -226,7 +220,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	Q_D(UpdateController);
 
 	if(d->displayLevel >= ExtendedInfoLevel) {
-		QMessageBox::Icon iconType = QMessageBox::NoIcon;
+		auto iconType = QMessageBox::NoIcon;
 		if(hasUpdates)
 			iconType = QMessageBox::Information;
 		else {
@@ -242,6 +236,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 			d->checkUpdatesProgress = nullptr;
 		}
 	}
+
 	if(d->wasCanceled) {
 		if(d->displayLevel >= ExtendedInfoLevel) {
 			DialogMaster::warningT(d->window,
@@ -251,13 +246,13 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	} else {
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
-				bool shouldShutDown = false;
-				bool oldRunAdmin = d->runAdmin;
-				UpdateInfoDialog::DialogResult res = UpdateInfoDialog::showUpdateInfo(d->mainUpdater->updateInfo(),
-																					  d->runAdmin,
-																					  d->adminUserEdit,
-																					  d->detailedInfo,
-																					  d->window);
+				auto shouldShutDown = false;
+				const auto oldRunAdmin = d->runAdmin;
+				const auto res = UpdateInfoDialog::showUpdateInfo(d->mainUpdater->updateInfo(),
+																  d->runAdmin,
+																  d->adminUserEdit,
+																  d->detailedInfo,
+																  d->window);
 				if(d->runAdmin != oldRunAdmin)
 					emit runAsAdminChanged(d->runAdmin);
 
