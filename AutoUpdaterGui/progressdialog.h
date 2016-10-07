@@ -34,8 +34,8 @@ namespace QtAutoUpdater
 		void setCanceled();
 
 	public slots:
-		void accept() Q_DECL_OVERRIDE {}
-		void reject() Q_DECL_OVERRIDE {}
+		void accept() override {}
+		void reject() override {}
 
 		void hide(QMessageBox::Icon hideType);
 
@@ -44,9 +44,9 @@ namespace QtAutoUpdater
 
 	protected:
 #ifdef Q_OS_WIN
-		void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+		void showEvent(QShowEvent *event) override;
 #endif
-		void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+		void closeEvent(QCloseEvent *event) override;
 
 	private:
 		QScopedPointer<Ui::ProgressDialog> ui;

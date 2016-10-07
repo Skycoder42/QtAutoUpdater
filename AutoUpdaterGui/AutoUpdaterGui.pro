@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT       += widgets
-win32: QT += winextras
 CONFIG += C++11
 
 TARGET = $$qtLibraryTarget(QtAutoUpdaterGui)

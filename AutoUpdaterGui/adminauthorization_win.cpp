@@ -45,8 +45,8 @@ struct DeCoInitializer
 {
     DeCoInitializer()
         : neededCoInit(CoInitialize(NULL) == S_OK)
-    {
-    }
+	{}
+
     ~DeCoInitializer()
     {
         if (neededCoInit)
@@ -73,7 +73,7 @@ bool AdminAuthorization::hasAdminRights()
         isInAdminGroup = FALSE;
 
     FreeSid(adminGroup);
-    return isInAdminGroup;
+	return (bool)isInAdminGroup;
 }
 
 bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)

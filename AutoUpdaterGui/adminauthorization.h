@@ -8,8 +8,8 @@ namespace QtAutoUpdater
 	class AdminAuthorization : public AdminAuthoriser
 	{
 	public:
-		bool hasAdminRights() Q_DECL_OVERRIDE;
-		bool executeAsAdmin(const QString &program, const QStringList &arguments) Q_DECL_OVERRIDE;
+		bool hasAdminRights() override;
+		bool executeAsAdmin(const QString &program, const QStringList &arguments) override;
     };
 }
 
