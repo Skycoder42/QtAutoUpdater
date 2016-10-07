@@ -44,9 +44,9 @@ namespace QtAutoUpdater
 		void resetState();
 
 		//! WRITE-Accessor for UpdateButton::animationFile
-		void setAnimationFile(QString animationFile);
+		void setAnimationFile(QString animationFile, int speed = 100);
 		//! WRITE-Accessor for UpdateButton::animationFile
-		void setAnimationDevice(QIODevice *animationDevice);
+		void setAnimationDevice(QIODevice *animationDevice, int speed = 100);
 		//! RESET-Accessor for UpdateButton::animationFile
 		void resetAnimationFile();
 		//! WRITE-Accessor for UpdateButton::showResult

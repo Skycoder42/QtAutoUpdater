@@ -45,22 +45,25 @@ void UpdateButton::resetState()
 	d->ui->checkButton->setEnabled(true);
 }
 
-void UpdateButton::setAnimationFile(QString animationFile)
+void UpdateButton::setAnimationFile(QString animationFile, int speed)
 {
 	Q_D(UpdateButton);
 	d->loadingGif->setFileName(animationFile);
+	d->loadingGif->setSpeed(speed);
 }
 
-void UpdateButton::setAnimationDevice(QIODevice *animationDevice)
+void UpdateButton::setAnimationDevice(QIODevice *animationDevice, int speed)
 {
 	Q_D(UpdateButton);
 	d->loadingGif->setDevice(animationDevice);
+	d->loadingGif->setSpeed(speed);
 }
 
 void UpdateButton::resetAnimationFile()
 {
 	Q_D(UpdateButton);
 	d->loadingGif->setFileName(QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"));
+	d->loadingGif->setSpeed(200);
 }
 
 void UpdateButton::setShowResult(bool showResult)
