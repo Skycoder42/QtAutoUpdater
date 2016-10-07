@@ -133,7 +133,7 @@ Updater::UpdateInfo::UpdateInfo(const Updater::UpdateInfo &other) :
 Updater::UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size) :
 	name(name),
 	version(version),
-	size(size)
+    size(size)
 {}
 
 QDebug &operator<<(QDebug &debug, const Updater::UpdateInfo &info)
