@@ -15,7 +15,7 @@ ProgressDialog::ProgressDialog(QWidget *parent) :
 #endif
 {
 	this->ui->setupUi(this);
-	DialogMaster::masterDialog(this, true, Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+	DialogMaster::masterDialog(this, true, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
 #ifdef Q_OS_WIN
 	if(parent)
 		this->setupTaskbar(parent);
