@@ -7,19 +7,12 @@
 #include <exception>
 #include "simplescheduler.h"
 
-template<typename... Args> struct SELECT {
-	template<typename C, typename R>
-	static Q_DECL_CONSTEXPR auto OVERLOAD_OF( R (C::*pmf)(Args...) ) -> decltype(pmf) {
-		return pmf;
-	}
-};
-
 namespace QtAutoUpdater
 {
 	class UpdaterPrivate : public QObject
 	{
 	public:
-		class UpdateParseException : public std::exception {};
+		class UpdateParseException : public std::exception {};//TODO use QtException
 		class NoUpdatesXmlException : public UpdateParseException {
 		public:
 			const char *what() const Q_DECL_NOEXCEPT Q_DECL_OVERRIDE {

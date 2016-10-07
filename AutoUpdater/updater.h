@@ -32,11 +32,11 @@ namespace QtAutoUpdater
 		struct QTAUTOUPDATERSHARED_EXPORT UpdateInfo
 		{
 			//! The name of the component that has an update
-			QString name;
+			const QString name;
 			//! The new version for that compontent
-			QVersionNumber version;
+			const QVersionNumber version;
 			//! The update download size (in Bytes)
-			quint64 size;
+			const quint64 size;
 
 			//! Default Constructor
 			UpdateInfo();

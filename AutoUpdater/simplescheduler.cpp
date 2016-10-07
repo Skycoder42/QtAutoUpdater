@@ -14,7 +14,7 @@ int SimpleScheduler::startSchedule(int msecs, bool repeated, const QVariant &par
 		return 0;
 	}
 
-	const int id = this->startTimer(msecs, Qt::VeryCoarseTimer);
+	const auto id = this->startTimer(msecs, Qt::VeryCoarseTimer);
 	if(id != 0)
 		this->timerHash.insert(id, {repeated, parameter});
 	return id;
@@ -22,8 +22,8 @@ int SimpleScheduler::startSchedule(int msecs, bool repeated, const QVariant &par
 
 int SimpleScheduler::startSchedule(const QDateTime &when, const QVariant &parameter)
 {
-	const qint64 delta = QDateTime::currentDateTime().msecsTo(when);
-	if(delta > INT_MAX) {
+	const auto delta = QDateTime::currentDateTime().msecsTo(when);
+	if(delta > (qint64)INT_MAX) {
 		qCWarning(logQtAutoUpdater, "Time interval to big, timepoint to far in the future.");
 		return 0;
 	} else
@@ -38,8 +38,8 @@ void SimpleScheduler::cancelSchedule(int id)
 
 void SimpleScheduler::timerEvent(QTimerEvent *event)
 {
-	const int id = event->timerId();
-	TimerInfo info = this->timerHash.value(id, {false, QVariant()});
+	const auto id = event->timerId();
+	const auto info = this->timerHash.value(id, {false, QVariant()});
 	if(!info.first)
 		this->cancelSchedule(id);
 	emit scheduleTriggered(info.second);

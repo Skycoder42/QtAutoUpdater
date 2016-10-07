@@ -10,8 +10,9 @@
 class SimpleScheduler : public QObject
 {
 	Q_OBJECT
+
 public:
-	explicit SimpleScheduler(QObject *parent = 0);
+	explicit SimpleScheduler(QObject *parent = nullptr);
 
 public slots:
 	int startSchedule(int msecs, bool repeated = false, const QVariant &parameter = QVariant());

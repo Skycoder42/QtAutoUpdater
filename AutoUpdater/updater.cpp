@@ -4,15 +4,15 @@
 using namespace QtAutoUpdater;
 
 #ifdef Q_OS_OSX
-#define TOOL_PATH QStringLiteral("../../maintenancetool")
+#define DEFAULT_TOOL_PATH QStringLiteral("../../maintenancetool")
 #else
-#define TOOL_PATH QStringLiteral("./maintenancetool")
+#define DEFAULT_TOOL_PATH QStringLiteral("./maintenancetool")
 #endif
 
 Q_LOGGING_CATEGORY(logQtAutoUpdater, "QtAutoUpdater")
 
 Updater::Updater(QObject *parent) :
-	Updater(TOOL_PATH, parent)
+	Updater(DEFAULT_TOOL_PATH, parent)
 {}
 
 Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :
@@ -81,7 +81,7 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
-	if((((qint64)delaySeconds) * 1000) > INT_MAX) {
+	if((((qint64)delaySeconds) * 1000ll) > (qint64)INT_MAX) {
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
@@ -121,7 +121,7 @@ void Updater::cancelExitRun()
 Updater::UpdateInfo::UpdateInfo() :
 	name(),
 	version(),
-	size(0)
+	size(0ull)
 {}
 
 Updater::UpdateInfo::UpdateInfo(const Updater::UpdateInfo &other) :

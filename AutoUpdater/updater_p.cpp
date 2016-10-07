@@ -24,7 +24,8 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 	adminAuth(nullptr)
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
-			this, &UpdaterPrivate::appAboutToExit);
+			this, &UpdaterPrivate::appAboutToExit,
+			Qt::DirectConnection);
 	connect(this->scheduler, &SimpleScheduler::scheduleTriggered,
 			this, &UpdaterPrivate::startUpdateCheck);
 }
@@ -73,7 +74,7 @@ bool UpdaterPrivate::startUpdateCheck()
 		this->mainProcess->setProgram(toolInfo.absoluteFilePath());
 		this->mainProcess->setArguments({QStringLiteral("--checkupdates")});
 
-		connect(this->mainProcess, SELECT<int, QProcess::ExitStatus>::OVERLOAD_OF(&QProcess::finished),
+		connect(this->mainProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
 				this, &UpdaterPrivate::updaterReady, Qt::QueuedConnection);
 		connect(this->mainProcess, &QProcess::errorOccurred,
 				this, &UpdaterPrivate::updaterError, Qt::QueuedConnection);
@@ -108,16 +109,16 @@ void UpdaterPrivate::stopUpdateCheck(int delay, bool async)
 
 QList<Updater::UpdateInfo> UpdaterPrivate::parseResult(const QByteArray &output)
 {
-	QString outString = QString::fromUtf8(output);
-	int xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
+	const auto outString = QString::fromUtf8(output);
+	const auto xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
 	if(xmlBegin < 0)
 		throw NoUpdatesXmlException();
-	int xmlEnd = outString.indexOf(QStringLiteral("</updates>"), xmlBegin);
+	const auto xmlEnd = outString.indexOf(QStringLiteral("</updates>"), xmlBegin);
 	if(xmlEnd < 0)
 		throw NoUpdatesXmlException();
 
 	QList<Updater::UpdateInfo> updates;
-	QXmlStreamReader reader(outString.mid(xmlBegin, xmlEnd - xmlBegin + 10));
+	QXmlStreamReader reader(outString.mid(xmlBegin, (xmlEnd + 10) - xmlBegin));
 
 	reader.readNextStartElement();
 	//should always work because it was search for
@@ -127,11 +128,10 @@ QList<Updater::UpdateInfo> UpdaterPrivate::parseResult(const QByteArray &output)
 		if(reader.name() != QStringLiteral("update"))
 			throw InvalidXmlException();
 
-		bool ok = false;
-		Updater::UpdateInfo info;
-		info.name = reader.attributes().value(QStringLiteral("name")).toString();
-		info.version = QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString());
-		info.size = reader.attributes().value(QStringLiteral("size")).toULongLong(&ok);
+		auto ok = false;
+		Updater::UpdateInfo info(reader.attributes().value(QStringLiteral("name")).toString(),
+								 QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString()),
+								 reader.attributes().value(QStringLiteral("size")).toULongLong(&ok));
 
 		if(info.name.isEmpty() || info.version.isNull() || !ok)
 			throw InvalidXmlException();
@@ -156,7 +156,7 @@ void UpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
 			this->normalExit = true;
 			this->lastErrorCode = exitCode;
 			this->lastErrorLog = this->mainProcess->readAllStandardError();
-			QByteArray updateOut = this->mainProcess->readAllStandardOutput();
+			const auto updateOut = this->mainProcess->readAllStandardOutput();
 			this->mainProcess->deleteLater();
 			this->mainProcess = nullptr;
 
@@ -205,7 +205,7 @@ void UpdaterPrivate::appAboutToExit()
 {
 	if(this->runOnExit) {
 		QFileInfo toolInfo(QCoreApplication::applicationDirPath(), this->toolPath);
-		bool ok = false;
+		auto ok = false;
 		if(this->adminAuth && !this->adminAuth->hasAdminRights()) {
 			ok = this->adminAuth->executeAsAdmin(toolInfo.absoluteFilePath(),
 												 this->runArguments);
@@ -219,7 +219,7 @@ void UpdaterPrivate::appAboutToExit()
 		if(!ok) {
 			qCWarning(logQtAutoUpdater) << "Unable to start" << toolInfo.absoluteFilePath()
 										<< "with arguments" << this->runArguments
-										<< "as" << (this->adminAuth ? "admin" : "user");
+										<< "as" << (this->adminAuth ? "admin/root" : "current user");
 		}
 
 		this->runOnExit = false;//prevent warning
