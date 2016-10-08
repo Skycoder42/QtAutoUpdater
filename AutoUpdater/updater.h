@@ -44,8 +44,6 @@ namespace QtAutoUpdater
 			UpdateInfo(const UpdateInfo &other);
 			//! Constructor that takes name, version and size
 			UpdateInfo(QString name, QVersionNumber version, quint64 size);
-
-            UpdateInfo &operator=(const UpdateInfo &other);
 		};
 
 		//! Default constructor. Can take a parent object
