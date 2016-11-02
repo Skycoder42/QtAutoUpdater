@@ -9,7 +9,7 @@ QT       += widgets
 CONFIG += C++11
 
 TARGET = QtAutoUpdaterGui
-VERSION = 2.0.0
+VERSION = 2.1.0
 
 win32 {
 	QMAKE_TARGET_COMPANY = "Skycoder42"
