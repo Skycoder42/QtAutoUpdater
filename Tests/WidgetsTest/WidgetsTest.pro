@@ -23,9 +23,8 @@ RESOURCES += \
     main_res.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterGui/release/ -lQtAutoUpdaterGui
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterGui/debug/ -lQtAutoUpdaterGuid
-else:mac:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterGui/ -lQtAutoUpdaterGui
-else:mac:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterGui/ -lQtAutoUpdaterGui_debug
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../AutoUpdaterGui/debug/ -lQtAutoUpdaterGui
+else:mac: LIBS += -F$$OUT_PWD/../../AutoUpdaterGui/ -framework QtAutoUpdaterGui
 else:unix: LIBS += -L$$OUT_PWD/../../AutoUpdaterGui/ -lQtAutoUpdaterGui
 
 INCLUDEPATH += $$PWD/../../AutoUpdater
