@@ -1,0 +1,35 @@
+/*!
+@class QtAutoUpdater::AdminAuthoriser
+
+The AdminAuthorisers task is to run a program with elevated rigths. Since the way to archive this is different
+on every platform, the authoriser is an interface. Because the "default" way to gain elevated privilegs is doing so
+by using a GUI, the default implementation is done in the AutoUpdaterWidgets library. If you intend to use the
+core library only, you will have to implement admin-authorisation yourself (if you require it)
+
+@sa Updater::runUpdaterOnExit(AdminAuthoriser *)
+*/
+
+/*!
+@fn QtAutoUpdater::AdminAuthoriser::hasAdminRights
+
+@returns `true`, if this program does have elevated rights, `false` if not
+
+If `true` is returned, the updater assumes that by starting a normal QProcess the launched process will inherit
+this elevation and will be elevated too. If thats not the case, return `false`. The updater will call AdminAuthoriser::executeAsAdmin
+instead.
+*/
+
+/*!
+@fn QtAutoUpdater::AdminAuthoriser::executeAsAdmin
+
+@param program The path to the executable. This will be an absolute path
+@param arguments A list of arguments to be passed to the executable. Can be empty
+@returns `true`, if the program could be started with <b>elevated rights</b>, `false` if not
+
+The actual elevation and execution should be done using this function. Please note that it's possible that this function
+is called while the QCoreApplication is shutting down. If `false` is returned, no error will be shown to the user. If you want
+to do so, do it inside that function.
+
+@note `program` will return an absolute path using normal slashes `/`, even on windows. If you need to use native APIs,
+get the correct path using QDir::toNativeSeparators.
+*/

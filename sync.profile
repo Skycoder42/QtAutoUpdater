@@ -1,5 +1,6 @@
 %modules = (
-    "QtAutoUpdater" => "$basedir/src/autoupdater",
+	"QtAutoUpdaterCore" => "$basedir/src/autoupdatercore",
+	"QtAutoUpdaterGui" => "$basedir/src/autoupdatergui",
 );
 
 %moduleheaders = (
