@@ -1,1 +1,3 @@
 TEMPLATE = subdirs
+
+SUBDIRS += UpdaterTest
