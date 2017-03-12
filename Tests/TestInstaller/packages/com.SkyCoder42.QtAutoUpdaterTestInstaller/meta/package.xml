@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Package>
-	<DisplayName>QtAutoUpdaterTestInstaller</DisplayName>
-	<Description>QtAutoUpdaterTestInstaller</Description>
-	<Version>1.0.0</Version>
-	<ReleaseDate>2016-01-01</ReleaseDate>
-	<ForcedInstallation>true</ForcedInstallation>
-</Package>

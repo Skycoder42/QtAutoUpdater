@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/QtAutoUpdater/icons">
-        <file alias="updateRunning.gif">update-loader.gif</file>
-        <file alias="update.ico">update.ico</file>
-    </qresource>
-</RCC>

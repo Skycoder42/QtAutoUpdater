@@ -1,5 +1,0 @@
-#include "./updater.h"
-#ifdef QT_WIDGETS_LIB
-#include "./updatecontroller.h"
-#include "./updatebutton.h"
-#endif
