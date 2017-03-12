@@ -50,9 +50,6 @@ to the updater library:
 **Important:**<br>
 Since this library requires the maintenancetool that is deployed with every Qt Installer Framework installation, the examples cannot be tested without a maintenancetool! If you intend to use this library, the maintenancetool will be available for your final application. For testing purpose or the examples, I set the path to the `MaintenanceTool` that is deployed with the installation of Qt (or any other maintenancetool). So make shure to adjust the path if you try to run the examples.
 
-#### IcoDroid
-Not a real example, but an application of mine that makes use of the library. If you want to see a full and working example with an installer, check out https://github.com/Skycoder42/IcoDroid. (Not always using the newest version of this library!)
-
 #### Updater
 The following example shows the basic usage of the updater. Only the core library is required for this example. It creates a new updater instance that is connected to the maintenancetool located at "C:/Qt/MaintenanceTool". As soon as the application starts, it will check for updates and print the update result. If updates are available, their details will be printed and the maintenancetool is scheduled to start on exit. In both cases, the application will quit afterwards.
 
@@ -113,35 +110,34 @@ int main(int argc, char *argv[])
 }
 ```
 
-## Documentation
-The documentation is available within the releases and on [github pages](https://skycoder42.github.io/QtAutoUpdater/).
+## Download/Installation
+There are multiple ways to install the Qt module, sorted by preference:
 
-The documentation was created using [doxygen](http://www.stack.nl/~dimitri/doxygen/). It includes an HTML-documentation and Qt-Help files that can be included into QtCreator (QtAssistant) to show F1-Help (See [Adding External Documentation](https://doc.qt.io/qtcreator/creator-help.html#adding-external-documentation) for more details).
+1. Simply add my repository to your Qt MaintenanceTool (Image-based How-To here: [Add custom repository](https://github.com/Skycoder42/QtModules/blob/master/README.md#add-my-repositories-to-qt-maintenancetool)):
+  1. Open the MaintenanceTool, located in your Qt install directory (e.g. `~/Qt/MaintenanceTool`)
+  2. Select `Add or remove components` and click on the `Settings` button
+  3. Go to `Repositories`, scroll to the bottom, select `User defined repositories` and press `Add`
+  4. In the right column (selected by default), type:
+	- On Linux: https://install.skycoder42.de/qtmodules/linux_x64
+	- On Windows: https://install.skycoder42.de/qtmodules/windows_x86
+	- On Mac: https://install.skycoder42.de/qtmodules/mac_x64
+  5. Press `Ok`, make shure `Add or remove components` is still selected, and continue the install (`Next >`)
+  6. A new entry appears under all supported Qt Versions (e.g. `Qt > Qt 5.8 > Skycoder42 Qt modules`)
+  7. You can install either all of my modules, or select the one you need: `Qt Auto Updater`
+  8. Continue the setup and thats it! you can now use the module for all of your installed Kits for that Qt Version
+2. Download the compiled modules from the release page. **Note:** You will have to add the correct ones yourself and may need to adjust some paths to fit your installation!
+3. Build it yourself! **Note:** This requires perl to be installed. If you don't have/need cmake, you can ignore the related warnings. To automatically build and install to your Qt installation, run:
+  - `qmake`
+  - `make qmake_all`
+  - `make`
+  - `make install`
+
+## Documentation
+The documentation is available on [github pages](https://skycoder42.github.io/QtAutoUpdater/). It was created using [doxygen](http://www.doxygen.org/). The HTML-documentation and Qt-Help files are shipped
+together with the module for both the custom repository and the package on the release page. Please note that doxygen docs do not perfectly integrate with QtCreator/QtAssistant.
 
 ## Translations
-The core library does not need any translation, because it won't show anything to the user. The Gui library however does. The project is prepared for translation. But since I speak only english and german, those are the only languages I can provide translations for. However, you can easily create the translations yourself. The file `AutoUpdaterGui/translations/QtAutoUpdaterController_template.ts` is a ready-made TS file. Just rename it (e.g. to `QtAutoUpdaterController_jp.ts`) and open it with the QtLinguist to create the translations.
-
-## Downloads
-Downloads are available via [github releases](https://github.com/Skycoder42/QtAutoUpdater/releases). The downloads include:
- - A .pri file for easy project includes (Just add `include(<path_to>/qtautoupdater.pri)` to your project and all the includes/libray imports/... will be done by that file!)
- - Qt5.7 precompiled binaries for:
-   - Windows
-	 - msvc2015 x86
-	 - msvc2015 x64
-	 - mingw 4.9.2
-   - OsX
-	 - clang x64
-   - X11 (Linux)
-	 - gcc x64
- - The (public) header files needed for these binaries
- - The HTML and QtHelp documentation
- - The german translations and the translation template file
-
-**Note:**<br>
-The downloads are "libraries", not dll/so/dylib files. If you want to use them as dynamic library, you will have to modify the code and build them yourself.
-
-## Building it yourself
-If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, the only other dependencies beside Qt itself is the [DialogMaster](https://github.com/Skycoder42/DialogMaster), which is referenced as submodule. Just make shure to clone the repository recursivly. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!
+The core library does not need any translation, because it won't show anything to the user. The Gui library however does. The project is prepared for translation. But since I speak only english and german, those are the only languages I can provide translations for. However, you can easily create the translations yourself. The file `src/autoupdatergui/translations/QtAutoUpdaterController_template.ts` is a ready-made TS file. Just rename it (e.g. to `QtAutoUpdaterController_jp.ts`) and open it with the QtLinguist to create the translations.
 
 ## Icon sources/Links
 Most icons have been found using [IconArchive](http://www.iconarchive.com/)
