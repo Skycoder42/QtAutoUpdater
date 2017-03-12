@@ -1,14 +1,10 @@
 # QtAutoUpdater
 
-[![BSD3 License](https://img.shields.io/badge/license-BSD3-blue.svg?style=flat)](https://opensource.org/licenses/BSD-3-Clause)
-
 The Qt auto updater library is a library to automatically check for updates and install them. This repository includes:
  - A library with the basic updater (without any GUI)
  - A second library that requires the first one and adds basic GUI features
 
-Github repository: https://github.com/Skycoder42/QtAutoUpdater
-
-## Main Features
+## Features
 ### Core Library
  - Automatic Check for updates using the maintenancetool
  - Can automatically run the maintenancetool after the application finished
@@ -30,19 +26,19 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
 
 | Dialog Sample      | Windows                                                  | Mac                                                      | X11                                                      |
 |--------------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-| Progress Dialog    | ![Progress Dialog](./doc/images/win_dialog_progress.png) | ![Progress Dialog](./doc/images/mac_dialog_progress.png) | ![Progress Dialog](./doc/images/x11_dialog_progress.png) |
+| Progress Dialog	 | ![Progress Dialog](./doc/images/win_dialog_progress.png) | ![Progress Dialog](./doc/images/mac_dialog_progress.png) | ![Progress Dialog](./doc/images/x11_dialog_progress.png) |
 | Information Dialog | ![Information Dialog](./doc/images/win_dialog_info.png)  | ![Information Dialog](./doc/images/mac_dialog_info.png)  | ![Information Dialog](./doc/images/x11_dialog_info.png)  |
-| Update Button       | ![Update Button](./doc/images/win_button_checking.png)     | ![Update Button](./doc/images/mac_button_checking.png)     | ![Update Button](./doc/images/x11_button_checking.png)     |
-| Update Action      | ![Update Action](./doc/images/win_action.png)            | ![Update Action](./doc/images/mac_action.png)            | ![Update Action](./doc/images/x11_action.png)            |
+| Update Button		 | ![Update Button](./doc/images/win_button_checking.png)   | ![Update Button](./doc/images/mac_button_checking.png)   | ![Update Button](./doc/images/x11_button_checking.png)   |
+| Update Action		 | ![Update Action](./doc/images/win_action.png)            | ![Update Action](./doc/images/mac_action.png)            | ![Update Action](./doc/images/x11_action.png)            |
 
 ## Requirements
- - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at https://download.qt.io/official_releases/qt-installer-framework/)
- - C++11 - The library makes heavy use of it's features
- - Qt 5.6 (Since I'm using new features of 5.6, older Versions won't work without modification)
-   - If you are using Qt 5.5, you can download version 1.0.0. It's the only one that supports it
+ - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at via Qt MaintenanceTool)
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library
 
-## Getting started
+## Usage
+The autoupdater is provided as a Qt module. Thus, all you have to do is add the module, and then, in your project, add `QT += autoupdatercore` or `QT += autoupdatergui` to your .pro file - depending on what you need!
+
+### Getting started
 The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create and installer/updater. If you already now how to to that, just check out the examples below. If not, here are some links that
 will explain how to create an online-installer using the framework. Once you have figured out how to do that, it's only a small step
 to the updater library:
@@ -67,24 +63,24 @@ The following example shows the basic usage of the updater. Only the core librar
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-    //create the updater with the application as parent -> will live long enough start the tool on exit
-    QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
-    
-    QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError) {
-        qDebug() << "Has updates:" << hasUpdate << "\nHas errors:" << hasError;
-        if(hasUpdate) {
-            //As soon as the application quits, the maintenancetool will be started in update mode
-            updater->runUpdaterOnExit();
-            qDebug() << "Update info:" << updater->updateInfo();
-        }
-        //Quit the application
-        qApp->quit();
-    });
-    
-    //start the update check
-    updater->checkForUpdates();
-    return a.exec();
+	QCoreApplication a(argc, argv);
+	//create the updater with the application as parent -> will live long enough start the tool on exit
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
+
+	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError) {
+		qDebug() << "Has updates:" << hasUpdate << "\nHas errors:" << hasError;
+		if(hasUpdate) {
+			//As soon as the application quits, the maintenancetool will be started in update mode
+			updater->runUpdaterOnExit();
+			qDebug() << "Update info:" << updater->updateInfo();
+		}
+		//Quit the application
+		qApp->quit();
+	});
+
+	//start the update check
+	updater->checkForUpdates();
+	return a.exec();
 }
 ```
 
@@ -97,23 +93,23 @@ This example will show you the full dialog flow of the controller. Both librarie
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    //Since there is no mainwindow, the various dialogs should not quit the app
-    QApplication::setQuitOnLastWindowClosed(false);
-    //create the update controller with the application as parent -> will live long enough start the tool on exit
-    //since there is no parent window, all dialogs will be top-level windows
-    QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
-    
-    QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
-        qDebug() << "Running changed:" << running;
-        //quit the application as soon as the updating finished
-        if(!running)
-            qApp->quit();
-    });
-    
-    //start the update check -> AskLevel to give the user maximum control
-    controller->start(QtAutoUpdater::UpdateController::AskLevel);
-    return a.exec();
+	QApplication a(argc, argv);
+	//Since there is no mainwindow, the various dialogs should not quit the app
+	QApplication::setQuitOnLastWindowClosed(false);
+	//create the update controller with the application as parent -> will live long enough start the tool on exit
+	//since there is no parent window, all dialogs will be top-level windows
+	QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
+
+	QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
+		qDebug() << "Running changed:" << running;
+		//quit the application as soon as the updating finished
+		if(!running)
+			qApp->quit();
+	});
+
+	//start the update check -> AskLevel to give the user maximum control
+	controller->start(QtAutoUpdater::UpdateController::AskLevel);
+	return a.exec();
 }
 ```
 
@@ -134,15 +130,15 @@ Downloads are available via [github releases](https://github.com/Skycoder42/QtAu
 	 - msvc2015 x64
 	 - mingw 4.9.2
    - OsX
-     - clang x64
+	 - clang x64
    - X11 (Linux)
-     - gcc x64
+	 - gcc x64
  - The (public) header files needed for these binaries
  - The HTML and QtHelp documentation
  - The german translations and the translation template file
 
 **Note:**<br>
-The downloads are "libraries", not dll/so/dylib files. If you want to use them as dynamic library, you will have to modify the code and build them yourself. 
+The downloads are "libraries", not dll/so/dylib files. If you want to use them as dynamic library, you will have to modify the code and build them yourself.
 
 ## Building it yourself
 If you want to build the QtAutoUpdater yourself, make shure that you fullfill all the requirements listed above. To build it, the only other dependencies beside Qt itself is the [DialogMaster](https://github.com/Skycoder42/DialogMaster), which is referenced as submodule. Just make shure to clone the repository recursivly. But please note that the project only supports Desktop Windows, OsX and X11. Trying to build it for other configurations will propably fail!

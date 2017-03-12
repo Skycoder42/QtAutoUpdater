@@ -2,11 +2,11 @@
 @page image_page Image Page
 
 @brief Shows sample images for the updater for all the supported platforms
+@tableofcontents
 
-Back to QtAutoUpdater::UpdateController.
-
-## Windows - Windows 10
-#### The Updater Elements
+# Images {#autoupdater_controller_images}
+## Windows - Windows 10 {#autoupdater_controller_images_win}
+### The Updater Elements {#autoupdater_controller_images_win_1}
 @image html win_dialog_ask.png "Ask Dialog"<br>
 @image html win_dialog_progress.png "Progress Dialog"<br>
 @image html win_dialog_no_updates.png "No Updates Dialog"<br>
@@ -14,21 +14,21 @@ Back to QtAutoUpdater::UpdateController.
 @image html win_dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html win_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
-#### The Update Button
+### The Update Button {#autoupdater_controller_images_win_2}
 @image html win_button_idle.png "Button before clicking"<br>
 @image html win_button_checking.png "Button while checking"<br>
 @image html win_button_updates.png "Button with updates"<br>
 @image html win_button_no_updates.png "Button without updates"<br>
 
-#### The Action
+### The Action {#autoupdater_controller_images_win_3}
 @image html win_action.png "Update action inside a menu and a toolbar"<br>
 
-## Mac - OsX 10.11
+## Mac - OsX 10.11 {#autoupdater_controller_images_osx}
 The following pictures show the controller with a parent windows. Thus, all dialogs
 are shown as "sheets" to that window. If you create the UpdateController without a widget,
 they will show as normal toplevel windows instead.
 
-#### The Updater Elements
+### The Updater Elements {#autoupdater_controller_images_osx_1}
 @image html mac_dialog_ask.png "Ask Dialog"<br>
 @image html mac_dialog_progress.png "Progress Dialog"<br>
 @image html mac_dialog_no_updates.png "No Updates Dialog"<br>
@@ -36,17 +36,17 @@ they will show as normal toplevel windows instead.
 @image html mac_dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html mac_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
-#### The Update Button
+### The Update Button {#autoupdater_controller_images_osx_2}
 @image html mac_button_idle.png "Button before clicking"<br>
 @image html mac_button_checking.png "Button while checking"<br>
 @image html mac_button_updates.png "Button with updates"<br>
 @image html mac_button_no_updates.png "Button without updates"<br>
 
-#### The Action
+### The Action {#autoupdater_controller_images_osx_3}
 @image html mac_action.png "Update action inside a menu and a toolbar"<br>
 
-## X11 - Ubuntu 14.04
-#### The Updater Elements
+## X11 - Ubuntu 14.04 {#autoupdater_controller_images_x11}
+### The Updater Elements {#autoupdater_controller_images_x11_1}
 @image html x11_dialog_ask.png "Ask Dialog"<br>
 @image html x11_dialog_progress.png "Progress Dialog"<br>
 @image html x11_dialog_no_updates.png "No Updates Dialog"<br>
@@ -54,13 +54,13 @@ they will show as normal toplevel windows instead.
 @image html x11_dialog_info_simple.png "Simple Update Information Dialog"<br>
 @image html x11_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
 
-#### The Update Button
+### The Update Button {#autoupdater_controller_images_x11_2}
 @image html x11_button_idle.png "Button before clicking"<br>
 @image html x11_button_checking.png "Button while checking"<br>
 @image html x11_button_updates.png "Button with updates"<br>
 @image html x11_button_no_updates.png "Button without updates"<br>
 
-#### The Action
+### The Action {#autoupdater_controller_images_x11_3}
 @image html x11_action.png "Update action inside a menu and a toolbar"<br>
 */
 
