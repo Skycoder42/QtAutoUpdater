@@ -7,6 +7,7 @@
 
 #include <QtCore/QProcess>
 #include <QtCore/QLoggingCategory>
+#include <QtCore/QException>
 
 #include <exception>
 
@@ -16,18 +17,20 @@ namespace QtAutoUpdater
 class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObject
 {
 public:
-	class Q_AUTOUPDATERCORE_EXPORT UpdateParseException : public std::exception {};//TODO use QException
-	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public UpdateParseException {
+	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QException {
 	public:
-		const char *what() const Q_DECL_NOEXCEPT Q_DECL_OVERRIDE {
-			return "The <updates> node could not be found";
-		}
+		const char *what() const noexcept override;
+
+		void raise() const override;
+		QException *clone() const override;
 	};
-	class InvalidXmlException : public UpdateParseException {
+
+	class Q_AUTOUPDATERCORE_EXPORT InvalidXmlException : public QException {
 	public:
-		const char *what() const Q_DECL_NOEXCEPT Q_DECL_OVERRIDE {
-			return "The found XML-part is not of a valid updates-XML-format";
-		}
+		const char *what() const noexcept override;
+
+		void raise() const override;
+		QException *clone() const override;
 	};
 
 	Updater *q_ptr;

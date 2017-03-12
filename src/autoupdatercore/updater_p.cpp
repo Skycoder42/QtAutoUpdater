@@ -178,7 +178,7 @@ void UpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
 					emit q->checkUpdatesDone(!this->updateInfos.isEmpty(), false);
 				} catch (NoUpdatesXmlException &) {
 					emit q->checkUpdatesDone(false, false);
-				} catch (UpdateParseException &exc) {
+				} catch (InvalidXmlException &exc) {
 					this->lastErrorLog = exc.what();
 					emit q->checkUpdatesDone(false, true);
 				}
@@ -227,4 +227,36 @@ void UpdaterPrivate::appAboutToExit()
 
 		this->runOnExit = false;//prevent warning
 	}
+}
+
+
+
+const char *UpdaterPrivate::NoUpdatesXmlException::what() const noexcept
+{
+	return "The <updates> node could not be found";
+}
+
+void UpdaterPrivate::NoUpdatesXmlException::raise() const
+{
+	throw *this;
+}
+
+QException *UpdaterPrivate::NoUpdatesXmlException::clone() const
+{
+	return new NoUpdatesXmlException();
+}
+
+const char *UpdaterPrivate::InvalidXmlException::what() const noexcept
+{
+	return "The found XML-part is not of a valid updates-XML-format";
+}
+
+void UpdaterPrivate::InvalidXmlException::raise() const
+{
+	throw *this;
+}
+
+QException *UpdaterPrivate::InvalidXmlException::clone() const
+{
+	return new InvalidXmlException();
 }
