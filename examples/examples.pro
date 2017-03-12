@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS = autoupdater
+SUBDIRS = autoupdatercore autoupdatergui
 
 docTarget.target = doxygen
 QMAKE_EXTRA_TARGETS += docTarget
