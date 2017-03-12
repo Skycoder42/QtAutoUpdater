@@ -130,6 +130,7 @@ There are multiple ways to install the Qt module, sorted by preference:
   - `qmake`
   - `make qmake_all`
   - `make`
+  - `make lrelease` (optional step to generate the .qm files)
   - `make install`
 
 ## Documentation
