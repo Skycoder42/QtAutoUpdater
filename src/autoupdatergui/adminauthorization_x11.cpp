@@ -54,11 +54,15 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <QProcess>
 #include <errno.h>
 
 using namespace QtAutoUpdater;
 
+#define KDESU_COMMAND QStringLiteral("/usr/bin/kdesu")
 #define SU_COMMAND "/usr/bin/sudo"
+
+static bool execAdminFallback(const QString &program, const QStringList &arguments);
 
 // has no guarantee to work
 bool AdminAuthorization::hasAdminRights()
@@ -67,6 +71,25 @@ bool AdminAuthorization::hasAdminRights()
 }
 
 bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
+{
+	QString command;
+	QStringList args;
+
+	if(QFile::exists(KDESU_COMMAND)) {
+		command = KDESU_COMMAND;
+		args.append(QStringLiteral("-c"));
+	} else
+		return execAdminFallback(program, arguments);
+
+	QStringList tmpList(program);
+	tmpList.append(arguments);
+	args.append(QLatin1Char('\"') + tmpList.join(QStringLiteral("\" \"")) + QLatin1Char('\"'));
+
+	qDebug() << command << args;
+	return QProcess::startDetached(command, args);
+}
+
+static bool execAdminFallback(const QString &program, const QStringList &arguments)
 {
 	// as we cannot pipe the password to su in QProcess, we need to setup a pseudo-terminal for it
 	int masterFD = -1;
