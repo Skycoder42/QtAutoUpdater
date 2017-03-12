@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += cmake autoupdater
+SUBDIRS += cmake autoupdatercore autoupdatergui
