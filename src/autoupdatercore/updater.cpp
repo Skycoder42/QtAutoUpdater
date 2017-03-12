@@ -138,9 +138,12 @@ Updater::UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 si
 
 QDebug &operator<<(QDebug &debug, const Updater::UpdateInfo &info)
 {
-	debug << qPrintable(QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")
-						.arg(info.name)
-						.arg(info.version.toString())
-						.arg(info.size));
+	QDebugStateSaver state(debug);
+	Q_UNUSED(state);
+
+	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")
+					   .arg(info.name)
+					   .arg(info.version.toString())
+					   .arg(info.size);
 	return debug;
 }

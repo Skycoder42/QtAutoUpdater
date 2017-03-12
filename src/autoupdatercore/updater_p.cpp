@@ -36,7 +36,7 @@ UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
 UpdaterPrivate::~UpdaterPrivate()
 {
 	if(this->runOnExit)
-		qCWarning(logQtAutoUpdater, "Updater destroyed with run on exit active before the application quit");
+		qCWarning(logQtAutoUpdater) << "Updater destroyed with run on exit active before the application quit";
 
 	if(this->mainProcess &&
 	   this->mainProcess->state() != QProcess::NotRunning) {
