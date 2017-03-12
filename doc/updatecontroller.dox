@@ -1,0 +1,535 @@
+/*!
+@page image_page Image Page
+
+@brief Shows sample images for the updater for all the supported platforms
+
+Back to QtAutoUpdater::UpdateController.
+
+## Windows - Windows 10
+#### The Updater Elements
+@image html win_dialog_ask.png "Ask Dialog"<br>
+@image html win_dialog_progress.png "Progress Dialog"<br>
+@image html win_dialog_no_updates.png "No Updates Dialog"<br>
+@image html win_dialog_info.png "Detailed Update Information Dialog"<br>
+@image html win_dialog_info_simple.png "Simple Update Information Dialog"<br>
+@image html win_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+
+#### The Update Button
+@image html win_button_idle.png "Button before clicking"<br>
+@image html win_button_checking.png "Button while checking"<br>
+@image html win_button_updates.png "Button with updates"<br>
+@image html win_button_no_updates.png "Button without updates"<br>
+
+#### The Action
+@image html win_action.png "Update action inside a menu and a toolbar"<br>
+
+## Mac - OsX 10.11
+The following pictures show the controller with a parent windows. Thus, all dialogs
+are shown as "sheets" to that window. If you create the UpdateController without a widget,
+they will show as normal toplevel windows instead.
+
+#### The Updater Elements
+@image html mac_dialog_ask.png "Ask Dialog"<br>
+@image html mac_dialog_progress.png "Progress Dialog"<br>
+@image html mac_dialog_no_updates.png "No Updates Dialog"<br>
+@image html mac_dialog_info.png "Detailed Update Information Dialog"<br>
+@image html mac_dialog_info_simple.png "Simple Update Information Dialog"<br>
+@image html mac_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+
+#### The Update Button
+@image html mac_button_idle.png "Button before clicking"<br>
+@image html mac_button_checking.png "Button while checking"<br>
+@image html mac_button_updates.png "Button with updates"<br>
+@image html mac_button_no_updates.png "Button without updates"<br>
+
+#### The Action
+@image html mac_action.png "Update action inside a menu and a toolbar"<br>
+
+## X11 - Ubuntu 14.04
+#### The Updater Elements
+@image html x11_dialog_ask.png "Ask Dialog"<br>
+@image html x11_dialog_progress.png "Progress Dialog"<br>
+@image html x11_dialog_no_updates.png "No Updates Dialog"<br>
+@image html x11_dialog_info.png "Detailed Update Information Dialog"<br>
+@image html x11_dialog_info_simple.png "Simple Update Information Dialog"<br>
+@image html x11_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+
+#### The Update Button
+@image html x11_button_idle.png "Button before clicking"<br>
+@image html x11_button_checking.png "Button while checking"<br>
+@image html x11_button_updates.png "Button with updates"<br>
+@image html x11_button_no_updates.png "Button without updates"<br>
+
+#### The Action
+@image html x11_action.png "Update action inside a menu and a toolbar"<br>
+*/
+
+/*!
+@class QtAutoUpdater::UpdateController
+
+The update-controller is a helpful tool if you want to show a simple GUI to the users.
+It offers an automated update process, controlled by the user. All thats left for you
+to do is starting this controller. This can be done in 4 ways:
+ - Call UpdateController::start somewhere in your code
+ - Schedule an update using UpdateController::scheduleUpdate
+ - Add the QAction returned by UpdateController::createUpdateAction somewhere in your gui
+ - Add the UpdateButton widget somewhere in your gui
+
+## Images
+For a full collection of all immages, please go to the @ref image_page "Image Page"
+
+## Example
+This example will show you the full dialog flow of the controller. Both libraries are
+required for this example. Since there is no mainwindow in this example, you will only
+see the controller dialogs. Please not that you can control how much of that dialogset
+will be shown to the user. This example is *reduced*! for a full example with all parts
+of the controller, check the `Tests/WidgetsTest` application.
+
+@attention Since this library requires the maintenancetool that is deployed with every
+Qt Installer Framework installation, the examples cannot be tested without a
+maintenancetool! If you intend to use this library, the maintenancetool will be
+available for your final application. For testing purpose or the examples, I set the
+path to the `MaintenanceTool` that is deployed with the installation of Qt (or any
+other maintenancetool). So make shure to adjust the path if you try to run the examples.
+
+@code{.cpp}
+#include <QApplication>
+#include <updatecontroller.h>
+
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	//Since there is no mainwindow, the various dialogs should not quit the app
+	QApplication::setQuitOnLastWindowClosed(false);
+	//create the update controller with the application as parent -> will live long enough start the tool on exit
+	//since the parent is not a widget, all dialogs will be top-level windows
+	QtAutoUpdater::UpdateController *controller = new QtAutoUpdater::UpdateController("C:/Qt/MaintenanceTool", &a);//.exe is automatically added
+
+	QObject::connect(updater, &QtAutoUpdater::UpdateController::runningChanged, [updater](bool running) {
+		qDebug() << "Running changed:" << running;
+		//quit the application as soon as the updating finished
+		if(!running)
+			qApp->quit();
+	});
+
+	//start the update check -> AskLevel to give the user maximum control
+	controller->start(QtAutoUpdater::UpdateController::AskLevel);
+	return a.exec();
+}
+@endcode
+
+## Changing the update icon
+The controller uses one special icon in many of it's dialogs. This icon is a resource fail and can
+be replaced by overwriting the resource. Simply create an entry in a resource file with the following path:
+`:/QtAutoUpdater/icons/update.ico`. This way the controller will use your icon instead of the default one.
+The file type of the icon has to stay the same, i.e. `.ico`. Otherwise loading will fail.
+
+@note This "replacement" is nothing I have implemented, but a result of how the resource system of Qt works. This may change
+in different version. If you intend to make use of it, please try it out! If this feature is requested without the "hack", I
+will add it in a future release.
+
+@sa QtAutoUpdater::Updater, QtAutoUpdater::UpdateButton
+*/
+
+/*!
+@enum QtAutoUpdater::UpdateController::DisplayLevel
+
+The display level controlls the kind of dialogs shown to the user. Levels are ranked from
+the lowest (`AutomaticLevel = 0`) to the highest (`AskLevel = 5`). Each Level includes all
+levels with a smaller value, i.e. using the `AskLevel` will add the ask dialog to everything
+shown with `ProgressLevel`, but not less.
+
+@sa @ref image_page "Image Page"
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::maintenanceToolPath
+
+@default{Updater::maintenanceToolPath}
+
+This property is simply the forewarded Updater::maintenanceToolPath. Check the
+documentation of that property for more details.
+
+@accessors{
+	@readAc{maintenanceToolPath()}
+	@constantAc
+	@finalAc
+}
+
+@sa Updater::maintenanceToolPath
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::parentWindow
+
+@default{`nullptr` (depends on constructor)}
+
+The parent window is the window that should be used as "parent" for all dialogs the
+updater will show. If it is set to `nullptr`, all dialogs will be toplevel windows and
+application modal. If it is set to a valid widget, that widget will be the parent window
+for all dialogs and they will be window-modal to that window. (On OsX, the dialogs become
+sheets).
+
+@note This property has nothing to do with the actual parent object of the controller. This means
+even if the window gets destroyed while the updater is active, the controller will stay active. It
+will automatically show the dialogs without a parent again.
+
+@accessors{
+	@readAc{parentWindow()}
+	@writeAc{setParentWindow()}
+}
+
+@sa UpdateController::UpdateController
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::running
+
+@default{`false`}
+
+The controller can only run once at a time. If this property returns `true`, you will
+have to wait for it to finish to start it again. Please note that "running" includes
+not just that actual update check, but all the dialogs too. This means the Updater::running
+property of the attached updater can return `false` while this one returns `true`.
+
+@accessors{
+	@readAc{isRunning()}
+	@notifyAc{runningChanged()}
+}
+
+@sa UpdateController::updater, UpdateController::start, UpdateController::cancelUpdate
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::runAsAdmin
+
+@default{`true` (on unix platforms, it will be runtime-determined)}
+
+Specifies whether the controller should run the updater (**not** the update check) as
+admin/root. If set `true`, the user will be prompted to allow this elevation (and enter
+his password).
+
+@note This property only specifies a "suggestion" to the user. If you want to disallow
+the user to change this, you will have to explicitly set it to be unchangable using
+the write accessor function of this property.
+
+On Unix-Systems (X11 and Mac) the controller will check whether the maintenancetool belongs to root
+or not (owner-id == 0). It it belongs to root, the property will be set to `true`,
+otherwise to `false`. For windows, there is currently no easy way to get this information. And since
+programs are typically installed for all users, the default is `true`
+
+@note This property will not modify already planned runs on exit. If you need to modify it,
+make shure to call this function before checking for updates, or use
+Updater::runUpdaterOnExit(AdminAuthoriser *) instead
+
+@accessors{
+	@readAc{runAsAdmin()}
+	@writeAc{setRunAsAdmin()}
+	@notifyAc{runAsAdminChanged()}
+}
+
+@sa UpdateController::setRunAsAdmin, UpdateController::updateRunArgs,
+Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::updater
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::updateRunArgs
+
+@default{`{"--updater"}`}
+
+These arguments will be used to invoke the updater with it on exit (if updates are
+available). See Updater::runUpdaterOnExit(AdminAuthoriser *) for more details about
+"running on exit". If UpdateController::runAsAdmin is set to `true`, the maintenancetool
+will be run with elevated rights.
+
+@note This property will not modify already planned runs on exit. If you need to modify it,
+make shure to call this function before checking for updates, or use
+Updater::runUpdaterOnExit(AdminAuthoriser *) instead
+
+@accessors{
+	@readAc{updateRunArgs()}
+	@writeAc{setUpdateRunArgs()}
+	@resetAc{resetUpdateRunArgs()}
+}
+
+@sa UpdateController::runAsAdmin, Updater::runUpdaterOnExit(AdminAuthoriser *), QtAutoUpdater::UpdateController::updater
+*/
+
+/*!
+@property QtAutoUpdater::UpdateController::detailedUpdateInfo
+
+@default{`true`}
+
+The controller supports two different update-info-dialogs. The detailed one will
+show a "big" dialog with the information, in a wide format. The simple one is just
+a messagebox that provides the same functionality, but is much smaller. This property
+is used to switch between the two dialogs. If the DisplayLevel is set to not show an
+info-dialog at all, neither of the two will be shown.
+
+For a comparison how each of these dialogs looks on each platform, check the
+@ref image_page "Image Page".
+
+@accessors{
+	@readAc{isDetailedUpdateInfo()}
+	@notifyAc{setDetailedUpdateInfo()}
+}
+
+@sa UpdateController::DisplayLevel, @ref image_page "Image Page"
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::UpdateController(QObject *)
+
+@overload
+@param parent The parent object. Will serve as parent for the controller
+
+The created controller will not be bound to a specific window. Instead, all it's dialogs
+will be top-level windows without a parent and application modal. You can later change the
+window using the UpdateController::parentWindow property.
+
+@note If you set `parent` to anything but `nullptr`, make shure the parent object lives long
+enough for the controller to receive the QCoreApplication::aboutToQuit signal, since thats
+required for the updater to show the maintenancetool as updater. One good approach to make
+shure the controller gets deleted and that it will happen after the signal is to use `qApp`
+as parent (QCoreApplication::instance()).
+
+@overloads{
+	@povElem{UpdateController(QObject *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
+	@ovElem{UpdateController(const QString &, QObject *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
+}
+
+@sa UpdateController::parentWindow
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::UpdateController(QWidget *, QObject *)
+
+@overload
+@param parentWindow The parent window. Will serve as parent for the windows
+@param parent The parent object. Will serve as parent for the controller
+
+The created controller will be bound to the widget. This means all dialogs will be child
+windows of the widgets window. On Mac, dialogs will be shown as "Sheets" of the parent
+window. You can later change the window using the UpdateController::parentWindow property.
+
+@note Settings the window will not change the "object-parent" of the controller, this can be
+done using `parent`. If you set `parent` to anything but `nullptr`, make shure the parent object
+lives long enough for the controller to receive the QCoreApplication::aboutToQuit signal,
+since thats required for the updater to show the maintenancetool as updater.
+
+@overloads{
+	@povElem{UpdateController(QObject *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
+	@ovElem{UpdateController(const QString &, QObject *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
+}
+
+@sa UpdateController::parentWindow
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::UpdateController(const QString &, QObject *)
+
+@overload
+@param maintenanceToolPath The path to the maintenancetool
+@param parent The parent object. Will serve as parent for the controller
+
+The maintenancetool path will be set to the given one (and cannot be changed). See
+UpdateController::maintenanceToolPath for more details.
+
+@overloads{
+	@povElem{UpdateController(QObject *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
+	@ovElem{UpdateController(const QString &, QObject *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
+}
+
+@sa UpdateController::parentWindow, UpdateController::maintenanceToolPath
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::UpdateController(const QString &, QWidget *, QObject *)
+
+@overload
+@param maintenanceToolPath The path to the maintenancetool
+@param parentWindow The parent widget. Will serve as parent for the controller and windows
+@param parent The parent object. Will serve as parent for the controller
+
+The maintenancetool path will be set to the given one (and cannot be changed). See
+UpdateController::maintenanceToolPath for more details.
+
+@overloads{
+	@povElem{UpdateController(QObject *)}
+	@povElem{UpdateController(QWidget *, QObject *)}
+	@ovElem{UpdateController(const QString &, QObject *)}
+	@ovElem{UpdateController(const QString &, QWidget *, QObject *)}
+}
+
+@sa UpdateController::parentWindow, UpdateController::maintenanceToolPath
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::~UpdateController
+
+@warning Do not destroy the controller while UpdateController::running returns `true`!!!
+This will crash your program in almost all cases!!!
+
+@sa UpdateController::running, UpdateController::cancelUpdate
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::createUpdateAction
+
+@param parent The parent object the action should belong to
+@returns a newly created action associated with this controller
+
+The action will automatically start the controller with the display-level
+`UpdateController::ProgressLevel`. In addition to that, the action will be automatically
+disabled if the controller is already running and deleted together with the controller
+(or `parent`, whoever gets destroyed first). For images check the @ref image_page "Image Page".
+
+The action has a text, an icon and a tooltip. On Mac, the action will be placed in the
+Applications menu if added to the Menubar. To show it in other places (for example as dock-menu),
+unset the QAction::menuRole.
+
+@sa QtAutoUpdater::UpdateButton, @ref image_page "Image Page", QAction::menuRole
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::setRunAsAdmin
+
+<b>Property: UpdateController::runAsAdmin</b>
+
+@param runAsAdmin `true`, if the maintenancetool should be run as admin/root, `false` to
+run it with the rights of the current user
+@param userEditable If set to `true`, the user can change this value in the info dialog.
+If set to `false`, he will not be able to do so
+
+The second parameter allows you to disable the change of this property by the user. If
+`userEditable` is true, the user can check/uncheck a checkbox in the info dialog. If
+`false`, this checkbox will be disabled. (The user can see the required rights, but not
+change them)
+
+@sa UpdateController::runAsAdmin
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::updater
+
+@returns The Updater object this controller uses internally to check for updates
+
+The returned object is owned by the controller and must not be deleted. The returned
+object is `const` because manually changing the updater (e.g. by calling
+Updater::checkForUpdates) could break the controller and lead to a crash! You may only
+use this function to e.g. get extended error information.
+
+@note Some functions, like Updater::abortUpdateCheck or Updater::cancelExitRun may be safe
+to call, even though they are not `const` However, I will give no guarantee for any of the
+unconstant functions. If you need to do something like that, you can cast the returned
+pointer and try it out.
+
+@sa QtAutoUpdater::Updater
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::start
+
+@param displayLevel The DisplayLevel to be used for this run
+@return `true`, if the controller started, `false` if it already was running
+
+start will only work if the updater isn't already running, but if it isn't, this function
+will always succeed.
+
+@note This function will not return until the maintenancetool has started checking for
+updates (or immediatly if already running). If the level is for example
+UpdateController::AskLevel, this function will block while the question box is shown to
+the user.
+
+@sa UpdateController::running, UpdateController::cancelUpdate
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::cancelUpdate
+
+@param maxDelay the maximal (asynchrounus) delay to wait
+@return `true`, if the canceling was started, `false` if not
+
+This function will only return `true` if the canceling was **started** successfully. It
+will not wait for the controller to be actually canceled. However, you can be shure that
+the controller will be canceled before `maxDelay` has passed.
+
+If `false` is returned, this can either mean that the controller is currently not running
+(user UpdateController::running to check that) or that it is showing an "uncancelable" dialog
+to the user (Any dialog but the progress dialog is "uncancelable"). If thats the case, you
+have no other choice but to wait for the user to close all those dialogs.
+
+@sa UpdateController::running, UpdateController::start, Updater::abortUpdateCheck
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::scheduleUpdate(int , bool, DisplayLevel)
+
+@overload
+@param delaySeconds The time (in seconds) to wait until the update is started
+@param repeated Specifies, whether the updater should be started every `delaySeconds`
+or only once
+@param displayLevel The display-level to be used by the controller
+@returns The internal ID of this update task. Can be used to cancel the task
+
+Schedules an update to be run after `delaySeconds` seconds. If `repeated` is `true`, the
+controller will not just be run once, but every `delaySeconds` seconds (infinitly, until
+this instance is destroyed or the task canceled).
+
+@note After scheduling the update, you will have no way to take track of the schedule.
+If the controller is already running while the task is triggered, nothing will happend.
+The scheduled update will only work if this same instance of the controller is still alive
+at that time.
+
+@overloads{
+	@ovElem{scheduleUpdate(int , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
+}
+
+@sa UpdateController::cancelScheduledUpdate, UpdateController::start
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::scheduleUpdate(const QDateTime &, DisplayLevel)
+
+@overload
+@param when The timepoint where the update should be started
+@param displayLevel The display-level to be used by the controller
+@returns The internal ID of this update task. Can be used to cancel the task
+
+Schedules an update to be run at `when`. If `when` lays in the past, nothing will happen.
+The update will be started once that time is reached (assuming that this controller instance
+is still alive at that timepoint).
+
+@note After scheduling the update, you will have no way to take track of the schedule.
+If the controller is already running while the task is triggered, nothing will happend.
+The scheduled update will only work if this same instance of the controller is still alive
+at that time.
+
+@overloads{
+	@ovElem{scheduleUpdate(int , bool, DisplayLevel)}
+	@ovElem{scheduleUpdate(const QDateTime &, DisplayLevel)}
+}
+
+@sa UpdateController::cancelScheduledUpdate, UpdateController::start
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateController::cancelScheduledUpdate
+
+@param taskId The id of the task to be canceled
+
+Cancels the task with the id `taskId`. If there was a task with that ID, you can be shure
+that it will be canceled. If the task was not until the point you call this function, it
+will not be triggered anymore.
+
+@sa UpdateController::scheduleUpdate(int , bool, DisplayLevel),
+UpdateController::scheduleUpdate(const QDateTime &, DisplayLevel),
+UpdateController::cancelUpdate
+*/

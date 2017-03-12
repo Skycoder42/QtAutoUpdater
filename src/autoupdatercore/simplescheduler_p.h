@@ -1,5 +1,5 @@
-#ifndef SIMPLESCHEDULER_H
-#define SIMPLESCHEDULER_H
+#ifndef SIMPLESCHEDULER_P_H
+#define SIMPLESCHEDULER_P_H
 
 #include "qautoupdatercore_global.h"
 
@@ -37,4 +37,4 @@ private:
 
 }
 
-#endif // SIMPLESCHEDULER_H
+#endif // SIMPLESCHEDULER_P_H
