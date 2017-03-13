@@ -88,6 +88,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		a->setIconVisibleInMenu(false);
 		this->ui->menuHelp->addAction(a);
 		this->ui->mainToolBar->addAction(a);
+		qDebug() << "detected runAsAdmin as:" << controller->runAsAdmin();
 #ifdef Q_OS_OSX
 		QMenu *dockMenu = new QMenu(this);
 		QAction *action = this->controller->createUpdateAction(this);
