@@ -17,9 +17,8 @@ Updater::Updater(QObject *parent) :
 
 Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdaterPrivate(this))
+	d(new UpdaterPrivate(this))
 {
-	Q_D(Updater);
 	d->toolPath = UpdaterPrivate::toSystemExe(maintenanceToolPath);
 }
 
@@ -27,55 +26,46 @@ Updater::~Updater() {}
 
 bool Updater::exitedNormally() const
 {
-	const Q_D(Updater);
 	return d->normalExit;
 }
 
 int Updater::errorCode() const
 {
-	const Q_D(Updater);
 	return d->lastErrorCode;
 }
 
 QByteArray Updater::errorLog() const
 {
-	const Q_D(Updater);
 	return d->lastErrorLog;
 }
 
 bool Updater::willRunOnExit() const
 {
-	const Q_D(Updater);
 	return d->runOnExit;
 }
 
 QString Updater::maintenanceToolPath() const
 {
-	const Q_D(Updater);
 	return d->toolPath;
 }
 
 bool Updater::isRunning() const
 {
-	const Q_D(Updater);
 	return d->running;
 }
 
 QList<Updater::UpdateInfo> Updater::updateInfo() const
 {
-	const Q_D(Updater);
 	return d->updateInfos;
 }
 
 bool Updater::checkForUpdates()
 {
-	Q_D(Updater);
 	return d->startUpdateCheck();
 }
 
 void Updater::abortUpdateCheck(int maxDelay, bool async)
 {
-	Q_D(Updater);
 	d->stopUpdateCheck(maxDelay, async);
 }
 
@@ -85,25 +75,21 @@ int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
-	Q_D(Updater);
 	return d->scheduler->startSchedule(delaySeconds * 1000, repeated);
 }
 
 int Updater::scheduleUpdate(const QDateTime &when)
 {
-	Q_D(Updater);
 	return d->scheduler->startSchedule(when);
 }
 
 void Updater::cancelScheduledUpdate(int taskId)
 {
-	Q_D(Updater);
 	d->scheduler->cancelSchedule(taskId);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)
 {
-	Q_D(Updater);
 	d->runOnExit = true;
 	d->runArguments = arguments;
 	d->adminAuth.reset(authoriser);
@@ -111,7 +97,6 @@ void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *au
 
 void Updater::cancelExitRun()
 {
-	Q_D(Updater);
 	d->runOnExit = false;
 	d->adminAuth.reset();
 }

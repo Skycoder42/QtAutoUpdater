@@ -33,8 +33,7 @@ public:
 		QException *clone() const override;
 	};
 
-	Updater *q_ptr;
-	Q_DECLARE_PUBLIC(Updater)
+	Updater *q;
 
 	QString toolPath;
 	QList<Updater::UpdateInfo> updateInfos;

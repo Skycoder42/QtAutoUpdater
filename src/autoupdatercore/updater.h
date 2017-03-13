@@ -86,7 +86,7 @@ public Q_SLOTS:
 
 	//! Runs the maintenancetool as updater on exit, using the given admin authorisation
 	inline void runUpdaterOnExit(AdminAuthoriser *authoriser = nullptr) {
-		this->runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
+		runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
 	}
 	//! Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation
 	void runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser = nullptr);
@@ -103,8 +103,7 @@ Q_SIGNALS:
 	void updateInfoChanged(QList<QtAutoUpdater::Updater::UpdateInfo> updateInfo);
 
 private:
-	QScopedPointer<UpdaterPrivate> d_ptr;
-	Q_DECLARE_PRIVATE(Updater)
+	QScopedPointer<UpdaterPrivate> d;
 };
 
 }
