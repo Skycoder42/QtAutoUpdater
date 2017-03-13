@@ -64,7 +64,7 @@ they will show as normal toplevel windows instead.
 ### The Action {#autoupdater_controller_images_osx_3}
 @image html mac_action.png "Update action inside a menu and a toolbar"<br>
 
-## X11 - Ubuntu 14.04 {#autoupdater_controller_images_x11}
+## X11 - KDE Frameworks 5.31.0 (Breeze Style) {#autoupdater_controller_images_x11}
 ### The Updater Elements {#autoupdater_controller_images_x11_1}
 @image html x11_dialog_ask.png "Ask Dialog"<br>
 @image html x11_dialog_progress.png "Progress Dialog"<br>

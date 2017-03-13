@@ -34,25 +34,25 @@ private:
 
 void UpdaterTest::testUpdaterInitState()
 {
-	this->updater = new Updater(this);
+	updater = new Updater(this);
 
 	//error state
-	QVERIFY(this->updater->exitedNormally());
-	QCOMPARE(this->updater->errorCode(), EXIT_SUCCESS);
-	QVERIFY(this->updater->errorLog().isEmpty());
+	QVERIFY(updater->exitedNormally());
+	QCOMPARE(updater->errorCode(), EXIT_SUCCESS);
+	QVERIFY(updater->errorLog().isEmpty());
 
 	//properties
 #if defined(Q_OS_WIN32)
-	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.exe"));
+	QCOMPARE(updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.exe"));
 #elif defined(Q_OS_OSX)
-	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("../../maintenancetool.app/Contents/MacOS/maintenancetool"));
+	QCOMPARE(updater->maintenanceToolPath(), QStringLiteral("../../maintenancetool.app/Contents/MacOS/maintenancetool"));
 #elif defined(Q_OS_UNIX)
-	QCOMPARE(this->updater->maintenanceToolPath(), QStringLiteral("./maintenancetool"));
+	QCOMPARE(updater->maintenanceToolPath(), QStringLiteral("./maintenancetool"));
 #endif
-	QCOMPARE(this->updater->isRunning(), false);
-	QVERIFY(this->updater->updateInfo().isEmpty());
+	QCOMPARE(updater->isRunning(), false);
+	QVERIFY(updater->updateInfo().isEmpty());
 
-	delete this->updater;
+	delete updater;
 }
 
 void UpdaterTest::testUpdateCheck_data()
@@ -87,93 +87,93 @@ void UpdaterTest::testUpdateCheck()
 	QFETCH(bool, hasUpdates);
 	QFETCH(QList<Updater::UpdateInfo>, updates);
 
-	this->updater = new Updater(toolPath, this);
-	QVERIFY(this->updater);
-	this->checkSpy = new QSignalSpy(this->updater, &Updater::checkUpdatesDone);
-	QVERIFY(this->checkSpy->isValid());
-	this->runningSpy = new QSignalSpy(this->updater, &Updater::runningChanged);
-	QVERIFY(this->runningSpy->isValid());
-	this->updateInfoSpy = new QSignalSpy(this->updater, &Updater::updateInfoChanged);
-	QVERIFY(this->updateInfoSpy->isValid());
+	updater = new Updater(toolPath, this);
+	QVERIFY(updater);
+	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
+	QVERIFY(checkSpy->isValid());
+	runningSpy = new QSignalSpy(updater, &Updater::runningChanged);
+	QVERIFY(runningSpy->isValid());
+	updateInfoSpy = new QSignalSpy(updater, &Updater::updateInfoChanged);
+	QVERIFY(updateInfoSpy->isValid());
 
 	//start the check updates
-	QVERIFY(!this->updater->isRunning());
-	QVERIFY(this->updater->checkForUpdates());
+	QVERIFY(!updater->isRunning());
+	QVERIFY(updater->checkForUpdates());
 
 	//runnig should have changed to true
-	QCOMPARE(this->runningSpy->size(), 1);
-	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
-	QVERIFY(this->updater->isRunning());
-	QVERIFY(this->updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>().isEmpty());
+	QCOMPARE(runningSpy->size(), 1);
+	QVERIFY(runningSpy->takeFirst()[0].toBool());
+	QVERIFY(updater->isRunning());
+	QVERIFY(updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>().isEmpty());
 
 	//wait max 2 min for the process to finish
-	QVERIFY(this->checkSpy->wait(120000));
+	QVERIFY(checkSpy->wait(120000));
 
 	//show error log before continuing checking
-	QByteArray log = this->updater->errorLog();
+	QByteArray log = updater->errorLog();
 	if(!log.isEmpty())
 		qWarning() << "Error log:" << log;
 
 	//check if the finished signal is without error
-	QCOMPARE(this->checkSpy->size(), 1);
-	QVariantList varList = this->checkSpy->takeFirst();
-	QVERIFY(this->updater->exitedNormally());
-	QCOMPARE(this->updater->errorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
+	QCOMPARE(checkSpy->size(), 1);
+	QVariantList varList = checkSpy->takeFirst();
+	QVERIFY(updater->exitedNormally());
+	QCOMPARE(updater->errorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
 	QCOMPARE(varList[1].toBool(), false);//no errors please
 
 	//verifiy the "hasUpdates" and "updates" are as expected
 	QCOMPARE(varList[0].toBool(), hasUpdates);
-	QCOMPARE(this->updater->updateInfo(), updates);
+	QCOMPARE(updater->updateInfo(), updates);
 	if(hasUpdates) {
-		QCOMPARE(this->updateInfoSpy->size(), 1);
-		QCOMPARE(this->updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>(), updates);
+		QCOMPARE(updateInfoSpy->size(), 1);
+		QCOMPARE(updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>(), updates);
 	}
 
 	//runnig should have changed to false
-	QCOMPARE(this->runningSpy->size(), 1);
-	QVERIFY(!this->runningSpy->takeFirst()[0].toBool());
-	QVERIFY(!this->updater->isRunning());
+	QCOMPARE(runningSpy->size(), 1);
+	QVERIFY(!runningSpy->takeFirst()[0].toBool());
+	QVERIFY(!updater->isRunning());
 
 	//verifiy all signalspies are empty
-	QVERIFY(this->checkSpy->isEmpty());
-	QVERIFY(this->runningSpy->isEmpty());
-	QVERIFY(this->updateInfoSpy->isEmpty());
+	QVERIFY(checkSpy->isEmpty());
+	QVERIFY(runningSpy->isEmpty());
+	QVERIFY(updateInfoSpy->isEmpty());
 
 	//-----------schedule mechanism---------------
 
-	int kId = this->updater->scheduleUpdate(1, true);//every 1 minute
+	int kId = updater->scheduleUpdate(1, true);//every 1 minute
 	QVERIFY(kId);
-	this->updater->cancelScheduledUpdate(kId);
+	updater->cancelScheduledUpdate(kId);
 
-	kId = this->updater->scheduleUpdate(QDateTime::currentDateTime().addSecs(5));
-	QVERIFY(this->updater->scheduleUpdate(QDateTime::currentDateTime().addSecs(2)));
-	this->updater->cancelScheduledUpdate(kId);
+	kId = updater->scheduleUpdate(QDateTime::currentDateTime().addSecs(5));
+	QVERIFY(updater->scheduleUpdate(QDateTime::currentDateTime().addSecs(2)));
+	updater->cancelScheduledUpdate(kId);
 
 	//wait for the update to start
-	QVERIFY(this->runningSpy->wait(2000 + TEST_DELAY));
+	QVERIFY(runningSpy->wait(2000 + TEST_DELAY));
 	//should be running
-	QVERIFY(this->runningSpy->size() > 0);
-	QVERIFY(this->runningSpy->takeFirst()[0].toBool());
+	QVERIFY(runningSpy->size() > 0);
+	QVERIFY(runningSpy->takeFirst()[0].toBool());
 	//wait for it to finish if not running
-	if(this->runningSpy->isEmpty())
-		QVERIFY(this->runningSpy->wait(120000));
+	if(runningSpy->isEmpty())
+		QVERIFY(runningSpy->wait(120000));
 	//should have stopped
-	QCOMPARE(this->runningSpy->size(), 1);
-	QVERIFY(!this->runningSpy->takeFirst()[0].toBool());
+	QCOMPARE(runningSpy->size(), 1);
+	QVERIFY(!runningSpy->takeFirst()[0].toBool());
 
 	//wait for the canceled one (max 5 secs)
-	QVERIFY(!this->runningSpy->wait(5000 + TEST_DELAY));
+	QVERIFY(!runningSpy->wait(5000 + TEST_DELAY));
 
 	//verifiy the runningSpy is empty
-	QVERIFY(this->runningSpy->isEmpty());
+	QVERIFY(runningSpy->isEmpty());
 	//clear the rest
-	this->checkSpy->clear();
-	this->updateInfoSpy->clear();
+	checkSpy->clear();
+	updateInfoSpy->clear();
 
-	delete this->updateInfoSpy;
-	delete this->runningSpy;
-	delete this->checkSpy;
-	delete this->updater;
+	delete updateInfoSpy;
+	delete runningSpy;
+	delete checkSpy;
+	delete updater;
 }
 
 QTEST_GUILESS_MAIN(UpdaterTest)
