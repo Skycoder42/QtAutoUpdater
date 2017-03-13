@@ -4,7 +4,7 @@
 <context>
     <name>AdminAuthorization</name>
     <message>
-        <location filename="../adminauthorization_x11.cpp" line="+189"/>
+        <location filename="../adminauthorization_x11.cpp" line="+188"/>
         <source>Enter Password</source>
         <translation>Passwort Eingeben</translation>
     </message>

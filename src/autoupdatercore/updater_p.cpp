@@ -162,24 +162,18 @@ void UpdaterPrivate::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
 			mainProcess->deleteLater();
 			mainProcess = nullptr;
 
-			if(lastErrorCode != EXIT_SUCCESS) {
-				running = false;
-				emit q->runningChanged(false);
+			running = false;
+			emit q->runningChanged(false);
+			try {
+				updateInfos = parseResult(updateOut);
+				if(!updateInfos.isEmpty())
+					emit q->updateInfoChanged(updateInfos);
+				emit q->checkUpdatesDone(!updateInfos.isEmpty(), false);
+			} catch (NoUpdatesXmlException &) {
+				emit q->checkUpdatesDone(false, false);
+			} catch (InvalidXmlException &exc) {
+				lastErrorLog = exc.what();
 				emit q->checkUpdatesDone(false, true);
-			} else {
-				running = false;
-				emit q->runningChanged(false);
-				try {
-					updateInfos = parseResult(updateOut);
-					if(!updateInfos.isEmpty())
-						emit q->updateInfoChanged(updateInfos);
-					emit q->checkUpdatesDone(!updateInfos.isEmpty(), false);
-				} catch (NoUpdatesXmlException &) {
-					emit q->checkUpdatesDone(false, false);
-				} catch (InvalidXmlException &exc) {
-					lastErrorLog = exc.what();
-					emit q->checkUpdatesDone(false, true);
-				}
 			}
 		} else
 			updaterError(QProcess::Crashed);

@@ -66,8 +66,8 @@ void UpdaterTest::testUpdateCheck_data()
 	QString homePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 	QString path = homePath + "/QtAutoUpdaterTestInstaller";
 	QTest::newRow("QtAutoUpdaterTestInstaller") << path + "/maintenancetool"
-									<< true
-									<< updates;
+												<< true
+												<< updates;
 
 	updates.clear();
 
@@ -77,8 +77,8 @@ void UpdaterTest::testUpdateCheck_data()
 	path = homePath + "/Qt";
 #endif
 	QTest::newRow("Qt") << path + "/MaintenanceTool"
-									<< false
-									<< updates;
+						<< false
+						<< updates;
 }
 
 void UpdaterTest::testUpdateCheck()
@@ -119,7 +119,7 @@ void UpdaterTest::testUpdateCheck()
 	QVariantList varList = this->checkSpy->takeFirst();
 	QVERIFY(this->updater->exitedNormally());
 	QCOMPARE(this->updater->errorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
-	QCOMPARE(varList[1].toBool(), !hasUpdates);
+	QCOMPARE(varList[1].toBool(), false);//no errors please
 
 	//verifiy the "hasUpdates" and "updates" are as expected
 	QCOMPARE(varList[0].toBool(), hasUpdates);
