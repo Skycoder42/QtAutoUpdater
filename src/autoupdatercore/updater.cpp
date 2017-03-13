@@ -88,6 +88,11 @@ void Updater::cancelScheduledUpdate(int taskId)
 	d->scheduler->cancelSchedule(taskId);
 }
 
+void Updater::runUpdaterOnExit(AdminAuthoriser *authoriser)
+{
+	runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
+}
+
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)
 {
 	d->runOnExit = true;

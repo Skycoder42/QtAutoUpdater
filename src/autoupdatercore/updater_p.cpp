@@ -101,11 +101,15 @@ void UpdaterPrivate::stopUpdateCheck(int delay, bool async)
 					stopUpdateCheck(0, false);
 				});
 			} else {
-				if(!mainProcess->waitForFinished(delay))
+				if(!mainProcess->waitForFinished(delay)) {
 					mainProcess->kill();
+					mainProcess->waitForFinished(100);
+				}
 			}
-		} else
+		} else {
 			mainProcess->kill();
+			mainProcess->waitForFinished(100);
+		}
 	}
 }
 

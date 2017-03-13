@@ -1,0 +1,18 @@
+ /*!
+@namespace QtAutoUpdater
+
+@brief The QtAutoUpdater namespace holds all classes that are related with the updater
+
+This namespace includes both, the core library and the widgets library. Please note that
+the two are seperate libraries, that only share the namespace. The Core-Library is
+independet of the Widgets-Library and won't need a gui. The Widgets-Library requires both,
+a gui and the Core-Library.
+
+## Core-Library:
+ - Updater
+ - AdminAuthoriser
+
+## Widgets-Libray:
+ - UpdateController
+ - UpdateButton
+*/

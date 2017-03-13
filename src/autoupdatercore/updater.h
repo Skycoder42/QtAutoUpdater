@@ -47,28 +47,28 @@ public:
 		UpdateInfo(QString name, QVersionNumber version, quint64 size);
 	};
 
-	//! Default constructor. Can take a parent object
+	//! Default constructor
 	explicit Updater(QObject *parent = nullptr);
-	//! Constructer with an explicitly set path. Can take a parent object
+	//! Constructer with an explicitly set path
 	explicit Updater(const QString &maintenanceToolPath, QObject *parent = nullptr);
-	//! Destroyes the updater and kills the update check
+	//! Destroyes the updater and kills the update check (if running)
 	~Updater();
 
 	//! Returns `true`, if the updater exited normally
 	bool exitedNormally() const;
-	//! Returns the result-code of the last update
+	//! Returns the mainetancetools error code of the last update
 	int errorCode() const;
-	//! returns the error output of the last update
+	//! returns the error output (stderr) of the last update
 	QByteArray errorLog() const;
 
 	//! Returns `true` if the maintenancetool will be started on exit
 	bool willRunOnExit() const;
 
-	//! READ-Accessor for Updater::maintenanceToolPath
+	//! readAcFn{Updater::maintenanceToolPath}
 	QString maintenanceToolPath() const;
-	//! READ-Accessor for Updater::running
+	//! readAcFn{Updater::running}
 	bool isRunning() const;
-	//! READ-Accessor for Updater::updateInfo
+	//! readAcFn{Updater::updateInfo}
 	QList<UpdateInfo> updateInfo() const;
 
 public Q_SLOTS:
@@ -81,25 +81,23 @@ public Q_SLOTS:
 	int scheduleUpdate(int delaySeconds, bool repeated = false);
 	//! Schedules an update for a specific timepoint
 	int scheduleUpdate(const QDateTime &when);
-	//! Cancels the update with taskId
+	//! Cancels the scheduled update with taskId
 	void cancelScheduledUpdate(int taskId);
 
 	//! Runs the maintenancetool as updater on exit, using the given admin authorisation
-	inline void runUpdaterOnExit(AdminAuthoriser *authoriser = nullptr) {
-		runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
-	}
+	void runUpdaterOnExit(AdminAuthoriser *authoriser = nullptr);
 	//! Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation
 	void runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser = nullptr);
-	//! The updater will not run the updater on exit anymore
+	//! The updater will not run the maintenancetool on exit anymore
 	void cancelExitRun();
 
 Q_SIGNALS:
 	//! Will be emitted as soon as the updater finished checking for updates
-	void checkUpdatesDone(bool hasUpdates, bool hasError = false);
+	void checkUpdatesDone(bool hasUpdates, bool hasError);
 
-	//! NOTIFY-Accessor for Updater::running
+	//! notifyAcFn{Updater::running}
 	void runningChanged(bool running);
-	//! NOTIFY-Accessor for Updater::updateInfo
+	//! notifyAcFn{Updater::updateInfo}
 	void updateInfoChanged(QList<QtAutoUpdater::Updater::UpdateInfo> updateInfo);
 
 private:

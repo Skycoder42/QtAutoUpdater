@@ -13,9 +13,9 @@ namespace QtAutoUpdater
 class Q_AUTOUPDATERCORE_EXPORT AdminAuthoriser
 {
 public:
-	//! Destructor
+	//! Virtual destructor
 	virtual inline ~AdminAuthoriser() {}
-	//! Specifies whether this program already has elevated rights or not
+	//! Tests whether this program already has elevated rights or not
 	virtual bool hasAdminRights() = 0;
 	//! Runs a program with the given arguments with elevated rights
 	virtual bool executeAsAdmin(const QString &program, const QStringList &arguments) = 0;
