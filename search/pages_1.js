@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qtautoupdater',['QtAutoUpdater',['../index.html',1,'']]]
+  ['the_20qrestbuilder_20tool',['The QRestBuilder Tool',['https://doc.qt.io/qt-5/generator.html',0,'']]]
 ];

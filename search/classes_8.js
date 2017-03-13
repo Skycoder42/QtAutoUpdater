@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['null',['Null',['http://doc.qt.io/qt-5/qstring-null.html',0,'QString']]]
+  ['loader',['Loader',['https://doc.qt.io/qt-5/qscxmlcompiler-loader.html',0,'QScxmlCompiler']]]
 ];

@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QtHelpProject version="1.0">
-  <namespace>com.Sykcoder42.QtAutoUpdater</namespace>
-  <virtualFolder>Sykcoder42_QtAutoUpdater_doc</virtualFolder>
+  <namespace>de.skycoder42.qtautoupdater.210</namespace>
+  <virtualFolder>doc_qtautoupdater</virtualFolder>
+  <customFilter name="AutoUpdater 2.1.0">
+    <filterAttribute>qtautoupdater</filterAttribute>
+    <filterAttribute>2.1.0</filterAttribute>
+  </customFilter>
   <filterSection>
     <filterAttribute>doxygen</filterAttribute>
     <toc>
-      <section title="QtAutoUpdater 2.0.1" ref="index.html">
-        <section title="Image Page" ref="image_page.html" />
+      <section title="QtAutoUpdater 2.1.0" ref="index.html">
+        <section title="Features" ref="index.html#qtautoupdater_readme_label_0">
+          <section title="Core Library" ref="index.html#qtautoupdater_readme_label_1" />
+          <section title="GUI Library" ref="index.html#qtautoupdater_readme_label_2">
+            <section title="Screenshots" ref="index.html#qtautoupdater_readme_label_3" />
+          </section>
+        </section>
+        <section title="Requirements" ref="index.html#qtautoupdater_readme_label_4" />
+        <section title="Usage" ref="index.html#qtautoupdater_readme_label_5">
+          <section title="Getting started" ref="index.html#qtautoupdater_readme_label_6" />
+          <section title="Examples" ref="index.html#qtautoupdater_readme_label_7">
+            <section title="Updater" ref="index.html#qtautoupdater_readme_label_8" />
+            <section title="UpdateController" ref="index.html#qtautoupdater_readme_label_9" />
+          </section>
+        </section>
+        <section title="Download/Installation" ref="index.html#qtautoupdater_readme_label_10" />
+        <section title="Documentation" ref="index.html#qtautoupdater_readme_label_11" />
+        <section title="Translations" ref="index.html#qtautoupdater_readme_label_12" />
+        <section title="Icon sources/Links" ref="index.html#qtautoupdater_readme_label_13">
+          <section title="GUI Library" ref="index.html#qtautoupdater_readme_label_14" />
+          <section title="Test Project" ref="index.html#qtautoupdater_readme_label_15" />
+        </section>
+        <section title="Image Page" ref="image_page.html">
+          <section title="Images" ref="image_page.html#autoupdater_controller_images">
+            <section title="Windows - Windows 10" ref="image_page.html#autoupdater_controller_images_win">
+              <section title="The Updater Elements" ref="image_page.html#autoupdater_controller_images_win_1" />
+              <section title="The Update Button" ref="image_page.html#autoupdater_controller_images_win_2" />
+              <section title="The Action" ref="image_page.html#autoupdater_controller_images_win_3" />
+            </section>
+            <section title="Mac - OsX 10.11" ref="image_page.html#autoupdater_controller_images_osx">
+              <section title="The Updater Elements" ref="image_page.html#autoupdater_controller_images_osx_1" />
+              <section title="The Update Button" ref="image_page.html#autoupdater_controller_images_osx_2" />
+              <section title="The Action" ref="image_page.html#autoupdater_controller_images_osx_3" />
+            </section>
+            <section title="X11 - KDE Frameworks 5.31.0 (Breeze Style)" ref="image_page.html#autoupdater_controller_images_x11">
+              <section title="The Updater Elements" ref="image_page.html#autoupdater_controller_images_x11_1" />
+              <section title="The Update Button" ref="image_page.html#autoupdater_controller_images_x11_2" />
+              <section title="The Action" ref="image_page.html#autoupdater_controller_images_x11_3" />
+            </section>
+          </section>
+        </section>
         <section title="Namespaces">
           <section title="Namespace List" ref="namespaces.html">
             <section title="QtAutoUpdater" ref="namespace_qt_auto_updater.html" />
@@ -22,19 +65,20 @@
               </section>
               <section title="UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html">
                 <section title="UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html#a777e92e12075c0cdda7af089d74d9094" />
-                <section title="~UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html#afcdef6ddaf473e4c743ccb579f6f8b6e" />
-                <section title="animationFile" ref="class_qt_auto_updater_1_1_update_button.html#abed31e808b1145c51970b096ce1690e1" />
-                <section title="controller" ref="class_qt_auto_updater_1_1_update_button.html#af653ab4bd66c10d90cb0a2a16a0d45ec" />
+                <section title="~UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html#a84cd7e0899cc5926d78cbe4fbd079579" />
+                <section title="animationFile" ref="class_qt_auto_updater_1_1_update_button.html#a91c8b66d476d600e6acb7c01c4a42dbc" />
+                <section title="controller" ref="class_qt_auto_updater_1_1_update_button.html#a99ce0c87d76969d8a4962649ffac4c06" />
                 <section title="controllerChanged" ref="class_qt_auto_updater_1_1_update_button.html#a09ba3a28376ef49f15b24cefec60b3fa" />
-                <section title="displayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a7f0356ad6ab25732944549e6866c98aa" />
-                <section title="isShowingResult" ref="class_qt_auto_updater_1_1_update_button.html#aa492f1197ff539ab7b8f03d035216492" />
-                <section title="resetAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#afff0f714d5f2c317dc8066106b860d0e" />
+                <section title="displayLevel" ref="class_qt_auto_updater_1_1_update_button.html#af991c515a03b3852764cdaf0b24d716a" />
+                <section title="isShowingResult" ref="class_qt_auto_updater_1_1_update_button.html#adfe5fb0fd5a3479867fe80d82587763e" />
+                <section title="resetAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#ad5abc2d8cab154c5c87c4bccec943077" />
                 <section title="resetState" ref="class_qt_auto_updater_1_1_update_button.html#ab6cf0287ef3ec59898f05ad5d51e6543" />
-                <section title="setAnimationDevice" ref="class_qt_auto_updater_1_1_update_button.html#a7974784db373082bdba45c08e8dc3554" />
-                <section title="setAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#ae3b5abdf6566ea46818f9ebda7ce9a34" />
-                <section title="setController" ref="class_qt_auto_updater_1_1_update_button.html#a7798c18efbf80a17da3afdf7aebc8580" />
-                <section title="setDisplayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a050caca3129bb55429ae1a1fac5fbc50" />
-                <section title="setShowResult" ref="class_qt_auto_updater_1_1_update_button.html#a65d92e816f840cf3a4b0a516cea7e44d" />
+                <section title="setAnimationDevice" ref="class_qt_auto_updater_1_1_update_button.html#abc17f3c9dcf180eba37f6863e3fc2acb" />
+                <section title="setAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#a745f822710fab49fbd6e560d304407e0" />
+                <section title="setController" ref="class_qt_auto_updater_1_1_update_button.html#ae1ee6c8e3a70ec6644f6959c19b01114" />
+                <section title="setDisplayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a93e29b2a35f5c930e2584179112e14df" />
+                <section title="setShowResult" ref="class_qt_auto_updater_1_1_update_button.html#acd713feedeb6688064cd32ee58206ced" />
+                <section title="UpdateButtonPrivate" ref="class_qt_auto_updater_1_1_update_button.html#a2f4b954d549895298e34ac35142cd7f7" />
                 <section title="animationFile" ref="class_qt_auto_updater_1_1_update_button.html#ab8a36c835631135c0118fe8951ae31d2" />
                 <section title="controller" ref="class_qt_auto_updater_1_1_update_button.html#a607115185059dbc525c5040d94a1329e" />
                 <section title="displayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a89596b1a23ece0adec7ccebc9f75d83b" />
@@ -57,24 +101,25 @@
                 <section title="cancelScheduledUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a0f91fab099be5305ff435c9828b72178" />
                 <section title="cancelUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a27c3ec1b1274b11788524a49c7137591" />
                 <section title="createUpdateAction" ref="class_qt_auto_updater_1_1_update_controller.html#a9a6f8f45ec49e102eec43dcbed21ba55" />
-                <section title="currentDisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a8594aa5086925be4c96203b44b0fdd54" />
-                <section title="isDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#af5cb84a34f09a6c15f3d74b71b065a16" />
-                <section title="isRunning" ref="class_qt_auto_updater_1_1_update_controller.html#a83c017bdbfa9f5aafba1814dd03314f9" />
-                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#a03e6a8f8954064bde910aee6d87a1b11" />
-                <section title="parentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a91e59a19982894bab09f865d01de6643" />
-                <section title="resetUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a0ed0142907a599ba3e2664ad1f5c4927" />
-                <section title="runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#aaefbe486ef930596e9bc0cc0225537ce" />
+                <section title="currentDisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a111ca642c5c0ff428275bd51f8482f37" />
+                <section title="isDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a1ada46feeeb4c43e1a87b9e6d1326666" />
+                <section title="isRunning" ref="class_qt_auto_updater_1_1_update_controller.html#a0bab518a024f9f597c292081aca9ed6e" />
+                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#a771c9050786934a5376e05c51ef202a5" />
+                <section title="parentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a82b18e22c25c10aed0ee4d379853a04c" />
+                <section title="resetUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a0215f05a6d32bc913f9c60a0402b9505" />
+                <section title="runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#a36c44e5047551ae4e556431134cc5ad7" />
                 <section title="runAsAdminChanged" ref="class_qt_auto_updater_1_1_update_controller.html#a52524eb5edae5f4f73cb7f11c1068772" />
                 <section title="runningChanged" ref="class_qt_auto_updater_1_1_update_controller.html#a652a18702e98bf3d8bcb8af4293b6198" />
                 <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#aab83751f6b7aae105e8d137c8c897092" />
                 <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#ad838c16546b206df338137d8d0bd6ab4" />
-                <section title="setDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a63aa9c15eb017809b60aef3a92c17d57" />
-                <section title="setParentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a69fd1583bae0a2ae9f0236456a472f9d" />
+                <section title="setDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a0913e244ca6a95d1679bb2a20a820f83" />
+                <section title="setParentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a5a4431f7439c4826a594dfb79c433522" />
                 <section title="setRunAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#ac0816c7d65dcbc47878360940062c64d" />
-                <section title="setUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a12d10f4df120aeff4e626aa1c20a960f" />
+                <section title="setUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a17d74c0fe37ef9c5695fd3f71885d715" />
                 <section title="start" ref="class_qt_auto_updater_1_1_update_controller.html#a3532c423447b95fea9042b5e6034f13b" />
-                <section title="updater" ref="class_qt_auto_updater_1_1_update_controller.html#ad81f5e0fa4c85d69261b567c4ebb87fc" />
-                <section title="updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a1d1f854857c3efed3f2cae28c221b2d5" />
+                <section title="updater" ref="class_qt_auto_updater_1_1_update_controller.html#a747082300e2b00241612c550d4d46951" />
+                <section title="updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a5081522fcb2e3b3c4b97d7bd53a92d94" />
+                <section title="UpdateControllerPrivate" ref="class_qt_auto_updater_1_1_update_controller.html#a21c3f0e32be19c88f62b436baeb68b7f" />
                 <section title="detailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a7aef590344a0ec1249f7a2b10a2a776b" />
                 <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#af5e95a106017414f0b78cf81ef6c364f" />
                 <section title="parentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#afa55342174e850829c36ebd75b8bd125" />
@@ -84,9 +129,9 @@
               </section>
               <section title="Updater" ref="class_qt_auto_updater_1_1_updater.html">
                 <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html">
-                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#aea1b47276eec750f1357c4a96d7dc546" />
-                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a8fcd3743ce4846a15667d84f0be3d85e" />
-                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#acb4f2b04b4304d5bfc5063db38936b05" />
+                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#ab1338460086157543eee83d643dbb013" />
+                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a93b75bc5e088929c60141fa5859b2608" />
+                  <section title="UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a8760312726128ae720a48a09dd24c34d" />
                   <section title="name" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a28760ca994913fe3c19f34e0f4f25c21" />
                   <section title="size" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a526ebb1045a57eefb2287906a3b82c8c" />
                   <section title="version" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#abcad59ff52bcc1f7fa500a053095bb2b" />
@@ -98,20 +143,20 @@
                 <section title="cancelExitRun" ref="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" />
                 <section title="cancelScheduledUpdate" ref="class_qt_auto_updater_1_1_updater.html#a62affe5f6d482482b239b7d3822657dd" />
                 <section title="checkForUpdates" ref="class_qt_auto_updater_1_1_updater.html#a104b10bae48235afce2826ab1385c0b9" />
-                <section title="checkUpdatesDone" ref="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5" />
-                <section title="errorCode" ref="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" />
-                <section title="errorLog" ref="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" />
-                <section title="exitedNormally" ref="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" />
-                <section title="isRunning" ref="class_qt_auto_updater_1_1_updater.html#a59f0da8efb9bdf94f8c01768b7e14298" />
-                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#af6267596d51b9224fedb4108f1e8f9af" />
+                <section title="checkUpdatesDone" ref="class_qt_auto_updater_1_1_updater.html#a3fd933952a129c987493140e955428de" />
+                <section title="errorCode" ref="class_qt_auto_updater_1_1_updater.html#ae096363a7a2928c467c53ff4a865327d" />
+                <section title="errorLog" ref="class_qt_auto_updater_1_1_updater.html#aaea2dc05a5385718710c7e48a9135188" />
+                <section title="exitedNormally" ref="class_qt_auto_updater_1_1_updater.html#a8486608a2ff6651db833ddb26cd60b8a" />
+                <section title="isRunning" ref="class_qt_auto_updater_1_1_updater.html#ad15b703663ffb7de33cc80a575b1e9b7" />
+                <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#a917da409947abc5cdf4f88c3cbcb20c8" />
                 <section title="runningChanged" ref="class_qt_auto_updater_1_1_updater.html#a95be75ea3c2c917cf2b7d1006d1eff93" />
                 <section title="runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" />
                 <section title="runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#a5a9d1ea846df1be2fc94bd3654cb48ec" />
                 <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#a2bbec105cd9e538bf5e7aff1f5309c26" />
                 <section title="scheduleUpdate" ref="class_qt_auto_updater_1_1_updater.html#ae3653cd691f5966e26b5ea6b5f71d902" />
-                <section title="updateInfo" ref="class_qt_auto_updater_1_1_updater.html#a43ac62f5fc35cd3ff608aaa74452e770" />
+                <section title="updateInfo" ref="class_qt_auto_updater_1_1_updater.html#ac6309c0918e935c1ef9482d2c2b290ce" />
                 <section title="updateInfoChanged" ref="class_qt_auto_updater_1_1_updater.html#ad8911bff3cf527089eed208340686c0c" />
-                <section title="willRunOnExit" ref="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" />
+                <section title="willRunOnExit" ref="class_qt_auto_updater_1_1_updater.html#a2ca50d6a9a989dd24a28d88f26e7dcee" />
                 <section title="maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#a461606ef021a435745a1e3bdfb422b05" />
                 <section title="running" ref="class_qt_auto_updater_1_1_updater.html#aef607db5109f57300e47b8e35615c7fa" />
                 <section title="updateInfo" ref="class_qt_auto_updater_1_1_updater.html#aa3b025dad1bae7d7ac2f7ade23955fc4" />
@@ -144,14 +189,22 @@
         </section>
         <section title="Files">
           <section title="File List" ref="files.html">
-            <section title="AutoUpdaterCore" ref="dir_683ec3f2399e2dc05d24f2bed511fa8e.html">
-              <section title="adminauthoriser.h" ref="adminauthoriser_8h_source.html" />
-              <section title="updater.h" ref="updater_8h_source.html" />
-            </section>
-            <section title="AutoUpdaterGui" ref="dir_4ee24dff7ff2a586ec5208084145c646.html">
-              <section title="updatebutton.h" ref="updatebutton_8h_source.html" />
-              <section title="updatecontroller.h" ref="updatecontroller_8h_source.html" />
-            </section>
+            <section title="adminauthoriser.h" ref="adminauthoriser_8h_source.html" />
+            <section title="adminauthorization_mac.cpp" ref="adminauthorization__mac_8cpp_source.html" />
+            <section title="adminauthorization_win.cpp" ref="adminauthorization__win_8cpp_source.html" />
+            <section title="adminauthorization_x11.cpp" ref="adminauthorization__x11_8cpp_source.html" />
+            <section title="doxme.py" ref="doxme_8py_source.html" />
+            <section title="progressdialog.cpp" ref="progressdialog_8cpp_source.html" />
+            <section title="qautoupdatercore_global.h" ref="qautoupdatercore__global_8h_source.html" />
+            <section title="qautoupdatergui_global.h" ref="qautoupdatergui__global_8h_source.html" />
+            <section title="simplescheduler.cpp" ref="simplescheduler_8cpp_source.html" />
+            <section title="updatebutton.cpp" ref="updatebutton_8cpp_source.html" />
+            <section title="updatebutton.h" ref="updatebutton_8h_source.html" />
+            <section title="updatecontroller.cpp" ref="updatecontroller_8cpp_source.html" />
+            <section title="updatecontroller.h" ref="updatecontroller_8h_source.html" />
+            <section title="updateinfodialog.cpp" ref="updateinfodialog_8cpp_source.html" />
+            <section title="updater.cpp" ref="updater_8cpp_source.html" />
+            <section title="updater.h" ref="updater_8h_source.html" />
           </section>
         </section>
       </section>
@@ -165,19 +218,19 @@
       <keyword name="executeAsAdmin" id="QtAutoUpdater::AdminAuthoriser::executeAsAdmin" ref="class_qt_auto_updater_1_1_admin_authoriser.html#a6d2da8f9983fa25c331394ff82c61034" />
       <keyword name="QtAutoUpdater::UpdateButton" id="QtAutoUpdater::UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html" />
       <keyword name="resetState" id="QtAutoUpdater::UpdateButton::resetState" ref="class_qt_auto_updater_1_1_update_button.html#ab6cf0287ef3ec59898f05ad5d51e6543" />
-      <keyword name="setAnimationFile" id="QtAutoUpdater::UpdateButton::setAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#ae3b5abdf6566ea46818f9ebda7ce9a34" />
-      <keyword name="setAnimationDevice" id="QtAutoUpdater::UpdateButton::setAnimationDevice" ref="class_qt_auto_updater_1_1_update_button.html#a7974784db373082bdba45c08e8dc3554" />
-      <keyword name="resetAnimationFile" id="QtAutoUpdater::UpdateButton::resetAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#afff0f714d5f2c317dc8066106b860d0e" />
-      <keyword name="setShowResult" id="QtAutoUpdater::UpdateButton::setShowResult" ref="class_qt_auto_updater_1_1_update_button.html#a65d92e816f840cf3a4b0a516cea7e44d" />
-      <keyword name="setDisplayLevel" id="QtAutoUpdater::UpdateButton::setDisplayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a050caca3129bb55429ae1a1fac5fbc50" />
-      <keyword name="setController" id="QtAutoUpdater::UpdateButton::setController" ref="class_qt_auto_updater_1_1_update_button.html#a7798c18efbf80a17da3afdf7aebc8580" />
+      <keyword name="setAnimationFile" id="QtAutoUpdater::UpdateButton::setAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#a745f822710fab49fbd6e560d304407e0" />
+      <keyword name="setAnimationDevice" id="QtAutoUpdater::UpdateButton::setAnimationDevice" ref="class_qt_auto_updater_1_1_update_button.html#abc17f3c9dcf180eba37f6863e3fc2acb" />
+      <keyword name="resetAnimationFile" id="QtAutoUpdater::UpdateButton::resetAnimationFile" ref="class_qt_auto_updater_1_1_update_button.html#ad5abc2d8cab154c5c87c4bccec943077" />
+      <keyword name="setShowResult" id="QtAutoUpdater::UpdateButton::setShowResult" ref="class_qt_auto_updater_1_1_update_button.html#acd713feedeb6688064cd32ee58206ced" />
+      <keyword name="setDisplayLevel" id="QtAutoUpdater::UpdateButton::setDisplayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a93e29b2a35f5c930e2584179112e14df" />
+      <keyword name="setController" id="QtAutoUpdater::UpdateButton::setController" ref="class_qt_auto_updater_1_1_update_button.html#ae1ee6c8e3a70ec6644f6959c19b01114" />
       <keyword name="controllerChanged" id="QtAutoUpdater::UpdateButton::controllerChanged" ref="class_qt_auto_updater_1_1_update_button.html#a09ba3a28376ef49f15b24cefec60b3fa" />
       <keyword name="UpdateButton" id="QtAutoUpdater::UpdateButton::UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html#a777e92e12075c0cdda7af089d74d9094" />
-      <keyword name="~UpdateButton" id="QtAutoUpdater::UpdateButton::~UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html#afcdef6ddaf473e4c743ccb579f6f8b6e" />
-      <keyword name="animationFile" id="QtAutoUpdater::UpdateButton::animationFile" ref="class_qt_auto_updater_1_1_update_button.html#abed31e808b1145c51970b096ce1690e1" />
-      <keyword name="isShowingResult" id="QtAutoUpdater::UpdateButton::isShowingResult" ref="class_qt_auto_updater_1_1_update_button.html#aa492f1197ff539ab7b8f03d035216492" />
-      <keyword name="displayLevel" id="QtAutoUpdater::UpdateButton::displayLevel" ref="class_qt_auto_updater_1_1_update_button.html#a7f0356ad6ab25732944549e6866c98aa" />
-      <keyword name="controller" id="QtAutoUpdater::UpdateButton::controller" ref="class_qt_auto_updater_1_1_update_button.html#af653ab4bd66c10d90cb0a2a16a0d45ec" />
+      <keyword name="~UpdateButton" id="QtAutoUpdater::UpdateButton::~UpdateButton" ref="class_qt_auto_updater_1_1_update_button.html#a84cd7e0899cc5926d78cbe4fbd079579" />
+      <keyword name="animationFile" id="QtAutoUpdater::UpdateButton::animationFile" ref="class_qt_auto_updater_1_1_update_button.html#a91c8b66d476d600e6acb7c01c4a42dbc" />
+      <keyword name="isShowingResult" id="QtAutoUpdater::UpdateButton::isShowingResult" ref="class_qt_auto_updater_1_1_update_button.html#adfe5fb0fd5a3479867fe80d82587763e" />
+      <keyword name="displayLevel" id="QtAutoUpdater::UpdateButton::displayLevel" ref="class_qt_auto_updater_1_1_update_button.html#af991c515a03b3852764cdaf0b24d716a" />
+      <keyword name="controller" id="QtAutoUpdater::UpdateButton::controller" ref="class_qt_auto_updater_1_1_update_button.html#a99ce0c87d76969d8a4962649ffac4c06" />
       <keyword name="QWidget" id="QWidget::QWidget" ref="qwidget.html#QWidget" />
       <keyword name="winId" id="QWidget::winId" ref="qwidget.html#winId" />
       <keyword name="effectiveWinId" id="QWidget::effectiveWinId" ref="qwidget.html#effectiveWinId" />
@@ -592,6 +645,11 @@
       <keyword name="connectNotify" id="QObject::connectNotify" ref="qobject.html#connectNotify" />
       <keyword name="disconnectNotify" id="QObject::disconnectNotify" ref="qobject.html#disconnectNotify" />
       <keyword name="QtAutoUpdater::UpdateController" id="QtAutoUpdater::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html" />
+      <keyword name="setParentWindow" id="QtAutoUpdater::UpdateController::setParentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a5a4431f7439c4826a594dfb79c433522" />
+      <keyword name="setRunAsAdmin" id="QtAutoUpdater::UpdateController::setRunAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#ac0816c7d65dcbc47878360940062c64d" />
+      <keyword name="setUpdateRunArgs" id="QtAutoUpdater::UpdateController::setUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a17d74c0fe37ef9c5695fd3f71885d715" />
+      <keyword name="resetUpdateRunArgs" id="QtAutoUpdater::UpdateController::resetUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a0215f05a6d32bc913f9c60a0402b9505" />
+      <keyword name="setDetailedUpdateInfo" id="QtAutoUpdater::UpdateController::setDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a0913e244ca6a95d1679bb2a20a820f83" />
       <keyword name="start" id="QtAutoUpdater::UpdateController::start" ref="class_qt_auto_updater_1_1_update_controller.html#a3532c423447b95fea9042b5e6034f13b" />
       <keyword name="cancelUpdate" id="QtAutoUpdater::UpdateController::cancelUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#a27c3ec1b1274b11788524a49c7137591" />
       <keyword name="scheduleUpdate" id="QtAutoUpdater::UpdateController::scheduleUpdate" ref="class_qt_auto_updater_1_1_update_controller.html#aab83751f6b7aae105e8d137c8c897092" />
@@ -605,19 +663,14 @@
       <keyword name="UpdateController" id="QtAutoUpdater::UpdateController::UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#a1a8fa667982047afa59e97e0e2f3e562" />
       <keyword name="~UpdateController" id="QtAutoUpdater::UpdateController::~UpdateController" ref="class_qt_auto_updater_1_1_update_controller.html#abacdda249401974823d69bb5024e495d" />
       <keyword name="createUpdateAction" id="QtAutoUpdater::UpdateController::createUpdateAction" ref="class_qt_auto_updater_1_1_update_controller.html#a9a6f8f45ec49e102eec43dcbed21ba55" />
-      <keyword name="maintenanceToolPath" id="QtAutoUpdater::UpdateController::maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#a03e6a8f8954064bde910aee6d87a1b11" />
-      <keyword name="parentWindow" id="QtAutoUpdater::UpdateController::parentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a91e59a19982894bab09f865d01de6643" />
-      <keyword name="setParentWindow" id="QtAutoUpdater::UpdateController::setParentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a69fd1583bae0a2ae9f0236456a472f9d" />
-      <keyword name="currentDisplayLevel" id="QtAutoUpdater::UpdateController::currentDisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a8594aa5086925be4c96203b44b0fdd54" />
-      <keyword name="isRunning" id="QtAutoUpdater::UpdateController::isRunning" ref="class_qt_auto_updater_1_1_update_controller.html#a83c017bdbfa9f5aafba1814dd03314f9" />
-      <keyword name="runAsAdmin" id="QtAutoUpdater::UpdateController::runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#aaefbe486ef930596e9bc0cc0225537ce" />
-      <keyword name="setRunAsAdmin" id="QtAutoUpdater::UpdateController::setRunAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#ac0816c7d65dcbc47878360940062c64d" />
-      <keyword name="updateRunArgs" id="QtAutoUpdater::UpdateController::updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a1d1f854857c3efed3f2cae28c221b2d5" />
-      <keyword name="setUpdateRunArgs" id="QtAutoUpdater::UpdateController::setUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a12d10f4df120aeff4e626aa1c20a960f" />
-      <keyword name="resetUpdateRunArgs" id="QtAutoUpdater::UpdateController::resetUpdateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a0ed0142907a599ba3e2664ad1f5c4927" />
-      <keyword name="isDetailedUpdateInfo" id="QtAutoUpdater::UpdateController::isDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#af5cb84a34f09a6c15f3d74b71b065a16" />
-      <keyword name="setDetailedUpdateInfo" id="QtAutoUpdater::UpdateController::setDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a63aa9c15eb017809b60aef3a92c17d57" />
-      <keyword name="updater" id="QtAutoUpdater::UpdateController::updater" ref="class_qt_auto_updater_1_1_update_controller.html#ad81f5e0fa4c85d69261b567c4ebb87fc" />
+      <keyword name="maintenanceToolPath" id="QtAutoUpdater::UpdateController::maintenanceToolPath" ref="class_qt_auto_updater_1_1_update_controller.html#a771c9050786934a5376e05c51ef202a5" />
+      <keyword name="parentWindow" id="QtAutoUpdater::UpdateController::parentWindow" ref="class_qt_auto_updater_1_1_update_controller.html#a82b18e22c25c10aed0ee4d379853a04c" />
+      <keyword name="currentDisplayLevel" id="QtAutoUpdater::UpdateController::currentDisplayLevel" ref="class_qt_auto_updater_1_1_update_controller.html#a111ca642c5c0ff428275bd51f8482f37" />
+      <keyword name="isRunning" id="QtAutoUpdater::UpdateController::isRunning" ref="class_qt_auto_updater_1_1_update_controller.html#a0bab518a024f9f597c292081aca9ed6e" />
+      <keyword name="runAsAdmin" id="QtAutoUpdater::UpdateController::runAsAdmin" ref="class_qt_auto_updater_1_1_update_controller.html#a36c44e5047551ae4e556431134cc5ad7" />
+      <keyword name="updateRunArgs" id="QtAutoUpdater::UpdateController::updateRunArgs" ref="class_qt_auto_updater_1_1_update_controller.html#a5081522fcb2e3b3c4b97d7bd53a92d94" />
+      <keyword name="isDetailedUpdateInfo" id="QtAutoUpdater::UpdateController::isDetailedUpdateInfo" ref="class_qt_auto_updater_1_1_update_controller.html#a1ada46feeeb4c43e1a87b9e6d1326666" />
+      <keyword name="updater" id="QtAutoUpdater::UpdateController::updater" ref="class_qt_auto_updater_1_1_update_controller.html#a747082300e2b00241612c550d4d46951" />
       <keyword name="QObject" id="QObject::QObject" ref="qobject.html#QObject" />
       <keyword name="event" id="QObject::event" ref="qobject.html#event" />
       <keyword name="eventFilter" id="QObject::eventFilter" ref="qobject.html#eventFilter" />
@@ -695,19 +748,19 @@
       <keyword name="runUpdaterOnExit" id="QtAutoUpdater::Updater::runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#ab23679ad18072646028085b9e77ecc0d" />
       <keyword name="runUpdaterOnExit" id="QtAutoUpdater::Updater::runUpdaterOnExit" ref="class_qt_auto_updater_1_1_updater.html#a5a9d1ea846df1be2fc94bd3654cb48ec" />
       <keyword name="cancelExitRun" id="QtAutoUpdater::Updater::cancelExitRun" ref="class_qt_auto_updater_1_1_updater.html#ac5320a29ffba285d40100a1e98e8950a" />
-      <keyword name="checkUpdatesDone" id="QtAutoUpdater::Updater::checkUpdatesDone" ref="class_qt_auto_updater_1_1_updater.html#adcbda9d4e218cd497027b1d3fed3d5b5" />
+      <keyword name="checkUpdatesDone" id="QtAutoUpdater::Updater::checkUpdatesDone" ref="class_qt_auto_updater_1_1_updater.html#a3fd933952a129c987493140e955428de" />
       <keyword name="runningChanged" id="QtAutoUpdater::Updater::runningChanged" ref="class_qt_auto_updater_1_1_updater.html#a95be75ea3c2c917cf2b7d1006d1eff93" />
       <keyword name="updateInfoChanged" id="QtAutoUpdater::Updater::updateInfoChanged" ref="class_qt_auto_updater_1_1_updater.html#ad8911bff3cf527089eed208340686c0c" />
       <keyword name="Updater" id="QtAutoUpdater::Updater::Updater" ref="class_qt_auto_updater_1_1_updater.html#aa9d1cea9097292bd2169c1a29a119a3d" />
       <keyword name="Updater" id="QtAutoUpdater::Updater::Updater" ref="class_qt_auto_updater_1_1_updater.html#a339064ee3c12bd04297630dc172b3978" />
       <keyword name="~Updater" id="QtAutoUpdater::Updater::~Updater" ref="class_qt_auto_updater_1_1_updater.html#a1294129a47405b4e29932555bb9cdf43" />
-      <keyword name="exitedNormally" id="QtAutoUpdater::Updater::exitedNormally" ref="class_qt_auto_updater_1_1_updater.html#a53b3f8154cd19b46f8d97c9c1ca5701a" />
-      <keyword name="errorCode" id="QtAutoUpdater::Updater::errorCode" ref="class_qt_auto_updater_1_1_updater.html#a3471bdd938f695c0f039001c0dc85c4c" />
-      <keyword name="errorLog" id="QtAutoUpdater::Updater::errorLog" ref="class_qt_auto_updater_1_1_updater.html#adda5c9e8ec5bd57eb2b98c37e4dccf59" />
-      <keyword name="willRunOnExit" id="QtAutoUpdater::Updater::willRunOnExit" ref="class_qt_auto_updater_1_1_updater.html#a0c81b1d6d66a3049a46f8cd49ed82937" />
-      <keyword name="maintenanceToolPath" id="QtAutoUpdater::Updater::maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#af6267596d51b9224fedb4108f1e8f9af" />
-      <keyword name="isRunning" id="QtAutoUpdater::Updater::isRunning" ref="class_qt_auto_updater_1_1_updater.html#a59f0da8efb9bdf94f8c01768b7e14298" />
-      <keyword name="updateInfo" id="QtAutoUpdater::Updater::updateInfo" ref="class_qt_auto_updater_1_1_updater.html#a43ac62f5fc35cd3ff608aaa74452e770" />
+      <keyword name="exitedNormally" id="QtAutoUpdater::Updater::exitedNormally" ref="class_qt_auto_updater_1_1_updater.html#a8486608a2ff6651db833ddb26cd60b8a" />
+      <keyword name="errorCode" id="QtAutoUpdater::Updater::errorCode" ref="class_qt_auto_updater_1_1_updater.html#ae096363a7a2928c467c53ff4a865327d" />
+      <keyword name="errorLog" id="QtAutoUpdater::Updater::errorLog" ref="class_qt_auto_updater_1_1_updater.html#aaea2dc05a5385718710c7e48a9135188" />
+      <keyword name="willRunOnExit" id="QtAutoUpdater::Updater::willRunOnExit" ref="class_qt_auto_updater_1_1_updater.html#a2ca50d6a9a989dd24a28d88f26e7dcee" />
+      <keyword name="maintenanceToolPath" id="QtAutoUpdater::Updater::maintenanceToolPath" ref="class_qt_auto_updater_1_1_updater.html#a917da409947abc5cdf4f88c3cbcb20c8" />
+      <keyword name="isRunning" id="QtAutoUpdater::Updater::isRunning" ref="class_qt_auto_updater_1_1_updater.html#ad15b703663ffb7de33cc80a575b1e9b7" />
+      <keyword name="updateInfo" id="QtAutoUpdater::Updater::updateInfo" ref="class_qt_auto_updater_1_1_updater.html#ac6309c0918e935c1ef9482d2c2b290ce" />
       <keyword name="QObject" id="QObject::QObject" ref="qobject.html#QObject" />
       <keyword name="event" id="QObject::event" ref="qobject.html#event" />
       <keyword name="eventFilter" id="QObject::eventFilter" ref="qobject.html#eventFilter" />
@@ -768,9 +821,9 @@
       <keyword name="connectNotify" id="QObject::connectNotify" ref="qobject.html#connectNotify" />
       <keyword name="disconnectNotify" id="QObject::disconnectNotify" ref="qobject.html#disconnectNotify" />
       <keyword name="QtAutoUpdater::Updater::UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html" />
-      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#aea1b47276eec750f1357c4a96d7dc546" />
-      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a8fcd3743ce4846a15667d84f0be3d85e" />
-      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#acb4f2b04b4304d5bfc5063db38936b05" />
+      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#ab1338460086157543eee83d643dbb013" />
+      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a93b75bc5e088929c60141fa5859b2608" />
+      <keyword name="UpdateInfo" id="QtAutoUpdater::Updater::UpdateInfo::UpdateInfo" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a8760312726128ae720a48a09dd24c34d" />
       <keyword name="name" id="QtAutoUpdater::Updater::UpdateInfo::name" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a28760ca994913fe3c19f34e0f4f25c21" />
       <keyword name="version" id="QtAutoUpdater::Updater::UpdateInfo::version" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#abcad59ff52bcc1f7fa500a053095bb2b" />
       <keyword name="size" id="QtAutoUpdater::Updater::UpdateInfo::size" ref="struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a526ebb1045a57eefb2287906a3b82c8c" />
@@ -791,6 +844,8 @@
       <file>sync_on.png</file>
       <file>sync_off.png</file>
       <file>doxygen.css</file>
+      <file>jquery.js</file>
+      <file>dynsections.js</file>
       <file>search/search_l.png</file>
       <file>search/search_m.png</file>
       <file>search/search_r.png</file>
@@ -799,9 +854,22 @@
       <file>search/search.css</file>
       <file>search/search.js</file>
       <file>adminauthoriser_8h_source.html</file>
-      <file>updater_8h_source.html</file>
+      <file>adminauthorization__mac_8cpp_source.html</file>
+      <file>adminauthorization__win_8cpp_source.html</file>
+      <file>adminauthorization__x11_8cpp_source.html</file>
+      <file>doxme_8py_source.html</file>
+      <file>progressdialog_8cpp_source.html</file>
+      <file>qautoupdatercore__global_8h_source.html</file>
+      <file>qautoupdatergui__global_8h_source.html</file>
+      <file>_r_e_a_d_m_e_8md_source.html</file>
+      <file>simplescheduler_8cpp_source.html</file>
+      <file>updatebutton_8cpp_source.html</file>
       <file>updatebutton_8h_source.html</file>
+      <file>updatecontroller_8cpp_source.html</file>
       <file>updatecontroller_8h_source.html</file>
+      <file>updateinfodialog_8cpp_source.html</file>
+      <file>updater_8cpp_source.html</file>
+      <file>updater_8h_source.html</file>
       <file>image_page.html</file>
       <file>win_dialog_ask.png</file>
       <file>win_dialog_progress.png</file>
@@ -850,8 +918,9 @@
       <file>class_qt_auto_updater_1_1_updater-members.html</file>
       <file>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</file>
       <file>struct_qt_auto_updater_1_1_updater_1_1_update_info-members.html</file>
-      <file>dir_683ec3f2399e2dc05d24f2bed511fa8e.html</file>
-      <file>dir_4ee24dff7ff2a586ec5208084145c646.html</file>
+      <file>dir_3c16c666bb2177d8a9a9ac40925bd788.html</file>
+      <file>dir_a22975edb28162df800912d6ccb237f6.html</file>
+      <file>dir_68267d1309a1af8e8297ef4c3efbcdba.html</file>
       <file>index.html</file>
       <file>win_dialog_progress.png</file>
       <file>mac_dialog_progress.png</file>

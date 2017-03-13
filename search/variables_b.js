@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['maneuverdetails',['ManeuverDetails',['http://doc.qt.io/qt-5/qgeorouterequest.html#ManeuverDetail-enum',0,'QGeoRouteRequest']]],
-  ['mapped_5ftype',['mapped_type',['http://doc.qt.io/qt-5/qjsonobject.html#mapped_type-typedef',0,'QJsonObject::mapped_type()'],['http://doc.qt.io/qt-5/qhash.html#mapped_type-typedef',0,'QHash::mapped_type()'],['http://doc.qt.io/qt-5/qmap.html#mapped_type-typedef',0,'QMap::mapped_type()']]],
-  ['mappingfeatures',['MappingFeatures',['http://doc.qt.io/qt-5/qgeoserviceprovider.html#MappingFeature-enum',0,'QGeoServiceProvider']]],
-  ['matchflags',['MatchFlags',['http://doc.qt.io/qt-5/qt.html#MatchFlag-enum',0,'Qt']]],
-  ['matchoptions',['MatchOptions',['http://doc.qt.io/qt-5/qregularexpression.html#MatchOption-enum',0,'QRegularExpression']]],
-  ['mousebuttons',['MouseButtons',['http://doc.qt.io/qt-5/qt.html#MouseButton-enum',0,'Qt']]],
-  ['mouseeventflags',['MouseEventFlags',['http://doc.qt.io/qt-5/qt.html#MouseEventFlag-enum',0,'Qt']]]
+  ['key_5ftype',['key_type',['https://doc.qt.io/qt-5/qjsonobject.html#key_type-typedef',0,'QJsonObject::key_type()'],['https://doc.qt.io/qt-5/qhash.html#key_type-typedef',0,'QHash::key_type()'],['https://doc.qt.io/qt-5/qmap.html#key_type-typedef',0,'QMap::key_type()'],['https://doc.qt.io/qt-5/qset.html#key_type-typedef',0,'QSet::key_type()']]],
+  ['keyboardmodifiers',['KeyboardModifiers',['https://doc.qt.io/qt-5/qt.html#KeyboardModifier-enum',0,'Qt']]],
+  ['keyvalue',['KeyValue',['https://doc.qt.io/qt-5/qvariantanimation.html#KeyValue-typedef',0,'QVariantAnimation']]],
+  ['keyvalues',['KeyValues',['https://doc.qt.io/qt-5/qvariantanimation.html#KeyValues-typedef',0,'QVariantAnimation']]]
 ];

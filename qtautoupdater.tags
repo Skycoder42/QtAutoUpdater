@@ -1,0 +1,734 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<tagfile>
+  <compound kind="class">
+    <name>QtAutoUpdater::AdminAuthoriser</name>
+    <filename>class_qt_auto_updater_1_1_admin_authoriser.html</filename>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~AdminAuthoriser</name>
+      <anchorfile>class_qt_auto_updater_1_1_admin_authoriser.html</anchorfile>
+      <anchor>a71fa6a5ba3cee8eb2f4d095539a74139</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual bool</type>
+      <name>hasAdminRights</name>
+      <anchorfile>class_qt_auto_updater_1_1_admin_authoriser.html</anchorfile>
+      <anchor>af1271ea824ad19a7442745c6cb79a4ac</anchor>
+      <arglist>()=0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual bool</type>
+      <name>executeAsAdmin</name>
+      <anchorfile>class_qt_auto_updater_1_1_admin_authoriser.html</anchorfile>
+      <anchor>a6d2da8f9983fa25c331394ff82c61034</anchor>
+      <arglist>(const QString &amp;program, const QStringList &amp;arguments)=0</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtAutoUpdater::UpdateButton</name>
+    <filename>class_qt_auto_updater_1_1_update_button.html</filename>
+    <base>QWidget</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>resetState</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>ab6cf0287ef3ec59898f05ad5d51e6543</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setAnimationFile</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a745f822710fab49fbd6e560d304407e0</anchor>
+      <arglist>(QString animationFile, int speed=100)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setAnimationDevice</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>abc17f3c9dcf180eba37f6863e3fc2acb</anchor>
+      <arglist>(QIODevice *animationDevice, int speed=100)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>resetAnimationFile</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>ad5abc2d8cab154c5c87c4bccec943077</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setShowResult</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>acd713feedeb6688064cd32ee58206ced</anchor>
+      <arglist>(bool showResult)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setDisplayLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a93e29b2a35f5c930e2584179112e14df</anchor>
+      <arglist>(UpdateController::DisplayLevel displayLevel)</arglist>
+    </member>
+    <member kind="slot">
+      <type>bool</type>
+      <name>setController</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>ae1ee6c8e3a70ec6644f6959c19b01114</anchor>
+      <arglist>(UpdateController *controller)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>controllerChanged</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a09ba3a28376ef49f15b24cefec60b3fa</anchor>
+      <arglist>(UpdateController *controller)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateButton</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a777e92e12075c0cdda7af089d74d9094</anchor>
+      <arglist>(QWidget *parent=nullptr, UpdateController *controller=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~UpdateButton</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a84cd7e0899cc5926d78cbe4fbd079579</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>animationFile</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a91c8b66d476d600e6acb7c01c4a42dbc</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isShowingResult</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>adfe5fb0fd5a3479867fe80d82587763e</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>UpdateController::DisplayLevel</type>
+      <name>displayLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>af991c515a03b3852764cdaf0b24d716a</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>UpdateController *</type>
+      <name>controller</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a99ce0c87d76969d8a4962649ffac4c06</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="property">
+      <type>QString</type>
+      <name>animationFile</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>ab8a36c835631135c0118fe8951ae31d2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>showResult</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a1f8896a26f98af3b772a6acea73a8e1a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>UpdateController::DisplayLevel</type>
+      <name>displayLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a89596b1a23ece0adec7ccebc9f75d83b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>UpdateController</type>
+      <name>controller</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
+      <anchor>a607115185059dbc525c5040d94a1329e</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtAutoUpdater::UpdateController</name>
+    <filename>class_qt_auto_updater_1_1_update_controller.html</filename>
+    <base>QObject</base>
+    <member kind="enumeration">
+      <type></type>
+      <name>DisplayLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>AutomaticLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a218e6b929fa2dafddd6a22c9428032e5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>ExitLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2aa33ac71236ae4be38c5aee9fa71518f1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>InfoLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a43b3e1289758645dc665b719f0742227</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>ExtendedInfoLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a468838bf2f9bb49c6c135f1402623f77</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>ProgressLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a0afbb2b505b5e446b5d0209f36e8ae10</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>AskLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a4478273347d97859fd591b5c302ecc54</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>AutomaticLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a218e6b929fa2dafddd6a22c9428032e5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>ExitLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2aa33ac71236ae4be38c5aee9fa71518f1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>InfoLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a43b3e1289758645dc665b719f0742227</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>ExtendedInfoLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a468838bf2f9bb49c6c135f1402623f77</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>ProgressLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a0afbb2b505b5e446b5d0209f36e8ae10</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>AskLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3c3df76116942329e05f639e60bbf5a2a4478273347d97859fd591b5c302ecc54</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setParentWindow</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a5a4431f7439c4826a594dfb79c433522</anchor>
+      <arglist>(QWidget *parentWindow)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setRunAsAdmin</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>ac0816c7d65dcbc47878360940062c64d</anchor>
+      <arglist>(bool runAsAdmin, bool userEditable=true)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setUpdateRunArgs</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a17d74c0fe37ef9c5695fd3f71885d715</anchor>
+      <arglist>(QStringList updateRunArgs)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>resetUpdateRunArgs</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a0215f05a6d32bc913f9c60a0402b9505</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setDetailedUpdateInfo</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a0913e244ca6a95d1679bb2a20a820f83</anchor>
+      <arglist>(bool detailedUpdateInfo)</arglist>
+    </member>
+    <member kind="slot">
+      <type>bool</type>
+      <name>start</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a3532c423447b95fea9042b5e6034f13b</anchor>
+      <arglist>(DisplayLevel displayLevel=InfoLevel)</arglist>
+    </member>
+    <member kind="slot">
+      <type>bool</type>
+      <name>cancelUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a27c3ec1b1274b11788524a49c7137591</anchor>
+      <arglist>(int maxDelay=3000)</arglist>
+    </member>
+    <member kind="slot">
+      <type>int</type>
+      <name>scheduleUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>aab83751f6b7aae105e8d137c8c897092</anchor>
+      <arglist>(int delaySeconds, bool repeated=false, DisplayLevel displayLevel=InfoLevel)</arglist>
+    </member>
+    <member kind="slot">
+      <type>int</type>
+      <name>scheduleUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>ad838c16546b206df338137d8d0bd6ab4</anchor>
+      <arglist>(const QDateTime &amp;when, DisplayLevel displayLevel=InfoLevel)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>cancelScheduledUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a0f91fab099be5305ff435c9828b72178</anchor>
+      <arglist>(int taskId)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>runningChanged</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a652a18702e98bf3d8bcb8af4293b6198</anchor>
+      <arglist>(bool running)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>runAsAdminChanged</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a52524eb5edae5f4f73cb7f11c1068772</anchor>
+      <arglist>(bool runAsAdmin)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateController</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>aaba52ef3057730339b7e9f9ffb178ec0</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateController</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>ac16100392d1e99131ad817b443616113</anchor>
+      <arglist>(QWidget *parentWindow, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateController</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>abfa6c0fce02ca0d95896db2505923821</anchor>
+      <arglist>(const QString &amp;maintenanceToolPath, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateController</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a1a8fa667982047afa59e97e0e2f3e562</anchor>
+      <arglist>(const QString &amp;maintenanceToolPath, QWidget *parentWindow, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~UpdateController</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>abacdda249401974823d69bb5024e495d</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QAction *</type>
+      <name>createUpdateAction</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a9a6f8f45ec49e102eec43dcbed21ba55</anchor>
+      <arglist>(QObject *parent)</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>maintenanceToolPath</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a771c9050786934a5376e05c51ef202a5</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QWidget *</type>
+      <name>parentWindow</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a82b18e22c25c10aed0ee4d379853a04c</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>DisplayLevel</type>
+      <name>currentDisplayLevel</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a111ca642c5c0ff428275bd51f8482f37</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isRunning</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a0bab518a024f9f597c292081aca9ed6e</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>runAsAdmin</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a36c44e5047551ae4e556431134cc5ad7</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QStringList</type>
+      <name>updateRunArgs</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a5081522fcb2e3b3c4b97d7bd53a92d94</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isDetailedUpdateInfo</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a1ada46feeeb4c43e1a87b9e6d1326666</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>Updater *</type>
+      <name>updater</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a747082300e2b00241612c550d4d46951</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="property">
+      <type>QString</type>
+      <name>maintenanceToolPath</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>af5e95a106017414f0b78cf81ef6c364f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>QWidget</type>
+      <name>parentWindow</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>afa55342174e850829c36ebd75b8bd125</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>running</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a7fa2f115bc28f412003822cc0dfdb3d0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>runAsAdmin</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a1c5a18c8728e9803a1e3ed927f038a53</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>QStringList</type>
+      <name>updateRunArgs</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a6c6a5e6092b18483497e7fb7f6b5c8ec</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>detailedUpdateInfo</name>
+      <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
+      <anchor>a7aef590344a0ec1249f7a2b10a2a776b</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>QtAutoUpdater::Updater::UpdateInfo</name>
+    <filename>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>UpdateInfo</name>
+      <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
+      <anchor>ab1338460086157543eee83d643dbb013</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateInfo</name>
+      <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
+      <anchor>a93b75bc5e088929c60141fa5859b2608</anchor>
+      <arglist>(const UpdateInfo &amp;other)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>UpdateInfo</name>
+      <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
+      <anchor>a8760312726128ae720a48a09dd24c34d</anchor>
+      <arglist>(QString name, QVersionNumber version, quint64 size)</arglist>
+    </member>
+    <member kind="variable">
+      <type>QString</type>
+      <name>name</name>
+      <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
+      <anchor>a28760ca994913fe3c19f34e0f4f25c21</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>QVersionNumber</type>
+      <name>version</name>
+      <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
+      <anchor>abcad59ff52bcc1f7fa500a053095bb2b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>quint64</type>
+      <name>size</name>
+      <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
+      <anchor>a526ebb1045a57eefb2287906a3b82c8c</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtAutoUpdater::Updater</name>
+    <filename>class_qt_auto_updater_1_1_updater.html</filename>
+    <base>QObject</base>
+    <class kind="struct">QtAutoUpdater::Updater::UpdateInfo</class>
+    <member kind="slot">
+      <type>bool</type>
+      <name>checkForUpdates</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a104b10bae48235afce2826ab1385c0b9</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>abortUpdateCheck</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>acebfb662db8ab87c89dbaf96d61d131c</anchor>
+      <arglist>(int maxDelay=5000, bool async=false)</arglist>
+    </member>
+    <member kind="slot">
+      <type>int</type>
+      <name>scheduleUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a2bbec105cd9e538bf5e7aff1f5309c26</anchor>
+      <arglist>(int delaySeconds, bool repeated=false)</arglist>
+    </member>
+    <member kind="slot">
+      <type>int</type>
+      <name>scheduleUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ae3653cd691f5966e26b5ea6b5f71d902</anchor>
+      <arglist>(const QDateTime &amp;when)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>cancelScheduledUpdate</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a62affe5f6d482482b239b7d3822657dd</anchor>
+      <arglist>(int taskId)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>runUpdaterOnExit</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ab23679ad18072646028085b9e77ecc0d</anchor>
+      <arglist>(AdminAuthoriser *authoriser=nullptr)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>runUpdaterOnExit</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a5a9d1ea846df1be2fc94bd3654cb48ec</anchor>
+      <arglist>(const QStringList &amp;arguments, AdminAuthoriser *authoriser=nullptr)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>cancelExitRun</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ac5320a29ffba285d40100a1e98e8950a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>checkUpdatesDone</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a3fd933952a129c987493140e955428de</anchor>
+      <arglist>(bool hasUpdates, bool hasError)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>runningChanged</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a95be75ea3c2c917cf2b7d1006d1eff93</anchor>
+      <arglist>(bool running)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>updateInfoChanged</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ad8911bff3cf527089eed208340686c0c</anchor>
+      <arglist>(QList&lt; QtAutoUpdater::Updater::UpdateInfo &gt; updateInfo)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Updater</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>aa9d1cea9097292bd2169c1a29a119a3d</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>Updater</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a339064ee3c12bd04297630dc172b3978</anchor>
+      <arglist>(const QString &amp;maintenanceToolPath, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~Updater</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a1294129a47405b4e29932555bb9cdf43</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>exitedNormally</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a8486608a2ff6651db833ddb26cd60b8a</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>errorCode</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ae096363a7a2928c467c53ff4a865327d</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QByteArray</type>
+      <name>errorLog</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>aaea2dc05a5385718710c7e48a9135188</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>willRunOnExit</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a2ca50d6a9a989dd24a28d88f26e7dcee</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>maintenanceToolPath</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a917da409947abc5cdf4f88c3cbcb20c8</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isRunning</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ad15b703663ffb7de33cc80a575b1e9b7</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QList&lt; UpdateInfo &gt;</type>
+      <name>updateInfo</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>ac6309c0918e935c1ef9482d2c2b290ce</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="property">
+      <type>QString</type>
+      <name>maintenanceToolPath</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>a461606ef021a435745a1e3bdfb422b05</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>running</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>aef607db5109f57300e47b8e35615c7fa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>QList&lt; UpdateInfo &gt;</type>
+      <name>updateInfo</name>
+      <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
+      <anchor>aa3b025dad1bae7d7ac2f7ade23955fc4</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="namespace">
+    <name>QtAutoUpdater</name>
+    <filename>namespace_qt_auto_updater.html</filename>
+    <class kind="class">QtAutoUpdater::AdminAuthoriser</class>
+    <class kind="class">QtAutoUpdater::UpdateButton</class>
+    <class kind="class">QtAutoUpdater::UpdateController</class>
+    <class kind="class">QtAutoUpdater::Updater</class>
+  </compound>
+  <compound kind="page">
+    <name>image_page</name>
+    <title>Image Page</title>
+    <filename>image_page</filename>
+    <docanchor file="image_page" title="Images">autoupdater_controller_images</docanchor>
+    <docanchor file="image_page" title="Windows - Windows 10">autoupdater_controller_images_win</docanchor>
+    <docanchor file="image_page" title="The Updater Elements">autoupdater_controller_images_win_1</docanchor>
+    <docanchor file="image_page" title="The Update Button">autoupdater_controller_images_win_2</docanchor>
+    <docanchor file="image_page" title="The Action">autoupdater_controller_images_win_3</docanchor>
+    <docanchor file="image_page" title="Mac - OsX 10.11">autoupdater_controller_images_osx</docanchor>
+    <docanchor file="image_page" title="The Updater Elements">autoupdater_controller_images_osx_1</docanchor>
+    <docanchor file="image_page" title="The Update Button">autoupdater_controller_images_osx_2</docanchor>
+    <docanchor file="image_page" title="The Action">autoupdater_controller_images_osx_3</docanchor>
+    <docanchor file="image_page" title="X11 - KDE Frameworks 5.31.0 (Breeze Style)">autoupdater_controller_images_x11</docanchor>
+    <docanchor file="image_page" title="The Updater Elements">autoupdater_controller_images_x11_1</docanchor>
+    <docanchor file="image_page" title="The Update Button">autoupdater_controller_images_x11_2</docanchor>
+    <docanchor file="image_page" title="The Action">autoupdater_controller_images_x11_3</docanchor>
+  </compound>
+  <compound kind="page">
+    <name>index</name>
+    <title></title>
+    <filename>index</filename>
+    <docanchor file="index" title="Features">qtautoupdater_readme_label_0</docanchor>
+    <docanchor file="index" title="Core Library">qtautoupdater_readme_label_1</docanchor>
+    <docanchor file="index" title="GUI Library">qtautoupdater_readme_label_2</docanchor>
+    <docanchor file="index" title="Screenshots">qtautoupdater_readme_label_3</docanchor>
+    <docanchor file="index" title="Requirements">qtautoupdater_readme_label_4</docanchor>
+    <docanchor file="index" title="Usage">qtautoupdater_readme_label_5</docanchor>
+    <docanchor file="index" title="Getting started">qtautoupdater_readme_label_6</docanchor>
+    <docanchor file="index" title="Examples">qtautoupdater_readme_label_7</docanchor>
+    <docanchor file="index" title="Updater">qtautoupdater_readme_label_8</docanchor>
+    <docanchor file="index" title="UpdateController">qtautoupdater_readme_label_9</docanchor>
+    <docanchor file="index" title="Download/Installation">qtautoupdater_readme_label_10</docanchor>
+    <docanchor file="index" title="Documentation">qtautoupdater_readme_label_11</docanchor>
+    <docanchor file="index" title="Translations">qtautoupdater_readme_label_12</docanchor>
+    <docanchor file="index" title="Icon sources/Links">qtautoupdater_readme_label_13</docanchor>
+    <docanchor file="index" title="GUI Library">qtautoupdater_readme_label_14</docanchor>
+    <docanchor file="index" title="Test Project">qtautoupdater_readme_label_15</docanchor>
+  </compound>
+</tagfile>

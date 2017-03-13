@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['record',['Record',['http://doc.qt.io/qt-5/qndeffilter-record.html',0,'QNdefFilter']]],
-  ['renderer',['Renderer',['http://doc.qt.io/qt-5/qquickframebufferobject-renderer.html',0,'QQuickFramebufferObject']]],
-  ['renderstate',['RenderState',['http://doc.qt.io/qt-5/qsgmaterialshader-renderstate.html',0,'QSGMaterialShader']]],
-  ['requestid',['RequestId',['http://doc.qt.io/qt-5/qnearfieldtarget-requestid.html',0,'QNearFieldTarget']]],
-  ['requestidprivate',['RequestIdPrivate',['http://doc.qt.io/qt-5/qnearfieldtarget-requestidprivate.html',0,'QNearFieldTarget']]]
+  ['package',['Package',['https://doc.qt.io/qt-5/qml-package.html',0,'']]],
+  ['paging',['Paging',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_paging.html',0,'QtRestClient']]],
+  ['pagingdata',['PagingData',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_paging_data.html',0,'QtRestClient']]],
+  ['pagingfactory',['PagingFactory',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_paging_factory.html',0,'QtRestClient']]],
+  ['paintcontext',['PaintContext',['https://doc.qt.io/qt-5/qabstracttextdocumentlayout-paintcontext.html',0,'QAbstractTextDocumentLayout']]],
+  ['parameterinfo',['ParameterInfo',['https://doc.qt.io/qt-5/qscxmlexecutablecontent-parameterinfo.html',0,'QScxmlExecutableContent']]],
+  ['pixmapfragment',['PixmapFragment',['https://doc.qt.io/qt-5/qpainter-pixmapfragment.html',0,'QPainter']]],
+  ['point2d',['Point2D',['https://doc.qt.io/qt-5/qsggeometry-point2d.html',0,'QSGGeometry']]],
+  ['propertyreaderinterface',['PropertyReaderInterface',['https://doc.qt.io/qt-5/qt3drender-propertyreaderinterface.html',0,'Qt3DRender']]]
 ];

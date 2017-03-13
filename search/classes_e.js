@@ -1,10 +1,14 @@
 var searchData=
 [
-  ['tab',['Tab',['http://doc.qt.io/qt-5/qtextoption-tab.html',0,'QTextOption']]],
-  ['tabbar',['TabBar',['http://doc.qt.io/qt-5/qml-tabbar.html',0,'']]],
-  ['tableviewitemdelegateloader',['TableViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-tableviewitemdelegateloader.html',0,'']]],
-  ['texturedpoint2d',['TexturedPoint2D',['http://doc.qt.io/qt-5/qsggeometry-texturedpoint2d.html',0,'QSGGeometry']]],
-  ['timerinfo',['TimerInfo',['http://doc.qt.io/qt-5/qabstracteventdispatcher-timerinfo.html',0,'QAbstractEventDispatcher']]],
-  ['touchpoint',['TouchPoint',['http://doc.qt.io/qt-5/qtouchevent-touchpoint.html',0,'QTouchEvent']]],
-  ['treeviewitemdelegateloader',['TreeViewItemDelegateLoader',['http://doc.qt.io/qt-5/qml-treeviewitemdelegateloader.html',0,'']]]
+  ['record',['Record',['https://doc.qt.io/qt-5/qndeffilter-record.html',0,'QNdefFilter']]],
+  ['renderer',['Renderer',['https://doc.qt.io/qt-5/qquickframebufferobject-renderer.html',0,'QQuickFramebufferObject']]],
+  ['renderstate',['RenderState',['https://doc.qt.io/qt-5/qsgrendernode-renderstate.html',0,'QSGRenderNode::RenderState'],['https://doc.qt.io/qt-5/qsgmaterialshader-renderstate.html',0,'QSGMaterialShader::RenderState'],['https://doc.qt.io/qt-5/qml-renderstate.html',0,'RenderState']]],
+  ['rendertarget',['RenderTarget',['https://doc.qt.io/qt-5/qml-rendertarget.html',0,'']]],
+  ['rendertargetoutput',['RenderTargetOutput',['https://doc.qt.io/qt-5/qml-rendertargetoutput.html',0,'']]],
+  ['requestbuilder',['RequestBuilder',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_request_builder.html',0,'QtRestClient']]],
+  ['requestid',['RequestId',['https://doc.qt.io/qt-5/qnearfieldtarget-requestid.html',0,'QNearFieldTarget']]],
+  ['requestidprivate',['RequestIdPrivate',['https://doc.qt.io/qt-5/qnearfieldtarget-requestidprivate.html',0,'QNearFieldTarget']]],
+  ['restclass',['RestClass',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_class.html',0,'QtRestClient']]],
+  ['restclient',['RestClient',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_client.html',0,'QtRestClient']]],
+  ['restreply',['RestReply',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_reply.html',0,'QtRestClient']]]
 ];

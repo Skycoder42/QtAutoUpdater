@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['offsetdatalist',['OffsetDataList',['http://doc.qt.io/qt-5/qtimezone.html#OffsetDataList-typedef',0,'QTimeZone']]],
-  ['openglfeatures',['OpenGLFeatures',['http://doc.qt.io/qt-5/qopenglfunctions.html#OpenGLFeature-enum',0,'QOpenGLFunctions']]],
-  ['openmode',['OpenMode',['http://doc.qt.io/qt-5/qiodevice.html#OpenModeFlag-enum',0,'QIODevice']]],
-  ['optimizationflags',['OptimizationFlags',['http://doc.qt.io/qt-5/qgraphicsview.html#OptimizationFlag-enum',0,'QGraphicsView']]],
-  ['options',['Options',['http://doc.qt.io/qt-5/qfiledialog.html#Option-enum',0,'QFileDialog::Options()'],['http://doc.qt.io/qt-5/qfileiconprovider.html#Option-enum',0,'QFileIconProvider::Options()']]],
-  ['orientations',['Orientations',['http://doc.qt.io/qt-5/qt.html#Orientation-enum',0,'Qt']]]
+  ['maneuverdetails',['ManeuverDetails',['https://doc.qt.io/qt-5/qgeorouterequest.html#ManeuverDetail-enum',0,'QGeoRouteRequest']]],
+  ['mapped_5ftype',['mapped_type',['https://doc.qt.io/qt-5/qjsonobject.html#mapped_type-typedef',0,'QJsonObject::mapped_type()'],['https://doc.qt.io/qt-5/qhash.html#mapped_type-typedef',0,'QHash::mapped_type()'],['https://doc.qt.io/qt-5/qmap.html#mapped_type-typedef',0,'QMap::mapped_type()']]],
+  ['mappingfeatures',['MappingFeatures',['https://doc.qt.io/qt-5/qgeoserviceprovider.html#MappingFeature-enum',0,'QGeoServiceProvider']]],
+  ['matchflags',['MatchFlags',['https://doc.qt.io/qt-5/qt.html#MatchFlag-enum',0,'Qt']]],
+  ['matchoptions',['MatchOptions',['https://doc.qt.io/qt-5/qregularexpression.html#MatchOption-enum',0,'QRegularExpression']]],
+  ['modifyparametersfunction',['ModifyParametersFunction',['https://doc.qt.io/qt-5/qabstractoauth.html#ModifyParametersFunction-typedef',0,'QAbstractOAuth']]],
+  ['mousebuttons',['MouseButtons',['https://doc.qt.io/qt-5/qt.html#MouseButton-enum',0,'Qt']]],
+  ['mouseeventflags',['MouseEventFlags',['https://doc.qt.io/qt-5/qt.html#MouseEventFlag-enum',0,'Qt']]]
 ];
