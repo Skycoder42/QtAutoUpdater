@@ -1,5 +1,4 @@
 #include <updater.h>
-#include <QtTest>
 #include <QCoreApplication>
 #include <QSignalSpy>
 #include <QVector>
@@ -8,12 +7,15 @@ using namespace QtAutoUpdater;
 
 #define TEST_DELAY 1000
 
+//define before QtTest include because of macos
 inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAutoUpdater::Updater::UpdateInfo &b)
 {
 	return (a.name == b.name &&
 			a.version == b.version &&
 			a.size == b.size);
 }
+
+#include <QtTest>
 
 class UpdaterTest : public QObject
 {
