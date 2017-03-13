@@ -32,34 +32,34 @@ public:
 	//! Destructor
 	~UpdateButton();
 
-	//! READ-Accessor for UpdateButton::animationFile
+	//! @readAcFn{UpdateButton::animationFile}
 	QString animationFile() const;
-	//! READ-Accessor for UpdateButton::showResult
+	//! @readAcFn{UpdateButton::showResult}
 	bool isShowingResult() const;
-	//! READ-Accessor for UpdateButton::displayLevel
+	//! @readAcFn{UpdateButton::displayLevel}
 	UpdateController::DisplayLevel displayLevel() const;
-	//! READ-Accessor for UpdateButton::controller
+	//! @readAcFn{UpdateButton::controller}
 	UpdateController* controller() const;
 
 public Q_SLOTS:
 	//! Rests the buttons visual state
 	void resetState();
 
-	//! WRITE-Accessor for UpdateButton::animationFile
+	//! @writeAcFn{UpdateButton::animationFile}
 	void setAnimationFile(QString animationFile, int speed = 100);
-	//! WRITE-Accessor for UpdateButton::animationFile
+	//! @writeAcFn{UpdateButton::animationFile}
 	void setAnimationDevice(QIODevice *animationDevice, int speed = 100);
-	//! RESET-Accessor for UpdateButton::animationFile
+	//! @resetAcFn{UpdateButton::animationFile}
 	void resetAnimationFile();
-	//! WRITE-Accessor for UpdateButton::showResult
+	//! @writeAcFn{UpdateButton::showResult}
 	void setShowResult(bool showResult);
-	//! WRITE-Accessor for UpdateButton::displayLevel
+	//! @writeAcFn{UpdateButton::displayLevel}
 	void setDisplayLevel(UpdateController::DisplayLevel displayLevel);
-	//! WRITE-Accessor for UpdateButton::controller
+	//! @writeAcFn{UpdateButton::controller}
 	bool setController(UpdateController* controller);
 
 Q_SIGNALS:
-	//! NOTIFY-Accessor for UpdateButton::controller
+	//! @notifyAcFn{UpdateButton::controller}
 	void controllerChanged(UpdateController* controller);
 
 private Q_SLOTS:

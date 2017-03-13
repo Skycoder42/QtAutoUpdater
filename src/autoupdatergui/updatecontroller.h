@@ -61,36 +61,37 @@ public:
 	//! Create a QAction to start this controller from
 	QAction *createUpdateAction(QObject *parent);
 
-	//! READ-Accessor for UpdateController::maintenanceToolPath
+	//! @readAcFn{UpdateController::maintenanceToolPath}
 	QString maintenanceToolPath() const;
-	//! READ-Accessor for UpdateController::parentWindow
+	//! @readAcFn{UpdateController::parentWindow}
 	QWidget* parentWindow() const;
-	//! WRITE-Accessor for UpdateController::parentWindow
-	void setParentWindow(QWidget* parentWindow);
-	//! READ-Accessor for UpdateController::currentDisplayLevel
+	//! @readAcFn{UpdateController::currentDisplayLevel}
 	DisplayLevel currentDisplayLevel() const;
-	//! READ-Accessor for UpdateController::running
+	//! @readAcFn{UpdateController::running}
 	bool isRunning() const;
-	//! READ-Accessor for UpdateController::runAsAdmin
+	//! @readAcFn{UpdateController::runAsAdmin}
 	bool runAsAdmin() const;
-	//! WRITE-Accessor for UpdateController::runAsAdmin
-	void setRunAsAdmin(bool runAsAdmin, bool userEditable = true);
-	//! READ-Accessor for UpdateController::updateRunArgs
+	//! @readAcFn{UpdateController::updateRunArgs}
 	QStringList updateRunArgs() const;
-	//! WRITE-Accessor for UpdateController::updateRunArgs
-	void setUpdateRunArgs(QStringList updateRunArgs);
-	//! RESET-Accessor for UpdateController::updateRunArgs
-	void resetUpdateRunArgs();
-	//! READ-Accessor for UpdateController::detailedUpdateInfo
+	//! @readAcFn{UpdateController::detailedUpdateInfo}
 	bool isDetailedUpdateInfo() const;
-	//! WRITE-Accessor for UpdateController::detailedUpdateInfo
-	void setDetailedUpdateInfo(bool detailedUpdateInfo);
 
 	//! Returns the Updater object used by the controller
 	Updater *updater() const;
 
 public Q_SLOTS:
-	//! Starts the controller with the specified level.
+	//! @writeAcFn{UpdateController::parentWindow}
+	void setParentWindow(QWidget* parentWindow);
+	//! @writeAcFn{UpdateController::runAsAdmin}
+	void setRunAsAdmin(bool runAsAdmin, bool userEditable = true);
+	//! @writeAcFn{UpdateController::updateRunArgs}
+	void setUpdateRunArgs(QStringList updateRunArgs);
+	//! @resetAcFn{UpdateController::updateRunArgs}
+	void resetUpdateRunArgs();
+	//! @writeAcFn{UpdateController::detailedUpdateInfo}
+	void setDetailedUpdateInfo(bool detailedUpdateInfo);
+
+	//! Starts the controller with the specified display level
 	bool start(DisplayLevel displayLevel = InfoLevel);
 	//! Tries to cancel the controllers update
 	bool cancelUpdate(int maxDelay = 3000);
@@ -103,9 +104,9 @@ public Q_SLOTS:
 	void cancelScheduledUpdate(int taskId);
 
 Q_SIGNALS:
-	//! NOTIFY-Accessor for UpdateController::running
+	//! @notifyAcFn{UpdateController::running}
 	void runningChanged(bool running);
-	//! NOTIFY-Accessor for UpdateController::runAsAdmin
+	//! @notifyAcFn{UpdateController::runAsAdmin}
 	void runAsAdminChanged(bool runAsAdmin);
 
 private Q_SLOTS:

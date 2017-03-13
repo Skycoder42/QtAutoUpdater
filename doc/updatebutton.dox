@@ -103,7 +103,7 @@ If `controller` is `nullptr`, the button will be disabled until you set a contro
 
 The button will look like it looks after it's creation. Any progress or message will be reset.
 However, if the UpdateButton itself is disabled because of a missing controller, this will not be
-reset. Neither will the animation file or the display level be reset.
+reset. Neither will the animation file nor the display level be reset.
 
 @note Calling this slot while the updater is running will still reset the button, but after the updater
 has finished, the button will show the result (if enabled).
