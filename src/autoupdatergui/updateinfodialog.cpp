@@ -1,5 +1,6 @@
 #include "updateinfodialog_p.h"
 #include "ui_updateinfodialog.h"
+#include "updatecontroller_p.h"
 #include "dialogmaster.h"
 
 #include <QtWidgets/QApplication>
@@ -31,12 +32,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 
 	ui->headerLabel->setText(tr("Updates for %1 are available!")
 								   .arg(QApplication::applicationDisplayName()));
-	if(QApplication::windowIcon().isNull())//TODO makes no sense
-		ui->imageLabel->hide();
-	else {
-		ui->imageLabel->show();
-		ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")).pixmap(64, 64));
-	}
+	ui->imageLabel->setPixmap(UpdateControllerPrivate::getUpdatesIcon().pixmap(64, 64));
 }
 
 UpdateInfoDialog::~UpdateInfoDialog(){}
@@ -47,7 +43,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		DialogMaster::MessageBoxInfo boxInfo;
 		boxInfo.parent = parent;
 		boxInfo.windowTitle = tr("Check for Updates");
-		boxInfo.icon = QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico"));
+		boxInfo.icon = UpdateControllerPrivate::getUpdatesIcon();
 		boxInfo.title = tr("Updates for %1 are available!")
 						.arg(QApplication::applicationDisplayName());
 		boxInfo.text = tr("There are new updates available! You can install them now or later.");

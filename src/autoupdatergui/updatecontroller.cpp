@@ -36,7 +36,7 @@ UpdateController::~UpdateController(){}
 
 QAction *UpdateController::createUpdateAction(QObject *parent)
 {
-	auto updateAction = new QAction(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")),
+	auto updateAction = new QAction(UpdateControllerPrivate::getUpdatesIcon(),
 									tr("Check for Updates"),
 									parent);
 	updateAction->setMenuRole(QAction::ApplicationSpecificRole);
@@ -293,6 +293,11 @@ void UpdateController::timerTriggered(const QVariant &parameter)
 }
 
 //-----------------PRIVATE IMPLEMENTATION-----------------
+
+QIcon UpdateControllerPrivate::getUpdatesIcon()
+{
+	return QIcon::fromTheme(QStringLiteral("system-software-update"), QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")));
+}
 
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window) :
 	UpdateControllerPrivate(q_ptr, QString(), window)

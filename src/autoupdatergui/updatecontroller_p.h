@@ -14,10 +14,12 @@
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate//TODO load icon indirectly -> easier replacement
+class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate
 {
 public:
 	typedef QPair<UpdateController::DisplayLevel, bool> UpdateTask;
+
+	static QIcon getUpdatesIcon();
 
 	UpdateController *q;
 

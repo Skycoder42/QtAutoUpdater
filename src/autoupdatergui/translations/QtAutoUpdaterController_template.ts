@@ -147,8 +147,8 @@
 <context>
     <name>QtAutoUpdater::UpdateInfoDialog</name>
     <message>
-        <location filename="../updateinfodialog.cpp" line="+32"/>
-        <location line="+19"/>
+        <location filename="../updateinfodialog.cpp" line="+33"/>
+        <location line="+14"/>
         <source>Updates for %1 are available!</source>
         <translation type="unfinished"></translation>
     </message>
