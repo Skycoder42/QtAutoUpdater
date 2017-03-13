@@ -34,7 +34,7 @@ public:
 		connect(this, &ProgressDialog::canceled, object, [=](){
 			(object->*member)(3000, true);
 		});
-		this->show();
+		show();
 	}
 
 	void setCanceled();

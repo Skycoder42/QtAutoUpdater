@@ -19,8 +19,7 @@ namespace QtAutoUpdater
 class Q_AUTOUPDATERGUI_EXPORT UpdateButtonPrivate
 {
 public:
-	UpdateButton *q_ptr;
-	Q_DECLARE_PUBLIC(UpdateButton)
+	UpdateButton *q;
 
 	QPointer<UpdateController> controller;
 	QScopedPointer<Ui::UpdateButton> ui;

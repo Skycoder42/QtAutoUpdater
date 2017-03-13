@@ -12,30 +12,30 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	DialogMaster::masterDialog(this);
-	this->ui->rootLayout->setSpacing(this->ui->rootLayout->contentsMargins().left());
+	ui->rootLayout->setSpacing(ui->rootLayout->contentsMargins().left());
 
 #ifdef Q_OS_OSX
-	QFont font = this->ui->headerLabel->font();
+	QFont font = ui->headerLabel->font();
 	font.setPointSize(20);
-	this->ui->headerLabel->setFont(font);
+	ui->headerLabel->setFont(font);
 #endif
 
-	QPalette pal(this->ui->headerLabel->palette());
+	QPalette pal(ui->headerLabel->palette());
 #ifdef Q_OS_WIN32
 	// ### hardcoded for now:
 	pal.setColor(QPalette::WindowText, QColor(0x00, 0x33, 0x99));
 #else
 	pal.setColor(QPalette::WindowText, QApplication::palette().color(QPalette::Highlight));
 #endif
-	this->ui->headerLabel->setPalette(pal);
+	ui->headerLabel->setPalette(pal);
 
-	this->ui->headerLabel->setText(tr("Updates for %1 are available!")
+	ui->headerLabel->setText(tr("Updates for %1 are available!")
 								   .arg(QApplication::applicationDisplayName()));
 	if(QApplication::windowIcon().isNull())//TODO makes no sense
-		this->ui->imageLabel->hide();
+		ui->imageLabel->hide();
 	else {
-		this->ui->imageLabel->show();
-		this->ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")).pixmap(64, 64));
+		ui->imageLabel->show();
+		ui->imageLabel->setPixmap(QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")).pixmap(64, 64));
 	}
 }
 
@@ -110,7 +110,7 @@ void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
 							   tr("Install Now?"),
 							   tr("Close the application and install updates?"))
 		== QMessageBox::Yes) {
-		this->accept();
+		accept();
 	}
 }
 
@@ -120,7 +120,7 @@ void QtAutoUpdater::UpdateInfoDialog::on_delayButton_clicked()
 							   tr("Install On Exit"),
 							   tr("Updates will be installed on exit. The maintenance tool "
 								  "will be started as soon as you close the application!"));
-	this->done(InstallLater);
+	done(InstallLater);
 }
 
 QString UpdateInfoDialog::getByteText(qint64 bytes)

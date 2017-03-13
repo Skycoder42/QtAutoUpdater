@@ -85,7 +85,6 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
 	tmpList.append(arguments);
 	args.append(QLatin1Char('\"') + tmpList.join(QStringLiteral("\" \"")) + QLatin1Char('\"'));
 
-	qDebug() << command << args;
 	return QProcess::startDetached(command, args);
 }
 

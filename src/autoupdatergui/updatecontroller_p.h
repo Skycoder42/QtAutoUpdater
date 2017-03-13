@@ -19,8 +19,7 @@ class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate//TODO load icon indirectly
 public:
 	typedef QPair<UpdateController::DisplayLevel, bool> UpdateTask;
 
-	UpdateController *q_ptr;
-	Q_DECLARE_PUBLIC(UpdateController)
+	UpdateController *q;
 
 	QPointer<QWidget> window;
 

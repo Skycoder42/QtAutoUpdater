@@ -14,6 +14,7 @@ class UpdateButtonPrivate;
 //! A simple button for update checks
 class Q_AUTOUPDATERGUI_EXPORT UpdateButton : public QWidget
 {
+	friend class UpdateButtonPrivate;
 	Q_OBJECT
 
 	//! The file of the animation to be shown
@@ -68,8 +69,7 @@ private Q_SLOTS:
 	void controllerDestroyed();
 
 private:
-	QScopedPointer<UpdateButtonPrivate> d_ptr;
-	Q_DECLARE_PRIVATE(UpdateButton)
+	QScopedPointer<UpdateButtonPrivate> d;
 };
 
 }

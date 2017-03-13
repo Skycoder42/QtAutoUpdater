@@ -76,12 +76,12 @@
 <context>
     <name>QtAutoUpdater::UpdateButton</name>
     <message>
-        <location filename="../updatebutton.cpp" line="+108"/>
+        <location filename="../updatebutton.cpp" line="+95"/>
         <source>Checking for updates…</source>
         <translation>Suche nach Updates…</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>New Update!</source>
         <translation>Neues Update verfügbar!</translation>
     </message>
@@ -95,16 +95,16 @@
     <name>QtAutoUpdater::UpdateController</name>
     <message>
         <location filename="../updatecontroller.cpp" line="+40"/>
-        <location line="+113"/>
+        <location line="+98"/>
         <location line="+12"/>
-        <location line="+81"/>
+        <location line="+75"/>
         <location line="+49"/>
         <location line="+4"/>
         <source>Check for Updates</source>
         <translation>Suche nach Updates</translation>
     </message>
     <message>
-        <location line="-145"/>
+        <location line="-139"/>
         <source>Do you want to check for updates now?</source>
         <translation>Möchten Sie jetzt nach Updates suchen?</translation>
     </message>
@@ -114,7 +114,7 @@
         <translation>Das Programm sucht bereits nach neuen Updates!</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+75"/>
         <source>Checking for updates was canceled!</source>
         <translation>Suche nach Updates wurde abgebrochen!</translation>
     </message>
@@ -139,7 +139,7 @@
         <translation>Es sind keine neuen Updates verfügbar!</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-232"/>
         <source>Checks if new updates are available. You will be prompted before updates are installed.</source>
         <translation>Überprüft, ob neue Updates verfügbar sind. Sie erhalten eine entsprechende Meldung bevor Diese installiert werden.</translation>
     </message>

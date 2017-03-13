@@ -86,7 +86,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
 	// administrator yet and the computer's policies are set to not use UAC (which is the case
 	// in some corporate networks), the call to execute() will simply succeed and not at all
 	// launch the child process. To avoid this, we detect this situation here and return early.
-	if (!this->hasAdminRights()) {
+	if (!hasAdminRights()) {
 		QLatin1String key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System");
 		QSettings registry(key, QSettings::NativeFormat);
 		const QVariant enableLUA = registry.value(QLatin1String("EnableLUA"));

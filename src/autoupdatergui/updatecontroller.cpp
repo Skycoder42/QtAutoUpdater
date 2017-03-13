@@ -14,22 +14,22 @@ using namespace QtAutoUpdater;
 
 UpdateController::UpdateController(QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdateControllerPrivate(this, nullptr))
+	d(new UpdateControllerPrivate(this, nullptr))
 {}
 
 UpdateController::UpdateController(QWidget *parentWidget, QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdateControllerPrivate(this, parentWidget))
+	d(new UpdateControllerPrivate(this, parentWidget))
 {}
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, nullptr))
+	d(new UpdateControllerPrivate(this, maintenanceToolPath, nullptr))
 {}
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget, QObject *parent) :
 	QObject(parent),
-	d_ptr(new UpdateControllerPrivate(this, maintenanceToolPath, parentWidget))
+	d(new UpdateControllerPrivate(this, maintenanceToolPath, parentWidget))
 {}
 
 UpdateController::~UpdateController(){}
@@ -43,7 +43,7 @@ QAction *UpdateController::createUpdateAction(QObject *parent)
 	updateAction->setToolTip(tr("Checks if new updates are available. You will be prompted before updates are installed."));
 
 	connect(updateAction, &QAction::triggered, this, [this](){
-		this->start(UpdateController::ProgressLevel);
+		start(UpdateController::ProgressLevel);
 	});
 	connect(this, &UpdateController::runningChanged,
 			updateAction, &QAction::setDisabled);
@@ -55,43 +55,36 @@ QAction *UpdateController::createUpdateAction(QObject *parent)
 
 QString UpdateController::maintenanceToolPath() const
 {
-	const Q_D(UpdateController);
 	return d->mainUpdater->maintenanceToolPath();
 }
 
 QWidget *UpdateController::parentWindow() const
 {
-	const Q_D(UpdateController);
 	return d->window;
 }
 
 void UpdateController::setParentWindow(QWidget *parentWindow)
 {
-	Q_D(UpdateController);
 	d->window = parentWindow;
 }
 
 UpdateController::DisplayLevel UpdateController::currentDisplayLevel() const
 {
-	const Q_D(UpdateController);
 	return d->displayLevel;
 }
 
 bool UpdateController::isRunning() const
 {
-	const Q_D(UpdateController);
 	return d->running;
 }
 
 bool UpdateController::runAsAdmin() const
 {
-	const Q_D(UpdateController);
 	return d->runAdmin;
 }
 
 void UpdateController::setRunAsAdmin(bool runAsAdmin, bool userEditable)
 {
-	Q_D(UpdateController);
 	if(d->runAdmin != runAsAdmin) {
 		d->runAdmin = runAsAdmin;
 		if(d->mainUpdater->willRunOnExit())
@@ -103,44 +96,36 @@ void UpdateController::setRunAsAdmin(bool runAsAdmin, bool userEditable)
 
 QStringList UpdateController::updateRunArgs() const
 {
-	const Q_D(UpdateController);
 	return d->runArgs;
 }
 
 void UpdateController::setUpdateRunArgs(QStringList updateRunArgs)
 {
-	Q_D(UpdateController);
 	d->runArgs = updateRunArgs;
 }
 
 void UpdateController::resetUpdateRunArgs()
 {
-	Q_D(UpdateController);
 	d->runArgs = QStringList(QStringLiteral("--updater"));
 }
 
 bool UpdateController::isDetailedUpdateInfo() const
 {
-	const Q_D(UpdateController);
 	return d->detailedInfo;
 }
 
 void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
 {
-	Q_D(UpdateController);
 	d->detailedInfo = detailedUpdateInfo;
 }
 
 Updater *UpdateController::updater() const
 {
-	const Q_D(UpdateController);
 	return d->mainUpdater;
 }
 
 bool UpdateController::start(DisplayLevel displayLevel)
 {
-	Q_D(UpdateController);
-
 	if(d->running)
 		return false;
 	d->running = true;
@@ -172,7 +157,7 @@ bool UpdateController::start(DisplayLevel displayLevel)
 		if(d->displayLevel >= ExtendedInfoLevel) {
 			d->checkUpdatesProgress = new ProgressDialog(d->window);
 			if(d->displayLevel >= ProgressLevel) {
-				connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [d](){
+				connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [this](){
 					d->wasCanceled = true;
 				});
 				d->checkUpdatesProgress->open(d->mainUpdater, &QtAutoUpdater::Updater::abortUpdateCheck);
@@ -185,7 +170,6 @@ bool UpdateController::start(DisplayLevel displayLevel)
 
 bool UpdateController::cancelUpdate(int maxDelay)
 {
-	Q_D(UpdateController);
 	if(d->mainUpdater->isRunning()) {
 		d->wasCanceled = true;
 		if(d->checkUpdatesProgress)
@@ -202,26 +186,21 @@ int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateCont
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
-	Q_D(UpdateController);
 	return d->scheduler->startSchedule(delaySeconds * 1000, repeated, QVariant::fromValue(displayLevel));
 }
 
 int UpdateController::scheduleUpdate(const QDateTime &when, UpdateController::DisplayLevel displayLevel)
 {
-	Q_D(UpdateController);
 	return d->scheduler->startSchedule(when, QVariant::fromValue(displayLevel));
 }
 
 void UpdateController::cancelScheduledUpdate(int taskId)
 {
-	Q_D(UpdateController);
 	d->scheduler->cancelSchedule(taskId);
 }
 
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 {
-	Q_D(UpdateController);
-
 	if(d->displayLevel >= ExtendedInfoLevel) {
 		auto iconType = QMessageBox::NoIcon;
 		if(hasUpdates)
@@ -310,7 +289,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 void UpdateController::timerTriggered(const QVariant &parameter)
 {
 	if(parameter.canConvert<DisplayLevel>())
-		this->start(parameter.value<DisplayLevel>());
+		start(parameter.value<DisplayLevel>());
 }
 
 //-----------------PRIVATE IMPLEMENTATION-----------------
@@ -320,7 +299,7 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 {}
 
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window) :
-	q_ptr(q_ptr),
+	q(q_ptr),
 	window(window),
 	displayLevel(UpdateController::InfoLevel),
 	running(false),
@@ -333,24 +312,24 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	wasCanceled(false),
 	scheduler(new SimpleScheduler(q_ptr))
 {
-	QObject::connect(this->mainUpdater, &Updater::checkUpdatesDone,
-					 q_ptr, &UpdateController::checkUpdatesDone,
+	QObject::connect(mainUpdater, &Updater::checkUpdatesDone,
+					 q, &UpdateController::checkUpdatesDone,
 					 Qt::QueuedConnection);
-	QObject::connect(this->scheduler, &SimpleScheduler::scheduleTriggered,
-					 q_ptr, &UpdateController::timerTriggered);
+	QObject::connect(scheduler, &SimpleScheduler::scheduleTriggered,
+					 q, &UpdateController::timerTriggered);
 
 #ifdef Q_OS_UNIX
 	QFileInfo maintenanceInfo(QCoreApplication::applicationDirPath(),
-							  this->mainUpdater->maintenanceToolPath());
-	this->runAdmin = (maintenanceInfo.ownerId() == 0);
+							  mainUpdater->maintenanceToolPath());
+	runAdmin = (maintenanceInfo.ownerId() == 0);
 #endif
 }
 
 UpdateControllerPrivate::~UpdateControllerPrivate()
 {
-	if(this->running)
+	if(running)
 		qCWarning(logQtAutoUpdater) << "UpdaterController destroyed while still running! This can crash your application!";
 
-	if(this->checkUpdatesProgress)
-		this->checkUpdatesProgress->deleteLater();
+	if(checkUpdatesProgress)
+		checkUpdatesProgress->deleteLater();
 }

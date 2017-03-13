@@ -17,6 +17,7 @@ class UpdateControllerPrivate;
 //! A class to show a controlled update GUI to the user
 class Q_AUTOUPDATERGUI_EXPORT UpdateController : public QObject
 {
+	friend class UpdateControllerPrivate;
 	Q_OBJECT
 
 	//! Holds the path of the attached maintenancetool
@@ -112,8 +113,7 @@ private Q_SLOTS:
 	void timerTriggered(const QVariant &parameter);
 
 private:
-	QScopedPointer<UpdateControllerPrivate> d_ptr;
-	Q_DECLARE_PRIVATE(UpdateController)
+	QScopedPointer<UpdateControllerPrivate> d;
 };
 
 }
