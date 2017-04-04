@@ -35,6 +35,29 @@ Here some sample screenshots of the gui (The rocket of the information dialog is
  - Qt Installer Framework: The updater requires the application to be installed using the framework and will use the frameworks update mechanism to check for updates (https://doc.qt.io/qtinstallerframework/, download at via Qt MaintenanceTool)
  - Since the Installer Framework supports Windows, Mac and X11 only, it's the same for this library
 
+## Download/Installation
+There are multiple ways to install the Qt module, sorted by preference:
+
+1. Simply add my repository to your Qt MaintenanceTool (Image-based How-To here: [Add custom repository](https://github.com/Skycoder42/QtModules/blob/master/README.md#add-my-repositories-to-qt-maintenancetool)):
+	1. Open the MaintenanceTool, located in your Qt install directory (e.g. `~/Qt/MaintenanceTool`)
+	2. Select `Add or remove components` and click on the `Settings` button
+	3. Go to `Repositories`, scroll to the bottom, select `User defined repositories` and press `Add`
+	4. In the right column (selected by default), type:
+		- On Linux: https://install.skycoder42.de/qtmodules/linux_x64
+		- On Windows: https://install.skycoder42.de/qtmodules/windows_x86
+		- On Mac: https://install.skycoder42.de/qtmodules/mac_x64
+	5. Press `Ok`, make shure `Add or remove components` is still selected, and continue the install (`Next >`)
+	6. A new entry appears under all supported Qt Versions (e.g. `Qt > Qt 5.8 > Skycoder42 Qt modules`)
+	7. You can install either all of my modules, or select the one you need: `Qt Auto Updater`
+	8. Continue the setup and thats it! you can now use the module for all of your installed Kits for that Qt Version
+2. Download the compiled modules from the release page. **Note:** You will have to add the correct ones yourself and may need to adjust some paths to fit your installation!
+3. Build it yourself! **Note:** This requires perl to be installed. If you don't have/need cmake, you can ignore the related warnings. To automatically build and install to your Qt installation, run:
+	- `qmake`
+	- `make qmake_all`
+	- `make`
+	- `make lrelease` (optional step to generate the .qm files)
+	- `make install`
+
 ## Usage
 The autoupdater is provided as a Qt module. Thus, all you have to do is add the module, and then, in your project, add `QT += autoupdatercore` or `QT += autoupdatergui` to your .pro file - depending on what you need!
 
@@ -109,29 +132,6 @@ int main(int argc, char *argv[])
 	return a.exec();
 }
 ```
-
-## Download/Installation
-There are multiple ways to install the Qt module, sorted by preference:
-
-1. Simply add my repository to your Qt MaintenanceTool (Image-based How-To here: [Add custom repository](https://github.com/Skycoder42/QtModules/blob/master/README.md#add-my-repositories-to-qt-maintenancetool)):
-  1. Open the MaintenanceTool, located in your Qt install directory (e.g. `~/Qt/MaintenanceTool`)
-  2. Select `Add or remove components` and click on the `Settings` button
-  3. Go to `Repositories`, scroll to the bottom, select `User defined repositories` and press `Add`
-  4. In the right column (selected by default), type:
-	- On Linux: https://install.skycoder42.de/qtmodules/linux_x64
-	- On Windows: https://install.skycoder42.de/qtmodules/windows_x86
-	- On Mac: https://install.skycoder42.de/qtmodules/mac_x64
-  5. Press `Ok`, make shure `Add or remove components` is still selected, and continue the install (`Next >`)
-  6. A new entry appears under all supported Qt Versions (e.g. `Qt > Qt 5.8 > Skycoder42 Qt modules`)
-  7. You can install either all of my modules, or select the one you need: `Qt Auto Updater`
-  8. Continue the setup and thats it! you can now use the module for all of your installed Kits for that Qt Version
-2. Download the compiled modules from the release page. **Note:** You will have to add the correct ones yourself and may need to adjust some paths to fit your installation!
-3. Build it yourself! **Note:** This requires perl to be installed. If you don't have/need cmake, you can ignore the related warnings. To automatically build and install to your Qt installation, run:
-  - `qmake`
-  - `make qmake_all`
-  - `make`
-  - `make lrelease` (optional step to generate the .qm files)
-  - `make install`
 
 ## Documentation
 The documentation is available on [github pages](https://skycoder42.github.io/QtAutoUpdater/). It was created using [doxygen](http://www.doxygen.org/). The HTML-documentation and Qt-Help files are shipped
