@@ -17,6 +17,6 @@ QMAKE_EXTRA_TARGETS += docTarget
 docInst1.path = $$[QT_INSTALL_DOCS]
 docInst1.files = $$OUT_PWD/qtautoupdater.qch
 docInst1.CONFIG += no_check_exist
-docInst2.path = $$[QT_INSTALL_DOCS]/qtautoupdater
+docInst2.path = $$[QT_INSTALL_DOCS]
 docInst2.files = $$OUT_PWD/qtautoupdater
 INSTALLS += docInst1 docInst2
