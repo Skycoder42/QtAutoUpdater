@@ -1,7 +1,7 @@
 #ifndef UPDATER_P_H
 #define UPDATER_P_H
 
-#include "qautoupdatercore_global.h"
+#include "qtautoupdatercore_global.h"
 #include "updater.h"
 #include "simplescheduler_p.h"
 

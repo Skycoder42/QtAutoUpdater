@@ -1,5 +1,5 @@
-#ifndef QAUTOUPDATERGUI_H
-#define QAUTOUPDATERGUI_H
+#ifndef QTAUTOUPDATERGUI_H
+#define QTAUTOUPDATERGUI_H
 
 #include <QtCore/qglobal.h>
 
@@ -9,4 +9,4 @@
 #	define Q_AUTOUPDATERGUI_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // QAUTOUPDATERGUI_H
+#endif // QTAUTOUPDATERGUI_H

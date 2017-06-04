@@ -1,5 +1,5 @@
-#ifndef QAUTOUPDATERCORE_H
-#define QAUTOUPDATERCORE_H
+#ifndef QTAUTOUPDATERCORE_H
+#define QTAUTOUPDATERCORE_H
 
 #include <QtCore/qglobal.h>
 
@@ -9,4 +9,4 @@
 #	define Q_AUTOUPDATERCORE_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // QAUTOUPDATERCORE_H
+#endif // QTAUTOUPDATERCORE_H

@@ -2,11 +2,11 @@
 #include "updatecontroller_p.h"
 #include "adminauthorization_p.h"
 #include "updatebutton.h"
-#include "dialogmaster.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <dialogmaster.h>
 
 #include <QtAutoUpdaterCore/private/updater_p.h>
 

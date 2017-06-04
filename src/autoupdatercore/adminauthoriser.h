@@ -1,7 +1,7 @@
 #ifndef ADMINAUTHORISER_H
 #define ADMINAUTHORISER_H
 
-#include "QtAutoUpdaterCore/qautoupdatercore_global.h"
+#include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 
 #include <QtCore/qstring.h>
 #include <QtCore/qstringlist.h>

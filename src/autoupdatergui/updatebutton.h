@@ -1,7 +1,7 @@
 #ifndef UPDATEBUTTON_H
 #define UPDATEBUTTON_H
 
-#include "QtAutoUpdaterGui/qautoupdatergui_global.h"
+#include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
 #include "QtAutoUpdaterGui/updatecontroller.h"
 
 #include <QtCore/qscopedpointer.h>

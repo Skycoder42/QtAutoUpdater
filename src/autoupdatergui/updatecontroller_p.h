@@ -1,7 +1,7 @@
 #ifndef UPDATECONTROLLER_P_H
 #define UPDATECONTROLLER_P_H
 
-#include "qautoupdatergui_global.h"
+#include "qtautoupdatergui_global.h"
 #include "updatecontroller.h"
 #include "updateinfodialog_p.h"
 #include "progressdialog_p.h"

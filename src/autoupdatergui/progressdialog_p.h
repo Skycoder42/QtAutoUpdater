@@ -1,7 +1,7 @@
 #ifndef PROGRESSDIALOG_P_H
 #define PROGRESSDIALOG_P_H
 
-#include "qautoupdatergui_global.h"
+#include "qtautoupdatergui_global.h"
 
 #include <QtCore/QScopedPointer>
 

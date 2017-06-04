@@ -1,7 +1,7 @@
 #ifndef ADMINAUTHORIZATION_P_H
 #define ADMINAUTHORIZATION_P_H
 
-#include "qautoupdatergui_global.h"
+#include "qtautoupdatergui_global.h"
 #include "adminauthoriser.h"
 
 namespace QtAutoUpdater

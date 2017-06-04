@@ -3,5 +3,9 @@
 	"QtAutoUpdaterGui" => "$basedir/src/autoupdatergui",
 );
 
-%moduleheaders = (
+%classnames = (
+	"adminauthoriser.h" => "AdminAuthoriser",
+	"updater.h" => "Updater",
+	"updatebutton.h" => "UpdateButton",
+	"updatecontroller.h" => "UpdateController",
 );

@@ -3,11 +3,11 @@ TARGET = QtAutoUpdaterCore
 QT = core
 
 HEADERS += \
-	qautoupdatercore_global.h \
     adminauthoriser.h \
     updater_p.h \
     updater.h \
-    simplescheduler_p.h
+    simplescheduler_p.h \
+    qtautoupdatercore_global.h
 
 SOURCES += \
     simplescheduler.cpp \

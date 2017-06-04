@@ -1,7 +1,7 @@
 #ifndef UPDATEINFODIALOG_H
 #define UPDATEINFODIALOG_H
 
-#include "qautoupdatergui_global.h"
+#include "qtautoupdatergui_global.h"
 
 #include <QtAutoUpdaterCore/updater.h>
 

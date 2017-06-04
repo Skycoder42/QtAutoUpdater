@@ -1,7 +1,7 @@
 #ifndef SIMPLESCHEDULER_P_H
 #define SIMPLESCHEDULER_P_H
 
-#include "qautoupdatercore_global.h"
+#include "qtautoupdatercore_global.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QVariant>

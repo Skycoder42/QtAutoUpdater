@@ -1,7 +1,7 @@
 #ifndef UPDATECONTROLLER_H
 #define UPDATECONTROLLER_H
 
-#include "QtAutoUpdaterGui/qautoupdatergui_global.h"
+#include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qstringlist.h>

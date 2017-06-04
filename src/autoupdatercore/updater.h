@@ -1,7 +1,7 @@
 #ifndef UPDATER_H
 #define UPDATER_H
 
-#include "QtAutoUpdaterCore/qautoupdatercore_global.h"
+#include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 #include "QtAutoUpdaterCore/adminauthoriser.h"
 
 #include <QtCore/qobject.h>

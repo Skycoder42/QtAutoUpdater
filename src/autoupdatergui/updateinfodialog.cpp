@@ -1,9 +1,9 @@
 #include "updateinfodialog_p.h"
 #include "ui_updateinfodialog.h"
 #include "updatecontroller_p.h"
-#include "dialogmaster.h"
 
 #include <QtWidgets/QApplication>
+#include <dialogmaster.h>
 
 using namespace QtAutoUpdater;
 

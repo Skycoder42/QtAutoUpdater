@@ -14,14 +14,14 @@ win32 {
 include(../3rdparty/vendor/vendor.pri)
 
 HEADERS += \
-	qautoupdatergui_global.h \
 	updatebutton_p.h \
 	updatebutton.h \
 	updatecontroller_p.h \
 	updatecontroller.h \
 	adminauthorization_p.h \
 	progressdialog_p.h \
-	updateinfodialog_p.h
+	updateinfodialog_p.h \
+    qtautoupdatergui_global.h
 
 SOURCES += \
 	progressdialog.cpp \

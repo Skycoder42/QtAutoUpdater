@@ -33,11 +33,11 @@
 **************************************************************************/
 
 #include "adminauthorization_p.h"
-#include "dialogmaster.h"
 
 #include <QtCore/QFile>
 #include <QtCore/QCoreApplication>
 #include <QtWidgets/QInputDialog>
+#include <dialogmaster.h>
 
 #include <cstdlib>
 #include <sys/resource.h>

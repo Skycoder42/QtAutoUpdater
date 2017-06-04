@@ -1,8 +1,8 @@
 #include "progressdialog_p.h"
 #include "ui_progressdialog.h"
-#include "dialogmaster.h"
 
 #include <QtGui/QCloseEvent>
+#include <dialogmaster.h>
 #ifdef Q_OS_WIN
 #include <QtWinExtras/QWinTaskbarProgress>
 #endif
