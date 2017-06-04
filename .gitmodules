@@ -1,3 +1,0 @@
-[submodule "src/3rdparty/QtUtils"]
-	path = src/3rdparty/QtUtils
-	url = https://github.com/Skycoder42/QtUtils.git

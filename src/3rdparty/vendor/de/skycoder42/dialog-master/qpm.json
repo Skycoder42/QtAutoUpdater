@@ -1,0 +1,22 @@
+{
+  "name": "de.skycoder42.dialog-master",
+  "description": "A utility to create optimized dialogs with Qt",
+  "author": {
+    "name": "Skycoder",
+    "email": "skycoder42.de@gmx.de"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "https://github.com/Skycoder42/DialogMaster.git"
+  },
+  "version": {
+    "label": "1.2.5",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+  ],
+  "license": "MIT",
+  "pri_filename": "de_skycoder42_dialog-master.pri",
+  "webpage": "https://github.com/Skycoder42/DialogMaster"
+}

@@ -11,7 +11,7 @@ win32 {
 	LIBS += -lutil
 }
 
-include(../3rdparty/QtUtils/DialogMaster/dialogmaster.pri)
+include(../3rdparty/vendor/vendor.pri)
 
 HEADERS += \
 	qautoupdatergui_global.h \
@@ -21,7 +21,7 @@ HEADERS += \
 	updatecontroller.h \
 	adminauthorization_p.h \
 	progressdialog_p.h \
-    updateinfodialog_p.h
+	updateinfodialog_p.h
 
 SOURCES += \
 	progressdialog.cpp \
