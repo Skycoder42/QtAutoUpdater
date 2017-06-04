@@ -1,5 +1,5 @@
-#ifndef UPDATER_H
-#define UPDATER_H
+#ifndef QTAUTOUPDATER_UPDATER_H
+#define QTAUTOUPDATER_UPDATER_H
 
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 #include "QtAutoUpdaterCore/adminauthoriser.h"
@@ -110,4 +110,4 @@ Q_DECLARE_METATYPE(QtAutoUpdater::Updater::UpdateInfo)
 
 QDebug Q_AUTOUPDATERCORE_EXPORT &operator<<(QDebug &debug, const QtAutoUpdater::Updater::UpdateInfo &info);
 
-#endif // UPDATER_H
+#endif // QTAUTOUPDATER_UPDATER_H

@@ -1,5 +1,5 @@
-#ifndef PROGRESSDIALOG_P_H
-#define PROGRESSDIALOG_P_H
+#ifndef QTAUTOUPDATER_PROGRESSDIALOG_P_H
+#define QTAUTOUPDATER_PROGRESSDIALOG_P_H
 
 #include "qtautoupdatergui_global.h"
 
@@ -65,4 +65,4 @@ private:
 
 }
 
-#endif // PROGRESSDIALOG_P_H
+#endif // QTAUTOUPDATER_PROGRESSDIALOG_P_H

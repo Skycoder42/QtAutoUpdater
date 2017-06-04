@@ -1,5 +1,5 @@
-#ifndef ADMINAUTHORIZATION_P_H
-#define ADMINAUTHORIZATION_P_H
+#ifndef QTAUTOUPDATER_ADMINAUTHORIZATION_P_H
+#define QTAUTOUPDATER_ADMINAUTHORIZATION_P_H
 
 #include "qtautoupdatergui_global.h"
 #include "adminauthoriser.h"
@@ -16,4 +16,4 @@ public:
 
 }
 
-#endif // ADMINAUTHORIZATION_P_H
+#endif // QTAUTOUPDATER_ADMINAUTHORIZATION_P_H

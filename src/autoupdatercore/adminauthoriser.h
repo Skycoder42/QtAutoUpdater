@@ -1,5 +1,5 @@
-#ifndef ADMINAUTHORISER_H
-#define ADMINAUTHORISER_H
+#ifndef QTAUTOUPDATER_ADMINAUTHORISER_H
+#define QTAUTOUPDATER_ADMINAUTHORISER_H
 
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 
@@ -23,4 +23,4 @@ public:
 
 }
 
-#endif // ADMINAUTHORISER_H
+#endif // QTAUTOUPDATER_ADMINAUTHORISER_H

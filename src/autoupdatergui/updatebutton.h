@@ -1,5 +1,5 @@
-#ifndef UPDATEBUTTON_H
-#define UPDATEBUTTON_H
+#ifndef QTAUTOUPDATER_UPDATEBUTTON_H
+#define QTAUTOUPDATER_UPDATEBUTTON_H
 
 #include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
 #include "QtAutoUpdaterGui/updatecontroller.h"
@@ -74,4 +74,4 @@ private:
 
 }
 
-#endif // UPDATEBUTTON_H
+#endif // QTAUTOUPDATER_UPDATEBUTTON_H

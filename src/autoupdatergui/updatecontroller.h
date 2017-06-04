@@ -1,5 +1,5 @@
-#ifndef UPDATECONTROLLER_H
-#define UPDATECONTROLLER_H
+#ifndef QTAUTOUPDATER_UPDATECONTROLLER_H
+#define QTAUTOUPDATER_UPDATECONTROLLER_H
 
 #include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
 
@@ -119,4 +119,4 @@ private:
 
 }
 
-#endif // UPDATECONTROLLER_H
+#endif // QTAUTOUPDATER_UPDATECONTROLLER_H
