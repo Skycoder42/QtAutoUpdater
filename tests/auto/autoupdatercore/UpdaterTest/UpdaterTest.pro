@@ -15,5 +15,10 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += tst_updatertest.cpp
+SOURCES += tst_updatertest.cpp \
+	installercontroller.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+DEFINES += BINDIR=\\\"$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/2.0/bin/\\\"
+
+HEADERS += \
+	installercontroller.h

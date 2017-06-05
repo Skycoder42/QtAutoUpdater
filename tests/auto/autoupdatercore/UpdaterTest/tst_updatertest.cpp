@@ -3,6 +3,7 @@
 #include <QSignalSpy>
 #include <QVector>
 #include <functional>
+#include "installercontroller.h"
 using namespace QtAutoUpdater;
 
 #define TEST_DELAY 1000
@@ -22,6 +23,7 @@ class UpdaterTest : public QObject
 	Q_OBJECT
 
 private Q_SLOTS:
+	void initTestCase();
 	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
@@ -29,10 +31,22 @@ private Q_SLOTS:
 
 private:
 	Updater *updater;
+
+	InstallerController *controller;
 	QSignalSpy *checkSpy;
 	QSignalSpy *runningSpy;
 	QSignalSpy *updateInfoSpy;
 };
+
+void UpdaterTest::initTestCase()
+{
+	controller = new InstallerController(this);
+	controller->createRepository();
+	controller->createInstaller();
+	controller->installLocal();
+	controller->setVersion({1, 1, 0});
+	controller->createRepository();
+}
 
 void UpdaterTest::testUpdaterInitState()
 {
@@ -64,9 +78,8 @@ void UpdaterTest::testUpdateCheck_data()
 	QTest::addColumn<QList<Updater::UpdateInfo>>("updates");
 
 	QList<Updater::UpdateInfo> updates;
-	updates += {"QtAutoUpdaterTestInstaller", QVersionNumber::fromString("1.0.1"), 46ull};
-	QString homePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-	QString path = homePath + "/QtAutoUpdaterTestInstaller";
+	updates += {"QtAutoUpdaterTestInstaller", QVersionNumber::fromString("1.1.0"), 45ull};
+	QString path = controller->maintenanceToolPath();
 	QTest::newRow("QtAutoUpdaterTestInstaller") << path + "/maintenancetool"
 												<< true
 												<< updates;
@@ -76,7 +89,7 @@ void UpdaterTest::testUpdateCheck_data()
 #ifdef Q_OS_WIN
 	path = "C:/Qt";
 #else
-	path = homePath + "/Qt";
+	path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Qt";
 #endif
 	QTest::newRow("Qt") << path + "/MaintenanceTool"
 						<< false
