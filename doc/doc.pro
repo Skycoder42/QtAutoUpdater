@@ -8,7 +8,7 @@ OTHER_FILES += Doxyfile \
 	snippets/*.cpp \
 	images/*
 
-system($$QMAKE_MKDIR $$OUT_PWD/qtautoupdater)
+system($$QMAKE_MKDIR $$shell_quote($$shell_path($$OUT_PWD/qtautoupdater)))
 
 docTarget.target = doxygen
 docTarget.commands = $$PWD/makedoc.sh "$$PWD" "$$MODULE_VERSION" "$$[QT_INSTALL_BINS]" "$$[QT_INSTALL_HEADERS]" "$$[QT_INSTALL_DOCS]"
