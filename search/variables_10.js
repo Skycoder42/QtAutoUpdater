@@ -2,6 +2,7 @@ var searchData=
 [
   ['pagebreakflags',['PageBreakFlags',['https://doc.qt.io/qt-5/qtextformat.html#PageBreakFlag-enum',0,'QTextFormat']]],
   ['paintenginefeatures',['PaintEngineFeatures',['https://doc.qt.io/qt-5/qpaintengine.html#PaintEngineFeature-enum',0,'QPaintEngine']]],
+  ['papersize',['PaperSize',['https://doc.qt.io/qt-5/qprinter.html#PaperSize-typedef',0,'QPrinter']]],
   ['parameterlist',['ParameterList',['https://doc.qt.io/qt-5/qt3drender-qrenderpass.html#ParameterList-typedef',0,'Qt3DRender']]],
   ['paramtype',['ParamType',['https://doc.qt.io/qt-5/qsql.html#ParamTypeFlag-enum',0,'QSql']]],
   ['patchverb',['PatchVerb',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_class.html#aa56669ffdb6d6604d7d737cc84563f5d',0,'QtRestClient::RestClass']]],
@@ -12,6 +13,7 @@ var searchData=
   ['pixmapfragmenthints',['PixmapFragmentHints',['https://doc.qt.io/qt-5/qpainter.html#PixmapFragmentHint-enum',0,'QPainter']]],
   ['placesfeatures',['PlacesFeatures',['https://doc.qt.io/qt-5/qgeoserviceprovider.html#PlacesFeature-enum',0,'QGeoServiceProvider']]],
   ['pointer',['pointer',['https://doc.qt.io/qt-5/qjsonarray.html#pointer-typedef',0,'QJsonArray::pointer()'],['https://doc.qt.io/qt-5/qfuture-const-iterator.html#pointer-typedef',0,'QFuture::const_iterator::pointer()'],['https://doc.qt.io/qt-5/qlinkedlist.html#pointer-typedef',0,'QLinkedList::pointer()'],['https://doc.qt.io/qt-5/qlist.html#pointer-typedef',0,'QList::pointer()'],['https://doc.qt.io/qt-5/qset.html#pointer-typedef',0,'QSet::pointer()'],['https://doc.qt.io/qt-5/qstring.html#pointer-typedef',0,'QString::pointer()'],['https://doc.qt.io/qt-5/qvarlengtharray.html#pointer-typedef',0,'QVarLengthArray::pointer()'],['https://doc.qt.io/qt-5/qvector.html#pointer-typedef',0,'QVector::pointer()']]],
+  ['policyflags',['PolicyFlags',['https://doc.qt.io/qt-5/qhstspolicy.html#PolicyFlag-enum',0,'QHstsPolicy']]],
   ['positioningmethods',['PositioningMethods',['https://doc.qt.io/qt-5/qgeopositioninfosource.html#PositioningMethod-enum',0,'QGeoPositionInfoSource']]],
   ['postverb',['PostVerb',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_class.html#acdc60900a9cd846aa09f14ac1cead736',0,'QtRestClient::RestClass']]],
   ['printdialogoptions',['PrintDialogOptions',['https://doc.qt.io/qt-5/qabstractprintdialog.html#PrintDialogOption-enum',0,'QAbstractPrintDialog']]],

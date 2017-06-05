@@ -10,6 +10,7 @@ var searchData=
   ['joinmulticastgroup',['joinMulticastGroup',['https://doc.qt.io/qt-5/qudpsocket.html#joinMulticastGroup',0,'QUdpSocket::joinMulticastGroup(const QHostAddress &amp;groupAddress)'],['https://doc.qt.io/qt-5/qudpsocket.html#joinMulticastGroup-1',0,'QUdpSocket::joinMulticastGroup(const QHostAddress &amp;groupAddress, const QNetworkInterface &amp;iface)']]],
   ['joinpreviouseditblock',['joinPreviousEditBlock',['https://doc.qt.io/qt-5/qtextcursor.html#joinPreviousEditBlock',0,'QTextCursor']]],
   ['joinstyle',['joinStyle',['https://doc.qt.io/qt-5/qpainterpathstroker.html#joinStyle',0,'QPainterPathStroker::joinStyle()'],['https://doc.qt.io/qt-5/qpen.html#joinStyle',0,'QPen::joinStyle()']]],
+  ['jsontypename',['jsonTypeName',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_reply.html#a3a7c173594d798d607faeb7657d4bda7',0,'QtRestClient::RestReply']]],
   ['jumptoframe',['jumpToFrame',['https://doc.qt.io/qt-5/qmovie.html#jumpToFrame',0,'QMovie']]],
   ['jumptoimage',['jumpToImage',['https://doc.qt.io/qt-5/qimageiohandler.html#jumpToImage',0,'QImageIOHandler::jumpToImage()'],['https://doc.qt.io/qt-5/qimagereader.html#jumpToImage',0,'QImageReader::jumpToImage()']]],
   ['jumptonextframe',['jumpToNextFrame',['https://doc.qt.io/qt-5/qmovie.html#jumpToNextFrame',0,'QMovie']]],

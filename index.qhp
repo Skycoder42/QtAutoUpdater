@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QtHelpProject version="1.0">
-  <namespace>de.skycoder42.qtautoupdater.210</namespace>
+  <namespace>de.skycoder42.qtautoupdater.211</namespace>
   <virtualFolder>doc_qtautoupdater</virtualFolder>
-  <customFilter name="AutoUpdater 2.1.0">
+  <customFilter name="AutoUpdater 2.1.1">
     <filterAttribute>qtautoupdater</filterAttribute>
-    <filterAttribute>2.1.0</filterAttribute>
+    <filterAttribute>2.1.1</filterAttribute>
   </customFilter>
   <filterSection>
     <filterAttribute>doxygen</filterAttribute>
     <toc>
-      <section title="QtAutoUpdater 2.1.0" ref="index.html">
+      <section title="QtAutoUpdater 2.1.1" ref="index.html">
         <section title="Features" ref="index.html#qtautoupdater_readme_label_0">
           <section title="Core Library" ref="index.html#qtautoupdater_readme_label_1" />
           <section title="GUI Library" ref="index.html#qtautoupdater_readme_label_2">
@@ -17,14 +17,14 @@
           </section>
         </section>
         <section title="Requirements" ref="index.html#qtautoupdater_readme_label_4" />
-        <section title="Usage" ref="index.html#qtautoupdater_readme_label_5">
-          <section title="Getting started" ref="index.html#qtautoupdater_readme_label_6" />
-          <section title="Examples" ref="index.html#qtautoupdater_readme_label_7">
-            <section title="Updater" ref="index.html#qtautoupdater_readme_label_8" />
-            <section title="UpdateController" ref="index.html#qtautoupdater_readme_label_9" />
+        <section title="Download/Installation" ref="index.html#qtautoupdater_readme_label_5" />
+        <section title="Usage" ref="index.html#qtautoupdater_readme_label_6">
+          <section title="Getting started" ref="index.html#qtautoupdater_readme_label_7" />
+          <section title="Examples" ref="index.html#qtautoupdater_readme_label_8">
+            <section title="Updater" ref="index.html#qtautoupdater_readme_label_9" />
+            <section title="UpdateController" ref="index.html#qtautoupdater_readme_label_10" />
           </section>
         </section>
-        <section title="Download/Installation" ref="index.html#qtautoupdater_readme_label_10" />
         <section title="Documentation" ref="index.html#qtautoupdater_readme_label_11" />
         <section title="Translations" ref="index.html#qtautoupdater_readme_label_12" />
         <section title="Icon sources/Links" ref="index.html#qtautoupdater_readme_label_13">
@@ -195,8 +195,8 @@
             <section title="adminauthorization_x11.cpp" ref="adminauthorization__x11_8cpp_source.html" />
             <section title="doxme.py" ref="doxme_8py_source.html" />
             <section title="progressdialog.cpp" ref="progressdialog_8cpp_source.html" />
-            <section title="qautoupdatercore_global.h" ref="qautoupdatercore__global_8h_source.html" />
-            <section title="qautoupdatergui_global.h" ref="qautoupdatergui__global_8h_source.html" />
+            <section title="qtautoupdatercore_global.h" ref="qtautoupdatercore__global_8h_source.html" />
+            <section title="qtautoupdatergui_global.h" ref="qtautoupdatergui__global_8h_source.html" />
             <section title="simplescheduler.cpp" ref="simplescheduler_8cpp_source.html" />
             <section title="updatebutton.cpp" ref="updatebutton_8cpp_source.html" />
             <section title="updatebutton.h" ref="updatebutton_8h_source.html" />
@@ -310,6 +310,8 @@
       <keyword name="setMouseTracking" id="QWidget::setMouseTracking" ref="qwidget.html#mouseTracking-prop" />
       <keyword name="hasMouseTracking" id="QWidget::hasMouseTracking" ref="qwidget.html#mouseTracking-prop" />
       <keyword name="underMouse" id="QWidget::underMouse" ref="qwidget.html#underMouse" />
+      <keyword name="setTabletTracking" id="QWidget::setTabletTracking" ref="qwidget.html#tabletTracking-prop" />
+      <keyword name="hasTabletTracking" id="QWidget::hasTabletTracking" ref="qwidget.html#tabletTracking-prop" />
       <keyword name="setMask" id="QWidget::setMask" ref="qwidget.html#setMask" />
       <keyword name="setMask" id="QWidget::setMask" ref="qwidget.html#setMask-1" />
       <keyword name="mask" id="QWidget::mask" ref="qwidget.html#mask" />
@@ -449,6 +451,7 @@
       <keyword name="parentWidget" id="QWidget::parentWidget" ref="qwidget.html#parentWidget" />
       <keyword name="setWindowFlags" id="QWidget::setWindowFlags" ref="qwidget.html#windowFlags-prop" />
       <keyword name="windowFlags" id="QWidget::windowFlags" ref="qwidget.html#windowFlags-prop" />
+      <keyword name="setWindowFlag" id="QWidget::setWindowFlag" ref="qwidget.html#setWindowFlag" />
       <keyword name="overrideWindowFlags" id="QWidget::overrideWindowFlags" ref="qwidget.html#overrideWindowFlags" />
       <keyword name="windowType" id="QWidget::windowType" ref="qwidget.html#windowType" />
       <keyword name="childAt" id="QWidget::childAt" ref="qwidget.html#childAt" />
@@ -483,6 +486,7 @@
       <keyword name="thread" id="QObject::thread" ref="qobject.html#thread" />
       <keyword name="moveToThread" id="QObject::moveToThread" ref="qobject.html#moveToThread" />
       <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer" />
+      <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer-1" />
       <keyword name="killTimer" id="QObject::killTimer" ref="qobject.html#killTimer" />
       <keyword name="findChild" id="QObject::findChild" ref="qobject.html#findChild" />
       <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren" />
@@ -495,6 +499,8 @@
       <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-2" />
       <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-2" />
       <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-3" />
+      <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree-1" />
+      <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo-1" />
       <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree" />
       <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo" />
       <keyword name="setProperty" id="QObject::setProperty" ref="qobject.html#setProperty" />
@@ -551,6 +557,7 @@
       <keyword name="font" id="QWidget::font" ref="qwidget.html#font-prop" />
       <keyword name="cursor" id="QWidget::cursor" ref="qwidget.html#cursor-prop" />
       <keyword name="mouseTracking" id="QWidget::mouseTracking" ref="qwidget.html#mouseTracking-prop" />
+      <keyword name="tabletTracking" id="QWidget::tabletTracking" ref="qwidget.html#tabletTracking-prop" />
       <keyword name="isActiveWindow" id="QWidget::isActiveWindow" ref="qwidget.html#isActiveWindow-prop" />
       <keyword name="focusPolicy" id="QWidget::focusPolicy" ref="qwidget.html#focusPolicy-prop" />
       <keyword name="focus" id="QWidget::focus" ref="qwidget.html#focus-prop" />
@@ -684,6 +691,7 @@
       <keyword name="thread" id="QObject::thread" ref="qobject.html#thread" />
       <keyword name="moveToThread" id="QObject::moveToThread" ref="qobject.html#moveToThread" />
       <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer" />
+      <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer-1" />
       <keyword name="killTimer" id="QObject::killTimer" ref="qobject.html#killTimer" />
       <keyword name="findChild" id="QObject::findChild" ref="qobject.html#findChild" />
       <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren" />
@@ -696,6 +704,8 @@
       <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-2" />
       <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-2" />
       <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-3" />
+      <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree-1" />
+      <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo-1" />
       <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree" />
       <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo" />
       <keyword name="setProperty" id="QObject::setProperty" ref="qobject.html#setProperty" />
@@ -774,6 +784,7 @@
       <keyword name="thread" id="QObject::thread" ref="qobject.html#thread" />
       <keyword name="moveToThread" id="QObject::moveToThread" ref="qobject.html#moveToThread" />
       <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer" />
+      <keyword name="startTimer" id="QObject::startTimer" ref="qobject.html#startTimer-1" />
       <keyword name="killTimer" id="QObject::killTimer" ref="qobject.html#killTimer" />
       <keyword name="findChild" id="QObject::findChild" ref="qobject.html#findChild" />
       <keyword name="findChildren" id="QObject::findChildren" ref="qobject.html#findChildren" />
@@ -786,6 +797,8 @@
       <keyword name="connect" id="QObject::connect" ref="qobject.html#connect-2" />
       <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-2" />
       <keyword name="disconnect" id="QObject::disconnect" ref="qobject.html#disconnect-3" />
+      <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree-1" />
+      <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo-1" />
       <keyword name="dumpObjectTree" id="QObject::dumpObjectTree" ref="qobject.html#dumpObjectTree" />
       <keyword name="dumpObjectInfo" id="QObject::dumpObjectInfo" ref="qobject.html#dumpObjectInfo" />
       <keyword name="setProperty" id="QObject::setProperty" ref="qobject.html#setProperty" />
@@ -859,8 +872,8 @@
       <file>adminauthorization__x11_8cpp_source.html</file>
       <file>doxme_8py_source.html</file>
       <file>progressdialog_8cpp_source.html</file>
-      <file>qautoupdatercore__global_8h_source.html</file>
-      <file>qautoupdatergui__global_8h_source.html</file>
+      <file>qtautoupdatercore__global_8h_source.html</file>
+      <file>qtautoupdatergui__global_8h_source.html</file>
       <file>_r_e_a_d_m_e_8md_source.html</file>
       <file>simplescheduler_8cpp_source.html</file>
       <file>updatebutton_8cpp_source.html</file>

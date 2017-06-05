@@ -27,6 +27,7 @@ var searchData=
   ['localdirection',['localDirection',['https://doc.qt.io/qt-5/qt3drender-qspotlight.html#localDirection-prop',0,'Qt3DRender::QSpotLight']]],
   ['locale',['locale',['https://doc.qt.io/qt-5/qwidget.html#locale-prop',0,'QWidget::locale()'],['https://doc.qt.io/qt-5/qinputmethod.html#locale-prop',0,'QInputMethod::locale()']]],
   ['localintersection',['localIntersection',['https://doc.qt.io/qt-5/qt3drender-qpickevent.html#localIntersection-prop',0,'Qt3DRender::QPickEvent']]],
+  ['log',['log',['https://doc.qt.io/qt-5/qt3drender-qshaderprogram.html#log-prop',0,'Qt3DRender::QShaderProgram']]],
   ['loggingmode',['loggingMode',['https://doc.qt.io/qt-5/qopengldebuglogger.html#loggingMode-prop',0,'QOpenGLDebugLogger']]],
   ['logicaldotsperinch',['logicalDotsPerInch',['https://doc.qt.io/qt-5/qscreen.html#logicalDotsPerInch-prop',0,'QScreen']]],
   ['logicaldotsperinchx',['logicalDotsPerInchX',['https://doc.qt.io/qt-5/qscreen.html#logicalDotsPerInchX-prop',0,'QScreen']]],
@@ -34,5 +35,6 @@ var searchData=
   ['longitude',['longitude',['https://doc.qt.io/qt-5/qgeocoordinate.html#longitude-prop',0,'QGeoCoordinate']]],
   ['lookspeed',['lookSpeed',['https://doc.qt.io/qt-5/qt3dextras-qfirstpersoncameracontroller.html#lookSpeed-prop',0,'Qt3DExtras::QFirstPersonCameraController::lookSpeed()'],['https://doc.qt.io/qt-5/qt3dextras-qorbitcameracontroller.html#lookSpeed-prop',0,'Qt3DExtras::QOrbitCameraController::lookSpeed()']]],
   ['loopcount',['loopCount',['https://doc.qt.io/qt-5/qabstractanimation.html#loopCount-prop',0,'QAbstractAnimation::loopCount()'],['https://doc.qt.io/qt-5/qtimeline.html#loopCount-prop',0,'QTimeLine::loopCount()']]],
+  ['loops',['loops',['https://doc.qt.io/qt-5/qt3danimation-qabstractclipanimator.html#loops-prop',0,'Qt3DAnimation::QAbstractClipAnimator']]],
   ['lux',['lux',['https://doc.qt.io/qt-5/qlightreading.html#lux-prop',0,'QLightReading']]]
 ];

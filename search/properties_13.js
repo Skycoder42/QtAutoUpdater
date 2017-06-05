@@ -17,6 +17,8 @@ var searchData=
   ['usehovereffects',['useHoverEffects',['https://doc.qt.io/qt-5/qstylehints.html#useHoverEffects-prop',0,'QStyleHints']]],
   ['useragent',['userAgent',['https://doc.qt.io/qt-5/qabstractoauth2.html#userAgent-prop',0,'QAbstractOAuth2']]],
   ['userorientation',['userOrientation',['https://doc.qt.io/qt-5/qsensor.html#userOrientation-prop',0,'QSensor']]],
+  ['userscripts',['userScripts',['https://doc.qt.io/qt-5/qquickwebengineprofile.html#userScripts-prop',0,'QQuickWebEngineProfile']]],
   ['usertlextensions',['useRtlExtensions',['https://doc.qt.io/qt-5/qstylehints.html#useRtlExtensions-prop',0,'QStyleHints']]],
-  ['usesscrollbuttons',['usesScrollButtons',['https://doc.qt.io/qt-5/qtabbar.html#usesScrollButtons-prop',0,'QTabBar::usesScrollButtons()'],['https://doc.qt.io/qt-5/qtabwidget.html#usesScrollButtons-prop',0,'QTabWidget::usesScrollButtons()']]]
+  ['usesscrollbuttons',['usesScrollButtons',['https://doc.qt.io/qt-5/qtabbar.html#usesScrollButtons-prop',0,'QTabBar::usesScrollButtons()'],['https://doc.qt.io/qt-5/qtabwidget.html#usesScrollButtons-prop',0,'QTabWidget::usesScrollButtons()']]],
+  ['uvw',['uvw',['https://doc.qt.io/qt-5/qt3drender-qpicktriangleevent.html#uvw-prop',0,'Qt3DRender::QPickTriangleEvent']]]
 ];

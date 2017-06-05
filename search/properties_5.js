@@ -25,7 +25,7 @@ var searchData=
   ['flow',['flow',['https://doc.qt.io/qt-5/qlistview.html#flow-prop',0,'QListView']]],
   ['focus',['focus',['https://doc.qt.io/qt-5/qwidget.html#focus-prop',0,'QWidget::focus()'],['https://doc.qt.io/qt-5/qquickitem.html#focus-prop',0,'QQuickItem::focus()'],['https://doc.qt.io/qt-5/qt3dinput-qkeyboardhandler.html#focus-prop',0,'Qt3DInput::QKeyboardHandler::focus()']]],
   ['focuspolicy',['focusPolicy',['https://doc.qt.io/qt-5/qgraphicswidget.html#focusPolicy-prop',0,'QGraphicsWidget::focusPolicy()'],['https://doc.qt.io/qt-5/qwidget.html#focusPolicy-prop',0,'QWidget::focusPolicy()']]],
-  ['font',['font',['https://doc.qt.io/qt-5/qgraphicsscene.html#font-prop',0,'QGraphicsScene::font()'],['https://doc.qt.io/qt-5/qgraphicswidget.html#font-prop',0,'QGraphicsWidget::font()'],['https://doc.qt.io/qt-5/qaction.html#font-prop',0,'QAction::font()'],['https://doc.qt.io/qt-5/qwidget.html#font-prop',0,'QWidget::font()']]],
+  ['font',['font',['https://doc.qt.io/qt-5/qgraphicsscene.html#font-prop',0,'QGraphicsScene::font()'],['https://doc.qt.io/qt-5/qgraphicswidget.html#font-prop',0,'QGraphicsWidget::font()'],['https://doc.qt.io/qt-5/qaction.html#font-prop',0,'QAction::font()'],['https://doc.qt.io/qt-5/qwidget.html#font-prop',0,'QWidget::font()'],['https://doc.qt.io/qt-5/qt3dextras-qextrudedtextgeometry.html#font-prop',0,'Qt3DExtras::QExtrudedTextGeometry::font()'],['https://doc.qt.io/qt-5/qt3dextras-qextrudedtextmesh.html#font-prop',0,'Qt3DExtras::QExtrudedTextMesh::font()'],['https://doc.qt.io/qt-5/qt3dextras-qtext2dentity.html#font-prop',0,'Qt3DExtras::QText2DEntity::font()']]],
   ['fontfilters',['fontFilters',['https://doc.qt.io/qt-5/qfontcombobox.html#fontFilters-prop',0,'QFontComboBox']]],
   ['fontsmoothinggamma',['fontSmoothingGamma',['https://doc.qt.io/qt-5/qstylehints.html#fontSmoothingGamma-prop',0,'QStyleHints']]],
   ['foregroundbrush',['foregroundBrush',['https://doc.qt.io/qt-5/qgraphicsscene.html#foregroundBrush-prop',0,'QGraphicsScene::foregroundBrush()'],['https://doc.qt.io/qt-5/qgraphicsview.html#foregroundBrush-prop',0,'QGraphicsView::foregroundBrush()']]],
@@ -35,6 +35,7 @@ var searchData=
   ['fragmentshadercode',['fragmentShaderCode',['https://doc.qt.io/qt-5/qt3drender-qshaderprogram.html#fragmentShaderCode-prop',0,'Qt3DRender::QShaderProgram']]],
   ['frame',['frame',['https://doc.qt.io/qt-5/qabstractspinbox.html#frame-prop',0,'QAbstractSpinBox::frame()'],['https://doc.qt.io/qt-5/qcombobox.html#frame-prop',0,'QComboBox::frame()'],['https://doc.qt.io/qt-5/qlineedit.html#frame-prop',0,'QLineEdit::frame()']]],
   ['framegeometry',['frameGeometry',['https://doc.qt.io/qt-5/qwidget.html#frameGeometry-prop',0,'QWidget']]],
+  ['framepositions',['framePositions',['https://doc.qt.io/qt-5/qt3danimation-qkeyframeanimation.html#framePositions-prop',0,'Qt3DAnimation::QKeyframeAnimation']]],
   ['framerect',['frameRect',['https://doc.qt.io/qt-5/qframe.html#frameRect-prop',0,'QFrame']]],
   ['frameshadow',['frameShadow',['https://doc.qt.io/qt-5/qframe.html#frameShadow-prop',0,'QFrame']]],
   ['frameshape',['frameShape',['https://doc.qt.io/qt-5/qframe.html#frameShape-prop',0,'QFrame']]],
@@ -42,6 +43,8 @@ var searchData=
   ['framespersecond',['framesPerSecond',['https://doc.qt.io/qt-5/qsvgrenderer.html#framesPerSecond-prop',0,'QSvgRenderer']]],
   ['framewidth',['frameWidth',['https://doc.qt.io/qt-5/qframe.html#frameWidth-prop',0,'QFrame']]],
   ['front',['front',['https://doc.qt.io/qt-5/qt3drender-qstenciloperation.html#front-prop',0,'Qt3DRender::QStencilOperation::front()'],['https://doc.qt.io/qt-5/qt3drender-qstenciltest.html#front-prop',0,'Qt3DRender::QStencilTest::front()']]],
+  ['frontlidclosed',['frontLidClosed',['https://doc.qt.io/qt-5/qlidreading.html#frontLidClosed-prop',0,'QLidReading']]],
   ['frontoutputmask',['frontOutputMask',['https://doc.qt.io/qt-5/qt3drender-qstencilmask.html#frontOutputMask-prop',0,'Qt3DRender::QStencilMask']]],
+  ['frustumculling',['frustumCulling',['https://doc.qt.io/qt-5/qt3dextras-qforwardrenderer.html#frustumCulling-prop',0,'Qt3DExtras::QForwardRenderer']]],
   ['fullscreen',['fullScreen',['https://doc.qt.io/qt-5/qwidget.html#fullScreen-prop',0,'QWidget']]]
 ];

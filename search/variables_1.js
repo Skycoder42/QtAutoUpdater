@@ -1,7 +1,6 @@
 var searchData=
 [
   ['accessmethods',['AccessMethods',['https://doc.qt.io/qt-5/qnearfieldtarget.html#AccessMethod-enum',0,'QNearFieldTarget']]],
-  ['accesstypes',['AccessTypes',['https://doc.qt.io/qt-5/qplatformgraphicsbuffer.html#AccessType-enum',0,'QPlatformGraphicsBuffer']]],
   ['alignment',['Alignment',['https://doc.qt.io/qt-5/qt.html#AlignmentFlag-enum',0,'Qt']]],
   ['alternatenameentrytype',['AlternateNameEntryType',['https://doc.qt.io/qt-5/qssl-obsolete.html#AlternateNameEntryType-typedef',0,'QSsl']]],
   ['appendfunction',['AppendFunction',['https://doc.qt.io/qt-5/qqmllistproperty.html#AppendFunction-typedef',0,'QQmlListProperty']]],
