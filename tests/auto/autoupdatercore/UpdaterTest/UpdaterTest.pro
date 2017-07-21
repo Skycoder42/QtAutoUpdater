@@ -19,6 +19,7 @@ SOURCES += tst_updatertest.cpp \
 	installercontroller.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 DEFINES += BINDIR=\\\"$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/2.0/bin/\\\"
+DEFINES += QTDIR=\\\"$$[QT_INSTALL_BINS]/../../../\\\"
 
 HEADERS += \
 	installercontroller.h

@@ -86,12 +86,7 @@ void UpdaterTest::testUpdateCheck_data()
 
 	updates.clear();
 
-#ifdef Q_OS_WIN
-	path = "C:/Qt";
-#else
-	path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Qt";
-#endif
-	QTest::newRow("Qt") << path + "/MaintenanceTool"
+	QTest::newRow("Qt") << QTDIR + QStringLiteral("MaintenanceTool")
 						<< false
 						<< updates;
 }
