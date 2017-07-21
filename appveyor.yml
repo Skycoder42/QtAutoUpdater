@@ -1,0 +1,48 @@
+image:
+  - Visual Studio 2017
+  - Visual Studio 2015
+
+version: build-{build}
+
+environment:
+  QT_VER: 5.9.1
+  PROJECT: QtAutoUpdater
+
+  matrix:
+    - PLATFORM: msvc2017_64
+    - PLATFORM: msvc2015_64
+    - PLATFORM: msvc2015
+    - PLATFORM: mingw53_32
+
+matrix:
+  exclude:
+    - PLATFORM: msvc2017_64
+      image: Visual Studio 2015
+    - PLATFORM: mingw53_32
+      image: Visual Studio 2015
+    - PLATFORM: msvc2015_64
+      image: Visual Studio 2017
+    - PLATFORM: msvc2015
+      image: Visual Studio 2017
+
+install:
+  - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis
+  - .\qtmodules-travis\ci\win\setup.bat
+
+build_script:
+  - .\qtmodules-travis\ci\win\build.bat
+
+after_build:
+  - .\qtmodules-travis\ci\win\upload-prepare.bat
+
+artifacts:
+  - path: install\build_*_%QT_VER%.zip
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: Cp5GRQku2ZWnKPE12NB5q11ZO0Fr5mlzdUTjnLpYJr/dki4LPVqm231edFggogy8
+  artifact: /.*\.zip/
+  force_update: true
+  on:
+    appveyor_repo_tag: true

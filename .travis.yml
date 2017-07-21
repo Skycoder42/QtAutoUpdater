@@ -1,0 +1,52 @@
+language: cpp
+
+services:
+  - docker
+
+sudo: required
+
+env:
+  global:
+    - QT_VER=5.9.1
+    - PROJECT=QtAutoUpdater
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      env:
+        - PLATFORM=gcc_64
+        - BUILD_DOC=true
+    - os: osx
+      osx_image: xcode8.3
+      env:
+        - PLATFORM=clang_64
+
+before_install:
+  - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; else ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; fi
+
+script:
+  - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
+
+before_deploy:
+  - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/upload-prepare.sh
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: J0aULmVBovEKxvkx/Y5kkC9SFfcCvqiWC1mjkFabjaUJDbk42ZrkbFkn7+d4FdD1fGKfbknXGGMLwyRhcWra6+NpAzDu8dSairC8WnOge27fgzc+yHRbrPonykqypa3S/0muFAMyuswLNUL3+AYqqNSxi/Lhf5866iJm8DI58rupLtVqwnxW7ekuneUCpjv2b7yEpn44JnQXTp6XLko3RRVHzd8ZmZkW5lTSLoTvu1SdyQLcPSXjP0YKrq7piJpMnDGEZ5pZqVxO9Pr+9kTn/Gmr2iTrvUoF+i7vByXFNepk3deEXCiSOSmNgZErYXVeWnzFeXQj5vx3jH0+IbTm4a4+tvgQs2t171xORe/nXM1AB3EWhp/4rWmzkQ5v8Bd8a+VZy0j0GqILnWMoxUY+ygx8q12sapi2KSrsPVOz2fa8RHu08Bi2McMrFKzWSxeXJ8hUL6mvuitSz9hL+W5MOm4qf4C2/CJTGRUC6EpT9HVOCNSU0P8ddkHyFhxUZXDnGV8I7I0CsPQRbV7bPRJKVddQU+H83uEXYWKDeff2fncxR30VMaLWCo8J0c9FmTpEAc6ztJXWsq9dZ2923esLybNV9pung2b+EYuOjgXJSYymHM/jT1PUn8VIeplbd+f7AUa3LVzJJBqNqj8FbMdoasu/glFuVMRDVj7PCM80vOk=
+  file_glob: true
+  file: install/opt/build_*_$QT_VER.tar.xz
+  on:
+    repo: Skycoder42/QtAutoUpdater
+    tags: true
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
