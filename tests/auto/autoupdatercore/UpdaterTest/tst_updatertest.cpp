@@ -116,8 +116,8 @@ void UpdaterTest::testUpdateCheck()
 	QVERIFY(updater->isRunning());
 	QVERIFY(updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>().isEmpty());
 
-	//wait max 2 min for the process to finish
-	QVERIFY(checkSpy->wait(120000));
+	//wait max 5 min for the process to finish
+	QVERIFY(checkSpy->wait(300000));
 
 	//show error log before continuing checking
 	QByteArray log = updater->errorLog();
