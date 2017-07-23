@@ -44,10 +44,27 @@ void InstallerController::createInstaller()
 	QCOMPARE(res, 0);
 }
 
+QString toSystemExe(QString basePath)
+{
+#if defined(Q_OS_WIN32)
+	if(!basePath.endsWith(QStringLiteral(".exe")))
+		return basePath + QStringLiteral(".exe");
+	else
+		return basePath;
+#elif defined(Q_OS_OSX)
+	if(basePath.endsWith(QStringLiteral(".app")))
+		basePath.truncate(basePath.lastIndexOf(QStringLiteral(".")));
+	return basePath + QStringLiteral(".app/Contents/MacOS/") + QFileInfo(basePath).fileName();
+#elif defined(Q_OS_UNIX)
+	return basePath;
+#endif
+}
+
 void InstallerController::installLocal()
 {
 	qDebug() << "Installing example";
-	auto res = QProcess::execute(_buildDir.path() + "/QtAutoUpdaterTestInstaller", {"--script", configScript, "--verbose"});
+	QVERIFY(QFile::exists(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller")));
+	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"--script", configScript, "--verbose"});
 	QCOMPARE(res, 0);
 }
 
