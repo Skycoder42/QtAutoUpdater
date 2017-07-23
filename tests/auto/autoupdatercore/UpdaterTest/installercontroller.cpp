@@ -14,7 +14,6 @@ InstallerController::InstallerController(QObject *parent) :
 	_version(1, 0, 0),
 	_buildDir()
 {
-	_buildDir.setAutoRemove(false);
 	setVersion(_version);
 }
 
@@ -71,6 +70,7 @@ void InstallerController::installLocal()
 	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"--script", configScript, "--verbose"});
 #endif
 	QCOMPARE(res, 0);
+	QThread::sleep(3);//wait to make shure the asynchronous renaming completed
 }
 
 void InstallerController::runUpdater()
@@ -85,10 +85,6 @@ QVersionNumber InstallerController::version() const
 
 QString InstallerController::maintenanceToolPath() const
 {
-	qDebug() << _buildDir.path() << QDir(_buildDir.path()).exists();
-	qDebug() << QDir(_buildDir.path()).entryList();
-	qDebug() << _buildDir.path() + "/install" << QDir(_buildDir.path() + "/install").exists();
-	qDebug() << QDir(_buildDir.path() + "/install").entryList();
 	return _buildDir.path() + "/install";
 }
 
