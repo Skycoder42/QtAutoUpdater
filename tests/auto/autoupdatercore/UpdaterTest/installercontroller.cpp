@@ -12,7 +12,7 @@ static const QString repogen = BINDIR + QStringLiteral("repogen");
 InstallerController::InstallerController(QObject *parent) :
 	QObject(parent),
 	_version(1, 0, 0),
-	_buildDir(QCoreApplication::applicationDirPath() + "/tst_updatertest_XXXXXX")
+	_buildDir()
 {
 	_buildDir.setAutoRemove(false);
 	setVersion(_version);
