@@ -63,7 +63,7 @@ QString toSystemExe(QString basePath)
 void InstallerController::installLocal()
 {
 	qDebug() << "Installing example";
-	qputenv("QT_QPA_PLATFORM", "minimal");
+	QVERIFY(QFile::exists(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller")));
 	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"--script", configScript, "--verbose"});
 	QCOMPARE(res, 0);
 }
