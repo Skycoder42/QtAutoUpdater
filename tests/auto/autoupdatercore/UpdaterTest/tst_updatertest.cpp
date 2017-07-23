@@ -96,6 +96,9 @@ void UpdaterTest::testUpdateCheck()
 	QFETCH(QString, toolPath);
 	QFETCH(bool, hasUpdates);
 	QFETCH(QList<Updater::UpdateInfo>, updates);
+	
+	if(!QDir(toolPath).exists())
+		QFAIL("inst dir does not exist!");
 
 	updater = new Updater(toolPath, this);
 	QVERIFY(updater);
