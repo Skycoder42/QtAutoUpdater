@@ -19,12 +19,14 @@ InstallerController::InstallerController(QObject *parent) :
 
 void InstallerController::createRepository()
 {
+	qDebug() << "Creating repository";
 	auto res = QProcess::execute(repogen, {"--update-new-components", "-p", _buildDir.path() + "/packages", _buildDir.path() + "/repository"});
 	QCOMPARE(res, 0);
 }
 
 void InstallerController::createInstaller()
 {
+	qDebug() << "Creating installer";
 	QFile configSrc(configFile);
 	QFile configOut(_buildDir.path() + "/config.xml");
 
@@ -44,13 +46,14 @@ void InstallerController::createInstaller()
 
 void InstallerController::installLocal()
 {
+	qDebug() << "Installing example";
 	auto res = QProcess::execute(_buildDir.path() + "/QtAutoUpdaterTestInstaller", {"--script", configScript});
 	QCOMPARE(res, 0);
 }
 
 void InstallerController::runUpdater()
 {
-
+	qDebug() << "Running updater";
 }
 
 QVersionNumber InstallerController::version() const
@@ -65,6 +68,7 @@ QString InstallerController::maintenanceToolPath() const
 
 void InstallerController::setVersion(QVersionNumber version)
 {
+	qDebug() << "Updating repository version";
 	_version = version;
 
 	QDir tDir(_buildDir.path());
