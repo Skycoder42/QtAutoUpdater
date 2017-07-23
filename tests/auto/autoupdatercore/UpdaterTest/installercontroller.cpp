@@ -47,7 +47,7 @@ void InstallerController::createInstaller()
 void InstallerController::installLocal()
 {
 	qDebug() << "Installing example";
-	auto res = QProcess::execute(_buildDir.path() + "/QtAutoUpdaterTestInstaller", {"--script", configScript});
+	auto res = QProcess::execute(_buildDir.path() + "/QtAutoUpdaterTestInstaller", {"--script", configScript, "--verbose"});
 	QCOMPARE(res, 0);
 }
 
