@@ -14,6 +14,7 @@ InstallerController::InstallerController(QObject *parent) :
 	_version(1, 0, 0),
 	_buildDir(QCoreApplication::applicationDirPath() + "/tst_updatertest_XXXXXX")
 {
+	_buildDir.setAutoRemove(false);
 	setVersion(_version);
 }
 
@@ -84,6 +85,10 @@ QVersionNumber InstallerController::version() const
 
 QString InstallerController::maintenanceToolPath() const
 {
+	qDebug() << _buildDir.path() << QDir(_buildDir.path()).exists();
+	qDebug() << QDir(_buildDir.path()).entryList();
+	qDebug() << _buildDir.path() + "/install" << QDir(_buildDir.path() + "/install").exists();
+	qDebug() << QDir(_buildDir.path() + "/install").entryList();
 	return _buildDir.path() + "/install";
 }
 
