@@ -65,9 +65,9 @@ void InstallerController::installLocal()
 	qDebug() << "Installing example";
 	QVERIFY(QFile::exists(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller")));
 #if defined(Q_OS_WIN32)
-	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"-platform", "windows", "--script", configScript, "--verbose"});
+	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"-platform", "windows", "--script", configScript});
 #else
-	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"--script", configScript, "--verbose"});
+	auto res = QProcess::execute(toSystemExe(_buildDir.path() + "/QtAutoUpdaterTestInstaller"), {"--script", configScript});
 #endif
 	QCOMPARE(res, 0);
 	QThread::sleep(3);//wait to make shure the asynchronous renaming completed
