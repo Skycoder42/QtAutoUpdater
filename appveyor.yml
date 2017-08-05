@@ -43,6 +43,6 @@ deploy:
   auth_token:
     secure: Cp5GRQku2ZWnKPE12NB5q11ZO0Fr5mlzdUTjnLpYJr/dki4LPVqm231edFggogy8
   artifact: /.*\.zip/
-  force_update: true
+  force_update: false
   on:
     appveyor_repo_tag: true
