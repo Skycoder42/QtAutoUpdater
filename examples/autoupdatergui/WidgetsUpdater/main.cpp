@@ -6,15 +6,15 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	QApplication::setWindowIcon(QIcon(":/icons/main.ico"));
-	QApplication::setApplicationDisplayName("Widgets-Test");
+	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
+	QApplication::setApplicationDisplayName(QStringLiteral("Widgets-Test"));
 	MainWindow w;
 	w.show();
 
 	QTranslator tr;
 	tr.load(QLocale(),
-			"QtAutoUpdaterController",
-			"_",
+			QStringLiteral("QtAutoUpdaterController"),
+			QStringLiteral("_"),
 			QApplication::applicationDirPath());
 	QApplication::installTranslator(&tr);
 

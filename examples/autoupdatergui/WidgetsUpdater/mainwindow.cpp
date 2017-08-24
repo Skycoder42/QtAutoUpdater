@@ -12,28 +12,28 @@ MainWindow::MainWindow(QWidget *parent) :
 	button(new QtAutoUpdater::UpdateButton(this))
 {
 	ui->setupUi(this);
-	statusBar()->showMessage("not running");
+	statusBar()->showMessage(tr("not running"));
 	ui->scheduleUpdateDateTimeEdit->setDateTime(QDateTime::currentDateTime());
 	ui->buttonLayout->addWidget(button);
 
-	QSettings settings("./set.ini", QSettings::IniFormat);
-	ui->maintenanceToolLineEdit->setText(settings.value("path").toString());
-	ui->hasParentWindowCheckBox->setChecked(settings.value("hasParent", true).toBool());
-	ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value("level", QtAutoUpdater::UpdateController::ProgressLevel).toInt());
-	ui->detailedInfoDialogCheckBox->setChecked(settings.value("detailed", true).toBool());
-	ui->adminCheckBox->setChecked(settings.value("admin", true).toBool());
-	ui->userChangecheckBox->setChecked(settings.value("adminChangable", true).toBool());
+	QSettings settings(QStringLiteral("./settings.ini"), QSettings::IniFormat);
+	ui->maintenanceToolLineEdit->setText(settings.value(QStringLiteral("path")).toString());
+	ui->hasParentWindowCheckBox->setChecked(settings.value(QStringLiteral("hasParent"), true).toBool());
+	ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value(QStringLiteral("level"), QtAutoUpdater::UpdateController::ProgressLevel).toInt());
+	ui->detailedInfoDialogCheckBox->setChecked(settings.value(QStringLiteral("detailed"), true).toBool());
+	ui->adminCheckBox->setChecked(settings.value(QStringLiteral("admin"), true).toBool());
+	ui->userChangecheckBox->setChecked(settings.value(QStringLiteral("adminChangable"), true).toBool());
 }
 
 MainWindow::~MainWindow()
 {
-	QSettings settings("./set.ini", QSettings::IniFormat);
-	settings.setValue("path", ui->maintenanceToolLineEdit->text());
-	settings.setValue("hasParent", ui->hasParentWindowCheckBox->isChecked());
-	settings.setValue("level", ui->displayLevelComboBox->currentIndex());
-	settings.setValue("detailed", ui->detailedInfoDialogCheckBox->isChecked());
-	settings.setValue("admin", ui->adminCheckBox->isChecked());
-	settings.setValue("adminChangable", ui->userChangecheckBox->isChecked());
+	QSettings settings(QStringLiteral("./settings.ini"), QSettings::IniFormat);
+	settings.setValue(QStringLiteral("path"), ui->maintenanceToolLineEdit->text());
+	settings.setValue(QStringLiteral("hasParent"), ui->hasParentWindowCheckBox->isChecked());
+	settings.setValue(QStringLiteral("level"), ui->displayLevelComboBox->currentIndex());
+	settings.setValue(QStringLiteral("detailed"), ui->detailedInfoDialogCheckBox->isChecked());
+	settings.setValue(QStringLiteral("admin"), ui->adminCheckBox->isChecked());
+	settings.setValue(QStringLiteral("adminChangable"), ui->userChangecheckBox->isChecked());
 	delete ui;
 }
 
@@ -43,11 +43,11 @@ void MainWindow::on_maintenanceToolButton_clicked()
 												tr("MaintenanceTool path"),
 												QStringLiteral("/"),
 											#if defined(Q_OS_WIN32)
-												QStringLiteral("Executables (*.exe);;All Files (*)")
+												tr("Executables (*.exe);;All Files (*)")
 											#elif defined(Q_OS_OSX)
-												QStringLiteral("Applications (*.app);;All Files (*)")
+												tr("Applications (*.app);;All Files (*)")
 											#elif defined(Q_OS_UNIX)
-												QStringLiteral("Executables (*)")
+												tr("Executables (*)")
 											#endif
 												);
 	if(!path.isEmpty())
@@ -97,12 +97,12 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		qt_mac_set_dock_menu(dockMenu);
 #endif
 		connect(controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
-			statusBar()->showMessage(running ? "running" : "not running");
+			statusBar()->showMessage(running ? tr("running") : tr("not running"));
 		});
 	} else {
 		controller->deleteLater();
 		controller = nullptr;
-		statusBar()->showMessage("not running");
+		statusBar()->showMessage(tr("not running"));
 	}
 	button->setController(controller);
 }

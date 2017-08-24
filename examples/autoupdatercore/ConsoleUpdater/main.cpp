@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	QString homePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(homePath + "/QtAutoUpdaterTestInstaller/maintenancetool",
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(homePath + QStringLiteral("/QtAutoUpdaterTestInstaller/maintenancetool"),
 																 nullptr);
 	updater->runUpdaterOnExit();
 

@@ -78,15 +78,15 @@ void UpdaterTest::testUpdateCheck_data()
 	QTest::addColumn<QList<Updater::UpdateInfo>>("updates");
 
 	QList<Updater::UpdateInfo> updates;
-	updates += {"QtAutoUpdaterTestInstaller", QVersionNumber::fromString("1.1.0"), 45ull};
+	updates += {QStringLiteral("QtAutoUpdaterTestInstaller"), QVersionNumber::fromString(QStringLiteral("1.1.0")), 45ull};
 	QString path = controller->maintenanceToolPath();
-	QTest::newRow("QtAutoUpdaterTestInstaller") << path + "/maintenancetool"
+	QTest::newRow("QtAutoUpdaterTestInstaller") << path + QStringLiteral("/maintenancetool")
 												<< true
 												<< updates;
 
 	updates.clear();
 
-	QTest::newRow("Qt") << QTDIR + QStringLiteral("MaintenanceTool")
+	QTest::newRow("Qt") << QStringLiteral(QTDIR) + QStringLiteral("MaintenanceTool")
 						<< false
 						<< updates;
 }
