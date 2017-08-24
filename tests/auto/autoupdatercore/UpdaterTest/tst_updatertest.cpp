@@ -40,6 +40,10 @@ private:
 
 void UpdaterTest::initTestCase()
 {
+#ifdef Q_OS_LINUX
+	Q_ASSERT(qgetenv("LD_PRELOAD").contains("Qt5AutoUpdaterCore"));
+#endif
+
 	controller = new InstallerController(this);
 	controller->createRepository();
 	controller->createInstaller();
