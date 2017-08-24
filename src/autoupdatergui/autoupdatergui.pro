@@ -11,6 +11,7 @@ win32 {
 	LIBS += -lutil
 }
 
+include(./translations/translations.pri)
 include(../3rdparty/vendor/vendor.pri)
 
 HEADERS += \
@@ -21,7 +22,7 @@ HEADERS += \
 	adminauthorization_p.h \
 	progressdialog_p.h \
 	updateinfodialog_p.h \
-    qtautoupdatergui_global.h
+	qtautoupdatergui_global.h
 
 SOURCES += \
 	progressdialog.cpp \
@@ -40,8 +41,6 @@ FORMS += \
 
 RESOURCES += \
 	autoupdatergui_resource.qrc
-
-include(./translations/translations.pri)
 
 load(qt_module)
 

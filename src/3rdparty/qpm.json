@@ -2,7 +2,8 @@
   "name": "",
   "description": "",
   "dependencies": [
-    "de.skycoder42.dialog-master@1.2.5"
+    "de.skycoder42.dialog-master@1.2.7",
+    "de.skycoder42.qpm-translate@1.1.0"
   ],
   "license": "NONE",
   "pri_filename": "",
