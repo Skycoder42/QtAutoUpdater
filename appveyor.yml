@@ -6,7 +6,6 @@ version: build-{build}
 
 environment:
   QT_VER: 5.9.1
-  PROJECT: QtAutoUpdater
 
   matrix:
     - PLATFORM: msvc2017_64

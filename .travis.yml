@@ -8,7 +8,6 @@ sudo: required
 env:
   global:
     - QT_VER=5.9.1
-    - PROJECT=QtAutoUpdater
 
 matrix:
   include:
