@@ -11,6 +11,10 @@ using namespace QtAutoUpdater;
 #define DEFAULT_TOOL_PATH QStringLiteral("./maintenancetool")
 #endif
 
+const QStringList Updater::NormalUpdateArguments = {QStringLiteral("--updater")};
+const QStringList Updater::PassiveUpdateArguments = {QStringLiteral("--updater"), QStringLiteral("skipPrompt=true")};
+const QStringList Updater::HiddenUpdateArguments = {QStringLiteral("--silentUpdate")};
+
 Updater::Updater(QObject *parent) :
 	Updater(DEFAULT_TOOL_PATH, parent)
 {}
@@ -90,7 +94,7 @@ void Updater::cancelScheduledUpdate(int taskId)
 
 void Updater::runUpdaterOnExit(AdminAuthoriser *authoriser)
 {
-	runUpdaterOnExit({QStringLiteral("--updater")}, authoriser);
+	runUpdaterOnExit(NormalUpdateArguments, authoriser);
 }
 
 void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)

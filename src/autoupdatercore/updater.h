@@ -47,6 +47,10 @@ public:
 		UpdateInfo(QString name, QVersionNumber version, quint64 size);
 	};
 
+	static const QStringList NormalUpdateArguments;
+	static const QStringList PassiveUpdateArguments;
+	static const QStringList HiddenUpdateArguments;
+
 	//! Default constructor
 	explicit Updater(QObject *parent = nullptr);
 	//! Constructer with an explicitly set path

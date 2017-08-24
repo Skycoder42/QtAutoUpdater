@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 	QString homePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(homePath + QStringLiteral("/QtAutoUpdaterTestInstaller/maintenancetool"),
 																 nullptr);
-	updater->runUpdaterOnExit();
+	updater->runUpdaterOnExit(QtAutoUpdater::Updater::PassiveUpdateArguments);
 
 	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool a, bool b){
 		qDebug() << "Has updates:" << a
