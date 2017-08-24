@@ -3,7 +3,6 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QSettings>
-#include <updatebutton.h>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),

@@ -1,22 +1,26 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QStandardPaths>
-#include <updater.h>
+#include <QtAutoUpdaterCore/Updater>
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
+	if(a.arguments().size() < 2) {
+		qCritical() << "Usage: ConsoleUpdater <path_to_maintenancetool>";
+		return EXIT_FAILURE;
+	}
 
-	QString homePath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(homePath + QStringLiteral("/QtAutoUpdaterTestInstaller/maintenancetool"),
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(a.arguments()[1],
 																 nullptr);
-	updater->runUpdaterOnExit(QtAutoUpdater::Updater::PassiveUpdateArguments);
 
-	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool a, bool b){
-		qDebug() << "Has updates:" << a
-				 << "\nHas errors:" << b
+	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError){
+		qDebug() << "Has updates:" << hasUpdate
+				 << "\nHas errors:" << hasError
 				 << "\nError string:" << updater->errorLog();
 		qDebug() << updater->updateInfo();
+		if(hasUpdate)
+			updater->runUpdaterOnExit(QtAutoUpdater::Updater::PassiveUpdateArguments);
 		qApp->quit();
 	});
 
