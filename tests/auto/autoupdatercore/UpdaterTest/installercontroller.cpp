@@ -75,7 +75,7 @@ void InstallerController::installLocal()
 	qDebug() << "Installing example";
 	QVERIFY(QFile::exists(toSystemExe(_buildDir.path() + QStringLiteral("/QtAutoUpdaterTestInstaller"))));
 #if defined(Q_OS_WIN32)
-	auto res = QProcess::execute(toSystemExe(_buildDir.path() + QStringLiteral("/QtAutoUpdaterTestInstaller"),
+	auto res = QProcess::execute(toSystemExe(_buildDir.path() + QStringLiteral("/QtAutoUpdaterTestInstaller")),
 								 {
 												 QStringLiteral("-platform"),
 												 QStringLiteral("windows"),
