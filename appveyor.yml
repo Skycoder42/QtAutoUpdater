@@ -45,3 +45,6 @@ deploy:
   force_update: false
   on:
     appveyor_repo_tag: true
+
+cache:
+  - 'C:\Users\appveyor\AppData\Local\Skycoder42\qpmx\cache -> appveyor.yml'
