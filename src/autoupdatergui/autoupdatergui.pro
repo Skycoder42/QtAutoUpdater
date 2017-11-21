@@ -63,5 +63,5 @@ INSTALLS += qpmx_ts_target
 else: include($$OUT_PWD/qpmx_generated.pri)
 
 #replace template qm by ts
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtbackgroundprocess_template.qm
-qpmx_ts_target.files += translations/qtbackgroundprocess_template.ts
+qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtautoupdatergui_template.qm
+qpmx_ts_target.files += translations/qtautoupdatergui_template.ts
