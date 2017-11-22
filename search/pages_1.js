@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['the_20qrestbuilder_20tool',['The QRestBuilder Tool',['https://doc.qt.io/qt-5/generator.html',0,'']]]
+  ['qdatasyncserver_20documentation',['qdatasyncserver Documentation',['https://doc.qt.io/qt-5/qdatasyncserver.html',0,'']]]
 ];

@@ -1,6 +1,9 @@
 var searchData=
 [
   ['valid',['valid',['https://doc.qt.io/qt-5/qscxmlerror.html#valid-prop',0,'QScxmlError']]],
+  ['validatebase64',['validateBase64',['https://doc.qt.io/qt-5/class_q_json_serializer.html#a8de334ab602be6a05d70146222978ca9',0,'QJsonSerializer']]],
+  ['validateservercertificate',['validateServerCertificate',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_ws_authenticator.html#a4c6b5e924a39445b71953b5b49a598f9',0,'QtDataSync::WsAuthenticator']]],
+  ['validationflags',['validationFlags',['https://doc.qt.io/qt-5/class_q_json_serializer.html#a6baa7de9acfd41c1780ea90464b696e3',0,'QJsonSerializer']]],
   ['value',['value',['https://doc.qt.io/qt-5/qprogressdialog.html#value-prop',0,'QProgressDialog::value()'],['https://doc.qt.io/qt-5/qabstractslider.html#value-prop',0,'QAbstractSlider::value()'],['https://doc.qt.io/qt-5/qlcdnumber.html#value-prop',0,'QLCDNumber::value()'],['https://doc.qt.io/qt-5/qprogressbar.html#value-prop',0,'QProgressBar::value()'],['https://doc.qt.io/qt-5/qspinbox.html#value-prop',0,'QSpinBox::value()'],['https://doc.qt.io/qt-5/qdoublespinbox.html#value-prop',0,'QDoubleSpinBox::value()'],['https://doc.qt.io/qt-5/qt3drender-qfilterkey.html#value-prop',0,'Qt3DRender::QFilterKey::value()'],['https://doc.qt.io/qt-5/qt3drender-qparameter.html#value-prop',0,'Qt3DRender::QParameter::value()'],['https://doc.qt.io/qt-5/qt3drender-qpointsize.html#value-prop',0,'Qt3DRender::QPointSize::value()'],['https://doc.qt.io/qt-5/qt3dinput-qaxis.html#value-prop',0,'Qt3DInput::QAxis::value()'],['https://doc.qt.io/qt-5/qt3dinput-qaxisaccumulator.html#value-prop',0,'Qt3DInput::QAxisAccumulator::value()']]],
   ['velocity',['velocity',['https://doc.qt.io/qt-5/qt3dinput-qaxisaccumulator.html#velocity-prop',0,'Qt3DInput::QAxisAccumulator']]],
   ['vendor',['vendor',['https://doc.qt.io/qt-5/qt3drender-qgraphicsapifilter.html#vendor-prop',0,'Qt3DRender::QGraphicsApiFilter']]],

@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['maneuverdetails',['ManeuverDetails',['https://doc.qt.io/qt-5/qgeorouterequest.html#ManeuverDetail-enum',0,'QGeoRouteRequest']]],
-  ['mapped_5ftype',['mapped_type',['https://doc.qt.io/qt-5/qjsonobject.html#mapped_type-typedef',0,'QJsonObject::mapped_type()'],['https://doc.qt.io/qt-5/qhash.html#mapped_type-typedef',0,'QHash::mapped_type()'],['https://doc.qt.io/qt-5/qmap.html#mapped_type-typedef',0,'QMap::mapped_type()']]],
-  ['mappingfeatures',['MappingFeatures',['https://doc.qt.io/qt-5/qgeoserviceprovider.html#MappingFeature-enum',0,'QGeoServiceProvider']]],
-  ['matchflags',['MatchFlags',['https://doc.qt.io/qt-5/qt.html#MatchFlag-enum',0,'Qt']]],
-  ['matchoptions',['MatchOptions',['https://doc.qt.io/qt-5/qregularexpression.html#MatchOption-enum',0,'QRegularExpression']]],
-  ['modifyparametersfunction',['ModifyParametersFunction',['https://doc.qt.io/qt-5/qabstractoauth.html#ModifyParametersFunction-typedef',0,'QAbstractOAuth']]],
-  ['mousebuttons',['MouseButtons',['https://doc.qt.io/qt-5/qt.html#MouseButton-enum',0,'Qt']]],
-  ['mouseeventflags',['MouseEventFlags',['https://doc.qt.io/qt-5/qt.html#MouseEventFlag-enum',0,'Qt']]]
+  ['name',['name',['../struct_qt_auto_updater_1_1_updater_1_1_update_info.html#a28760ca994913fe3c19f34e0f4f25c21',1,'QtAutoUpdater::Updater::UpdateInfo']]],
+  ['networkerror',['NetworkError',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_reply.html#a7ac2c77cd405dff6fd116eaf3073fe2aa3ee413bd14caa47c654b9bb6761e446e',0,'QtRestClient::RestReply']]],
+  ['noextraproperties',['NoExtraProperties',['https://doc.qt.io/qt-5/class_q_json_serializer.html#a0fb6dc294c5f0c2279e1e60c8bf19b37ac8cb0e946f61b483209cb2484259bcf0',0,'QJsonSerializer']]],
+  ['numberflags',['NumberFlags',['https://doc.qt.io/qt-5/qtextstream.html#NumberFlag-enum',0,'QTextStream']]],
+  ['numberoptions',['NumberOptions',['https://doc.qt.io/qt-5/qlocale.html#NumberOption-enum',0,'QLocale']]]
 ];

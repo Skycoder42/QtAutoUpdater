@@ -17,6 +17,7 @@ var searchData=
   ['qtautoupdater',['QtAutoUpdater',['../namespace_qt_auto_updater.html',1,'']]],
   ['qtbackgroundprocess',['QtBackgroundProcess',['https://doc.qt.io/qt-5/namespace_qt_background_process.html',0,'']]],
   ['qtconcurrent',['QtConcurrent',['https://doc.qt.io/qt-5/qtconcurrent.html',0,'']]],
+  ['qtdatasync',['QtDataSync',['https://doc.qt.io/qt-5/namespace_qt_data_sync.html',0,'']]],
   ['qtest',['QTest',['https://doc.qt.io/qt-5/qtest.html',0,'']]],
   ['qtrestclient',['QtRestClient',['https://doc.qt.io/qt-5/namespace_qt_rest_client.html',0,'']]],
   ['qtwebengine',['QtWebEngine',['https://doc.qt.io/qt-5/qtwebengine.html',0,'']]],

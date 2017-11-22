@@ -40,42 +40,42 @@
       <type>void</type>
       <name>setAnimationFile</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>a745f822710fab49fbd6e560d304407e0</anchor>
+      <anchor>a0a921178d262a921768597d28f9adec5</anchor>
       <arglist>(QString animationFile, int speed=100)</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>setAnimationDevice</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>abc17f3c9dcf180eba37f6863e3fc2acb</anchor>
+      <anchor>aac61f3f5e24a5df44ed3196c19f2a011</anchor>
       <arglist>(QIODevice *animationDevice, int speed=100)</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>resetAnimationFile</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>ad5abc2d8cab154c5c87c4bccec943077</anchor>
+      <anchor>afff0f714d5f2c317dc8066106b860d0e</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>setShowResult</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>acd713feedeb6688064cd32ee58206ced</anchor>
+      <anchor>a65d92e816f840cf3a4b0a516cea7e44d</anchor>
       <arglist>(bool showResult)</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>setDisplayLevel</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>a93e29b2a35f5c930e2584179112e14df</anchor>
+      <anchor>a050caca3129bb55429ae1a1fac5fbc50</anchor>
       <arglist>(UpdateController::DisplayLevel displayLevel)</arglist>
     </member>
     <member kind="slot">
       <type>bool</type>
       <name>setController</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>ae1ee6c8e3a70ec6644f6959c19b01114</anchor>
+      <anchor>a7798c18efbf80a17da3afdf7aebc8580</anchor>
       <arglist>(UpdateController *controller)</arglist>
     </member>
     <member kind="signal">
@@ -96,7 +96,7 @@
       <type></type>
       <name>~UpdateButton</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>a84cd7e0899cc5926d78cbe4fbd079579</anchor>
+      <anchor>afcdef6ddaf473e4c743ccb579f6f8b6e</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -110,7 +110,7 @@
       <type>bool</type>
       <name>isShowingResult</name>
       <anchorfile>class_qt_auto_updater_1_1_update_button.html</anchorfile>
-      <anchor>adfe5fb0fd5a3479867fe80d82587763e</anchor>
+      <anchor>ae3991f120e12d64a1d1398269f2c758c</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
@@ -243,7 +243,7 @@
       <type>void</type>
       <name>setParentWindow</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a5a4431f7439c4826a594dfb79c433522</anchor>
+      <anchor>a69fd1583bae0a2ae9f0236456a472f9d</anchor>
       <arglist>(QWidget *parentWindow)</arglist>
     </member>
     <member kind="slot">
@@ -257,21 +257,21 @@
       <type>void</type>
       <name>setUpdateRunArgs</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a17d74c0fe37ef9c5695fd3f71885d715</anchor>
+      <anchor>a12d10f4df120aeff4e626aa1c20a960f</anchor>
       <arglist>(QStringList updateRunArgs)</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>resetUpdateRunArgs</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a0215f05a6d32bc913f9c60a0402b9505</anchor>
+      <anchor>a0ed0142907a599ba3e2664ad1f5c4927</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="slot">
       <type>void</type>
       <name>setDetailedUpdateInfo</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a0913e244ca6a95d1679bb2a20a820f83</anchor>
+      <anchor>a63aa9c15eb017809b60aef3a92c17d57</anchor>
       <arglist>(bool detailedUpdateInfo)</arglist>
     </member>
     <member kind="slot">
@@ -383,14 +383,14 @@
       <type>DisplayLevel</type>
       <name>currentDisplayLevel</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a111ca642c5c0ff428275bd51f8482f37</anchor>
+      <anchor>a040d56fe4c8d0714bce33b89d051b278</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>isRunning</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a0bab518a024f9f597c292081aca9ed6e</anchor>
+      <anchor>a2ea582e539fb1f88a728b496c8f3fc5f</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
@@ -411,7 +411,7 @@
       <type>bool</type>
       <name>isDetailedUpdateInfo</name>
       <anchorfile>class_qt_auto_updater_1_1_update_controller.html</anchorfile>
-      <anchor>a1ada46feeeb4c43e1a87b9e6d1326666</anchor>
+      <anchor>afc64e0bef3ad4e83bbd1376f32833ed9</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
@@ -471,21 +471,21 @@
       <type></type>
       <name>UpdateInfo</name>
       <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
-      <anchor>ab1338460086157543eee83d643dbb013</anchor>
+      <anchor>aea1b47276eec750f1357c4a96d7dc546</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>UpdateInfo</name>
       <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
-      <anchor>a93b75bc5e088929c60141fa5859b2608</anchor>
+      <anchor>a8fcd3743ce4846a15667d84f0be3d85e</anchor>
       <arglist>(const UpdateInfo &amp;other)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>UpdateInfo</name>
       <anchorfile>struct_qt_auto_updater_1_1_updater_1_1_update_info.html</anchorfile>
-      <anchor>a8760312726128ae720a48a09dd24c34d</anchor>
+      <anchor>acb4f2b04b4304d5bfc5063db38936b05</anchor>
       <arglist>(QString name, QVersionNumber version, quint64 size)</arglist>
     </member>
     <member kind="variable">
@@ -652,7 +652,7 @@
       <type>bool</type>
       <name>isRunning</name>
       <anchorfile>class_qt_auto_updater_1_1_updater.html</anchorfile>
-      <anchor>ad15b703663ffb7de33cc80a575b1e9b7</anchor>
+      <anchor>aa8ed9223e808a70679da6497afcd6410</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">

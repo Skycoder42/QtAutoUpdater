@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errortype',['ErrorType',['https://doc.qt.io/qt-5/class_qt_rest_client_1_1_rest_reply.html#a7ac2c77cd405dff6fd116eaf3073fe2a',0,'QtRestClient::RestReply']]]
+  ['displaylevel',['DisplayLevel',['../class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2',1,'QtAutoUpdater::UpdateController']]]
 ];

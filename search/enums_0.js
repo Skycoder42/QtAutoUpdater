@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['displaylevel',['DisplayLevel',['../class_qt_auto_updater_1_1_update_controller.html#a3c3df76116942329e05f639e60bbf5a2',1,'QtAutoUpdater::UpdateController']]]
+  ['changestate',['ChangeState',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_state_holder.html#a3ac1a05a93bb0c3b88bb3f2e04df4b11',0,'QtDataSync::StateHolder']]]
 ];

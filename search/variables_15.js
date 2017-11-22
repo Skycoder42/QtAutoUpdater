@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['unhandledexception',['UnhandledException',['https://doc.qt.io/qt-5/qtconcurrent-obsolete.html#UnhandledException-typedef',0,'QtConcurrent']]],
-  ['usagepolicies',['UsagePolicies',['https://doc.qt.io/qt-5/qnetworksession.html#UsagePolicy-enum',0,'QNetworkSession']]],
-  ['userinputresolutionoptions',['UserInputResolutionOptions',['https://doc.qt.io/qt-5/qurl.html#UserInputResolutionOption-enum',0,'QUrl']]]
+  ['value',['value',['https://doc.qt.io/qt-5/struct__qjsonserializer__helpertypes_1_1gadget__helper.html#a689729575d9a1c19cdebca83ca03bfcf',0,'_qjsonserializer_helpertypes::gadget_helper::value()'],['https://doc.qt.io/qt-5/struct__qjsonserializer__helpertypes_1_1gadget__helper_3_01_t_00_01typename_01_t_1_1_qt_gadget_helper_01_4.html#a638176e785a3b278c8f1e325391b3deb',0,'_qjsonserializer_helpertypes::gadget_helper&lt; T, typename T::QtGadgetHelper &gt;::value()']]],
+  ['value_5ftype',['value_type',['https://doc.qt.io/qt-5/qjsonarray.html#value_type-typedef',0,'QJsonArray::value_type()'],['https://doc.qt.io/qt-5/qfuture-const-iterator.html#value_type-typedef',0,'QFuture::const_iterator::value_type()'],['https://doc.qt.io/qt-5/qlinkedlist.html#value_type-typedef',0,'QLinkedList::value_type()'],['https://doc.qt.io/qt-5/qlist.html#value_type-typedef',0,'QList::value_type()'],['https://doc.qt.io/qt-5/qset.html#value_type-typedef',0,'QSet::value_type()'],['https://doc.qt.io/qt-5/qstring.html#value_type-typedef',0,'QString::value_type()'],['https://doc.qt.io/qt-5/qvarlengtharray.html#value_type-typedef',0,'QVarLengthArray::value_type()'],['https://doc.qt.io/qt-5/qvector.html#value_type-typedef',0,'QVector::value_type()']]],
+  ['version',['version',['../struct_qt_auto_updater_1_1_updater_1_1_update_info.html#abcad59ff52bcc1f7fa500a053095bb2b',1,'QtAutoUpdater::Updater::UpdateInfo']]],
+  ['viewitemfeatures',['ViewItemFeatures',['https://doc.qt.io/qt-5/qstyleoptionviewitem.html#ViewItemFeature-enum',0,'QStyleOptionViewItem']]],
+  ['visibilityscope',['VisibilityScope',['https://doc.qt.io/qt-5/qlocation.html#Visibility-enum',0,'QLocation']]]
 ];
