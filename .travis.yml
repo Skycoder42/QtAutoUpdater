@@ -7,7 +7,7 @@ sudo: required
 
 env:
   global:
-    - QT_VER=5.9.2
+    - QT_VER=5.9.3
 
 matrix:
   include:

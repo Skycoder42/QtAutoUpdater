@@ -5,7 +5,7 @@ image:
 version: build-{build}
 
 environment:
-  QT_VER: 5.9.2
+  QT_VER: 5.9.3
 
   matrix:
     - PLATFORM: msvc2017_64
