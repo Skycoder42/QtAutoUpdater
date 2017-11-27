@@ -64,7 +64,7 @@ There are multiple ways to install the Qt module, sorted by preference:
 The autoupdater is provided as a Qt module. Thus, all you have to do is add the module, and then, in your project, add `QT += autoupdatercore` or `QT += autoupdatergui` to your .pro file - depending on what you need!
 
 ### Getting started
-The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create and installer/updater. If you already now how to to that, just check out the examples below. If not, here are some links that
+The usage of this library is not that complicated. However, to make this work you will have to use the Qt Installer Framework to create an installer/updater. If you already know how to to that, just check out the examples below. If not, here are some links that
 will explain how to create an online-installer using the framework. Once you have figured out how to do that, it's only a small step
 to the updater library:
  - [QtIFW - Tutorial: Creating an Installer](https://doc.qt.io/qtinstallerframework/ifw-tutorial.html): Check this to learn how to create an installer in general. Don't be afraid, it's a very short tutorial
@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 ```
 
 #### UpdateController
-This example will show you the full dialog flow of the controller. Both libraries are required for this example. Since there is no mainwindow in this example, you will only see the controller dialogs. Please not that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the `Tests/WidgetsTest` application.
+This example will show you the full dialog flow of the controller. Both libraries are required for this example. Since there is no mainwindow in this example, you will only see the controller dialogs. Please note that you can control how much of that dialogset will be shown to the user. This example is *reduced*! for a full example with all parts of the controller, check the `examples/autoupdatergui/WidgetsUpdater` application.
 
 ```cpp
 #include <QApplication>
