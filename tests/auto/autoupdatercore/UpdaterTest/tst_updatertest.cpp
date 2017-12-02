@@ -48,8 +48,6 @@ void UpdaterTest::initTestCase()
 	controller->createRepository();
 	controller->createInstaller();
 	controller->installLocal();
-	controller->setVersion({1, 1, 0});
-	controller->createRepository();
 }
 
 void UpdaterTest::testUpdaterInitState()
@@ -77,31 +75,34 @@ void UpdaterTest::testUpdaterInitState()
 
 void UpdaterTest::testUpdateCheck_data()
 {
-	QTest::addColumn<QString>("toolPath");
+	QTest::addColumn<QVersionNumber>("repoVersion");
 	QTest::addColumn<bool>("hasUpdates");
 	QTest::addColumn<QList<Updater::UpdateInfo>>("updates");
 
 	QList<Updater::UpdateInfo> updates;
+
+	QTest::newRow("noUpdates") << QVersionNumber(1, 0, 0)
+							   << false
+							   << updates;
+
 	updates += {QStringLiteral("QtAutoUpdaterTestInstaller"), QVersionNumber::fromString(QStringLiteral("1.1.0")), 45ull};
-	QString path = controller->maintenanceToolPath();
-	QTest::newRow("QtAutoUpdaterTestInstaller") << path + QStringLiteral("/maintenancetool")
-												<< true
-												<< updates;
+	QTest::newRow("simpleUpdate") << QVersionNumber(1, 1, 0)
+								  << true
+								  << updates;
 
 	updates.clear();
-
-	QTest::newRow("Qt") << QStringLiteral(QTDIR) + QStringLiteral("MaintenanceTool")
-						<< false
-						<< updates;
 }
 
 void UpdaterTest::testUpdateCheck()
 {
-	QFETCH(QString, toolPath);
+	QFETCH(QVersionNumber, repoVersion);
 	QFETCH(bool, hasUpdates);
 	QFETCH(QList<Updater::UpdateInfo>, updates);
 
-	updater = new Updater(toolPath, this);
+	controller->setVersion(repoVersion);
+	controller->createRepository();
+
+	updater = new Updater(controller->maintenanceToolPath() + QStringLiteral("/maintenancetool"), this);
 	QVERIFY(updater);
 	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
 	QVERIFY(checkSpy->isValid());
