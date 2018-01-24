@@ -41,6 +41,7 @@ RESOURCES += \
 
 TRANSLATIONS += translations/qtautoupdatergui_de.ts \
 	translations/qtautoupdatergui_es.ts \
+	translations/qtautoupdatergui_fr.ts \
 	translations/qtautoupdatergui_template.ts
 
 DISTFILES += $$TRANSLATIONS
