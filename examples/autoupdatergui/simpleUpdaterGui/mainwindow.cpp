@@ -14,8 +14,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	
     controller->start(QtAutoUpdater::UpdateController::InfoLevel);	//Search for updates. Display a message if updates found, otherwise do nothing
 
-    connect(ui->checkUpdateButton, SIGNAL(clicked()), this, SLOT(checkUpdate()));	//Connect the checkUpdateButton button to the checkUpdate method (starts the update check process)
-    connect(ui->actionCheck_for_updates_2, SIGNAL(triggered(bool)), this, SLOT(checkUpdate()));	//Connect the actionCheck_for_updates_2 to the method (starts the update check process)
+    connect(ui->checkUpdateButton,
+            SIGNAL(clicked()),
+            this,
+            SLOT(checkUpdate())
+            );	//Connect the checkUpdateButton button to the checkUpdate method (starts the update check process)
+
+    connect(ui->actionCheck_for_updates_2,
+            SIGNAL(triggered(bool)),
+            this,
+            SLOT(checkUpdate())
+            );	//Connect the actionCheck_for_updates_2 to the method (starts the update check process)
 }
 
 MainWindow::~MainWindow()
