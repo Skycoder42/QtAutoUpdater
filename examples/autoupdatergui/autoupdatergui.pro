@@ -1,3 +1,5 @@
 TEMPLATE = subdirs
 
-SUBDIRS += WidgetsUpdater simpleUpdaterGui
+SUBDIRS += \
+	WidgetsUpdater \
+	SimpleUpdaterGui

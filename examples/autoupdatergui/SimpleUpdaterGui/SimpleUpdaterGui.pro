@@ -3,17 +3,17 @@ TEMPLATE = app
 QT += core gui widgets autoupdatergui
 CONFIG += C++11
 
-TARGET = WidgetsUpdater
+TARGET = SimpleUpdaterGui
 
-SOURCES += main.cpp \
+SOURCES += \
+	main.cpp \
 	mainwindow.cpp
 
-HEADERS += mainwindow.h
+HEADERS += \
+	mainwindow.h
 
-FORMS += mainwindow.ui
-
-RESOURCES += \
-	main_res.qrc
+FORMS += \
+	mainwindow.ui
 
 target.path = $$[QT_INSTALL_EXAMPLES]/autoupdatergui/$$TARGET
 INSTALLS += target
