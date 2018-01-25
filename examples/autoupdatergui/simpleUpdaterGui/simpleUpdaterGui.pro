@@ -21,7 +21,7 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-target.path = $$[QT_INSTALL_EXAMPLES]/autoupdatergui/WidgetsUpdater
+target.path = $$[QT_INSTALL_EXAMPLES]/autoupdatergui/simpleUpdaterGui
 INSTALLS += target
 
 #not found by linker?
