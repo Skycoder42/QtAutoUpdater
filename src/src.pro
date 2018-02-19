@@ -5,6 +5,7 @@ SUBDIRS += autoupdatercore \
 	autoupdatergui
 
 autoupdatergui.depends += autoupdatercore
+autoupdatercore.CONFIG += no_lrelease_target
 
-docTarget.target = doxygen
-QMAKE_EXTRA_TARGETS += docTarget
+prepareRecursiveTarget(lrelease)
+QMAKE_EXTRA_TARGETS += lrelease

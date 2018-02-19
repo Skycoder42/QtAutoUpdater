@@ -4,20 +4,21 @@ services:
   - docker
 
 sudo: required
+dist: trusty
+osx_image: xcode9.2
 
 env:
   global:
-    - QT_VER=5.10.0
+    - QPMX_CACHE_DIR=$HOME/.qpmx-cache
+    - QT_VER=5.10.1
 
 matrix:
   include:
     - os: linux
-      dist: trusty
       env:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
     - os: osx
-      osx_image: xcode9.1
       env:
         - PLATFORM=clang_64
 
@@ -44,9 +45,10 @@ deploy:
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -fr $QPMX_CACHE_DIR/locks
 cache:
   directories:
-    - $HOME/.cache/Skycoder42/qpmx
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+    - $QPMX_CACHE_DIR

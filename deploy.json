@@ -1,0 +1,11 @@
+{
+	"title": "QtAutoUpdater",
+	"description": "A Qt library to automatically check for updates and install them.",
+	"modules": [ "QtAutoUpdaterCore", "QtAutoUpdaterGui" ],
+	"dependencies": [],
+	"excludes": [ "static", "android", "ios", "winrt" ],
+	"license": {
+		"name": "BSD-3-Clause",
+		"path": "LICENSE"
+	}
+}

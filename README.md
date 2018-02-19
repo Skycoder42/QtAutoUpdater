@@ -6,6 +6,7 @@ The Qt auto updater library is a library to automatically check for updates and 
 
 [![Travis Build Status](https://travis-ci.org/Skycoder42/QtAutoUpdater.svg?branch=master)](https://travis-ci.org/Skycoder42/QtAutoUpdater)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/5iw2byrvnsdfytxv/branch/master?svg=true)](https://ci.appveyor.com/project/Skycoder42/qtautoupdater/branch/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5b2e3cc66c644869515d2f3a5c3ff49)](https://www.codacy.com/app/Skycoder42/QtAutoUpdater)
 
 ## Features
 ### Core Library

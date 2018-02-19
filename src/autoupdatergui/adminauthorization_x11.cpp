@@ -76,7 +76,7 @@ bool AdminAuthorization::hasAdminRights()
 
 bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
-	foreach(auto su, suFontends) {
+	for(auto su : qAsConst(suFontends)) {
 		auto command = QStandardPaths::findExecutable(su.first);
 		if(!command.isEmpty()) {
 			auto args = su.second;
@@ -157,7 +157,6 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 		QByteArray data;
 		QByteArray errData;
 		int bytes = 0;
-		int errBytes = 0;
 		char buf[1024];
 		char errBuf[1024];
 		while (bytes >= 0) {
@@ -174,7 +173,7 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 				else
 					bytes = 0;
 			}
-			errBytes = ::read(pipedData[0], errBuf, 1023);
+			int errBytes = ::read(pipedData[0], errBuf, 1023);
 			if (errBytes > 0)
 			{
 				errData.append(errBuf, errBytes);
@@ -266,7 +265,7 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 		::unsetenv("LC_ALL");
 
 		::execv(SU_COMMAND, argp);
-		_exit(0);
+		_exit(EXIT_FAILURE);
 		return false;
 	}
 }

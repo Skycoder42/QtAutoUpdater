@@ -40,6 +40,10 @@ private:
 
 void UpdaterTest::initTestCase()
 {
+#ifdef Q_OS_LINUX
+	if(!qgetenv("LD_PRELOAD").contains("Qt5AutoUpdaterCore"))
+		qWarning() << "No LD_PRELOAD set - this may fail on systems with multiple version of the modules";
+#endif
 	controller = new InstallerController(this);
 	controller->createRepository();
 	controller->createInstaller();
