@@ -16,6 +16,8 @@ SOURCES += \
 
 load(qt_module)
 
+QMAKE_EXTRA_TARGETS += lrelease
+
 win32 {
 	QMAKE_TARGET_PRODUCT = "QtAutoUpdaterCore"
 	QMAKE_TARGET_COMPANY = "Skycoder42"
