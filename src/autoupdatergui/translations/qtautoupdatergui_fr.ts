@@ -225,7 +225,7 @@
     <message>
         <location line="+5"/>
         <source>Update Size</source>
-        <translation>Date de mise à jour</translation>
+        <translation>Taille de la mise à jour</translation>
     </message>
     <message>
         <location line="+26"/>
