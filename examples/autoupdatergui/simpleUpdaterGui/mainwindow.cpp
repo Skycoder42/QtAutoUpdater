@@ -4,8 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    controller(nullptr), //add this
-    updateButton(new QtAutoUpdater::UpdateButton(this)) //and this for the updater
+    updateButton(new QtAutoUpdater::UpdateButton(this)) //add this for the updater
 {
     ui->setupUi(this);
 
