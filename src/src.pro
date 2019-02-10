@@ -1,9 +1,9 @@
 TEMPLATE = subdirs
 
-SUBDIRS += autoupdatercore \
+SUBDIRS += \
+	autoupdatercore \
 	autoupdatergui
 
 autoupdatergui.depends += autoupdatercore
 
-prepareRecursiveTarget(lrelease)
-QMAKE_EXTRA_TARGETS += lrelease
+QMAKE_EXTRA_TARGETS += run-tests
