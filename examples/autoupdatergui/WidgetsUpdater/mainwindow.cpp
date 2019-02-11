@@ -82,6 +82,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 			controller = new QtAutoUpdater::UpdateController(ui->maintenanceToolLineEdit->text(), this, qApp);
 		else
 			controller = new QtAutoUpdater::UpdateController(ui->maintenanceToolLineEdit->text(), qApp);
+		controller->setDesktopFileName(QStringLiteral("WidgetsUpdater"));
 		controller->setDetailedUpdateInfo(ui->detailedInfoDialogCheckBox->isChecked());
 		QAction *a = controller->createUpdateAction(this);
 		a->setIconVisibleInMenu(false);

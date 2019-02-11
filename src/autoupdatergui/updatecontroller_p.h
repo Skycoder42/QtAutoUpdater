@@ -11,6 +11,8 @@
 
 #include <QtCore/QPointer>
 
+#include <qtaskbarcontrol.h>
+
 namespace QtAutoUpdater
 {
 
@@ -34,6 +36,7 @@ public:
 	QStringList runArgs {QStringLiteral("--updater")};
 	bool detailedInfo = true;
 
+	QPointer<QTaskbarControl> taskbar;
 	QPointer<ProgressDialog> checkUpdatesProgress;
 	bool wasCanceled = false;
 
@@ -42,6 +45,9 @@ public:
 	UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 	UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
 	~UpdateControllerPrivate();
+
+	void setTaskbarState(QTaskbarControl::WinProgressState state);
+	void clearTaskbar();
 };
 
 }

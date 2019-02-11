@@ -114,9 +114,22 @@ bool UpdateController::isDetailedUpdateInfo() const
 	return d->detailedInfo;
 }
 
+QString UpdateController::desktopFileName() const
+{
+	return d->taskbar ?
+				d->taskbar->attribute(QTaskbarControl::LinuxDesktopFile).toString() :
+				QString{};
+}
+
 void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
 {
 	d->detailedInfo = detailedUpdateInfo;
+}
+
+void UpdateController::setDesktopFileName(const QString &desktopFileName)
+{
+	if(d->taskbar)
+		d->taskbar->setAttribute(QTaskbarControl::LinuxDesktopFile, desktopFileName);
 }
 
 Updater *UpdateController::updater() const
@@ -155,8 +168,10 @@ bool UpdateController::start(DisplayLevel displayLevel)
 		return false;
 	} else {
 		if(d->displayLevel >= ExtendedInfoLevel) {
-			d->checkUpdatesProgress = new ProgressDialog(d->window);
 			if(d->displayLevel >= ProgressLevel) {
+				d->taskbar->setProgress(-1.0);
+				d->taskbar->setProgressVisible(true);
+				d->checkUpdatesProgress = new ProgressDialog{d->window};
 				connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [this](){
 					d->wasCanceled = true;
 				});
@@ -202,18 +217,8 @@ void UpdateController::cancelScheduledUpdate(int taskId)
 void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 {
 	if(d->displayLevel >= ExtendedInfoLevel) {
-		auto iconType = QMessageBox::NoIcon;
-		if(hasUpdates)
-			iconType = QMessageBox::Information;
-		else {
-			if(d->wasCanceled || !d->mainUpdater->exitedNormally())
-				iconType = QMessageBox::Warning;
-			else
-				iconType = QMessageBox::Critical;
-		}
-
 		if(d->checkUpdatesProgress) {
-			d->checkUpdatesProgress->hide(iconType);
+			d->checkUpdatesProgress->hide();
 			d->checkUpdatesProgress->deleteLater();
 			d->checkUpdatesProgress = nullptr;
 		}
@@ -221,6 +226,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 
 	if(d->wasCanceled) {
 		if(d->displayLevel >= ExtendedInfoLevel) {
+			d->setTaskbarState(QTaskbarControl::Paused);
 			DialogMaster::warningT(d->window,
 								   tr("Check for Updates"),
 								   tr("Checking for updates was canceled!"));
@@ -228,35 +234,48 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 	} else {
 		if(hasUpdates) {
 			if(d->displayLevel >= InfoLevel) {
+				const auto updateInfos = d->mainUpdater->updateInfo();
+				d->setTaskbarState(QTaskbarControl::Running);
+				if(d->taskbar) {
+					if(updateInfos.size() > 0) {
+						d->taskbar->setCounter(updateInfos.size());
+						d->taskbar->setCounterVisible(true);
+					} else
+						d->taskbar->setCounterVisible(false);
+				}
+
+
 				auto shouldShutDown = false;
 				const auto oldRunAdmin = d->runAdmin;
-				const auto res = UpdateInfoDialog::showUpdateInfo(d->mainUpdater->updateInfo(),
+				const auto res = UpdateInfoDialog::showUpdateInfo(updateInfos,
 																  d->runAdmin,
 																  d->adminUserEdit,
 																  d->detailedInfo,
 																  d->window);
+				d->clearTaskbar();
+
 				if(d->runAdmin != oldRunAdmin)
 					emit runAsAdminChanged(d->runAdmin);
 
-				QT_WARNING_PUSH
-				QT_WARNING_DISABLE_GCC("-Wimplicit-fallthrough")
 				switch(res) {
 				case UpdateInfoDialog::InstallNow:
 					shouldShutDown = true;
+					Q_FALLTHROUGH();
 				case UpdateInfoDialog::InstallLater:
 					d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
 					if(shouldShutDown)
 						qApp->quit();
+					break;
 				case UpdateInfoDialog::NoInstall:
 					break;
 				default:
 					Q_UNREACHABLE();
 				}
-				QT_WARNING_POP
 
 			} else {
 				d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
 				if(d->displayLevel == ExitLevel) {
+					d->setTaskbarState(QTaskbarControl::Running);
 					DialogMaster::informationT(d->window,
 											   tr("Install Updates"),
 											   tr("New updates are available. The maintenance tool will be "
@@ -274,10 +293,12 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 
 			if(d->displayLevel >= ExtendedInfoLevel) {
 				if(d->mainUpdater->exitedNormally()) {
+					d->setTaskbarState(QTaskbarControl::Stopped);
 					DialogMaster::criticalT(d->window,
 											tr("Check for Updates"),
 											tr("No new updates available!"));
 				} else {
+					d->setTaskbarState(QTaskbarControl::Paused);
 					DialogMaster::warningT(d->window,
 										   tr("Check for Updates"),
 										   tr("The update process crashed!"));
@@ -286,6 +307,7 @@ void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
 		}
 	}
 
+	d->clearTaskbar();
 	d->running = false;
 	emit runningChanged(false);
 }
@@ -311,7 +333,8 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const 
 	q{q_ptr},
 	window{window},
 	mainUpdater{toolPath.isEmpty() ? new Updater{q_ptr} : new Updater{toolPath, q_ptr}},
-				scheduler{new SimpleScheduler{q_ptr}}
+	taskbar{window ? new QTaskbarControl{window} : nullptr},
+	scheduler{new SimpleScheduler{q_ptr}}
 {
 	QObject::connect(mainUpdater, &Updater::checkUpdatesDone,
 					 q, &UpdateController::checkUpdatesDone,
@@ -333,4 +356,29 @@ UpdateControllerPrivate::~UpdateControllerPrivate()
 
 	if(checkUpdatesProgress)
 		checkUpdatesProgress->deleteLater();
+
+	clearTaskbar();
+}
+
+void UpdateControllerPrivate::setTaskbarState(QTaskbarControl::WinProgressState state)
+{
+	if(taskbar) {
+		taskbar->setProgress(1.0);
+		taskbar->setAttribute(QTaskbarControl::WindowsProgressState, state);
+#ifdef Q_OS_WIN
+		taskbar->setProgressVisible(true);
+#else
+		taskbar->setProgressVisible(false);
+#endif
+	}
+}
+
+
+void UpdateControllerPrivate::clearTaskbar()
+{
+	if(taskbar) {
+		taskbar->setCounterVisible(false);
+		taskbar->setProgressVisible(false);
+		taskbar->deleteLater();
+	}
 }

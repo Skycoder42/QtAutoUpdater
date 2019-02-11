@@ -10,8 +10,6 @@
 
 #include <functional>
 
-#include <qtaskbarcontrol.h>
-
 namespace Ui {
 class ProgressDialog;
 }
@@ -41,8 +39,6 @@ public Q_SLOTS:
 	void accept() override {}
 	void reject() override {}
 
-	void hide(QMessageBox::Icon hideType);
-
 Q_SIGNALS:
 	void canceled();
 
@@ -51,7 +47,6 @@ protected:
 
 private:
 	QScopedPointer<Ui::ProgressDialog> ui;
-	QTaskbarControl *taskbar;
 };
 
 }
