@@ -47,8 +47,11 @@ public:
 		UpdateInfo(QString name, QVersionNumber version, quint64 size);
 	};
 
+	//! Arguments to start the updater in a normal mode
 	static const QStringList NormalUpdateArguments;
+	//! Arguments to start the updater visible, but automatically executing
 	static const QStringList PassiveUpdateArguments;
+	//! Arguments to start the updater hidden in the background
 	static const QStringList HiddenUpdateArguments;
 
 	//! Default constructor

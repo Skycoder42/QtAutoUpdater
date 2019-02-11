@@ -18,7 +18,7 @@ a gui and the Core-Library.
 */
 
 /*!
-@page image_page Image Page
+@page qtautoupdater_image_page Image Page
 
 @brief Shows sample images for the updater for all the supported platforms
 @tableofcontents
