@@ -15,6 +15,7 @@ namespace QtAutoUpdater
 
 class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObject
 {
+	Q_DISABLE_COPY(UpdaterPrivate)
 public:
 	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QExceptionBase {
 	public:

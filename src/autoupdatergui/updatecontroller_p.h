@@ -16,6 +16,7 @@ namespace QtAutoUpdater
 
 class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate
 {
+	Q_DISABLE_COPY(UpdateControllerPrivate)
 public:
 	using UpdateTask = QPair<UpdateController::DisplayLevel, bool>;
 

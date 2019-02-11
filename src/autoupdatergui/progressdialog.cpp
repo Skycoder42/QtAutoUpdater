@@ -3,33 +3,22 @@
 
 #include <QtGui/QCloseEvent>
 #include <dialogmaster.h>
-#ifdef Q_OS_WIN
-#include <QtWinExtras/QWinTaskbarProgress>
-#endif
 
 using namespace QtAutoUpdater;
 
 ProgressDialog::ProgressDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::ProgressDialog)
-#ifdef Q_OS_WIN
-	,tButton(new QWinTaskbarButton(this))
-#endif
+	QDialog{parent},
+	ui{new Ui::ProgressDialog},
+	taskbar{new QTaskbarControl{this}}
 {
 	ui->setupUi(this);
 	DialogMaster::masterDialog(this, true, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
-#ifdef Q_OS_WIN
-	if(parent)
-		setupTaskbar(parent);
-#endif
+
+	taskbar->setProgress(-1.0);
+	taskbar->setProgressVisible(true);
 }
 
-ProgressDialog::~ProgressDialog()
-{
-#ifdef Q_OS_WIN
-	tButton->progress()->hide();
-#endif
-}
+ProgressDialog::~ProgressDialog() = default;
 
 void ProgressDialog::setCanceled()
 {
@@ -39,29 +28,25 @@ void ProgressDialog::setCanceled()
 
 void ProgressDialog::hide(QMessageBox::Icon hideType)
 {
-#ifdef Q_OS_WIN
-	if(tButton->window()) {
-		QWinTaskbarProgress *progress = tButton->progress();
-		progress->setRange(0, 1);
-		progress->setValue(1);
-		switch (hideType) {
-		case QMessageBox::Information:
-			progress->resume();
-			break;
-		case QMessageBox::Warning:
-			progress->pause();
-			break;
-		case QMessageBox::Critical:
-			progress->stop();
-			break;
-		default:
-			progress->hide();
-			break;
-		}
+	taskbar->setProgress(1.0);
+	switch (hideType) {
+	case QMessageBox::Information:
+		taskbar->setAttribute(QTaskbarControl::WindowsProgressState, QTaskbarControl::Running);
+		taskbar->setProgressVisible(true);
+		break;
+	case QMessageBox::Warning:
+		taskbar->setAttribute(QTaskbarControl::WindowsProgressState, QTaskbarControl::Paused);
+		taskbar->setProgressVisible(true);
+		break;
+	case QMessageBox::Critical:
+		taskbar->setAttribute(QTaskbarControl::WindowsProgressState, QTaskbarControl::Stopped);
+		taskbar->setProgressVisible(true);
+		break;
+	default:
+		taskbar->setProgressVisible(false);
+		break;
 	}
-#else
-	Q_UNUSED(hideType)
-#endif
+
 	QDialog::hide();
 }
 
@@ -73,23 +58,4 @@ void ProgressDialog::closeEvent(QCloseEvent *event)
 		emit canceled();
 	}
 }
-
-#ifdef Q_OS_WIN
-void ProgressDialog::showEvent(QShowEvent *event)
-{
-	event->accept();
-	setupTaskbar(this);
-}
-
-void ProgressDialog::setupTaskbar(QWidget *window)
-{
-	if(!tButton->window()) {
-		tButton->setWindow(window->windowHandle());
-		QWinTaskbarProgress *progress = tButton->progress();
-		progress->setRange(0, 0);
-		progress->resume();
-		progress->show();
-	}
-}
-#endif
 

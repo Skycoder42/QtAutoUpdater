@@ -8,11 +8,9 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
-#ifdef Q_OS_WIN
-#include <QtWinExtras/QWinTaskbarButton>
-#endif
-
 #include <functional>
+
+#include <qtaskbarcontrol.h>
 
 namespace Ui {
 class ProgressDialog;
@@ -49,18 +47,11 @@ Q_SIGNALS:
 	void canceled();
 
 protected:
-#ifdef Q_OS_WIN
-	void showEvent(QShowEvent *event) override;
-#endif
 	void closeEvent(QCloseEvent *event) override;
 
 private:
 	QScopedPointer<Ui::ProgressDialog> ui;
-#ifdef Q_OS_WIN
-	QWinTaskbarButton *tButton;
-
-	void setupTaskbar(QWidget *window);
-#endif
+	QTaskbarControl *taskbar;
 };
 
 }

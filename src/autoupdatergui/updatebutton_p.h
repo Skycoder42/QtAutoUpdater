@@ -18,6 +18,7 @@ namespace QtAutoUpdater
 
 class Q_AUTOUPDATERGUI_EXPORT UpdateButtonPrivate
 {
+	Q_DISABLE_COPY(UpdateButtonPrivate)
 public:
 	UpdateButton *q;
 

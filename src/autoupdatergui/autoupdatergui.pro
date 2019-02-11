@@ -61,7 +61,9 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "de.skycoder42."
 }
 
-QDEP_DEPENDS += Skycoder42/DialogMaster@1.4.0
+QDEP_DEPENDS += \
+	Skycoder42/DialogMaster@1.4.0 \
+	Skycoder42/QTaskbarControl@1.2.1
 QDEP_LINK_DEPENDS += ../autoupdatercore
 
 !load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
