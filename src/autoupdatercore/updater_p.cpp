@@ -234,7 +234,7 @@ void UpdaterPrivate::NoUpdatesXmlException::raise() const
 	throw *this;
 }
 
-QException *UpdaterPrivate::NoUpdatesXmlException::clone() const
+QExceptionBase::Base *UpdaterPrivate::NoUpdatesXmlException::clone() const
 {
 	return new NoUpdatesXmlException();
 }
@@ -249,7 +249,7 @@ void UpdaterPrivate::InvalidXmlException::raise() const
 	throw *this;
 }
 
-QException *UpdaterPrivate::InvalidXmlException::clone() const
+QExceptionBase::Base *UpdaterPrivate::InvalidXmlException::clone() const
 {
 	return new InvalidXmlException();
 }

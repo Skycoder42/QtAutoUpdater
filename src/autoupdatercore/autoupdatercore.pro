@@ -3,16 +3,16 @@ TARGET = QtAutoUpdaterCore
 QT = core
 
 HEADERS += \
-    adminauthoriser.h \
-    updater_p.h \
-    updater.h \
-    simplescheduler_p.h \
-    qtautoupdatercore_global.h
+	adminauthoriser.h \
+	updater_p.h \
+	updater.h \
+	simplescheduler_p.h \
+	qtautoupdatercore_global.h
 
 SOURCES += \
-    simplescheduler.cpp \
-    updater_p.cpp \
-    updater.cpp
+	simplescheduler.cpp \
+	updater_p.cpp \
+	updater.cpp
 
 load(qt_module)
 
@@ -25,3 +25,9 @@ win32 {
 } else:mac {
 	QMAKE_TARGET_BUNDLE_PREFIX = "de.skycoder42."
 }
+
+QDEP_DEPENDS += Skycoder42/QExceptionBase@1.0.0
+QDEP_EXPORTS += Skycoder42/QExceptionBase@1.0.0
+CONFIG += qdep_no_link
+
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")

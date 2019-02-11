@@ -22,6 +22,9 @@ matrix:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
         - BUILD_EXAMPLES=true
+    - os: linux
+      env:
+        - PLATFORM=emscripten
     - os: osx
       env:
         - PLATFORM=clang_64

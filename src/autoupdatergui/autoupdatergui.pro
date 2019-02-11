@@ -29,7 +29,8 @@ SOURCES += \
 
 win32: SOURCES += adminauthorization_win.cpp
 else:mac: SOURCES += adminauthorization_mac.cpp
-else:unix: SOURCES += adminauthorization_x11.cpp
+else:unix:!emscripten: SOURCES += adminauthorization_x11.cpp
+else: SOURCES += adminauthorization_dummy.cpp
 
 FORMS += \
 	progressdialog.ui \
@@ -61,8 +62,9 @@ win32 {
 }
 
 QDEP_DEPENDS += Skycoder42/DialogMaster@1.4.0
+QDEP_LINK_DEPENDS += ../autoupdatercore
 
-!load(qdep):error("Failed to load qdep feature! Run 'qdep.py prfgen --qmake $$QMAKE_QMAKE' to create it.")
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
 
 #replace template qm by ts
 QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdatergui_template.qm

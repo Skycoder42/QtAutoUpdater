@@ -7,9 +7,8 @@
 
 #include <QtCore/QProcess>
 #include <QtCore/QLoggingCategory>
-#include <QtCore/QException>
 
-#include <exception>
+#include <qexceptionbase.h>
 
 namespace QtAutoUpdater
 {
@@ -17,20 +16,20 @@ namespace QtAutoUpdater
 class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObject
 {
 public:
-	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QException {
+	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QExceptionBase {
 	public:
 		const char *what() const noexcept override;
 
 		void raise() const override;
-		QException *clone() const override;
+		Base *clone() const override;
 	};
 
-	class Q_AUTOUPDATERCORE_EXPORT InvalidXmlException : public QException {
+	class Q_AUTOUPDATERCORE_EXPORT InvalidXmlException : public QExceptionBase {
 	public:
 		const char *what() const noexcept override;
 
 		void raise() const override;
-		QException *clone() const override;
+		Base *clone() const override;
 	};
 
 	Updater *q;
