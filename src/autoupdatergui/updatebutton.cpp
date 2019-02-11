@@ -8,11 +8,11 @@
 using namespace QtAutoUpdater;
 
 UpdateButton::UpdateButton(QWidget *parent, UpdateController *controller) :
-	QWidget(parent),
-	d(new UpdateButtonPrivate(this, controller))
+	QWidget{parent},
+	d{new UpdateButtonPrivate{this, controller}}
 {}
 
-UpdateButton::~UpdateButton(){}
+UpdateButton::~UpdateButton()= default;
 
 QString UpdateButton::animationFile() const
 {
@@ -123,12 +123,9 @@ void UpdateButton::controllerDestroyed()
 //-----------------PRIVATE IMPLEMENTATION-----------------
 
 QtAutoUpdater::UpdateButtonPrivate::UpdateButtonPrivate(UpdateButton *q_ptr, UpdateController *controller) :
-	q(q_ptr),
-	controller(nullptr),
-	ui(new Ui::UpdateButton),
-	level(UpdateController::ExtendedInfoLevel),
-	loadingGif(new QMovie(QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"), QByteArray(), q_ptr)),
-	showResult(true)
+	q{q_ptr},
+	ui{new Ui::UpdateButton},
+	loadingGif{new QMovie{QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"), "gif", q_ptr}}
 {
 	ui->setupUi(q);
 	loadingGif->setSpeed(200);
@@ -143,17 +140,17 @@ QtAutoUpdater::UpdateButtonPrivate::UpdateButtonPrivate(UpdateButton *q_ptr, Upd
 	updateController(controller);
 }
 
-UpdateButtonPrivate::~UpdateButtonPrivate() {}
+UpdateButtonPrivate::~UpdateButtonPrivate() = default;
 
-void UpdateButtonPrivate::updateController(UpdateController *controller)
+void UpdateButtonPrivate::updateController(UpdateController *newController)
 {
-	this->controller = controller;
+	controller = newController;
 	if(controller) {
-		QObject::connect(this->controller.data(), &UpdateController::runningChanged,
+		QObject::connect(controller.data(), &UpdateController::runningChanged,
 						 q, &UpdateButton::changeUpdaterState);
-		QObject::connect(this->controller->updater(), &Updater::checkUpdatesDone,
+		QObject::connect(controller->updater(), &Updater::checkUpdatesDone,
 						 q, &UpdateButton::updatesReady);
-		QObject::connect(this->controller.data(), &UpdateController::destroyed,
+		QObject::connect(controller.data(), &UpdateController::destroyed,
 						 q, &UpdateButton::controllerDestroyed);
 	}
 	q->setEnabled(controller);

@@ -13,26 +13,26 @@
 using namespace QtAutoUpdater;
 
 UpdateController::UpdateController(QObject *parent) :
-	QObject(parent),
-	d(new UpdateControllerPrivate(this, nullptr))
+	QObject{parent},
+	d{new UpdateControllerPrivate{this, nullptr}}
 {}
 
 UpdateController::UpdateController(QWidget *parentWidget, QObject *parent) :
-	QObject(parent),
-	d(new UpdateControllerPrivate(this, parentWidget))
+	QObject{parent},
+	d{new UpdateControllerPrivate{this, parentWidget}}
 {}
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *parent) :
-	QObject(parent),
-	d(new UpdateControllerPrivate(this, maintenanceToolPath, nullptr))
+	QObject{parent},
+	d{new UpdateControllerPrivate{this, maintenanceToolPath, nullptr}}
 {}
 
 UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget, QObject *parent) :
-	QObject(parent),
-	d(new UpdateControllerPrivate(this, maintenanceToolPath, parentWidget))
+	QObject{parent},
+	d{new UpdateControllerPrivate{this, maintenanceToolPath, parentWidget}}
 {}
 
-UpdateController::~UpdateController(){}
+UpdateController::~UpdateController() = default;
 
 QAction *UpdateController::createUpdateAction(QObject *parent)
 {
@@ -101,7 +101,7 @@ QStringList UpdateController::updateRunArgs() const
 
 void UpdateController::setUpdateRunArgs(QStringList updateRunArgs)
 {
-	d->runArgs = updateRunArgs;
+	d->runArgs = std::move(updateRunArgs);
 }
 
 void UpdateController::resetUpdateRunArgs()
@@ -182,7 +182,7 @@ bool UpdateController::cancelUpdate(int maxDelay)
 
 int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateController::DisplayLevel displayLevel)
 {
-	if((((qint64)delaySeconds) * 1000) > (qint64)INT_MAX) {
+	if((static_cast<qint64>(delaySeconds) * 1000ll) > static_cast<qint64>(std::numeric_limits<int>::max())) {
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
@@ -308,18 +308,10 @@ UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidge
 {}
 
 UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window) :
-	q(q_ptr),
-	window(window),
-	displayLevel(UpdateController::InfoLevel),
-	running(false),
-	mainUpdater(toolPath.isEmpty() ? new Updater(q_ptr) : new Updater(toolPath, q_ptr)),
-	runAdmin(true),
-	adminUserEdit(true),
-	runArgs(QStringLiteral("--updater")),
-	detailedInfo(true),
-	checkUpdatesProgress(nullptr),
-	wasCanceled(false),
-	scheduler(new SimpleScheduler(q_ptr))
+	q{q_ptr},
+	window{window},
+	mainUpdater{toolPath.isEmpty() ? new Updater{q_ptr} : new Updater{toolPath, q_ptr}},
+				scheduler{new SimpleScheduler{q_ptr}}
 {
 	QObject::connect(mainUpdater, &Updater::checkUpdatesDone,
 					 q, &UpdateController::checkUpdatesDone,

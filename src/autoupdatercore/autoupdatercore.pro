@@ -12,7 +12,8 @@ HEADERS += \
 SOURCES += \
 	simplescheduler.cpp \
 	updater_p.cpp \
-	updater.cpp
+	updater.cpp \
+    adminauthoriser.cpp
 
 load(qt_module)
 

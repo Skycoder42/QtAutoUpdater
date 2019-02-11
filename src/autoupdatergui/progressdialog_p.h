@@ -27,7 +27,7 @@ class Q_AUTOUPDATERGUI_EXPORT ProgressDialog : public QDialog
 
 public:
 	explicit ProgressDialog(QWidget *parent = nullptr);
-	~ProgressDialog();
+	~ProgressDialog() override;
 
 	template <class Class>
 	void open(Class *object, void(Class::* member)(int,bool)) {

@@ -38,8 +38,7 @@ void InstallerController::createInstaller()
 	QVERIFY(configOut.open(QIODevice::WriteOnly | QIODevice::Text));
 	auto src = QString::fromUtf8(configSrc.readAll());
 	configOut.write(src
-					.arg(_buildDir.path() + QStringLiteral("/install"))
-					.arg(_buildDir.path())
+					.arg(_buildDir.path() + QStringLiteral("/install"), _buildDir.path())
 					.toUtf8());
 	configSrc.close();
 	configOut.close();
@@ -54,7 +53,7 @@ void InstallerController::createInstaller()
 	QCOMPARE(res, 0);
 }
 
-QString toSystemExe(QString basePath)
+QString InstallerController::toSystemExe(QString basePath)
 {
 #if defined(Q_OS_WIN32)
 	if(!basePath.endsWith(QStringLiteral(".exe")))
@@ -108,7 +107,7 @@ QString InstallerController::maintenanceToolPath() const
 void InstallerController::setVersion(QVersionNumber version)
 {
 	qDebug() << "Updating repository version";
-	_version = version;
+	_version = std::move(version);
 
 	QDir tDir(_buildDir.path());
 	QVERIFY(tDir.mkpath(QStringLiteral("packages/de.skycoder42.QtAutoUpdaterTestInstaller/meta")));

@@ -40,9 +40,9 @@ private:
 	QScopedPointer<Ui::UpdateInfoDialog> ui;
 
 	explicit UpdateInfoDialog(QWidget *parent = nullptr);
-	~UpdateInfoDialog();
+	~UpdateInfoDialog() override;
 
-	static QString getByteText(qint64 bytes);
+	static QString getByteText(quint64 bytes);
 };
 
 }

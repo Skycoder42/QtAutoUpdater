@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QSettings settings(QStringLiteral("./settings.ini"), QSettings::IniFormat);
 	ui->maintenanceToolLineEdit->setText(settings.value(QStringLiteral("path")).toString());
 	ui->hasParentWindowCheckBox->setChecked(settings.value(QStringLiteral("hasParent"), true).toBool());
-	ui->displayLevelComboBox->setCurrentIndex((QtAutoUpdater::UpdateController::DisplayLevel)settings.value(QStringLiteral("level"), QtAutoUpdater::UpdateController::ProgressLevel).toInt());
+	ui->displayLevelComboBox->setCurrentIndex(settings.value(QStringLiteral("level"), QtAutoUpdater::UpdateController::ProgressLevel).toInt());
 	ui->detailedInfoDialogCheckBox->setChecked(settings.value(QStringLiteral("detailed"), true).toBool());
 	ui->adminCheckBox->setChecked(settings.value(QStringLiteral("admin"), true).toBool());
 	ui->userChangecheckBox->setChecked(settings.value(QStringLiteral("adminChangable"), true).toBool());
@@ -59,13 +59,13 @@ void MainWindow::on_checkUpdatesButton_clicked()
 		controller->setRunAsAdmin(ui->adminCheckBox->isChecked(), ui->userChangecheckBox->isChecked());
 		if(ui->scheduleUpdateDateCheckBox->isChecked()) {
 			int id = controller->scheduleUpdate(ui->scheduleUpdateDateTimeEdit->dateTime(),
-													  (QtAutoUpdater::UpdateController::DisplayLevel)ui->displayLevelComboBox->currentIndex());
+												static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
 			if(id)
 				qDebug() << "update scheduled with id" << id << "to run at" << ui->scheduleUpdateDateTimeEdit->dateTime();
 			else
 				qDebug() << "failed to start controller at" << ui->scheduleUpdateDateTimeEdit->dateTime();
 		} else
-			qDebug() << "start controller:" << controller->start((QtAutoUpdater::UpdateController::DisplayLevel)ui->displayLevelComboBox->currentIndex());
+			qDebug() << "start controller:" << controller->start(static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
 	} else
 		qDebug() << "start controller:" << false;
 }

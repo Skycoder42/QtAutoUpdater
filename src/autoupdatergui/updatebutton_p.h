@@ -23,14 +23,14 @@ public:
 
 	QPointer<UpdateController> controller;
 	QScopedPointer<Ui::UpdateButton> ui;
-	UpdateController::DisplayLevel level;
+	UpdateController::DisplayLevel level = UpdateController::ExtendedInfoLevel;
 	QMovie *loadingGif;
-	bool showResult;
+	bool showResult = true;
 
 	UpdateButtonPrivate(UpdateButton *q_ptr, UpdateController *controller);
 	~UpdateButtonPrivate();
 
-	void updateController(UpdateController *controller);
+	void updateController(UpdateController *newController);
 };
 
 }

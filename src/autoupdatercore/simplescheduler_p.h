@@ -30,7 +30,7 @@ protected:
 	void timerEvent(QTimerEvent *event) override;
 
 private:
-	typedef QPair<bool, QVariant> TimerInfo;
+	using TimerInfo = QPair<bool, QVariant>;
 
 	QHash<int, TimerInfo> timerHash;
 };

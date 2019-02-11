@@ -28,6 +28,8 @@ public slots:
 private:
 	QVersionNumber _version;
 	QTemporaryDir _buildDir;
+
+	static QString toSystemExe(QString basePath);
 };
 
 #endif // INSTALLERCONTROLLER_H

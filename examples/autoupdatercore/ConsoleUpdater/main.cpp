@@ -11,8 +11,7 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(a.arguments()[1],
-																 nullptr);
+	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(a.arguments().at(1), nullptr);
 
 	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError){
 		qDebug() << "Has updates:" << hasUpdate

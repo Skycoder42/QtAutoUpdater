@@ -26,7 +26,7 @@ Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :
 	d->toolPath = UpdaterPrivate::toSystemExe(maintenanceToolPath);
 }
 
-Updater::~Updater() {}
+Updater::~Updater() = default;
 
 bool Updater::exitedNormally() const
 {
@@ -75,7 +75,7 @@ void Updater::abortUpdateCheck(int maxDelay, bool async)
 
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
-	if((((qint64)delaySeconds) * 1000ll) > (qint64)INT_MAX) {
+	if((static_cast<qint64>(delaySeconds) * 1000ll) > static_cast<qint64>(std::numeric_limits<int>::max())) {
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
@@ -112,22 +112,22 @@ void Updater::cancelExitRun()
 
 
 
-Updater::UpdateInfo::UpdateInfo() :
-	name(),
-	version(),
-	size(0ull)
-{}
+Updater::UpdateInfo::UpdateInfo() = default;
 
-Updater::UpdateInfo::UpdateInfo(const Updater::UpdateInfo &other) :
-	name(other.name),
-	version(other.version),
-	size(other.size)
-{}
+Updater::UpdateInfo::~UpdateInfo() = default;
+
+Updater::UpdateInfo::UpdateInfo(const UpdateInfo &other) = default;
+
+Updater::UpdateInfo::UpdateInfo(UpdateInfo &&other) noexcept = default;
+
+Updater::UpdateInfo &Updater::UpdateInfo::operator=(const UpdateInfo &other) = default;
+
+Updater::UpdateInfo &Updater::UpdateInfo::operator=(UpdateInfo &&other) noexcept = default;
 
 Updater::UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size) :
-	name(name),
-	version(version),
-	size(size)
+	name{std::move(name)},
+	version{std::move(version)},
+	size{size}
 {}
 
 QDebug &operator<<(QDebug &debug, const Updater::UpdateInfo &info)
@@ -136,8 +136,7 @@ QDebug &operator<<(QDebug &debug, const Updater::UpdateInfo &info)
 	Q_UNUSED(state);
 
 	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")
-					   .arg(info.name)
-					   .arg(info.version.toString())
+					   .arg(info.name, info.version.toString())
 					   .arg(info.size);
 	return debug;
 }

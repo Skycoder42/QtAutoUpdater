@@ -36,21 +36,21 @@ public:
 
 	QString toolPath;
 	QList<Updater::UpdateInfo> updateInfos;
-	bool normalExit;
-	int lastErrorCode;
+	bool normalExit = true;
+	int lastErrorCode = EXIT_SUCCESS;
 	QByteArray lastErrorLog;
 
-	bool running;
-	QProcess *mainProcess;
+	bool running = false;
+	QProcess *mainProcess = nullptr;
 
 	SimpleScheduler *scheduler;
 
-	bool runOnExit;
+	bool runOnExit = false;
 	QStringList runArguments;
 	QScopedPointer<AdminAuthoriser> adminAuth;
 
 	UpdaterPrivate(Updater *q_ptr);
-	~UpdaterPrivate();
+	~UpdaterPrivate() override;
 
 	static const QString toSystemExe(QString basePath);
 

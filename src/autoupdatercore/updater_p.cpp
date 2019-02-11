@@ -12,19 +12,9 @@ using namespace QtAutoUpdater;
 Q_LOGGING_CATEGORY(logQtAutoUpdater, "QtAutoUpdater")
 
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
-	QObject(nullptr),
-	q(q_ptr),
-	toolPath(),
-	updateInfos(),
-	normalExit(true),
-	lastErrorCode(EXIT_SUCCESS),
-	lastErrorLog(),
-	running(false),
-	mainProcess(nullptr),
-	scheduler(new SimpleScheduler(this)),
-	runOnExit(false),
-	runArguments(),
-	adminAuth(nullptr)
+	QObject{nullptr},
+	q{q_ptr},
+	scheduler{new SimpleScheduler{this}}
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit,

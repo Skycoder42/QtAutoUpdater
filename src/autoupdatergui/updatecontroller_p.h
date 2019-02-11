@@ -17,7 +17,7 @@ namespace QtAutoUpdater
 class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate
 {
 public:
-	typedef QPair<UpdateController::DisplayLevel, bool> UpdateTask;
+	using UpdateTask = QPair<UpdateController::DisplayLevel, bool>;
 
 	static QIcon getUpdatesIcon();
 
@@ -25,16 +25,16 @@ public:
 
 	QPointer<QWidget> window;
 
-	UpdateController::DisplayLevel displayLevel;
-	bool running;
+	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
+	bool running = false;
 	Updater *mainUpdater;
-	bool runAdmin;
-	bool adminUserEdit;
-	QStringList runArgs;
-	bool detailedInfo;
+	bool runAdmin = true;
+	bool adminUserEdit = true;
+	QStringList runArgs {QStringLiteral("--updater")};
+	bool detailedInfo = true;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;
-	bool wasCanceled;
+	bool wasCanceled = false;
 
 	SimpleScheduler *scheduler;
 
