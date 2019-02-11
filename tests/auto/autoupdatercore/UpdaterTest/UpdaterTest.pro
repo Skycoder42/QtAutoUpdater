@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += testlib autoupdatercore
 QT -= gui
 
-CONFIG += C++11 console
+CONFIG += console
 CONFIG -= app_bundle
 
 TARGET = tst_updatertest
