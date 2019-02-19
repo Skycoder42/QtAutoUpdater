@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
 //Initialize the updater
 void MainWindow::initializeUpdater()
 {
-    controller = new QtAutoUpdater::UpdateController("maintenancetool.exe", qApp);	//Updater app name
+    controller = new QtAutoUpdater::UpdateController(QStringLiteral("maintenancetool.exe"), qApp);	//Updater app name
     if(ui->checkBox_showDetailledUpdateInformations->isChecked()) controller->setDetailedUpdateInfo(true);  //If checkbox is checked, show detailled update infos
     else controller->setDetailedUpdateInfo(false);
 
