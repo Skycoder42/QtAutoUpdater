@@ -20,7 +20,7 @@ public:
 
 private:
 	Ui::MainWindow *ui;
-	QtAutoUpdater::UpdateController *controller;
+	QtAutoUpdater::UpdateController *controller = nullptr;
 	QtAutoUpdater::UpdateButton *updateButton;
 
 private slots:

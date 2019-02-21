@@ -4,7 +4,6 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	controller(nullptr), //add this
 	updateButton(new QtAutoUpdater::UpdateButton(this)) //and this for the updater
 {
 	ui->setupUi(this);
@@ -32,12 +31,19 @@ MainWindow::~MainWindow()
 void MainWindow::initializeUpdater()
 {
 	controller = new QtAutoUpdater::UpdateController(QStringLiteral("maintenancetool.exe"), qApp);	//Updater app name
-	controller->setDetailedUpdateInfo(true);
+	if(ui->checkBox_showDetailledUpdateInformations->isChecked())
+		controller->setDetailedUpdateInfo(true);  //If checkbox is checked, show detailled update infos
+	else
+		controller->setDetailedUpdateInfo(false);
 	updateButton->setController(controller);
 }
 
 //Starts update check process
 void MainWindow::checkUpdate()
 {
+	if(ui->checkBox_showDetailledUpdateInformations->isChecked())
+		controller->setDetailedUpdateInfo(true);  //If checkbox is checked, show detailled update infos
+	else 
+		controller->setDetailedUpdateInfo(false);
 	controller->start(QtAutoUpdater::UpdateController::ProgressLevel);	//Check for updates. Displays a progress bar when searching
 }
