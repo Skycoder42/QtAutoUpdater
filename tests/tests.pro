@@ -2,8 +2,11 @@ TEMPLATE = subdirs
 
 CONFIG += no_docs_target
 
-SUBDIRS += auto \
+SUBDIRS += \
+	auto \
 	installer
 
-docTarget.target = doxygen
-QMAKE_EXTRA_TARGETS += docTarget
+auto.depends += installer
+
+prepareRecursiveTarget(run-tests)
+QMAKE_EXTRA_TARGETS += run-tests

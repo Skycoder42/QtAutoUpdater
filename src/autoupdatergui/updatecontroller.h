@@ -32,6 +32,7 @@ class Q_AUTOUPDATERGUI_EXPORT UpdateController : public QObject
 	Q_PROPERTY(QStringList updateRunArgs READ updateRunArgs WRITE setUpdateRunArgs RESET resetUpdateRunArgs)
 	//! Specifies whether the update infos should be detailed or not
 	Q_PROPERTY(bool detailedUpdateInfo READ isDetailedUpdateInfo WRITE setDetailedUpdateInfo)
+	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName)
 
 public:
 	//! Defines the different display-levels of the dialog
@@ -55,8 +56,7 @@ public:
 	explicit UpdateController(const QString &maintenanceToolPath, QObject *parent = nullptr);
 	//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
 	explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow, QObject *parent = nullptr);
-	//! Destructor
-	~UpdateController();
+	~UpdateController() override;
 
 	//! Create a QAction to start this controller from
 	QAction *createUpdateAction(QObject *parent);
@@ -75,6 +75,7 @@ public:
 	QStringList updateRunArgs() const;
 	//! @readAcFn{UpdateController::detailedUpdateInfo}
 	bool isDetailedUpdateInfo() const;
+	QString desktopFileName() const;
 
 	//! Returns the Updater object used by the controller
 	Updater *updater() const;
@@ -90,6 +91,7 @@ public Q_SLOTS:
 	void resetUpdateRunArgs();
 	//! @writeAcFn{UpdateController::detailedUpdateInfo}
 	void setDetailedUpdateInfo(bool detailedUpdateInfo);
+	void setDesktopFileName(const QString &desktopFileName);
 
 	//! Starts the controller with the specified display level
 	bool start(DisplayLevel displayLevel = InfoLevel);

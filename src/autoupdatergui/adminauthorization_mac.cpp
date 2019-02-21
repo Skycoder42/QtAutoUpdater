@@ -68,7 +68,7 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
 
 	QVector<char *> args;
 	QVector<QByteArray> utf8Args;
-	foreach (const QString &argument, arguments) {
+	for(auto argument : arguments) {
 		utf8Args.push_back(argument.toUtf8());
 		args.push_back(utf8Args.last().data());
 	}

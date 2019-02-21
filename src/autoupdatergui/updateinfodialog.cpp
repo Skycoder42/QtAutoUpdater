@@ -2,14 +2,16 @@
 #include "ui_updateinfodialog.h"
 #include "updatecontroller_p.h"
 
+#include <cmath>
+
 #include <QtWidgets/QApplication>
 #include <dialogmaster.h>
 
 using namespace QtAutoUpdater;
 
 UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::UpdateInfoDialog)
+	QDialog{parent},
+	ui{new Ui::UpdateInfoDialog}
 {
 	ui->setupUi(this);
 	DialogMaster::masterDialog(this);
@@ -35,7 +37,7 @@ UpdateInfoDialog::UpdateInfoDialog(QWidget *parent) :
 	ui->imageLabel->setPixmap(UpdateControllerPrivate::getUpdatesIcon().pixmap(64, 64));
 }
 
-UpdateInfoDialog::~UpdateInfoDialog(){}
+UpdateInfoDialog::~UpdateInfoDialog() = default;
 
 UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::UpdateInfo> updates, bool &runAsAdmin, bool editable, bool detailed, QWidget *parent)
 {
@@ -48,11 +50,9 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 						.arg(QApplication::applicationDisplayName());
 		boxInfo.text = tr("There are new updates available! You can install them now or later.");
 		QStringList details;
-		for(auto info : updates) {
+		for(const auto &info : qAsConst(updates)) {
 			details << tr("%1 v%2 — %3")
-					   .arg(info.name)
-					   .arg(info.version.toString())
-					   .arg(getByteText(info.size));
+					   .arg(info.name, info.version.toString(), getByteText(info.size));
 		}
 		boxInfo.details = details.join(QLatin1Char('\n'));
 
@@ -79,7 +79,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 	} else {
 		UpdateInfoDialog dialog(parent);
 
-		for(auto info : updates) {
+		for(const auto &info : qAsConst(updates)) {
 			auto item = new QTreeWidgetItem(dialog.ui->updateListTreeWidget);
 			item->setText(0, info.name);
 			item->setText(1, info.version.toString());
@@ -93,7 +93,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(QList<Updater::U
 		dialog.ui->runAdminCheckBox->setEnabled(editable);
 		dialog.ui->runAdminCheckBox->setChecked(runAsAdmin);
 
-		auto res = (DialogResult)dialog.exec();
+		auto res = static_cast<DialogResult>(dialog.exec());
 		if(editable && res != NoInstall)
 			runAsAdmin = dialog.ui->runAdminCheckBox->isChecked();
 		return res;
@@ -119,14 +119,14 @@ void QtAutoUpdater::UpdateInfoDialog::on_delayButton_clicked()
 	done(InstallLater);
 }
 
-QString UpdateInfoDialog::getByteText(qint64 bytes)
+QString UpdateInfoDialog::getByteText(quint64 bytes)
 {
 	auto counter = 0;
-	auto disNum = (double)bytes;
+	auto disNum = static_cast<double>(bytes);
 
-	while((bytes / 1024) > 0 && counter < 3) {
+	while((bytes / 1024ull) > 0 && counter < 3) {
 		disNum = bytes / 1024.;
-		bytes = disNum;
+		bytes = static_cast<quint64>(std::floor(disNum));
 		++counter;
 	}
 
@@ -141,6 +141,6 @@ QString UpdateInfoDialog::getByteText(qint64 bytes)
 		return tr("%L1 GiB").arg(disNum, 0, 'f', 2);
 	default:
 		Q_UNREACHABLE();
-		return QString();
+		return {};
 	}
 }

@@ -3,14 +3,14 @@
 
 The UpdateButton is a ready-made "button" to check for updates. It is connected to this
 controller and thus will automatically start checking for updates. Since the button itself
-shows a progress, no progress dialog is needed here. For images check the @ref image_page "Image Page".
+shows a progress, no progress dialog is needed here. For images check the @ref qtautoupdater_image_page "Image Page".
 
 The button will represent the controllers state and automatically enable/disable itself to
 avoid start beeing called twice. In addition to that, the whole button widget will be disabled
 if the controller gets deleted while the button is still existings. (Even if it wasn't,
 it will not crash if the button is clicked).
 
-@sa QtAutoUpdater::UpdateController, UpdateController::createUpdateAction, @ref image_page "Image Page"
+@sa QtAutoUpdater::UpdateController, UpdateController::createUpdateAction, @ref qtautoupdater_image_page "Image Page"
 */
 
 /*!
@@ -28,7 +28,7 @@ you can use this property to specify a different animation source.
 	@resetAc{resetAnimationFile()}
 }
 
-@sa @ref image_page "Image Page"
+@sa @ref qtautoupdater_image_page "Image Page"
 */
 
 /*!
@@ -48,7 +48,7 @@ In both cases, while the updater is running, the information will be shown as al
 	@writeAc{setShowResult()}
 }
 
-@sa @ref image_page "Image Page", UpdateButton::animationFile
+@sa @ref qtautoupdater_image_page "Image Page", UpdateButton::animationFile
 */
 
 /*!

@@ -11,13 +11,16 @@
 
 #include <QtCore/QPointer>
 
+#include <qtaskbarcontrol.h>
+
 namespace QtAutoUpdater
 {
 
 class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate
 {
+	Q_DISABLE_COPY(UpdateControllerPrivate)
 public:
-	typedef QPair<UpdateController::DisplayLevel, bool> UpdateTask;
+	using UpdateTask = QPair<UpdateController::DisplayLevel, bool>;
 
 	static QIcon getUpdatesIcon();
 
@@ -25,22 +28,26 @@ public:
 
 	QPointer<QWidget> window;
 
-	UpdateController::DisplayLevel displayLevel;
-	bool running;
+	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
+	bool running = false;
 	Updater *mainUpdater;
-	bool runAdmin;
-	bool adminUserEdit;
-	QStringList runArgs;
-	bool detailedInfo;
+	bool runAdmin = true;
+	bool adminUserEdit = true;
+	QStringList runArgs {QStringLiteral("--updater")};
+	bool detailedInfo = true;
 
+	QPointer<QTaskbarControl> taskbar;
 	QPointer<ProgressDialog> checkUpdatesProgress;
-	bool wasCanceled;
+	bool wasCanceled = false;
 
 	SimpleScheduler *scheduler;
 
 	UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
 	UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
 	~UpdateControllerPrivate();
+
+	void setTaskbarState(QTaskbarControl::WinProgressState state);
+	void clearTaskbar();
 };
 
 }

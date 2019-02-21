@@ -4,26 +4,34 @@ services:
   - docker
 
 sudo: required
+dist: trusty
+osx_image: xcode10.1
 
 env:
   global:
-    - QT_VER=5.10.0
+    - QDEP_CACHE_DIR=$HOME/.qdep-cache
+    - QT_VER=5.12.1
+    - DOCKER_IMAGE=base
+    - MAKE_RUN_TESTS=true
+    - TARGET_NAME=qtautoupdater
 
 matrix:
   include:
     - os: linux
-      dist: trusty
       env:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
+        - BUILD_EXAMPLES=true
+    - os: linux
+      env:
+        - PLATFORM=emscripten
     - os: osx
-      osx_image: xcode9.1
       env:
         - PLATFORM=clang_64
 
 before_install:
   - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; else ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; fi
+  - travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh
 
 script:
   - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
@@ -36,7 +44,7 @@ deploy:
   api_key:
     secure: xYCYVjv0F8C/5K5rt/oTofAU+PQNHp0wAwc8YHf8Fqf/VClFFxCVqcC9XWvy6bEnYotfkSk9TGo1CKW6fW9yZ0kQ4CjD1/V0U5PJweBqkY3i25QxWsHQ3rmzd1KWYxIra0mIujDiXbQWS3teMJpV2tpEMo+dTwXu4/mnQmbejlUcGAVgZbUOCgYvOKcBAZfeG8LnXvJLjfrJPoa5sXjrZSPbjiQBtQw0Cr2f1YPzaPftZB3pzsOtfELk+fG1h5sRfgE8rTCErQG3nkGytuchYhMH4ze0bsgHj04LeaqwRSrXQi67ZobrWIGNAUTjIlqI8NJLXHOYM6E8EgIDJVWIVhzmMvnwYyLOpZY//OVS1MNOBbhsmQ/vJC0xfLVR5EUPKGiqCAlNZ3O9ADwm+mryoCZ4S5I+13qa5xRQosmzh6kPzgziVhmBkG+bKODDRWUn8qBC4YAaViyAq7KgS3i/Rt8NzKI1Dti9MulP+eaf5LHsudhz7SosyrsEFVtdpUDICs+gN6gPWPaH87spKY87Hq07mz6blvIxK9TmnmYMrxtXKiCHIfmGON4XiQMxI+woR5h9m/+htWyJJqYAsTWY+gS5Mg7t9tPB7kIbCkNkcpcpVRvWsYM1ZySQ567PvADvK6oCVogSfFQLiZgnTTLR8WObqtQdD/Dzer7CXUTrIqM=
   file_glob: true
-  file: install/opt/build_*_$QT_VER.tar.xz
+  file: install/${TARGET_NAME}_*_$QT_VER.tar.xz
   on:
     repo: Skycoder42/QtAutoUpdater
     tags: true
@@ -46,7 +54,7 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.cache/Skycoder42/qpmx
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+    - $QDEP_CACHE_DIR

@@ -18,19 +18,20 @@ namespace QtAutoUpdater
 
 class Q_AUTOUPDATERGUI_EXPORT UpdateButtonPrivate
 {
+	Q_DISABLE_COPY(UpdateButtonPrivate)
 public:
 	UpdateButton *q;
 
 	QPointer<UpdateController> controller;
 	QScopedPointer<Ui::UpdateButton> ui;
-	UpdateController::DisplayLevel level;
+	UpdateController::DisplayLevel level = UpdateController::ExtendedInfoLevel;
 	QMovie *loadingGif;
-	bool showResult;
+	bool showResult = true;
 
 	UpdateButtonPrivate(UpdateButton *q_ptr, UpdateController *controller);
 	~UpdateButtonPrivate();
 
-	void updateController(UpdateController *controller);
+	void updateController(UpdateController *newController);
 };
 
 }

@@ -29,7 +29,8 @@ SOURCES += \
 
 win32: SOURCES += adminauthorization_win.cpp
 else:mac: SOURCES += adminauthorization_mac.cpp
-else:unix: SOURCES += adminauthorization_x11.cpp
+else:unix:!emscripten: SOURCES += adminauthorization_x11.cpp
+else: SOURCES += adminauthorization_dummy.cpp
 
 FORMS += \
 	progressdialog.ui \
@@ -39,13 +40,18 @@ FORMS += \
 RESOURCES += \
 	autoupdatergui_resource.qrc
 
-TRANSLATIONS += translations/qtautoupdatergui_de.ts \
+TRANSLATIONS += \
+	translations/qtautoupdatergui_de.ts \
 	translations/qtautoupdatergui_es.ts \
+	translations/qtautoupdatergui_fr.ts \
 	translations/qtautoupdatergui_template.ts
 
 DISTFILES += $$TRANSLATIONS
 
 load(qt_module)
+
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 win32 {
 	QMAKE_TARGET_PRODUCT = "QtAutoUpdaterGui"
@@ -55,13 +61,13 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "de.skycoder42."
 }
 
-qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
-qpmx_ts_target.depends += lrelease
-INSTALLS += qpmx_ts_target
+QDEP_DEPENDS += \
+	Skycoder42/DialogMaster@1.4.0 \
+	Skycoder42/QTaskbarControl@1.2.1
+QDEP_LINK_DEPENDS += ../autoupdatercore
 
-!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
-else: include($$OUT_PWD/qpmx_generated.pri)
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
 
 #replace template qm by ts
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtautoupdatergui_template.qm
-qpmx_ts_target.files += translations/qtautoupdatergui_template.ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdatergui_template.qm
+QM_FILES += translations/qtautoupdatergui_template.ts

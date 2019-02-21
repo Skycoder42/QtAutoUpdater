@@ -6,23 +6,27 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-	
-    //Translate app
-    QTranslator translator;
-    translator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+	QApplication a(argc, argv);
 
-    a.installTranslator(&translator);
+	//Translate app
+	QTranslator translator;
+	translator.load(QLocale(),
+					QStringLiteral("qt"),
+					QStringLiteral("_"),
+					QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+	a.installTranslator(&translator);
 
-    //Translate updater
-    QTranslator translatorUpdater;
-    translatorUpdater.load(QLocale(), QStringLiteral("qtautoupdatergui"), QStringLiteral("_"), QStringLiteral("translations"));
+	//Translate updater
+	QTranslator translatorUpdater;
+	translatorUpdater.load(QLocale(),
+						   QStringLiteral("qtautoupdatergui"),
+						   QStringLiteral("_"),
+						   QStringLiteral("translations"));
+	a.installTranslator(&translatorUpdater);
 
-    a.installTranslator(&translatorUpdater);
+	//Launch GUI
+	MainWindow w;
+	w.show();
 
-    //Launch GUI
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+	return a.exec();
 }

@@ -37,18 +37,27 @@ public:
 		//! The new version for that compontent
 		QVersionNumber version;
 		//! The update download size (in Bytes)
-		quint64 size;
+		quint64 size = 0ull;
 
-		//! Default Constructor
 		UpdateInfo();
-		//! Copy Constructor
+		~UpdateInfo();
+		//! Copy constructor
 		UpdateInfo(const UpdateInfo &other);
+		//! Move constructor
+		UpdateInfo(UpdateInfo &&other) noexcept;
+		//! Copy assignment operator
+		UpdateInfo& operator=(const UpdateInfo &other);
+		//! Move assignment operator
+		UpdateInfo& operator=(UpdateInfo &&other) noexcept;
 		//! Constructor that takes name, version and size
 		UpdateInfo(QString name, QVersionNumber version, quint64 size);
 	};
 
+	//! Arguments to start the updater in a normal mode
 	static const QStringList NormalUpdateArguments;
+	//! Arguments to start the updater visible, but automatically executing
 	static const QStringList PassiveUpdateArguments;
+	//! Arguments to start the updater hidden in the background
 	static const QStringList HiddenUpdateArguments;
 
 	//! Default constructor
@@ -56,7 +65,7 @@ public:
 	//! Constructer with an explicitly set path
 	explicit Updater(const QString &maintenanceToolPath, QObject *parent = nullptr);
 	//! Destroyes the updater and kills the update check (if running)
-	~Updater();
+	~Updater() override;
 
 	//! Returns `true`, if the updater exited normally
 	bool exitedNormally() const;

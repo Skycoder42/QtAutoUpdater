@@ -5,23 +5,25 @@ image:
 version: build-{build}
 
 environment:
-  QT_VER: 5.10.0
+  QT_VER: 5.12.1
+  MAKE_RUN_TESTS: true
+  TARGET_NAME: qtautoupdater
 
   matrix:
     - PLATFORM: msvc2017_64
+    - PLATFORM: msvc2017
+    - PLATFORM: mingw73_64
     - PLATFORM: msvc2015_64
-    - PLATFORM: msvc2015
-    - PLATFORM: mingw53_32
 
 matrix:
   exclude:
     - PLATFORM: msvc2017_64
       image: Visual Studio 2015
-    - PLATFORM: mingw53_32
+    - PLATFORM: msvc2017
+      image: Visual Studio 2015
+    - PLATFORM: mingw73_64
       image: Visual Studio 2015
     - PLATFORM: msvc2015_64
-      image: Visual Studio 2017
-    - PLATFORM: msvc2015
       image: Visual Studio 2017
 
 install:
@@ -35,7 +37,7 @@ after_build:
   - .\qtmodules-travis\ci\win\upload-prepare.bat
 
 artifacts:
-  - path: install\build_*_%QT_VER%.zip
+  - path: install\%TARGET_NAME%_*_%QT_VER%.zip
 
 deploy:
   provider: GitHub
@@ -47,4 +49,4 @@ deploy:
     appveyor_repo_tag: true
 
 cache:
-  - 'C:\Users\appveyor\AppData\Local\Skycoder42\qpmx\cache -> appveyor.yml'
+  - 'C:\Users\appveyor\AppData\Local\qdep\qdep\Cache -> appveyor.yml'

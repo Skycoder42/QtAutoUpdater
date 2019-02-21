@@ -27,11 +27,11 @@ int SimpleScheduler::startSchedule(int msecs, bool repeated, const QVariant &par
 int SimpleScheduler::startSchedule(const QDateTime &when, const QVariant &parameter)
 {
 	const auto delta = QDateTime::currentDateTime().msecsTo(when);
-	if(delta > (qint64)INT_MAX) {
+	if(delta > static_cast<qint64>(std::numeric_limits<int>::max())) {
 		qCWarning(logQtAutoUpdater) << "Time interval to big, timepoint to far in the future.";
 		return 0;
 	} else
-		return startSchedule((int)delta, false, parameter);
+		return startSchedule(static_cast<int>(delta), false, parameter);
 }
 
 void SimpleScheduler::cancelSchedule(int id)

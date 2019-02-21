@@ -12,20 +12,20 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+	explicit MainWindow(QWidget *parent = nullptr);
+	~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-    QtAutoUpdater::UpdateController *controller;
-    QtAutoUpdater::UpdateButton *updateButton;
+	Ui::MainWindow *ui;
+	QtAutoUpdater::UpdateController *controller = nullptr;
+	QtAutoUpdater::UpdateButton *updateButton;
 
 private slots:
-    void initializeUpdater();
-    void checkUpdate();
+	void initializeUpdater();
+	void checkUpdate();
 };
 
 #endif // MAINWINDOW_H

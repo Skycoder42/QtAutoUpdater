@@ -12,19 +12,9 @@ using namespace QtAutoUpdater;
 Q_LOGGING_CATEGORY(logQtAutoUpdater, "QtAutoUpdater")
 
 UpdaterPrivate::UpdaterPrivate(Updater *q_ptr) :
-	QObject(nullptr),
-	q(q_ptr),
-	toolPath(),
-	updateInfos(),
-	normalExit(true),
-	lastErrorCode(EXIT_SUCCESS),
-	lastErrorLog(),
-	running(false),
-	mainProcess(nullptr),
-	scheduler(new SimpleScheduler(this)),
-	runOnExit(false),
-	runArguments(),
-	adminAuth(nullptr)
+	QObject{nullptr},
+	q{q_ptr},
+	scheduler{new SimpleScheduler{this}}
 {
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &UpdaterPrivate::appAboutToExit,
@@ -234,7 +224,7 @@ void UpdaterPrivate::NoUpdatesXmlException::raise() const
 	throw *this;
 }
 
-QException *UpdaterPrivate::NoUpdatesXmlException::clone() const
+QExceptionBase::Base *UpdaterPrivate::NoUpdatesXmlException::clone() const
 {
 	return new NoUpdatesXmlException();
 }
@@ -249,7 +239,7 @@ void UpdaterPrivate::InvalidXmlException::raise() const
 	throw *this;
 }
 
-QException *UpdaterPrivate::InvalidXmlException::clone() const
+QExceptionBase::Base *UpdaterPrivate::InvalidXmlException::clone() const
 {
 	return new InvalidXmlException();
 }

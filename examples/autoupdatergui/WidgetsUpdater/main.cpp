@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
 	QTranslator tr;
 	tr.load(QLocale(),
-			QStringLiteral("QtAutoUpdaterController"),
+			QStringLiteral("qtautoupdatergui"),
 			QStringLiteral("_"),
 			QApplication::applicationDirPath());
 	QApplication::installTranslator(&tr);

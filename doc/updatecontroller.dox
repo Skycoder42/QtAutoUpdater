@@ -10,7 +10,7 @@ to do is starting this controller. This can be done in 4 ways:
  - Add the UpdateButton widget somewhere in your gui
 
 ## Images
-For a full collection of all immages, please go to the @ref image_page "Image Page"
+For a full collection of all immages, please go to the @ref qtautoupdater_image_page "Image Page"
 
 @sa QtAutoUpdater::Updater, QtAutoUpdater::UpdateButton
 */
@@ -23,7 +23,7 @@ the lowest (`AutomaticLevel = 0`) to the highest (`AskLevel = 5`). Each Level in
 levels with a smaller value, i.e. using the `AskLevel` will add the ask dialog to everything
 shown with `ProgressLevel`, but not less.
 
-@sa @ref image_page "Image Page"
+@sa @ref qtautoupdater_image_page "Image Page"
 */
 
 /*!
@@ -151,14 +151,14 @@ is used to switch between the two dialogs. If the DisplayLevel is set to not sho
 info-dialog at all, neither of the two will be shown.
 
 For a comparison how each of these dialogs looks on each platform, check the
-@ref image_page "Image Page".
+@ref qtautoupdater_image_page "Image Page".
 
 @accessors{
 	@readAc{isDetailedUpdateInfo()}
 	@notifyAc{setDetailedUpdateInfo()}
 }
 
-@sa UpdateController::DisplayLevel, @ref image_page "Image Page"
+@sa UpdateController::DisplayLevel, @ref qtautoupdater_image_page "Image Page"
 */
 
 /*!
@@ -229,13 +229,13 @@ This will crash your program in almost all cases!!!
 The action will automatically start the controller with the display-level
 `UpdateController::ProgressLevel`. In addition to that, the action will be automatically
 disabled if the controller is already running and deleted together with the controller
-(or `parent`, whoever gets destroyed first). For images check the @ref image_page "Image Page".
+(or `parent`, whoever gets destroyed first). For images check the @ref qtautoupdater_image_page "Image Page".
 
 The action has a text, an icon and a tooltip. On Mac, the action will be placed in the
 Applications menu if added to the Menubar. To show it in other places (for example as dock-menu),
 unset the QAction::menuRole.
 
-@sa QtAutoUpdater::UpdateButton, @ref image_page "Image Page", QAction::menuRole
+@sa QtAutoUpdater::UpdateButton, @ref qtautoupdater_image_page "Image Page", QAction::menuRole
 */
 
 /*!

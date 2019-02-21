@@ -7,51 +7,51 @@
 
 #include <QtCore/QProcess>
 #include <QtCore/QLoggingCategory>
-#include <QtCore/QException>
 
-#include <exception>
+#include <qexceptionbase.h>
 
 namespace QtAutoUpdater
 {
 
 class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObject
 {
+	Q_DISABLE_COPY(UpdaterPrivate)
 public:
-	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QException {
+	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QExceptionBase {
 	public:
 		const char *what() const noexcept override;
 
 		void raise() const override;
-		QException *clone() const override;
+		Base *clone() const override;
 	};
 
-	class Q_AUTOUPDATERCORE_EXPORT InvalidXmlException : public QException {
+	class Q_AUTOUPDATERCORE_EXPORT InvalidXmlException : public QExceptionBase {
 	public:
 		const char *what() const noexcept override;
 
 		void raise() const override;
-		QException *clone() const override;
+		Base *clone() const override;
 	};
 
 	Updater *q;
 
 	QString toolPath;
 	QList<Updater::UpdateInfo> updateInfos;
-	bool normalExit;
-	int lastErrorCode;
+	bool normalExit = true;
+	int lastErrorCode = EXIT_SUCCESS;
 	QByteArray lastErrorLog;
 
-	bool running;
-	QProcess *mainProcess;
+	bool running = false;
+	QProcess *mainProcess = nullptr;
 
 	SimpleScheduler *scheduler;
 
-	bool runOnExit;
+	bool runOnExit = false;
 	QStringList runArguments;
 	QScopedPointer<AdminAuthoriser> adminAuth;
 
 	UpdaterPrivate(Updater *q_ptr);
-	~UpdaterPrivate();
+	~UpdaterPrivate() override;
 
 	static const QString toSystemExe(QString basePath);
 

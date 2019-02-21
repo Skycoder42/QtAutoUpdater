@@ -56,19 +56,22 @@
 #include <sys/wait.h>
 #include <QtCore/QProcess>
 #include <QtCore/QStandardPaths>
-#include <errno.h>
+#include <cerrno>
 
 using namespace QtAutoUpdater;
 
 #define SU_COMMAND "/usr/bin/sudo"
 
-static bool execAdminFallback(const QString &program, const QStringList &arguments);
-static QList<QPair<QString, QStringList>> suFontends = {
+namespace {
+
+bool execAdminFallback(const QString &program, const QStringList &arguments);
+const QList<QPair<QString, QStringList>> suFontends = {
 	{QStringLiteral("kdesu"), {QStringLiteral("-c")}},
 	{QStringLiteral("gksu"), {}}
 };
 
-// has no guarantee to work
+}
+
 bool AdminAuthorization::hasAdminRights()
 {
 	return getuid() == 0;
@@ -76,12 +79,12 @@ bool AdminAuthorization::hasAdminRights()
 
 bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
-	foreach(auto su, suFontends) {
+	for(const auto &su : qAsConst(suFontends)) {
 		auto command = QStandardPaths::findExecutable(su.first);
 		if(!command.isEmpty()) {
 			auto args = su.second;
 
-			QStringList tmpList(program);
+			QStringList tmpList{program};
 			tmpList.append(arguments);
 			args.append(QLatin1Char('\"') + tmpList.join(QStringLiteral("\" \"")) + QLatin1Char('\"'));
 
@@ -93,14 +96,16 @@ bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringLis
 
 }
 
-static bool execAdminFallback(const QString &program, const QStringList &arguments)
+namespace {
+
+bool execAdminFallback(const QString &program, const QStringList &arguments)
 {
 	// as we cannot pipe the password to su in QProcess, we need to setup a pseudo-terminal for it
 	int masterFD = -1;
 	int slaveFD = -1;
 	char ptsn[ PATH_MAX ];
 
-	if (::openpty(&masterFD, &slaveFD, ptsn, 0, 0))
+	if (::openpty(&masterFD, &slaveFD, ptsn, nullptr, nullptr))
 		return false;
 
 	masterFD = ::posix_openpt(O_RDWR | O_NOCTTY);
@@ -117,7 +122,7 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 	::revoke(ttyName);
 	::unlockpt(masterFD);
 
-	slaveFD = ::open(ttyName, O_RDWR | O_NOCTTY);
+	slaveFD = ::open(ttyName, O_RDWR | O_NOCTTY | O_CLOEXEC);
 	if (slaveFD < 0) {
 		::close(masterFD);
 		return false;
@@ -153,35 +158,32 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 		//close writing end of pipe
 		::close(pipedData[1]);
 
-		QRegExp re(QLatin1String("[Pp]assword.*:"));
+		QRegExp re{QLatin1String("[Pp]assword.*:")};
 		QByteArray data;
 		QByteArray errData;
 		int bytes = 0;
-		int errBytes = 0;
 		char buf[1024];
 		char errBuf[1024];
 		while (bytes >= 0) {
 			int state;
-			if (::waitpid(child, &state, WNOHANG) == -1){
+			if (::waitpid(child, &state, WNOHANG) == -1)
 				break;
-			}
-			bytes = ::read(masterFD, buf, 1023);
+
+			bytes = static_cast<int>(::read(masterFD, buf, 1023));
 			if (bytes == -1 && errno == EAGAIN)
 				bytes = 0;
-			else if (bytes > 0){
+			else if (bytes > 0) {
 				if(!QByteArray(buf, bytes).simplified().isEmpty())
 					data.append(buf, bytes);
 				else
 					bytes = 0;
 			}
-			errBytes = ::read(pipedData[0], errBuf, 1023);
+			auto errBytes = static_cast<int>(::read(pipedData[0], errBuf, 1023));
 			if (errBytes > 0)
-			{
 				errData.append(errBuf, errBytes);
-				errBytes=0;
-			}
+
 			if (bytes > 0) {
-				const QString line = QString::fromLatin1(data);
+				const auto line = QString::fromLatin1(data);
 				if (re.indexIn(line) != -1) {
 					if(!errData.isEmpty()) {
 						DialogMaster::critical(nullptr, QString::fromLocal8Bit(errData));
@@ -189,44 +191,42 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 					}
 
 					bool ok = false;
-					const QString password = QInputDialog::getText(nullptr,
-																   QCoreApplication::translate("AdminAuthorization", "Enter Password"),
-																   QCoreApplication::translate("AdminAuthorization", "Enter your root password to run the maintenancetool:"),
-																   QLineEdit::Password,
-																   QString(),
-																   &ok,
-																   Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
+					const auto password = QInputDialog::getText(nullptr,
+																QCoreApplication::translate("AdminAuthorization", "Enter Password"),
+																QCoreApplication::translate("AdminAuthorization", "Enter your root password to run the maintenancetool:"),
+																QLineEdit::Password,
+																QString(),
+																&ok,
+																Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
 
 					if (!ok) {
-						QByteArray pwd = password.toLatin1();
+						const auto pwd = password.toLatin1();
 						for (int i = 0; i < 3; ++i) {
-							::write(masterFD, pwd.data(), pwd.length());
+							::write(masterFD, pwd.data(), static_cast<size_t>(pwd.length()));
 							::write(masterFD, "\n", 1);
 						}
 						return false;
 					}
-					QByteArray pwd = password.toLatin1();
-					::write(masterFD, pwd.data(), pwd.length());
+					const auto pwd = password.toLatin1();
+					::write(masterFD, pwd.data(), static_cast<size_t>(pwd.length()));
 					::write(masterFD, "\n", 1);
-					::read(masterFD, buf, pwd.length() + 1);
+					::read(masterFD, buf, static_cast<size_t>(pwd.length()) + 1);
 				}
 			}
 			if (bytes == 0)
 				::usleep(100000);
 		}
+
 		if (!errData.isEmpty()) {
 			DialogMaster::critical(nullptr, QString::fromLocal8Bit(errData));
 			return false;
 		}
 
 		int status;
-		child = ::wait(&status);
+		::wait(&status);
 		::close(pipedData[1]);
 		return true;
-	}
-
-	// child process
-	else {
+	} else {
 		::close(pipedData[0]);
 		// Reset signal handlers
 		for (int sig = 1; sig < NSIG; ++sig)
@@ -249,25 +249,27 @@ static bool execAdminFallback(const QString &program, const QStringList &argumen
 		for (int i = 3; i < static_cast<int>(rlp.rlim_cur); ++i)
 			::close(i);
 
-		char **argp = (char **) ::malloc(arguments.count() + 4 * sizeof(char *));
+		char **argp = reinterpret_cast<char **>(::malloc(static_cast<ulong>(arguments.count()) + 4 * sizeof(char *)));
 		QList<QByteArray> args;
 		args.push_back(SU_COMMAND);
 		args.push_back("-b");
 		args.push_back(program.toLocal8Bit());
-		for (QStringList::const_iterator it = arguments.begin(); it != arguments.end(); ++it)
-			args.push_back(it->toLocal8Bit());
+		for (const auto &argument : arguments)
+			args.push_back(argument.toLocal8Bit());
 
 		int i = 0;
-		for (QList<QByteArray>::iterator it = args.begin(); it != args.end(); ++it, ++i)
-			argp[i] = it->data();
-		argp[i] = 0;
+		for (auto &arg : args)
+			argp[i] = arg.data();
+		argp[i] = nullptr;
 
 		::unsetenv("LANG");
 		::unsetenv("LC_ALL");
 
 		::execv(SU_COMMAND, argp);
-		_exit(0);
+		_exit(EXIT_FAILURE);
 		return false;
 	}
+}
+
 }
 

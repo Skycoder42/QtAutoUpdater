@@ -29,8 +29,7 @@ class Q_AUTOUPDATERGUI_EXPORT UpdateButton : public QWidget
 public:
 	//! Creates a new update button to place in your GUI
 	explicit UpdateButton(QWidget *parent = nullptr, UpdateController *controller = nullptr);
-	//! Destructor
-	~UpdateButton();
+	~UpdateButton() override;
 
 	//! @readAcFn{UpdateButton::animationFile}
 	QString animationFile() const;

@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += testlib autoupdatercore
 QT -= gui
 
-CONFIG += C++11 console
+CONFIG += console
 CONFIG -= app_bundle
 
 TARGET = tst_updatertest
@@ -18,4 +18,4 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 DEFINES += BINDIR=\\\"$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.0/bin/\\\"
 DEFINES += QTDIR=\\\"$$[QT_INSTALL_BINS]/../../../\\\"
 
-mac: QMAKE_LFLAGS += '-Wl,-rpath,\'$$OUT_PWD/../../../../lib\''
+include($$PWD/../../testrun.pri)

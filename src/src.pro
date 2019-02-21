@@ -1,10 +1,9 @@
 TEMPLATE = subdirs
-CONFIG += ordered
 
-SUBDIRS += autoupdatercore \
+SUBDIRS += \
+	autoupdatercore \
 	autoupdatergui
 
 autoupdatergui.depends += autoupdatercore
 
-docTarget.target = doxygen
-QMAKE_EXTRA_TARGETS += docTarget
+QMAKE_EXTRA_TARGETS += run-tests

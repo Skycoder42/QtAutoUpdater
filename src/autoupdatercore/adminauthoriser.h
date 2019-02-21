@@ -12,9 +12,10 @@ namespace QtAutoUpdater
 //! An interface to run programs with elevated rights
 class Q_AUTOUPDATERCORE_EXPORT AdminAuthoriser
 {
+	Q_DISABLE_COPY(AdminAuthoriser)
 public:
-	//! Virtual destructor
-	virtual inline ~AdminAuthoriser() {}
+	AdminAuthoriser();
+	virtual ~AdminAuthoriser();
 	//! Tests whether this program already has elevated rights or not
 	virtual bool hasAdminRights() = 0;
 	//! Runs a program with the given arguments with elevated rights
