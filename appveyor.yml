@@ -5,7 +5,7 @@ image:
 version: build-{build}
 
 environment:
-  QT_VER: 5.12.1
+  QT_VER: 5.12.2
   MAKE_RUN_TESTS: true
   TARGET_NAME: qtautoupdater
 
@@ -13,6 +13,7 @@ environment:
     - PLATFORM: msvc2017_64
     - PLATFORM: msvc2017
     - PLATFORM: mingw73_64
+    - PLATFORM: mingw73_32
     - PLATFORM: msvc2015_64
 
 matrix:
@@ -22,6 +23,8 @@ matrix:
     - PLATFORM: msvc2017
       image: Visual Studio 2015
     - PLATFORM: mingw73_64
+      image: Visual Studio 2015
+    - PLATFORM: mingw73_32
       image: Visual Studio 2015
     - PLATFORM: msvc2015_64
       image: Visual Studio 2017

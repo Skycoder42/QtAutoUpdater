@@ -10,7 +10,7 @@ osx_image: xcode10.1
 env:
   global:
     - QDEP_CACHE_DIR=$HOME/.qdep-cache
-    - QT_VER=5.12.1
+    - QT_VER=5.12.2
     - DOCKER_IMAGE=base
     - MAKE_RUN_TESTS=true
     - TARGET_NAME=qtautoupdater
