@@ -169,8 +169,10 @@ bool UpdateController::start(DisplayLevel displayLevel)
 	} else {
 		if(d->displayLevel >= ExtendedInfoLevel) {
 			if(d->displayLevel >= ProgressLevel) {
-				d->taskbar->setProgress(-1.0);
-				d->taskbar->setProgressVisible(true);
+				if(d->taskbar) {
+					d->taskbar->setProgress(-1.0);
+					d->taskbar->setProgressVisible(true);
+				}
 				d->checkUpdatesProgress = new ProgressDialog{d->window};
 				connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [this](){
 					d->wasCanceled = true;
