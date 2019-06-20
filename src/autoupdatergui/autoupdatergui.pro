@@ -6,8 +6,10 @@ win32 {
 	QT += winextras
 	LIBS += -lAdvapi32 -lOle32 -lShell32
 } else:mac {
+	QT += macextras
 	LIBS += -framework Security
 } else:unix {
+	QT += dbus
 	LIBS += -lutil
 }
 
