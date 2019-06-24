@@ -5,12 +5,12 @@ services:
 
 sudo: required
 dist: trusty
-osx_image: xcode10.1
+osx_image: xcode10.2
 
 env:
   global:
     - QDEP_CACHE_DIR=$HOME/.qdep-cache
-    - QT_VER=5.12.3
+    - QT_VER=5.13.0
     - DOCKER_IMAGE=base
     - MAKE_RUN_TESTS=true
     - TARGET_NAME=qtautoupdater
@@ -22,9 +22,6 @@ matrix:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
         - BUILD_EXAMPLES=true
-    - os: linux
-      env:
-        - PLATFORM=emscripten
     - os: osx
       env:
         - PLATFORM=clang_64

@@ -5,7 +5,7 @@ image:
 version: build-{build}
 
 environment:
-  QT_VER: 5.12.3
+  QT_VER: 5.13.0
   MAKE_RUN_TESTS: true
   TARGET_NAME: qtautoupdater
 
