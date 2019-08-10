@@ -1,3 +1,5 @@
 TEMPLATE = subdirs
 
-SUBDIRS = autoupdatercore autoupdatergui
+SUBDIRS = \
+#	autoupdatercore \
+#	autoupdatergui
