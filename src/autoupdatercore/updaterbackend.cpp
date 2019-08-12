@@ -10,16 +10,6 @@ UpdaterBackend::UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent) :
 	QObject{dd, parent}
 {}
 
-void UpdaterBackend::setProgress(double percent, const QString &status)
-{
-	emit updateProgress(percent, status, {});
-}
-
-void UpdaterBackend::setProgress(int value, int max, const QString &status)
-{
-	emit updateProgress(static_cast<double>(value) / static_cast<double>(max), status, {});
-}
-
 
 
 UpdateInfo::UpdateInfo() :
@@ -29,6 +19,14 @@ UpdateInfo::UpdateInfo() :
 UpdateInfo::UpdateInfo(UpdateInfoPrivate *d_ptr) :
 	d{d_ptr}
 {}
+
+UpdateInfo::UpdateInfo(const UpdateInfo &other) = default;
+
+UpdateInfo::UpdateInfo(UpdateInfo &&other) noexcept = default;
+
+UpdateInfo &UpdateInfo::operator=(const UpdateInfo &other) = default;
+
+UpdateInfo &UpdateInfo::operator=(UpdateInfo &&other) noexcept = default;
 
 UpdateInfo::~UpdateInfo() = default;
 
@@ -65,4 +63,9 @@ void UpdateInfo::setVersion(QVersionNumber version)
 void UpdateInfo::setSize(quint64 size)
 {
 	d->size = size;
+}
+
+void UpdateInfo::setIdentifier(QVariant identifier)
+{
+	d->identifier = std::move(identifier);
 }

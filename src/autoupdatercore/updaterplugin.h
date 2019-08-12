@@ -14,7 +14,7 @@ public:
 	UpdaterPlugin();
 	virtual ~UpdaterPlugin();
 
-	virtual UpdaterBackend *createInstance(const QString &type, const QString &path, QObject *parent) = 0;
+	virtual UpdaterBackend *createInstance(const QString &type, QObject *parent) = 0;
 };
 
 }
