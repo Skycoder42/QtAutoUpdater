@@ -7,46 +7,13 @@
 #include <QtCore/qvariant.h>
 
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
+#include "QtAutoUpdaterCore/updateinfo.h"
 #include "QtAutoUpdaterCore/adminauthoriser.h"
 
 namespace QtAutoUpdater {
 
 class UpdateInstaller;
 
-struct UpdateInfoPrivate;
-struct Q_AUTOUPDATERCORE_EXPORT UpdateInfo
-{
-	Q_GADGET
-
-	Q_PROPERTY(QString name READ name WRITE setName)
-	Q_PROPERTY(QVersionNumber version READ version WRITE setVersion)
-	Q_PROPERTY(quint64 size READ size WRITE setSize)
-	Q_PROPERTY(QVariant identifier READ identifier WRITE setIdentifier)
-
-public:
-	UpdateInfo();
-	UpdateInfo(UpdateInfoPrivate *d_ptr);
-	~UpdateInfo();
-	UpdateInfo(const UpdateInfo &other);
-	UpdateInfo(UpdateInfo &&other) noexcept;
-	UpdateInfo &operator=(const UpdateInfo &other);
-	UpdateInfo &operator=(UpdateInfo &&other) noexcept;
-
-	QString name() const;
-	QVersionNumber version() const;
-	quint64 size() const;
-	QVariant identifier() const;
-
-	void setName(QString name);
-	void setVersion(QVersionNumber version);
-	void setSize(quint64 size);
-	void setIdentifier(QVariant identifier);
-
-private:
-	QSharedDataPointer<UpdateInfoPrivate> d;
-};
-
-class UpdaterBackendPrivate;
 class Q_AUTOUPDATERCORE_EXPORT UpdaterBackend : public QObject
 {
 	Q_OBJECT
@@ -71,7 +38,6 @@ public:
 
 	virtual UpdateInstaller *installUpdates(const QList<UpdateInfo> &infos) = 0;
 
-public Q_SLOTS:
 	virtual void checkForUpdates() = 0;
 	virtual void abort(bool force) = 0;
 
@@ -80,14 +46,7 @@ public Q_SLOTS:
 Q_SIGNALS:
 	void checkDone(const QList<UpdateInfo> &updates);
 	void error(const QString &errorMsg);
-
 	void updateProgress(double percent, const QString &status);
-
-protected:
-	UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent);
-
-private:
-	Q_DECLARE_PRIVATE(UpdaterBackend)
 };
 
 }

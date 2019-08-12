@@ -1,13 +1,13 @@
 #ifndef QTAUTOUPDATER_SIMPLESCHEDULER_P_H
 #define QTAUTOUPDATER_SIMPLESCHEDULER_P_H
 
-#include "qtautoupdatercore_global.h"
-
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 #include <QtCore/QPair>
 #include <QtCore/QHash>
+
+#include "qtautoupdatercore_global.h"
 
 namespace QtAutoUpdater {
 

@@ -1,76 +1,99 @@
 #include "updater.h"
 #include "updater_p.h"
-
+#include "updaterplugin.h"
+#include <QtCore/QCoreApplication>
+#include <QtCore/QTimer>
 #include <QtCore/QDebug>
+#include <QtCore/private/qfactoryloader_p.h>
+
+namespace QtAutoUpdater {
+
+Q_LOGGING_CATEGORY(logQtAutoUpdater, "QtAutoUpdater")
+
+}
 
 using namespace QtAutoUpdater;
 
-#ifdef Q_OS_OSX
-#define DEFAULT_TOOL_PATH QStringLiteral("../../maintenancetool")
-#else
-#define DEFAULT_TOOL_PATH QStringLiteral("./maintenancetool")
-#endif
-
-const QStringList Updater::NormalUpdateArguments = {QStringLiteral("--updater")};
-const QStringList Updater::PassiveUpdateArguments = {QStringLiteral("--updater"), QStringLiteral("skipPrompt=true")};
-const QStringList Updater::HiddenUpdateArguments = {QStringLiteral("--silentUpdate")};
+Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
+						  (QtAutoUpdater_UpdaterPlugin_iid,
+						   QLatin1String("/updaters")))
 
 Updater::Updater(QObject *parent) :
-	Updater(DEFAULT_TOOL_PATH, parent)
+	Updater(*new UpdaterPrivate{}, parent)
 {}
 
-Updater::Updater(const QString &maintenanceToolPath, QObject *parent) :
-	QObject(parent),
-	d(new UpdaterPrivate(this))
+Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
+	QObject{dd, parent}
 {
-	d->toolPath = UpdaterPrivate::toSystemExe(maintenanceToolPath);
+	Q_D(Updater);
+	d->scheduler = new SimpleScheduler{this};
+
+	QObjectPrivate::connect(qApp, &QCoreApplication::aboutToQuit,
+							d, &UpdaterPrivate::_q_appAboutToExit,
+							Qt::DirectConnection);
+	connect(d->scheduler, &SimpleScheduler::scheduleTriggered,
+			this, &Updater::checkForUpdates);
 }
 
-Updater::~Updater() = default;
-
-bool Updater::exitedNormally() const
+Updater *Updater::createUpdater(const QString &key, const QVariantMap &arguments, QObject *parent, AdminAuthoriser *authoriser)
 {
-	return d->normalExit;
+	auto updater = new Updater{parent};
+	auto backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, key, updater);
+	if (!backend || !backend->initialize(arguments, authoriser)) {
+		delete updater;
+		return nullptr;
+	}
+
+	updater->d_func()->setBackend(backend);
+	return updater;
 }
 
-int Updater::errorCode() const
+Updater *Updater::createQtIfwUpdater(const QString &maintenancetoolPath, bool silent, QObject *parent, AdminAuthoriser *authoriser)
 {
-	return d->lastErrorCode;
+	return createUpdater(QStringLiteral("qtifw"), {
+							 {QStringLiteral("path"), maintenancetoolPath},
+							 {QStringLiteral("silent"), silent}
+						 }, parent, authoriser);
 }
 
-QByteArray Updater::errorLog() const
+Updater::~Updater()
 {
-	return d->lastErrorLog;
+	Q_D(Updater);
+	if(d->runOnExit)
+		qCWarning(logQtAutoUpdater) << "Updater destroyed with run on exit active before the application quit";
+	if (d->running) {
+		Q_UNIMPLEMENTED();
+	}
+}
+
+UpdaterBackend *Updater::backend() const
+{
+	const Q_D(Updater);
+	return d->backend;
 }
 
 bool Updater::willRunOnExit() const
 {
+	const Q_D(Updater);
 	return d->runOnExit;
-}
-
-QString Updater::maintenanceToolPath() const
-{
-	return d->toolPath;
 }
 
 bool Updater::isRunning() const
 {
+	const Q_D(Updater);
 	return d->running;
 }
 
-QList<Updater::UpdateInfo> Updater::updateInfo() const
+QList<UpdateInfo> Updater::updateInfo() const
 {
+	const Q_D(Updater);
 	return d->updateInfos;
 }
 
-bool Updater::checkForUpdates()
+QString Updater::errorMessage() const
 {
-	return d->startUpdateCheck();
-}
-
-void Updater::abortUpdateCheck(int maxDelay, bool async)
-{
-	d->stopUpdateCheck(maxDelay, async);
+	const Q_D(Updater);
+	return d->errorMsg;
 }
 
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
@@ -79,64 +102,126 @@ int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
+
+	Q_D(Updater);
 	return d->scheduler->startSchedule(delaySeconds * 1000, repeated);
 }
 
 int Updater::scheduleUpdate(const QDateTime &when)
 {
+	Q_D(Updater);
 	return d->scheduler->startSchedule(when);
+}
+
+bool Updater::runUpdater(bool forceOnExit)
+{
+	Q_D(Updater);
+	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
+		if (d->backend->features().testFlag(UpdaterBackend::Feature::InstallNeedsExit))
+			forceOnExit = true;
+		if (forceOnExit) {
+			d->runOnExit = true;
+			return true;
+		} else
+			return d->backend->triggerUpdates(d->updateInfos);
+	} else
+		return false;
+}
+
+void Updater::checkForUpdates()
+{
+	Q_D(Updater);
+	if (!d->running) {
+		d->running = true;
+		d->updateInfos.clear();
+		d->errorMsg.clear();
+		emit updateInfoChanged(d->updateInfos, {});
+		if (d->backend->features().testFlag(UpdaterBackend::Feature::CheckProgress))
+			emit progressChanged(0.0, QStringLiteral(""), {}); // empty, but not null string
+		else
+			emit progressChanged(-1.0, tr("Checking for updates…"), {});
+		emit runningChanged(d->running, {});
+		d->backend->checkForUpdates();
+	}
+}
+
+void Updater::abortUpdateCheck(int killDelay)
+{
+	Q_D(Updater);
+	if(d->running) {
+		if(killDelay != 0) {
+			d->backend->abort(false);
+			if(killDelay > 0) {
+				QTimer::singleShot(killDelay, this, [this](){
+					abortUpdateCheck(0);
+				});
+			}
+		} else
+			d->backend->abort(true);
+	}
 }
 
 void Updater::cancelScheduledUpdate(int taskId)
 {
+	Q_D(Updater);
 	d->scheduler->cancelSchedule(taskId);
-}
-
-void Updater::runUpdaterOnExit(AdminAuthoriser *authoriser)
-{
-	runUpdaterOnExit(NormalUpdateArguments, authoriser);
-}
-
-void Updater::runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser)
-{
-	d->runOnExit = true;
-	d->runArguments = arguments;
-	d->adminAuth.reset(authoriser);
 }
 
 void Updater::cancelExitRun()
 {
+	Q_D(Updater);
 	d->runOnExit = false;
 	d->adminAuth.reset();
 }
 
+// ------------- private implementation -------------
 
-
-Updater::UpdateInfo::UpdateInfo() = default;
-
-Updater::UpdateInfo::~UpdateInfo() = default;
-
-Updater::UpdateInfo::UpdateInfo(const UpdateInfo &other) = default;
-
-Updater::UpdateInfo::UpdateInfo(UpdateInfo &&other) noexcept = default;
-
-Updater::UpdateInfo &Updater::UpdateInfo::operator=(const UpdateInfo &other) = default;
-
-Updater::UpdateInfo &Updater::UpdateInfo::operator=(UpdateInfo &&other) noexcept = default;
-
-Updater::UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size) :
-	name{std::move(name)},
-	version{std::move(version)},
-	size{size}
-{}
-
-QDebug &operator<<(QDebug &debug, const Updater::UpdateInfo &info)
+void UpdaterPrivate::setBackend(UpdaterBackend *newBackend)
 {
-	QDebugStateSaver state(debug);
-	Q_UNUSED(state);
-
-	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")
-					   .arg(info.name, info.version.toString())
-					   .arg(info.size);
-	return debug;
+	Q_Q(Updater);
+	backend = newBackend;
+	connect(backend, &UpdaterBackend::checkDone,
+			this, &UpdaterPrivate::_q_checkDone);
+	connect(backend, &UpdaterBackend::error,
+			this, &UpdaterPrivate::_q_error);
+	QObject::connect(backend, &UpdaterBackend::updateProgress,
+					 q, std::bind(&Updater::progressChanged, q,
+								  std::placeholders::_1,
+								  std::placeholders::_2,
+								  Updater::QPrivateSignal{}));
 }
+
+void UpdaterPrivate::_q_appAboutToExit()
+{
+	if (runOnExit) {
+		runOnExit = false;
+		backend->triggerUpdates(updateInfos);
+	}
+}
+
+void UpdaterPrivate::_q_checkDone(QList<UpdateInfo> updates)
+{
+	Q_Q(Updater);
+	updateInfos = std::move(updates);
+	errorMsg.clear();
+	running = false;
+	emit q->runningChanged(running, {});
+	if (updateInfos.isEmpty())
+		emit q->checkUpdatesDone(Updater::Result::NoUpdates, {});
+	else {
+		emit q->updateInfoChanged(updateInfos, {});
+		emit q->checkUpdatesDone(Updater::Result::NewUpdates, {});
+	}
+}
+
+void UpdaterPrivate::_q_error(QString errorMessage)
+{
+	Q_Q(Updater);
+	updateInfos.clear();
+	errorMsg = std::move(errorMessage);
+	running = false;
+	emit q->runningChanged(running, {});
+	emit q->checkUpdatesDone(Updater::Result::Error, {});
+}
+
+#include "moc_updater.cpp"

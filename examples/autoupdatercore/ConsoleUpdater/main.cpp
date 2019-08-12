@@ -11,15 +11,17 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	QtAutoUpdater::Updater *updater = new QtAutoUpdater::Updater(a.arguments().at(1), nullptr);
-
-	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](bool hasUpdate, bool hasError){
-		qDebug() << "Has updates:" << hasUpdate
-				 << "\nHas errors:" << hasError
-				 << "\nError string:" << updater->errorLog();
-		qDebug() << updater->updateInfo();
-		if(hasUpdate)
-			updater->runUpdaterOnExit(QtAutoUpdater::Updater::PassiveUpdateArguments);
+	auto updater = QtAutoUpdater::Updater::createQtIfwUpdater(a.arguments().at(1));
+	if (!updater){
+		qCritical() << "Plugin not available";
+		return EXIT_FAILURE;
+	}
+	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](QtAutoUpdater::Updater::Result result){
+		qInfo() << "Has updates:" << result
+				 << "\nError Message:" << updater->errorMessage()
+				 << "\nUpdate List:" << updater->updateInfo();
+		if(result == QtAutoUpdater::Updater::Result::NewUpdates)
+			updater->runUpdater();
 		qApp->quit();
 	});
 

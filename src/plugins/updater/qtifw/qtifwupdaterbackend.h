@@ -20,7 +20,6 @@ public:
 					QtAutoUpdater::AdminAuthoriser *authoriser) override;
 	QtAutoUpdater::UpdateInstaller *installUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;
 
-public Q_SLOTS:
 	void checkForUpdates() override;
 	void abort(bool force) override;
 	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;

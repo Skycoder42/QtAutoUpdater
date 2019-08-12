@@ -3,8 +3,8 @@ TEMPLATE = subdirs
 CONFIG += no_docs_target
 
 SUBDIRS += \
-#	auto \
-#	installer
+	auto \
+	installer
 
 auto.depends += installer
 

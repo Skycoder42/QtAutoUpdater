@@ -3,6 +3,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QDebug>
+
+#include <QtAutoUpdaterCore/private/updater_p.h>
 using namespace QtAutoUpdater;
 
 QtIfwUpdaterBackend::QtIfwUpdaterBackend(QObject *parent) :
@@ -68,7 +70,7 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
 							QStringLiteral("--silentUpdate") :
 							QStringLiteral("--updater")};
 
-	if (true && !_authoriser->hasAdminRights())
+	if (_authoriser && !_authoriser->hasAdminRights())
 		return _authoriser->executeAsAdmin(_process->program(), arguments);
 	else
 		return QProcess::startDetached(_process->program(), arguments, _process->workingDirectory());
@@ -80,7 +82,7 @@ void QtIfwUpdaterBackend::updaterReady(int exitCode, QProcess::ExitStatus exitSt
 		if (exitCode == EXIT_SUCCESS) {
 			auto updates = parseUpdates();
 			if (updates)
-				emit checkDone({});
+				emit checkDone(*updates);
 			else
 				emit error(tr("Read invalid output from MaintenanceTool"));
 		} else
@@ -96,15 +98,14 @@ void QtIfwUpdaterBackend::updaterError()
 
 std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool(const QVariantMap &arguments)
 {
-	QString path;
-	if (arguments.contains(QStringLiteral("path")))
-		path = arguments[QStringLiteral("path")].toString();
-	else
+	auto path = arguments[QStringLiteral("path")].toString();
+	if (path.isEmpty()) {
 #ifdef Q_OS_OSX
 		path = QStringLiteral("../../maintenancetool");
 #else
 		path =  QStringLiteral("./maintenancetool");
 #endif
+	}
 
 #if defined(Q_OS_WIN32)
 	if(!path.endsWith(QStringLiteral(".exe")))
@@ -157,7 +158,7 @@ std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates()
 	}
 
 	if(reader.hasError()) {
-		qWarning() << "XML-reader-error:" << reader.errorString();
+		qCWarning(logQtAutoUpdater) << "XML-reader-error:" << reader.errorString();
 		return std::nullopt;
 	}
 

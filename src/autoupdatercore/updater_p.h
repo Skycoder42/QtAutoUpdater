@@ -4,70 +4,38 @@
 #include "qtautoupdatercore_global.h"
 #include "updater.h"
 #include "simplescheduler_p.h"
+#include "updaterbackend.h"
 
-#include <QtCore/QProcess>
 #include <QtCore/QLoggingCategory>
 
-#include <qexceptionbase.h>
+#include <QtCore/private/qobject_p.h>
 
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObject
+class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObjectPrivate
 {
-	Q_DISABLE_COPY(UpdaterPrivate)
+	Q_DECLARE_PUBLIC(Updater)
+
 public:
-	class Q_AUTOUPDATERCORE_EXPORT NoUpdatesXmlException : public QExceptionBase {
-	public:
-		const char *what() const noexcept override;
-
-		void raise() const override;
-		Base *clone() const override;
-	};
-
-	class Q_AUTOUPDATERCORE_EXPORT InvalidXmlException : public QExceptionBase {
-	public:
-		const char *what() const noexcept override;
-
-		void raise() const override;
-		Base *clone() const override;
-	};
-
-	Updater *q;
-
-	QString toolPath;
-	QList<Updater::UpdateInfo> updateInfos;
-	bool normalExit = true;
-	int lastErrorCode = EXIT_SUCCESS;
-	QByteArray lastErrorLog;
-
 	bool running = false;
-	QProcess *mainProcess = nullptr;
+	QList<UpdateInfo> updateInfos;
+	QString errorMsg;
 
-	SimpleScheduler *scheduler;
+	SimpleScheduler *scheduler = nullptr;
+	UpdaterBackend *backend = nullptr;
 
 	bool runOnExit = false;
-	QStringList runArguments;
 	QScopedPointer<AdminAuthoriser> adminAuth;
 
-	UpdaterPrivate(Updater *q_ptr);
-	~UpdaterPrivate() override;
-
-	static const QString toSystemExe(QString basePath);
-
-	bool startUpdateCheck();
-	void stopUpdateCheck(int delay, bool async);
-	QList<Updater::UpdateInfo> parseResult(const QByteArray &output);
-
-public Q_SLOTS:
-	void updaterReady(int exitCode, QProcess::ExitStatus exitStatus);
-	void updaterError(QProcess::ProcessError error);
-
-	void appAboutToExit();
+	void setBackend(UpdaterBackend *newBackend);
+	void _q_appAboutToExit();
+	void _q_checkDone(QList<UpdateInfo> updates);
+	void _q_error(QString errorMessage);
 };
 
-}
-
 Q_AUTOUPDATERCORE_EXPORT Q_DECLARE_LOGGING_CATEGORY(logQtAutoUpdater)
+
+}
 
 #endif // QTAUTOUPDATER_UPDATER_P_H

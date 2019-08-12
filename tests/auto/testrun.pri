@@ -11,7 +11,7 @@ win32:!ReleaseBuild:!DebugBuild {
 		CONFIG(debug, debug|release): outdir_helper = debug
 		CONFIG(release, debug|release): outdir_helper = release
 		runtarget.target = run-tests
-		runtarget.depends += $(DESTDIR_TARGET)
+		!compat_test: runtarget.depends += $(DESTDIR_TARGET)
 		runtarget.commands += @set PATH=$$shell_path($$shadowed($$dirname(_QMAKE_CONF_))/bin);$$shell_path($$[QT_INSTALL_BINS]);$(PATH)
 		runtarget.commands += $$escape_expand(\\n\\t)@set QT_PLUGIN_PATH=$$shadowed($$dirname(_QMAKE_CONF_))/plugins;$(QT_PLUGIN_PATH)
 		runtarget.commands += $$escape_expand(\\n\\t)@set QML2_IMPORT_PATH=$$shadowed($$dirname(_QMAKE_CONF_))/qml;$(QML2_IMPORT_PATH)
@@ -37,10 +37,10 @@ win32:!ReleaseBuild:!DebugBuild {
 
 		runtarget.target = run-tests
 		win32-g++ {
-			runtarget.depends += $(DESTDIR_TARGET)
+			!compat_test: runtarget.depends += $(DESTDIR_TARGET)
 			runtarget.commands += $$escape_expand(\\n\\t)./$(DESTDIR_TARGET)
 		} else {
-			runtarget.depends += $(TARGET)
+			!compat_test: runtarget.depends += $(TARGET)
 			runtarget.commands += $$escape_expand(\\n\\t)./$(TARGET)
 		}
 		QMAKE_EXTRA_TARGETS += runtarget

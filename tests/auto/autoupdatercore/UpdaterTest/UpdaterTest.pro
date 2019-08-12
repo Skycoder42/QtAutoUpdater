@@ -15,7 +15,7 @@ HEADERS += \
 	installercontroller.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
-DEFINES += BINDIR=\\\"$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.0/bin/\\\"
+DEFINES += BINDIR=\\\"$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.1/bin/\\\"
 DEFINES += QTDIR=\\\"$$[QT_INSTALL_BINS]/../../../\\\"
 
 include($$PWD/../../testrun.pri)

@@ -1,19 +1,22 @@
 #ifndef QTAUTOUPDATER_UPDATER_H
 #define QTAUTOUPDATER_UPDATER_H
 
-#include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
-#include "QtAutoUpdaterCore/adminauthoriser.h"
+#include <chrono>
 
 #include <QtCore/qobject.h>
 #include <QtCore/qstring.h>
 #include <QtCore/qlist.h>
 #include <QtCore/qstringlist.h>
 #include <QtCore/qdatetime.h>
-#include <QtCore/qversionnumber.h>
-#include <QtCore/qscopedpointer.h>
+
+#include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
+#include "QtAutoUpdaterCore/updateinfo.h"
+#include "QtAutoUpdaterCore/adminauthoriser.h"
 
 namespace QtAutoUpdater
 {
+
+class UpdaterBackend;
 
 class UpdaterPrivate;
 //! The main updater. Can check for updates and run the maintenancetool as updater
@@ -21,106 +24,109 @@ class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 {
 	Q_OBJECT
 
-	//! Holds the path of the attached maintenancetool
-	Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT FINAL)
 	//! Specifies whether the updater is currently checking for updates or not
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 	//! Holds extended information about the last update check
 	Q_PROPERTY(QList<UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
 
 public:
-	//! Provides information about updates for components
-	struct Q_AUTOUPDATERCORE_EXPORT UpdateInfo
-	{
-		//! The name of the component that has an update
-		QString name;
-		//! The new version for that compontent
-		QVersionNumber version;
-		//! The update download size (in Bytes)
-		quint64 size = 0ull;
-
-		UpdateInfo();
-		~UpdateInfo();
-		//! Copy constructor
-		UpdateInfo(const UpdateInfo &other);
-		//! Move constructor
-		UpdateInfo(UpdateInfo &&other) noexcept;
-		//! Copy assignment operator
-		UpdateInfo& operator=(const UpdateInfo &other);
-		//! Move assignment operator
-		UpdateInfo& operator=(UpdateInfo &&other) noexcept;
-		//! Constructor that takes name, version and size
-		UpdateInfo(QString name, QVersionNumber version, quint64 size);
+	enum class Result {
+		NewUpdates,
+		NoUpdates,
+		Error
 	};
+	Q_ENUM(Result)
 
-	//! Arguments to start the updater in a normal mode
-	static const QStringList NormalUpdateArguments;
-	//! Arguments to start the updater visible, but automatically executing
-	static const QStringList PassiveUpdateArguments;
-	//! Arguments to start the updater hidden in the background
-	static const QStringList HiddenUpdateArguments;
+	static Updater *createUpdater(const QString &key,
+								  const QVariantMap &arguments = {},
+								  QObject *parent = nullptr,
+								  AdminAuthoriser *authoriser = nullptr);
 
-	//! Default constructor
-	explicit Updater(QObject *parent = nullptr);
-	//! Constructer with an explicitly set path
-	explicit Updater(const QString &maintenanceToolPath, QObject *parent = nullptr);
+	static Updater *createQtIfwUpdater(const QString &maintenancetoolPath = {},
+									   bool silent = false,
+									   QObject *parent = nullptr,
+									   AdminAuthoriser *authoriser = nullptr);
+	// TODO create overloads for known backends
+
 	//! Destroyes the updater and kills the update check (if running)
 	~Updater() override;
 
-	//! Returns `true`, if the updater exited normally
-	bool exitedNormally() const;
-	//! Returns the mainetancetools error code of the last update
-	int errorCode() const;
-	//! returns the error output (stderr) of the last update
-	QByteArray errorLog() const;
+	UpdaterBackend *backend() const;
 
 	//! Returns `true` if the maintenancetool will be started on exit
 	bool willRunOnExit() const;
 
-	//! readAcFn{Updater::maintenanceToolPath}
-	QString maintenanceToolPath() const;
 	//! readAcFn{Updater::running}
 	bool isRunning() const;
 	//! readAcFn{Updater::updateInfo}
 	QList<UpdateInfo> updateInfo() const;
+	QString errorMessage() const;
+
+	//! Schedules an update after a specific delay, optionally repeated
+	Q_INVOKABLE int scheduleUpdate(int delaySeconds, bool repeated = false);
+	template <typename TRep, typename TPeriod>
+	int scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated = false);
+	//! Schedules an update for a specific timepoint
+	Q_INVOKABLE int scheduleUpdate(const QDateTime &when);
+	template <typename TClock, typename TDur>
+	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when);
+
+	//! Runs the maintenancetool as updater on exit, using the given admin authorisation
+	bool runUpdater(bool forceOnExit = false);
 
 public Q_SLOTS:
 	//! Starts checking for updates
-	bool checkForUpdates();
+	void checkForUpdates();
 	//! Aborts checking for updates
-	void abortUpdateCheck(int maxDelay = 5000, bool async = false);
+	void abortUpdateCheck(int killDelay = 5000);
 
-	//! Schedules an update after a specific delay, optionally repeated
-	int scheduleUpdate(int delaySeconds, bool repeated = false);
-	//! Schedules an update for a specific timepoint
-	int scheduleUpdate(const QDateTime &when);
 	//! Cancels the scheduled update with taskId
 	void cancelScheduledUpdate(int taskId);
 
-	//! Runs the maintenancetool as updater on exit, using the given admin authorisation
-	void runUpdaterOnExit(AdminAuthoriser *authoriser = nullptr);
-	//! Runs the maintenancetool as updater on exit, using the given arguments and admin authorisation
-	void runUpdaterOnExit(const QStringList &arguments, AdminAuthoriser *authoriser = nullptr);
 	//! The updater will not run the maintenancetool on exit anymore
 	void cancelExitRun();
 
 Q_SIGNALS:
 	//! Will be emitted as soon as the updater finished checking for updates
-	void checkUpdatesDone(bool hasUpdates, bool hasError);
+	void checkUpdatesDone(QtAutoUpdater::Updater::Result result, QPrivateSignal);
+	void progressChanged(double progress, const QString &status, QPrivateSignal);
 
 	//! notifyAcFn{Updater::running}
-	void runningChanged(bool running);
+	void runningChanged(bool running, QPrivateSignal);
 	//! notifyAcFn{Updater::updateInfo}
-	void updateInfoChanged(QList<QtAutoUpdater::Updater::UpdateInfo> updateInfo);
+	void updateInfoChanged(QList<QtAutoUpdater::UpdateInfo> updateInfo, QPrivateSignal);
+
+protected:
+	explicit Updater(QObject *parent = nullptr);
+	explicit Updater(UpdaterPrivate &dd, QObject *parent = nullptr);
 
 private:
-	QScopedPointer<UpdaterPrivate> d;
+	Q_DECLARE_PRIVATE(Updater)
+	Q_DISABLE_COPY(Updater)
+
+	Q_PRIVATE_SLOT(d_func(), void _q_appAboutToExit())
+	Q_PRIVATE_SLOT(d_func(), void _q_checkDone(QList<UpdateInfo>))
+	Q_PRIVATE_SLOT(d_func(), void _q_error(QString))
 };
+
+template<typename TRep, typename TPeriod>
+int Updater::scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated)
+{
+	using namespace std::chrono;
+	return scheduleUpdate(duration_cast<seconds>(delay), repeated);
+}
+
+template<typename TClock, typename TDur>
+int Updater::scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when)
+{
+	using namespace std::chrono;
+	return scheduleUpdate(QDateTime::fromSecsSinceEpoch(duration_cast<seconds>(
+															time_point_cast<system_clock>(when)
+															.time_since_epoch())));
+}
 
 }
 
-Q_DECLARE_METATYPE(QtAutoUpdater::Updater::UpdateInfo)
-
-QDebug Q_AUTOUPDATERCORE_EXPORT &operator<<(QDebug &debug, const QtAutoUpdater::Updater::UpdateInfo &info);
+Q_DECLARE_METATYPE(QtAutoUpdater::Updater::Result)
 
 #endif // QTAUTOUPDATER_UPDATER_H

@@ -8,14 +8,6 @@ using namespace QtAutoUpdater;
 
 #define TEST_DELAY 1000
 
-//define before QtTest include because of macos
-inline bool operator==(const QtAutoUpdater::Updater::UpdateInfo &a, const QtAutoUpdater::Updater::UpdateInfo &b)
-{
-	return (a.name == b.name &&
-			a.version == b.version &&
-			a.size == b.size);
-}
-
 #include <QtTest>
 
 class UpdaterTest : public QObject
@@ -24,7 +16,6 @@ class UpdaterTest : public QObject
 
 private Q_SLOTS:
 	void initTestCase();
-	void testUpdaterInitState();
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
@@ -46,42 +37,23 @@ void UpdaterTest::initTestCase()
 	controller->installLocal();
 }
 
-void UpdaterTest::testUpdaterInitState()
-{
-	updater = new Updater(this);
-
-	//error state
-	QVERIFY(updater->exitedNormally());
-	QCOMPARE(updater->errorCode(), EXIT_SUCCESS);
-	QVERIFY(updater->errorLog().isEmpty());
-
-	//properties
-#if defined(Q_OS_WIN32)
-	QCOMPARE(updater->maintenanceToolPath(), QStringLiteral("./maintenancetool.exe"));
-#elif defined(Q_OS_OSX)
-	QCOMPARE(updater->maintenanceToolPath(), QStringLiteral("../../maintenancetool.app/Contents/MacOS/maintenancetool"));
-#elif defined(Q_OS_UNIX)
-	QCOMPARE(updater->maintenanceToolPath(), QStringLiteral("./maintenancetool"));
-#endif
-	QCOMPARE(updater->isRunning(), false);
-	QVERIFY(updater->updateInfo().isEmpty());
-
-	delete updater;
-}
-
 void UpdaterTest::testUpdateCheck_data()
 {
 	QTest::addColumn<QVersionNumber>("repoVersion");
 	QTest::addColumn<bool>("hasUpdates");
-	QTest::addColumn<QList<Updater::UpdateInfo>>("updates");
+	QTest::addColumn<QList<UpdateInfo>>("updates");
 
-	QList<Updater::UpdateInfo> updates;
+	QList<UpdateInfo> updates;
 
 	QTest::newRow("noUpdates") << QVersionNumber(1, 0, 0)
 							   << false
 							   << updates;
 
-	updates += {QStringLiteral("QtAutoUpdaterTestInstaller"), QVersionNumber::fromString(QStringLiteral("1.1.0")), 45ull};
+	UpdateInfo info;
+	info.setName(QStringLiteral("QtAutoUpdaterTestInstaller"));
+	info.setVersion(QVersionNumber::fromString(QStringLiteral("1.1.0")));
+	info.setSize(45ull);
+	updates.append(info);
 	QTest::newRow("simpleUpdate") << QVersionNumber(1, 1, 0)
 								  << true
 								  << updates;
@@ -93,12 +65,12 @@ void UpdaterTest::testUpdateCheck()
 {
 	QFETCH(QVersionNumber, repoVersion);
 	QFETCH(bool, hasUpdates);
-	QFETCH(QList<Updater::UpdateInfo>, updates);
+	QFETCH(QList<UpdateInfo>, updates);
 
 	controller->setVersion(repoVersion);
 	controller->createRepository();
 
-	updater = new Updater(controller->maintenanceToolPath() + QStringLiteral("/maintenancetool"), this);
+	updater = Updater::createQtIfwUpdater(controller->maintenanceToolPath() + QStringLiteral("/maintenancetool"), false, this);
 	QVERIFY(updater);
 	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
 	QVERIFY(checkSpy->isValid());
@@ -109,35 +81,25 @@ void UpdaterTest::testUpdateCheck()
 
 	//start the check updates
 	QVERIFY(!updater->isRunning());
-	QVERIFY(updater->checkForUpdates());
+	updater->checkForUpdates();
 
 	//runnig should have changed to true
 	QCOMPARE(runningSpy->size(), 1);
 	QVERIFY(runningSpy->takeFirst()[0].toBool());
 	QVERIFY(updater->isRunning());
-	QVERIFY(updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>().isEmpty());
+	QVERIFY(updateInfoSpy->takeFirst()[0].value<QList<UpdateInfo>>().isEmpty());
 
 	//wait max 5 min for the process to finish
 	QVERIFY(checkSpy->wait(300000));
 
-	//show error log before continuing checking
-	QByteArray log = updater->errorLog();
-	if(!log.isEmpty())
-		qWarning() << "Error log:" << log;
-
 	//check if the finished signal is without error
 	QCOMPARE(checkSpy->size(), 1);
 	QVariantList varList = checkSpy->takeFirst();
-	QVERIFY(updater->exitedNormally());
-	QCOMPARE(updater->errorCode(), hasUpdates ? EXIT_SUCCESS : EXIT_FAILURE);
-	QCOMPARE(varList[1].toBool(), false);//no errors please
-
-	//verifiy the "hasUpdates" and "updates" are as expected
-	QCOMPARE(varList[0].toBool(), hasUpdates);
+	QCOMPARE(varList[0].value<Updater::Result>(), hasUpdates ? Updater::Result::NewUpdates : Updater::Result::NoUpdates);
 	QCOMPARE(updater->updateInfo(), updates);
 	if(hasUpdates) {
 		QCOMPARE(updateInfoSpy->size(), 1);
-		QCOMPARE(updateInfoSpy->takeFirst()[0].value<QList<Updater::UpdateInfo>>(), updates);
+		QCOMPARE(updateInfoSpy->takeFirst()[0].value<QList<UpdateInfo>>(), updates);
 	}
 
 	//runnig should have changed to false

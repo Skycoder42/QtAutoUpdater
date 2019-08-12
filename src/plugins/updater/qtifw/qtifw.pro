@@ -1,6 +1,6 @@
 TARGET = qtifw
 
-QT = autoupdatercore
+QT = autoupdatercore autoupdatercore-private
 
 HEADERS += \
 	qtifwupdaterbackend.h \
@@ -12,7 +12,7 @@ SOURCES += \
 
 DISTFILES += qtifw.json
 
-PLUGIN_TYPE = updater
+PLUGIN_TYPE = updaters
 PLUGIN_EXTENDS = autoupdatercore
 PLUGIN_CLASS_NAME = QtIfwUpdaterPlugin
 load(qt_plugin)
