@@ -2,7 +2,6 @@
 #define QTIFWUPDATERPLUGIN_H
 
 #include <QtCore/QObject>
-
 #include <QtAutoUpdaterCore/UpdaterPlugin>
 
 class QtIfwUpdaterPlugin : public QObject, public QtAutoUpdater::UpdaterPlugin

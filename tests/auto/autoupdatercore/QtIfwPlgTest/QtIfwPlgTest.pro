@@ -6,10 +6,11 @@ QT -= gui
 CONFIG += console
 CONFIG -= app_bundle
 
-TARGET = tst_updatertest
+TARGET = tst_qtifwplg
 
-SOURCES += tst_updatertest.cpp \
-	installercontroller.cpp
+SOURCES += \
+	installercontroller.cpp \
+	tst_qtifwplg.cpp
 
 HEADERS += \
 	installercontroller.h

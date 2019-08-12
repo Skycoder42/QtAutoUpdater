@@ -10,7 +10,7 @@ using namespace QtAutoUpdater;
 
 #include <QtTest>
 
-class UpdaterTest : public QObject
+class QtIfwPlgTest : public QObject
 {
 	Q_OBJECT
 
@@ -29,7 +29,7 @@ private:
 	QSignalSpy *updateInfoSpy;
 };
 
-void UpdaterTest::initTestCase()
+void QtIfwPlgTest::initTestCase()
 {
 	controller = new InstallerController(this);
 	controller->createRepository();
@@ -37,7 +37,7 @@ void UpdaterTest::initTestCase()
 	controller->installLocal();
 }
 
-void UpdaterTest::testUpdateCheck_data()
+void QtIfwPlgTest::testUpdateCheck_data()
 {
 	QTest::addColumn<QVersionNumber>("repoVersion");
 	QTest::addColumn<bool>("hasUpdates");
@@ -61,7 +61,7 @@ void UpdaterTest::testUpdateCheck_data()
 	updates.clear();
 }
 
-void UpdaterTest::testUpdateCheck()
+void QtIfwPlgTest::testUpdateCheck()
 {
 	QFETCH(QVersionNumber, repoVersion);
 	QFETCH(bool, hasUpdates);
@@ -149,6 +149,6 @@ void UpdaterTest::testUpdateCheck()
 	delete updater;
 }
 
-QTEST_GUILESS_MAIN(UpdaterTest)
+QTEST_GUILESS_MAIN(QtIfwPlgTest)
 
-#include "tst_updatertest.moc"
+#include "tst_qtifwplg.moc"

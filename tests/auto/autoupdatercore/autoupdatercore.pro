@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS += UpdaterTest
+SUBDIRS += QtIfwPlgTest
 
 prepareRecursiveTarget(run-tests)
 QMAKE_EXTRA_TARGETS += run-tests
