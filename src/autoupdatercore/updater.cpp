@@ -4,6 +4,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTimer>
 #include <QtCore/QSettings>
+#include <QtCore/QStandardPaths>
 #include <QtCore/QDebug>
 #include <QtCore/private/qfactoryloader_p.h>
 
@@ -86,6 +87,17 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 							Qt::DirectConnection);
 	connect(d->scheduler, &SimpleScheduler::scheduleTriggered,
 			this, qOverload<>(&Updater::checkForUpdates));
+}
+
+Updater *Updater::createUpdater(QObject *parent, AdminAuthoriser *authoriser)
+{
+	auto config = UpdaterPrivate::findDefaultConfig();
+	if (config)
+		return createUpdater(config, parent, authoriser);
+	else {
+		qCCritical(logQtAutoUpdater) << "Unable to find the default updater configuration file";
+		return nullptr;
+	}
 }
 
 Updater *Updater::createUpdater(const QString &configPath, QObject *parent, AdminAuthoriser *authoriser)
@@ -236,19 +248,38 @@ void Updater::cancelExitRun()
 
 // ------------- private implementation -------------
 
-void UpdaterPrivate::setBackend(UpdaterBackend *newBackend)
+QSettings *UpdaterPrivate::findDefaultConfig()
 {
-	Q_Q(Updater);
-	backend = newBackend;
-	connect(backend, &UpdaterBackend::checkDone,
-			this, &UpdaterPrivate::_q_checkDone);
-	connect(backend, &UpdaterBackend::error,
-			this, &UpdaterPrivate::_q_error);
-	QObject::connect(backend, &UpdaterBackend::updateProgress,
-					 q, std::bind(&Updater::progressChanged, q,
-								  std::placeholders::_1,
-								  std::placeholders::_2,
-								  Updater::QPrivateSignal{}));
+#ifdef Q_OS_WIN
+	// Windows only: try the registry as first and thus preferred location
+	{
+		auto conf = new QSettings {
+			QSettings::NativeFormat,
+			QSettings::UserScope,
+			QCoreApplication::organizationName(),
+			QCoreApplication::applicationName()
+		};
+		conf->beginGroup(QStringLiteral("updater"));
+		if (conf->contains(QStringLiteral("backend")))
+			return conf;
+		else
+			delete conf;
+	}
+#endif
+
+	// try config directories first
+	auto paths = QStandardPaths::locateAll(QStandardPaths::AppConfigLocation, QStringLiteral("updater.conf"));
+	// then try data dirs (includes bundle/exe root etc., depending on the platform)
+	paths += QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("updater.conf"));
+	for (const auto &path : QStandardPaths::locateAll(QStandardPaths::AppConfigLocation, QStringLiteral("updater.conf"))) {
+		const auto conf = new QSettings{path, QSettings::IniFormat};
+		if (conf->contains(QStringLiteral("backend")))
+			return conf;
+		else
+			delete conf;
+	}
+
+	return nullptr;
 }
 
 Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QObject *parent, AdminAuthoriser *authoriser)
@@ -262,6 +293,21 @@ Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QO
 
 	updater->d_func()->setBackend(backend);
 	return updater;
+}
+
+void UpdaterPrivate::setBackend(UpdaterBackend *newBackend)
+{
+	Q_Q(Updater);
+	backend = newBackend;
+	connect(backend, &UpdaterBackend::checkDone,
+			this, &UpdaterPrivate::_q_checkDone);
+	connect(backend, &UpdaterBackend::error,
+			this, &UpdaterPrivate::_q_error);
+	QObject::connect(backend, &UpdaterBackend::updateProgress,
+					 q, std::bind(&Updater::progressChanged, q,
+								  std::placeholders::_1,
+								  std::placeholders::_2,
+								  Updater::QPrivateSignal{}));
 }
 
 void UpdaterPrivate::_q_appAboutToExit()

@@ -1,6 +1,8 @@
 #ifndef QTAUTOUPDATER_UPDATERBACKEND_H
 #define QTAUTOUPDATER_UPDATERBACKEND_H
 
+#include <optional>
+
 #include <QtCore/qobject.h>
 #include <QtCore/qshareddata.h>
 #include <QtCore/qversionnumber.h>

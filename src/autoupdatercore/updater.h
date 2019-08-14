@@ -30,6 +30,7 @@ class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 	//! Holds extended information about the last update check
 	Q_PROPERTY(QList<UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
+	Q_PROPERTY(bool runOnExit READ willRunOnExit NOTIFY runOnExitChanged)
 
 public:
 	enum class Result {
@@ -39,6 +40,8 @@ public:
 	};
 	Q_ENUM(Result)
 
+	static Updater *createUpdater(QObject *parent = nullptr,
+								  AdminAuthoriser *authoriser = nullptr);
 	static Updater *createUpdater(const QString &configPath,
 								  QObject *parent = nullptr,
 								  AdminAuthoriser *authoriser = nullptr);
@@ -98,6 +101,7 @@ Q_SIGNALS:
 	void runningChanged(bool running, QPrivateSignal);
 	//! notifyAcFn{Updater::updateInfo}
 	void updateInfoChanged(QList<QtAutoUpdater::UpdateInfo> updateInfo, QPrivateSignal);
+	void runOnExitChanged(bool runOnExit, QPrivateSignal);
 
 protected:
 	explicit Updater(QObject *parent = nullptr);

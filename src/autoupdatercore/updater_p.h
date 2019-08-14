@@ -28,10 +28,12 @@ public:
 	bool runOnExit = false;
 	QScopedPointer<AdminAuthoriser> adminAuth;
 
-	void setBackend(UpdaterBackend *newBackend);
+	static QSettings *findDefaultConfig();
 	static Updater *createUpdater(UpdaterBackend::IConfigReader *config,
 								  QObject *parent,
 								  AdminAuthoriser *authoriser);
+
+	void setBackend(UpdaterBackend *newBackend);
 	void _q_appAboutToExit();
 	void _q_checkDone(QList<UpdateInfo> updates);
 	void _q_error(QString errorMessage);
