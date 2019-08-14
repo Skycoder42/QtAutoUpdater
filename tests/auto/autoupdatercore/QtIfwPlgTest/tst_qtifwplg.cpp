@@ -1,14 +1,10 @@
-#include <updater.h>
-#include <QCoreApplication>
-#include <QSignalSpy>
-#include <QVector>
-#include <functional>
+#include <QtTest>
+#include <QtAutoUpdaterCore>
 #include "installercontroller.h"
 using namespace QtAutoUpdater;
 
 #define TEST_DELAY 1000
 
-#include <QtTest>
 
 class QtIfwPlgTest : public QObject
 {
@@ -19,6 +15,8 @@ private Q_SLOTS:
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
+
+	void testUpdateInstall();
 
 private:
 	Updater *updater;
@@ -70,7 +68,9 @@ void QtIfwPlgTest::testUpdateCheck()
 	controller->setVersion(repoVersion);
 	controller->createRepository();
 
-	updater = Updater::createQtIfwUpdater(controller->maintenanceToolPath() + QStringLiteral("/maintenancetool"), false, this);
+	updater = Updater::createUpdater(QStringLiteral("qtifw"), {
+										 {QStringLiteral("path"), controller->maintenanceToolPath() + QStringLiteral("/maintenancetool")}
+									 }, this);
 	QVERIFY(updater);
 	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
 	QVERIFY(checkSpy->isValid());
@@ -147,6 +147,30 @@ void QtIfwPlgTest::testUpdateCheck()
 	delete runningSpy;
 	delete checkSpy;
 	delete updater;
+}
+
+void QtIfwPlgTest::testUpdateInstall()
+{
+	controller->setVersion(QVersionNumber(1, 1, 0));
+	controller->createRepository();
+
+	// check for updates to make shure the updates is informed
+	updater = Updater::createUpdater(QStringLiteral("qtifw"), {
+										 {QStringLiteral("path"), controller->maintenanceToolPath() + QStringLiteral("/maintenancetool")}
+									 }, this);
+	QVERIFY(updater);
+
+	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
+	QVERIFY(checkSpy->isValid());
+
+	updater->checkForUpdates();
+	QVERIFY(checkSpy->wait(300000));
+	QCOMPARE(checkSpy->size(), 1);
+	QVariantList varList = checkSpy->takeFirst();
+	QCOMPARE(varList[0].value<Updater::Result>(), Updater::Result::NewUpdates);
+
+	// install the update
+	// TODO test once implemented
 }
 
 QTEST_GUILESS_MAIN(QtIfwPlgTest)

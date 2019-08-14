@@ -11,6 +11,7 @@ HEADERS += \
 	simplescheduler_p.h \
 	qtautoupdatercore_global.h \
 	updaterbackend.h \
+	updaterbackend_p.h \
 	updaterplugin.h
 
 SOURCES += \

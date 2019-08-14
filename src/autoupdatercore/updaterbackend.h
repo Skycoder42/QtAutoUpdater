@@ -5,6 +5,7 @@
 #include <QtCore/qshareddata.h>
 #include <QtCore/qversionnumber.h>
 #include <QtCore/qvariant.h>
+#include <QtCore/qscopedpointer.h>
 
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 #include "QtAutoUpdaterCore/updateinfo.h"
@@ -14,6 +15,7 @@ namespace QtAutoUpdater {
 
 class UpdateInstaller;
 
+class UpdaterBackendPrivate;
 class Q_AUTOUPDATERCORE_EXPORT UpdaterBackend : public QObject
 {
 	Q_OBJECT
@@ -30,23 +32,44 @@ public:
 	Q_DECLARE_FLAGS(Features, Feature)
 	Q_FLAG(Features)
 
-	explicit UpdaterBackend(QObject *parent = nullptr);
+	class Q_AUTOUPDATERCORE_EXPORT IConfigReader
+	{
+		Q_DISABLE_COPY(IConfigReader)
+	public:
+		IConfigReader() = default;
+		virtual ~IConfigReader() = default;
+
+		virtual QString backend() const = 0;
+		virtual std::optional<QVariant> value(const QString &key) const = 0;
+		virtual QVariant value(const QString &key, const QVariant &defaultValue) const = 0;
+	};
 
 	virtual Features features() const = 0;
-	virtual bool initialize(const QVariantMap &arguments,
-							AdminAuthoriser *authoriser) = 0;
-
-	virtual UpdateInstaller *installUpdates(const QList<UpdateInfo> &infos) = 0;
+	bool initialize(QScopedPointer<IConfigReader> &&config,
+					QScopedPointer<AdminAuthoriser> &&authoriser);
 
 	virtual void checkForUpdates() = 0;
 	virtual void abort(bool force) = 0;
 
 	virtual bool triggerUpdates(const QList<UpdateInfo> &infos) = 0;
+	virtual UpdateInstaller *installUpdates(const QList<UpdateInfo> &infos) = 0;
 
 Q_SIGNALS:
 	void checkDone(const QList<UpdateInfo> &updates);
 	void error(const QString &errorMsg);
 	void updateProgress(double percent, const QString &status);
+
+protected:
+	explicit UpdaterBackend(QObject *parent = nullptr);
+	explicit UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent = nullptr);
+
+	IConfigReader *config() const;
+	AdminAuthoriser *authoriser() const;
+
+	virtual bool initialize() = 0;
+
+private:
+	Q_DECLARE_PRIVATE(UpdaterBackend)
 };
 
 }

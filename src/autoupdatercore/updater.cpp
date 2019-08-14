@@ -3,6 +3,7 @@
 #include "updaterplugin.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTimer>
+#include <QtCore/QSettings>
 #include <QtCore/QDebug>
 #include <QtCore/private/qfactoryloader_p.h>
 
@@ -18,6 +19,58 @@ Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
 						  (QtAutoUpdater_UpdaterPlugin_iid,
 						   QLatin1String("/updaters")))
 
+namespace {
+
+class VariantConfigReader : public UpdaterBackend::IConfigReader
+{
+public:
+	inline VariantConfigReader(QString &&backend, QVariantMap &&map) :
+		_backend{std::move(backend)},
+		_map{std::move(map)}
+	{}
+
+	QString backend() const override {
+		return _backend;
+	}
+
+	std::optional<QVariant> value(const QString &key) const override {
+		return _map.contains(key) ? _map.value(key) : std::optional<QVariant>{std::nullopt};
+	}
+
+	QVariant value(const QString &key, const QVariant &defaultValue) const override {
+		return _map.value(key, defaultValue);
+	}
+
+private:
+	QString _backend;
+	QVariantMap _map;
+};
+
+class SettingsConfigReader : public UpdaterBackend::IConfigReader
+{
+public:
+	inline SettingsConfigReader(QSettings *settings) :
+		_settings{settings}
+	{}
+
+	QString backend() const override {
+		return _settings->value(QStringLiteral("backend")).toString();
+	}
+
+	std::optional<QVariant> value(const QString &key) const override {
+		return _settings->contains(key) ? _settings->value(key) : std::optional<QVariant>{std::nullopt};
+	}
+
+	QVariant value(const QString &key, const QVariant &defaultValue) const override {
+		return _settings->value(key, defaultValue);
+	}
+
+private:
+	QScopedPointer<QSettings, QScopedPointerDeleteLater> _settings;
+};
+
+}
+
 Updater::Updater(QObject *parent) :
 	Updater(*new UpdaterPrivate{}, parent)
 {}
@@ -32,28 +85,28 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 							d, &UpdaterPrivate::_q_appAboutToExit,
 							Qt::DirectConnection);
 	connect(d->scheduler, &SimpleScheduler::scheduleTriggered,
-			this, &Updater::checkForUpdates);
+			this, qOverload<>(&Updater::checkForUpdates));
 }
 
-Updater *Updater::createUpdater(const QString &key, const QVariantMap &arguments, QObject *parent, AdminAuthoriser *authoriser)
+Updater *Updater::createUpdater(const QString &configPath, QObject *parent, AdminAuthoriser *authoriser)
 {
-	auto updater = new Updater{parent};
-	auto backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, key, updater);
-	if (!backend || !backend->initialize(arguments, authoriser)) {
-		delete updater;
-		return nullptr;
-	}
-
-	updater->d_func()->setBackend(backend);
-	return updater;
-}
-
-Updater *Updater::createQtIfwUpdater(const QString &maintenancetoolPath, bool silent, QObject *parent, AdminAuthoriser *authoriser)
-{
-	return createUpdater(QStringLiteral("qtifw"), {
-							 {QStringLiteral("path"), maintenancetoolPath},
-							 {QStringLiteral("silent"), silent}
+	return createUpdater(new QSettings {
+							 configPath,
+							 QSettings::IniFormat
 						 }, parent, authoriser);
+}
+
+Updater *Updater::createUpdater(QSettings *config, QObject *parent, AdminAuthoriser *authoriser)
+{
+	return UpdaterPrivate::createUpdater(new SettingsConfigReader {config}, parent, authoriser);
+}
+
+Updater *Updater::createUpdater(QString key, QVariantMap arguments, QObject *parent, AdminAuthoriser *authoriser)
+{
+	return UpdaterPrivate::createUpdater(new VariantConfigReader {
+											 std::move(key),
+											 std::move(arguments)
+										 }, parent, authoriser);
 }
 
 Updater::~Updater()
@@ -113,17 +166,24 @@ int Updater::scheduleUpdate(const QDateTime &when)
 	return d->scheduler->startSchedule(when);
 }
 
-bool Updater::runUpdater(bool forceOnExit)
+bool Updater::runUpdater()
+{
+	Q_D(Updater);
+	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall))
+		return d->backend->triggerUpdates(d->updateInfos);
+	else if (d->backend->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
+		Q_UNIMPLEMENTED();
+		return true;
+	} else
+		return false;
+}
+
+bool Updater::runUpdaterOnExit()
 {
 	Q_D(Updater);
 	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
-		if (d->backend->features().testFlag(UpdaterBackend::Feature::InstallNeedsExit))
-			forceOnExit = true;
-		if (forceOnExit) {
-			d->runOnExit = true;
-			return true;
-		} else
-			return d->backend->triggerUpdates(d->updateInfos);
+		d->runOnExit = true;
+		return true;
 	} else
 		return false;
 }
@@ -189,6 +249,19 @@ void UpdaterPrivate::setBackend(UpdaterBackend *newBackend)
 								  std::placeholders::_1,
 								  std::placeholders::_2,
 								  Updater::QPrivateSignal{}));
+}
+
+Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QObject *parent, AdminAuthoriser *authoriser)
+{
+	auto updater = new Updater{parent};
+	auto backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, config->backend(), updater);
+	if (!backend || !backend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{config}, QScopedPointer<AdminAuthoriser>{authoriser})) {
+		delete updater;
+		return nullptr;
+	}
+
+	updater->d_func()->setBackend(backend);
+	return updater;
 }
 
 void UpdaterPrivate::_q_appAboutToExit()

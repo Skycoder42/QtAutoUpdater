@@ -13,11 +13,13 @@ public:
 	explicit QPackageKitUpdaterBackend(QObject *parent = nullptr);
 
 	Features features() const override;
-	bool initialize(const QVariantMap &arguments, QtAutoUpdater::AdminAuthoriser *authoriser) override;
-	QtAutoUpdater::UpdateInstaller *installUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;
 	void checkForUpdates() override;
 	void abort(bool force) override;
 	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;
+	QtAutoUpdater::UpdateInstaller *installUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;
+
+protected:
+	bool initialize() override;
 
 private Q_SLOTS:
 	void percentageChanged();

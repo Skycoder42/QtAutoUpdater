@@ -29,6 +29,9 @@ public:
 	QScopedPointer<AdminAuthoriser> adminAuth;
 
 	void setBackend(UpdaterBackend *newBackend);
+	static Updater *createUpdater(UpdaterBackend::IConfigReader *config,
+								  QObject *parent,
+								  AdminAuthoriser *authoriser);
 	void _q_appAboutToExit();
 	void _q_checkDone(QList<UpdateInfo> updates);
 	void _q_error(QString errorMessage);

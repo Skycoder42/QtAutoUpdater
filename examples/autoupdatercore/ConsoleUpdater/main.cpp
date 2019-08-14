@@ -7,16 +7,18 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 	if(a.arguments().size() < 2) {
-		qCritical() << "Usage: ConsoleUpdater <backend> [<args>] ...]";
+		qCritical() << "Usage: ConsoleUpdater <backend> [<key>=<value>] ...]";
 		return EXIT_FAILURE;
 	}
 
 	const auto backend = a.arguments().at(1);
-	QtAutoUpdater::Updater *updater = nullptr;
-	if (backend == QStringLiteral("qtifw"))
-		updater = QtAutoUpdater::Updater::createQtIfwUpdater(a.arguments().at(2));
-	else /*if (backend == QStringLiteral("packagekit"))*/
-		updater = QtAutoUpdater::Updater::createUpdater(backend);
+	QVariantMap args;
+	for (const auto &arg : a.arguments().mid(2)) {
+		const auto eIdx = arg.indexOf(QLatin1Char('='));
+		if (eIdx != -1)
+			args.insert(arg.mid(0, eIdx), arg.mid(eIdx + 1));
+	}
+	auto updater = QtAutoUpdater::Updater::createUpdater(backend, args);
 
 	if (!updater) {
 		qCritical() << "Plugin" << backend << "not available";

@@ -17,35 +17,8 @@ UpdaterBackend::Features QtIfwUpdaterBackend::features() const
 #ifdef Q_OS_WIN
 			Feature::InstallNeedsExit |
 #endif
-			Feature::TriggerInstall;
-}
-
-bool QtIfwUpdaterBackend::initialize(const QVariantMap &arguments, AdminAuthoriser *authoriser)
-{
-	_authoriser = authoriser;
-
-	auto mtInfo = findMaintenanceTool(arguments);
-	if (!mtInfo)
-		return false;
-
-	_process = new QProcess{this};
-	_process->setProgram(mtInfo->absoluteFilePath());
-	_process->setWorkingDirectory(mtInfo->absolutePath());
-	_process->setArguments({QStringLiteral("--checkupdates")});
-
-	connect(_process, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
-			this, &QtIfwUpdaterBackend::updaterReady);
-	connect(_process, &QProcess::errorOccurred,
-			this, &QtIfwUpdaterBackend::updaterError);
-
-	_silentUpdate = arguments[QStringLiteral("silent")].toBool();
-
-	return true;
-}
-
-UpdateInstaller *QtIfwUpdaterBackend::installUpdates(const QList<UpdateInfo> &)
-{
-	return nullptr;
+			Feature::TriggerInstall |
+			Feature::PerformInstall;
 }
 
 void QtIfwUpdaterBackend::checkForUpdates()
@@ -66,14 +39,41 @@ void QtIfwUpdaterBackend::abort(bool force)
 
 bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
 {
-	QStringList arguments { _silentUpdate ?
-							QStringLiteral("--silentUpdate") :
-							QStringLiteral("--updater")};
+	QStringList arguments {
+		config()->value(QStringLiteral("silent"), false).toBool() ?
+					QStringLiteral("--silentUpdate") :
+					QStringLiteral("--updater")
+	};
 
 	if (_authoriser && !_authoriser->hasAdminRights())
 		return _authoriser->executeAsAdmin(_process->program(), arguments);
 	else
 		return QProcess::startDetached(_process->program(), arguments, _process->workingDirectory());
+}
+
+UpdateInstaller *QtIfwUpdaterBackend::installUpdates(const QList<UpdateInfo> &)
+{
+	// TODO implement using non-detached process
+	return nullptr;
+}
+
+bool QtIfwUpdaterBackend::initialize()
+{
+	auto mtInfo = findMaintenanceTool();
+	if (!mtInfo)
+		return false;
+
+	_process = new QProcess{this};
+	_process->setProgram(mtInfo->absoluteFilePath());
+	_process->setWorkingDirectory(mtInfo->absolutePath());
+	_process->setArguments({QStringLiteral("--checkupdates")});
+
+	connect(_process, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
+			this, &QtIfwUpdaterBackend::updaterReady);
+	connect(_process, &QProcess::errorOccurred,
+			this, &QtIfwUpdaterBackend::updaterError);
+
+	return true;
 }
 
 void QtIfwUpdaterBackend::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
@@ -96,16 +96,14 @@ void QtIfwUpdaterBackend::updaterError()
 	emit error(_process->errorString());
 }
 
-std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool(const QVariantMap &arguments)
+std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
 {
-	auto path = arguments[QStringLiteral("path")].toString();
-	if (path.isEmpty()) {
 #ifdef Q_OS_OSX
-		path = QStringLiteral("../../maintenancetool");
+		auto path = QStringLiteral("../../maintenancetool");
 #else
-		path =  QStringLiteral("./maintenancetool");
+		auto path =  QStringLiteral("./maintenancetool");
 #endif
-	}
+	path = config()->value(QStringLiteral("path"), path).toString();
 
 #if defined(Q_OS_WIN32)
 	if(!path.endsWith(QStringLiteral(".exe")))

@@ -13,6 +13,8 @@
 #include "QtAutoUpdaterCore/updateinfo.h"
 #include "QtAutoUpdaterCore/adminauthoriser.h"
 
+class QSettings;
+
 namespace QtAutoUpdater
 {
 
@@ -37,16 +39,16 @@ public:
 	};
 	Q_ENUM(Result)
 
-	static Updater *createUpdater(const QString &key,
-								  const QVariantMap &arguments = {},
+	static Updater *createUpdater(const QString &configPath,
 								  QObject *parent = nullptr,
 								  AdminAuthoriser *authoriser = nullptr);
-
-	static Updater *createQtIfwUpdater(const QString &maintenancetoolPath = {},
-									   bool silent = false,
-									   QObject *parent = nullptr,
-									   AdminAuthoriser *authoriser = nullptr);
-	// TODO create overloads for known backends
+	static Updater *createUpdater(QSettings *config,
+								  QObject *parent = nullptr,
+								  AdminAuthoriser *authoriser = nullptr);
+	static Updater *createUpdater(QString key,
+								  QVariantMap arguments,
+								  QObject *parent = nullptr,
+								  AdminAuthoriser *authoriser = nullptr);
 
 	//! Destroyes the updater and kills the update check (if running)
 	~Updater() override;
@@ -71,8 +73,9 @@ public:
 	template <typename TClock, typename TDur>
 	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when);
 
+	bool runUpdater();
 	//! Runs the maintenancetool as updater on exit, using the given admin authorisation
-	bool runUpdater(bool forceOnExit = false);
+	bool runUpdaterOnExit();
 
 public Q_SLOTS:
 	//! Starts checking for updates

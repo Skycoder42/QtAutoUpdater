@@ -15,16 +15,6 @@ UpdaterBackend::Features QPackageKitUpdaterBackend::features() const
 			Feature::InstallSelected;
 }
 
-bool QPackageKitUpdaterBackend::initialize(const QVariantMap &arguments, AdminAuthoriser *authoriser)
-{
-	return true;
-}
-
-UpdateInstaller *QPackageKitUpdaterBackend::installUpdates(const QList<UpdateInfo> &infos)
-{
-
-}
-
 void QPackageKitUpdaterBackend::checkForUpdates()
 {
 	if (_checkTrans)
@@ -48,9 +38,20 @@ void QPackageKitUpdaterBackend::abort(bool)
 		_checkTrans->cancel();
 }
 
-bool QPackageKitUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos)
+bool QPackageKitUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
 {
+	return false;
+}
 
+UpdateInstaller *QPackageKitUpdaterBackend::installUpdates(const QList<UpdateInfo> &infos)
+{
+	Q_UNIMPLEMENTED();
+	return nullptr;
+}
+
+bool QPackageKitUpdaterBackend::initialize()
+{
+	return true;
 }
 
 void QPackageKitUpdaterBackend::percentageChanged()
