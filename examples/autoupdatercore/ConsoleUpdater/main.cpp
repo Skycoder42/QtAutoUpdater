@@ -24,8 +24,13 @@ int main(int argc, char *argv[])
 		qCritical() << "Plugin" << backend << "not available";
 		return EXIT_FAILURE;
 	}
-	QObject::connect(updater, &QtAutoUpdater::Updater::progressChanged, [](double progress){
-		qDebug() << static_cast<int>(progress * 100) << "%";
+	QObject::connect(updater, &QtAutoUpdater::Updater::progressChanged, [](double progress, const QString &status){
+		if (progress < 0.0) {
+			qDebug().nospace().noquote() << status << " (...)";
+		} else {
+			qDebug().nospace().noquote() << status << " ("
+										 << static_cast<int>(progress * 100) << "%)";
+		}
 	});
 	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](QtAutoUpdater::Updater::Result result){
 		qInfo() << "Has updates:" << result

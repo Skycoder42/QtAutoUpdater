@@ -28,6 +28,7 @@ private Q_SLOTS:
 	void finished(PackageKit::Transaction::Exit status);
 
 private:
+	QStringList _packageFilter;
 	PackageKit::Transaction *_checkTrans = nullptr;
 	QList<QtAutoUpdater::UpdateInfo> _updates;
 };

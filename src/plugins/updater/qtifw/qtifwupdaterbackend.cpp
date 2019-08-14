@@ -60,8 +60,11 @@ UpdateInstaller *QtIfwUpdaterBackend::installUpdates(const QList<UpdateInfo> &)
 bool QtIfwUpdaterBackend::initialize()
 {
 	auto mtInfo = findMaintenanceTool();
-	if (!mtInfo)
+	if (!mtInfo) {
+		qCCritical(logQtAutoUpdater) << "Path to maintenancetool could not be determined or does not exist. "
+										"Use the 'path' configuration parameter to explicitly specify it";
 		return false;
+	}
 
 	_process = new QProcess{this};
 	_process->setProgram(mtInfo->absoluteFilePath());

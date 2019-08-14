@@ -1,6 +1,6 @@
 #include "qpackagekitupdaterbackend.h"
 #include <Daemon>
-#include <QDebug>
+#include <QtAutoUpdaterCore/private/updater_p.h>
 using namespace QtAutoUpdater;
 using namespace PackageKit;
 
@@ -51,7 +51,14 @@ UpdateInstaller *QPackageKitUpdaterBackend::installUpdates(const QList<UpdateInf
 
 bool QPackageKitUpdaterBackend::initialize()
 {
-	return true;
+	auto pData = config()->value(QStringLiteral("packages"));
+	if (pData) {
+		_packageFilter = pData->toString().split(QLatin1Char(';'));
+		return true;
+	} else {
+		qCCritical(logQtAutoUpdater) << "Configuration for packagekit must contain 'packages'";
+		return false;
+	}
 }
 
 void QPackageKitUpdaterBackend::percentageChanged()
@@ -73,6 +80,8 @@ void QPackageKitUpdaterBackend::package(Transaction::Info info, const QString &p
 	case Transaction::InfoImportant:
 	case Transaction::InfoSecurity:{
 		auto parts = packageID.split(QStringLiteral(";"));
+		if (!_packageFilter.contains(parts[0]))
+			break;
 		UpdateInfo updInfo;
 		updInfo.setName(parts[0]);
 		updInfo.setVersion(QVersionNumber::fromString(parts[1]));
