@@ -1,6 +1,5 @@
 image:
   - Visual Studio 2017
-  - Visual Studio 2015
 
 version: build-{build}
 
@@ -14,20 +13,6 @@ environment:
     - PLATFORM: msvc2017
     - PLATFORM: mingw73_64
     - PLATFORM: mingw73_32
-    - PLATFORM: msvc2015_64
-
-matrix:
-  exclude:
-    - PLATFORM: msvc2017_64
-      image: Visual Studio 2015
-    - PLATFORM: msvc2017
-      image: Visual Studio 2015
-    - PLATFORM: mingw73_64
-      image: Visual Studio 2015
-    - PLATFORM: mingw73_32
-      image: Visual Studio 2015
-    - PLATFORM: msvc2015_64
-      image: Visual Studio 2017
 
 install:
   - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis
