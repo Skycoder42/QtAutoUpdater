@@ -1,11 +1,10 @@
 #include "qpackagekitupdaterbackend.h"
 #include <Daemon>
-#include <QtAutoUpdaterCore/private/updater_p.h>
 using namespace QtAutoUpdater;
 using namespace PackageKit;
 
-QPackageKitUpdaterBackend::QPackageKitUpdaterBackend(QObject *parent) :
-	UpdaterBackend{parent}
+QPackageKitUpdaterBackend::QPackageKitUpdaterBackend(QString &&key, QObject *parent) :
+	UpdaterBackend{std::move(key), parent}
 {}
 
 UpdaterBackend::Features QPackageKitUpdaterBackend::features() const
@@ -56,7 +55,7 @@ bool QPackageKitUpdaterBackend::initialize()
 		_packageFilter = pData->toString().split(QLatin1Char(';'));
 		return true;
 	} else {
-		qCCritical(logQtAutoUpdater) << "Configuration for packagekit must contain 'packages'";
+		qCCritical(logCat()) << "Configuration for packagekit must contain 'packages'";
 		return false;
 	}
 }
@@ -94,11 +93,13 @@ void QPackageKitUpdaterBackend::package(Transaction::Info info, const QString &p
 	}
 }
 
-void QPackageKitUpdaterBackend::errorCode(Transaction::Error, const QString &details)
+void QPackageKitUpdaterBackend::errorCode(Transaction::Error code, const QString &details)
 {
 	_checkTrans->disconnect(this);
 	_checkTrans->deleteLater();
-	emit error(details);
+	qCCritical(logCat()) << "Update-Check-Transaction failed with code" << code
+						 << "and message:" << qUtf8Printable(details);
+	emit error();
 	_updates.clear();
 }
 
@@ -109,6 +110,6 @@ void QPackageKitUpdaterBackend::finished(Transaction::Exit status)
 	if (status == Transaction::ExitSuccess)
 		emit checkDone(_updates);
 	else
-		emit error(tr("Unknown Error"));
+		emit error();
 	_updates.clear();
 }

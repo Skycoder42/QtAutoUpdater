@@ -155,12 +155,6 @@ QList<UpdateInfo> Updater::updateInfo() const
 	return d->updateInfos;
 }
 
-QString Updater::errorMessage() const
-{
-	const Q_D(Updater);
-	return d->errorMsg;
-}
-
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
 	if((static_cast<qint64>(delaySeconds) * 1000ll) > static_cast<qint64>(std::numeric_limits<int>::max())) {
@@ -178,26 +172,34 @@ int Updater::scheduleUpdate(const QDateTime &when)
 	return d->scheduler->startSchedule(when);
 }
 
-bool Updater::runUpdater()
+bool Updater::runUpdater(bool forceOnExit)
 {
 	Q_D(Updater);
-	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall))
-		return d->backend->triggerUpdates(d->updateInfos);
-	else if (d->backend->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
-		Q_UNIMPLEMENTED();
-		return true;
-	} else
-		return false;
-}
+	if (!d->backend->features().testFlag(UpdaterBackend::Feature::ParallelInstall))
+		forceOnExit = true;
 
-bool Updater::runUpdaterOnExit()
-{
-	Q_D(Updater);
 	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
-		d->runOnExit = true;
-		return true;
-	} else
+		if (forceOnExit) {
+			d->runOnExit = true;
+			return true;
+		} else
+			return d->backend->triggerUpdates(d->updateInfos);
+	} else if (d->backend->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
+		if (forceOnExit) {
+			qCCritical(d->backend->logCat()) << "Backend does not support installation after exiting";
+			return false;
+		} else {
+			auto installer = d->backend->installUpdates(d->updateInfos);
+			if (installer)  {
+				emit showInstaller(installer, {});
+				return true;
+			} else
+				return false;
+		}
+	} else {
+		qCCritical(d->backend->logCat()) << "Backend does not support installation";
 		return false;
+	}
 }
 
 void Updater::checkForUpdates()
@@ -206,7 +208,6 @@ void Updater::checkForUpdates()
 	if (!d->running) {
 		d->running = true;
 		d->updateInfos.clear();
-		d->errorMsg.clear();
 		emit updateInfoChanged(d->updateInfos, {});
 		if (d->backend->features().testFlag(UpdaterBackend::Feature::CheckProgress))
 			emit progressChanged(0.0, QStringLiteral(""), {}); // empty, but not null string
@@ -322,7 +323,6 @@ void UpdaterPrivate::_q_checkDone(QList<UpdateInfo> updates)
 {
 	Q_Q(Updater);
 	updateInfos = std::move(updates);
-	errorMsg.clear();
 	running = false;
 	emit q->runningChanged(running, {});
 	if (updateInfos.isEmpty())
@@ -333,11 +333,10 @@ void UpdaterPrivate::_q_checkDone(QList<UpdateInfo> updates)
 	}
 }
 
-void UpdaterPrivate::_q_error(QString errorMessage)
+void UpdaterPrivate::_q_error()
 {
 	Q_Q(Updater);
 	updateInfos.clear();
-	errorMsg = std::move(errorMessage);
 	running = false;
 	emit q->runningChanged(running, {});
 	emit q->checkUpdatesDone(Updater::Result::Error, {});

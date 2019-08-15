@@ -13,7 +13,7 @@ class QPackageKitUpdaterPlugin : public QObject, public QtAutoUpdater::UpdaterPl
 public:
 	explicit QPackageKitUpdaterPlugin(QObject *parent = nullptr);
 
-	QtAutoUpdater::UpdaterBackend *create(const QString &type, QObject *parent) override;
+	QtAutoUpdater::UpdaterBackend *create(QString key, QObject *parent) override;
 };
 
 #endif // QPACKAGEKITUPDATERPLUGIN_H

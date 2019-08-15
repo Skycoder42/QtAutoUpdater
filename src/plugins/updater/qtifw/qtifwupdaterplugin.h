@@ -13,7 +13,7 @@ class QtIfwUpdaterPlugin : public QObject, public QtAutoUpdater::UpdaterPlugin
 public:
 	explicit QtIfwUpdaterPlugin(QObject *parent = nullptr);
 
-	QtAutoUpdater::UpdaterBackend *create(const QString &type, QObject *parent) override;
+	QtAutoUpdater::UpdaterBackend *create(QString key, QObject *parent) override;
 };
 
 #endif // QTIFWUPDATERPLUGIN_H

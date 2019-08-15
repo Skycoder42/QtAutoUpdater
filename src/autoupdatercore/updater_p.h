@@ -20,7 +20,6 @@ class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObjectPrivate
 public:
 	bool running = false;
 	QList<UpdateInfo> updateInfos;
-	QString errorMsg;
 
 	SimpleScheduler *scheduler = nullptr;
 	UpdaterBackend *backend = nullptr;
@@ -36,7 +35,7 @@ public:
 	void setBackend(UpdaterBackend *newBackend);
 	void _q_appAboutToExit();
 	void _q_checkDone(QList<UpdateInfo> updates);
-	void _q_error(QString errorMessage);
+	void _q_error();
 };
 
 Q_AUTOUPDATERCORE_EXPORT Q_DECLARE_LOGGING_CATEGORY(logQtAutoUpdater)

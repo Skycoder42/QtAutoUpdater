@@ -19,6 +19,7 @@ namespace QtAutoUpdater
 {
 
 class UpdaterBackend;
+class UpdateInstaller;
 
 class UpdaterPrivate;
 //! The main updater. Can check for updates and run the maintenancetool as updater
@@ -65,7 +66,6 @@ public:
 	bool isRunning() const;
 	//! readAcFn{Updater::updateInfo}
 	QList<UpdateInfo> updateInfo() const;
-	QString errorMessage() const;
 
 	//! Schedules an update after a specific delay, optionally repeated
 	Q_INVOKABLE int scheduleUpdate(int delaySeconds, bool repeated = false);
@@ -76,9 +76,7 @@ public:
 	template <typename TClock, typename TDur>
 	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when);
 
-	bool runUpdater();
-	//! Runs the maintenancetool as updater on exit, using the given admin authorisation
-	bool runUpdaterOnExit();
+	bool runUpdater(bool forceOnExit = false);
 
 public Q_SLOTS:
 	//! Starts checking for updates
@@ -96,6 +94,7 @@ Q_SIGNALS:
 	//! Will be emitted as soon as the updater finished checking for updates
 	void checkUpdatesDone(QtAutoUpdater::Updater::Result result, QPrivateSignal);
 	void progressChanged(double progress, const QString &status, QPrivateSignal);
+	void showInstaller(UpdateInstaller *installer, QPrivateSignal);
 
 	//! notifyAcFn{Updater::running}
 	void runningChanged(bool running, QPrivateSignal);
@@ -113,7 +112,7 @@ private:
 
 	Q_PRIVATE_SLOT(d_func(), void _q_appAboutToExit())
 	Q_PRIVATE_SLOT(d_func(), void _q_checkDone(QList<UpdateInfo>))
-	Q_PRIVATE_SLOT(d_func(), void _q_error(QString))
+	Q_PRIVATE_SLOT(d_func(), void _q_error())
 };
 
 template<typename TRep, typename TPeriod>

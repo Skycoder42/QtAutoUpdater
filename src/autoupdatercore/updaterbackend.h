@@ -8,6 +8,7 @@
 #include <QtCore/qversionnumber.h>
 #include <QtCore/qvariant.h>
 #include <QtCore/qscopedpointer.h>
+#include <QtCore/qloggingcategory.h>
 
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 #include "QtAutoUpdaterCore/updateinfo.h"
@@ -27,9 +28,9 @@ public:
 		CheckUpdates = 0x00,
 		CheckProgress = 0x01,
 		TriggerInstall = 0x02,
-		InstallNeedsExit = 0x04,
-		InstallSelected = 0x08,
-		PerformInstall = 0x10
+		ParallelInstall = 0x04,
+		PerformInstall = 0x08 | ParallelInstall,
+		InstallSelected = 0x10
 	};
 	Q_DECLARE_FLAGS(Features, Feature)
 	Q_FLAG(Features)
@@ -46,6 +47,7 @@ public:
 		virtual QVariant value(const QString &key, const QVariant &defaultValue) const = 0;
 	};
 
+	QString key() const ;
 	virtual Features features() const = 0;
 	bool initialize(QScopedPointer<IConfigReader> &&config,
 					QScopedPointer<AdminAuthoriser> &&authoriser);
@@ -58,19 +60,21 @@ public:
 
 Q_SIGNALS:
 	void checkDone(const QList<UpdateInfo> &updates);
-	void error(const QString &errorMsg);
+	void error();
 	void updateProgress(double percent, const QString &status);
 
 protected:
-	explicit UpdaterBackend(QObject *parent = nullptr);
+	explicit UpdaterBackend(QString &&key, QObject *parent = nullptr);
 	explicit UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent = nullptr);
 
 	IConfigReader *config() const;
 	AdminAuthoriser *authoriser() const;
+	const QLoggingCategory &logCat() const;
 
 	virtual bool initialize() = 0;
 
 private:
+	friend class Updater;
 	Q_DECLARE_PRIVATE(UpdaterBackend)
 };
 

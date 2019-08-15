@@ -10,7 +10,7 @@ namespace QtAutoUpdater
 {
 
 //! An interface to run programs with elevated rights
-class Q_AUTOUPDATERCORE_EXPORT AdminAuthoriser
+class Q_AUTOUPDATERCORE_EXPORT AdminAuthoriser  // TODO move to private, without GUI dep, so qtifw can use it internally
 {
 	Q_DISABLE_COPY(AdminAuthoriser)
 public:

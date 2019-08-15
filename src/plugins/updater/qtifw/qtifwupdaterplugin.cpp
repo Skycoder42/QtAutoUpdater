@@ -6,10 +6,10 @@ QtIfwUpdaterPlugin::QtIfwUpdaterPlugin(QObject *parent) :
 	QObject{parent}
 {}
 
-QtAutoUpdater::UpdaterBackend *QtIfwUpdaterPlugin::create(const QString &type, QObject *parent)
+QtAutoUpdater::UpdaterBackend *QtIfwUpdaterPlugin::create(QString key, QObject *parent)
 {
-	if (type == QStringLiteral("qtifw"))
-		return new QtIfwUpdaterBackend{parent};
+	if (key == QStringLiteral("qtifw"))
+		return new QtIfwUpdaterBackend{std::move(key), parent};
 	else
 		return nullptr;
 }

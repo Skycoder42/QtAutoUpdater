@@ -1,24 +1,21 @@
 #include "qtifwupdaterbackend.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
-#include <QtCore/QXmlStreamReader>
 #include <QtCore/QDebug>
 
-#include <QtAutoUpdaterCore/private/updater_p.h>
 using namespace QtAutoUpdater;
 
-QtIfwUpdaterBackend::QtIfwUpdaterBackend(QObject *parent) :
-	UpdaterBackend{parent}
+QtIfwUpdaterBackend::QtIfwUpdaterBackend(QString &&key, QObject *parent) :
+	UpdaterBackend{std::move(key), parent}
 {}
 
 UpdaterBackend::Features QtIfwUpdaterBackend::features() const
 {
 	return Feature::CheckUpdates |
-#ifdef Q_OS_WIN
-			Feature::InstallNeedsExit |
+#ifndef Q_OS_WIN
+			Feature::ParallelInstall |
 #endif
-			Feature::TriggerInstall |
-			Feature::PerformInstall;
+			Feature::TriggerInstall;
 }
 
 void QtIfwUpdaterBackend::checkForUpdates()
@@ -44,11 +41,20 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
 					QStringLiteral("--silentUpdate") :
 					QStringLiteral("--updater")
 	};
+	const auto extraArgs = config()->value(QStringLiteral("extraInstallArgs"));
+	if (extraArgs)
+		arguments.append(extraArgs->toStringList());
 
 	if (_authoriser && !_authoriser->hasAdminRights())
 		return _authoriser->executeAsAdmin(_process->program(), arguments);
-	else
-		return QProcess::startDetached(_process->program(), arguments, _process->workingDirectory());
+	else {
+		if (QProcess::startDetached(_process->program(), arguments, _process->workingDirectory()))
+			return true;
+		else {
+			qCCritical(logCat()) << "Failed to start" << _process->program() << "to install updates";
+			return false;
+		}
+	}
 }
 
 UpdateInstaller *QtIfwUpdaterBackend::installUpdates(const QList<UpdateInfo> &)
@@ -61,15 +67,20 @@ bool QtIfwUpdaterBackend::initialize()
 {
 	auto mtInfo = findMaintenanceTool();
 	if (!mtInfo) {
-		qCCritical(logQtAutoUpdater) << "Path to maintenancetool could not be determined or does not exist. "
-										"Use the 'path' configuration parameter to explicitly specify it";
+		qCCritical(logCat()) << "Path to maintenancetool could not be determined or does not exist. "
+								"Use the 'path' configuration parameter to explicitly specify it";
 		return false;
 	}
 
 	_process = new QProcess{this};
 	_process->setProgram(mtInfo->absoluteFilePath());
 	_process->setWorkingDirectory(mtInfo->absolutePath());
-	_process->setArguments({QStringLiteral("--checkupdates")});
+	const auto extraArgs = config()->value(QStringLiteral("extraCheckArgs"));
+	if (extraArgs)
+		_process->setArguments(QStringList{QStringLiteral("--checkupdates")} + extraArgs->toStringList());
+	else
+		_process->setArguments({QStringLiteral("--checkupdates")});
+	_process->setProcessChannelMode(QProcess::ForwardedErrorChannel);
 
 	connect(_process, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
 			this, &QtIfwUpdaterBackend::updaterReady);
@@ -87,16 +98,22 @@ void QtIfwUpdaterBackend::updaterReady(int exitCode, QProcess::ExitStatus exitSt
 			if (updates)
 				emit checkDone(*updates);
 			else
-				emit error(tr("Read invalid output from MaintenanceTool"));
+				emit error();
 		} else
 			emit checkDone({});
-	}
+	} else
+		emit error();
 	_process->close();
 }
 
-void QtIfwUpdaterBackend::updaterError()
+void QtIfwUpdaterBackend::updaterError(QProcess::ProcessError procError)
 {
-	emit error(_process->errorString());
+	qCCritical(logCat()) << "Maintenancetool-Error:"
+						 << qUtf8Printable(_process->errorString());
+	if (procError == QProcess::FailedToStart) {
+		emit error();
+		_process->close();
+	}
 }
 
 std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
@@ -126,42 +143,62 @@ std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
 
 std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates()
 {
-	const auto outString = QString::fromUtf8(_process->readAllStandardOutput());
-	const auto xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
-	if(xmlBegin < 0)
-		return QList<UpdateInfo>{};
-	const auto xmlEnd = outString.indexOf(QStringLiteral("</updates>"), xmlBegin);
-	if(xmlEnd < 0)
-		return QList<UpdateInfo>{};
+	try {
+		const auto outString = QString::fromUtf8(_process->readAllStandardOutput());
+		const auto xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
+		if(xmlBegin < 0)
+			return QList<UpdateInfo>{};
+		const auto xmlEnd = outString.indexOf(QStringLiteral("</updates>"), xmlBegin);
+		if(xmlEnd < 0)
+			return QList<UpdateInfo>{};
 
-	QList<UpdateInfo> updates;
-	QXmlStreamReader reader(outString.mid(xmlBegin, (xmlEnd + 10) - xmlBegin));
+		QList<UpdateInfo> updates;
+		QXmlStreamReader reader(outString.mid(xmlBegin, (xmlEnd + 10) - xmlBegin));
 
-	reader.readNextStartElement();
-	Q_ASSERT(reader.name() == QStringLiteral("updates"));
+		if (!reader.readNextStartElement()) {
+			checkReader(reader);
+			Q_UNREACHABLE();
+		} else
+			Q_ASSERT(reader.name() == QStringLiteral("updates"));  // assert here because string limitation already ensures this
 
-	while(reader.readNextStartElement()) {
-		if(reader.name() != QStringLiteral("update"))
-			return std::nullopt;
+		while(reader.readNextStartElement()) {
+			if(reader.name() != QStringLiteral("update"))
+				throwUnexpectedElement(reader);
 
-		auto ok = false;
-		UpdateInfo info;
-		info.setName(reader.attributes().value(QStringLiteral("name")).toString());
-		info.setVersion(QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString()));
-		info.setSize(reader.attributes().value(QStringLiteral("size")).toULongLong(&ok));
+			auto ok = false;
+			UpdateInfo info;
+			info.setName(reader.attributes().value(QStringLiteral("name")).toString());
+			info.setVersion(QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString()));
+			info.setSize(reader.attributes().value(QStringLiteral("size")).toULongLong(&ok));
 
-		if(info.name().isEmpty() || info.version().isNull() || !ok)
-			return std::nullopt;
-		if(reader.readNextStartElement())
-			return std::nullopt;
+			if(info.name().isEmpty() || info.version().isNull() || !ok) {
+				qCCritical(logCat()) << "Invalid <update> XML-Element, attributes are incomplete or unparsable";
+				throw std::nullopt;
+			} if(reader.readNextStartElement())
+				throwUnexpectedElement(reader);
+			else
+				checkReader(reader);
 
-		updates.append(info);
-	}
+			updates.append(info);
+		}
 
-	if(reader.hasError()) {
-		qCWarning(logQtAutoUpdater) << "XML-reader-error:" << reader.errorString();
+		checkReader(reader);
+		return updates;
+	} catch (...) {
 		return std::nullopt;
 	}
+}
 
-	return updates;
+void QtIfwUpdaterBackend::checkReader(QXmlStreamReader &reader)
+{
+	if(reader.hasError()) {
+		qCCritical(logCat()) << "XML parse error:" << qUtf8Printable(reader.errorString());
+		throw std::nullopt;
+	}
+}
+
+void QtIfwUpdaterBackend::throwUnexpectedElement(QXmlStreamReader &reader)
+{
+	qCCritical(logCat()) << "Unexpected XML-Element" << reader.name();
+	throw std::nullopt;
 }

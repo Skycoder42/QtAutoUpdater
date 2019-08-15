@@ -33,12 +33,18 @@ int main(int argc, char *argv[])
 		}
 	});
 	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](QtAutoUpdater::Updater::Result result){
-		qInfo() << "Has updates:" << result
-				 << "\nError Message:" << updater->errorMessage()
-				 << "\nUpdate List:" << updater->updateInfo();
-		if(result == QtAutoUpdater::Updater::Result::NewUpdates)
-			updater->runUpdater();
-		qApp->quit();
+		qInfo() << "Has updates:" << result;
+		if(result == QtAutoUpdater::Updater::Result::NewUpdates) {
+			qInfo() << "Update List:" << updater->updateInfo();
+			qInfo() << "Starting updater...";
+			if (updater->runUpdater(true))
+				qApp->quit();
+			else {
+				Q_UNIMPLEMENTED();
+				qApp->quit();
+			}
+		} else
+			qApp->quit();
 	});
 
 	updater->checkForUpdates();

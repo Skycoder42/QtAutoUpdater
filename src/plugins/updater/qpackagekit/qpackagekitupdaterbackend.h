@@ -10,7 +10,7 @@ class QPackageKitUpdaterBackend : public QtAutoUpdater::UpdaterBackend
 	Q_OBJECT
 
 public:
-	explicit QPackageKitUpdaterBackend(QObject *parent = nullptr);
+	explicit QPackageKitUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
 	void checkForUpdates() override;
@@ -24,7 +24,7 @@ protected:
 private Q_SLOTS:
 	void percentageChanged();
 	void package(PackageKit::Transaction::Info info, const QString &packageID);
-	void errorCode(PackageKit::Transaction::Error error, const QString &details);
+	void errorCode(PackageKit::Transaction::Error code, const QString &details);
 	void finished(PackageKit::Transaction::Exit status);
 
 private:

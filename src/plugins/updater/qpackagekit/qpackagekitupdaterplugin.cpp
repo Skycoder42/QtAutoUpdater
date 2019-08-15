@@ -5,10 +5,10 @@ QPackageKitUpdaterPlugin::QPackageKitUpdaterPlugin(QObject *parent) :
 	QObject{parent}
 {}
 
-QtAutoUpdater::UpdaterBackend *QPackageKitUpdaterPlugin::create(const QString &type, QObject *parent)
+QtAutoUpdater::UpdaterBackend *QPackageKitUpdaterPlugin::create(QString key, QObject *parent)
 {
-	if (type == QStringLiteral("packagekit"))
-		return new QPackageKitUpdaterBackend{parent};
+	if (key == QStringLiteral("packagekit"))
+		return new QPackageKitUpdaterBackend{std::move(key), parent};
 	else
 		return nullptr;
 }

@@ -12,6 +12,11 @@ class Q_AUTOUPDATERCORE_EXPORT UpdaterBackendPrivate : public QObjectPrivate
 	Q_DECLARE_PUBLIC(UpdaterBackend)
 
 public:
+	UpdaterBackendPrivate(QString &&pKey);
+
+	QString key;
+	QByteArray logCatStr;
+	QLoggingCategory logCat;
 	QScopedPointer<UpdaterBackend::IConfigReader> config;
 	QScopedPointer<AdminAuthoriser> authoriser;
 };
