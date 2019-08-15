@@ -32,10 +32,10 @@ int main(int argc, char *argv[])
 										 << static_cast<int>(progress * 100) << "%)";
 		}
 	});
-	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](QtAutoUpdater::Updater::Result result){
-		qInfo() << "Has updates:" << result;
-		if(result == QtAutoUpdater::Updater::Result::NewUpdates) {
-			qInfo() << "Update List:" << updater->updateInfo();
+	QObject::connect(updater, &QtAutoUpdater::Updater::checkUpdatesDone, [updater](QtAutoUpdater::Updater::State state){
+		qInfo() << "Update result:" << state;
+		if(state == QtAutoUpdater::Updater::State::NewUpdates) {
+			qInfo() << "Update list:" << updater->updateInfo();
 			qInfo() << "Starting updater...";
 			if (updater->runUpdater(true))
 				qApp->quit();

@@ -18,7 +18,9 @@ class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObjectPrivate
 	Q_DECLARE_PUBLIC(Updater)
 
 public:
-	bool running = false;
+	using State = Updater::State;
+
+	State state = State::NoUpdates;
 	QList<UpdateInfo> updateInfos;
 
 	SimpleScheduler *scheduler = nullptr;
@@ -34,8 +36,8 @@ public:
 
 	void setBackend(UpdaterBackend *newBackend);
 	void _q_appAboutToExit();
-	void _q_checkDone(QList<UpdateInfo> updates);
-	void _q_error();
+	void _q_checkDone(bool success, QList<UpdateInfo> updates);
+	void _q_triggerInstallDone(bool success);
 };
 
 Q_AUTOUPDATERCORE_EXPORT Q_DECLARE_LOGGING_CATEGORY(logQtAutoUpdater)

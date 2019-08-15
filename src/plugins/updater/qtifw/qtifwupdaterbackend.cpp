@@ -34,7 +34,7 @@ void QtIfwUpdaterBackend::abort(bool force)
 	}
 }
 
-bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
+bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 {
 	QStringList arguments {
 		config()->value(QStringLiteral("silent"), false).toBool() ?
@@ -46,13 +46,26 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
 		arguments.append(extraArgs->toStringList());
 
 	if (_authoriser && !_authoriser->hasAdminRights())
-		return _authoriser->executeAsAdmin(_process->program(), arguments);
+		return _authoriser->executeAsAdmin(_process->program(), arguments); // TODO revamp
 	else {
-		if (QProcess::startDetached(_process->program(), arguments, _process->workingDirectory()))
+		if (track) {
+			auto proc = new QProcess{this};
+			proc->setProgram(_process->program());
+			proc->setArguments(arguments);
+			proc->setWorkingDirectory(_process->workingDirectory());
+			proc->setProcessChannelMode(QProcess::ForwardedChannels);
+			proc->setInputChannelMode(QProcess::ForwardedInputChannel);
+			connect(proc, &QProcess::stateChanged,
+					this, &QtIfwUpdaterBackend::installerState);
+			proc->start(QIODevice::ReadWrite);
 			return true;
-		else {
-			qCCritical(logCat()) << "Failed to start" << _process->program() << "to install updates";
-			return false;
+		} else {
+			if (QProcess::startDetached(_process->program(), arguments, _process->workingDirectory()))
+				return true;
+			else {
+				qCCritical(logCat()) << "Failed to start" << _process->program() << "to install updates";
+				return false;
+			}
 		}
 	}
 }
@@ -96,13 +109,13 @@ void QtIfwUpdaterBackend::updaterReady(int exitCode, QProcess::ExitStatus exitSt
 		if (exitCode == EXIT_SUCCESS) {
 			auto updates = parseUpdates();
 			if (updates)
-				emit checkDone(*updates);
+				emit checkDone(true, *updates);
 			else
-				emit error();
+				emit checkDone(false);
 		} else
-			emit checkDone({});
+			emit checkDone(true);
 	} else
-		emit error();
+		emit checkDone(false);
 	_process->close();
 }
 
@@ -111,8 +124,22 @@ void QtIfwUpdaterBackend::updaterError(QProcess::ProcessError procError)
 	qCCritical(logCat()) << "Maintenancetool-Error:"
 						 << qUtf8Printable(_process->errorString());
 	if (procError == QProcess::FailedToStart) {
-		emit error();
+		emit checkDone(false);
 		_process->close();
+	}
+}
+
+void QtIfwUpdaterBackend::installerState(QProcess::ProcessState state)
+{
+	if (state == QProcess::NotRunning) {
+		auto proc = qobject_cast<QProcess*>(sender());
+		if (proc->exitStatus() == QProcess::NormalExit &&
+			proc->exitCode() == EXIT_SUCCESS)
+			emit triggerInstallDone(true);
+		else
+			emit triggerInstallDone(false);
+		proc->disconnect(this);
+		proc->deleteLater();
 	}
 }
 

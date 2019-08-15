@@ -37,7 +37,7 @@ void QPackageKitUpdaterBackend::abort(bool)
 		_checkTrans->cancel();
 }
 
-bool QPackageKitUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &)
+bool QPackageKitUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool)
 {
 	return false;
 }
@@ -63,10 +63,7 @@ bool QPackageKitUpdaterBackend::initialize()
 void QPackageKitUpdaterBackend::percentageChanged()
 {
 	const auto perc = _checkTrans->percentage();
-	if (perc > 100)
-		emit updateProgress(-1.0, tr("Checking for updates…"));  // TODO use status signal
-	else
-		emit updateProgress(perc / 100.0, tr("Checking for updates…"));
+	emit checkProgress(perc > 100 ? 1.0 : perc / 100.0, tr("Checking for updates…"));  // TODO use status signal
 }
 
 void QPackageKitUpdaterBackend::package(Transaction::Info info, const QString &packageID)
@@ -99,7 +96,7 @@ void QPackageKitUpdaterBackend::errorCode(Transaction::Error code, const QString
 	_checkTrans->deleteLater();
 	qCCritical(logCat()) << "Update-Check-Transaction failed with code" << code
 						 << "and message:" << qUtf8Printable(details);
-	emit error();
+	emit checkDone(false);
 	_updates.clear();
 }
 
@@ -108,8 +105,8 @@ void QPackageKitUpdaterBackend::finished(Transaction::Exit status)
 	_checkTrans->disconnect(this);
 	_checkTrans->deleteLater();
 	if (status == Transaction::ExitSuccess)
-		emit checkDone(_updates);
+		emit checkDone(true, _updates);
 	else
-		emit error();
+		emit checkDone(false);
 	_updates.clear();
 }

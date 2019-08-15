@@ -55,13 +55,13 @@ public:
 	virtual void checkForUpdates() = 0;
 	virtual void abort(bool force) = 0;
 
-	virtual bool triggerUpdates(const QList<UpdateInfo> &infos) = 0;
+	virtual bool triggerUpdates(const QList<UpdateInfo> &infos, bool track) = 0;
 	virtual UpdateInstaller *installUpdates(const QList<UpdateInfo> &infos) = 0;
 
 Q_SIGNALS:
-	void checkDone(const QList<UpdateInfo> &updates);
-	void error();
-	void updateProgress(double percent, const QString &status);
+	void checkProgress(double percent, const QString &status);
+	void checkDone(bool success, const QList<UpdateInfo> &updates = {});
+	void triggerInstallDone(bool success);
 
 protected:
 	explicit UpdaterBackend(QString &&key, QObject *parent = nullptr);

@@ -28,18 +28,21 @@ class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 	Q_OBJECT
 
 	//! Specifies whether the updater is currently checking for updates or not
-	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
+	Q_PROPERTY(QtAutoUpdater::Updater::State state READ state NOTIFY stateChanged)
 	//! Holds extended information about the last update check
 	Q_PROPERTY(QList<UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
 	Q_PROPERTY(bool runOnExit READ willRunOnExit NOTIFY runOnExitChanged)
 
 public:
-	enum class Result {
+	enum class State {
+		NoUpdates = 0,
+		Checking,
 		NewUpdates,
-		NoUpdates,
-		Error
+		Installing,
+
+		Error = -1
 	};
-	Q_ENUM(Result)
+	Q_ENUM(State)
 
 	static Updater *createUpdater(QObject *parent = nullptr,
 								  AdminAuthoriser *authoriser = nullptr);
@@ -60,8 +63,9 @@ public:
 	UpdaterBackend *backend() const;
 
 
-	//! readAcFn{Updater::running}
-	bool isRunning() const;
+	//! readAcFn{Updater::state}
+	State state() const;
+	Q_INVOKABLE bool isRunning() const;
 	//! readAcFn{Updater::updateInfo}
 	QList<UpdateInfo> updateInfo() const;
 	//! readAcFn{Updater::runOnExit}
@@ -92,12 +96,13 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! Will be emitted as soon as the updater finished checking for updates
-	void checkUpdatesDone(QtAutoUpdater::Updater::Result result, QPrivateSignal);
+	void checkUpdatesDone(QtAutoUpdater::Updater::State result, QPrivateSignal);
 	void progressChanged(double progress, const QString &status, QPrivateSignal);
 	void showInstaller(UpdateInstaller *installer, QPrivateSignal);
+	void installDone(bool success, QPrivateSignal);
 
-	//! notifyAcFn{Updater::running}
-	void runningChanged(bool running, QPrivateSignal);
+	//! notifyAcFn{Updater::state}
+	void stateChanged(QtAutoUpdater::Updater::State state, QPrivateSignal);
 	//! notifyAcFn{Updater::updateInfo}
 	void updateInfoChanged(QList<QtAutoUpdater::UpdateInfo> updateInfo, QPrivateSignal);
 	//! notifyAcFn{Updater::runOnExit}
@@ -112,8 +117,8 @@ private:
 	Q_DISABLE_COPY(Updater)
 
 	Q_PRIVATE_SLOT(d_func(), void _q_appAboutToExit())
-	Q_PRIVATE_SLOT(d_func(), void _q_checkDone(QList<UpdateInfo>))
-	Q_PRIVATE_SLOT(d_func(), void _q_error())
+	Q_PRIVATE_SLOT(d_func(), void _q_checkDone(bool, QList<UpdateInfo>))
+	Q_PRIVATE_SLOT(d_func(), void _q_triggerInstallDone(bool))
 };
 
 template<typename TRep, typename TPeriod>
@@ -134,6 +139,6 @@ int Updater::scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when)
 
 }
 
-Q_DECLARE_METATYPE(QtAutoUpdater::Updater::Result)
+Q_DECLARE_METATYPE(QtAutoUpdater::Updater::State)
 
 #endif // QTAUTOUPDATER_UPDATER_H

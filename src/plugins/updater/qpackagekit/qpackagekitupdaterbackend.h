@@ -15,7 +15,7 @@ public:
 	Features features() const override;
 	void checkForUpdates() override;
 	void abort(bool force) override;
-	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;
+	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;
 	QtAutoUpdater::UpdateInstaller *installUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos) override;
 
 protected:

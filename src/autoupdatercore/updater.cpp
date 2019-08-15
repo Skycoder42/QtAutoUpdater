@@ -126,7 +126,7 @@ Updater::~Updater()
 	Q_D(Updater);
 	if(d->runOnExit)
 		qCWarning(logQtAutoUpdater) << "Updater destroyed with run on exit active before the application quit";
-	if (d->running) {
+	if (isRunning()) {
 		Q_UNIMPLEMENTED();
 	}
 }
@@ -143,10 +143,17 @@ bool Updater::willRunOnExit() const
 	return d->runOnExit;
 }
 
+Updater::State Updater::state() const
+{
+	const Q_D(Updater);
+	return d->state;
+}
+
 bool Updater::isRunning() const
 {
 	const Q_D(Updater);
-	return d->running;
+	return d->state == State::Checking ||
+			d->state == State::Installing;
 }
 
 QList<UpdateInfo> Updater::updateInfo() const
@@ -180,11 +187,19 @@ bool Updater::runUpdater(bool forceOnExit)
 
 	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
 		if (forceOnExit) {
-			d->runOnExit = true;
-			emit runOnExitChanged(d->runOnExit, {});
+			if (!d->runOnExit) {
+				d->runOnExit = true;
+				emit runOnExitChanged(d->runOnExit, {});
+			}
 			return true;
-		} else
-			return d->backend->triggerUpdates(d->updateInfos);
+		} else {
+			const auto ok = d->backend->triggerUpdates(d->updateInfos, true);
+			if (ok) {
+				d->state = State::Installing;
+				emit stateChanged(d->state, {});
+			}
+			return ok;
+		}
 	} else if (d->backend->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
 		if (forceOnExit) {
 			qCCritical(d->backend->logCat()) << "Backend does not support installation after exiting";
@@ -192,6 +207,7 @@ bool Updater::runUpdater(bool forceOnExit)
 		} else {
 			auto installer = d->backend->installUpdates(d->updateInfos);
 			if (installer)  {
+				// TODO connect installer to _q_triggerInstallDone
 				emit showInstaller(installer, {});
 				return true;
 			} else
@@ -206,15 +222,15 @@ bool Updater::runUpdater(bool forceOnExit)
 void Updater::checkForUpdates()
 {
 	Q_D(Updater);
-	if (!d->running) {
-		d->running = true;
+	if (!isRunning()) {
+		d->state = State::Checking;
 		d->updateInfos.clear();
 		emit updateInfoChanged(d->updateInfos, {});
 		if (d->backend->features().testFlag(UpdaterBackend::Feature::CheckProgress))
 			emit progressChanged(0.0, QStringLiteral(""), {}); // empty, but not null string
 		else
 			emit progressChanged(-1.0, tr("Checking for updates…"), {});
-		emit runningChanged(d->running, {});
+		emit stateChanged(d->state, {});
 		d->backend->checkForUpdates();
 	}
 }
@@ -222,7 +238,7 @@ void Updater::checkForUpdates()
 void Updater::abortUpdateCheck(int killDelay)
 {
 	Q_D(Updater);
-	if(d->running) {
+	if(d->state == State::Checking) {
 		if(killDelay != 0) {
 			d->backend->abort(false);
 			if(killDelay > 0) {
@@ -244,9 +260,11 @@ void Updater::cancelScheduledUpdate(int taskId)
 void Updater::cancelExitRun()
 {
 	Q_D(Updater);
-	d->runOnExit = false;
-	d->adminAuth.reset();
-	emit runOnExitChanged(d->runOnExit, {});
+	if (d->runOnExit) {
+		d->runOnExit = false;
+		d->adminAuth.reset();
+		emit runOnExitChanged(d->runOnExit, {});
+	}
 }
 
 // ------------- private implementation -------------
@@ -304,44 +322,49 @@ void UpdaterPrivate::setBackend(UpdaterBackend *newBackend)
 	backend = newBackend;
 	connect(backend, &UpdaterBackend::checkDone,
 			this, &UpdaterPrivate::_q_checkDone);
-	connect(backend, &UpdaterBackend::error,
-			this, &UpdaterPrivate::_q_error);
-	QObject::connect(backend, &UpdaterBackend::updateProgress,
+	QObject::connect(backend, &UpdaterBackend::checkProgress,
 					 q, std::bind(&Updater::progressChanged, q,
 								  std::placeholders::_1,
 								  std::placeholders::_2,
 								  Updater::QPrivateSignal{}));
+	connect(backend, &UpdaterBackend::triggerInstallDone,
+			this, &UpdaterPrivate::_q_triggerInstallDone);
 }
 
 void UpdaterPrivate::_q_appAboutToExit()
 {
 	if (runOnExit) {
 		runOnExit = false;
-		backend->triggerUpdates(updateInfos);
+		backend->triggerUpdates(updateInfos, false);
 	}
 }
 
-void UpdaterPrivate::_q_checkDone(QList<UpdateInfo> updates)
+void UpdaterPrivate::_q_checkDone(bool success, QList<UpdateInfo> updates)
 {
 	Q_Q(Updater);
-	updateInfos = std::move(updates);
-	running = false;
-	emit q->runningChanged(running, {});
-	if (updateInfos.isEmpty())
-		emit q->checkUpdatesDone(Updater::Result::NoUpdates, {});
-	else {
-		emit q->updateInfoChanged(updateInfos, {});
-		emit q->checkUpdatesDone(Updater::Result::NewUpdates, {});
+	if (success) {
+		updateInfos = std::move(updates);
+		if (updateInfos.isEmpty())
+			state = State::NoUpdates;
+		else {
+			state = State::NewUpdates;
+			emit q->updateInfoChanged(updateInfos, {});
+		}
+	} else {
+		updateInfos.clear();
+		state = State::Error;
 	}
+	emit q->stateChanged(state, {});
+	emit q->checkUpdatesDone(state, {});
 }
 
-void UpdaterPrivate::_q_error()
+void UpdaterPrivate::_q_triggerInstallDone(bool success)
 {
 	Q_Q(Updater);
 	updateInfos.clear();
-	running = false;
-	emit q->runningChanged(running, {});
-	emit q->checkUpdatesDone(Updater::Result::Error, {});
+	state = success ? State::NoUpdates : State::Error;
+	emit q->stateChanged(state, {});
+	emit q->installDone(success, {});
 }
 
 #include "moc_updater.cpp"
