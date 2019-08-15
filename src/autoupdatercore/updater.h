@@ -59,13 +59,13 @@ public:
 
 	UpdaterBackend *backend() const;
 
-	//! Returns `true` if the maintenancetool will be started on exit
-	bool willRunOnExit() const;
 
 	//! readAcFn{Updater::running}
 	bool isRunning() const;
 	//! readAcFn{Updater::updateInfo}
 	QList<UpdateInfo> updateInfo() const;
+	//! readAcFn{Updater::runOnExit}
+	bool willRunOnExit() const;
 
 	//! Schedules an update after a specific delay, optionally repeated
 	Q_INVOKABLE int scheduleUpdate(int delaySeconds, bool repeated = false);
@@ -100,6 +100,7 @@ Q_SIGNALS:
 	void runningChanged(bool running, QPrivateSignal);
 	//! notifyAcFn{Updater::updateInfo}
 	void updateInfoChanged(QList<QtAutoUpdater::UpdateInfo> updateInfo, QPrivateSignal);
+	//! notifyAcFn{Updater::runOnExit}
 	void runOnExitChanged(bool runOnExit, QPrivateSignal);
 
 protected:

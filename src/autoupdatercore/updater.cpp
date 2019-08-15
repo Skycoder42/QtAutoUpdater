@@ -181,6 +181,7 @@ bool Updater::runUpdater(bool forceOnExit)
 	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
 		if (forceOnExit) {
 			d->runOnExit = true;
+			emit runOnExitChanged(d->runOnExit, {});
 			return true;
 		} else
 			return d->backend->triggerUpdates(d->updateInfos);
@@ -245,6 +246,7 @@ void Updater::cancelExitRun()
 	Q_D(Updater);
 	d->runOnExit = false;
 	d->adminAuth.reset();
+	emit runOnExitChanged(d->runOnExit, {});
 }
 
 // ------------- private implementation -------------

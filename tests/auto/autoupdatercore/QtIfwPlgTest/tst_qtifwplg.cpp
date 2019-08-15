@@ -12,6 +12,7 @@ class QtIfwPlgTest : public QObject
 
 private Q_SLOTS:
 	void initTestCase();
+	void cleanupTestCase();
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
@@ -19,12 +20,7 @@ private Q_SLOTS:
 	void testUpdateInstall();
 
 private:
-	Updater *updater;
-
-	InstallerController *controller;
-	QSignalSpy *checkSpy;
-	QSignalSpy *runningSpy;
-	QSignalSpy *updateInfoSpy;
+	InstallerController *controller = nullptr;
 };
 
 void QtIfwPlgTest::initTestCase()
@@ -33,6 +29,12 @@ void QtIfwPlgTest::initTestCase()
 	controller->createRepository();
 	controller->createInstaller();
 	controller->installLocal();
+}
+
+void QtIfwPlgTest::cleanupTestCase()
+{
+	delete controller;
+	controller = nullptr;
 }
 
 void QtIfwPlgTest::testUpdateCheck_data()
@@ -68,49 +70,48 @@ void QtIfwPlgTest::testUpdateCheck()
 	controller->setVersion(repoVersion);
 	controller->createRepository();
 
-	updater = Updater::createUpdater(QStringLiteral("qtifw"), {
-										 {QStringLiteral("path"), controller->maintenanceToolPath() + QStringLiteral("/maintenancetool")}
-									 }, this);
+	auto updater = Updater::createUpdater(QStringLiteral("qtifw"), {
+											  {QStringLiteral("path"), controller->maintenanceToolPath() + QStringLiteral("/maintenancetool")}
+										  }, this);
 	QVERIFY(updater);
-	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
-	QVERIFY(checkSpy->isValid());
-	runningSpy = new QSignalSpy(updater, &Updater::runningChanged);
-	QVERIFY(runningSpy->isValid());
-	updateInfoSpy = new QSignalSpy(updater, &Updater::updateInfoChanged);
-	QVERIFY(updateInfoSpy->isValid());
+	QSignalSpy checkSpy(updater, &Updater::checkUpdatesDone);
+	QVERIFY(checkSpy.isValid());
+	QSignalSpy runningSpy(updater, &Updater::runningChanged);
+	QVERIFY(runningSpy.isValid());
+	QSignalSpy updateInfoSpy(updater, &Updater::updateInfoChanged);
+	QVERIFY(updateInfoSpy.isValid());
 
 	//start the check updates
 	QVERIFY(!updater->isRunning());
 	updater->checkForUpdates();
 
 	//runnig should have changed to true
-	QCOMPARE(runningSpy->size(), 1);
-	QVERIFY(runningSpy->takeFirst()[0].toBool());
+	QCOMPARE(runningSpy.size(), 1);
+	QVERIFY(runningSpy.takeFirst()[0].toBool());
 	QVERIFY(updater->isRunning());
-	QVERIFY(updateInfoSpy->takeFirst()[0].value<QList<UpdateInfo>>().isEmpty());
+	QVERIFY(updateInfoSpy.takeFirst()[0].value<QList<UpdateInfo>>().isEmpty());
 
 	//wait max 5 min for the process to finish
-	QVERIFY(checkSpy->wait(300000));
+	QVERIFY(checkSpy.wait(300000));
 
 	//check if the finished signal is without error
-	QCOMPARE(checkSpy->size(), 1);
-	QVariantList varList = checkSpy->takeFirst();
-	QCOMPARE(varList[0].value<Updater::Result>(), hasUpdates ? Updater::Result::NewUpdates : Updater::Result::NoUpdates);
+	QCOMPARE(checkSpy.size(), 1);
+	QCOMPARE(checkSpy.takeFirst()[0].value<Updater::Result>(), hasUpdates ? Updater::Result::NewUpdates : Updater::Result::NoUpdates);
 	QCOMPARE(updater->updateInfo(), updates);
 	if(hasUpdates) {
-		QCOMPARE(updateInfoSpy->size(), 1);
-		QCOMPARE(updateInfoSpy->takeFirst()[0].value<QList<UpdateInfo>>(), updates);
+		QCOMPARE(updateInfoSpy.size(), 1);
+		QCOMPARE(updateInfoSpy.takeFirst()[0].value<QList<UpdateInfo>>(), updates);
 	}
 
 	//runnig should have changed to false
-	QCOMPARE(runningSpy->size(), 1);
-	QVERIFY(!runningSpy->takeFirst()[0].toBool());
+	QCOMPARE(runningSpy.size(), 1);
+	QVERIFY(!runningSpy.takeFirst()[0].toBool());
 	QVERIFY(!updater->isRunning());
 
 	//verifiy all signalspies are empty
-	QVERIFY(checkSpy->isEmpty());
-	QVERIFY(runningSpy->isEmpty());
-	QVERIFY(updateInfoSpy->isEmpty());
+	QVERIFY(checkSpy.isEmpty());
+	QVERIFY(runningSpy.isEmpty());
+	QVERIFY(updateInfoSpy.isEmpty());
 
 	//-----------schedule mechanism---------------
 
@@ -123,29 +124,26 @@ void QtIfwPlgTest::testUpdateCheck()
 	updater->cancelScheduledUpdate(kId);
 
 	//wait for the update to start
-	QVERIFY(runningSpy->wait(2000 + TEST_DELAY));
+	QVERIFY(runningSpy.wait(2000 + TEST_DELAY));
 	//should be running
-	QVERIFY(runningSpy->size() > 0);
-	QVERIFY(runningSpy->takeFirst()[0].toBool());
+	QVERIFY(runningSpy.size() > 0);
+	QVERIFY(runningSpy.takeFirst()[0].toBool());
 	//wait for it to finish if not running
-	if(runningSpy->isEmpty())
-		QVERIFY(runningSpy->wait(120000));
+	if(runningSpy.isEmpty())
+		QVERIFY(runningSpy.wait(120000));
 	//should have stopped
-	QCOMPARE(runningSpy->size(), 1);
-	QVERIFY(!runningSpy->takeFirst()[0].toBool());
+	QCOMPARE(runningSpy.size(), 1);
+	QVERIFY(!runningSpy.takeFirst()[0].toBool());
 
 	//wait for the canceled one (max 5 secs)
-	QVERIFY(!runningSpy->wait(5000 + TEST_DELAY));
+	QVERIFY(!runningSpy.wait(5000 + TEST_DELAY));
 
 	//verifiy the runningSpy is empty
-	QVERIFY(runningSpy->isEmpty());
+	QVERIFY(runningSpy.isEmpty());
 	//clear the rest
-	checkSpy->clear();
-	updateInfoSpy->clear();
+	checkSpy.clear();
+	updateInfoSpy.clear();
 
-	delete updateInfoSpy;
-	delete runningSpy;
-	delete checkSpy;
 	delete updater;
 }
 
@@ -155,22 +153,38 @@ void QtIfwPlgTest::testUpdateInstall()
 	controller->createRepository();
 
 	// check for updates to make shure the updates is informed
-	updater = Updater::createUpdater(QStringLiteral("qtifw"), {
-										 {QStringLiteral("path"), controller->maintenanceToolPath() + QStringLiteral("/maintenancetool")}
-									 }, this);
+	auto updater = Updater::createUpdater(QStringLiteral("qtifw"), {
+											  {QStringLiteral("path"), controller->maintenanceToolPath() + QStringLiteral("/maintenancetool")}
+										  }, this);
 	QVERIFY(updater);
 
-	checkSpy = new QSignalSpy(updater, &Updater::checkUpdatesDone);
-	QVERIFY(checkSpy->isValid());
+	QSignalSpy checkSpy(updater, &Updater::checkUpdatesDone);
+	QVERIFY(checkSpy.isValid());
+	QSignalSpy exitSpy(updater, &Updater::runOnExitChanged);
+	QVERIFY(exitSpy.isValid());
 
 	updater->checkForUpdates();
-	QVERIFY(checkSpy->wait(300000));
-	QCOMPARE(checkSpy->size(), 1);
-	QVariantList varList = checkSpy->takeFirst();
-	QCOMPARE(varList[0].value<Updater::Result>(), Updater::Result::NewUpdates);
+	QVERIFY(checkSpy.wait(300000));
+	QCOMPARE(checkSpy.size(), 1);
+	QCOMPARE(checkSpy.takeFirst()[0].value<Updater::Result>(), Updater::Result::NewUpdates);
 
 	// install the update
-	// TODO test once implemented
+	QVERIFY(updater->runUpdater(true));
+	QCOMPARE(updater->willRunOnExit(), true);
+	QCOMPARE(exitSpy.size(), 1);
+	QCOMPARE(exitSpy.takeFirst()[0].toBool(), true);
+
+	updater->cancelExitRun();
+	QCOMPARE(updater->willRunOnExit(), false);
+	QCOMPARE(exitSpy.size(), 1);
+	QCOMPARE(exitSpy.takeFirst()[0].toBool(), false);
+
+	// TODO use UpdateInstaller if possible...
+//	if (!updater->backend()->features().testFlag(UpdaterBackend::Feature::ParallelInstall))
+//		QEXPECT_FAIL("", "Backend does not support parallel update runs on this platform", Abort);
+//	QVERIFY(updater->runUpdater(false));
+
+	delete updater;
 }
 
 QTEST_GUILESS_MAIN(QtIfwPlgTest)
