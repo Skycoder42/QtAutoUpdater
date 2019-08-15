@@ -186,9 +186,10 @@ void QtIfwPlgTest::testUpdateInstall()
 	QVERIFY(stateSpy.isValid());
 	QSignalSpy installSpy(updater, &Updater::installDone);
 	QVERIFY(installSpy.isValid());
+	QVERIFY(updater->runUpdater());
 	if (!updater->backend()->features().testFlag(UpdaterBackend::Feature::ParallelInstall))
 		QEXPECT_FAIL("", "Backend does not support parallel update runs on this platform", Abort);
-	QVERIFY(updater->runUpdater(false));
+	QCOMPARE(updater->willRunOnExit(), false);
 
 	QCOMPARE(stateSpy.size(), 1);
 	QCOMPARE(stateSpy.takeFirst()[0].value<Updater::State>(), Updater::State::Installing);

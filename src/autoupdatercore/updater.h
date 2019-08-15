@@ -60,7 +60,7 @@ public:
 	//! Destroyes the updater and kills the update check (if running)
 	~Updater() override;
 
-	UpdaterBackend *backend() const;
+	Q_INVOKABLE UpdaterBackend *backend() const;
 
 
 	//! readAcFn{Updater::state}
@@ -80,7 +80,7 @@ public:
 	template <typename TClock, typename TDur>
 	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when);
 
-	bool runUpdater(bool forceOnExit = false);
+	Q_INVOKABLE bool runUpdater(bool forceOnExit = false);
 
 public Q_SLOTS:
 	//! Starts checking for updates
