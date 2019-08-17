@@ -18,7 +18,6 @@ public:
 	QByteArray logCatStr;
 	QLoggingCategory logCat;
 	QScopedPointer<UpdaterBackend::IConfigReader> config;
-	QScopedPointer<AdminAuthoriser> authoriser;
 };
 
 }

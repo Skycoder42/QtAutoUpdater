@@ -23,6 +23,8 @@ void QPackageKitUpdaterBackend::checkForUpdates()
 	_checkTrans = Daemon::getUpdates(Transaction::FilterInstalled);
 	connect(_checkTrans, &Transaction::percentageChanged,
 			this, &QPackageKitUpdaterBackend::percentageChanged);
+	connect(_checkTrans, &Transaction::statusChanged,
+			this, &QPackageKitUpdaterBackend::statusChanged);
 	connect(_checkTrans, &Transaction::package,
 			this, &QPackageKitUpdaterBackend::package);
 	connect(_checkTrans, &Transaction::errorCode,
@@ -42,7 +44,7 @@ bool QPackageKitUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool)
 	return false;
 }
 
-UpdateInstaller *QPackageKitUpdaterBackend::installUpdates(const QList<UpdateInfo> &infos)
+UpdateInstaller *QPackageKitUpdaterBackend::createInstaller()
 {
 	Q_UNIMPLEMENTED();
 	return nullptr;
@@ -63,7 +65,37 @@ bool QPackageKitUpdaterBackend::initialize()
 void QPackageKitUpdaterBackend::percentageChanged()
 {
 	const auto perc = _checkTrans->percentage();
-	emit checkProgress(perc > 100 ? 1.0 : perc / 100.0, tr("Checking for updates…"));  // TODO use status signal
+	_lastPercent = perc > 100 ? -1.0 : perc / 100.0;
+	emit checkProgress(_lastPercent, _lastStatus);
+}
+
+void QPackageKitUpdaterBackend::statusChanged()
+{
+	switch (_checkTrans->status()) {
+	case PackageKit::Transaction::StatusSetup:
+	case PackageKit::Transaction::StatusQuery:
+		_lastStatus = tr("Setting up…");
+		break;
+	case PackageKit::Transaction::StatusDownloadRepository:
+		_lastStatus = tr("Downloading package repositories…");
+		break;
+	case PackageKit::Transaction::StatusDownloadPackagelist:
+		_lastStatus = tr("Downloading package update list…");
+		break;
+	case PackageKit::Transaction::StatusDownloadChangelog:
+		_lastStatus = tr("Downloading changelog…");
+		break;
+	case PackageKit::Transaction::StatusDownloadUpdateinfo:
+		_lastStatus = tr("Downloading update details…");
+		break;
+	case PackageKit::Transaction::StatusGeneratePackageList:
+		_lastStatus = tr("Generating update list…");
+		break;
+	default:
+		_lastStatus = tr("Please wait…");
+		break;
+	}
+	emit checkProgress(_lastPercent, _lastStatus);
 }
 
 void QPackageKitUpdaterBackend::package(Transaction::Info info, const QString &packageID)

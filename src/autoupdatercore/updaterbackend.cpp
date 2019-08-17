@@ -16,12 +16,6 @@ UpdaterBackend::IConfigReader *UpdaterBackend::config() const
 	return d->config.data();
 }
 
-AdminAuthoriser *UpdaterBackend::authoriser() const
-{
-	const Q_D(UpdaterBackend);
-	return d->authoriser.data();
-}
-
 const QLoggingCategory &UpdaterBackend::logCat() const
 {
 	const Q_D(UpdaterBackend);
@@ -34,11 +28,10 @@ QString UpdaterBackend::key() const
 	return d->key;
 }
 
-bool UpdaterBackend::initialize(QScopedPointer<UpdaterBackend::IConfigReader> &&config, QScopedPointer<AdminAuthoriser> &&authoriser)
+bool UpdaterBackend::initialize(QScopedPointer<UpdaterBackend::IConfigReader> &&config)
 {
 	Q_D(UpdaterBackend);
 	d->config.swap(config);
-	d->authoriser.swap(authoriser);
 	return initialize();
 }
 

@@ -6,21 +6,13 @@
 #include <QtCore/qstring.h>
 #include <QtCore/qstringlist.h>
 
-namespace QtAutoUpdater
+namespace QtAutoUpdater::AdminAuthoriser
 {
 
-//! An interface to run programs with elevated rights
-class Q_AUTOUPDATERCORE_EXPORT AdminAuthoriser  // TODO move to private, without GUI dep, so qtifw can use it internally
-{
-	Q_DISABLE_COPY(AdminAuthoriser)
-public:
-	AdminAuthoriser();
-	virtual ~AdminAuthoriser();
-	//! Tests whether this program already has elevated rights or not
-	virtual bool hasAdminRights() = 0;
-	//! Runs a program with the given arguments with elevated rights
-	virtual bool executeAsAdmin(const QString &program, const QStringList &arguments) = 0;
-};
+Q_AUTOUPDATERCORE_EXPORT bool needsAdminPermission(const QString &program);
+Q_AUTOUPDATERCORE_EXPORT bool executeAsAdmin(const QString &program,
+											 const QStringList &arguments,
+											 const QString &workingDir);
 
 }
 

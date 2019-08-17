@@ -27,12 +27,10 @@ public:
 	UpdaterBackend *backend = nullptr;
 
 	bool runOnExit = false;
-	QScopedPointer<AdminAuthoriser> adminAuth;
 
 	static QSettings *findDefaultConfig();
 	static Updater *createUpdater(UpdaterBackend::IConfigReader *config,
-								  QObject *parent,
-								  AdminAuthoriser *authoriser);
+								  QObject *parent);
 
 	void setBackend(UpdaterBackend *newBackend);
 	void _q_appAboutToExit();

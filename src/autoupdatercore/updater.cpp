@@ -89,36 +89,36 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 			this, qOverload<>(&Updater::checkForUpdates));
 }
 
-Updater *Updater::createUpdater(QObject *parent, AdminAuthoriser *authoriser)
+Updater *Updater::createUpdater(QObject *parent)
 {
 	auto config = UpdaterPrivate::findDefaultConfig();
 	if (config)
-		return createUpdater(config, parent, authoriser);
+		return createUpdater(config, parent);
 	else {
 		qCCritical(logQtAutoUpdater) << "Unable to find the default updater configuration file";
 		return nullptr;
 	}
 }
 
-Updater *Updater::createUpdater(const QString &configPath, QObject *parent, AdminAuthoriser *authoriser)
+Updater *Updater::createUpdater(const QString &configPath, QObject *parent)
 {
 	return createUpdater(new QSettings {
 							 configPath,
 							 QSettings::IniFormat
-						 }, parent, authoriser);
+						 }, parent);
 }
 
-Updater *Updater::createUpdater(QSettings *config, QObject *parent, AdminAuthoriser *authoriser)
+Updater *Updater::createUpdater(QSettings *config, QObject *parent)
 {
-	return UpdaterPrivate::createUpdater(new SettingsConfigReader {config}, parent, authoriser);
+	return UpdaterPrivate::createUpdater(new SettingsConfigReader {config}, parent);
 }
 
-Updater *Updater::createUpdater(QString key, QVariantMap arguments, QObject *parent, AdminAuthoriser *authoriser)
+Updater *Updater::createUpdater(QString key, QVariantMap arguments, QObject *parent)
 {
 	return UpdaterPrivate::createUpdater(new VariantConfigReader {
 											 std::move(key),
 											 std::move(arguments)
-										 }, parent, authoriser);
+										 }, parent);
 }
 
 Updater::~Updater()
@@ -205,7 +205,7 @@ bool Updater::runUpdater(bool forceOnExit)
 			qCCritical(d->backend->logCat()) << "Backend does not support installation after exiting";
 			return false;
 		} else {
-			auto installer = d->backend->installUpdates(d->updateInfos);
+			auto installer = d->backend->createInstaller();
 			if (installer)  {
 				// TODO connect installer to _q_triggerInstallDone
 				emit showInstaller(installer, {});
@@ -262,7 +262,6 @@ void Updater::cancelExitRun()
 	Q_D(Updater);
 	if (d->runOnExit) {
 		d->runOnExit = false;
-		d->adminAuth.reset();
 		emit runOnExitChanged(d->runOnExit, {});
 	}
 }
@@ -303,11 +302,11 @@ QSettings *UpdaterPrivate::findDefaultConfig()
 	return nullptr;
 }
 
-Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QObject *parent, AdminAuthoriser *authoriser)
+Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QObject *parent)
 {
 	auto updater = new Updater{parent};
 	auto backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, config->backend(), updater);
-	if (!backend || !backend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{config}, QScopedPointer<AdminAuthoriser>{authoriser})) {
+	if (!backend || !backend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{config})) {
 		delete updater;
 		return nullptr;
 	}

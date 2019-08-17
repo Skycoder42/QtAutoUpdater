@@ -1,8 +1,8 @@
 #include "qtifwupdaterbackend.h"
+#include <QtAutoUpdaterCore/AdminAuthoriser>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QDebug>
-
 using namespace QtAutoUpdater;
 
 QtIfwUpdaterBackend::QtIfwUpdaterBackend(QString &&key, QObject *parent) :
@@ -45,9 +45,36 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 	if (extraArgs)
 		arguments.append(extraArgs->toStringList());
 
-	if (_authoriser && !_authoriser->hasAdminRights())
-		return _authoriser->executeAsAdmin(_process->program(), arguments); // TODO revamp
-	else {
+	// find out if the application needs to be run as admin
+	bool runAsAdmin;
+	if (auto runAsAdminOpt = config()->value(QStringLiteral("runAsAdmin")); runAsAdminOpt)
+		runAsAdmin = runAsAdminOpt->toBool();
+	else
+		runAsAdmin = AdminAuthoriser::needsAdminPermission(_process->program());
+//	else {
+//		constexpr auto InvalidUserId = static_cast<uint>(-2);
+//		QFileInfo mtInfo{_process->program()};
+//		QFileInfo procInfo{QCoreApplication::applicationFilePath()};
+//		if (mtInfo.ownerId() == InvalidUserId ||
+//			procInfo.ownerId() == InvalidUserId)
+//			runAsAdmin = mtInfo.owner() != procInfo.owner();
+//		else
+//			runAsAdmin = mtInfo.ownerId() != procInfo.ownerId();
+//	}
+
+
+	if (runAsAdmin) {
+		if (track)
+			qCWarning(logCat()) << "Unable to track progress of application executed as root user!";
+		const auto ok = AdminAuthoriser::executeAsAdmin(_process->program(),
+														_process->arguments(),
+														_process->workingDirectory());
+		if (ok && track) { // invoke queued to make shure is emitted AFTER the start install signal in the updater
+			QMetaObject::invokeMethod(this, "triggerInstallDone", Qt::QueuedConnection,
+									  Q_ARG(bool, true));
+		}
+		return ok;
+	} else {
 		if (track) {
 			auto proc = new QProcess{this};
 			proc->setProgram(_process->program());
@@ -70,9 +97,8 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 	}
 }
 
-UpdateInstaller *QtIfwUpdaterBackend::installUpdates(const QList<UpdateInfo> &)
+UpdateInstaller *QtIfwUpdaterBackend::createInstaller()
 {
-	// TODO implement using non-detached process
 	return nullptr;
 }
 

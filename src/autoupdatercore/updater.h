@@ -44,18 +44,14 @@ public:
 	};
 	Q_ENUM(State)
 
-	static Updater *createUpdater(QObject *parent = nullptr,
-								  AdminAuthoriser *authoriser = nullptr);
+	static Updater *createUpdater(QObject *parent = nullptr);
 	static Updater *createUpdater(const QString &configPath,
-								  QObject *parent = nullptr,
-								  AdminAuthoriser *authoriser = nullptr);
+								  QObject *parent = nullptr);
 	static Updater *createUpdater(QSettings *config,
-								  QObject *parent = nullptr,
-								  AdminAuthoriser *authoriser = nullptr);
+								  QObject *parent = nullptr);
 	static Updater *createUpdater(QString key,
 								  QVariantMap arguments,
-								  QObject *parent = nullptr,
-								  AdminAuthoriser *authoriser = nullptr);
+								  QObject *parent = nullptr);
 
 	//! Destroyes the updater and kills the update check (if running)
 	~Updater() override;

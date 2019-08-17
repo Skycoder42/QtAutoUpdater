@@ -12,7 +12,6 @@
 
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 #include "QtAutoUpdaterCore/updateinfo.h"
-#include "QtAutoUpdaterCore/adminauthoriser.h"
 
 namespace QtAutoUpdater {
 
@@ -49,14 +48,13 @@ public:
 
 	QString key() const ;
 	virtual Features features() const = 0;
-	bool initialize(QScopedPointer<IConfigReader> &&config,
-					QScopedPointer<AdminAuthoriser> &&authoriser);
+	bool initialize(QScopedPointer<IConfigReader> &&config);
 
 	virtual void checkForUpdates() = 0;
 	virtual void abort(bool force) = 0;
 
 	virtual bool triggerUpdates(const QList<UpdateInfo> &infos, bool track) = 0;
-	virtual UpdateInstaller *installUpdates(const QList<UpdateInfo> &infos) = 0;
+	virtual UpdateInstaller *createInstaller() = 0;
 
 Q_SIGNALS:
 	void checkProgress(double percent, const QString &status);
@@ -68,7 +66,6 @@ protected:
 	explicit UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent = nullptr);
 
 	IConfigReader *config() const;
-	AdminAuthoriser *authoriser() const;
 	const QLoggingCategory &logCat() const;
 
 	virtual bool initialize() = 0;
