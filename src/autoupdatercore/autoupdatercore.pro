@@ -28,6 +28,9 @@ else: SOURCES += adminauthoriser_dummy.cpp
 
 load(qt_module)
 
+win32: LIBS += -lAdvapi32 -lOle32 -lShell32
+else:mac: LIBS += -framework Security
+
 QMAKE_EXTRA_TARGETS += lrelease
 
 win32 {
