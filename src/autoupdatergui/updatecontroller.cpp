@@ -1,6 +1,5 @@
 #include "updatecontroller.h"
 #include "updatecontroller_p.h"
-#include "adminauthorization_p.h"
 #include "updatebutton.h"
 
 #include <QtCore/QCoreApplication>
@@ -12,39 +11,53 @@
 
 using namespace QtAutoUpdater;
 
-UpdateController::UpdateController(QObject *parent) :
-	QObject{parent},
-	d{new UpdateControllerPrivate{this, nullptr}}
+UpdateController::UpdateController(Updater *updater, QObject *parent) :
+	UpdateController{updater, nullptr, parent}
 {}
 
-UpdateController::UpdateController(QWidget *parentWidget, QObject *parent) :
-	QObject{parent},
-	d{new UpdateControllerPrivate{this, parentWidget}}
-{}
+UpdateController::UpdateController(Updater *updater, QWidget *parentWidget, QObject *parent) :
+	QObject{*new UpdateControllerPrivate{}, parent}
+{
+	Q_D(UpdateController);
+	d->updater = updater;
+	d->updater->setParent(this);
+	d->window = parentWidget;
 
-UpdateController::UpdateController(const QString &maintenanceToolPath, QObject *parent) :
-	QObject{parent},
-	d{new UpdateControllerPrivate{this, maintenanceToolPath, nullptr}}
-{}
+	d->scheduler = new SimpleScheduler{this};
 
-UpdateController::UpdateController(const QString &maintenanceToolPath, QWidget *parentWidget, QObject *parent) :
-	QObject{parent},
-	d{new UpdateControllerPrivate{this, maintenanceToolPath, parentWidget}}
-{}
+	QObjectPrivate::connect(d->updater, &Updater::checkUpdatesDone,
+							d, &UpdateControllerPrivate::_q_updaterCheckDone);
+	QObjectPrivate::connect(d->scheduler, &SimpleScheduler::scheduleTriggered,
+							d, &UpdateControllerPrivate::_q_timerTriggered);
+}
 
-UpdateController::~UpdateController() = default;
+UpdateController::~UpdateController()
+{
+	Q_D(UpdateController);
+	if(d->running)
+		qCWarning(logQtAutoUpdater) << "UpdaterController destroyed while still running! This can crash your application!";
+
+	if(d->checkUpdatesProgress)
+		d->checkUpdatesProgress->deleteLater();
+}
 
 QAction *UpdateController::createUpdateAction(QObject *parent)
 {
-	auto updateAction = new QAction(UpdateControllerPrivate::getUpdatesIcon(),
-									tr("Check for Updates"),
-									parent);
+	return createUpdateAction(ProgressLevel, parent);
+}
+
+QAction *UpdateController::createUpdateAction(DisplayLevel displayLevel, QObject *parent)
+{
+	auto updateAction = new QAction {
+		UpdateControllerPrivate::getUpdatesIcon(),
+		tr("Check for Updates"),
+		parent
+	};
 	updateAction->setMenuRole(QAction::ApplicationSpecificRole);
 	updateAction->setToolTip(tr("Checks if new updates are available. You will be prompted before updates are installed."));
 
-	connect(updateAction, &QAction::triggered, this, [this](){
-		start(UpdateController::ProgressLevel);
-	});
+	connect(updateAction, &QAction::triggered,
+			this, std::bind(&UpdateController::start, this, displayLevel));
 	connect(this, &UpdateController::runningChanged,
 			updateAction, &QAction::setDisabled);
 	connect(this, &UpdateController::destroyed,
@@ -53,145 +66,117 @@ QAction *UpdateController::createUpdateAction(QObject *parent)
 	return updateAction;
 }
 
-QString UpdateController::maintenanceToolPath() const
-{
-	return d->mainUpdater->maintenanceToolPath();
-}
-
 QWidget *UpdateController::parentWindow() const
 {
+	const Q_D(UpdateController);
 	return d->window;
 }
 
 void UpdateController::setParentWindow(QWidget *parentWindow)
 {
+	Q_D(UpdateController);
 	d->window = parentWindow;
 }
 
 UpdateController::DisplayLevel UpdateController::currentDisplayLevel() const
 {
+	const Q_D(UpdateController);
 	return d->displayLevel;
 }
 
 bool UpdateController::isRunning() const
 {
+	const Q_D(UpdateController);
 	return d->running;
-}
-
-bool UpdateController::runAsAdmin() const
-{
-	return d->runAdmin;
-}
-
-void UpdateController::setRunAsAdmin(bool runAsAdmin, bool userEditable)
-{
-	if(d->runAdmin != runAsAdmin) {
-		d->runAdmin = runAsAdmin;
-		if(d->mainUpdater->willRunOnExit())
-			d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
-		emit runAsAdminChanged(runAsAdmin);
-	}
-	d->adminUserEdit = userEditable;
-}
-
-QStringList UpdateController::updateRunArgs() const
-{
-	return d->runArgs;
-}
-
-void UpdateController::setUpdateRunArgs(QStringList updateRunArgs)
-{
-	d->runArgs = std::move(updateRunArgs);
-}
-
-void UpdateController::resetUpdateRunArgs()
-{
-	d->runArgs = QStringList(QStringLiteral("--updater"));
 }
 
 bool UpdateController::isDetailedUpdateInfo() const
 {
+	const Q_D(UpdateController);
 	return d->detailedInfo;
 }
 
 QString UpdateController::desktopFileName() const
 {
-	return d->taskbar ?
-				d->taskbar->attribute(QTaskbarControl::LinuxDesktopFile).toString() :
-				QString{};
+	const Q_D(UpdateController);
+	return d->desktopFileName;
 }
 
 void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
 {
+	Q_D(UpdateController);
 	d->detailedInfo = detailedUpdateInfo;
 }
 
-void UpdateController::setDesktopFileName(const QString &desktopFileName)
+void UpdateController::setDesktopFileName(QString desktopFileName)
 {
-	if(d->taskbar)
-		d->taskbar->setAttribute(QTaskbarControl::LinuxDesktopFile, desktopFileName);
+	Q_D(UpdateController);
+	d->desktopFileName = std::move(desktopFileName);
 }
 
 Updater *UpdateController::updater() const
 {
-	return d->mainUpdater;
+	const Q_D(UpdateController);
+	return d->updater;
 }
 
 bool UpdateController::start(DisplayLevel displayLevel)
 {
+	Q_D(UpdateController);
 	if(d->running)
 		return false;
-	d->running = true;
-	emit runningChanged(true);
+
 	d->wasCanceled = false;
 	d->displayLevel = displayLevel;
+	d->running = true;
+	emit runningChanged(true, {});
 
+	// ask if updates should be checked
 	if(d->displayLevel >= AskLevel) {
 		if(DialogMaster::questionT(d->window,
 								   tr("Check for Updates"),
 								   tr("Do you want to check for updates now?"))
 		   != QMessageBox::Yes) {
 			d->running = false;
-			emit runningChanged(false);
+			emit runningChanged(false, {});
 			return false;
 		}
 	}
 
-	if(!d->mainUpdater->checkForUpdates()) {
-		if(d->displayLevel >= ProgressLevel) {
+	// abort early if the updater is already running
+	if(d->updater->isRunning()) {
+		if(d->displayLevel >= ExtendedInfoLevel) {
 			DialogMaster::warningT(d->window,
 								   tr("Check for Updates"),
 								   tr("The program is already checking for updates!"));
 		}
 		d->running = false;
-		emit runningChanged(false);
+		emit runningChanged(false, {});
 		return false;
 	} else {
-		if(d->displayLevel >= ExtendedInfoLevel) {
-			if(d->displayLevel >= ProgressLevel) {
-				if(d->taskbar) {
-					d->taskbar->setProgress(-1.0);
-					d->taskbar->setProgressVisible(true);
-				}
-				d->checkUpdatesProgress = new ProgressDialog{d->window};
-				connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [this](){
-					d->wasCanceled = true;
-				});
-				d->checkUpdatesProgress->open(d->mainUpdater, &QtAutoUpdater::Updater::abortUpdateCheck);
-			}
+		// otherwise start the update check and display the progress if wished
+		if(d->displayLevel >= ProgressLevel) {
+			d->checkUpdatesProgress = new ProgressDialog{d->desktopFileName, d->window};
+			connect(d->checkUpdatesProgress.data(), &ProgressDialog::canceled, this, [this](){
+				Q_D(UpdateController);
+				d->wasCanceled = true;
+			});
+			d->checkUpdatesProgress->open(d->updater);
 		}
 
+		d->updater->checkForUpdates();
 		return true;
 	}
 }
 
 bool UpdateController::cancelUpdate(int maxDelay)
 {
-	if(d->mainUpdater->isRunning()) {
+	Q_D(UpdateController);
+	if(d->updater->state() == Updater::State::Checking) {
 		d->wasCanceled = true;
 		if(d->checkUpdatesProgress)
 			d->checkUpdatesProgress->setCanceled();
-		d->mainUpdater->abortUpdateCheck(maxDelay, true);
+		d->updater->abortUpdateCheck(maxDelay);
 		return true;
 	} else
 		return false;
@@ -199,6 +184,7 @@ bool UpdateController::cancelUpdate(int maxDelay)
 
 int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateController::DisplayLevel displayLevel)
 {
+	Q_D(UpdateController);
 	if((static_cast<qint64>(delaySeconds) * 1000ll) > static_cast<qint64>(std::numeric_limits<int>::max())) {
 		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
@@ -208,179 +194,112 @@ int UpdateController::scheduleUpdate(int delaySeconds, bool repeated, UpdateCont
 
 int UpdateController::scheduleUpdate(const QDateTime &when, UpdateController::DisplayLevel displayLevel)
 {
+	Q_D(UpdateController);
 	return d->scheduler->startSchedule(when, QVariant::fromValue(displayLevel));
 }
 
 void UpdateController::cancelScheduledUpdate(int taskId)
 {
+	Q_D(UpdateController);
 	d->scheduler->cancelSchedule(taskId);
 }
 
-void UpdateController::checkUpdatesDone(bool hasUpdates, bool hasError)
+void UpdateControllerPrivate::_q_updaterCheckDone(Updater::State state)
 {
-	if(d->displayLevel >= ExtendedInfoLevel) {
-		if(d->checkUpdatesProgress) {
-			d->checkUpdatesProgress->hide();
-			d->checkUpdatesProgress->deleteLater();
-			d->checkUpdatesProgress = nullptr;
+	Q_Q(UpdateController);
+	if (!running)
+		return;
+
+	if(displayLevel >= UpdateController::ProgressLevel) {
+		if(checkUpdatesProgress) {
+			checkUpdatesProgress->deleteLater();
+			checkUpdatesProgress.clear();
 		}
 	}
 
-	if(d->wasCanceled) {
-		if(d->displayLevel >= ExtendedInfoLevel) {
-			d->setTaskbarState(QTaskbarControl::Paused);
-			DialogMaster::warningT(d->window,
-								   tr("Check for Updates"),
-								   tr("Checking for updates was canceled!"));
+	if(wasCanceled) {
+		if(displayLevel >= UpdateController::ExtendedInfoLevel) {
+			DialogMaster::warningT(window,
+								   UpdateController::tr("Check for Updates"),
+								   UpdateController::tr("Checking for updates was canceled!"));
 		}
 	} else {
-		if(hasUpdates) {
-			if(d->displayLevel >= InfoLevel) {
-				const auto updateInfos = d->mainUpdater->updateInfo();
-				d->setTaskbarState(QTaskbarControl::Running);
-				if(d->taskbar) {
-					if(updateInfos.size() > 0) {
-						d->taskbar->setCounter(updateInfos.size());
-						d->taskbar->setCounterVisible(true);
-					} else
-						d->taskbar->setCounterVisible(false);
-				}
-
-
-				auto shouldShutDown = false;
-				const auto oldRunAdmin = d->runAdmin;
+		switch (state) {
+		case Updater::State::NewUpdates:
+			if(displayLevel >= UpdateController::InfoLevel) {
+				const auto updateInfos = updater->updateInfo();
 				const auto res = UpdateInfoDialog::showUpdateInfo(updateInfos,
-																  d->runAdmin,
-																  d->adminUserEdit,
-																  d->detailedInfo,
-																  d->window);
-				d->clearTaskbar();
-
-				if(d->runAdmin != oldRunAdmin)
-					emit runAsAdminChanged(d->runAdmin);
+																  desktopFileName,
+																  updater->backend()->features().testFlag(UpdaterBackend::Feature::TriggerInstall),
+																  updater->backend()->features().testFlag(UpdaterBackend::Feature::ParallelInstall),
+																  detailedInfo,
+																  window);
 
 				switch(res) {
 				case UpdateInfoDialog::InstallNow:
-					shouldShutDown = true;
-					Q_FALLTHROUGH();
-				case UpdateInfoDialog::InstallLater:
-					d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
-					if(shouldShutDown)
+					updater->runUpdater(false);
+					if (updater->willRunOnExit())
 						qApp->quit();
+					break;
+				case UpdateInfoDialog::InstallLater:
+					updater->runUpdater(true);
 					break;
 				case UpdateInfoDialog::NoInstall:
 					break;
 				default:
 					Q_UNREACHABLE();
 				}
-
 			} else {
-				d->mainUpdater->runUpdaterOnExit(d->runAdmin ? new AdminAuthorization() : nullptr);
-				if(d->displayLevel == ExitLevel) {
-					d->setTaskbarState(QTaskbarControl::Running);
-					DialogMaster::informationT(d->window,
-											   tr("Install Updates"),
-											   tr("New updates are available. The maintenance tool will be "
-												  "started to install those as soon as you close the application!"));
-				} else
-					qApp->quit();
-			}
-		} else {
-			if(hasError) {
-				qCWarning(logQtAutoUpdater) << "maintenancetool process finished with exit code"
-											<< d->mainUpdater->errorCode()
-											<< "and error string:"
-											<< d->mainUpdater->errorLog();
-			}
-
-			if(d->displayLevel >= ExtendedInfoLevel) {
-				if(d->mainUpdater->exitedNormally()) {
-					d->setTaskbarState(QTaskbarControl::Stopped);
-					DialogMaster::criticalT(d->window,
-											tr("Check for Updates"),
-											tr("No new updates available!"));
-				} else {
-					d->setTaskbarState(QTaskbarControl::Paused);
-					DialogMaster::warningT(d->window,
-										   tr("Check for Updates"),
-										   tr("The update process crashed!"));
+				updater->runUpdater(false);
+				if (updater->willRunOnExit()) {
+					if(displayLevel == UpdateController::ExitLevel) {
+						DialogMaster::informationT(window,
+												   UpdateController::tr("Install Updates"),
+												   UpdateController::tr("New updates are available. The update tool will be "
+													  "started to install those as soon as you close the application!"));
+					} else
+						qApp->quit();
 				}
 			}
+			break;
+		case Updater::State::NoUpdates:
+			if(displayLevel >= UpdateController::ExtendedInfoLevel) {
+				DialogMaster::informationT(window,
+										   UpdateController::tr("Check for Updates"),
+										   UpdateController::tr("No new updates available!"));
+			}
+			break;
+		case Updater::State::Error:
+			if(displayLevel >= UpdateController::ExtendedInfoLevel) {
+				DialogMaster::criticalT(window,
+										UpdateController::tr("Check for Updates"),
+										UpdateController::tr("An error occured while trying to check for updates!"));
+			}
+			break;
+		default:
+			Q_UNREACHABLE();
+			break;
 		}
 	}
 
-	d->clearTaskbar();
-	d->running = false;
-	emit runningChanged(false);
+	running = false;
+	emit q->runningChanged(false, {});
 }
 
-void UpdateController::timerTriggered(const QVariant &parameter)
+void UpdateControllerPrivate::_q_timerTriggered(const QVariant &parameter)
 {
-	if(parameter.canConvert<DisplayLevel>())
-		start(parameter.value<DisplayLevel>());
+	Q_Q(UpdateController);
+	if(parameter.canConvert<UpdateController::DisplayLevel>())
+		q->start(parameter.value<UpdateController::DisplayLevel>());
 }
 
-//-----------------PRIVATE IMPLEMENTATION-----------------
+//----------------- private implementation -----------------
 
 QIcon UpdateControllerPrivate::getUpdatesIcon()
 {
-	return QIcon::fromTheme(QStringLiteral("system-software-update"), QIcon(QStringLiteral(":/QtAutoUpdater/icons/update.ico")));
+	const auto altPath = qEnvironmentVariable("QT_AUTOUPDATER_UPDATE_ICON",
+											  QStringLiteral(":/QtAutoUpdater/icons/update.ico"));
+	return QIcon::fromTheme(QStringLiteral("system-software-update"), QIcon{altPath});
 }
 
-UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window) :
-	UpdateControllerPrivate(q_ptr, QString(), window)
-{}
-
-UpdateControllerPrivate::UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window) :
-	q{q_ptr},
-	window{window},
-	mainUpdater{toolPath.isEmpty() ? new Updater{q_ptr} : new Updater{toolPath, q_ptr}},
-	taskbar{window ? new QTaskbarControl{window} : nullptr},
-	scheduler{new SimpleScheduler{q_ptr}}
-{
-	QObject::connect(mainUpdater, &Updater::checkUpdatesDone,
-					 q, &UpdateController::checkUpdatesDone,
-					 Qt::QueuedConnection);
-	QObject::connect(scheduler, &SimpleScheduler::scheduleTriggered,
-					 q, &UpdateController::timerTriggered);
-
-#ifdef Q_OS_UNIX
-	QFileInfo maintenanceInfo(QCoreApplication::applicationDirPath(),
-							  mainUpdater->maintenanceToolPath());
-	runAdmin = (maintenanceInfo.ownerId() == 0);
-#endif
-}
-
-UpdateControllerPrivate::~UpdateControllerPrivate()
-{
-	if(running)
-		qCWarning(logQtAutoUpdater) << "UpdaterController destroyed while still running! This can crash your application!";
-
-	if(checkUpdatesProgress)
-		checkUpdatesProgress->deleteLater();
-
-	clearTaskbar();
-}
-
-void UpdateControllerPrivate::setTaskbarState(QTaskbarControl::WinProgressState state)
-{
-	if(taskbar) {
-		taskbar->setProgress(1.0);
-		taskbar->setAttribute(QTaskbarControl::WindowsProgressState, state);
-#ifdef Q_OS_WIN
-		taskbar->setProgressVisible(true);
-#else
-		taskbar->setProgressVisible(false);
-#endif
-	}
-}
-
-
-void UpdateControllerPrivate::clearTaskbar()
-{
-	if(taskbar) {
-		taskbar->setCounterVisible(false);
-		taskbar->setProgressVisible(false);
-		taskbar->deleteLater();
-	}
-}
+#include "moc_updatecontroller.cpp"

@@ -6,28 +6,64 @@
 
 using namespace QtAutoUpdater;
 
-ProgressDialog::ProgressDialog(QWidget *parent) :
+ProgressDialog::ProgressDialog(const QString &desktopFileName, QWidget *parent) :
 	QDialog{parent},
-	ui{new Ui::ProgressDialog}
+	_ui{new Ui::ProgressDialog},
+	_taskbar{new QTaskbarControl{this}}
 {
-	ui->setupUi(this);
+	_ui->setupUi(this);
 	DialogMaster::masterDialog(this, true, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
+	_taskbar->setAttribute(QTaskbarControl::LinuxDesktopFile, desktopFileName);
 }
 
 ProgressDialog::~ProgressDialog() = default;
 
+void ProgressDialog::open(Updater *pUpdater)
+{
+	_updater = pUpdater;
+	connect(_updater, &Updater::progressChanged,
+			this, &ProgressDialog::updateProgress);
+	connect(this, &ProgressDialog::canceled,
+			_updater, [this]() {_updater->abortUpdateCheck(); });
+	QDialog::open();
+	_taskbar->setProgress(-1.0);
+	_taskbar->setProgressVisible(true);
+}
+
 void ProgressDialog::setCanceled()
 {
-	ui->label->setText(tr("Canceling update check…"));
-	ui->buttonBox->setEnabled(false);
+	_ui->label->setText(tr("Canceling update check…"));
+	_ui->buttonBox->setEnabled(false);
+	_taskbar->setAttribute(QTaskbarControl::WindowsProgressState, QTaskbarControl::Paused);
+}
+
+void ProgressDialog::updateProgress(double progress, const QString &status)
+{
+	_taskbar->setProgress(progress);
+	if (progress < 0) {
+		if (_ui->progressBar->maximum() != 0) {
+			_ui->progressBar->setValue(0);
+			_ui->progressBar->setRange(0, 0);
+			_ui->progressBar->setTextVisible(false);
+		}
+	} else {
+		if (_ui->progressBar->maximum() == 0) {
+			_ui->progressBar->setRange(0, 1000);
+			_ui->progressBar->setValue(0);
+			_ui->progressBar->setTextVisible(true);
+		}
+		_ui->progressBar->setValue(static_cast<int>(progress * 1000));
+	}
+
+	if (!status.isEmpty())
+		_ui->label->setText(status);
 }
 
 void ProgressDialog::closeEvent(QCloseEvent *event)
 {
 	event->ignore();
-	if(ui->buttonBox->isEnabled()) {
+	if(_ui->buttonBox->isEnabled()) {
 		setCanceled();
 		emit canceled();
 	}
 }
-

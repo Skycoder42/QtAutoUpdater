@@ -1,14 +1,19 @@
 #ifndef QTAUTOUPDATER_PROGRESSDIALOG_P_H
 #define QTAUTOUPDATER_PROGRESSDIALOG_P_H
 
-#include "qtautoupdatergui_global.h"
+#include <functional>
 
+#include <QtCore/QPointer>
 #include <QtCore/QScopedPointer>
+
+#include <QtAutoUpdaterCore/Updater>
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
-#include <functional>
+#include <qtaskbarcontrol.h>
+
+#include "qtautoupdatergui_global.h"
 
 namespace Ui {
 class ProgressDialog;
@@ -22,17 +27,10 @@ class Q_AUTOUPDATERGUI_EXPORT ProgressDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ProgressDialog(QWidget *parent = nullptr);
+	explicit ProgressDialog(const QString &desktopFileName, QWidget *parent = nullptr);
 	~ProgressDialog() override;
 
-	template <class Class>
-	void open(Class *object, void(Class::* member)(int,bool)) {
-		connect(this, &ProgressDialog::canceled, object, [=](){
-			(object->*member)(3000, true);
-		});
-		show();
-	}
-
+	void open(Updater *pUpdater);
 	void setCanceled();
 
 public Q_SLOTS:
@@ -42,11 +40,16 @@ public Q_SLOTS:
 Q_SIGNALS:
 	void canceled();
 
+private Q_SLOTS:
+	void updateProgress(double progress, const QString &status);
+
 protected:
 	void closeEvent(QCloseEvent *event) override;
 
 private:
-	QScopedPointer<Ui::ProgressDialog> ui;
+	QScopedPointer<Ui::ProgressDialog> _ui;
+	QPointer<Updater> _updater;
+	QTaskbarControl *_taskbar;
 };
 
 }

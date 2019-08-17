@@ -1,13 +1,14 @@
 #ifndef QTAUTOUPDATER_UPDATECONTROLLER_H
 #define QTAUTOUPDATER_UPDATECONTROLLER_H
 
-#include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
-
 #include <QtCore/qobject.h>
 #include <QtCore/qstringlist.h>
-#include <QtCore/qscopedpointer.h>
+
+#include <QtAutoUpdaterCore/updater.h>
 
 #include <QtWidgets/qaction.h>
+
+#include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
 
 namespace QtAutoUpdater
 {
@@ -17,22 +18,17 @@ class UpdateControllerPrivate;
 //! A class to show a controlled update GUI to the user
 class Q_AUTOUPDATERGUI_EXPORT UpdateController : public QObject
 {
-	friend class UpdateControllerPrivate;
 	Q_OBJECT
 
-	//! Holds the path of the attached maintenancetool
-	Q_PROPERTY(QString maintenanceToolPath READ maintenanceToolPath CONSTANT FINAL)
 	//! Holds the widget who's window should be used as parent for all dialogs
 	Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow)
 	//! Specifies whether the controller is currently active or not
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
-	//! Specifies whether the controller should run the updater as admin or not
-	Q_PROPERTY(bool runAsAdmin READ runAsAdmin WRITE setRunAsAdmin NOTIFY runAsAdminChanged)
-	//! Holds the arguments to invoke the updater with
-	Q_PROPERTY(QStringList updateRunArgs READ updateRunArgs WRITE setUpdateRunArgs RESET resetUpdateRunArgs)
 	//! Specifies whether the update infos should be detailed or not
 	Q_PROPERTY(bool detailedUpdateInfo READ isDetailedUpdateInfo WRITE setDetailedUpdateInfo)
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName)
+
+	// TODO add auto detach and reparenting of updater if run on exit is set
 
 public:
 	//! Defines the different display-levels of the dialog
@@ -48,31 +44,22 @@ public:
 	};
 	Q_ENUM(DisplayLevel)
 
-	//! Constructs a new controller with a parent. Will be application modal
-	explicit UpdateController(QObject *parent = nullptr);
-	//! Constructs a new controller with a parent. Will modal to the parent window
-	explicit UpdateController(QWidget *parentWindow, QObject *parent = nullptr);
-	//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
-	explicit UpdateController(const QString &maintenanceToolPath, QObject *parent = nullptr);
 	//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
-	explicit UpdateController(const QString &maintenanceToolPath, QWidget *parentWindow, QObject *parent = nullptr);
+	explicit UpdateController(Updater *updater, QObject *parent = nullptr);
+	//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
+	explicit UpdateController(Updater *updater, QWidget *parentWindow, QObject *parent = nullptr);
 	~UpdateController() override;
 
 	//! Create a QAction to start this controller from
 	QAction *createUpdateAction(QObject *parent);
+	QAction *createUpdateAction(DisplayLevel displayLevel, QObject *parent);
 
-	//! @readAcFn{UpdateController::maintenanceToolPath}
-	QString maintenanceToolPath() const;
 	//! @readAcFn{UpdateController::parentWindow}
 	QWidget* parentWindow() const;
 	//! @readAcFn{UpdateController::currentDisplayLevel}
 	DisplayLevel currentDisplayLevel() const;
 	//! @readAcFn{UpdateController::running}
 	bool isRunning() const;
-	//! @readAcFn{UpdateController::runAsAdmin}
-	bool runAsAdmin() const;
-	//! @readAcFn{UpdateController::updateRunArgs}
-	QStringList updateRunArgs() const;
 	//! @readAcFn{UpdateController::detailedUpdateInfo}
 	bool isDetailedUpdateInfo() const;
 	QString desktopFileName() const;
@@ -80,18 +67,17 @@ public:
 	//! Returns the Updater object used by the controller
 	Updater *updater() const;
 
+	template <typename TRep, typename TPeriod>
+	int scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated = false, DisplayLevel displayLevel = InfoLevel);
+	template <typename TClock, typename TDur>
+	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when, DisplayLevel displayLevel = InfoLevel);
+
 public Q_SLOTS:
 	//! @writeAcFn{UpdateController::parentWindow}
 	void setParentWindow(QWidget* parentWindow);
-	//! @writeAcFn{UpdateController::runAsAdmin}
-	void setRunAsAdmin(bool runAsAdmin, bool userEditable = true);
-	//! @writeAcFn{UpdateController::updateRunArgs}
-	void setUpdateRunArgs(QStringList updateRunArgs);
-	//! @resetAcFn{UpdateController::updateRunArgs}
-	void resetUpdateRunArgs();
 	//! @writeAcFn{UpdateController::detailedUpdateInfo}
 	void setDetailedUpdateInfo(bool detailedUpdateInfo);
-	void setDesktopFileName(const QString &desktopFileName);
+	void setDesktopFileName(QString desktopFileName);
 
 	//! Starts the controller with the specified display level
 	bool start(DisplayLevel displayLevel = InfoLevel);
@@ -107,16 +93,14 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! @notifyAcFn{UpdateController::running}
-	void runningChanged(bool running);
-	//! @notifyAcFn{UpdateController::runAsAdmin}
-	void runAsAdminChanged(bool runAsAdmin);
-
-private Q_SLOTS:
-	void checkUpdatesDone(bool hasUpdates, bool hasError);
-	void timerTriggered(const QVariant &parameter);
+	void runningChanged(bool running, QPrivateSignal);
 
 private:
-	QScopedPointer<UpdateControllerPrivate> d;
+	Q_DECLARE_PRIVATE(UpdateController)
+	Q_DISABLE_COPY(UpdateController)
+
+	Q_PRIVATE_SLOT(d_func(), void _q_updaterCheckDone(Updater::State))
+	Q_PRIVATE_SLOT(d_func(), void _q_timerTriggered(const QVariant &))
 };
 
 }

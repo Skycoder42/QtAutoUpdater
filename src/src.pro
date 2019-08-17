@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
 	autoupdatercore \
- \#	autoupdatergui
+	autoupdatergui \
 	plugins
 
 plugins.depends += autoupdatercore

@@ -1,53 +1,44 @@
 #ifndef QTAUTOUPDATER_UPDATECONTROLLER_P_H
 #define QTAUTOUPDATER_UPDATECONTROLLER_P_H
 
-#include "qtautoupdatergui_global.h"
 #include "updatecontroller.h"
 #include "updateinfodialog_p.h"
 #include "progressdialog_p.h"
 
 #include <QtAutoUpdaterCore/updater.h>
-#include <QtAutoUpdaterCore/private/simplescheduler_p.h>
 
 #include <QtCore/QPointer>
 
-#include <qtaskbarcontrol.h>
+#include <QtCore/private/qobject_p.h>
+#include <QtAutoUpdaterCore/private/simplescheduler_p.h>
 
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate
+class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate : public QObjectPrivate
 {
-	Q_DISABLE_COPY(UpdateControllerPrivate)
+	Q_DECLARE_PUBLIC(UpdateController)
+
 public:
 	using UpdateTask = QPair<UpdateController::DisplayLevel, bool>;
 
 	static QIcon getUpdatesIcon();
 
-	UpdateController *q;
-
+	Updater *updater = nullptr;
 	QPointer<QWidget> window;
 
 	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
 	bool running = false;
-	Updater *mainUpdater;
-	bool runAdmin = true;
-	bool adminUserEdit = true;
-	QStringList runArgs {QStringLiteral("--updater")};
 	bool detailedInfo = true;
+	QString desktopFileName;
 
-	QPointer<QTaskbarControl> taskbar;
 	QPointer<ProgressDialog> checkUpdatesProgress;
 	bool wasCanceled = false;
 
-	SimpleScheduler *scheduler;
+	SimpleScheduler *scheduler = nullptr;
 
-	UpdateControllerPrivate(UpdateController *q_ptr, QWidget *window);
-	UpdateControllerPrivate(UpdateController *q_ptr, const QString &toolPath, QWidget *window);
-	~UpdateControllerPrivate();
-
-	void setTaskbarState(QTaskbarControl::WinProgressState state);
-	void clearTaskbar();
+	void _q_updaterCheckDone(Updater::State state);
+	void _q_timerTriggered(const QVariant &parameter);
 };
 
 }

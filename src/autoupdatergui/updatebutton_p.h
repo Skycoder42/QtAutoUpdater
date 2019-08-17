@@ -9,6 +9,8 @@
 
 #include <QtGui/QMovie>
 
+#include <QtWidgets/private/qwidget_p.h>
+
 namespace Ui {
 class UpdateButton;
 }
@@ -16,22 +18,23 @@ class UpdateButton;
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT UpdateButtonPrivate
+class Q_AUTOUPDATERGUI_EXPORT UpdateButtonPrivate : public QWidgetPrivate
 {
-	Q_DISABLE_COPY(UpdateButtonPrivate)
-public:
-	UpdateButton *q;
+	Q_DECLARE_PUBLIC(UpdateButton)
 
+public:
 	QPointer<UpdateController> controller;
 	QScopedPointer<Ui::UpdateButton> ui;
 	UpdateController::DisplayLevel level = UpdateController::ExtendedInfoLevel;
 	QMovie *loadingGif;
 	bool showResult = true;
 
-	UpdateButtonPrivate(UpdateButton *q_ptr, UpdateController *controller);
-	~UpdateButtonPrivate();
-
 	void updateController(UpdateController *newController);
+
+	void _q_startUpdate();
+	void _q_changeUpdaterState(bool isRunning);
+	void _q_updatesReady(Updater::State state);
+	void _q_controllerDestroyed();
 };
 
 }

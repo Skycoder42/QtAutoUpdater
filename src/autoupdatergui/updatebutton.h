@@ -4,7 +4,6 @@
 #include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
 #include "QtAutoUpdaterGui/updatecontroller.h"
 
-#include <QtCore/qscopedpointer.h>
 #include <QtWidgets/qwidget.h>
 
 namespace QtAutoUpdater
@@ -14,7 +13,6 @@ class UpdateButtonPrivate;
 //! A simple button for update checks
 class Q_AUTOUPDATERGUI_EXPORT UpdateButton : public QWidget
 {
-	friend class UpdateButtonPrivate;
 	Q_OBJECT
 
 	//! The file of the animation to be shown
@@ -29,7 +27,6 @@ class Q_AUTOUPDATERGUI_EXPORT UpdateButton : public QWidget
 public:
 	//! Creates a new update button to place in your GUI
 	explicit UpdateButton(QWidget *parent = nullptr, UpdateController *controller = nullptr);
-	~UpdateButton() override;
 
 	//! @readAcFn{UpdateButton::animationFile}
 	QString animationFile() const;
@@ -45,7 +42,7 @@ public Q_SLOTS:
 	void resetState();
 
 	//! @writeAcFn{UpdateButton::animationFile}
-	void setAnimationFile(QString animationFile, int speed = 100);
+	void setAnimationFile(const QString &animationFile, int speed = 100);
 	//! @writeAcFn{UpdateButton::animationFile}
 	void setAnimationDevice(QIODevice *animationDevice, int speed = 100);
 	//! @resetAcFn{UpdateButton::animationFile}
@@ -59,16 +56,15 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! @notifyAcFn{UpdateButton::controller}
-	void controllerChanged(UpdateController* controller);
-
-private Q_SLOTS:
-	void startUpdate();
-	void changeUpdaterState(bool isRunning);
-	void updatesReady(bool hasUpdate, bool);
-	void controllerDestroyed();
+	void controllerChanged(UpdateController* controller, QPrivateSignal);
 
 private:
-	QScopedPointer<UpdateButtonPrivate> d;
+	Q_DECLARE_PRIVATE(UpdateButton)
+
+	Q_PRIVATE_SLOT(d_func(), void _q_startUpdate())
+	Q_PRIVATE_SLOT(d_func(), void _q_changeUpdaterState(bool))
+	Q_PRIVATE_SLOT(d_func(), void _q_updatesReady(Updater::State))
+	Q_PRIVATE_SLOT(d_func(), void _q_controllerDestroyed())
 };
 
 }
