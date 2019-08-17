@@ -4,3 +4,7 @@
 );
 
 $publicclassregexp = "QtAutoUpdater::.+";
+
+%classnames = (
+	"adminauthoriser.h" => "AdminAuthoriser",
+);
