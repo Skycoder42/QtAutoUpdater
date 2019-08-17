@@ -82,7 +82,7 @@ bool AdminAuthoriser::needsAdminPermission(const QString &program)
 bool AdminAuthoriser::executeAsAdmin(const QString &program, const QStringList &arguments, const QString &workingDir)
 {
 	auto init = CoInitialize(NULL);
-	auto cleanup = qScopeGuard([]() { CoUninitialize() });
+	auto cleanup = qScopeGuard([]() { CoUninitialize(); });
 	if (init != S_OK)
 		cleanup.dismiss();
 
