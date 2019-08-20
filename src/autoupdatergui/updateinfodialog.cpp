@@ -66,6 +66,11 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 	}
 
 	_taskbar->setCounterVisible(false);
+
+	connect(_ui->acceptButton, &QPushButton::clicked,
+			this, &UpdateInfoDialog::installNow);
+	connect(_ui->delayButton, &QPushButton::clicked,
+			this, &UpdateInfoDialog::installLater);
 }
 
 UpdateInfoDialog::~UpdateInfoDialog()
@@ -99,7 +104,7 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(const QList<Upda
 	return static_cast<DialogResult>(dialog.exec());
 }
 
-void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
+void QtAutoUpdater::UpdateInfoDialog::installNow()
 {
 	if (_features.testFlag(UpdaterBackend::Feature::ParallelInstall) ||
 		DialogMaster::questionT(this,
@@ -109,7 +114,7 @@ void QtAutoUpdater::UpdateInfoDialog::on_acceptButton_clicked()
 		accept();
 }
 
-void QtAutoUpdater::UpdateInfoDialog::on_delayButton_clicked()
+void QtAutoUpdater::UpdateInfoDialog::installLater()
 {
 	DialogMaster::informationT(this,
 							   tr("Install On Exit"),

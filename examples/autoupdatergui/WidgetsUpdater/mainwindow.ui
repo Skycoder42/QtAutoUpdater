@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>277</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,19 +21,19 @@
     <item>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="maintenanceToolLabel">
+       <widget class="QLabel" name="configPathLabel">
         <property name="text">
-         <string>MaintenanceTool:</string>
+         <string>Config-Path:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="maintenanceToolLineEdit"/>
+         <widget class="QLineEdit" name="configPathLineEdit"/>
         </item>
         <item>
-         <widget class="QToolButton" name="maintenanceToolButton">
+         <widget class="QToolButton" name="configPathToolButton">
           <property name="text">
            <string>...</string>
           </property>
@@ -47,6 +47,20 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="hasParentWindowLabel">
+        <property name="text">
+         <string>Has Parent Window:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="hasParentWindowCheckBox">
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="displayLevelLabel">
@@ -92,7 +106,33 @@
         </item>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="scheduleUpdateDateCheckBox">
+        <property name="text">
+         <string>Schedule Update:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDateTimeEdit" name="scheduleUpdateDateTimeEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::PlusMinus</enum>
+        </property>
+        <property name="accelerated">
+         <bool>true</bool>
+        </property>
+        <property name="correctionMode">
+         <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+        </property>
+        <property name="displayFormat">
+         <string>dd.MM.yyyy HH:mm:ss</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -105,7 +145,7 @@
         </property>
        </spacer>
       </item>
-      <item row="6" column="1">
+      <item row="4" column="1">
        <layout class="QVBoxLayout" name="buttonLayout">
         <item>
          <widget class="QCommandLinkButton" name="checkUpdatesButton">
@@ -129,97 +169,6 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="adminLabel">
-        <property name="text">
-         <string>Admin:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QCheckBox" name="adminCheckBox">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Run as Admin</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="userChangecheckBox">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>User Changeable</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="1">
-       <widget class="QDateTimeEdit" name="scheduleUpdateDateTimeEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::PlusMinus</enum>
-        </property>
-        <property name="accelerated">
-         <bool>true</bool>
-        </property>
-        <property name="correctionMode">
-         <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-        </property>
-        <property name="displayFormat">
-         <string>dd.MM.yyyy HH:mm:ss</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="scheduleUpdateDateCheckBox">
-        <property name="text">
-         <string>Schedule Update:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="hasParentWindowLabel">
-        <property name="text">
-         <string>Has Parent Window:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="hasParentWindowCheckBox">
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="detailedInfoDialogLabel">
-        <property name="text">
-         <string>Detailed InfoDialog:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QCheckBox" name="detailedInfoDialogCheckBox">
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
@@ -230,7 +179,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -263,7 +212,7 @@
   <connection>
    <sender>activeBox</sender>
    <signal>toggled(bool)</signal>
-   <receiver>maintenanceToolButton</receiver>
+   <receiver>configPathToolButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -311,7 +260,7 @@
   <connection>
    <sender>activeBox</sender>
    <signal>toggled(bool)</signal>
-   <receiver>maintenanceToolLineEdit</receiver>
+   <receiver>configPathLineEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

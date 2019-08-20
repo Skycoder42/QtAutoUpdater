@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	translatorUpdater.load(QLocale(),
 						   QStringLiteral("qtautoupdatergui"),
 						   QStringLiteral("_"),
-						   QStringLiteral("translations"));
+						   QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	a.installTranslator(&translatorUpdater);
 
 	//Launch GUI

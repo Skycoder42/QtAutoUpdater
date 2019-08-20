@@ -2,4 +2,4 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
 	autoupdatercore \
-#	autoupdatergui
+	autoupdatergui

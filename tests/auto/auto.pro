@@ -3,7 +3,7 @@ TEMPLATE = subdirs
 SUBDIRS += \
 	cmake \
 	autoupdatercore \
-#	autoupdatergui
+	autoupdatergui
 
 cmake.CONFIG += no_run-tests_target
 prepareRecursiveTarget(run-tests)

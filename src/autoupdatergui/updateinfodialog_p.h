@@ -35,8 +35,8 @@ public:
 									   QWidget *parent);
 
 private Q_SLOTS:
-	void on_acceptButton_clicked();
-	void on_delayButton_clicked();
+	void installNow();
+	void installLater();
 
 private:
 	QScopedPointer<Ui::UpdateInfoDialog> _ui;

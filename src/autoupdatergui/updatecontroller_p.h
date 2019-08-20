@@ -29,7 +29,6 @@ public:
 
 	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
 	bool running = false;
-	bool detailedInfo = true;
 	QString desktopFileName;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;

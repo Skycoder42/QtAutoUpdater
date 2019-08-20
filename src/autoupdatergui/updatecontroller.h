@@ -24,8 +24,6 @@ class Q_AUTOUPDATERGUI_EXPORT UpdateController : public QObject
 	Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow)
 	//! Specifies whether the controller is currently active or not
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
-	//! Specifies whether the update infos should be detailed or not
-	Q_PROPERTY(bool detailedUpdateInfo READ isDetailedUpdateInfo WRITE setDetailedUpdateInfo)
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName)
 
 	// TODO add auto detach and reparenting of updater if run on exit is set
@@ -60,8 +58,7 @@ public:
 	DisplayLevel currentDisplayLevel() const;
 	//! @readAcFn{UpdateController::running}
 	bool isRunning() const;
-	//! @readAcFn{UpdateController::detailedUpdateInfo}
-	bool isDetailedUpdateInfo() const;
+	//! @readAcFn{UpdateController::desktopFileName}
 	QString desktopFileName() const;
 
 	//! Returns the Updater object used by the controller
@@ -75,8 +72,7 @@ public:
 public Q_SLOTS:
 	//! @writeAcFn{UpdateController::parentWindow}
 	void setParentWindow(QWidget* parentWindow);
-	//! @writeAcFn{UpdateController::detailedUpdateInfo}
-	void setDetailedUpdateInfo(bool detailedUpdateInfo);
+	//! @writeAcFn{UpdateController::desktopFileName}
 	void setDesktopFileName(QString desktopFileName);
 
 	//! Starts the controller with the specified display level

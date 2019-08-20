@@ -16,16 +16,14 @@ class MainWindow : public QMainWindow
 
 public:
 	explicit MainWindow(QWidget *parent = nullptr);
-	~MainWindow();
+	~MainWindow() override;
 
 private:
 	Ui::MainWindow *ui;
 	QtAutoUpdater::UpdateController *controller = nullptr;
-	QtAutoUpdater::UpdateButton *updateButton;
 
 private slots:
 	void initializeUpdater();
-	void checkUpdate();
 };
 
 #endif // MAINWINDOW_H

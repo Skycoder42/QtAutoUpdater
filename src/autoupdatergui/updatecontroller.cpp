@@ -90,22 +90,10 @@ bool UpdateController::isRunning() const
 	return d->running;
 }
 
-bool UpdateController::isDetailedUpdateInfo() const
-{
-	const Q_D(UpdateController);
-	return d->detailedInfo;
-}
-
 QString UpdateController::desktopFileName() const
 {
 	const Q_D(UpdateController);
 	return d->desktopFileName;
-}
-
-void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
-{
-	Q_D(UpdateController);
-	d->detailedInfo = detailedUpdateInfo;
 }
 
 void UpdateController::setDesktopFileName(QString desktopFileName)
@@ -212,6 +200,7 @@ void UpdateControllerPrivate::_q_updaterCheckDone(Updater::State state)
 
 	if(displayLevel >= UpdateController::ProgressLevel) {
 		if(checkUpdatesProgress) {
+			checkUpdatesProgress->hide();  // explicitly hide so child dialogs are NOT shown on top of it
 			checkUpdatesProgress->deleteLater();
 			checkUpdatesProgress.clear();
 		}
