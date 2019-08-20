@@ -230,9 +230,7 @@ void UpdateControllerPrivate::_q_updaterCheckDone(Updater::State state)
 				const auto updateInfos = updater->updateInfo();
 				const auto res = UpdateInfoDialog::showUpdateInfo(updateInfos,
 																  desktopFileName,
-																  updater->backend()->features().testFlag(UpdaterBackend::Feature::TriggerInstall),
-																  updater->backend()->features().testFlag(UpdaterBackend::Feature::ParallelInstall),
-																  detailedInfo,
+																  updater->backend()->features(),
 																  window);
 
 				switch(res) {

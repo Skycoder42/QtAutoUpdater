@@ -2,6 +2,7 @@
 #define QTAUTOUPDATER_UPDATEINFODIALOG_H
 
 #include <QtAutoUpdaterCore/UpdateInfo>
+#include <QtAutoUpdaterCore/UpdaterBackend>
 
 #include <QtWidgets/QDialog>
 
@@ -28,11 +29,9 @@ public:
 	};
 	Q_ENUM(DialogResult)
 
-	static DialogResult showUpdateInfo(QList<UpdateInfo> updates,
+	static DialogResult showUpdateInfo(const QList<UpdateInfo> &updates,
 									   const QString &desktopFileName,
-									   bool allowInstallLater,
-									   bool canParallelInstall,
-									   bool detailed, // TODO allow automatic detection based on if there are 1 or more updates
+									   UpdaterBackend::Features features,
 									   QWidget *parent);
 
 private Q_SLOTS:
@@ -42,14 +41,14 @@ private Q_SLOTS:
 private:
 	QScopedPointer<Ui::UpdateInfoDialog> _ui;
 	QTaskbarControl *_taskbar;
-	bool _canParallelInstall = false;
+	UpdaterBackend::Features _features;
 
-	explicit UpdateInfoDialog(QWidget *parent = nullptr);
+	explicit UpdateInfoDialog(UpdaterBackend::Features features, QWidget *parent = nullptr);
 	~UpdateInfoDialog() override;
 
-	static QString getByteText(quint64 bytes);
-	static bool askForClose(QWidget *parent);
-	static void informInstallLater(QWidget *parent);
+	void addUpdates(const QList<UpdateInfo> &updates);
+
+	QString getByteText(quint64 bytes);
 };
 
 }
