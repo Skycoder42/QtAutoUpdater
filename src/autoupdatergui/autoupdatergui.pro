@@ -1,6 +1,10 @@
 TARGET = QtAutoUpdaterGui
 
 QT = core gui widgets autoupdatercore autoupdatercore-private widgets-private gui-private core-private
+# from taskbar control, must be done here because load(qt_module) preceds load(qdep)
+win32: QT += winextras
+else:mac: QT += macextras
+else:linux:!android:!emscripten: QT += dbus
 
 HEADERS += \
 	updatebutton_p.h \
