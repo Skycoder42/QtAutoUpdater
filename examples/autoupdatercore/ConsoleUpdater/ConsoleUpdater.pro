@@ -11,4 +11,4 @@ TARGET = ConsoleUpdater
 SOURCES += main.cpp
 
 target.path = $$[QT_INSTALL_EXAMPLES]/autoupdatercore/ConsoleUpdater
-INSTALLS += target
+!install_ok: INSTALLS += target

@@ -20,4 +20,4 @@ DISTFILES += \
 	example.conf
 
 target.path = $$[QT_INSTALL_EXAMPLES]/autoupdatergui/$$TARGET
-INSTALLS += target
+!install_ok: INSTALLS += target
