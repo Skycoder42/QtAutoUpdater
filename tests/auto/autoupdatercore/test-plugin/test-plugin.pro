@@ -21,3 +21,7 @@ load(qt_plugin)
 # disable installation
 INSTALLS =
 CONFIG -= create_cmake
+
+runtarget.target = run-tests
+!compat_test: runtarget.depends += $(DESTDIR_TARGET)
+QMAKE_EXTRA_TARGETS += runtarget

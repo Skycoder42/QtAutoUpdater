@@ -32,7 +32,7 @@ protected:
 private:
 	using TimerInfo = QPair<bool, QVariant>;
 
-	QHash<int, TimerInfo> timerHash;
+	QHash<int, TimerInfo> _timerHash;
 };
 
 }

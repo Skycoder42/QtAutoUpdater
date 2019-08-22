@@ -21,6 +21,7 @@ struct Q_AUTOUPDATERCORE_EXPORT UpdateInfo
 
 public:
 	UpdateInfo();
+	UpdateInfo(QString name, QVersionNumber version, quint64 size = 0, QVariant identifier = {});
 	UpdateInfo(UpdateInfoPrivate *d_ptr);
 	~UpdateInfo();
 	UpdateInfo(const UpdateInfo &other);

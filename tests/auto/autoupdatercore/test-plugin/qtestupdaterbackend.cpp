@@ -24,16 +24,17 @@ UpdaterBackend::Features QTestUpdaterBackend::features() const
 
 void QTestUpdaterBackend::checkForUpdates()
 {
-	qCInfo(logTestPlugin) << Q_FUNC_INFO;
+	qCDebug(logTestPlugin) << Q_FUNC_INFO;
 	const milliseconds delay {config()->value(QStringLiteral("delay"), 200).toInt()};
 	_tCounter = 0;
-	emit checkProgress(0.0, config()->value(QStringLiteral("status"), {}).toString());
+	if (features().testFlag(Feature::CheckProgress))
+		emit checkProgress(0.0, config()->value(QStringLiteral("status"), {}).toString());
 	_timer->start(delay);
 }
 
 void QTestUpdaterBackend::abort(bool force)
 {
-	qCInfo(logTestPlugin) << Q_FUNC_INFO << force;
+	qCDebug(logTestPlugin) << Q_FUNC_INFO << force;
 	const auto abortLevel = config()->value(QStringLiteral("abortLevel"), 0).toInt();
 	switch (abortLevel) {
 	case 2:
@@ -55,7 +56,10 @@ void QTestUpdaterBackend::abort(bool force)
 
 bool QTestUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bool track)
 {
-	qCInfo(logTestPlugin) << Q_FUNC_INFO << infos << track;
+	qCDebug(logTestPlugin) << Q_FUNC_INFO << infos << track;
+	if (!features().testFlag(Feature::TriggerInstall))
+		return false;
+
 	const auto success = config()->value(QStringLiteral("allowTrigger"), true).toBool();
 	if (!success)
 		return false;
@@ -71,13 +75,15 @@ bool QTestUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bool tr
 
 UpdateInstaller *QTestUpdaterBackend::createInstaller()
 {
-	qCInfo(logTestPlugin) << Q_FUNC_INFO;
-	return nullptr;
+	qCDebug(logTestPlugin) << Q_FUNC_INFO;
+	if (!features().testFlag(Feature::PerformInstall))
+		return nullptr;
+	return reinterpret_cast<UpdateInstaller*>(42); // TEST remove once implemented
 }
 
 bool QTestUpdaterBackend::initialize()
 {
-	qCInfo(logTestPlugin) << Q_FUNC_INFO;
+	qCDebug(logTestPlugin) << Q_FUNC_INFO;
 	return config()->value(QStringLiteral("allowInit"), true).toBool();
 }
 
@@ -89,7 +95,9 @@ void QTestUpdaterBackend::timerTriggered()
 		const auto success = !config()->value(QStringLiteral("updateHasError"), false).toBool();
 		emit triggerInstallDone(success);
 	} else {
-		emit checkProgress(++_tCounter / 10.0, config()->value(QStringLiteral("status"), {}).toString());
+		++_tCounter;
+		if (features().testFlag(Feature::CheckProgress))
+			emit checkProgress(_tCounter / 10.0, config()->value(QStringLiteral("status"), {}).toString());
 		if (_tCounter == 10) {
 			_tCounter = 0;
 			_timer->stop();

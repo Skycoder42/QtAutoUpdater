@@ -207,6 +207,8 @@ bool Updater::runUpdater(bool forceOnExit)
 		} else {
 			auto installer = d->backend->createInstaller();
 			if (installer)  {
+				d->state = State::Installing;
+				emit stateChanged(d->state, {});
 				// TODO connect installer to _q_triggerInstallDone
 				emit showInstaller(installer, {});
 				return true;

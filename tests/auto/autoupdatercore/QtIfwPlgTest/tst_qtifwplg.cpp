@@ -3,8 +3,7 @@
 #include "installercontroller.h"
 using namespace QtAutoUpdater;
 
-#define TEST_DELAY 1000
-
+#define TEST_DELAY 100
 
 class QtIfwPlgTest : public QObject
 {

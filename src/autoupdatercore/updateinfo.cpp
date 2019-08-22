@@ -18,6 +18,10 @@ UpdateInfo::UpdateInfo() :
 	UpdateInfo{new UpdateInfoPrivate{}}
 {}
 
+UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size, QVariant identifier) :
+	UpdateInfo{new UpdateInfoPrivate{{}, std::move(name), std::move(version), size, std::move(identifier)}}
+{}
+
 UpdateInfo::UpdateInfo(UpdateInfoPrivate *d_ptr) :
 	d{d_ptr}
 {}
