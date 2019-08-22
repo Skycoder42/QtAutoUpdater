@@ -8,6 +8,8 @@ class UpdaterTest : public QObject
 	Q_OBJECT
 
 private Q_SLOTS:
+	void initTestCase();
+
 	void testInitFail();
 	void testUpdateCheck_data();
 	void testUpdateCheck();
@@ -23,6 +25,11 @@ private:
 
 	void parametrize(QVariantMap &params, const QList<UpdateInfo> &updates);
 };
+
+void UpdaterTest::initTestCase()
+{
+	qRegisterMetaType<UpdateInstaller*>();
+}
 
 void UpdaterTest::testInitFail()
 {
@@ -329,6 +336,14 @@ void UpdaterTest::testTriggerUpdates_data()
 									<< false
 									<< false
 									<< false;
+	QTest::newRow("perform.failed") << false
+									<< false
+									<< true
+									<< false
+									<< true
+									<< false
+									<< true
+									<< false;
 }
 
 void UpdaterTest::testTriggerUpdates()
@@ -354,7 +369,10 @@ void UpdaterTest::testTriggerUpdates()
 		{QStringLiteral("features"), static_cast<int>(features)},
 		{QStringLiteral("delay"), 100},
 		{QStringLiteral("updateTime"), 1000},
-		{QStringLiteral("updateHasError"), !success}
+		{QStringLiteral("updateHasError"), !success},
+
+		{QStringLiteral("installer/delay"), 100},
+		{QStringLiteral("installer/success"), success},
 	};
 
 	// prepare the updater
@@ -389,8 +407,12 @@ void UpdaterTest::testTriggerUpdates()
 		QCOMPARE(stateSpy.size(), 1);
 		QCOMPARE(stateSpy.takeFirst()[0].value<Updater::State>(), Updater::State::Installing);
 		QCOMPARE(showSpy.size(), signaled ? 1 : 0);
-
-		QEXPECT_FAIL("perform", "Cannot be tested until UpdateInstaller was implemented", Abort);
+		if (signaled) {
+			auto installer = showSpy.takeFirst()[0].value<UpdateInstaller*>();
+			QVERIFY(installer);
+			installer->setComponents({{{}, {}, 0, 42}}); // set a component so the installer can actually operate
+			installer->startInstall();
+		}
 
 		// wait for finished
 		QVERIFY(doneSpy.wait());

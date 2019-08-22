@@ -1,4 +1,5 @@
 #include "qtestupdaterbackend.h"
+#include "qtestupdateinstaller.h"
 #include <chrono>
 using namespace QtAutoUpdater;
 using namespace std::chrono;
@@ -78,7 +79,7 @@ UpdateInstaller *QTestUpdaterBackend::createInstaller()
 	qCDebug(logTestPlugin) << Q_FUNC_INFO;
 	if (!features().testFlag(Feature::PerformInstall))
 		return nullptr;
-	return reinterpret_cast<UpdateInstaller*>(42); // TEST remove once implemented
+	return new QTestUpdateInstaller{config(), this};
 }
 
 bool QTestUpdaterBackend::initialize()

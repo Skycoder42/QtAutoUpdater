@@ -4,7 +4,7 @@ SUBDIRS += \
 	SchedulerTest \
 	test-plugin \
 	UpdaterTest \
-	QtIfwPlgTest
+#	QtIfwPlgTest
 
 UpdaterTest.depends += test-plugin
 

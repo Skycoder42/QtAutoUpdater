@@ -3,10 +3,12 @@ TARGET = qtest
 QT = autoupdatercore autoupdatercore-private
 
 HEADERS += \
+	qtestupdateinstaller.h \
 	qtestupdaterbackend.h \
 	qtestupdaterplugin.h
 
 SOURCES += \
+	qtestupdateinstaller.cpp \
 	qtestupdaterbackend.cpp \
 	qtestupdaterplugin.cpp
 

@@ -6,6 +6,8 @@ HEADERS += \
 	adminauthoriser.h \
 	updateinfo.h \
 	updateinfo_p.h \
+	updateinstaller.h \
+	updateinstaller_p.h \
 	updater.h \
 	updater_p.h \
 	simplescheduler_p.h \
@@ -17,6 +19,7 @@ HEADERS += \
 SOURCES += \
 	simplescheduler.cpp \
 	updateinfo.cpp \
+	updateinstaller.cpp \
 	updater.cpp \
 	updaterbackend.cpp \
 	updaterplugin.cpp

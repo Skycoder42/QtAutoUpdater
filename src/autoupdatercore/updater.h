@@ -94,7 +94,7 @@ Q_SIGNALS:
 	//! Will be emitted as soon as the updater finished checking for updates
 	void checkUpdatesDone(QtAutoUpdater::Updater::State result, QPrivateSignal);
 	void progressChanged(double progress, const QString &status, QPrivateSignal);
-	void showInstaller(UpdateInstaller *installer, QPrivateSignal);
+	void showInstaller(QtAutoUpdater::UpdateInstaller *installer, QPrivateSignal);
 	void installDone(bool success, QPrivateSignal);
 
 	//! notifyAcFn{Updater::state}

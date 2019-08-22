@@ -1,6 +1,7 @@
 #include "updater.h"
 #include "updater_p.h"
 #include "updaterplugin.h"
+#include "updateinstaller.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTimer>
 #include <QtCore/QSettings>
@@ -207,9 +208,25 @@ bool Updater::runUpdater(bool forceOnExit)
 		} else {
 			auto installer = d->backend->createInstaller();
 			if (installer)  {
+				connect(installer, &UpdateInstaller::installSucceeded,
+						this, [this, installer]() {
+					installer->disconnect(this);
+					d_func()->_q_triggerInstallDone(true);
+				});
+				connect(installer, &UpdateInstaller::installFailed,
+						this, [this, installer]() {
+					installer->disconnect(this);
+					d_func()->_q_triggerInstallDone(false);
+				});
+				connect(installer, &UpdateInstaller::destroyed,
+						this, [this, installer]() {
+					installer->disconnect(this);
+					d_func()->_q_triggerInstallDone(false);
+				});
+				installer->setComponents(d->updateInfos);
+
 				d->state = State::Installing;
 				emit stateChanged(d->state, {});
-				// TODO connect installer to _q_triggerInstallDone
 				emit showInstaller(installer, {});
 				return true;
 			} else
@@ -362,10 +379,12 @@ void UpdaterPrivate::_q_checkDone(bool success, QList<UpdateInfo> updates)
 void UpdaterPrivate::_q_triggerInstallDone(bool success)
 {
 	Q_Q(Updater);
-	updateInfos.clear();
-	state = success ? State::NoUpdates : State::Error;
-	emit q->stateChanged(state, {});
-	emit q->installDone(success, {});
+	if (state == State::Installing) {
+		updateInfos.clear();
+		state = success ? State::NoUpdates : State::Error;
+		emit q->stateChanged(state, {});
+		emit q->installDone(success, {});
+	}
 }
 
 #include "moc_updater.cpp"
