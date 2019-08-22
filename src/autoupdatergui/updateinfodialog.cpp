@@ -41,6 +41,11 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 								   .arg(QApplication::applicationDisplayName()));
 	_ui->imageLabel->setPixmap(UpdateControllerPrivate::getUpdatesIcon().pixmap(64, 64));
 
+	connect(_ui->acceptButton, &QPushButton::clicked,
+			this, &UpdateInfoDialog::installNow);
+	connect(_ui->delayButton, &QPushButton::clicked,
+			this, &UpdateInfoDialog::installLater);
+
 	//configure buttons and texts
 	if (!_features.testFlag(UpdaterBackend::Feature::TriggerInstall)) {
 		// no install after exit -> hide install on exit
@@ -51,6 +56,10 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 			_ui->skipButton->setVisible(false);
 			_ui->stateLabel->setText(tr("There are new updates available! "
 										"To install the displayed updates, exit this application and start the updater."));
+			disconnect(_ui->acceptButton, &QPushButton::clicked,
+					   this, &UpdateInfoDialog::installNow);
+			connect(_ui->acceptButton, &QPushButton::clicked,
+					this, &UpdateInfoDialog::reject);
 		} else
 			_ui->stateLabel->setText(tr("There are new updates available! You can install them right now by pressing <Install Now> below."));
 	} else {
@@ -66,11 +75,6 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 	}
 
 	_taskbar->setCounterVisible(false);
-
-	connect(_ui->acceptButton, &QPushButton::clicked,
-			this, &UpdateInfoDialog::installNow);
-	connect(_ui->delayButton, &QPushButton::clicked,
-			this, &UpdateInfoDialog::installLater);
 }
 
 UpdateInfoDialog::~UpdateInfoDialog()

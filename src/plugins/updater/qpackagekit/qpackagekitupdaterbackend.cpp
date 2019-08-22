@@ -10,8 +10,7 @@ QPackageKitUpdaterBackend::QPackageKitUpdaterBackend(QString &&key, QObject *par
 UpdaterBackend::Features QPackageKitUpdaterBackend::features() const
 {
 	return Feature::CheckProgress |
-			Feature::PerformInstall |
-			Feature::InstallSelected;
+			Feature::PerformInstall;
 }
 
 void QPackageKitUpdaterBackend::checkForUpdates()

@@ -28,8 +28,7 @@ public:
 		CheckProgress = 0x01,
 		TriggerInstall = 0x02,
 		ParallelInstall = 0x04,
-		PerformInstall = 0x08 | ParallelInstall,
-		InstallSelected = 0x10
+		PerformInstall = 0x08 | ParallelInstall
 	};
 	Q_DECLARE_FLAGS(Features, Feature)
 	Q_FLAG(Features)
