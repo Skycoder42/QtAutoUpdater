@@ -4,6 +4,7 @@
 #include "updateinstaller.h"
 
 #include <optional>
+#include <tuple>
 
 #include <QtCore/QMap>
 #include <QtCore/QLoggingCategory>
@@ -24,24 +25,67 @@ public:
 	ComponentModel *componentModel = nullptr;
 };
 
-class Q_AUTOUPDATERCORE_EXPORT ComponentModel : public QAbstractListModel
+class Q_AUTOUPDATERCORE_EXPORT ComponentModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
 public:
+	enum Roles {
+		NameRole = Qt::UserRole,
+		VersionRole,
+		CheckedRole,
+		UpdateInfoRole,
+	};
+	Q_ENUM(Roles)
+
 	ComponentModel(UpdateInstaller *parent);
 
 	void reset(QList<UpdateInstallerPrivate::ComponentInfo> data);
 
 	int rowCount(const QModelIndex &parent) const override;
+	int columnCount(const QModelIndex &parent) const override;
 	QVariant data(const QModelIndex &index, int role) const override;
 	bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
+	QHash<int, QByteArray> roleNames() const override;
 
 private:
 	UpdateInstaller *_installer;
 	QList<UpdateInstallerPrivate::ComponentInfo> _data;
+};
+
+class Q_AUTOUPDATERCORE_EXPORT ProgressModel : public QAbstractTableModel
+{
+	Q_OBJECT
+
+public:
+	enum Roles {
+		NameRole = Qt::UserRole,
+		ProgressRole,
+		StatusRole,
+		UpdateInfoRole,
+	};
+	Q_ENUM(Roles)
+
+	ProgressModel(UpdateInstaller *parent);
+
+	void reset(const QList<UpdateInfo> &data);
+
+	int rowCount(const QModelIndex &parent) const override;
+	int columnCount(const QModelIndex &parent) const override;
+	QVariant data(const QModelIndex &index, int role) const override;
+	QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+	QHash<int, QByteArray> roleNames() const override;
+
+private Q_SLOTS:
+	void updateComponentProgress(const QVariant &id, double percentage, const QString &status);
+
+private:
+	using UpdateState = std::tuple<UpdateInfo, double, QString>;
+
+	UpdateInstaller *_installer;
+	QList<UpdateState> _data;
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logInstaller)

@@ -32,8 +32,8 @@ public:
 
 	virtual QList<UpdateInfo> components() const;
 
-	Q_INVOKABLE virtual QAbstractListModel *componentModel() const;
-	Q_INVOKABLE virtual QAbstractListModel *progressModel() const;
+	Q_INVOKABLE virtual QAbstractItemModel *componentModel() const;
+	Q_INVOKABLE virtual QAbstractItemModel *progressModel() const;
 
 public Q_SLOTS:
 	virtual void startInstall() = 0;

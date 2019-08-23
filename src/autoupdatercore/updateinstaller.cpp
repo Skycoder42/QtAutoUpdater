@@ -31,13 +31,13 @@ QList<UpdateInfo> UpdateInstaller::components() const
 	return *d->componentList;
 }
 
-QAbstractListModel *UpdateInstaller::componentModel() const
+QAbstractItemModel *UpdateInstaller::componentModel() const
 {
 	const Q_D(UpdateInstaller);
 	return d->componentModel;
 }
 
-QAbstractListModel *UpdateInstaller::progressModel() const
+QAbstractItemModel *UpdateInstaller::progressModel() const
 {
 	Q_UNIMPLEMENTED();
 	return nullptr;
@@ -70,7 +70,7 @@ void UpdateInstaller::setComponentEnabled(const QVariant &id, bool enabled)
 // ------------- private implementation -------------
 
 ComponentModel::ComponentModel(UpdateInstaller *parent) :
-	QAbstractListModel{parent},
+	QAbstractTableModel{parent},
 	_installer{parent}
 {}
 
@@ -90,19 +90,48 @@ int ComponentModel::rowCount(const QModelIndex &parent) const
 		return _data.size();
 }
 
+int ComponentModel::columnCount(const QModelIndex &parent) const
+{
+	Q_ASSERT(checkIndex(parent, CheckIndexOption::DoNotUseParent));
+	if (parent.isValid())
+		return 0;
+	else
+		return 2;
+}
+
 QVariant ComponentModel::data(const QModelIndex &index, int role) const
 {
 	Q_ASSERT(checkIndex(index, CheckIndexOption::IndexIsValid | CheckIndexOption::ParentIsInvalid));
 
-	switch (role) {
-	case Qt::DisplayRole:
-		return _data[index.row()].first.name();
-	case Qt::ToolTipRole:
-		return tr("Newer version: %1 – Update size: %L2")
-				.arg(_data[index.row()].first.version().toString())
-				.arg(_data[index.row()].first.size());
-	case Qt::CheckStateRole:
-		return _data[index.row()].second ? Qt::Checked : Qt::Unchecked;
+	switch (index.column()) {
+	case 0:
+		switch (role) {
+		// normal roles
+		case Qt::CheckStateRole:
+			return _data[index.row()].second ? Qt::Checked : Qt::Unchecked;
+		case Qt::DisplayRole:
+		case Qt::ToolTipRole:
+		// special roles
+		case NameRole:
+			return _data[index.row()].first.name();
+		case VersionRole:
+			return _data[index.row()].first.version().toString();
+		case CheckedRole:
+			return _data[index.row()].second;
+		case UpdateInfoRole:
+			return QVariant::fromValue(_data[index.row()].first);
+		default:
+			return {};
+		}
+	case 1:
+		switch (role) {
+		// normal roles
+		case Qt::DisplayRole:
+		case Qt::ToolTipRole:
+			return _data[index.row()].first.version().toString();
+		default:
+			return {};
+		}
 	default:
 		return {};
 	}
@@ -112,21 +141,32 @@ bool ComponentModel::setData(const QModelIndex &index, const QVariant &value, in
 {
 	Q_ASSERT(checkIndex(index, CheckIndexOption::IndexIsValid | CheckIndexOption::ParentIsInvalid));
 
-	if (role == Qt::CheckStateRole) {
-		auto &info = _data[index.row()];
+	auto &info = _data[index.row()];
+
+	if (index.column() == 0 && role == Qt::CheckStateRole)
 		info.second = value.toInt() != Qt::Unchecked;
-		emit dataChanged(index, index, {role});
-		_installer->setComponentEnabled(info.first.identifier(), info.second);
-		return true;
-	} else
+	else if (index.column() == 0 && role == CheckedRole)
+		info.second = value.toBool();
+	else
 		return false;
+
+	emit dataChanged(index, index, {Qt::CheckStateRole, CheckedRole});
+	_installer->setComponentEnabled(info.first.identifier(), info.second);
+	return true;
 }
 
 QVariant ComponentModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole)
-		return tr("Update Component");
-	else
+	if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+		switch (section) {
+		case 0:
+			return tr("Name");
+		case 1:
+			return tr("Version");
+		default:
+			return {};
+		}
+	} else
 		return {};
 }
 
@@ -140,6 +180,140 @@ Qt::ItemFlags ComponentModel::flags(const QModelIndex &index) const
 				Qt::ItemNeverHasChildren;
 	} else
 		return Qt::NoItemFlags;
+}
+
+QHash<int, QByteArray> ComponentModel::roleNames() const
+{
+	return {
+		{NameRole, "name"},
+		{VersionRole, "version"},
+		{CheckedRole, "checked"},
+		{UpdateInfoRole, "updateInfo"}
+	};
+}
+
+
+
+ProgressModel::ProgressModel(UpdateInstaller *parent) :
+	QAbstractTableModel{parent},
+	_installer{parent}
+{
+	connect(_installer, &UpdateInstaller::updateComponentProgress,
+			this, &ProgressModel::updateComponentProgress);
+}
+
+void ProgressModel::reset(const QList<UpdateInfo> &data)
+{
+	beginResetModel();
+	_data.clear();
+	for (const auto &info : data)
+		_data.append({info, 0.0, {}});
+	endResetModel();
+}
+
+int ProgressModel::rowCount(const QModelIndex &parent) const
+{
+	Q_ASSERT(checkIndex(parent, CheckIndexOption::DoNotUseParent));
+	if (parent.isValid())
+		return 0;
+	else
+		return _data.size();
+}
+
+int ProgressModel::columnCount(const QModelIndex &parent) const
+{
+	Q_ASSERT(checkIndex(parent, CheckIndexOption::DoNotUseParent));
+	if (parent.isValid())
+		return 0;
+	else
+		return 3;
+}
+
+QVariant ProgressModel::data(const QModelIndex &index, int role) const
+{
+	Q_ASSERT(checkIndex(index, CheckIndexOption::IndexIsValid | CheckIndexOption::ParentIsInvalid));
+
+	switch (index.column()) {
+	case 0:
+		switch (role) {
+		// normal roles
+		case Qt::DisplayRole:
+		case Qt::ToolTipRole:
+		// special roles
+		case NameRole:
+			return std::get<0>(_data[index.row()]).name();
+		case ProgressRole:
+			return std::get<1>(_data[index.row()]);
+		case StatusRole:
+			return std::get<2>(_data[index.row()]);
+		case UpdateInfoRole:
+			return QVariant::fromValue(std::get<0>(_data[index.row()]));
+		default:
+			return {};
+		}
+	case 1:
+		switch (role) {
+		// normal roles
+		case Qt::DisplayRole:
+		case Qt::ToolTipRole:
+			return std::get<2>(_data[index.row()]);
+		default:
+			return {};
+		}
+	case 2:
+		switch (role) {
+		// normal roles
+		case Qt::DisplayRole:
+		case Qt::ToolTipRole:
+			return std::get<1>(_data[index.row()]);
+		default:
+			return {};
+		}
+	default:
+		return {};
+	}
+}
+
+QVariant ProgressModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+	if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+		switch (section) {
+		case 0:
+			return tr("Name");
+		case 1:
+			return tr("Status");
+		case 2:
+			return tr("Progress");
+		default:
+			return {};
+		}
+	} else
+		return {};
+}
+
+QHash<int, QByteArray> ProgressModel::roleNames() const
+{
+	return {
+		{NameRole, "name"},
+		{ProgressRole, "progress"},
+		{StatusRole, "status"},
+		{UpdateInfoRole, "updateInfo"}
+	};
+}
+
+void ProgressModel::updateComponentProgress(const QVariant &id, double percentage, const QString &status)
+{
+	const auto compIt = std::find_if(_data.begin(), _data.end(), [id](const UpdateState &state) {
+		return std::get<0>(state).identifier() == id;
+	});
+	if (compIt == _data.end())
+		return;
+	std::get<1>(*compIt) = percentage;
+	std::get<2>(*compIt) = status;
+	const auto compIdx = compIt - _data.begin();
+	emit dataChanged(index(compIdx, 0),
+					 index(compIdx, 2),
+					 {Qt::DisplayRole, Qt::ToolTipRole, ProgressRole, StatusRole});
 }
 
 #include "moc_updateinstaller.cpp"
