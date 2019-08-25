@@ -39,6 +39,8 @@ public:
 		VersionRole,
 		CheckedRole,
 		UpdateInfoRole,
+
+		HeaderSizeHint = Qt::UserRole + 100
 	};
 	Q_ENUM(Roles)
 
@@ -63,12 +65,16 @@ class Q_AUTOUPDATERCORE_EXPORT ProgressModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
+	Q_PROPERTY(int progressColumn READ progressColumn CONSTANT)
+
 public:
 	enum Roles {
 		NameRole = Qt::UserRole,
 		ProgressRole,
 		StatusRole,
 		UpdateInfoRole,
+
+		HeaderSizeHint = Qt::UserRole + 100
 	};
 	Q_ENUM(Roles)
 
@@ -81,6 +87,8 @@ public:
 	QVariant data(const QModelIndex &index, int role) const override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 	QHash<int, QByteArray> roleNames() const override;
+
+	int progressColumn() const;
 
 private Q_SLOTS:
 	void updateComponentProgress(const QVariant &id, double percentage, const QString &status);

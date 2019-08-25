@@ -13,7 +13,8 @@ QTestUpdateInstaller::QTestUpdateInstaller(UpdaterBackend::IConfigReader *config
 UpdateInstaller::Features QTestUpdateInstaller::features() const
 {
 	static constexpr int DefaultFeatures = Feature::DetailedProgress |
-										   Feature::SelectComponents;
+										   Feature::SelectComponents |
+										   Feature::CanCancel;
 	return static_cast<Features>(_config->value(QStringLiteral("installer/features"), DefaultFeatures).toInt());
 }
 
@@ -26,15 +27,21 @@ void QTestUpdateInstaller::eulaHandled(QUuid id, bool accepted)
 		emit installFailed(QStringLiteral("EULA_%1_rejected").arg(id.toString(QUuid::WithoutBraces)));
 }
 
+void QTestUpdateInstaller::cancelInstall()
+{
+	_updateTimer->stop();
+	emit installFailed(QStringLiteral("canceled"));
+}
+
 void QTestUpdateInstaller::startInstallImpl()
 {
 	const auto eCnt = _config->value(QStringLiteral("eulas/size"), 0).toInt();
 	for (auto i = 0; i < eCnt; ++i) {
-		const auto required = _config->value(QStringLiteral("eulas/%i/required").arg(i), true).toBool();
+		const auto required = _config->value(QStringLiteral("eulas/%1/required").arg(i), true).toBool();
 		if (required)
 			++_openEulas;
 		emit showEula(QUuid::createUuid(),
-					  _config->value(QStringLiteral("eulas/%i/text").arg(i), {}).toString(),
+					  _config->value(QStringLiteral("eulas/%1/text").arg(i), {}).toString(),
 					  required);
 	}
 

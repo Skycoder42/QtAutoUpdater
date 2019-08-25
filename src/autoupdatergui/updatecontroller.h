@@ -97,6 +97,7 @@ private:
 
 	Q_PRIVATE_SLOT(d_func(), void _q_updaterCheckDone(Updater::State))
 	Q_PRIVATE_SLOT(d_func(), void _q_timerTriggered(const QVariant &))
+	Q_PRIVATE_SLOT(d_func(), void _q_showInstaller(UpdateInstaller *))
 };
 
 }

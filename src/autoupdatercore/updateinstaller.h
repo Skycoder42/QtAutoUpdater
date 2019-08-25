@@ -23,7 +23,8 @@ public:
 	enum class Feature {
 		None = 0x00,
 		SelectComponents = 0x01,
-		DetailedProgress = 0x02
+		DetailedProgress = 0x02,
+		CanCancel = 0x04
 	};
 	Q_DECLARE_FLAGS(Features, Feature)
 	Q_FLAG(Features)
@@ -37,6 +38,7 @@ public:
 
 public Q_SLOTS:
 	virtual void startInstall();
+	virtual void cancelInstall();
 	virtual void eulaHandled(QUuid id, bool accepted) = 0;
 
 	virtual void setComponents(QList<QtAutoUpdater::UpdateInfo> components);

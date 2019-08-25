@@ -17,13 +17,25 @@
    <string>Updates are ready to be installed. Press &lt;Install&gt; to start the installation.</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0" colspan="2">
     <widget class="QProgressBar" name="progressBar">
      <property name="maximum">
-      <number>0</number>
+      <number>1000</number>
      </property>
-     <property name="textVisible">
-      <bool>false</bool>
+     <property name="value">
+      <number>0</number>
      </property>
     </widget>
    </item>
@@ -67,9 +79,15 @@
      <property name="textElideMode">
       <enum>Qt::ElideMiddle</enum>
      </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
      <property name="expandsOnDoubleClick">
       <bool>false</bool>
      </property>
+     <attribute name="headerStretchLastSection">
+      <bool>false</bool>
+     </attribute>
     </widget>
    </item>
    <item row="1" column="0" colspan="2">
@@ -78,9 +96,6 @@
       <font>
        <italic>true</italic>
       </font>
-     </property>
-     <property name="text">
-      <string>Installing updates…</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

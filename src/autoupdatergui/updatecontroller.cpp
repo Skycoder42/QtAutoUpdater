@@ -1,6 +1,7 @@
 #include "updatecontroller.h"
 #include "updatecontroller_p.h"
 #include "updatebutton.h"
+#include "installwizard_p.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -27,6 +28,8 @@ UpdateController::UpdateController(Updater *updater, QWidget *parentWidget, QObj
 
 	QObjectPrivate::connect(d->updater, &Updater::checkUpdatesDone,
 							d, &UpdateControllerPrivate::_q_updaterCheckDone);
+	QObjectPrivate::connect(d->updater, &Updater::showInstaller,
+							d, &UpdateControllerPrivate::_q_showInstaller);
 	QObjectPrivate::connect(d->scheduler, &SimpleScheduler::scheduleTriggered,
 							d, &UpdateControllerPrivate::_q_timerTriggered);
 }
@@ -278,6 +281,14 @@ void UpdateControllerPrivate::_q_timerTriggered(const QVariant &parameter)
 	Q_Q(UpdateController);
 	if(parameter.canConvert<UpdateController::DisplayLevel>())
 		q->start(parameter.value<UpdateController::DisplayLevel>());
+}
+
+void UpdateControllerPrivate::_q_showInstaller(UpdateInstaller *installer)
+{
+	auto wizard = new InstallWizard{installer};
+	wizard->show();
+	wizard->raise();
+	wizard->activateWindow();
 }
 
 //----------------- private implementation -----------------

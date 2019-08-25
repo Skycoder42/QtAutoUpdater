@@ -6,6 +6,8 @@
 #include <QtAutoUpdaterCore/UpdateInstaller>
 
 #include <QtWidgets/QWizard>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QStyledItemDelegate>
 
 #include "qtautoupdatergui_global.h"
 
@@ -40,6 +42,9 @@ public:
 
 	UpdateInstaller *installer() const;
 
+protected:
+	void closeEvent(QCloseEvent *event) override;
+
 private:
 	UpdateInstaller *_installer;
 	ComponentsPage *_componentsPage = nullptr;
@@ -47,6 +52,8 @@ private:
 	SuccessPage *_successPage;
 	ErrorPage *_errorPage;
 };
+
+void Q_AUTOUPDATERGUI_EXPORT applyHeaderSize(QHeaderView *view, QAbstractItemModel *model);
 
 class Q_AUTOUPDATERGUI_EXPORT ComponentsPage : public QWizardPage
 {
@@ -72,6 +79,8 @@ public:
 	explicit InstallPage(InstallWizard *parent);
 	~InstallPage() override;
 
+	void cancel(QCloseEvent *event = nullptr);
+
 	void initializePage() override;
 	void cleanupPage() override;
 	bool validatePage() override;
@@ -79,19 +88,30 @@ public:
 	int nextId() const override;
 
 private Q_SLOTS:
-	void startInstall(int btn);
-
 	void updateGlobalProgress(double percentage, const QString &status);
 	void showEula(QUuid id, const QString &htmlText, bool required);
 	void installSucceeded(bool shouldRestart);
 	void installFailed(const QString &errorMessage);
 
 private:
+	class Q_AUTOUPDATERGUI_EXPORT ProgressDelegate : public QStyledItemDelegate
+	{
+	public:
+		void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+		QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
+	private:
+		void initStyleOption(QStyleOptionProgressBar *option, const QStyleOptionViewItem &oldOpt, const QModelIndex &index) const;
+	};
+
 	InstallWizard *_wizard;
 	QScopedPointer<Ui::InstallPage> _ui;
+	QString _nextText;
 
+	bool _installing = false;
 	bool _installDone = false;
 	bool _hasError = false;
+	bool _nextEnabled = true;
 };
 
 class Q_AUTOUPDATERGUI_EXPORT SuccessPage : public QWizardPage

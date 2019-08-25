@@ -17,6 +17,7 @@ public:
 
 public Q_SLOTS:
 	void eulaHandled(QUuid id, bool accepted) override;
+	void cancelInstall() override;
 
 protected:
 	void startInstallImpl() override;

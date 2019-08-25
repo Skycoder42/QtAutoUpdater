@@ -38,6 +38,7 @@ public:
 
 	void _q_updaterCheckDone(Updater::State state);
 	void _q_timerTriggered(const QVariant &parameter);
+	void _q_showInstaller(UpdateInstaller *installer);
 };
 
 }

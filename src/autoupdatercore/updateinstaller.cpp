@@ -53,6 +53,8 @@ void UpdateInstaller::startInstall()
 	startInstallImpl();
 }
 
+void UpdateInstaller::cancelInstall() {}
+
 void UpdateInstaller::setComponents(QList<UpdateInfo> components)
 {
 	Q_D(UpdateInstaller);
@@ -120,7 +122,10 @@ QVariant ComponentModel::data(const QModelIndex &index, int role) const
 		switch (role) {
 		// normal roles
 		case Qt::CheckStateRole:
-			return _data[index.row()].second ? Qt::Checked : Qt::Unchecked;
+			if (_installer->features().testFlag(UpdateInstaller::Feature::SelectComponents))
+				return _data[index.row()].second ? Qt::Checked : Qt::Unchecked;
+			else
+				return {};
 		case Qt::DisplayRole:
 		case Qt::ToolTipRole:
 		// special roles
@@ -129,7 +134,10 @@ QVariant ComponentModel::data(const QModelIndex &index, int role) const
 		case VersionRole:
 			return _data[index.row()].first.version().toString();
 		case CheckedRole:
-			return _data[index.row()].second;
+			if (_installer->features().testFlag(UpdateInstaller::Feature::SelectComponents))
+				return _data[index.row()].second;
+			else
+				return {};
 		case UpdateInfoRole:
 			return QVariant::fromValue(_data[index.row()].first);
 		default:
@@ -153,23 +161,30 @@ bool ComponentModel::setData(const QModelIndex &index, const QVariant &value, in
 {
 	Q_ASSERT(checkIndex(index, CheckIndexOption::IndexIsValid | CheckIndexOption::ParentIsInvalid));
 
-	auto &info = _data[index.row()];
+	if (_installer->features().testFlag(UpdateInstaller::Feature::SelectComponents)) {
+		auto &info = _data[index.row()];
 
-	if (index.column() == 0 && role == Qt::CheckStateRole)
-		info.second = value.toInt() != Qt::Unchecked;
-	else if (index.column() == 0 && role == CheckedRole)
-		info.second = value.toBool();
-	else
+		if (index.column() == 0 && role == Qt::CheckStateRole)
+			info.second = value.toInt() != Qt::Unchecked;
+		else if (index.column() == 0 && role == CheckedRole)
+			info.second = value.toBool();
+		else
+			return false;
+
+		emit dataChanged(index, index, {Qt::CheckStateRole, CheckedRole});
+		_installer->setComponentEnabled(info.first.identifier(), info.second);
+		return true;
+	} else
 		return false;
-
-	emit dataChanged(index, index, {Qt::CheckStateRole, CheckedRole});
-	_installer->setComponentEnabled(info.first.identifier(), info.second);
-	return true;
 }
 
 QVariant ComponentModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+	if (orientation != Qt::Horizontal)
+		return {};
+
+	switch (role) {
+	case Qt::DisplayRole:
 		switch (section) {
 		case 0:
 			return tr("Name");
@@ -178,8 +193,18 @@ QVariant ComponentModel::headerData(int section, Qt::Orientation orientation, in
 		default:
 			return {};
 		}
-	} else
+	case HeaderSizeHint:
+		switch (section) {
+		case 0:
+			return -1;  // -QHeaderView::Stretch
+		case 1:
+			return -3;  // -QHeaderView::ResizeToContents
+		default:
+			return {};
+		}
+	default:
 		return {};
+	}
 }
 
 Qt::ItemFlags ComponentModel::flags(const QModelIndex &index) const
@@ -288,7 +313,11 @@ QVariant ProgressModel::data(const QModelIndex &index, int role) const
 
 QVariant ProgressModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+	if (orientation != Qt::Horizontal)
+		return {};
+
+	switch (role) {
+	case Qt::DisplayRole:
 		switch (section) {
 		case 0:
 			return tr("Name");
@@ -299,8 +328,20 @@ QVariant ProgressModel::headerData(int section, Qt::Orientation orientation, int
 		default:
 			return {};
 		}
-	} else
+	case HeaderSizeHint:
+		switch (section) {
+		case 0:
+			return -3;  // -QHeaderView::ResizeToContents
+		case 1:
+			return -1;  // -QHeaderView::Stretch
+		case 2:
+			return 120;
+		default:
+			return {};
+		}
+	default:
 		return {};
+	}
 }
 
 QHash<int, QByteArray> ProgressModel::roleNames() const
@@ -311,6 +352,11 @@ QHash<int, QByteArray> ProgressModel::roleNames() const
 		{StatusRole, "status"},
 		{UpdateInfoRole, "updateInfo"}
 	};
+}
+
+int ProgressModel::progressColumn() const
+{
+	return 2;
 }
 
 void ProgressModel::updateComponentProgress(const QVariant &id, double percentage, const QString &status)

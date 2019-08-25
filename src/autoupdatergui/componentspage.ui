@@ -17,6 +17,18 @@
    <string>Select the components you wish to install.</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QTreeView" name="treeView">
      <property name="editTriggers">
@@ -31,9 +43,15 @@
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
      <property name="expandsOnDoubleClick">
       <bool>false</bool>
      </property>
+     <attribute name="headerStretchLastSection">
+      <bool>false</bool>
+     </attribute>
     </widget>
    </item>
   </layout>
