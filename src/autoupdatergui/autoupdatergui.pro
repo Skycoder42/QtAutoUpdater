@@ -7,6 +7,7 @@ else:mac: QT += macextras
 else:linux:!android:!emscripten: QT += dbus
 
 HEADERS += \
+	installwizard_p.h \
 	updatebutton_p.h \
 	updatebutton.h \
 	updatecontroller_p.h \
@@ -16,13 +17,18 @@ HEADERS += \
 	qtautoupdatergui_global.h
 
 SOURCES += \
+	installwizard.cpp \
 	progressdialog.cpp \
 	updatebutton.cpp \
 	updatecontroller.cpp \
 	updateinfodialog.cpp
 
 FORMS += \
+	componentspage.ui \
+	errorpage.ui \
+	installpage.ui \
 	progressdialog.ui \
+	successpage.ui \
 	updatebutton.ui \
 	updateinfodialog.ui
 
