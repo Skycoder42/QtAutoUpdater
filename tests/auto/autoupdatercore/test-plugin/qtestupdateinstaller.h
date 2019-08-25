@@ -16,8 +16,10 @@ public:
 	Features features() const override;
 
 public Q_SLOTS:
-	void startInstall() override;
 	void eulaHandled(QUuid id, bool accepted) override;
+
+protected:
+	void startInstallImpl() override;
 
 private Q_SLOTS:
 	void doInstallStep();

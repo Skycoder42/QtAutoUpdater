@@ -17,6 +17,7 @@ UpdateInstaller::UpdateInstaller(UpdateInstallerPrivate &dd, QObject *parent) :
 {
 	Q_D(UpdateInstaller);
 	d->componentModel = new ComponentModel{this};
+	d->progressModel = new ProgressModel{this};
 }
 
 QList<UpdateInfo> UpdateInstaller::components() const
@@ -25,8 +26,10 @@ QList<UpdateInfo> UpdateInstaller::components() const
 	if (!d->componentList) {
 		d->componentList = QList<UpdateInfo>{};
 		d->componentList->reserve(d->components.size());
-		for (const auto &info : d->components)
-			d->componentList->append(info.first);
+		for (const auto &info : d->components) {
+			if (info.second)
+				d->componentList->append(info.first);
+		}
 	}
 	return *d->componentList;
 }
@@ -39,8 +42,15 @@ QAbstractItemModel *UpdateInstaller::componentModel() const
 
 QAbstractItemModel *UpdateInstaller::progressModel() const
 {
-	Q_UNIMPLEMENTED();
-	return nullptr;
+	const Q_D(UpdateInstaller);
+	return d->progressModel;
+}
+
+void UpdateInstaller::startInstall()
+{
+	Q_D(UpdateInstaller);
+	d->progressModel->reset(components());
+	startInstallImpl();
 }
 
 void UpdateInstaller::setComponents(QList<UpdateInfo> components)
@@ -55,9 +65,9 @@ void UpdateInstaller::setComponents(QList<UpdateInfo> components)
 		else
 			qCWarning(logInstaller) << "Cannot install component" << info.name() << "without a valid identifier!";
 	}
-	emit componentsChanged(*d->componentList);
+	emit componentsChanged();
 
-	// update the model
+	// reset the model
 	d->componentModel->reset(d->components.values());
 }
 
@@ -65,6 +75,8 @@ void UpdateInstaller::setComponentEnabled(const QVariant &id, bool enabled)
 {
 	Q_D(UpdateInstaller);
 	d->components[id].second = enabled;
+	d->componentList = std::nullopt;
+	emit componentsChanged();
 }
 
 // ------------- private implementation -------------

@@ -13,6 +13,9 @@
 
 namespace QtAutoUpdater {
 
+class ComponentModel;
+class ProgressModel;
+
 class Q_AUTOUPDATERCORE_EXPORT UpdateInstallerPrivate : public QObjectPrivate
 {
 	Q_DECLARE_PUBLIC(UpdateInstaller)
@@ -23,6 +26,7 @@ public:
 	QMap<QVariant, ComponentInfo> components;
 	mutable std::optional<QList<UpdateInfo>> componentList = std::nullopt;
 	ComponentModel *componentModel = nullptr;
+	ProgressModel *progressModel = nullptr;
 };
 
 class Q_AUTOUPDATERCORE_EXPORT ComponentModel : public QAbstractTableModel

@@ -17,7 +17,16 @@ UpdateInstaller::Features QTestUpdateInstaller::features() const
 	return static_cast<Features>(_config->value(QStringLiteral("installer/features"), DefaultFeatures).toInt());
 }
 
-void QTestUpdateInstaller::startInstall()
+void QTestUpdateInstaller::eulaHandled(QUuid id, bool accepted)
+{
+	if (accepted) {
+		if (--_openEulas == 0)
+			doInstall();
+	} else
+		emit installFailed(QStringLiteral("EULA_%1_rejected").arg(id.toString(QUuid::WithoutBraces)));
+}
+
+void QTestUpdateInstaller::startInstallImpl()
 {
 	const auto eCnt = _config->value(QStringLiteral("eulas/size"), 0).toInt();
 	for (auto i = 0; i < eCnt; ++i) {
@@ -31,15 +40,6 @@ void QTestUpdateInstaller::startInstall()
 
 	if (_openEulas == 0)
 		doInstall();
-}
-
-void QTestUpdateInstaller::eulaHandled(QUuid id, bool accepted)
-{
-	if (accepted) {
-		if (--_openEulas == 0)
-			doInstall();
-	} else
-		emit installFailed(QStringLiteral("EULA_%1_rejected").arg(id.toString(QUuid::WithoutBraces)));
 }
 
 void QTestUpdateInstaller::doInstallStep()

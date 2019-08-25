@@ -36,7 +36,7 @@ public:
 	Q_INVOKABLE virtual QAbstractItemModel *progressModel() const;
 
 public Q_SLOTS:
-	virtual void startInstall() = 0;
+	virtual void startInstall();
 	virtual void eulaHandled(QUuid id, bool accepted) = 0;
 
 	virtual void setComponents(QList<QtAutoUpdater::UpdateInfo> components);
@@ -48,11 +48,13 @@ Q_SIGNALS:
 	void installSucceeded(bool shouldRestart);
 	void installFailed(const QString &errorMessage);
 
-	void componentsChanged(const QList<UpdateInfo> &components);
+	void componentsChanged();
 
 protected:
 	explicit UpdateInstaller(QObject *parent = nullptr);
 	explicit UpdateInstaller(UpdateInstallerPrivate &dd, QObject *parent = nullptr);
+
+	virtual void startInstallImpl() = 0;
 
 	virtual void setComponentEnabled(const QVariant &id, bool enabled);
 
