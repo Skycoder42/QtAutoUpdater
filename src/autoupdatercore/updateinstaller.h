@@ -43,6 +43,8 @@ public Q_SLOTS:
 
 	virtual void setComponents(QList<QtAutoUpdater::UpdateInfo> components);
 
+	virtual void restartApplication();
+
 Q_SIGNALS:
 	void updateGlobalProgress(double percentage, const QString &status = {});
 	void updateComponentProgress(const QVariant &id, double percentage, const QString &status = {});

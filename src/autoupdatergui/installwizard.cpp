@@ -309,7 +309,7 @@ bool SuccessPage::validatePage()
 {
 	if (_ui->restartCheckBox->isVisible() &&
 		_ui->restartCheckBox->isChecked())
-		Q_UNIMPLEMENTED();  // TODO implement
+		_installer->restartApplication();
 	return true;
 }
 
