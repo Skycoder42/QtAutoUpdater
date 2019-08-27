@@ -23,8 +23,12 @@ void QTestUpdateInstaller::eulaHandled(QUuid id, bool accepted)
 	if (accepted) {
 		if (--_openEulas == 0)
 			doInstall();
-	} else
-		emit installFailed(QStringLiteral("EULA_%1_rejected").arg(id.toString(QUuid::WithoutBraces)));
+	} else {
+		if (_openEulas != 0) {
+			_openEulas = 0;
+			emit installFailed(QStringLiteral("eula/%1").arg(id.toString()));
+		}
+	}
 }
 
 void QTestUpdateInstaller::cancelInstall()
@@ -54,7 +58,8 @@ void QTestUpdateInstaller::doInstallStep()
 	// update progress
 	auto cCnt = components().size();
 	auto cComp = components().at(_currentIndex);
-	emit updateComponentProgress(cComp.identifier(), ++_currentProgress / 10.0);
+	emit updateComponentProgress(cComp.identifier(), ++_currentProgress / 10.0,
+								 _config->value(QStringLiteral("installer/status"), {}).toString());
 	emit updateGlobalProgress((_currentIndex * 10.0 + _currentProgress) / (cCnt * 10.0),
 							  _config->value(QStringLiteral("installer/status"), {}).toString());
 

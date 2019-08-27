@@ -204,6 +204,7 @@ void UpdaterTest::testAbort()
 
 	// check for updates and then cancel them
 	updater->checkForUpdates();
+	QVERIFY(!doneSpy.wait(500));
 	updater->abortUpdateCheck(delay);
 	if (!immediate) {
 		QCOMPARE(doneSpy.size(), 0);
@@ -367,7 +368,7 @@ void UpdaterTest::testTriggerUpdates()
 		features |= UpdaterBackend::Feature::PerformInstall;
 	QVariantMap config {
 		{QStringLiteral("features"), static_cast<int>(features)},
-		{QStringLiteral("delay"), 100},
+		{QStringLiteral("delay"), 1},
 		{QStringLiteral("updateTime"), 1000},
 		{QStringLiteral("updateHasError"), !success},
 
