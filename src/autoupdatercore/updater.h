@@ -12,13 +12,13 @@
 #include "QtAutoUpdaterCore/qtautoupdatercore_global.h"
 #include "QtAutoUpdaterCore/updateinfo.h"
 #include "QtAutoUpdaterCore/adminauthoriser.h"
+#include "QtAutoUpdaterCore/updaterbackend.h"
 
 class QSettings;
 
 namespace QtAutoUpdater
 {
 
-class UpdaterBackend;
 class UpdateInstaller;
 
 class UpdaterPrivate;
@@ -27,6 +27,8 @@ class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 {
 	Q_OBJECT
 
+
+	Q_PROPERTY(QtAutoUpdater::UpdaterBackend::Features features READ features CONSTANT)
 	//! Specifies whether the updater is currently checking for updates or not
 	Q_PROPERTY(QtAutoUpdater::Updater::State state READ state NOTIFY stateChanged)
 	//! Holds extended information about the last update check
@@ -44,21 +46,23 @@ public:
 	};
 	Q_ENUM(State)
 
-	static Updater *createUpdater(QObject *parent = nullptr);
-	static Updater *createUpdater(const QString &configPath,
-								  QObject *parent = nullptr);
-	static Updater *createUpdater(QSettings *config,
-								  QObject *parent = nullptr);
-	static Updater *createUpdater(QString key,
-								  QVariantMap arguments,
-								  QObject *parent = nullptr);
+	static Updater *create(QObject *parent = nullptr);
+	static Updater *create(const QString &configPath,
+						   QObject *parent = nullptr);
+	static Updater *create(QSettings *config,
+						   QObject *parent = nullptr);
+	static Updater *create(QString key,
+						   QVariantMap arguments,
+						   QObject *parent = nullptr);
+	static Updater *create(UpdaterBackend::IConfigReader *configReader,
+						   QObject *parent = nullptr);
 
 	//! Destroyes the updater and kills the update check (if running)
 	~Updater() override;
 
 	Q_INVOKABLE UpdaterBackend *backend() const;
 
-
+	UpdaterBackend::Features features() const;
 	//! readAcFn{Updater::state}
 	State state() const;
 	Q_INVOKABLE bool isRunning() const;

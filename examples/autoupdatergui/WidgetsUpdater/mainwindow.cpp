@@ -69,7 +69,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 	}
 
 	if (checked) {
-		const auto updater = QtAutoUpdater::Updater::createUpdater(ui->configPathLineEdit->text());
+		const auto updater = QtAutoUpdater::Updater::create(ui->configPathLineEdit->text());
 		if (!updater) {
 			QMessageBox::critical(this,
 								  tr("Configuration invalid"),

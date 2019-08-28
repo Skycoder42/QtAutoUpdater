@@ -90,36 +90,41 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 			this, qOverload<>(&Updater::checkForUpdates));
 }
 
-Updater *Updater::createUpdater(QObject *parent)
+Updater *Updater::create(QObject *parent)
 {
 	auto config = UpdaterPrivate::findDefaultConfig();
 	if (config)
-		return createUpdater(config, parent);
+		return create(config, parent);
 	else {
 		qCCritical(logQtAutoUpdater) << "Unable to find the default updater configuration file";
 		return nullptr;
 	}
 }
 
-Updater *Updater::createUpdater(const QString &configPath, QObject *parent)
+Updater *Updater::create(const QString &configPath, QObject *parent)
 {
-	return createUpdater(new QSettings {
+	return create(new QSettings {
 							 configPath,
 							 QSettings::IniFormat
 						 }, parent);
 }
 
-Updater *Updater::createUpdater(QSettings *config, QObject *parent)
+Updater *Updater::create(QSettings *config, QObject *parent)
 {
 	return UpdaterPrivate::createUpdater(new SettingsConfigReader {config}, parent);
 }
 
-Updater *Updater::createUpdater(QString key, QVariantMap arguments, QObject *parent)
+Updater *Updater::create(QString key, QVariantMap arguments, QObject *parent)
 {
 	return UpdaterPrivate::createUpdater(new VariantConfigReader {
 											 std::move(key),
 											 std::move(arguments)
 										 }, parent);
+}
+
+Updater *Updater::create(UpdaterBackend::IConfigReader *configReader, QObject *parent)
+{
+	return UpdaterPrivate::createUpdater(configReader, parent);
 }
 
 Updater::~Updater()
@@ -136,6 +141,12 @@ UpdaterBackend *Updater::backend() const
 {
 	const Q_D(Updater);
 	return d->backend;
+}
+
+UpdaterBackend::Features Updater::features() const
+{
+	const Q_D(Updater);
+	return d->backend->features();
 }
 
 bool Updater::willRunOnExit() const

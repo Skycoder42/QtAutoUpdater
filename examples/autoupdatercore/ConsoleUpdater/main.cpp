@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 		if (eIdx != -1)
 			args.insert(arg.mid(0, eIdx), arg.mid(eIdx + 1));
 	}
-	auto updater = QtAutoUpdater::Updater::createUpdater(backend, args);
+	auto updater = QtAutoUpdater::Updater::create(backend, args);
 
 	if (!updater) {
 		qCritical() << "Plugin" << backend << "not available";

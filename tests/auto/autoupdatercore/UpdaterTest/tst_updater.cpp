@@ -36,7 +36,7 @@ void UpdaterTest::testInitFail()
 	QVariantMap config {
 		{QStringLiteral("allowInit"), false}
 	};
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(!updater);
 }
 
@@ -80,7 +80,7 @@ void UpdaterTest::testUpdateCheck()
 	parametrize(config, updates);
 
 	// prepare the updater
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(updater);
 	QSignalSpy stateSpy{updater.data(), &Updater::stateChanged};
 	QVERIFY(stateSpy.isValid());
@@ -197,7 +197,7 @@ void UpdaterTest::testAbort()
 	};
 
 	// prepare the updater
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(updater);
 	QSignalSpy doneSpy{updater.data(), &Updater::checkUpdatesDone};
 	QVERIFY(doneSpy.isValid());
@@ -243,7 +243,7 @@ void UpdaterTest::testSchedule()
 	};
 
 	// prepare the updater
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(updater);
 	QSignalSpy stateSpy{updater.data(), &Updater::stateChanged};
 	QVERIFY(stateSpy.isValid());
@@ -377,7 +377,7 @@ void UpdaterTest::testTriggerUpdates()
 	};
 
 	// prepare the updater
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(updater);
 	QSignalSpy stateSpy{updater.data(), &Updater::stateChanged};
 	QVERIFY(stateSpy.isValid());

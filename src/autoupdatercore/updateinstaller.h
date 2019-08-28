@@ -17,7 +17,10 @@ class Q_AUTOUPDATERCORE_EXPORT UpdateInstaller : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QList<UpdateInfo> components READ components WRITE setComponents NOTIFY componentsChanged)
+	Q_PROPERTY(QtAutoUpdater::UpdateInstaller::Features features READ features CONSTANT)
+	Q_PROPERTY(QList<QtAutoUpdater::UpdateInfo> components READ components WRITE setComponents NOTIFY componentsChanged)
+	Q_PROPERTY(QAbstractItemModel* componentModel READ componentModel CONSTANT)
+	Q_PROPERTY(QAbstractItemModel* progressModel READ progressModel CONSTANT)
 
 public:
 	enum class Feature {
@@ -33,8 +36,8 @@ public:
 
 	virtual QList<UpdateInfo> components() const;
 
-	Q_INVOKABLE virtual QAbstractItemModel *componentModel() const;
-	Q_INVOKABLE virtual QAbstractItemModel *progressModel() const;
+	virtual QAbstractItemModel *componentModel() const;
+	virtual QAbstractItemModel *progressModel() const;
 
 public Q_SLOTS:
 	virtual void startInstall();

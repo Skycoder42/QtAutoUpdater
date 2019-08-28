@@ -46,7 +46,7 @@ void UpdateInstallerTest::testComponentSelection()
 	parametrize(config, updates);
 
 	// trigger updates
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	auto installer = getInstaller(updater.data());
 	QVERIFY(installer);
 
@@ -122,7 +122,7 @@ void UpdateInstallerTest::testInstallFlow()
 	parametrize(config, updates);
 
 	// trigger updates
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	auto installer = getInstaller(updater.data());
 	QVERIFY(installer);
 
@@ -163,7 +163,7 @@ void UpdateInstallerTest::testInstallCancel()
 	parametrize(config, updates);
 
 	// trigger updates
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	auto installer = getInstaller(updater.data());
 	QVERIFY(installer);
 
@@ -241,7 +241,7 @@ void UpdateInstallerTest::testInstallEula()
 	parametrize(config, eulas);
 
 	// trigger updates
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	auto installer = getInstaller(updater.data());
 	QVERIFY(installer);
 
@@ -296,7 +296,7 @@ void UpdateInstallerTest::testInstallProgress()
 	parametrize(config, updates);
 
 	// trigger updates
-	sptr updater {Updater::createUpdater(QStringLiteral("test"), config, this)};
+	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	auto installer = getInstaller(updater.data());
 	QVERIFY(installer);
 
