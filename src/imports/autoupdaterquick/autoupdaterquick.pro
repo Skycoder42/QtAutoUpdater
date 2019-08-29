@@ -1,21 +1,32 @@
-QT = core qml autoupdatercore
-CXX_MODULE = autoupdatercore
-TARGETPATH = de/skycoder42/QtAutoUpdater/Core
-TARGET  = declarative_autoupdatercore
+QT = core qml autoupdatercore quick
+CXX_MODULE = autoupdaterquick
+TARGETPATH = de/skycoder42/QtAutoUpdater/Quick
+TARGET  = declarative_autoupdaterquick
 IMPORT_VERSION = $$MODULE_VERSION_IMPORT
 DEFINES += "VERSION_MAJOR=$$MODULE_VERSION_MAJOR"
 DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 
 HEADERS += \
-	qmlautoupdatersingleton.h \
-	qtautoupdatercore_plugin.h
+	qmlupdateinfomodel.h \
+	qtautoupdaterquick_plugin.h
 
 SOURCES += \
-	qmlautoupdatersingleton.cpp \
-	qtautoupdatercore_plugin.cpp
+	qmlupdateinfomodel.cpp \
+	qtautoupdaterquick_plugin.cpp
+
+QML_FILES += \
+	DialogBase.qml \
+	ProgressDialog.qml \
+	AskUpdateDialog.qml \
+	UpdateResultDialog.qml \
+	UpdaterComponent.qml \
+	UpdateInfoPage.qml \
+	UpdateInfoComponent.qml
 
 OTHER_FILES += \
 	qmldir
+
+DISTFILES +=
 
 CONFIG += qmlcache
 load(qml_plugin)
@@ -43,3 +54,6 @@ generate_qmltypes {
 	mfirst.depends += qmltypes
 	QMAKE_EXTRA_TARGETS += mfirst
 }
+
+RESOURCES += \
+	autoupdaterquick.qrc

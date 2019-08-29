@@ -32,7 +32,7 @@ class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 	//! Specifies whether the updater is currently checking for updates or not
 	Q_PROPERTY(QtAutoUpdater::Updater::State state READ state NOTIFY stateChanged)
 	//! Holds extended information about the last update check
-	Q_PROPERTY(QList<UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
+	Q_PROPERTY(QList<QtAutoUpdater::UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
 	Q_PROPERTY(bool runOnExit READ willRunOnExit NOTIFY runOnExitChanged)
 
 public:

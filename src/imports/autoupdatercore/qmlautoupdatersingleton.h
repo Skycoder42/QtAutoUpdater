@@ -17,6 +17,7 @@ public:
 	explicit QmlAutoUpdaterSingleton(QObject *parent = nullptr);
 
 	Q_INVOKABLE QtAutoUpdater::UpdateInfo createInfo(QString name, QVersionNumber version, quint64 size = 0, QVariant identifier = {}) const;
+	Q_INVOKABLE QVariantList infosAsList(const QList<QtAutoUpdater::UpdateInfo> &infos) const;
 
 
 	Q_INVOKABLE QtAutoUpdater::Updater *createUpdater(const QString &configPath,

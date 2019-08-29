@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/de/skycoder42/QtAutoUpdater/Quick/icons">
+        <file alias="update.svg">icons/system_update_24px.svg</file>
+        <file alias="back.svg">icons/arrow_back_24px.svg</file>
+        <file alias="update_later.svg">icons/update_24px.svg</file>
+    </qresource>
+</RCC>

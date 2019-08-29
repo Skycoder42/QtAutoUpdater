@@ -11,6 +11,15 @@ UpdateInfo QmlAutoUpdaterSingleton::createInfo(QString name, QVersionNumber vers
 	return {std::move(name), std::move(version), size, std::move(identifier)};
 }
 
+QVariantList QmlAutoUpdaterSingleton::infosAsList(const QList<UpdateInfo> &infos) const
+{
+	QVariantList l;
+	l.reserve(infos.size());
+	for (const auto &info : infos)
+		l.append(QVariant::fromValue(info));
+	return l;
+}
+
 Updater *QmlAutoUpdaterSingleton::createUpdater(const QString &configPath, QObject *parent) const
 {
 	return Updater::create(configPath, parent);

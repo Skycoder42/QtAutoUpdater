@@ -37,6 +37,11 @@ Module {
             Parameter { name: "version"; type: "QVersionNumber" }
         }
         Method {
+            name: "infosAsList"
+            type: "QVariantList"
+            Parameter { name: "infos"; type: "QList<QtAutoUpdater::UpdateInfo>" }
+        }
+        Method {
             name: "createUpdater"
             type: "QtAutoUpdater::Updater*"
             Parameter { name: "configPath"; type: "string" }
@@ -182,7 +187,7 @@ Module {
         }
         Property { name: "features"; type: "QtAutoUpdater::UpdaterBackend::Features"; isReadonly: true }
         Property { name: "state"; type: "QtAutoUpdater::Updater::State"; isReadonly: true }
-        Property { name: "updateInfo"; type: "QList<UpdateInfo>"; isReadonly: true }
+        Property { name: "updateInfo"; type: "QList<QtAutoUpdater::UpdateInfo>"; isReadonly: true }
         Property { name: "runOnExit"; type: "bool"; isReadonly: true }
         Signal {
             name: "checkUpdatesDone"
