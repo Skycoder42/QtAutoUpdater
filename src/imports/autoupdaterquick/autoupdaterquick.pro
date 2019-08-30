@@ -26,7 +26,8 @@ QML_FILES += \
 	SelectComponentView.qml \
 	InstallView.qml \
 	UpdateInstallerPage.qml \
-	UpdateInstallerComponent.qml
+	UpdateInstallerComponent.qml \
+	SuccessView.qml
 
 OTHER_FILES += \
 	qmldir

@@ -32,11 +32,11 @@ GridLayout {
 	Label {
 		id: percentLabel
 		Layout.minimumHeight: metrics.height
-		Layout.minimumWidth: metrics.boundingRect(qsTr("%1%").arg(100)).width
+		Layout.minimumWidth: metrics.boundingRect(qsTr("%n%", "", 100)).width
 		Layout.preferredWidth: Layout.minimumWidth
 
 		visible: !progressItem.indeterminate
-		text: qsTr("%1%").arg((progressItem.progress * 100).toFixed(0))
+		text: qsTr("%n%", "", progressItem.progress * 100)
 		horizontalAlignment: Qt.AlignRight
 	}
 

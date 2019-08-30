@@ -15,6 +15,7 @@ Page {
 	// TODO reparent installer!
 
 	readonly property int _pageOffset: (installer.features & UpdateInstaller.SelectComponents) != 0 ? 0 : 1
+	readonly property int _dummyStackDepth: pageStack.depth + _pageOffset
 
 	header: ToolBar {
 		id: toolBar
@@ -50,6 +51,17 @@ Page {
 			id: installComponent
 			InstallView {
 				installer: updateInfoPage.installer
+				onAbortInstaller: {
+					if (goBackCallback)
+						goBackCallback();
+				}
+			}
+		}
+
+		Component {
+			id: successComponent
+			SuccessView {
+				installer: updateInfoPage.installer
 			}
 		}
 
@@ -81,7 +93,7 @@ Page {
 		}
 
 		PageIndicator {
-			count: 3
+			count: 3 - _pageOffset
 			currentIndex: pageStack.depth - 1
 		}
 
@@ -93,17 +105,30 @@ Page {
 			enabled: pageStack.currentItem.canGoNext
 
 			display: ToolButton.IconOnly
-			icon.source: "qrc:/de/skycoder42/QtAutoUpdater/Quick/icons/next.svg"
-			icon.name: "go-next"
+			icon.source: _dummyStackDepth == 3 ?
+							 "qrc:/de/skycoder42/QtAutoUpdater/Quick/icons/close.svg" :
+							 "qrc:/de/skycoder42/QtAutoUpdater/Quick/icons/next.svg"
+			icon.name: _dummyStackDepth == 3 ? "view-close" : "go-next"
 
 			ToolTip.visible: pressed
 			ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
 			ToolTip.text: qsTr("Go to the next page")
 
 			onClicked: {
-				switch (pageStack.depth + _pageOffset) {
+				switch (_dummyStackDepth) {
 				case 1:
 					pageStack.push(installComponent);
+					break;
+				case 2:
+					pageStack.push(successComponent, {
+									   shouldRestart: pageStack.currentItem.shouldRestart
+								   });
+					break;
+				case 3:
+					if (pageStack.currentItem.doRestart)
+						installer.restartApplication();
+					if (goBackCallback)
+						goBackCallback();
 					break;
 				default:
 					break;

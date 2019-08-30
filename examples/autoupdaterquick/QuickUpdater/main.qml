@@ -6,8 +6,8 @@ import de.skycoder42.QtAutoUpdater.Quick 3.0
 
 ApplicationWindow {
 	visible: true
-	width: 640
-	height: 480
+	width: 360
+	height: 600
 	title: qsTr("Hello World")
 
 	property Updater globalUpdater: QtAutoUpdater.createUpdater("/home/sky/Programming/QtLibraries/QtAutoUpdater/examples/autoupdatergui/SimpleUpdaterGui/example.conf")

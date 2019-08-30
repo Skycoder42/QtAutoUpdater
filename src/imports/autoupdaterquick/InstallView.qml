@@ -12,7 +12,9 @@ Item {
 	property bool canGoNext: false
 	property bool canGoBack: false
 
-	property bool shouldRestart: value
+	property bool shouldRestart: false
+
+	signal abortInstaller()
 
 	readonly property int _canCancel: (installer.features & UpdateInstaller.CanCancel) != 0
 
@@ -154,18 +156,51 @@ Item {
 					id: delegate
 					width: scrollView.width
 
-					text: name
 					property real compProgress: progress
 					property string compStatus: status
 
-					indicator: ProgressItem {
-						progress: compProgress
-						status: compStatus
+					contentItem: GridLayout {
+						columns: 3
 
-						width: Math.min(delegate.width - delegate.padding * 3 - delegate.contentItem.implicitWidth, implicitWidth)
-						anchors.right: parent.right
-						anchors.rightMargin: delegate.rightPadding
-						anchors.verticalCenter: parent.verticalCenter
+						Label {
+							id: nameLabel
+							Layout.fillWidth: true
+							Layout.minimumWidth: implicitWidth
+							text: name
+							elide: Label.ElideRight
+						}
+
+						ProgressBar {
+							id: progBar
+							Layout.fillWidth: true
+							Layout.columnSpan: 2
+							Layout.minimumWidth: 0
+							Layout.maximumWidth: implicitWidth
+							from: 0.0
+							to: 1.0
+							value: Math.max(0.0, compProgress)
+							indeterminate: compProgress < 0
+						}
+
+						Label {
+							id: statusLabel
+							Layout.fillWidth: true
+							Layout.columnSpan: 2
+							text: compStatus
+							elide: Label.ElideMiddle
+							font.italic: true
+							font.pointSize: nameLabel.font.pointSize * 0.9
+						}
+
+						Label {
+							id: percentLabel
+							Layout.minimumWidth: implicitWidth
+							text: qsTr("%n%", "", compProgress * 100)
+							horizontalAlignment: Qt.AlignRight
+							font.italic: true
+							font.pointSize: nameLabel.font.pointSize * 0.9
+							visible: !progBar.indeterminate
+						}
 					}
 				}
 			}
@@ -190,7 +225,7 @@ Item {
 		property alias text: contentLabel.text
 		standardButtons: Dialog.Ok
 
-		onAccepted: Qt.quit(); // TODO exit installer only
+		onAccepted: installView.abortInstaller()
 
 		Label {
 			id: contentLabel

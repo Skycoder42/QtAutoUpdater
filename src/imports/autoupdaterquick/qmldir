@@ -10,9 +10,10 @@ internal DialogBase DialogBase.qml
 internal ProgressItem ProgressItem.qml
 internal UpdaterComponent UpdaterComponent.qml
 internal UpdateInfoPage UpdateInfoPage.qml
-internal UpdateInstallerPage UpdateInstallerPage.qml
 internal SelectComponentView SelectComponentView.qml
 internal InstallView InstallView.qml
+internal SuccessView SuccessView.qml
+internal UpdateInstallerPage UpdateInstallerPage.qml
 
 ProgressDialog 3.0 ProgressDialog.qml
 AskUpdateDialog 3.0 AskUpdateDialog.qml
