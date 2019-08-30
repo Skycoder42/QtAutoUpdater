@@ -46,4 +46,13 @@ ApplicationWindow {
 
 		onShowComponent: stackView.push(component, params)
 	}
+
+	UpdateInstallerComponent {
+		updater: globalUpdater
+		useAsComponent: true
+
+		goBackCallback: stackView.pop
+
+		onShowComponent: stackView.push(component, params)
+	}
 }

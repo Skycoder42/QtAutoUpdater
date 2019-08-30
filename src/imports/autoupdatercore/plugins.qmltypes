@@ -124,23 +124,23 @@ Module {
         Property { name: "progressModel"; type: "QAbstractItemModel"; isReadonly: true; isPointer: true }
         Signal {
             name: "updateGlobalProgress"
-            Parameter { name: "percentage"; type: "double" }
+            Parameter { name: "progress"; type: "double" }
             Parameter { name: "status"; type: "string" }
         }
         Signal {
             name: "updateGlobalProgress"
-            Parameter { name: "percentage"; type: "double" }
+            Parameter { name: "progress"; type: "double" }
         }
         Signal {
             name: "updateComponentProgress"
             Parameter { name: "id"; type: "QVariant" }
-            Parameter { name: "percentage"; type: "double" }
+            Parameter { name: "progress"; type: "double" }
             Parameter { name: "status"; type: "string" }
         }
         Signal {
             name: "updateComponentProgress"
             Parameter { name: "id"; type: "QVariant" }
-            Parameter { name: "percentage"; type: "double" }
+            Parameter { name: "progress"; type: "double" }
         }
         Signal {
             name: "showEula"

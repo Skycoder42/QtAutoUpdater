@@ -72,17 +72,17 @@ void UpdateInstallerTest::testComponentSelection()
 
 		QCOMPARE(model->data(model->index(i, 0), ComponentModel::NameRole).toString(), updates[i].name());
 		QCOMPARE(model->data(model->index(i, 0), ComponentModel::VersionRole).toString(), updates[i].version().toString());
-		QCOMPARE(model->data(model->index(i, 0), ComponentModel::CheckedRole).toBool(), true);
+		QCOMPARE(model->data(model->index(i, 0), ComponentModel::SelectedRole).toBool(), true);
 		QCOMPARE(model->data(model->index(i, 0), ComponentModel::UpdateInfoRole).value<UpdateInfo>(), updates[i]);
 	}
 
 	// modify model data
 	QVERIFY(model->setData(model->index(0, 0), Qt::Unchecked, Qt::CheckStateRole));
 	QCOMPARE(model->data(model->index(0, 0), Qt::CheckStateRole).toInt(), Qt::Unchecked);
-	QCOMPARE(model->data(model->index(0, 0), ComponentModel::CheckedRole).toBool(), false);
-	QVERIFY(model->setData(model->index(2, 0), false, ComponentModel::CheckedRole));
+	QCOMPARE(model->data(model->index(0, 0), ComponentModel::SelectedRole).toBool(), false);
+	QVERIFY(model->setData(model->index(2, 0), false, ComponentModel::SelectedRole));
 	QCOMPARE(model->data(model->index(2, 0), Qt::CheckStateRole).toInt(), Qt::Unchecked);
-	QCOMPARE(model->data(model->index(2, 0), ComponentModel::CheckedRole).toBool(), false);
+	QCOMPARE(model->data(model->index(2, 0), ComponentModel::SelectedRole).toBool(), false);
 
 	// check components return correctly
 	QCOMPARE(installer->components().size(), 1);

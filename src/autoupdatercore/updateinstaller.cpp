@@ -138,7 +138,7 @@ QVariant ComponentModel::data(const QModelIndex &index, int role) const
 			return _data[index.row()].first.name();
 		case VersionRole:
 			return _data[index.row()].first.version().toString();
-		case CheckedRole:
+		case SelectedRole:
 			if (_installer->features().testFlag(UpdateInstaller::Feature::SelectComponents))
 				return _data[index.row()].second;
 			else
@@ -171,12 +171,12 @@ bool ComponentModel::setData(const QModelIndex &index, const QVariant &value, in
 
 		if (index.column() == 0 && role == Qt::CheckStateRole)
 			info.second = value.toInt() != Qt::Unchecked;
-		else if (index.column() == 0 && role == CheckedRole)
+		else if (index.column() == 0 && role == SelectedRole)
 			info.second = value.toBool();
 		else
 			return false;
 
-		emit dataChanged(index, index, {Qt::CheckStateRole, CheckedRole});
+		emit dataChanged(index, index, {Qt::CheckStateRole, SelectedRole});
 		_installer->setComponentEnabled(info.first.identifier(), info.second);
 		return true;
 	} else
@@ -229,7 +229,7 @@ QHash<int, QByteArray> ComponentModel::roleNames() const
 	return {
 		{NameRole, "name"},
 		{VersionRole, "version"},
-		{CheckedRole, "checked"},
+		{SelectedRole, "selected"},
 		{UpdateInfoRole, "updateInfo"}
 	};
 }

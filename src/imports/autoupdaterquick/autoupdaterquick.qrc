@@ -3,5 +3,7 @@
         <file alias="update.svg">icons/system_update_24px.svg</file>
         <file alias="back.svg">icons/arrow_back_24px.svg</file>
         <file alias="update_later.svg">icons/update_24px.svg</file>
+        <file alias="before.svg">icons/navigate_before_24px.svg</file>
+        <file alias="next.svg">icons/navigate_next_24px.svg</file>
     </qresource>
 </RCC>

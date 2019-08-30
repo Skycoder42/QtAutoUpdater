@@ -37,7 +37,7 @@ public:
 	enum Roles {
 		NameRole = Qt::UserRole,
 		VersionRole,
-		CheckedRole,
+		SelectedRole,
 		UpdateInfoRole,
 
 		HeaderSizeHint = Qt::UserRole + 100

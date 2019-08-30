@@ -49,8 +49,8 @@ public Q_SLOTS:
 	virtual void restartApplication();
 
 Q_SIGNALS:
-	void updateGlobalProgress(double percentage, const QString &status = {});
-	void updateComponentProgress(const QVariant &id, double percentage, const QString &status = {});
+	void updateGlobalProgress(double progress, const QString &status = {});
+	void updateComponentProgress(const QVariant &id, double progress, const QString &status = {});
 	void showEula(QUuid id, const QString &htmlText, bool required);
 	void installSucceeded(bool shouldRestart);
 	void installFailed(const QString &errorMessage);

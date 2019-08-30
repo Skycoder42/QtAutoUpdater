@@ -7,11 +7,15 @@ depends QtQuick.Layouts 1.13
 depends QtQuick.Controls 2.13
 
 internal DialogBase DialogBase.qml
+internal ProgressItem ProgressItem.qml
 internal UpdaterComponent UpdaterComponent.qml
-
-UpdateInfoPage 3.0 UpdateInfoPage.qml
+internal UpdateInfoPage UpdateInfoPage.qml
+internal UpdateInstallerPage UpdateInstallerPage.qml
+internal SelectComponentView SelectComponentView.qml
+internal InstallView InstallView.qml
 
 ProgressDialog 3.0 ProgressDialog.qml
 AskUpdateDialog 3.0 AskUpdateDialog.qml
 UpdateResultDialog 3.0 UpdateResultDialog.qml
 UpdateInfoComponent 3.0 UpdateInfoComponent.qml
+UpdateInstallerComponent 3.0 UpdateInstallerComponent.qml

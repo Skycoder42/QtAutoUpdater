@@ -16,12 +16,17 @@ SOURCES += \
 
 QML_FILES += \
 	DialogBase.qml \
+	ProgressItem.qml \
 	ProgressDialog.qml \
 	AskUpdateDialog.qml \
 	UpdateResultDialog.qml \
 	UpdaterComponent.qml \
 	UpdateInfoPage.qml \
-	UpdateInfoComponent.qml
+	UpdateInfoComponent.qml \
+	SelectComponentView.qml \
+	InstallView.qml \
+	UpdateInstallerPage.qml \
+	UpdateInstallerComponent.qml
 
 OTHER_FILES += \
 	qmldir
