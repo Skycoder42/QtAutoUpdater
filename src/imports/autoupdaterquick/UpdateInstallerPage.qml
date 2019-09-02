@@ -9,10 +9,9 @@ Page {
 
 	property Updater updater: null
 	property UpdateInstaller installer: null
+	onInstallerChanged: installer.parent = updateInfoPage
 
 	property var goBackCallback: null
-
-	// TODO reparent installer!
 
 	readonly property int _pageOffset: (installer.features & UpdateInstaller.SelectComponents) != 0 ? 0 : 1
 	readonly property int _dummyStackDepth: pageStack.depth + _pageOffset
