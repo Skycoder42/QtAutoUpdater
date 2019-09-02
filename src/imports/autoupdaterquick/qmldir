@@ -20,3 +20,4 @@ AskUpdateDialog 3.0 AskUpdateDialog.qml
 UpdateResultDialog 3.0 UpdateResultDialog.qml
 UpdateInfoComponent 3.0 UpdateInfoComponent.qml
 UpdateInstallerComponent 3.0 UpdateInstallerComponent.qml
+UpdateButton 3.0 UpdateButton.qml

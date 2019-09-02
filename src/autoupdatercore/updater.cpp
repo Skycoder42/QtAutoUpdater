@@ -88,6 +88,21 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 							Qt::DirectConnection);
 	connect(d->scheduler, &SimpleScheduler::scheduleTriggered,
 			this, qOverload<>(&Updater::checkForUpdates));
+
+	connect(this, &Updater::stateChanged,
+			this, [this](State state) {
+		switch (state) {
+		case State::NoUpdates:
+		case State::NewUpdates:
+		case State::Error:
+			emit runningChanged(false, {});
+			break;
+		case State::Checking:
+		case State::Installing:
+			emit runningChanged(true, {});
+			break;
+		}
+	});
 }
 
 Updater *Updater::create(QObject *parent)

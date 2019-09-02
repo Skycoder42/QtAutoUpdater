@@ -1,5 +1,5 @@
 import QtQuick 2.13
-import QtQuick.Window 2.13
+import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import de.skycoder42.QtAutoUpdater.Core 3.0
 import de.skycoder42.QtAutoUpdater.Quick 3.0
@@ -10,36 +10,53 @@ ApplicationWindow {
 	height: 600
 	title: qsTr("Hello World")
 
-	property Updater globalUpdater: QtAutoUpdater.createUpdater("/home/sky/Programming/QtLibraries/QtAutoUpdater/examples/autoupdatergui/SimpleUpdaterGui/example.conf")
+	property alias buttonOnly: btnOnlyBox.checked
+	property Updater globalUpdater: QtAutoUpdater.createUpdater("/home/sky/Programming/QtLibraries/QtAutoUpdater/examples/autoupdaterwidgets/SimpleUpdaterGui/example.conf")
 
 	StackView {
 		id: stackView
 		anchors.fill: parent
 
 		initialItem: Page {
-			Button {
+			ColumnLayout {
 				anchors.centerIn: parent
-				text: qsTr("GO!")
-				onClicked: askDialog.open()
+
+				CheckBox {
+					id: btnOnlyBox
+					text: qsTr("update button only")
+					checked: false
+					Layout.minimumWidth: implicitWidth * 1.3
+				}
+
+				Button {
+					id: sBtn
+					enabled: !buttonOnly
+					text: qsTr("GO!")
+					onClicked: askDialog.open()
+				}
+
+				UpdateButton {
+					updater: globalUpdater
+				}
 			}
 		}
 	}
 
 	AskUpdateDialog {
 		id: askDialog
-		updater: globalUpdater
+		updater: buttonOnly ? null : globalUpdater
 	}
 
 	ProgressDialog {
-		updater: globalUpdater
+		updater: buttonOnly ? null : globalUpdater
 	}
 
 	UpdateResultDialog {
-		updater: globalUpdater
+		updater: buttonOnly ? null : globalUpdater
 	}
 
 	UpdateInfoComponent {
-		updater: globalUpdater
+		updater: buttonOnly ? null : globalUpdater
 		useAsComponent: true
 
 		goBackCallback: stackView.pop

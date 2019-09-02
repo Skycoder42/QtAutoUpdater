@@ -31,6 +31,7 @@ class Q_AUTOUPDATERCORE_EXPORT Updater : public QObject
 	Q_PROPERTY(QtAutoUpdater::UpdaterBackend::Features features READ features CONSTANT)
 	//! Specifies whether the updater is currently checking for updates or not
 	Q_PROPERTY(QtAutoUpdater::Updater::State state READ state NOTIFY stateChanged)
+	Q_PROPERTY(bool running	READ isRunning NOTIFY runningChanged)
 	//! Holds extended information about the last update check
 	Q_PROPERTY(QList<QtAutoUpdater::UpdateInfo> updateInfo READ updateInfo NOTIFY updateInfoChanged)
 	Q_PROPERTY(bool runOnExit READ willRunOnExit NOTIFY runOnExitChanged)
@@ -65,7 +66,8 @@ public:
 	UpdaterBackend::Features features() const;
 	//! readAcFn{Updater::state}
 	State state() const;
-	Q_INVOKABLE bool isRunning() const;
+	//! readAcFn{Updater::running}
+	bool isRunning() const;
 	//! readAcFn{Updater::updateInfo}
 	QList<UpdateInfo> updateInfo() const;
 	//! readAcFn{Updater::runOnExit}
@@ -103,6 +105,8 @@ Q_SIGNALS:
 
 	//! notifyAcFn{Updater::state}
 	void stateChanged(QtAutoUpdater::Updater::State state, QPrivateSignal);
+	//! notifyAcFn{Updater::running}
+	void runningChanged(bool running, QPrivateSignal);
 	//! notifyAcFn{Updater::updateInfo}
 	void updateInfoChanged(QList<QtAutoUpdater::UpdateInfo> updateInfo, QPrivateSignal);
 	//! notifyAcFn{Updater::runOnExit}
