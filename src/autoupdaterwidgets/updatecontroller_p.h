@@ -15,7 +15,7 @@
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT UpdateControllerPrivate : public QObjectPrivate
+class Q_AUTOUPDATERWIDGETS_EXPORT UpdateControllerPrivate : public QObjectPrivate
 {
 	Q_DECLARE_PUBLIC(UpdateController)
 

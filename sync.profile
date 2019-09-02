@@ -1,6 +1,6 @@
 %modules = (
 	"QtAutoUpdaterCore" => "$basedir/src/autoupdatercore",
-	"QtAutoUpdaterGui" => "$basedir/src/autoupdatergui",
+	"QtAutoUpdaterWidgets" => "$basedir/src/autoupdaterwidgets",
 );
 
 $publicclassregexp = "QtAutoUpdater::.+";

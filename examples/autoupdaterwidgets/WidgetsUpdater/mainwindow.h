@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtAutoUpdaterGui/UpdateController>
-#include <QtAutoUpdaterGui/UpdateButton>
+#include <QtAutoUpdaterWidgets/UpdateController>
+#include <QtAutoUpdaterWidgets/UpdateButton>
 
 namespace Ui {
 	class MainWindow;

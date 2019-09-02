@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += core gui widgets autoupdatergui
+QT += core gui widgets autoupdaterwidgets
 
 TARGET = WidgetsUpdater
 
@@ -14,5 +14,5 @@ FORMS += mainwindow.ui
 RESOURCES += \
 	main_res.qrc
 
-target.path = $$[QT_INSTALL_EXAMPLES]/autoupdatergui/$$TARGET
+target.path = $$[QT_INSTALL_EXAMPLES]/autoupdaterwidgets/$$TARGET
 !install_ok: INSTALLS += target

@@ -8,7 +8,7 @@
 
 #include <QtWidgets/qaction.h>
 
-#include "QtAutoUpdaterGui/qtautoupdatergui_global.h"
+#include "QtAutoUpdaterWidgets/qtautoupdaterwidgets_global.h"
 
 namespace QtAutoUpdater
 {
@@ -16,7 +16,7 @@ namespace QtAutoUpdater
 class Updater;
 class UpdateControllerPrivate;
 //! A class to show a controlled update GUI to the user
-class Q_AUTOUPDATERGUI_EXPORT UpdateController : public QObject
+class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 {
 	Q_OBJECT
 

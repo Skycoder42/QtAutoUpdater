@@ -9,7 +9,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QStyledItemDelegate>
 
-#include "qtautoupdatergui_global.h"
+#include "qtautoupdaterwidgets_global.h"
 
 namespace Ui {
 class ComponentsPage;
@@ -25,7 +25,7 @@ class InstallPage;
 class SuccessPage;
 class ErrorPage;
 
-class Q_AUTOUPDATERGUI_EXPORT InstallWizard : public QWizard
+class Q_AUTOUPDATERWIDGETS_EXPORT InstallWizard : public QWizard
 {
 	Q_OBJECT
 
@@ -53,9 +53,9 @@ private:
 	ErrorPage *_errorPage;
 };
 
-void Q_AUTOUPDATERGUI_EXPORT applyHeaderSize(QHeaderView *view, QAbstractItemModel *model);
+void Q_AUTOUPDATERWIDGETS_EXPORT applyHeaderSize(QHeaderView *view, QAbstractItemModel *model);
 
-class Q_AUTOUPDATERGUI_EXPORT ComponentsPage : public QWizardPage
+class Q_AUTOUPDATERWIDGETS_EXPORT ComponentsPage : public QWizardPage
 {
 	Q_OBJECT
 
@@ -71,7 +71,7 @@ private:
 	QScopedPointer<Ui::ComponentsPage> _ui;
 };
 
-class Q_AUTOUPDATERGUI_EXPORT InstallPage : public QWizardPage
+class Q_AUTOUPDATERWIDGETS_EXPORT InstallPage : public QWizardPage
 {
 	Q_OBJECT
 
@@ -94,7 +94,7 @@ private Q_SLOTS:
 	void installFailed(const QString &errorMessage);
 
 private:
-	class Q_AUTOUPDATERGUI_EXPORT ProgressDelegate : public QStyledItemDelegate
+	class Q_AUTOUPDATERWIDGETS_EXPORT ProgressDelegate : public QStyledItemDelegate
 	{
 	public:
 		void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -114,7 +114,7 @@ private:
 	bool _nextEnabled = true;
 };
 
-class Q_AUTOUPDATERGUI_EXPORT SuccessPage : public QWizardPage
+class Q_AUTOUPDATERWIDGETS_EXPORT SuccessPage : public QWizardPage
 {
 	Q_OBJECT
 
@@ -132,7 +132,7 @@ private:
 	QScopedPointer<Ui::SuccessPage> _ui;
 };
 
-class Q_AUTOUPDATERGUI_EXPORT ErrorPage : public QWizardPage
+class Q_AUTOUPDATERWIDGETS_EXPORT ErrorPage : public QWizardPage
 {
 	Q_OBJECT
 

@@ -2,5 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
 	autoupdatercore \
-	autoupdatergui \
+	autoupdaterwidgets \
 	autoupdaterquick

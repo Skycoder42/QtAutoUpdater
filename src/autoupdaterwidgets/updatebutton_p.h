@@ -1,7 +1,7 @@
 #ifndef QTAUTOUPDATER_UPDATEBUTTON_P_H
 #define QTAUTOUPDATER_UPDATEBUTTON_P_H
 
-#include "qtautoupdatergui_global.h"
+#include "qtautoupdaterwidgets_global.h"
 #include "updatebutton.h"
 
 #include <QtCore/QPointer>
@@ -18,7 +18,7 @@ class UpdateButton;
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT UpdateButtonPrivate : public QWidgetPrivate
+class Q_AUTOUPDATERWIDGETS_EXPORT UpdateButtonPrivate : public QWidgetPrivate
 {
 	Q_DECLARE_PUBLIC(UpdateButton)
 

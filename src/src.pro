@@ -2,12 +2,12 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
 	autoupdatercore \
-	autoupdatergui \
+	autoupdaterwidgets \
 	imports \
 	plugins
 
 plugins.depends += autoupdatercore
-autoupdatergui.depends += autoupdatercore
-imports.depends += autoupdatercore autoupdatergui
+autoupdaterwidgets.depends += autoupdatercore
+imports.depends += autoupdatercore
 
 QMAKE_EXTRA_TARGETS += run-tests

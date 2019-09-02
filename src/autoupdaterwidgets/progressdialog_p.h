@@ -13,7 +13,7 @@
 
 #include <qtaskbarcontrol.h>
 
-#include "qtautoupdatergui_global.h"
+#include "qtautoupdaterwidgets_global.h"
 
 namespace Ui {
 class ProgressDialog;
@@ -22,7 +22,7 @@ class ProgressDialog;
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT ProgressDialog : public QDialog
+class Q_AUTOUPDATERWIDGETS_EXPORT ProgressDialog : public QDialog
 {
 	Q_OBJECT
 

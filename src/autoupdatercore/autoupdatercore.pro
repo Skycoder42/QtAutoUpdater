@@ -37,7 +37,7 @@ else:mac: LIBS += -framework Security
 QMAKE_EXTRA_TARGETS += lrelease
 
 win32 {
-	QMAKE_TARGET_PRODUCT = "QtAutoUpdaterCore"
+	QMAKE_TARGET_PRODUCT = "$$TARGET"
 	QMAKE_TARGET_COMPANY = "Skycoder42"
 	QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 } else:mac {

@@ -8,7 +8,7 @@
 
 #include <qtaskbarcontrol.h>
 
-#include "qtautoupdatergui_global.h"
+#include "qtautoupdaterwidgets_global.h"
 
 namespace Ui {
 class UpdateInfoDialog;
@@ -17,7 +17,7 @@ class UpdateInfoDialog;
 namespace QtAutoUpdater
 {
 
-class Q_AUTOUPDATERGUI_EXPORT UpdateInfoDialog : public QDialog
+class Q_AUTOUPDATERWIDGETS_EXPORT UpdateInfoDialog : public QDialog
 {
 	Q_OBJECT
 
