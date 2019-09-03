@@ -22,7 +22,7 @@ UpdateInstaller::UpdateInstaller(UpdateInstallerPrivate &dd, QObject *parent) :
 
 QList<UpdateInfo> UpdateInstaller::components() const
 {
-	const Q_D(UpdateInstaller);
+	Q_D(const UpdateInstaller);
 	if (!d->componentList) {
 		d->componentList = QList<UpdateInfo>{};
 		d->componentList->reserve(d->components.size());
@@ -36,13 +36,13 @@ QList<UpdateInfo> UpdateInstaller::components() const
 
 QAbstractItemModel *UpdateInstaller::componentModel() const
 {
-	const Q_D(UpdateInstaller);
+	Q_D(const UpdateInstaller);
 	return d->componentModel;
 }
 
 QAbstractItemModel *UpdateInstaller::progressModel() const
 {
-	const Q_D(UpdateInstaller);
+	Q_D(const UpdateInstaller);
 	return d->progressModel;
 }
 

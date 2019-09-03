@@ -28,25 +28,25 @@ UpdateButton::UpdateButton(QWidget *parent, UpdateController *controller) :
 
 QString UpdateButton::animationFile() const
 {
-	const Q_D(UpdateButton);
+	Q_D(const UpdateButton);
 	return d->loadingGif->fileName();
 }
 
 bool UpdateButton::isShowingResult() const
 {
-	const Q_D(UpdateButton);
+	Q_D(const UpdateButton);
 	return d->showResult;
 }
 
 UpdateController::DisplayLevel UpdateButton::displayLevel() const
 {
-	const Q_D(UpdateButton);
+	Q_D(const UpdateButton);
 	return d->level;
 }
 
 UpdateController *UpdateButton::controller() const
 {
-	const Q_D(UpdateButton);
+	Q_D(const UpdateButton);
 	return d->controller;
 }
 
@@ -159,6 +159,9 @@ void UpdateButtonPrivate::_q_updatesReady(Updater::State state)
 		case Updater::State::Error:
 			ui->checkButton->setEnabled(true);
 			ui->statusLabel->setText(UpdateButton::tr("Update error!"));
+			break;
+		case Updater::State::Installing:
+			Q_UNIMPLEMENTED();
 			break;
 		default:
 			Q_UNREACHABLE();

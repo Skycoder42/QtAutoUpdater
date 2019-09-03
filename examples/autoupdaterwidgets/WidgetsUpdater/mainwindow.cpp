@@ -44,14 +44,13 @@ void MainWindow::on_checkUpdatesButton_clicked()
 {
 	if (!controller->isRunning()) {
 		if (ui->scheduleUpdateDateCheckBox->isChecked()) {
-			int id = controller->scheduleUpdate(ui->scheduleUpdateDateTimeEdit->dateTime(),
-												static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
+			int id = controller->updater()->scheduleUpdate(ui->scheduleUpdateDateTimeEdit->dateTime());
 			if (id)
 				qDebug() << "update scheduled with id" << id << "to run at" << ui->scheduleUpdateDateTimeEdit->dateTime();
 			else
 				qDebug() << "failed to start controller at" << ui->scheduleUpdateDateTimeEdit->dateTime();
 		} else
-			qDebug() << "start controller:" << controller->start(static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
+			qDebug() << "start controller:" << controller->start();
 	} else
 		qDebug() << "start controller:" << false;
 }
@@ -82,7 +81,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		else
 			controller = new QtAutoUpdater::UpdateController{updater, qApp};
 		controller->setDesktopFileName(QStringLiteral("WidgetsUpdater"));
-		auto action = controller->createUpdateAction(this);
+		auto action = QtAutoUpdater::UpdateController::createUpdateAction(updater, this);
 		action->setIconVisibleInMenu(false);
 		ui->menuHelp->addAction(action);
 		ui->mainToolBar->addAction(action);
@@ -105,7 +104,12 @@ void MainWindow::on_activeBox_toggled(bool checked)
 
 void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)
 {
-	if(controller) {
+	if(controller)
 		controller->setParentWindow(checked ? this : nullptr);
-	}
+}
+
+void MainWindow::on_displayLevelComboBox_currentIndexChanged(int index)
+{
+	if (controller)
+		controller->setDisplayLevel(static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(index));
 }

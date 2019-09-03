@@ -21,10 +21,12 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 	Q_OBJECT
 
 	//! Holds the widget who's window should be used as parent for all dialogs
-	Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow)
+	Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow NOTIFY parentWindowChanged)
 	//! Specifies whether the controller is currently active or not
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
-	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName)
+	Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
+	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName NOTIFY desktopFileNameChanged)
+	Q_PROPERTY(QtAutoUpdater::Updater* updater READ updater WRITE setUpdater NOTIFY updaterChanged)
 
 	// TODO add auto detach and reparenting of updater if run on exit is set
 
@@ -42,6 +44,8 @@ public:
 	};
 	Q_ENUM(DisplayLevel)
 
+	explicit UpdateController(QObject *parent = nullptr);
+	explicit UpdateController(QWidget *parentWindow, QObject *parent = nullptr);
 	//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
 	explicit UpdateController(Updater *updater, QObject *parent = nullptr);
 	//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
@@ -49,54 +53,53 @@ public:
 	~UpdateController() override;
 
 	//! Create a QAction to start this controller from
-	QAction *createUpdateAction(QObject *parent);
-	QAction *createUpdateAction(DisplayLevel displayLevel, QObject *parent);
+	static QAction *createUpdateAction(Updater *updater, QObject *parent);
 
 	//! @readAcFn{UpdateController::parentWindow}
 	QWidget* parentWindow() const;
-	//! @readAcFn{UpdateController::currentDisplayLevel}
-	DisplayLevel currentDisplayLevel() const;
 	//! @readAcFn{UpdateController::running}
 	bool isRunning() const;
+	//! @readAcFn{UpdateController::displayLevel}
+	DisplayLevel displayLevel() const;
 	//! @readAcFn{UpdateController::desktopFileName}
 	QString desktopFileName() const;
-
-	//! Returns the Updater object used by the controller
+	//! @readAcFn{UpdateController::updater}
 	Updater *updater() const;
 
-	template <typename TRep, typename TPeriod>
-	int scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated = false, DisplayLevel displayLevel = InfoLevel);
-	template <typename TClock, typename TDur>
-	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when, DisplayLevel displayLevel = InfoLevel);
-
 public Q_SLOTS:
+	//! @writeAcFn{UpdateController::displayLevel}
+	void setDisplayLevel(DisplayLevel displayLevel);
 	//! @writeAcFn{UpdateController::parentWindow}
 	void setParentWindow(QWidget* parentWindow);
 	//! @writeAcFn{UpdateController::desktopFileName}
 	void setDesktopFileName(QString desktopFileName);
+	//! @writeAcFn{UpdateController::updater}
+	void setUpdater(QtAutoUpdater::Updater* updater);
 
+
+	bool start();
 	//! Starts the controller with the specified display level
-	bool start(DisplayLevel displayLevel = InfoLevel);
+	bool start(DisplayLevel displayLevel);
 	//! Tries to cancel the controllers update
 	bool cancelUpdate(int maxDelay = 3000);
 
-	//! Schedules an update after a specific delay, optionally repeated
-	int scheduleUpdate(int delaySeconds, bool repeated = false, DisplayLevel displayLevel = InfoLevel);
-	//! Schedules an update for a specific timepoint
-	int scheduleUpdate(const QDateTime &when, DisplayLevel displayLevel = InfoLevel);
-	//! Cancels the update with taskId
-	void cancelScheduledUpdate(int taskId);
-
 Q_SIGNALS:
+	//! @notifyAcFn{UpdateController::parentWindow}
+	void parentWindowChanged(QWidget* parentWindow, QPrivateSignal);
 	//! @notifyAcFn{UpdateController::running}
 	void runningChanged(bool running, QPrivateSignal);
+	//! @notifyAcFn{UpdateController::displayLevel}
+	void displayLevelChanged(DisplayLevel displayLevel, QPrivateSignal);
+	//! @notifyAcFn{UpdateController::desktopFileName}
+	void desktopFileNameChanged(const QString &desktopFileName, QPrivateSignal);
+	//! @notifyAcFn{UpdateController::updater}
+	void updaterChanged(QtAutoUpdater::Updater* updater, QPrivateSignal);
 
 private:
 	Q_DECLARE_PRIVATE(UpdateController)
 	Q_DISABLE_COPY(UpdateController)
 
-	Q_PRIVATE_SLOT(d_func(), void _q_updaterCheckDone(Updater::State))
-	Q_PRIVATE_SLOT(d_func(), void _q_timerTriggered(const QVariant &))
+	Q_PRIVATE_SLOT(d_func(), void _q_updaterStateChanged(Updater::State))
 	Q_PRIVATE_SLOT(d_func(), void _q_showInstaller(UpdateInstaller *))
 };
 

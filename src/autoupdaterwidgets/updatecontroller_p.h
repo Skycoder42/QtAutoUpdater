@@ -10,7 +10,6 @@
 #include <QtCore/QPointer>
 
 #include <QtCore/private/qobject_p.h>
-#include <QtAutoUpdaterCore/private/simplescheduler_p.h>
 
 namespace QtAutoUpdater
 {
@@ -34,11 +33,18 @@ public:
 	QPointer<ProgressDialog> checkUpdatesProgress;
 	bool wasCanceled = false;
 
-	SimpleScheduler *scheduler = nullptr;
-
-	void _q_updaterCheckDone(Updater::State state);
-	void _q_timerTriggered(const QVariant &parameter);
+	void _q_updaterStateChanged(Updater::State state);
 	void _q_showInstaller(UpdateInstaller *installer);
+
+	void enterNoUpdatesState();
+	void enterCheckingState();
+	void enterNewUpdatesState();
+	void enterErrorState();
+	void enterInstallingState();
+
+	void ensureRunning(bool newState);
+	void hideProgress();
+	bool showCanceled();
 };
 
 }

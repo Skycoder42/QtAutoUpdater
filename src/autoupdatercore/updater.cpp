@@ -154,38 +154,38 @@ Updater::~Updater()
 
 UpdaterBackend *Updater::backend() const
 {
-	const Q_D(Updater);
+	Q_D(const Updater);
 	return d->backend;
 }
 
 UpdaterBackend::Features Updater::features() const
 {
-	const Q_D(Updater);
+	Q_D(const Updater);
 	return d->backend->features();
 }
 
 bool Updater::willRunOnExit() const
 {
-	const Q_D(Updater);
+	Q_D(const Updater);
 	return d->runOnExit;
 }
 
 Updater::State Updater::state() const
 {
-	const Q_D(Updater);
+	Q_D(const Updater);
 	return d->state;
 }
 
 bool Updater::isRunning() const
 {
-	const Q_D(Updater);
+	Q_D(const Updater);
 	return d->state == State::Checking ||
 			d->state == State::Installing;
 }
 
 QList<UpdateInfo> Updater::updateInfo() const
 {
-	const Q_D(Updater);
+	Q_D(const Updater);
 	return d->updateInfos;
 }
 

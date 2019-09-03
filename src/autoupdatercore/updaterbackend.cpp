@@ -12,19 +12,19 @@ UpdaterBackend::UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent) :
 
 UpdaterBackend::IConfigReader *UpdaterBackend::config() const
 {
-	const Q_D(UpdaterBackend);
+	Q_D(const UpdaterBackend);
 	return d->config.data();
 }
 
 const QLoggingCategory &UpdaterBackend::logCat() const
 {
-	const Q_D(UpdaterBackend);
+	Q_D(const UpdaterBackend);
 	return d->logCat;
 }
 
 QString UpdaterBackend::key() const
 {
-	const Q_D(UpdaterBackend);
+	Q_D(const UpdaterBackend);
 	return d->key;
 }
 
