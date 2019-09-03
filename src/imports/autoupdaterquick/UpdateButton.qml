@@ -6,7 +6,15 @@ import de.skycoder42.QtAutoUpdater.Core 3.0
 DelayButton {
 	id: updateButton
 
+	enum TextMode {
+		Dynamic,
+		Static,
+		Cancel
+	}
+
 	property Updater updater: null
+	property int textMode: UpdateButton.Dynamic
+	property bool allowInstall: true
 	property bool runOnExit: false
 
 	property real _currentProgress: -1.0
@@ -25,11 +33,21 @@ DelayButton {
 		case Updater.Error:
 			return qsTr("Check for updates");
 		case Updater.Checking:
-			return _currentStatus == "" ?
-						qsTr("Checking for updates…") :
-						_currentStatus;
+			switch (textMode) {
+			case UpdateButton.Dynamic:
+				return _currentStatus == "" ?
+							qsTr("Checking for updates…") :
+							_currentStatus;
+			case UpdateButton.Static:
+				return qsTr("Checking for updates…");
+			case UpdateButton.Cancel:
+				return qsTr("Cancel");
+			}
+			break;
 		case Updater.NewUpdates:
-			return qsTr("Install updates");
+			return allowInstall ?
+						qsTr("Install updates") :
+						qsTr("Found new updates");
 		case Updater.Installing:
 			return qsTr("Installing updates…");
 		}
@@ -64,7 +82,10 @@ DelayButton {
 	MouseArea {
 		id: blockArea
 		anchors.fill: parent
-		visible: updater.running
+		visible: updater &&
+				 (updater.state == Updater.Installing ||
+				  (updater.state == Updater.Checking && textMode != UpdateButton.Cancel) ||
+				  (updater.state == Updater.NewUpdates && !allowInstall))
 		acceptedButtons: Qt.AllButtons
 		z: 100
 	}
@@ -90,8 +111,12 @@ DelayButton {
 			updater.checkForUpdates();
 			break;
 		case Updater.NewUpdates:
-			updater.runUpdater(runOnExit);
+			if (allowInstall)
+				updater.runUpdater(runOnExit);
 			break;
+		case Updater.Checking:
+			if (textMode == UpdateButton.Cancel)
+				updater.abortUpdateCheck();
 		default:
 			break;
 		}
