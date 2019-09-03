@@ -22,7 +22,7 @@ void MainWindow::initializeUpdater()
 	auto updater = QtAutoUpdater::Updater::create(QStringLiteral(CONFIG_PATH "/example.conf"), this);
 	Q_ASSERT(updater);
 	controller = new QtAutoUpdater::UpdateController(updater, this, qApp);
-	ui->updateButton->setController(controller);
+	ui->updateButton->setUpdater(controller->updater());
 	auto action = QtAutoUpdater::UpdateController::createUpdateAction(updater, this);
 	ui->menuAbout->addAction(action);
 	ui->mainToolBar->addAction(action);

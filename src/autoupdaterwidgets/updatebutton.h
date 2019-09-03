@@ -2,7 +2,8 @@
 #define QTAUTOUPDATER_UPDATEBUTTON_H
 
 #include "QtAutoUpdaterWidgets/qtautoupdaterwidgets_global.h"
-#include "QtAutoUpdaterWidgets/updatecontroller.h"
+
+#include <QtAutoUpdaterCore/updater.h>
 
 #include <QtWidgets/qwidget.h>
 
@@ -16,26 +17,22 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateButton : public QWidget
 	Q_OBJECT
 
 	//! The file of the animation to be shown
-	Q_PROPERTY(QString animationFile READ animationFile WRITE setAnimationFile RESET resetAnimationFile)
+	Q_PROPERTY(QString animationFile READ animationFile WRITE setAnimationFile RESET resetAnimationFile NOTIFY animationFileChanged)
 	//! Specifies whether a result should be shown within the button or not
-	Q_PROPERTY(bool showResult READ isShowingResult WRITE setShowResult)
-	//! The display level to start the controller with
-	Q_PROPERTY(UpdateController::DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel)
-	//! The update controller this button works with
-	Q_PROPERTY(UpdateController* controller READ controller WRITE setController NOTIFY controllerChanged)
+	Q_PROPERTY(bool showResult READ isShowingResult WRITE setShowResult NOTIFY showResultChanged)
+	Q_PROPERTY(QtAutoUpdater::Updater* updater READ updater WRITE setUpdater NOTIFY updaterChanged)
 
 public:
 	//! Creates a new update button to place in your GUI
-	explicit UpdateButton(QWidget *parent = nullptr, UpdateController *controller = nullptr);
+	explicit UpdateButton(QWidget *parent = nullptr);
+	explicit UpdateButton(Updater *updater, QWidget *parent = nullptr);
 
 	//! @readAcFn{UpdateButton::animationFile}
 	QString animationFile() const;
 	//! @readAcFn{UpdateButton::showResult}
 	bool isShowingResult() const;
-	//! @readAcFn{UpdateButton::displayLevel}
-	UpdateController::DisplayLevel displayLevel() const;
-	//! @readAcFn{UpdateButton::controller}
-	UpdateController* controller() const;
+	//! @readAcFn{UpdateButton::updater}
+	Updater* updater() const;
 
 public Q_SLOTS:
 	//! Rests the buttons visual state
@@ -49,22 +46,22 @@ public Q_SLOTS:
 	void resetAnimationFile();
 	//! @writeAcFn{UpdateButton::showResult}
 	void setShowResult(bool showResult);
-	//! @writeAcFn{UpdateButton::displayLevel}
-	void setDisplayLevel(UpdateController::DisplayLevel displayLevel);
-	//! @writeAcFn{UpdateButton::controller}
-	bool setController(UpdateController* controller);
+	//! @writeAcFn{UpdateButton::updater}
+	void setUpdater(Updater* updater);
 
 Q_SIGNALS:
-	//! @notifyAcFn{UpdateButton::controller}
-	void controllerChanged(UpdateController* controller, QPrivateSignal);
+	//! @notifyAcFn{UpdateButton::updater}
+	void updaterChanged(QtAutoUpdater::Updater* updater, QPrivateSignal);
+	//! @notifyAcFn{UpdateButton::showResult}
+	void showResultChanged(bool showResult, QPrivateSignal);
+	//! @notifyAcFn{UpdateButton::animationFile}
+	void animationFileChanged(const QString &animationFile, QPrivateSignal);
 
 private:
 	Q_DECLARE_PRIVATE(UpdateButton)
 
-	Q_PRIVATE_SLOT(d_func(), void _q_startUpdate())
-	Q_PRIVATE_SLOT(d_func(), void _q_changeUpdaterState(bool))
-	Q_PRIVATE_SLOT(d_func(), void _q_updatesReady(Updater::State))
-	Q_PRIVATE_SLOT(d_func(), void _q_controllerDestroyed())
+	Q_PRIVATE_SLOT(d_func(), void _q_changeUpdaterState(Updater::State))
+	Q_PRIVATE_SLOT(d_func(), void _q_updaterDestroyed())
 };
 
 }

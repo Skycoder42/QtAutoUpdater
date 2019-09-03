@@ -81,6 +81,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		else
 			controller = new QtAutoUpdater::UpdateController{updater, qApp};
 		controller->setDesktopFileName(QStringLiteral("WidgetsUpdater"));
+		controller->setDisplayLevel(static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
 		auto action = QtAutoUpdater::UpdateController::createUpdateAction(updater, this);
 		action->setIconVisibleInMenu(false);
 		ui->menuHelp->addAction(action);
@@ -96,10 +97,10 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		connect(controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
 			statusBar()->showMessage(running ? tr("running") : tr("not running"));
 		});
+		button->setUpdater(controller->updater());
 	} else {
 		statusBar()->showMessage(tr("not running"));
 	}
-	button->setController(controller);
 }
 
 void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)

@@ -23,18 +23,13 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateButtonPrivate : public QWidgetPrivate
 	Q_DECLARE_PUBLIC(UpdateButton)
 
 public:
-	QPointer<UpdateController> controller;
+	QPointer<Updater> updater;
 	QScopedPointer<Ui::UpdateButton> ui;
-	UpdateController::DisplayLevel level = UpdateController::ExtendedInfoLevel;
 	QMovie *loadingGif;
 	bool showResult = true;
 
-	void updateController(UpdateController *newController);
-
-	void _q_startUpdate();
-	void _q_changeUpdaterState(bool isRunning);
-	void _q_updatesReady(Updater::State state);
-	void _q_controllerDestroyed();
+	void _q_changeUpdaterState(Updater::State state);
+	void _q_updaterDestroyed();
 };
 
 }

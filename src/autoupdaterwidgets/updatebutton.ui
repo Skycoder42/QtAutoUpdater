@@ -32,7 +32,7 @@
    <item>
     <widget class="QPushButton" name="checkButton">
      <property name="text">
-      <string>Check for Updates</string>
+      <string>Check for updates</string>
      </property>
     </widget>
    </item>
