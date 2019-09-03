@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import de.skycoder42.QtAutoUpdater.Core 3.0
 import de.skycoder42.QtAutoUpdater.Quick 3.0
+import de.skycoder42.QtAutoUpdater.Quick.internal 3.0
 
 Page {
 	id: updateInfoPage
@@ -15,6 +16,13 @@ Page {
 
 	readonly property int _pageOffset: (installer.features & UpdateInstaller.SelectComponents) != 0 ? 0 : 1
 	readonly property int _dummyStackDepth: pageStack.depth + _pageOffset
+
+	function doGoBack() {
+		if (goBackCallback) {
+			QtAutoUpdaterQuick.destroy(installer);
+			goBackCallback();
+		}
+	}
 
 	header: ToolBar {
 		id: toolBar
@@ -50,10 +58,7 @@ Page {
 			id: installComponent
 			InstallView {
 				installer: updateInfoPage.installer
-				onAbortInstaller: {
-					if (goBackCallback)
-						goBackCallback();
-				}
+				onAbortInstaller: doGoBack()
 			}
 		}
 
@@ -82,8 +87,8 @@ Page {
 			onClicked: {
 				if (pageStack.depth > 1)
 					pageStack.pop();
-				else if (goBackCallback)
-					goBackCallback();
+				else
+					doGoBack();
 			}
 		}
 
@@ -126,8 +131,7 @@ Page {
 				case 3:
 					if (pageStack.currentItem.doRestart)
 						installer.restartApplication();
-					if (goBackCallback)
-						goBackCallback();
+					doGoBack();
 					break;
 				default:
 					break;

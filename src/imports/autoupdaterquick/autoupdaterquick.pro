@@ -7,10 +7,12 @@ DEFINES += "VERSION_MAJOR=$$MODULE_VERSION_MAJOR"
 DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 
 HEADERS += \
+	qmlautoupdaterquickhelper.h \
 	qmlupdateinfomodel.h \
 	qtautoupdaterquick_plugin.h
 
 SOURCES += \
+	qmlautoupdaterquickhelper.cpp \
 	qmlupdateinfomodel.cpp \
 	qtautoupdaterquick_plugin.cpp
 

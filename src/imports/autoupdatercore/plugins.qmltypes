@@ -187,6 +187,7 @@ Module {
         }
         Property { name: "features"; type: "QtAutoUpdater::UpdaterBackend::Features"; isReadonly: true }
         Property { name: "state"; type: "QtAutoUpdater::Updater::State"; isReadonly: true }
+        Property { name: "running"; type: "bool"; isReadonly: true }
         Property { name: "updateInfo"; type: "QList<QtAutoUpdater::UpdateInfo>"; isReadonly: true }
         Property { name: "runOnExit"; type: "bool"; isReadonly: true }
         Signal {
@@ -211,6 +212,10 @@ Module {
             Parameter { name: "state"; type: "QtAutoUpdater::Updater::State" }
         }
         Signal {
+            name: "runningChanged"
+            Parameter { name: "running"; type: "bool" }
+        }
+        Signal {
             name: "updateInfoChanged"
             Parameter { name: "updateInfo"; type: "QList<QtAutoUpdater::UpdateInfo>" }
         }
@@ -230,7 +235,6 @@ Module {
         }
         Method { name: "cancelExitRun" }
         Method { name: "backend"; type: "UpdaterBackend*" }
-        Method { name: "isRunning"; type: "bool" }
         Method {
             name: "scheduleUpdate"
             type: "int"

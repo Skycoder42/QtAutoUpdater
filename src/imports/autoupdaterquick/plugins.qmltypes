@@ -28,6 +28,24 @@ Module {
         "de.skycoder42.QtAutoUpdater.Core 3.0"
     ]
     Component {
+        name: "QmlAutoUpdaterQuickHelper"
+        prototype: "QObject"
+        exports: [
+            "de.skycoder42.QtAutoUpdater.Quick.internal/QtAutoUpdaterQuick 3.0"
+        ]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "jsOwn"
+            Parameter { name: "object"; type: "QObject"; isPointer: true }
+        }
+        Method {
+            name: "destroy"
+            Parameter { name: "object"; type: "QObject"; isPointer: true }
+        }
+    }
+    Component {
         name: "QmlUpdateInfoModel"
         prototype: "QAbstractListModel"
         exports: ["de.skycoder42.QtAutoUpdater.Quick/UpdateInfoModel 3.0"]
