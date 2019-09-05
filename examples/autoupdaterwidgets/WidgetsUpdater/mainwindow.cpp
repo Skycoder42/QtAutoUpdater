@@ -87,7 +87,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 
 #ifdef Q_OS_OSX
 		QMenu *dockMenu = new QMenu{this};
-		auto dockAction = controller->createUpdateAction(this);
+		auto dockAction = QtAutoUpdater::UpdateController::createUpdateAction(updater, dockMenu);
 		dockAction->setMenuRole(QAction::NoRole);
 		dockMenu->addAction(dockAction);
 		qt_mac_set_dock_menu(dockMenu);
