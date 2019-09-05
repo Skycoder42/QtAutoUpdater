@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QSettings settings{QStringLiteral("./settings.ini"), QSettings::IniFormat};
 	ui->configPathLineEdit->setText(settings.value(QStringLiteral("path")).toString());
 	ui->hasParentWindowCheckBox->setChecked(settings.value(QStringLiteral("hasParent"), true).toBool());
-	ui->displayLevelComboBox->setCurrentIndex(settings.value(QStringLiteral("level"), QtAutoUpdater::UpdateController::ProgressLevel).toInt());
+	ui->displayLevelComboBox->setCurrentIndex(settings.value(QStringLiteral("level")).toInt());
 }
 
 MainWindow::~MainWindow()

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 	initializeUpdater();	//Initialize the updater
 
-	controller->start(QtAutoUpdater::UpdateController::InfoLevel);	//Search for updates. Display a message if updates found, otherwise do nothing
+	controller->start(QtAutoUpdater::UpdateController::DisplayLevel::Info);	//Search for updates. Display a message if updates found, otherwise do nothing
 }
 
 MainWindow::~MainWindow()

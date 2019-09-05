@@ -26,15 +26,15 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 
 public:
 	//! Defines the different display-levels of the dialog
-	enum DisplayLevel {
-		AutomaticLevel = 0,//!< The lowest level. Nothing will be displayed at all. The programm will be auto-closed.
-		ExitLevel = 1,/*!< The whole updating works completly automatically without displaying anything. Only
+	enum class DisplayLevel {
+		Automatic = 0,//!< The lowest level. Nothing will be displayed at all. The programm will be auto-closed.
+		Exit = 1,/*!< The whole updating works completly automatically without displaying anything. Only
 					   *   a notification that updates are ready to install will be shown if updates are available.
 					   */
-		InfoLevel = 2,//!< Will show information about updates if available, nothing otherwise.
-		ExtendedInfoLevel = 3,//!< Will show information about the update result, for both cases, updates and no updates.
-		ProgressLevel = 4,//!< Shows a (modal) progress dialog while checking for updates.
-		AskLevel = 5//!< The highest level. Will ask the user if he wants to check for updates before actually checking.
+		Info = 2,//!< Will show information about updates if available, nothing otherwise.
+		ExtendedInfo = 3,//!< Will show information about the update result, for both cases, updates and no updates.
+		Progress = 4,//!< Shows a (modal) progress dialog while checking for updates.
+		Ask = 5//!< The highest level. Will ask the user if he wants to check for updates before actually checking.
 	};
 	Q_ENUM(DisplayLevel)
 

@@ -19,13 +19,15 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateControllerPrivate : public QObjectPrivat
 	Q_DECLARE_PUBLIC(UpdateController)
 
 public:
+	using DisplayLevel = UpdateController::DisplayLevel;
+
 	using UpdateTask = QPair<UpdateController::DisplayLevel, bool>;
 
 	static QIcon getUpdatesIcon();
 
 	QPointer<Updater> updater;
 
-	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
+	DisplayLevel displayLevel = DisplayLevel::Info;
 	QString desktopFileName;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;
