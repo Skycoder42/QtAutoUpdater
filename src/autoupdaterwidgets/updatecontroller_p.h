@@ -44,6 +44,7 @@ public:
 	void enterErrorState();
 	void enterInstallingState();
 
+	bool canShow(DisplayLevel level = DisplayLevel::Automatic) const;
 	void hideProgress();
 	bool showCanceled();
 	void cleanUp();

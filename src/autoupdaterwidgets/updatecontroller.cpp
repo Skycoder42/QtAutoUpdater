@@ -145,14 +145,15 @@ bool UpdateController::start()
 		return false;
 
 	// ask if updates should be checked
-	if(d->displayLevel >= DisplayLevel::Ask) {
+	if(d->canShow(DisplayLevel::Ask)) {
 		if(DialogMaster::questionT(parentWindow(),
 								   tr("Check for Updates"),
 								   tr("Do you want to check for updates now?"))
 		   != QMessageBox::Yes) {
 			return false;
 		}
-	}
+	} else if (d->displayLevel == DisplayLevel::Ask)
+		return false;  // special case: user "ignored" the dialog -> means false
 
 	// check for updates
 	d->updater->checkForUpdates();
@@ -236,7 +237,7 @@ void UpdateControllerPrivate::enterNoUpdatesState()
 	if (showCanceled())
 		return;
 
-	if(notifyOnNextNoUpdates && displayLevel >= DisplayLevel::ExtendedInfo) {
+	if(notifyOnNextNoUpdates && canShow(DisplayLevel::ExtendedInfo)) {
 		DialogMaster::informationT(q->parentWindow(),
 								   UpdateController::tr("Check for Updates"),
 								   UpdateController::tr("No new updates available!"));
@@ -246,7 +247,7 @@ void UpdateControllerPrivate::enterNoUpdatesState()
 void UpdateControllerPrivate::enterCheckingState()
 {
 	Q_Q(UpdateController);
-	if(displayLevel >= DisplayLevel::Progress && !checkUpdatesProgress) {
+	if(!checkUpdatesProgress && canShow(DisplayLevel::Progress)) {
 		checkUpdatesProgress = new ProgressDialog{desktopFileName, q->parentWindow()};
 		QObject::connect(checkUpdatesProgress.data(), &ProgressDialog::canceled, q_func(), [this](){
 			wasCanceled = true;
@@ -262,7 +263,7 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 	if (showCanceled())
 		return;
 
-	if(displayLevel >= DisplayLevel::Info) {
+	if(canShow(DisplayLevel::Info)) {
 		const auto updateInfos = updater->updateInfo();
 		const auto res = UpdateInfoDialog::showUpdateInfo(updateInfos,
 														  desktopFileName,
@@ -286,7 +287,7 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 	} else {
 		updater->runUpdater(false);
 		if (updater->willRunOnExit()) {
-			if(displayLevel >= DisplayLevel::Exit) {
+			if(canShow(DisplayLevel::Exit)) {
 				DialogMaster::informationT(q->parentWindow(),
 										   UpdateController::tr("Install Updates"),
 										   UpdateController::tr("New updates are available. The update tool will be "
@@ -304,7 +305,7 @@ void UpdateControllerPrivate::enterErrorState()
 	if (showCanceled())
 		return;
 
-	if(displayLevel >= DisplayLevel::ExtendedInfo) {
+	if(canShow(DisplayLevel::ExtendedInfo)) {
 		DialogMaster::criticalT(q->parentWindow(),
 								UpdateController::tr("Check for Updates"),
 								UpdateController::tr("An error occured while trying to check for updates!"));
@@ -314,6 +315,15 @@ void UpdateControllerPrivate::enterErrorState()
 void UpdateControllerPrivate::enterInstallingState()
 {
 	// nothing for now
+}
+
+bool UpdateControllerPrivate::canShow(DisplayLevel level) const
+{
+	Q_Q(const UpdateController);
+	if (displayLevel < level)
+		return false;
+	auto pWindow = q->parentWindow();
+	return pWindow ? pWindow->isVisible() || pWindow->isMinimized() : true;
 }
 
 void UpdateControllerPrivate::hideProgress()
@@ -329,7 +339,7 @@ bool UpdateControllerPrivate::showCanceled()
 {
 	Q_Q(UpdateController);
 	if(wasCanceled) {
-		if(displayLevel >= DisplayLevel::ExtendedInfo) {
+		if(canShow(DisplayLevel::ExtendedInfo)) {
 			DialogMaster::warningT(q->parentWindow(),
 								   UpdateController::tr("Check for Updates"),
 								   UpdateController::tr("Checking for updates was canceled!"));
