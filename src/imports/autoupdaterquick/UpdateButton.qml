@@ -20,6 +20,74 @@ DelayButton {
 	property real _currentProgress: -1.0
 	property string _currentStatus
 
+	states: [
+		State {
+			name: Updater.NoUpdates
+		},
+		State {
+			name: Updater.Checking
+			PropertyChanges {
+				target: updateButton
+				text: {
+					switch (textMode) {
+					case UpdateButton.Dynamic:
+						return _currentStatus == "" ?
+									qsTr("Checking for updates…") :
+									_currentStatus;
+					case UpdateButton.Static:
+						return qsTr("Checking for updates…");
+					case UpdateButton.Cancel:
+						return qsTr("Cancel");
+					}
+				}
+				progress: Math.max(_currentProgress, 0.0)
+			}
+			PropertyChanges {
+				target: blockArea
+				visible: textMode != UpdateButton.Cancel
+			}
+			PropertyChanges {
+				target: indeterminateIndicator
+				visible: _currentProgress < 0
+			}
+		},
+		State {
+			name: Updater.NewUpdates
+			PropertyChanges {
+				target: updateButton
+				text: allowInstall ?
+						  qsTr("Install updates") :
+						  qsTr("Found new updates")
+				progress: 1.0
+			}
+			PropertyChanges {
+				target: blockArea
+				visible: !allowInstall
+			}
+		},
+		State {
+			name: Updater.Installing
+			PropertyChanges {
+				target: updateButton
+				text: qsTr("Installing updates…")
+				progress: 1.0
+			}
+			PropertyChanges {
+				target: blockArea
+				visible: true
+			}
+			PropertyChanges {
+				target: indeterminateIndicator
+				visible: true
+			}
+		},
+		State {
+			name: Updater.Error
+		}
+	]
+
+	state: updater ? updater.state : Updater.Error
+
 	enabled: updater
 	delay: 0
 	checkable: false
@@ -27,43 +95,8 @@ DelayButton {
 					  indeterminateIndicator.width + rightPadding/4 :
 					  0)
 				 + rightPadding
-	text: {
-		switch (updater ? updater.state : Updater.Error) {
-		case Updater.NoUpdates:
-		case Updater.Error:
-			return qsTr("Check for updates");
-		case Updater.Checking:
-			switch (textMode) {
-			case UpdateButton.Dynamic:
-				return _currentStatus == "" ?
-							qsTr("Checking for updates…") :
-							_currentStatus;
-			case UpdateButton.Static:
-				return qsTr("Checking for updates…");
-			case UpdateButton.Cancel:
-				return qsTr("Cancel");
-			}
-			break;
-		case Updater.NewUpdates:
-			return allowInstall ?
-						qsTr("Install updates") :
-						qsTr("Found new updates");
-		case Updater.Installing:
-			return qsTr("Installing updates…");
-		}
-	}
-	progress: {
-		switch (updater ? updater.state : Updater.Error) {
-		case Updater.NoUpdates:
-		case Updater.Error:
-			return 0.0;
-		case Updater.Checking:
-			return Math.max(_currentProgress, 0.0);
-		case Updater.NewUpdates:
-		case Updater.Installing:
-			return 1.0;
-		}
-	}
+	text: qsTr("Check for updates")
+	progress: 0.0
 
 	BusyIndicator {
 		id: indeterminateIndicator
@@ -74,7 +107,7 @@ DelayButton {
 		anchors.bottomMargin: updateButton.bottomPadding
 		anchors.leftMargin: updateButton.rightPadding * 0.75
 		width: height
-		visible: updater && updater.running && _currentProgress < 0
+		visible: false
 		running: true
 		padding: 0
 	}
@@ -82,10 +115,7 @@ DelayButton {
 	MouseArea {
 		id: blockArea
 		anchors.fill: parent
-		visible: updater &&
-				 (updater.state == Updater.Installing ||
-				  (updater.state == Updater.Checking && textMode != UpdateButton.Cancel) ||
-				  (updater.state == Updater.NewUpdates && !allowInstall))
+		visible: !updater
 		acceptedButtons: Qt.AllButtons
 		z: 100
 	}
@@ -94,8 +124,7 @@ DelayButton {
 		target: updater
 		onProgressChanged: {
 			_currentProgress = progress;
-			if (status != "")
-				_currentStatus = status;
+			_currentStatus = status;
 		}
 
 		onCheckUpdatesDone: {
@@ -119,17 +148,6 @@ DelayButton {
 				updater.abortUpdateCheck();
 		default:
 			break;
-		}
-	}
-
-	FontMetrics {
-		id: fillerMetrics
-		font: updateButton.font
-
-		function calcSpacer(width) {
-			let baseWidth = fillerMetrics.boundingRect(" ").width;
-			console.log(baseWidth, width, Math.ceil(width / baseWidth));
-			return "&nbsp;".repeat(Math.ceil(width / baseWidth));
 		}
 	}
 }
