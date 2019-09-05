@@ -6,6 +6,7 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QPair>
 #include <QtCore/QHash>
+#include <QtCore/QLoggingCategory>
 
 #include "qtautoupdatercore_global.h"
 
@@ -34,6 +35,8 @@ private:
 
 	QHash<int, TimerInfo> _timerHash;
 };
+
+Q_DECLARE_LOGGING_CATEGORY(logScheduler)
 
 }
 

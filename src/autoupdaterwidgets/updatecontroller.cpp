@@ -9,8 +9,13 @@
 #include <dialogmaster.h>
 
 #include <QtAutoUpdaterCore/private/updater_p.h>
-
 using namespace QtAutoUpdater;
+
+namespace QtAutoUpdater {
+
+Q_LOGGING_CATEGORY(logController, "qt.autoupdater.widgets.UpdateController")
+
+}
 
 UpdateController::UpdateController(QObject *parent) :
 	UpdateController{nullptr, parent}
@@ -36,7 +41,7 @@ UpdateController::~UpdateController()
 {
 	Q_D(UpdateController);
 	if(d->updater && d->updater->isRunning())
-		qCWarning(logQtAutoUpdater) << "UpdaterController destroyed while still running! This can crash your application!";
+		qCWarning(logController) << "Destroyed while still running! This can crash your application!";
 
 	d->hideProgress();
 }

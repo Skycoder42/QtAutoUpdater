@@ -47,6 +47,8 @@ public:
 	void cleanUp();
 };
 
+Q_DECLARE_LOGGING_CATEGORY(logController)
+
 }
 
 #endif // QTAUTOUPDATER_UPDATECONTROLLER_P_H

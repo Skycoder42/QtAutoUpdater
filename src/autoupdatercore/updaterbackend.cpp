@@ -22,6 +22,12 @@ const QLoggingCategory &UpdaterBackend::logCat() const
 	return d->logCat;
 }
 
+QByteArray UpdaterBackend::logCatBase() const
+{
+	Q_D(const UpdaterBackend);
+	return d->logCat.categoryName();
+}
+
 QString UpdaterBackend::key() const
 {
 	Q_D(const UpdaterBackend);
@@ -39,7 +45,7 @@ bool UpdaterBackend::initialize(QScopedPointer<UpdaterBackend::IConfigReader> &&
 
 UpdaterBackendPrivate::UpdaterBackendPrivate(QString &&pKey) :
 	key{std::move(pKey)},
-	logCatStr{"QtAutoUpdater." + key.toUtf8()},
+	logCatStr{"qt.autoupdater.core.plugin." + key.toUtf8()},
 	logCat{
 		logCatStr,
 #ifdef QT_NO_DEBUG

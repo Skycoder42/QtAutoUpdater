@@ -11,7 +11,7 @@
 
 namespace QtAutoUpdater {
 
-Q_LOGGING_CATEGORY(logQtAutoUpdater, "QtAutoUpdater")
+Q_LOGGING_CATEGORY(logUpdater, "qt.autoupdater.core.Updater")
 
 }
 
@@ -113,7 +113,7 @@ Updater *Updater::create(QObject *parent)
 	if (config)
 		return create(config, parent);
 	else {
-		qCCritical(logQtAutoUpdater) << "Unable to find the default updater configuration file";
+		qCCritical(logUpdater) << "Unable to find the default updater configuration file";
 		return nullptr;
 	}
 }
@@ -147,11 +147,10 @@ Updater *Updater::create(UpdaterBackend::IConfigReader *configReader, QObject *p
 Updater::~Updater()
 {
 	Q_D(Updater);
-	if(d->runOnExit)
-		qCWarning(logQtAutoUpdater) << "Updater destroyed with run on exit active before the application quit";
-	if (isRunning()) {
-		Q_UNIMPLEMENTED();
-	}
+	if (isRunning())
+		qCWarning(logUpdater) << "Destroyed while still running. This can lead to corruption of your application!";
+	else if(d->runOnExit)
+		qCWarning(logUpdater) << "Destroyed with run on exit active before the application quit";
 }
 
 UpdaterBackend *Updater::backend() const
@@ -194,7 +193,7 @@ QList<UpdateInfo> Updater::updateInfo() const
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
 	if((static_cast<qint64>(delaySeconds) * 1000ll) > static_cast<qint64>(std::numeric_limits<int>::max())) {
-		qCWarning(logQtAutoUpdater) << "delaySeconds to big to be converted to msecs";
+		qCWarning(logUpdater) << "delaySeconds to big to be converted to msecs";
 		return 0;
 	}
 

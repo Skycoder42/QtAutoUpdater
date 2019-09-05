@@ -38,7 +38,7 @@ public:
 	void _q_triggerInstallDone(bool success);
 };
 
-Q_AUTOUPDATERCORE_EXPORT Q_DECLARE_LOGGING_CATEGORY(logQtAutoUpdater)
+Q_DECLARE_LOGGING_CATEGORY(logUpdater)
 
 }
 

@@ -24,8 +24,6 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 	Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName NOTIFY desktopFileNameChanged)
 
-	// TODO add auto detach and reparenting of updater if run on exit is set
-
 public:
 	//! Defines the different display-levels of the dialog
 	enum DisplayLevel {

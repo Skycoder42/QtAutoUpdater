@@ -3,8 +3,13 @@
 
 #include <QtCore/QTimerEvent>
 #include <QtCore/QDebug>
-
 using namespace QtAutoUpdater;
+
+namespace QtAutoUpdater {
+
+Q_LOGGING_CATEGORY(logScheduler, "qt.autoupdater.core.SimpleScheduler")
+
+}
 
 SimpleScheduler::SimpleScheduler(QObject *parent) :
 	QObject{parent}
@@ -13,7 +18,7 @@ SimpleScheduler::SimpleScheduler(QObject *parent) :
 int SimpleScheduler::startSchedule(int msecs, bool repeated, const QVariant &parameter)
 {
 	if(msecs < 0) {
-		qCWarning(logQtAutoUpdater) << "Cannot schedule update tasks for the past!";
+		qCWarning(logScheduler) << "Cannot schedule update tasks for the past!";
 		return 0;
 	}
 
@@ -27,7 +32,7 @@ int SimpleScheduler::startSchedule(const QDateTime &when, const QVariant &parame
 {
 	const auto delta = QDateTime::currentDateTime().msecsTo(when);
 	if(delta > static_cast<qint64>(std::numeric_limits<int>::max())) {
-		qCWarning(logQtAutoUpdater) << "Time interval to big, timepoint to far in the future.";
+		qCWarning(logScheduler) << "Time interval to big, timepoint to far in the future.";
 		return 0;
 	} else
 		return startSchedule(static_cast<int>(delta), false, parameter);
