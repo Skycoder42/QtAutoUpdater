@@ -21,8 +21,6 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(QtAutoUpdater::Updater* updater READ updater WRITE setUpdater NOTIFY updaterChanged)
-	//! Specifies whether the controller is currently active or not
-	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 	Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName NOTIFY desktopFileNameChanged)
 
@@ -55,8 +53,6 @@ public:
 
 	QWidget* parentWindow() const;
 	//! @readAcFn{UpdateController::running}
-	bool isRunning() const;
-	//! @readAcFn{UpdateController::displayLevel}
 	DisplayLevel displayLevel() const;
 	//! @readAcFn{UpdateController::desktopFileName}
 	QString desktopFileName() const;
@@ -79,8 +75,6 @@ public Q_SLOTS:
 	bool cancelUpdate(int maxDelay = 3000);
 
 Q_SIGNALS:
-	//! @notifyAcFn{UpdateController::running}
-	void runningChanged(bool running, QPrivateSignal);
 	//! @notifyAcFn{UpdateController::displayLevel}
 	void displayLevelChanged(DisplayLevel displayLevel, QPrivateSignal);
 	//! @notifyAcFn{UpdateController::desktopFileName}

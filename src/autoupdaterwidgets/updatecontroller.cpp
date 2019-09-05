@@ -35,7 +35,7 @@ UpdateController::UpdateController(Updater *updater, QWidget *parentWidget) :
 UpdateController::~UpdateController()
 {
 	Q_D(UpdateController);
-	if(d->running)
+	if(d->updater && d->updater->isRunning())
 		qCWarning(logQtAutoUpdater) << "UpdaterController destroyed while still running! This can crash your application!";
 
 	d->hideProgress();
@@ -64,12 +64,6 @@ QAction *UpdateController::createUpdateAction(Updater *updater, QObject *parent)
 QWidget *UpdateController::parentWindow() const
 {
 	return qobject_cast<QWidget*>(parent());
-}
-
-bool UpdateController::isRunning() const
-{
-	Q_D(const UpdateController);
-	return d->running;
 }
 
 UpdateController::DisplayLevel UpdateController::displayLevel() const
@@ -119,6 +113,7 @@ void UpdateController::setUpdater(Updater *updater)
 	// cleanup old one
 	if (d->updater) {
 		d->updater->disconnect(this);
+		d->cleanUp();
 		if (d->updater->parent() == this)
 			d->updater->deleteLater();
 	}
@@ -141,10 +136,8 @@ void UpdateController::setUpdater(Updater *updater)
 bool UpdateController::start()
 {
 	Q_D(UpdateController);
-	if(d->running || !d->updater)
+	if(!d->updater || d->updater->isRunning())
 		return false;
-
-	d->ensureRunning(true);
 
 	// ask if updates should be checked
 	if(d->displayLevel >= AskLevel) {
@@ -152,7 +145,6 @@ bool UpdateController::start()
 								   tr("Check for Updates"),
 								   tr("Do you want to check for updates now?"))
 		   != QMessageBox::Yes) {
-			d->ensureRunning(false);
 			return false;
 		}
 	}
@@ -213,6 +205,8 @@ void UpdateControllerPrivate::_q_updaterStateChanged(Updater::State state)
 		enterInstallingState();
 		break;
 	}
+
+	notifyOnNextNoUpdates = (state == Updater::State::Checking);
 }
 
 void UpdateControllerPrivate::_q_showInstaller(UpdateInstaller *installer)
@@ -226,8 +220,7 @@ void UpdateControllerPrivate::_q_showInstaller(UpdateInstaller *installer)
 void UpdateControllerPrivate::_q_updaterDestroyed()
 {
 	Q_Q(UpdateController);
-	hideProgress();
-	ensureRunning(false);
+	cleanUp();
 	emit q->updaterChanged(nullptr, {});
 }
 
@@ -238,18 +231,16 @@ void UpdateControllerPrivate::enterNoUpdatesState()
 	if (showCanceled())
 		return;
 
-	if(running && displayLevel >= UpdateController::ExtendedInfoLevel) {
+	if(notifyOnNextNoUpdates && displayLevel >= UpdateController::ExtendedInfoLevel) {
 		DialogMaster::informationT(q->parentWindow(),
 								   UpdateController::tr("Check for Updates"),
 								   UpdateController::tr("No new updates available!"));
 	}
-	ensureRunning(false);
 }
 
 void UpdateControllerPrivate::enterCheckingState()
 {
 	Q_Q(UpdateController);
-	ensureRunning(true);
 	if(displayLevel >= UpdateController::ProgressLevel && !checkUpdatesProgress) {
 		checkUpdatesProgress = new ProgressDialog{desktopFileName, q->parentWindow()};
 		QObject::connect(checkUpdatesProgress.data(), &ProgressDialog::canceled, q_func(), [this](){
@@ -262,7 +253,6 @@ void UpdateControllerPrivate::enterCheckingState()
 void UpdateControllerPrivate::enterNewUpdatesState()
 {
 	Q_Q(UpdateController);
-	ensureRunning(true);
 	hideProgress();
 	if (showCanceled())
 		return;
@@ -300,13 +290,11 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 				qApp->quit();
 		}
 	}
-	ensureRunning(false);
 }
 
 void UpdateControllerPrivate::enterErrorState()
 {
 	Q_Q(UpdateController);
-	ensureRunning(true);
 	hideProgress();
 	if (showCanceled())
 		return;
@@ -316,23 +304,11 @@ void UpdateControllerPrivate::enterErrorState()
 								UpdateController::tr("Check for Updates"),
 								UpdateController::tr("An error occured while trying to check for updates!"));
 	}
-	ensureRunning(false);
 }
 
 void UpdateControllerPrivate::enterInstallingState()
 {
 	// nothing for now
-}
-
-void UpdateControllerPrivate::ensureRunning(bool newState)
-{
-	Q_Q(UpdateController);
-	if (running != newState) {
-		running = newState;
-		if (!running)
-			wasCanceled = false;
-		emit q->runningChanged(running, {});
-	}
 }
 
 void UpdateControllerPrivate::hideProgress()
@@ -353,10 +329,16 @@ bool UpdateControllerPrivate::showCanceled()
 								   UpdateController::tr("Check for Updates"),
 								   UpdateController::tr("Checking for updates was canceled!"));
 		}
-		ensureRunning(false);
 		return true;
 	} else
 		return false;
+}
+
+void UpdateControllerPrivate::cleanUp()
+{
+	hideProgress();
+	wasCanceled = false;
+	notifyOnNextNoUpdates = false;
 }
 
 #include "moc_updatecontroller.cpp"

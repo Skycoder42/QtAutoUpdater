@@ -49,12 +49,13 @@ QString UpdateButton::animationFile() const
 	return d->loadingGif->fileName();
 }
 
-void UpdateButton::resetState()
+void UpdateButton::resetState()  // TODO move to private?
 {
 	Q_D(UpdateButton);
 	d->loadingGif->setPaused(true);
 	d->ui->loaderLabel->setVisible(false);
 	d->ui->statusLabel->setVisible(false);
+	d->ui->checkButton->setText(UpdateButton::tr("Check for updates"));
 	d->ui->checkButton->setEnabled(true);
 }
 
@@ -66,6 +67,7 @@ void UpdateButton::setUpdater(Updater *updater)
 
 	if (d->updater) {
 		d->updater->disconnect(this);
+		resetState();
 		if (d->updater->parent() == this)
 			d->updater->deleteLater();
 	}

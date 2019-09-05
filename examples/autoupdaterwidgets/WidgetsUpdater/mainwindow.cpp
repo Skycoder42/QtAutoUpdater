@@ -42,17 +42,14 @@ void MainWindow::on_configPathToolButton_clicked()
 
 void MainWindow::on_checkUpdatesButton_clicked()
 {
-	if (!controller->isRunning()) {
-		if (ui->scheduleUpdateDateCheckBox->isChecked()) {
-			int id = controller->updater()->scheduleUpdate(ui->scheduleUpdateDateTimeEdit->dateTime());
-			if (id)
-				qDebug() << "update scheduled with id" << id << "to run at" << ui->scheduleUpdateDateTimeEdit->dateTime();
-			else
-				qDebug() << "failed to start controller at" << ui->scheduleUpdateDateTimeEdit->dateTime();
-		} else
-			qDebug() << "start controller:" << controller->start();
+	if (ui->scheduleUpdateDateCheckBox->isChecked()) {
+		int id = controller->updater()->scheduleUpdate(ui->scheduleUpdateDateTimeEdit->dateTime());
+		if (id)
+			qDebug() << "update scheduled with id" << id << "to run at" << ui->scheduleUpdateDateTimeEdit->dateTime();
+		else
+			qDebug() << "failed to start controller at" << ui->scheduleUpdateDateTimeEdit->dateTime();
 	} else
-		qDebug() << "start controller:" << false;
+		qDebug() << "start controller:" << controller->start();
 }
 
 void MainWindow::on_cancelButton_clicked()
@@ -95,7 +92,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		dockMenu->addAction(dockAction);
 		qt_mac_set_dock_menu(dockMenu);
 #endif
-		connect(controller, &QtAutoUpdater::UpdateController::runningChanged, this, [this](bool running){
+		connect(controller->updater(), &QtAutoUpdater::Updater::runningChanged, this, [this](bool running){
 			statusBar()->showMessage(running ? tr("running") : tr("not running"));
 		});
 		button->setUpdater(controller->updater());

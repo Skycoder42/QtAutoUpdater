@@ -26,11 +26,11 @@ public:
 	QPointer<Updater> updater;
 
 	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
-	bool running = false;
 	QString desktopFileName;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;
 	bool wasCanceled = false;
+	bool notifyOnNextNoUpdates = false;
 
 	void _q_updaterStateChanged(Updater::State state);
 	void _q_showInstaller(UpdateInstaller *installer);
@@ -42,9 +42,9 @@ public:
 	void enterErrorState();
 	void enterInstallingState();
 
-	void ensureRunning(bool newState);
 	void hideProgress();
 	bool showCanceled();
+	void cleanUp();
 };
 
 }
