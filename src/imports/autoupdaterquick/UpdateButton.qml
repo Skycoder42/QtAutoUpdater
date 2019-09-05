@@ -13,7 +13,7 @@ DelayButton {
 	}
 
 	property Updater updater: null
-	property int textMode: UpdateButton.Dynamic
+	property int textMode: UpdateButton.Cancel
 	property bool allowInstall: true
 	property bool runOnExit: false
 
@@ -45,6 +45,22 @@ DelayButton {
 			PropertyChanges {
 				target: blockArea
 				visible: textMode != UpdateButton.Cancel
+			}
+			PropertyChanges {
+				target: indeterminateIndicator
+				visible: _currentProgress < 0
+			}
+		},
+		State {
+			name: Updater.Canceling
+			PropertyChanges {
+				target: updateButton
+				text: qsTr("Canceling…")
+				progress: Math.max(_currentProgress, 0.0)
+			}
+			PropertyChanges {
+				target: blockArea
+				visible: true
 			}
 			PropertyChanges {
 				target: indeterminateIndicator

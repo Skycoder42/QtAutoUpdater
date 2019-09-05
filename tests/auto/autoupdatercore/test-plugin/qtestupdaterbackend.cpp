@@ -38,16 +38,25 @@ void QTestUpdaterBackend::abort(bool force)
 	qCDebug(logTestPlugin) << Q_FUNC_INFO << force;
 	const auto abortLevel = config()->value(QStringLiteral("abortLevel"), 0).toInt();
 	switch (abortLevel) {
-	case 2:
-		break;
-	case 1:
+	case 0:
 		if (force)
 			Q_FALLTHROUGH();
-		else
+		else {
+			QTimer::singleShot(config()->value(QStringLiteral("cancelDelay"), 0).toInt(), this, [this](){
+				if (_timer->isActive()) {
+					_timer->stop();
+					emit checkDone(true, {});
+				}
+			});
 			break;
-	case 0:
-		_timer->stop();
-		emit checkDone(true, {});
+		}
+	case 1:
+		if (force) {
+			_timer->stop();
+			emit checkDone(true, {});
+		}
+		break;
+	case 2:
 		break;
 	default:
 		Q_UNREACHABLE();

@@ -14,7 +14,7 @@ Page {
 
 	property var goBackCallback: null
 
-	readonly property int _pageOffset: (installer.features & UpdateInstaller.SelectComponents) != 0 ? 0 : 1
+	readonly property int _pageOffset: !installer || ((installer.features & UpdateInstaller.SelectComponents) != 0) ? 0 : 1
 	readonly property int _dummyStackDepth: pageStack.depth + _pageOffset
 
 	function doGoBack() {

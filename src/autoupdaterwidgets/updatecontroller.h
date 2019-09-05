@@ -65,12 +65,9 @@ public Q_SLOTS:
 	//! @writeAcFn{UpdateController::updater}
 	void setUpdater(QtAutoUpdater::Updater* updater);
 
-
 	bool start();
 	//! Starts the controller with the specified display level
 	bool start(DisplayLevel displayLevel);
-	//! Tries to cancel the controllers update
-	bool cancelUpdate(int maxDelay = 3000);
 
 Q_SIGNALS:
 	//! @notifyAcFn{UpdateController::displayLevel}

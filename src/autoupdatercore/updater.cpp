@@ -47,6 +47,7 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 			emit runningChanged(false, {});
 			break;
 		case State::Checking:
+		case State::Canceling:
 		case State::Installing:
 			emit runningChanged(true, {});
 			break;
@@ -128,6 +129,7 @@ bool Updater::isRunning() const
 {
 	Q_D(const Updater);
 	return d->state == State::Checking ||
+			d->state == State::Canceling ||
 			d->state == State::Installing;
 }
 
@@ -157,6 +159,9 @@ int Updater::scheduleUpdate(const QDateTime &when)
 bool Updater::runUpdater(bool forceOnExit)
 {
 	Q_D(Updater);
+	if (isRunning())
+		return false;
+
 	if (!d->backend->features().testFlag(UpdaterBackend::Feature::ParallelInstall))
 		forceOnExit = true;
 
@@ -215,28 +220,33 @@ bool Updater::runUpdater(bool forceOnExit)
 void Updater::checkForUpdates()
 {
 	Q_D(Updater);
-	if (!isRunning()) {
-		d->state = State::Checking;
-		d->updateInfos.clear();
-		emit updateInfoChanged(d->updateInfos, {});
-		if (d->backend->features().testFlag(UpdaterBackend::Feature::CheckProgress))
-			emit progressChanged(0.0, QStringLiteral(""), {}); // empty, but not null string
-		else
-			emit progressChanged(-1.0, tr("Checking for updates…"), {});
-		emit stateChanged(d->state, {});
-		d->backend->checkForUpdates();
-	}
+	if (isRunning())
+		return;
+
+	d->state = State::Checking;
+	d->updateInfos.clear();
+	emit updateInfoChanged(d->updateInfos, {});
+	if (d->backend->features().testFlag(UpdaterBackend::Feature::CheckProgress))
+		emit progressChanged(0.0, QStringLiteral(""), {}); // empty, but not null string
+	else
+		emit progressChanged(-1.0, tr("Checking for updates…"), {});
+	emit stateChanged(d->state, {});
+	d->backend->checkForUpdates();
 }
 
 void Updater::abortUpdateCheck(int killDelay)
 {
 	Q_D(Updater);
 	if(d->state == State::Checking) {
+		d->state = State::Canceling;
+		emit stateChanged(d->state, {});
+
 		if(killDelay != 0) {
 			d->backend->abort(false);
 			if(killDelay > 0) {
-				QTimer::singleShot(killDelay, this, [this](){
-					abortUpdateCheck(0);
+				QTimer::singleShot(killDelay, this, [d](){
+					if (d->state == State::Canceling)
+						d->backend->abort(true);
 				});
 			}
 		} else
@@ -304,13 +314,14 @@ Updater *UpdaterPrivate::createUpdater(UpdaterBackend::IConfigReader *config, QO
 		return nullptr;
 	}
 
-	updater->d_func()->setBackend(backend);
+	updater->d_func()->setupBackend(backend);
 	return updater;
 }
 
-void UpdaterPrivate::setBackend(UpdaterBackend *newBackend)
+void UpdaterPrivate::setupBackend(UpdaterBackend *newBackend)
 {
 	Q_Q(Updater);
+	Q_ASSERT(!backend);
 	backend = newBackend;
 	connect(backend, &UpdaterBackend::checkDone,
 			this, &UpdaterPrivate::_q_checkDone);
@@ -335,12 +346,16 @@ void UpdaterPrivate::_q_checkDone(bool success, QList<UpdateInfo> updates)
 {
 	Q_Q(Updater);
 	if (success) {
-		updateInfos = std::move(updates);
-		if (updateInfos.isEmpty())
+		if (state == State::Canceling)
 			state = State::NoUpdates;
 		else {
-			state = State::NewUpdates;
-			emit q->updateInfoChanged(updateInfos, {});
+			updateInfos = std::move(updates);
+			if (updateInfos.isEmpty())
+				state = State::NoUpdates;
+			else {
+				state = State::NewUpdates;
+				emit q->updateInfoChanged(updateInfos, {});
+			}
 		}
 	} else {
 		updateInfos.clear();

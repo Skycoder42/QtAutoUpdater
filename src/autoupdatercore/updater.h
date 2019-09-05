@@ -40,6 +40,7 @@ public:
 	enum class State {
 		NoUpdates = 0,
 		Checking,
+		Canceling,
 		NewUpdates,
 		Installing,
 

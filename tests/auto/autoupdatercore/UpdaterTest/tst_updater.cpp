@@ -151,7 +151,7 @@ void UpdaterTest::testAbort_data()
 	QTest::newRow("soft.allow") << 0
 								<< -1
 								<< true
-								<< true;
+								<< false;
 	QTest::newRow("soft.force") << 1
 								<< -1
 								<< false
@@ -175,7 +175,7 @@ void UpdaterTest::testAbort_data()
 	QTest::newRow("mixed.allow") << 0
 								 << 300
 								 << true
-								 << true;
+								 << false;
 	QTest::newRow("mixed.force") << 1
 								 << 300
 								 << true
@@ -196,6 +196,7 @@ void UpdaterTest::testAbort()
 	// prepare the arguments
 	QVariantMap config {
 		{QStringLiteral("delay"), 100},
+		{QStringLiteral("cancelDelay"), 100},
 		{QStringLiteral("abortLevel"), level},
 		{QStringLiteral("hasError"), true},
 	};
@@ -203,13 +204,20 @@ void UpdaterTest::testAbort()
 	// prepare the updater
 	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(updater);
+	QSignalSpy stateSpy{updater.data(), &Updater::stateChanged};
+	QVERIFY(stateSpy.isValid());
 	QSignalSpy doneSpy{updater.data(), &Updater::checkUpdatesDone};
 	QVERIFY(doneSpy.isValid());
 
 	// check for updates and then cancel them
 	updater->checkForUpdates();
+	QCOMPARE(stateSpy.size(), 1);
+	QCOMPARE(stateSpy.takeFirst()[0].value<Updater::State>(), Updater::State::Checking);
 	QVERIFY(!doneSpy.wait(500));
 	updater->abortUpdateCheck(delay);
+	QVERIFY(stateSpy.size() >= 1);
+	QCOMPARE(stateSpy.takeFirst()[0].value<Updater::State>(), Updater::State::Canceling);
+	stateSpy.clear();
 	if (!immediate) {
 		QCOMPARE(doneSpy.size(), 0);
 		QVERIFY(doneSpy.wait());

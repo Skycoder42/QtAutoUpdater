@@ -31,8 +31,8 @@ public:
 	QString desktopFileName;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;
+	bool wasChecking = false;
 	bool wasCanceled = false;
-	bool notifyOnNextNoUpdates = false;
 
 	void _q_updaterStateChanged(Updater::State state);
 	void _q_showInstaller(UpdateInstaller *installer);
@@ -40,6 +40,7 @@ public:
 
 	void enterNoUpdatesState();
 	void enterCheckingState();
+	void enterCancelingState();
 	void enterNewUpdatesState();
 	void enterErrorState();
 	void enterInstallingState();

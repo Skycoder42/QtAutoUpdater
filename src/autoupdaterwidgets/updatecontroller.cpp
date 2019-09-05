@@ -166,19 +166,6 @@ bool UpdateController::start(DisplayLevel displayLevel)
 	return start();
 }
 
-bool UpdateController::cancelUpdate(int maxDelay)
-{
-	Q_D(UpdateController);  // TODO remove
-	if(d->updater && d->updater->state() == Updater::State::Checking) {
-		d->wasCanceled = true;
-		if(d->checkUpdatesProgress)
-			d->checkUpdatesProgress->setCanceled();
-		d->updater->abortUpdateCheck(maxDelay);
-		return true;
-	} else
-		return false;
-}
-
 //----------------- private implementation -----------------
 
 QIcon UpdateControllerPrivate::getUpdatesIcon()
@@ -201,6 +188,9 @@ void UpdateControllerPrivate::_q_updaterStateChanged(Updater::State state)
 	case Updater::State::Checking:
 		enterCheckingState();
 		break;
+	case Updater::State::Canceling:
+		enterCancelingState();
+		break;
 	case Updater::State::NewUpdates:
 		enterNewUpdatesState();
 		break;
@@ -212,7 +202,8 @@ void UpdateControllerPrivate::_q_updaterStateChanged(Updater::State state)
 		break;
 	}
 
-	notifyOnNextNoUpdates = (state == Updater::State::Checking);
+	wasChecking = (state == Updater::State::Checking);
+	wasCanceled = (state == Updater::State::Canceling);
 }
 
 void UpdateControllerPrivate::_q_showInstaller(UpdateInstaller *installer)
@@ -237,10 +228,12 @@ void UpdateControllerPrivate::enterNoUpdatesState()
 	if (showCanceled())
 		return;
 
-	if(notifyOnNextNoUpdates && canShow(DisplayLevel::ExtendedInfo)) {
-		DialogMaster::informationT(q->parentWindow(),
-								   UpdateController::tr("Check for Updates"),
-								   UpdateController::tr("No new updates available!"));
+	if (wasChecking) {
+		if(canShow(DisplayLevel::ExtendedInfo)) {
+			DialogMaster::informationT(q->parentWindow(),
+									   UpdateController::tr("Check for Updates"),
+									   UpdateController::tr("No new updates available!"));
+		}
 	}
 }
 
@@ -249,11 +242,14 @@ void UpdateControllerPrivate::enterCheckingState()
 	Q_Q(UpdateController);
 	if(!checkUpdatesProgress && canShow(DisplayLevel::Progress)) {
 		checkUpdatesProgress = new ProgressDialog{desktopFileName, q->parentWindow()};
-		QObject::connect(checkUpdatesProgress.data(), &ProgressDialog::canceled, q_func(), [this](){
-			wasCanceled = true;
-		});
 		checkUpdatesProgress->open(updater);
 	}
+}
+
+void UpdateControllerPrivate::enterCancelingState()
+{
+	if(checkUpdatesProgress)
+		checkUpdatesProgress->setCanceled();
 }
 
 void UpdateControllerPrivate::enterNewUpdatesState()
@@ -339,6 +335,7 @@ bool UpdateControllerPrivate::showCanceled()
 {
 	Q_Q(UpdateController);
 	if(wasCanceled) {
+		wasCanceled = false;
 		if(canShow(DisplayLevel::ExtendedInfo)) {
 			DialogMaster::warningT(q->parentWindow(),
 								   UpdateController::tr("Check for Updates"),
@@ -353,7 +350,7 @@ void UpdateControllerPrivate::cleanUp()
 {
 	hideProgress();
 	wasCanceled = false;
-	notifyOnNextNoUpdates = false;
+	wasChecking = false;
 }
 
 #include "moc_updatecontroller.cpp"

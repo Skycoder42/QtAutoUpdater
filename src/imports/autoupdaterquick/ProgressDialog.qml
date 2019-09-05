@@ -8,19 +8,71 @@ DialogBase {
 
 	title: qsTr("Checking for updates…")
 
-	visible: updater ? updater.state == Updater.Checking : false
-	onVisibleChanged: btnBox.standardButton(DialogButtonBox.Cancel).enabled = true  // reset button box when dialog is hidden or shown
+	visible: false
 
 	ProgressItem {
 		id: progressItem
 		anchors.fill: parent
+
+		// assign states here, as Dialg has no states...
+		states: [
+			State {
+				name: "inactive"
+				PropertyChanges {
+					target: btnBox.standardButton(DialogButtonBox.Cancel)
+					enabled: false
+				}
+				PropertyChanges {
+					target: progressItem
+					progress: -1.0
+					status: ""
+				}
+			},
+			State {
+				name: "checking"
+				PropertyChanges {
+					target: progressDialog
+					visible: updater
+				}
+				PropertyChanges {
+					target: btnBox.standardButton(DialogButtonBox.Cancel)
+					enabled: true
+				}
+			},
+			State {
+				name: "canceling"
+				PropertyChanges {
+					target: progressDialog
+					visible: updater
+				}
+				PropertyChanges {
+					target: btnBox.standardButton(DialogButtonBox.Cancel)
+					enabled: false
+				}
+				PropertyChanges {
+					target: progressItem
+					status: qsTr("Canceling…")
+				}
+			}
+		]
+		state: {
+			switch (updater ? updater.state : Updater.Error) {
+			case Updater.Checking:
+				return "checking";
+			case Updater.Canceling:
+				return "canceling";
+			default:
+				return "inactive";
+			}
+		}
 
 		Connections {
 			target: updater
 
 			onProgressChanged: {
 				progressItem.progress = progress;
-				progressItem.status = status;
+				if (updater.state == Updater.Checking)
+					progressItem.status = status;
 			}
 		}
 	}
@@ -36,10 +88,8 @@ DialogBase {
 			standardButtons: DialogButtonBox.Cancel
 
 			onClicked: {
-				if (button === standardButton(DialogButtonBox.Cancel)) {
-					button.enabled = false;
+				if (button === standardButton(DialogButtonBox.Cancel))
 					updater.abortUpdateCheck();
-				}
 			}
 		}
 	}

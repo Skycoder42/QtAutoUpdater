@@ -180,8 +180,9 @@ Module {
             values: {
                 "NoUpdates": 0,
                 "Checking": 1,
-                "NewUpdates": 2,
-                "Installing": 3,
+                "Canceling": 2,
+                "NewUpdates": 3,
+                "Installing": 4,
                 "Error": -1
             }
         }

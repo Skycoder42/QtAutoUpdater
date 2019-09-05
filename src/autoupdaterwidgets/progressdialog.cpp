@@ -55,7 +55,8 @@ void ProgressDialog::updateProgress(double progress, const QString &status)
 		_ui->progressBar->setValue(static_cast<int>(progress * 1000));
 	}
 
-	if (!status.isEmpty())
+	if (_updater->state() == Updater::State::Checking &&
+		!status.isEmpty())
 		_ui->label->setText(status);
 }
 

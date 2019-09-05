@@ -6,6 +6,9 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	QApplication::setApplicationName(QStringLiteral("WidgetsUpdater"));
+	QApplication::setOrganizationName(QStringLiteral("Skycoder42"));
+	QApplication::setOrganizationDomain(QStringLiteral("de.skycoder42"));
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 	QApplication::setApplicationDisplayName(QStringLiteral("Widgets-Test"));
 	MainWindow w;

@@ -146,6 +146,12 @@ void UpdateButtonPrivate::_q_changeUpdaterState(Updater::State state)
 		ui->statusLabel->setText(UpdateButton::tr("Checking for updates…"));
 		ui->statusLabel->setVisible(true);
 		break;
+	case Updater::State::Canceling:
+		running = true;
+		ui->checkButton->setEnabled(false);
+		ui->statusLabel->setText(UpdateButton::tr("Canceling…"));
+		ui->statusLabel->setVisible(true);
+		break;
 	case Updater::State::NewUpdates:
 		running = false;
 		if (mode.testFlag(ModeFlag::AllowInstall))
@@ -211,6 +217,9 @@ void UpdateButtonPrivate::_q_clicked()
 		case Updater::State::NoUpdates:
 		case Updater::State::Error:
 			updater->checkForUpdates();
+			break;
+		case Updater::State::Checking:
+			updater->abortUpdateCheck();
 			break;
 		default:
 			break;

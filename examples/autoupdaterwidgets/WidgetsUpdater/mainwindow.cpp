@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->scheduleUpdateDateTimeEdit->setDateTime(QDateTime::currentDateTime());
 	ui->buttonLayout->addWidget(button);
 
-	QSettings settings{QStringLiteral("./settings.ini"), QSettings::IniFormat};
+	QSettings settings;
 	ui->configPathLineEdit->setText(settings.value(QStringLiteral("path")).toString());
 	ui->hasParentWindowCheckBox->setChecked(settings.value(QStringLiteral("hasParent"), true).toBool());
 	ui->displayLevelComboBox->setCurrentIndex(settings.value(QStringLiteral("level")).toInt());
@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-	QSettings settings{QStringLiteral("./settings.ini"), QSettings::IniFormat};
+	QSettings settings;
 	settings.setValue(QStringLiteral("path"), ui->configPathLineEdit->text());
 	settings.setValue(QStringLiteral("hasParent"), ui->hasParentWindowCheckBox->isChecked());
 	settings.setValue(QStringLiteral("level"), ui->displayLevelComboBox->currentIndex());
@@ -54,7 +54,7 @@ void MainWindow::on_checkUpdatesButton_clicked()
 
 void MainWindow::on_cancelButton_clicked()
 {
-	qDebug() << "cancel controller:" << controller->cancelUpdate();
+	controller->updater()->abortUpdateCheck();
 }
 
 void MainWindow::on_activeBox_toggled(bool checked)

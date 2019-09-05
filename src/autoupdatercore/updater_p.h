@@ -34,7 +34,7 @@ public:
 	static Updater *createUpdater(UpdaterBackend::IConfigReader *config,
 								  QObject *parent);
 
-	void setBackend(UpdaterBackend *newBackend);
+	void setupBackend(UpdaterBackend *newBackend);
 	void _q_appAboutToExit();
 	void _q_checkDone(bool success, QList<UpdateInfo> updates);
 	void _q_triggerInstallDone(bool success);
