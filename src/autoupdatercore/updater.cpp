@@ -4,7 +4,6 @@
 #include "updateinstaller.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTimer>
-#include <QtCore/QSettings>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QDebug>
 #include <QtCore/private/qfactoryloader_p.h>
@@ -20,58 +19,6 @@ Q_LOGGING_CATEGORY(logUpdater, "qt.autoupdater.core.Updater")
 Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
 						  (QtAutoUpdater_UpdaterPlugin_iid,
 						   QLatin1String("/updaters")))
-
-namespace {
-
-class VariantConfigReader : public UpdaterBackend::IConfigReader
-{
-public:
-	inline VariantConfigReader(QString &&backend, QVariantMap &&map) :
-		_backend{std::move(backend)},
-		_map{std::move(map)}
-	{}
-
-	QString backend() const override {
-		return _backend;
-	}
-
-	std::optional<QVariant> value(const QString &key) const override {
-		return _map.contains(key) ? _map.value(key) : std::optional<QVariant>{std::nullopt};
-	}
-
-	QVariant value(const QString &key, const QVariant &defaultValue) const override {
-		return _map.value(key, defaultValue);
-	}
-
-private:
-	QString _backend;
-	QVariantMap _map;
-};
-
-class SettingsConfigReader : public UpdaterBackend::IConfigReader
-{
-public:
-	inline SettingsConfigReader(QSettings *settings) :
-		_settings{settings}
-	{}
-
-	QString backend() const override {
-		return _settings->value(QStringLiteral("backend")).toString();
-	}
-
-	std::optional<QVariant> value(const QString &key) const override {
-		return _settings->contains(key) ? _settings->value(key) : std::optional<QVariant>{std::nullopt};
-	}
-
-	QVariant value(const QString &key, const QVariant &defaultValue) const override {
-		return _settings->value(key, defaultValue);
-	}
-
-private:
-	QScopedPointer<QSettings, QScopedPointerDeleteLater> _settings;
-};
-
-}
 
 Updater::Updater(QObject *parent) :
 	Updater(*new UpdaterPrivate{}, parent)
@@ -412,6 +359,43 @@ void UpdaterPrivate::_q_triggerInstallDone(bool success)
 		emit q->stateChanged(state, {});
 		emit q->installDone(success, {});
 	}
+}
+
+
+
+VariantConfigReader::VariantConfigReader(QString &&backend, QVariantMap &&map) :
+	_backend{std::move(backend)},
+	_map{std::move(map)}
+{}
+
+QString VariantConfigReader::backend() const {
+	return _backend;
+}
+
+std::optional<QVariant> VariantConfigReader::value(const QString &key) const {
+	return _map.contains(key) ? _map.value(key) : std::optional<QVariant>{std::nullopt};
+}
+
+QVariant VariantConfigReader::value(const QString &key, const QVariant &defaultValue) const {
+	return _map.value(key, defaultValue);
+}
+
+
+
+SettingsConfigReader::SettingsConfigReader(QSettings *settings) :
+	_settings{settings}
+{}
+
+QString SettingsConfigReader::backend() const {
+	return _settings->value(QStringLiteral("backend")).toString();
+}
+
+std::optional<QVariant> SettingsConfigReader::value(const QString &key) const {
+	return _settings->contains(key) ? _settings->value(key) : std::optional<QVariant>{std::nullopt};
+}
+
+QVariant SettingsConfigReader::value(const QString &key, const QVariant &defaultValue) const {
+	return _settings->value(key, defaultValue);
 }
 
 #include "moc_updater.cpp"

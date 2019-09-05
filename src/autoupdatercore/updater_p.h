@@ -7,6 +7,8 @@
 #include "updaterbackend.h"
 
 #include <QtCore/QLoggingCategory>
+#include <QtCore/QSettings>
+#include <QtCore/QScopedPointer>
 
 #include <QtCore/private/qobject_p.h>
 
@@ -36,6 +38,33 @@ public:
 	void _q_appAboutToExit();
 	void _q_checkDone(bool success, QList<UpdateInfo> updates);
 	void _q_triggerInstallDone(bool success);
+};
+
+class Q_AUTOUPDATERCORE_EXPORT VariantConfigReader : public UpdaterBackend::IConfigReader
+{
+public:
+	inline VariantConfigReader(QString &&backend, QVariantMap &&map);
+
+	QString backend() const override;
+	std::optional<QVariant> value(const QString &key) const override;
+	QVariant value(const QString &key, const QVariant &defaultValue) const override;
+
+private:
+	QString _backend;
+	QVariantMap _map;
+};
+
+class Q_AUTOUPDATERCORE_EXPORT SettingsConfigReader : public UpdaterBackend::IConfigReader
+{
+public:
+	inline SettingsConfigReader(QSettings *settings);
+
+	QString backend() const override;
+	std::optional<QVariant> value(const QString &key) const override;
+	QVariant value(const QString &key, const QVariant &defaultValue) const override;
+
+private:
+	QScopedPointer<QSettings, QScopedPointerDeleteLater> _settings;
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logUpdater)
