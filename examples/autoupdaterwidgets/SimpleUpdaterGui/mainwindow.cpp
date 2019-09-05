@@ -19,9 +19,9 @@ MainWindow::~MainWindow()
 //Initialize the updater
 void MainWindow::initializeUpdater()
 {
-	auto updater = QtAutoUpdater::Updater::create(QStringLiteral(CONFIG_PATH "/example.conf"), this);
+	auto updater = QtAutoUpdater::Updater::create(QStringLiteral(CONFIG_PATH "/example.conf"), qApp);
 	Q_ASSERT(updater);
-	controller = new QtAutoUpdater::UpdateController(updater, this, qApp);
+	controller = new QtAutoUpdater::UpdateController(updater, this);
 	ui->updateButton->setUpdater(controller->updater());
 	auto action = QtAutoUpdater::UpdateController::createUpdateAction(updater, this);
 	ui->menuAbout->addAction(action);

@@ -20,13 +20,11 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 {
 	Q_OBJECT
 
-	//! Holds the widget who's window should be used as parent for all dialogs
-	Q_PROPERTY(QWidget* parentWindow READ parentWindow WRITE setParentWindow NOTIFY parentWindowChanged)
+	Q_PROPERTY(QtAutoUpdater::Updater* updater READ updater WRITE setUpdater NOTIFY updaterChanged)
 	//! Specifies whether the controller is currently active or not
 	Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)
 	Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName NOTIFY desktopFileNameChanged)
-	Q_PROPERTY(QtAutoUpdater::Updater* updater READ updater WRITE setUpdater NOTIFY updaterChanged)
 
 	// TODO add auto detach and reparenting of updater if run on exit is set
 
@@ -45,17 +43,16 @@ public:
 	Q_ENUM(DisplayLevel)
 
 	explicit UpdateController(QObject *parent = nullptr);
-	explicit UpdateController(QWidget *parentWindow, QObject *parent = nullptr);
+	explicit UpdateController(QWidget *parentWindow);
 	//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
 	explicit UpdateController(Updater *updater, QObject *parent = nullptr);
 	//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
-	explicit UpdateController(Updater *updater, QWidget *parentWindow, QObject *parent = nullptr);
+	explicit UpdateController(Updater *updater, QWidget *parentWindow);
 	~UpdateController() override;
 
 	//! Create a QAction to start this controller from
 	static QAction *createUpdateAction(Updater *updater, QObject *parent);
 
-	//! @readAcFn{UpdateController::parentWindow}
 	QWidget* parentWindow() const;
 	//! @readAcFn{UpdateController::running}
 	bool isRunning() const;
@@ -69,8 +66,6 @@ public:
 public Q_SLOTS:
 	//! @writeAcFn{UpdateController::displayLevel}
 	void setDisplayLevel(DisplayLevel displayLevel);
-	//! @writeAcFn{UpdateController::parentWindow}
-	void setParentWindow(QWidget* parentWindow);
 	//! @writeAcFn{UpdateController::desktopFileName}
 	void setDesktopFileName(QString desktopFileName);
 	//! @writeAcFn{UpdateController::updater}
@@ -84,8 +79,6 @@ public Q_SLOTS:
 	bool cancelUpdate(int maxDelay = 3000);
 
 Q_SIGNALS:
-	//! @notifyAcFn{UpdateController::parentWindow}
-	void parentWindowChanged(QWidget* parentWindow, QPrivateSignal);
 	//! @notifyAcFn{UpdateController::running}
 	void runningChanged(bool running, QPrivateSignal);
 	//! @notifyAcFn{UpdateController::displayLevel}
@@ -101,6 +94,7 @@ private:
 
 	Q_PRIVATE_SLOT(d_func(), void _q_updaterStateChanged(Updater::State))
 	Q_PRIVATE_SLOT(d_func(), void _q_showInstaller(UpdateInstaller *))
+	Q_PRIVATE_SLOT(d_func(), void _q_updaterDestroyed())
 };
 
 }

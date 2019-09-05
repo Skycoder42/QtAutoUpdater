@@ -23,8 +23,7 @@ public:
 
 	static QIcon getUpdatesIcon();
 
-	Updater *updater = nullptr;
-	QPointer<QWidget> window;
+	QPointer<Updater> updater;
 
 	UpdateController::DisplayLevel displayLevel = UpdateController::InfoLevel;
 	bool running = false;
@@ -35,6 +34,7 @@ public:
 
 	void _q_updaterStateChanged(Updater::State state);
 	void _q_showInstaller(UpdateInstaller *installer);
+	void _q_updaterDestroyed();
 
 	void enterNoUpdatesState();
 	void enterCheckingState();

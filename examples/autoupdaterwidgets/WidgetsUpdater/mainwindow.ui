@@ -289,5 +289,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>activeBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>hasParentWindowCheckBox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>269</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

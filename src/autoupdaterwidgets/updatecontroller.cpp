@@ -13,21 +13,22 @@
 using namespace QtAutoUpdater;
 
 UpdateController::UpdateController(QObject *parent) :
-	UpdateController{nullptr, nullptr, parent}
+	UpdateController{nullptr, parent}
 {}
 
-UpdateController::UpdateController(QWidget *parentWindow, QObject *parent) :
-	UpdateController{nullptr, parentWindow, parent}
+UpdateController::UpdateController(QWidget *parentWindow) :
+	UpdateController{nullptr, parentWindow}
 {}
 
 UpdateController::UpdateController(Updater *updater, QObject *parent) :
-	UpdateController{updater, nullptr, parent}
-{}
-
-UpdateController::UpdateController(Updater *updater, QWidget *parentWidget, QObject *parent) :
 	QObject{*new UpdateControllerPrivate{}, parent}
 {
-	setParentWindow(parentWidget);
+	setUpdater(updater);
+}
+
+UpdateController::UpdateController(Updater *updater, QWidget *parentWidget) :
+	QObject{*new UpdateControllerPrivate{}, parentWidget}
+{
 	setUpdater(updater);
 }
 
@@ -62,8 +63,7 @@ QAction *UpdateController::createUpdateAction(Updater *updater, QObject *parent)
 
 QWidget *UpdateController::parentWindow() const
 {
-	Q_D(const UpdateController);
-	return d->window;
+	return qobject_cast<QWidget*>(parent());
 }
 
 bool UpdateController::isRunning() const
@@ -100,16 +100,6 @@ void UpdateController::setDisplayLevel(UpdateController::DisplayLevel displayLev
 	emit displayLevelChanged(d->displayLevel, {});
 }
 
-void UpdateController::setParentWindow(QWidget *parentWindow)
-{
-	Q_D(UpdateController);
-	if (d->window == parentWindow)
-		return;
-
-	d->window = parentWindow;
-	emit parentWindowChanged(d->window, {});
-}
-
 void UpdateController::setDesktopFileName(QString desktopFileName)
 {
 	Q_D(UpdateController);
@@ -135,13 +125,14 @@ void UpdateController::setUpdater(Updater *updater)
 
 	// setup new one
 	d->updater = updater;
-	if (updater) {
-		d->updater->setParent(this);
+	if (d->updater) {
 		QObjectPrivate::connect(d->updater, &Updater::stateChanged,
 								d, &UpdateControllerPrivate::_q_updaterStateChanged,
 								Qt::QueuedConnection);
 		QObjectPrivate::connect(d->updater, &Updater::showInstaller,
 								d, &UpdateControllerPrivate::_q_showInstaller);
+		QObjectPrivate::connect(d->updater, &Updater::destroyed,
+								d, &UpdateControllerPrivate::_q_updaterDestroyed);
 		d->_q_updaterStateChanged(d->updater->state());
 	}
 	emit updaterChanged(d->updater, {});
@@ -150,14 +141,14 @@ void UpdateController::setUpdater(Updater *updater)
 bool UpdateController::start()
 {
 	Q_D(UpdateController);
-	if(d->running)
+	if(d->running || !d->updater)
 		return false;
 
 	d->ensureRunning(true);
 
 	// ask if updates should be checked
 	if(d->displayLevel >= AskLevel) {
-		if(DialogMaster::questionT(d->window,
+		if(DialogMaster::questionT(parentWindow(),
 								   tr("Check for Updates"),
 								   tr("Do you want to check for updates now?"))
 		   != QMessageBox::Yes) {
@@ -179,8 +170,8 @@ bool UpdateController::start(DisplayLevel displayLevel)
 
 bool UpdateController::cancelUpdate(int maxDelay)
 {
-	Q_D(UpdateController);
-	if(d->updater->state() == Updater::State::Checking) {
+	Q_D(UpdateController);  // TODO remove
+	if(d->updater && d->updater->state() == Updater::State::Checking) {
 		d->wasCanceled = true;
 		if(d->checkUpdatesProgress)
 			d->checkUpdatesProgress->setCanceled();
@@ -201,6 +192,10 @@ QIcon UpdateControllerPrivate::getUpdatesIcon()
 
 void UpdateControllerPrivate::_q_updaterStateChanged(Updater::State state)
 {
+	// is possible, because queued connection
+	if (!updater)
+		return;
+
 	switch (state) {
 	case Updater::State::NoUpdates:
 		enterNoUpdatesState();
@@ -228,14 +223,23 @@ void UpdateControllerPrivate::_q_showInstaller(UpdateInstaller *installer)
 	wizard->activateWindow();
 }
 
+void UpdateControllerPrivate::_q_updaterDestroyed()
+{
+	Q_Q(UpdateController);
+	hideProgress();
+	ensureRunning(false);
+	emit q->updaterChanged(nullptr, {});
+}
+
 void UpdateControllerPrivate::enterNoUpdatesState()
 {
+	Q_Q(UpdateController);
 	hideProgress();
 	if (showCanceled())
 		return;
 
 	if(running && displayLevel >= UpdateController::ExtendedInfoLevel) {
-		DialogMaster::informationT(window,
+		DialogMaster::informationT(q->parentWindow(),
 								   UpdateController::tr("Check for Updates"),
 								   UpdateController::tr("No new updates available!"));
 	}
@@ -244,9 +248,10 @@ void UpdateControllerPrivate::enterNoUpdatesState()
 
 void UpdateControllerPrivate::enterCheckingState()
 {
+	Q_Q(UpdateController);
 	ensureRunning(true);
 	if(displayLevel >= UpdateController::ProgressLevel && !checkUpdatesProgress) {
-		checkUpdatesProgress = new ProgressDialog{desktopFileName, window};
+		checkUpdatesProgress = new ProgressDialog{desktopFileName, q->parentWindow()};
 		QObject::connect(checkUpdatesProgress.data(), &ProgressDialog::canceled, q_func(), [this](){
 			wasCanceled = true;
 		});
@@ -256,6 +261,7 @@ void UpdateControllerPrivate::enterCheckingState()
 
 void UpdateControllerPrivate::enterNewUpdatesState()
 {
+	Q_Q(UpdateController);
 	ensureRunning(true);
 	hideProgress();
 	if (showCanceled())
@@ -266,7 +272,7 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 		const auto res = UpdateInfoDialog::showUpdateInfo(updateInfos,
 														  desktopFileName,
 														  updater->backend()->features(),
-														  window);
+														  q->parentWindow());
 
 		switch(res) {
 		case UpdateInfoDialog::InstallNow:
@@ -286,7 +292,7 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 		updater->runUpdater(false);
 		if (updater->willRunOnExit()) {
 			if(displayLevel >= UpdateController::ExitLevel) {
-				DialogMaster::informationT(window,
+				DialogMaster::informationT(q->parentWindow(),
 										   UpdateController::tr("Install Updates"),
 										   UpdateController::tr("New updates are available. The update tool will be "
 											  "started to install those as soon as you close the application!"));
@@ -299,13 +305,14 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 
 void UpdateControllerPrivate::enterErrorState()
 {
+	Q_Q(UpdateController);
 	ensureRunning(true);
 	hideProgress();
 	if (showCanceled())
 		return;
 
 	if(displayLevel >= UpdateController::ExtendedInfoLevel) {
-		DialogMaster::criticalT(window,
+		DialogMaster::criticalT(q->parentWindow(),
 								UpdateController::tr("Check for Updates"),
 								UpdateController::tr("An error occured while trying to check for updates!"));
 	}
@@ -319,8 +326,8 @@ void UpdateControllerPrivate::enterInstallingState()
 
 void UpdateControllerPrivate::ensureRunning(bool newState)
 {
+	Q_Q(UpdateController);
 	if (running != newState) {
-		Q_Q(UpdateController);
 		running = newState;
 		if (!running)
 			wasCanceled = false;
@@ -339,9 +346,10 @@ void UpdateControllerPrivate::hideProgress()
 
 bool UpdateControllerPrivate::showCanceled()
 {
+	Q_Q(UpdateController);
 	if(wasCanceled) {
 		if(displayLevel >= UpdateController::ExtendedInfoLevel) {
-			DialogMaster::warningT(window,
+			DialogMaster::warningT(q->parentWindow(),
 								   UpdateController::tr("Check for Updates"),
 								   UpdateController::tr("Checking for updates was canceled!"));
 		}

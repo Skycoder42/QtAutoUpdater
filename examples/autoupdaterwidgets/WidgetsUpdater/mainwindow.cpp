@@ -63,12 +63,13 @@ void MainWindow::on_cancelButton_clicked()
 void MainWindow::on_activeBox_toggled(bool checked)
 {
 	if (controller) {
+		controller->updater()->deleteLater();
 		controller->deleteLater();
 		controller = nullptr;
 	}
 
 	if (checked) {
-		const auto updater = QtAutoUpdater::Updater::create(ui->configPathLineEdit->text());
+		const auto updater = QtAutoUpdater::Updater::create(ui->configPathLineEdit->text(), qApp);
 		if (!updater) {
 			QMessageBox::critical(this,
 								  tr("Configuration invalid"),
@@ -77,9 +78,9 @@ void MainWindow::on_activeBox_toggled(bool checked)
 			return;
 		}
 		if(ui->hasParentWindowCheckBox->isChecked())
-			controller = new QtAutoUpdater::UpdateController{updater, this, qApp};
+			controller = new QtAutoUpdater::UpdateController{updater, this};
 		else
-			controller = new QtAutoUpdater::UpdateController{updater, qApp};
+			controller = new QtAutoUpdater::UpdateController{updater};
 		controller->setDesktopFileName(QStringLiteral("WidgetsUpdater"));
 		controller->setDisplayLevel(static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
 		auto action = QtAutoUpdater::UpdateController::createUpdateAction(updater, this);
@@ -101,12 +102,6 @@ void MainWindow::on_activeBox_toggled(bool checked)
 	} else {
 		statusBar()->showMessage(tr("not running"));
 	}
-}
-
-void MainWindow::on_hasParentWindowCheckBox_clicked(bool checked)
-{
-	if(controller)
-		controller->setParentWindow(checked ? this : nullptr);
 }
 
 void MainWindow::on_displayLevelComboBox_currentIndexChanged(int index)
