@@ -23,13 +23,18 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateButtonPrivate : public QWidgetPrivate
 	Q_DECLARE_PUBLIC(UpdateButton)
 
 public:
+	using Mode = UpdateButton::Mode;
+	using ModeFlag = UpdateButton::ModeFlag;
+
 	QPointer<Updater> updater;
 	QScopedPointer<Ui::UpdateButton> ui;
+	Mode mode = ModeFlag::AllowAndShowAll;
 	QMovie *loadingGif;
-	bool showResult = true;
 
 	void _q_changeUpdaterState(Updater::State state);
+	void _q_updateStatus(double progress, const QString &status);
 	void _q_updaterDestroyed();
+	void _q_clicked();
 };
 
 }

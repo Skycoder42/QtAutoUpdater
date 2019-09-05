@@ -138,7 +138,8 @@ void UpdateController::setUpdater(Updater *updater)
 	if (updater) {
 		d->updater->setParent(this);
 		QObjectPrivate::connect(d->updater, &Updater::stateChanged,
-								d, &UpdateControllerPrivate::_q_updaterStateChanged);
+								d, &UpdateControllerPrivate::_q_updaterStateChanged,
+								Qt::QueuedConnection);
 		QObjectPrivate::connect(d->updater, &Updater::showInstaller,
 								d, &UpdateControllerPrivate::_q_showInstaller);
 		d->_q_updaterStateChanged(d->updater->state());

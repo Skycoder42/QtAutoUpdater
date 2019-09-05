@@ -80,6 +80,8 @@ Updater::Updater(QObject *parent) :
 Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 	QObject{dd, parent}
 {
+	qRegisterMetaType<State>();
+
 	Q_D(Updater);
 	d->scheduler = new SimpleScheduler{this};
 
