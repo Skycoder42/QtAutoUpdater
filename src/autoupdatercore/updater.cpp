@@ -8,14 +8,14 @@
 #include <QtCore/QStandardPaths>
 #include <QtCore/QDebug>
 #include <QtCore/private/qfactoryloader_p.h>
+using namespace QtAutoUpdater;
+using namespace std::chrono;
 
 namespace QtAutoUpdater {
 
 Q_LOGGING_CATEGORY(logUpdater, "qt.autoupdater.core.Updater")
 
 }
-
-using namespace QtAutoUpdater;
 
 Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
 						  (QtAutoUpdater_UpdaterPlugin_iid,
@@ -190,15 +190,15 @@ QList<UpdateInfo> Updater::updateInfo() const
 	return d->updateInfos;
 }
 
+int Updater::scheduleUpdate(std::chrono::seconds delaySeconds, bool repeated)
+{
+	Q_D(Updater);
+	return d->scheduler->startSchedule(duration_cast<milliseconds>(delaySeconds), repeated);
+}
+
 int Updater::scheduleUpdate(int delaySeconds, bool repeated)
 {
-	if((static_cast<qint64>(delaySeconds) * 1000ll) > static_cast<qint64>(std::numeric_limits<int>::max())) {
-		qCWarning(logUpdater) << "delaySeconds to big to be converted to msecs";
-		return 0;
-	}
-
-	Q_D(Updater);
-	return d->scheduler->startSchedule(delaySeconds * 1000, repeated);
+	return scheduleUpdate(seconds{delaySeconds}, repeated);
 }
 
 int Updater::scheduleUpdate(const QDateTime &when)

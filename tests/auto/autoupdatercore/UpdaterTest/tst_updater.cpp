@@ -2,6 +2,9 @@
 #include <QtAutoUpdaterCore>
 using namespace QtAutoUpdater;
 using namespace std::chrono;
+using namespace std::chrono_literals;
+
+Q_DECLARE_METATYPE(seconds)
 
 class UpdaterTest : public QObject
 {
@@ -28,6 +31,7 @@ private:
 
 void UpdaterTest::initTestCase()
 {
+	qRegisterMetaType<seconds>();
 	qRegisterMetaType<UpdateInstaller*>();
 }
 
@@ -216,24 +220,24 @@ void UpdaterTest::testAbort()
 
 void UpdaterTest::testSchedule_data()
 {
-	QTest::addColumn<int>("delay");
+	QTest::addColumn<seconds>("delay");
 	QTest::addColumn<bool>("repeated");
 	QTest::addColumn<bool>("cancel");
 
-	QTest::newRow("standard") << 3
+	QTest::newRow("standard") << 3s
 							  << false
 							  << false;
-	QTest::newRow("canceled") << 3
+	QTest::newRow("canceled") << 3s
 							  << false
 							  << true;
-	QTest::newRow("standard") << 3
+	QTest::newRow("standard") << 3s
 							  << true
 							  << false;
 }
 
 void UpdaterTest::testSchedule()
 {
-	QFETCH(int, delay);
+	QFETCH(seconds, delay);
 	QFETCH(bool, repeated);
 	QFETCH(bool, cancel);
 
@@ -255,9 +259,9 @@ void UpdaterTest::testSchedule()
 	do {
 		if (cancel) {
 			updater->cancelScheduledUpdate(id);
-			QVERIFY(!stateSpy.wait(delay * 1000 + 1010));
+			QVERIFY(!stateSpy.wait(static_cast<int>((delay + 1010ms).count())));
 		} else {
-			QVERIFY(stateSpy.wait(delay * 1000 + 1010));
+			QVERIFY(stateSpy.wait(static_cast<int>((delay + 1010ms).count())));
 			QCOMPARE(stateSpy.size(), 1);
 			QCOMPARE(stateSpy[0][0].value<Updater::State>(), Updater::State::Checking);
 			updater->abortUpdateCheck(0);

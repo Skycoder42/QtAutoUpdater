@@ -1,6 +1,8 @@
 #ifndef QTAUTOUPDATER_SIMPLESCHEDULER_P_H
 #define QTAUTOUPDATER_SIMPLESCHEDULER_P_H
 
+#include <chrono>
+
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
@@ -20,8 +22,8 @@ public:
 	explicit SimpleScheduler(QObject *parent = nullptr);
 
 public Q_SLOTS:
-	int startSchedule(int msecs, bool repeated = false, const QVariant &parameter = QVariant());
-	int startSchedule(const QDateTime &when, const QVariant &parameter = QVariant());
+	int startSchedule(std::chrono::milliseconds msecs, bool repeated = false, const QVariant &parameter = {});
+	int startSchedule(const QDateTime &when, const QVariant &parameter = {});
 	void cancelSchedule(int id);
 
 Q_SIGNALS:

@@ -74,6 +74,7 @@ public:
 	bool willRunOnExit() const;
 
 	//! Schedules an update after a specific delay, optionally repeated
+	int scheduleUpdate(std::chrono::seconds delaySeconds, bool repeated = false);
 	Q_INVOKABLE int scheduleUpdate(int delaySeconds, bool repeated = false);
 	template <typename TRep, typename TPeriod>
 	int scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated = false);

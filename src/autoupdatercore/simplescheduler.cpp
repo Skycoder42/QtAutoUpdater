@@ -4,6 +4,8 @@
 #include <QtCore/QTimerEvent>
 #include <QtCore/QDebug>
 using namespace QtAutoUpdater;
+using namespace std::chrono;
+using namespace std::chrono_literals;
 
 namespace QtAutoUpdater {
 
@@ -15,9 +17,9 @@ SimpleScheduler::SimpleScheduler(QObject *parent) :
 	QObject{parent}
 {}
 
-int SimpleScheduler::startSchedule(int msecs, bool repeated, const QVariant &parameter)
+int SimpleScheduler::startSchedule(std::chrono::milliseconds msecs, bool repeated, const QVariant &parameter)
 {
-	if(msecs < 0) {
+	if(msecs < 0ms) {
 		qCWarning(logScheduler) << "Cannot schedule update tasks for the past!";
 		return 0;
 	}
@@ -30,12 +32,8 @@ int SimpleScheduler::startSchedule(int msecs, bool repeated, const QVariant &par
 
 int SimpleScheduler::startSchedule(const QDateTime &when, const QVariant &parameter)
 {
-	const auto delta = QDateTime::currentDateTime().msecsTo(when);
-	if(delta > static_cast<qint64>(std::numeric_limits<int>::max())) {
-		qCWarning(logScheduler) << "Time interval to big, timepoint to far in the future.";
-		return 0;
-	} else
-		return startSchedule(static_cast<int>(delta), false, parameter);
+	const milliseconds delta {QDateTime::currentDateTime().msecsTo(when)};
+	return startSchedule(delta, false, parameter);
 }
 
 void SimpleScheduler::cancelSchedule(int id)

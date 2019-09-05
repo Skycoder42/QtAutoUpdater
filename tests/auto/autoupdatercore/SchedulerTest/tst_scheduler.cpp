@@ -3,6 +3,7 @@
 #include <QtAutoUpdaterCore/private/simplescheduler_p.h>
 using namespace QtAutoUpdater;
 using namespace std::chrono;
+using namespace std::chrono_literals;
 
 class SchedulerTest : public QObject
 {
@@ -24,7 +25,7 @@ void SchedulerTest::testSimpleScheduling()
 	QSignalSpy triggerSpy{scheduler.data(), &SimpleScheduler::scheduleTriggered};
 
 	QVariant data = 0;
-	scheduler->startSchedule(3000, false, data);
+	scheduler->startSchedule(3s, false, data);
 	QVERIFY(!triggerSpy.wait(1990));
 	QVERIFY(triggerSpy.wait(2020));
 	QCOMPARE(triggerSpy.size(), 1);
@@ -37,7 +38,7 @@ void SchedulerTest::testCancelScheduling()
 	QSignalSpy triggerSpy{scheduler.data(), &SimpleScheduler::scheduleTriggered};
 
 	QVariant data = 1;
-	auto id = scheduler->startSchedule(2000, false, data);
+	auto id = scheduler->startSchedule(2s, false, data);
 	scheduler->cancelSchedule(id);
 	QVERIFY(!triggerSpy.wait(3010));
 }
@@ -48,7 +49,7 @@ void SchedulerTest::testLoopedScheduling()
 	QSignalSpy triggerSpy{scheduler.data(), &SimpleScheduler::scheduleTriggered};
 
 	QVariant data = 2;
-	auto id = scheduler->startSchedule(1000, true, data);
+	auto id = scheduler->startSchedule(1s, true, data);
 	for (auto i = 0; i < 4; ++i)
 		QVERIFY(triggerSpy.wait(2010));
 	scheduler->cancelSchedule(id);
