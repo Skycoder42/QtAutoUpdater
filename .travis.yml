@@ -22,9 +22,27 @@ matrix:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
         - BUILD_EXAMPLES=true
+    - os: linux
+      env:
+        - PLATFORM=android_arm64_v8a
+    - os: linux
+      env:
+        - PLATFORM=android_x86_64
+    - os: linux
+      env:
+        - PLATFORM=android_armv7
+    - os: linux
+      env:
+        - PLATFORM=android_x86
+    - os: linux
+      env:
+        - PLATFORM=wasm_32
     - os: osx
       env:
         - PLATFORM=clang_64
+    - os: osx
+      env:
+        - PLATFORM=ios
 
 before_install:
   - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
