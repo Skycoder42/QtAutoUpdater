@@ -58,7 +58,7 @@ win32 {
 
 QDEP_DEPENDS += \
 	Skycoder42/DialogMaster@1.4.0 \
-	Skycoder42/QTaskbarControl@1.2.2
+	Skycoder42/QTaskbarControl@1.3.0
 
 !load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
 
