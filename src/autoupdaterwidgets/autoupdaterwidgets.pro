@@ -3,7 +3,7 @@ TARGET = QtAutoUpdaterWidgets
 QT = core gui widgets autoupdatercore autoupdatercore-private widgets-private gui-private core-private
 # from taskbar control, must be done here because load(qt_module) preceds load(qdep)
 win32:!winrt: QT += winextras
-else:osx: QT += macextras
+else:osx:!ios: QT += macextras
 else:linux:!android:!emscripten: QT += dbus
 
 HEADERS += \
@@ -58,7 +58,7 @@ win32 {
 
 QDEP_DEPENDS += \
 	Skycoder42/DialogMaster@1.4.0 \
-	Skycoder42/QTaskbarControl@1.3.1
+	Skycoder42/QTaskbarControl@1.3.2
 
 !load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
 
