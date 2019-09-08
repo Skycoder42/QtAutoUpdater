@@ -25,14 +25,14 @@ SOURCES += \
 	updaterplugin.cpp
 
 win32:!winrt: SOURCES += adminauthoriser_win.cpp
-else:mac: SOURCES += adminauthoriser_mac.cpp
+else:mac:!ios: SOURCES += adminauthoriser_mac.cpp
 else:unix:!emscripten:!android: SOURCES += adminauthoriser_x11.cpp
 else: SOURCES += adminauthoriser_dummy.cpp
 
 load(qt_module)
 
-win32: LIBS += -lAdvapi32 -lOle32 -lShell32
-else:mac: LIBS += -framework Security
+win32:!winrt: LIBS += -lAdvapi32 -lOle32 -lShell32
+else:mac:!ios: LIBS += -framework Security
 
 QMAKE_EXTRA_TARGETS += lrelease
 
