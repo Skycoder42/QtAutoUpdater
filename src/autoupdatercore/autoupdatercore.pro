@@ -26,7 +26,7 @@ SOURCES += \
 
 win32:!winrt: SOURCES += adminauthoriser_win.cpp
 else:mac:!ios: SOURCES += adminauthoriser_mac.cpp
-else:unix:!emscripten:!android: SOURCES += adminauthoriser_x11.cpp
+else:unix:qtConfig(process): SOURCES += adminauthoriser_x11.cpp
 else: SOURCES += adminauthoriser_dummy.cpp
 
 load(qt_module)
