@@ -39,6 +39,7 @@ TRANSLATIONS += \
 	translations/qtautoupdaterwidgets_de.ts \
 	translations/qtautoupdaterwidgets_es.ts \
 	translations/qtautoupdaterwidgets_fr.ts \
+	translations/qtautoupdaterwidgets_ar.ts \
 	translations/qtautoupdaterwidgets_template.ts
 
 DISTFILES += $$TRANSLATIONS
