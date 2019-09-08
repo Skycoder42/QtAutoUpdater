@@ -3,7 +3,10 @@ TEMPLATE = subdirs
 SUBDIRS += \
 	cmake \
 	autoupdatercore \
-	autoupdaterwidgets
+	autoupdaterwidgets \
+	plugins
+
+plugins.depends += autoupdatercore
 
 cmake.CONFIG += no_run-tests_target
 prepareRecursiveTarget(run-tests)

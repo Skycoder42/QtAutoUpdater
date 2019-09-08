@@ -14,15 +14,14 @@ class InstallerController : public QObject
 public:
 	explicit InstallerController(QObject *parent = nullptr);
 
-	void createRepository();
-	void createInstaller();
-	void installLocal();
-	void runUpdater();
+	bool createRepository();
+	bool createInstaller();
+	bool installLocal();
 
 	QVersionNumber version() const;
 	QString maintenanceToolPath() const;
 
-public slots:
+public Q_SLOTS:
 	void setVersion(QVersionNumber version);
 
 private:

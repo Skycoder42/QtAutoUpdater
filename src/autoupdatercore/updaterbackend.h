@@ -57,7 +57,7 @@ public:
 
 Q_SIGNALS:
 	void checkProgress(double percent, const QString &status);
-	void checkDone(bool success, const QList<UpdateInfo> &updates = {});
+	void checkDone(bool success, const QList<QtAutoUpdater::UpdateInfo> &updates = {});
 	void triggerInstallDone(bool success);
 
 protected:

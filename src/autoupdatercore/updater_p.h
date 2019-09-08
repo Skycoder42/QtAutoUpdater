@@ -43,7 +43,7 @@ public:
 class Q_AUTOUPDATERCORE_EXPORT VariantConfigReader : public UpdaterBackend::IConfigReader
 {
 public:
-	inline VariantConfigReader(QString &&backend, QVariantMap &&map);
+	VariantConfigReader(QString &&backend, QVariantMap &&map);
 
 	QString backend() const override;
 	std::optional<QVariant> value(const QString &key) const override;
@@ -57,7 +57,7 @@ private:
 class Q_AUTOUPDATERCORE_EXPORT SettingsConfigReader : public UpdaterBackend::IConfigReader
 {
 public:
-	inline SettingsConfigReader(QSettings *settings);
+	SettingsConfigReader(QSettings *settings);
 
 	QString backend() const override;
 	std::optional<QVariant> value(const QString &key) const override;

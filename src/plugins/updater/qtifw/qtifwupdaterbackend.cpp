@@ -51,17 +51,6 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 		runAsAdmin = runAsAdminOpt->toBool();
 	else
 		runAsAdmin = AdminAuthoriser::needsAdminPermission(_process->program());
-//	else {
-//		constexpr auto InvalidUserId = static_cast<uint>(-2);
-//		QFileInfo mtInfo{_process->program()};
-//		QFileInfo procInfo{QCoreApplication::applicationFilePath()};
-//		if (mtInfo.ownerId() == InvalidUserId ||
-//			procInfo.ownerId() == InvalidUserId)
-//			runAsAdmin = mtInfo.owner() != procInfo.owner();
-//		else
-//			runAsAdmin = mtInfo.ownerId() != procInfo.ownerId();
-//	}
-
 
 	if (runAsAdmin) {
 		if (track)

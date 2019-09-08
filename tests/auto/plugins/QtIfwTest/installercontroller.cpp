@@ -2,40 +2,48 @@
 
 #include <QProcess>
 #include <QtTest>
+#include <plugintest.h>
 
-static const QString configFile = QStringLiteral(SRCDIR) + QStringLiteral("../../../installer/config/config.xml");
-static const QString configScript = QStringLiteral(SRCDIR) + QStringLiteral("../../../installer/config/controller.qs");
-static const QString pkgFile = QStringLiteral(SRCDIR) + QStringLiteral("../../../installer/packages/de.skycoder42.QtAutoUpdaterTestInstaller/meta/package.xml");
+static const QString configFile = QStringLiteral(SRCDIR) + QStringLiteral("installer/config/config.xml");
+static const QString configScript = QStringLiteral(SRCDIR) + QStringLiteral("installer/config/controller.qs");
+static const QString pkgFile = QStringLiteral(SRCDIR) + QStringLiteral("installer/packages/de.skycoder42.QtAutoUpdaterTestInstaller/meta/package.xml");
 static const QString binarycreator = QStringLiteral(BINDIR) + QStringLiteral("binarycreator");
 static const QString repogen = QStringLiteral(BINDIR) + QStringLiteral("repogen");
 
 InstallerController::InstallerController(QObject *parent) :
-	QObject(parent),
-	_version(1, 0, 0),
-	_buildDir()
+	QObject{parent}
 {
-	setVersion(_version);
+	setVersion({1, 0, 0});
 }
 
-void InstallerController::createRepository()
+bool InstallerController::createRepository()
 {
+	TEST_WRAP_BEGIN
+
 	qDebug() << "Creating repository";
+	const auto path = QStandardPaths::findExecutable(QStringLiteral("repogen"), {QStringLiteral(BINDIR)});
+	QVERIFY2(!path.isEmpty(), "Searched in path: " BINDIR);
 	auto res = QProcess::execute(repogen, {
 									 QStringLiteral("--update-new-components"),
 									 QStringLiteral("-p"),
 									 _buildDir.path() + QStringLiteral("/packages"),
-									 _buildDir.path() + QStringLiteral("/repository")});
+									 _buildDir.path() + QStringLiteral("/repository")
+								 });
 	QCOMPARE(res, 0);
+
+	TEST_WRAP_END
 }
 
-void InstallerController::createInstaller()
+bool InstallerController::createInstaller()
 {
+	TEST_WRAP_BEGIN
+
 	qDebug() << "Creating installer";
 	QFile configSrc(configFile);
 	QFile configOut(_buildDir.path() + QStringLiteral("/config.xml"));
 
-	QVERIFY(configSrc.open(QIODevice::ReadOnly | QIODevice::Text));
-	QVERIFY(configOut.open(QIODevice::WriteOnly | QIODevice::Text));
+	QVERIFY2(configSrc.open(QIODevice::ReadOnly | QIODevice::Text), qUtf8Printable(configSrc.fileName()));
+	QVERIFY2(configOut.open(QIODevice::WriteOnly | QIODevice::Text), qUtf8Printable(configOut.fileName()));
 	auto src = QString::fromUtf8(configSrc.readAll());
 	configOut.write(src
 					.arg(_buildDir.path() + QStringLiteral("/install"), _buildDir.path())
@@ -49,8 +57,11 @@ void InstallerController::createInstaller()
 									 configOut.fileName(),
 									 QStringLiteral("-p"),
 									 _buildDir.path() + QStringLiteral("/packages"),
-									 _buildDir.path() + QStringLiteral("/QtAutoUpdaterTestInstaller")});
+									 _buildDir.path() + QStringLiteral("/QtAutoUpdaterTestInstaller")
+								 });
 	QCOMPARE(res, 0);
+
+	TEST_WRAP_END
 }
 
 QString InstallerController::toSystemExe(QString basePath)
@@ -69,8 +80,10 @@ QString InstallerController::toSystemExe(QString basePath)
 #endif
 }
 
-void InstallerController::installLocal()
+bool InstallerController::installLocal()
 {
+	TEST_WRAP_BEGIN
+
 	qDebug() << "Installing example";
 	QVERIFY(QFile::exists(toSystemExe(_buildDir.path() + QStringLiteral("/QtAutoUpdaterTestInstaller"))));
 #if defined(Q_OS_WIN32)
@@ -86,12 +99,9 @@ void InstallerController::installLocal()
 								 {QStringLiteral("--script"), configScript});
 #endif
 	QCOMPARE(res, 0);
-	QThread::sleep(3);//wait to make shure the asynchronous renaming completed
-}
+	QThread::sleep(3);  // wait to make shure the asynchronous renaming completed
 
-void InstallerController::runUpdater()
-{
-	qDebug() << "Running updater";
+	TEST_WRAP_END
 }
 
 QVersionNumber InstallerController::version() const
