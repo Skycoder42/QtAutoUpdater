@@ -1,17 +1,12 @@
-#/!bin/bash
-set -ex
+#!/bin/bash
+set -e
 
+currDir=$(dirname $0)
+
+# add packagekit-qt
 if [ $PLATFORM == "gcc_64" ]; then
-	mkdir pkgit && pushd pkgit 
-	
-	scriptDir=../src/3rdparty/PackageKit-Qt
-	sed -i 's/set(BUILD_SHARED_LIBS ON)/set(BUILD_SHARED_LIBS OFF)/g' "$scriptDir/CMakeLists.txt"
-
-	export CMAKE_PREFIX_PATH=/opt/qt/$QT_VER/$PLATFORM:$CMAKE_PREFIX_PATH
-	cmake $scriptDir
-	make
-	make install
-	
-	popd
-	pkgconf --exists packagekitqt5
+	# prepend pre build script
+	mv qtmodules-travis/ci/linux/build-docker.sh qtmodules-travis/ci/linux/build-docker.sh.orig
+	mv "$currDir/travis_pkgkit.sh" qtmodules-travis/ci/linux/build-docker.sh
+	cat qtmodules-travis/ci/linux/build-docker.sh.orig >> qtmodules-travis/ci/linux/build-docker.sh
 fi
