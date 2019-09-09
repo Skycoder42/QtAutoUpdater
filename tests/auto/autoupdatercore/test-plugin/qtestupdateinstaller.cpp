@@ -18,7 +18,7 @@ UpdateInstaller::Features QTestUpdateInstaller::features() const
 	return static_cast<Features>(_config->value(QStringLiteral("installer/features"), DefaultFeatures).toInt());
 }
 
-void QTestUpdateInstaller::eulaHandled(QUuid id, bool accepted)
+void QTestUpdateInstaller::eulaHandled(const QVariant &id, bool accepted)
 {
 	if (accepted) {
 		if (--_openEulas == 0)

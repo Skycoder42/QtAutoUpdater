@@ -16,7 +16,7 @@ public:
 	Features features() const override;
 
 public Q_SLOTS:
-	void eulaHandled(QUuid id, bool accepted) override;
+	void eulaHandled(const QVariant &id, bool accepted) override;
 	void cancelInstall() override;
 
 protected:

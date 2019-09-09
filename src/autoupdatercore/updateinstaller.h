@@ -42,7 +42,7 @@ public:
 public Q_SLOTS:
 	virtual void startInstall();
 	virtual void cancelInstall();
-	virtual void eulaHandled(QUuid id, bool accepted) = 0;
+	virtual void eulaHandled(const QVariant &id, bool accepted) = 0;
 
 	virtual void setComponents(QList<QtAutoUpdater::UpdateInfo> components);
 
@@ -51,7 +51,7 @@ public Q_SLOTS:
 Q_SIGNALS:
 	void updateGlobalProgress(double progress, const QString &status = {});
 	void updateComponentProgress(const QVariant &id, double progress, const QString &status = {});
-	void showEula(QUuid id, const QString &htmlText, bool required);
+	void showEula(const QVariant &id, const QString &htmlText, bool required);
 	void installSucceeded(bool shouldRestart);
 	void installFailed(const QString &errorMessage);
 

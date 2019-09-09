@@ -5,10 +5,12 @@ CONFIG += link_pkgconfig
 PKGCONFIG += packagekitqt5
 
 HEADERS += \
+	qpackagekitupdateinstaller.h \
 	qpackagekitupdaterbackend.h \
 	qpackagekitupdaterplugin.h
 
 SOURCES += \
+	qpackagekitupdateinstaller.cpp \
 	qpackagekitupdaterbackend.cpp \
 	qpackagekitupdaterplugin.cpp
 

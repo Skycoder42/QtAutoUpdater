@@ -222,7 +222,7 @@ void InstallPage::updateGlobalProgress(double percentage, const QString &status)
 		_ui->statusLabel->setText(status);
 }
 
-void InstallPage::showEula(QUuid id, const QString &htmlText, bool required)
+void InstallPage::showEula(const QVariant &id, const QString &htmlText, bool required)
 {
 	if (required) {
 		auto res = DialogMaster::question(this,

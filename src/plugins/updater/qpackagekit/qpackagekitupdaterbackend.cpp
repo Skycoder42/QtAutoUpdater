@@ -1,7 +1,88 @@
 #include "qpackagekitupdaterbackend.h"
+#include "qpackagekitupdateinstaller.h"
 #include <Daemon>
 using namespace QtAutoUpdater;
 using namespace PackageKit;
+
+QString QPackageKitUpdaterBackend::statusString(Transaction::Status status)
+{
+	switch (status) {
+	case PackageKit::Transaction::StatusWait:
+		return tr("Please wait…");
+	case PackageKit::Transaction::StatusSetup:
+		return tr("Setting up…");
+	case PackageKit::Transaction::StatusRunning:
+		return tr("Running…");
+	case PackageKit::Transaction::StatusQuery:
+		return tr("Querying database…");
+	case PackageKit::Transaction::StatusInfo:
+		return tr("Showing information…");
+	case PackageKit::Transaction::StatusRemove:
+		return tr("Removing packages…");
+	case PackageKit::Transaction::StatusRefreshCache:
+		return tr("Refreshing package cache…");
+	case PackageKit::Transaction::StatusDownload:
+		return tr("Downloading packages…");
+	case PackageKit::Transaction::StatusInstall:
+		return tr("Installing packages…");
+	case PackageKit::Transaction::StatusUpdate:
+		return tr("Updating packages…");
+	case PackageKit::Transaction::StatusCleanup:
+		return tr("Cleaning up…");
+	case PackageKit::Transaction::StatusObsolete:
+		return tr("Package obsolete!");
+	case PackageKit::Transaction::StatusDepResolve:
+		return tr("Resolving package dependencies…");
+	case PackageKit::Transaction::StatusSigCheck:
+		return tr("Verifying package signatures…");
+	case PackageKit::Transaction::StatusTestCommit:
+		return tr("Testing for commit…");
+	case PackageKit::Transaction::StatusCommit:
+		return tr("Committing updates…");
+	case PackageKit::Transaction::StatusRequest:
+		return tr("Sending request…");
+	case PackageKit::Transaction::StatusFinished:
+		return tr("Finished.");
+	case PackageKit::Transaction::StatusCancel:
+		return tr("Canceling…");
+	case PackageKit::Transaction::StatusDownloadRepository:
+		return tr("Downloading package repositories…");
+	case PackageKit::Transaction::StatusDownloadPackagelist:
+		return tr("Downloading package list…");
+	case PackageKit::Transaction::StatusDownloadFilelist:
+		return tr("Downloading file list…");
+	case PackageKit::Transaction::StatusDownloadChangelog:
+		return tr("Downloading changelog…");
+	case PackageKit::Transaction::StatusDownloadGroup:
+		return tr("Downloading package group…");
+	case PackageKit::Transaction::StatusDownloadUpdateinfo:
+		return tr("Downloading update infos…");
+	case PackageKit::Transaction::StatusRepackaging:
+		return tr("Repackaging…");
+	case PackageKit::Transaction::StatusLoadingCache:
+		return tr("Loading cache…");
+	case PackageKit::Transaction::StatusScanApplications:
+		return tr("Scanning applications…");
+	case PackageKit::Transaction::StatusGeneratePackageList:
+		return tr("Generating package list…");
+	case PackageKit::Transaction::StatusWaitingForLock:
+		return tr("Waiting for lock…");
+	case PackageKit::Transaction::StatusWaitingForAuth:
+		return tr("Waiting for authentication…");
+	case PackageKit::Transaction::StatusScanProcessList:
+		return tr("Scanning processes…");
+	case PackageKit::Transaction::StatusCheckExecutableFiles:
+		return tr("Verifying executables…");
+	case PackageKit::Transaction::StatusCheckLibraries:
+		return tr("Verifying libraries…");
+	case PackageKit::Transaction::StatusCopyFiles:
+		return tr("Copying files…");
+	case PackageKit::Transaction::StatusRunHook:
+		return tr("Running install hooks…");
+	case PackageKit::Transaction::StatusUnknown:
+		return {};
+	}
+}
 
 QPackageKitUpdaterBackend::QPackageKitUpdaterBackend(QString &&key, QObject *parent) :
 	UpdaterBackend{std::move(key), parent}
@@ -19,6 +100,9 @@ void QPackageKitUpdaterBackend::checkForUpdates()
 		return;
 
 	_updates.clear();
+	_lastPercent = -1.0;
+	_lastStatus.clear();
+
 	_checkTrans = Daemon::getUpdates(Transaction::FilterInstalled);
 	connect(_checkTrans, &Transaction::percentageChanged,
 			this, &QPackageKitUpdaterBackend::percentageChanged);
@@ -45,16 +129,18 @@ bool QPackageKitUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool)
 
 UpdateInstaller *QPackageKitUpdaterBackend::createInstaller()
 {
-	Q_UNIMPLEMENTED();
-	return nullptr;
+	return new QPackageKitUpdateInstaller{this};
 }
 
 bool QPackageKitUpdaterBackend::initialize()
 {
 	auto pData = config()->value(QStringLiteral("packages"));
 	if (pData) {
-		_packageFilter = pData->toString().split(QLatin1Char(';'));
-		return true;
+		if (pData->userType() == QMetaType::QStringList)
+			_packageFilter = pData->toStringList();
+		else
+			_packageFilter = pData->toString().split(QLatin1Char(';'));
+		return !_packageFilter.isEmpty();
 	} else {
 		qCCritical(logCat()) << "Configuration for packagekit must contain 'packages'";
 		return false;
@@ -70,30 +156,7 @@ void QPackageKitUpdaterBackend::percentageChanged()
 
 void QPackageKitUpdaterBackend::statusChanged()
 {
-	switch (_checkTrans->status()) {
-	case PackageKit::Transaction::StatusSetup:
-	case PackageKit::Transaction::StatusQuery:
-		_lastStatus = tr("Setting up…");
-		break;
-	case PackageKit::Transaction::StatusDownloadRepository:
-		_lastStatus = tr("Downloading package repositories…");
-		break;
-	case PackageKit::Transaction::StatusDownloadPackagelist:
-		_lastStatus = tr("Downloading package update list…");
-		break;
-	case PackageKit::Transaction::StatusDownloadChangelog:
-		_lastStatus = tr("Downloading changelog…");
-		break;
-	case PackageKit::Transaction::StatusDownloadUpdateinfo:
-		_lastStatus = tr("Downloading update details…");
-		break;
-	case PackageKit::Transaction::StatusGeneratePackageList:
-		_lastStatus = tr("Generating update list…");
-		break;
-	default:
-		_lastStatus = tr("Please wait…");
-		break;
-	}
+	_lastStatus = statusString(_checkTrans->status());
 	emit checkProgress(_lastPercent, _lastStatus);
 }
 

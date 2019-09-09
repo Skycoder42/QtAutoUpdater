@@ -39,10 +39,8 @@ int main(int argc, char *argv[])
 			qInfo() << "Starting updater...";
 			if (updater->runUpdater(true))
 				qApp->quit();
-			else {
-				Q_UNIMPLEMENTED();
-				qApp->quit();
-			}
+			else
+				qApp->exit(EXIT_FAILURE);
 		} else
 			qApp->quit();
 	});

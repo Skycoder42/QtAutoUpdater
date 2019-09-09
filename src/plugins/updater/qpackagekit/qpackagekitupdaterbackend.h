@@ -3,6 +3,7 @@
 
 #include <transaction.h>
 
+#include <QtCore/QPointer>
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
 class QPackageKitUpdaterBackend : public QtAutoUpdater::UpdaterBackend
@@ -10,6 +11,8 @@ class QPackageKitUpdaterBackend : public QtAutoUpdater::UpdaterBackend
 	Q_OBJECT
 
 public:
+	static QString statusString(PackageKit::Transaction::Status status);
+
 	explicit QPackageKitUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
@@ -30,7 +33,7 @@ private Q_SLOTS:
 
 private:
 	QStringList _packageFilter;
-	PackageKit::Transaction *_checkTrans = nullptr;
+	QPointer<PackageKit::Transaction> _checkTrans;
 	QList<QtAutoUpdater::UpdateInfo> _updates;
 
 	double _lastPercent = -1.0;

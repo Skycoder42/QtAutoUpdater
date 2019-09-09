@@ -89,7 +89,7 @@ public:
 
 private Q_SLOTS:
 	void updateGlobalProgress(double percentage, const QString &status);
-	void showEula(QUuid id, const QString &htmlText, bool required);
+	void showEula(const QVariant &id, const QString &htmlText, bool required);
 	void installSucceeded(bool shouldRestart);
 	void installFailed(const QString &errorMessage);
 
