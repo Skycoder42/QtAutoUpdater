@@ -3,7 +3,14 @@ set -ex
 
 if [ $PLATFORM == "gcc_64" ]; then
 	mkdir pkgit && pushd pkgit 
-	PATH=/opt/qt/$QT_VER/$PLATFORM/bin:$PATH ../src/3rdparty/build-pkgkit-qt.sh
+	
+	scriptDir=../src/3rdparty/PackageKit-Qt
+	sed -i 's/set(BUILD_SHARED_LIBS ON)/set(BUILD_SHARED_LIBS OFF)/g' "$scriptDir/CMakeLists.txt"
+
+	PATH=/opt/qt/$QT_VER/$PLATFORM/bin:$PATH cmake $scriptDir
+	make
+	make install
+	
 	popd
 	pkgconf --exists packagekitqt5
 fi
