@@ -16,18 +16,6 @@ UpdaterBackend::IConfigReader *UpdaterBackend::config() const
 	return d->config.data();
 }
 
-const QLoggingCategory &UpdaterBackend::logCat() const
-{
-	Q_D(const UpdaterBackend);
-	return d->logCat;
-}
-
-QByteArray UpdaterBackend::logCatBase() const
-{
-	Q_D(const UpdaterBackend);
-	return d->logCat.categoryName();
-}
-
 QString UpdaterBackend::key() const
 {
 	Q_D(const UpdaterBackend);
@@ -44,14 +32,5 @@ bool UpdaterBackend::initialize(QScopedPointer<UpdaterBackend::IConfigReader> &&
 // ------------- private implementation -------------
 
 UpdaterBackendPrivate::UpdaterBackendPrivate(QString &&pKey) :
-	key{std::move(pKey)},
-	logCatStr{"qt.autoupdater.core.plugin." + key.toUtf8()},
-	logCat{
-		logCatStr,
-#ifdef QT_NO_DEBUG
-		QtInfoMsg
-#else
-		QtDebugMsg
-#endif
-	}
+	key{std::move(pKey)}
 {}

@@ -6,6 +6,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QFileInfo>
 #include <QtCore/QXmlStreamReader>
+#include <QtCore/QLoggingCategory>
 
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
@@ -38,5 +39,7 @@ private:
 	void checkReader(QXmlStreamReader &reader);
 	Q_NORETURN void throwUnexpectedElement(QXmlStreamReader &reader);
 };
+
+Q_DECLARE_LOGGING_CATEGORY(logQtIfwBackend)
 
 #endif // QTIFWUPDATERBACKEND_H

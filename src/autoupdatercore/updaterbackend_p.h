@@ -15,8 +15,6 @@ public:
 	UpdaterBackendPrivate(QString &&pKey);
 
 	QString key;
-	QByteArray logCatStr;
-	QLoggingCategory logCat;
 	QScopedPointer<UpdaterBackend::IConfigReader> config;
 };
 

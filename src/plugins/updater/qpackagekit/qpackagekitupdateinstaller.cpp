@@ -1,11 +1,12 @@
 #include "qpackagekitupdateinstaller.h"
 #include "qpackagekitupdaterbackend.h"
 #include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 #include <daemon.h>
 #include <unistd.h>
 using namespace QtAutoUpdater;
 using namespace PackageKit;
+
+Q_LOGGING_CATEGORY(logPackageKitInstaller, "qt.autoupdater.core.plugin.packagekit.installer")
 
 QPackageKitUpdateInstaller::QPackageKitUpdateInstaller(QObject *parent) :
 	UpdateInstaller{parent}
@@ -23,7 +24,7 @@ void QPackageKitUpdateInstaller::cancelInstall()
 	if (_installTrans && _installTrans->allowCancel())
 		_installTrans->cancel();
 	else
-		qWarning() << "Canceling is not allowed!";
+		qCWarning(logPackageKitInstaller) << "Canceling is not allowed!";
 }
 
 void QPackageKitUpdateInstaller::eulaHandled(const QVariant &id, bool accepted)
@@ -60,7 +61,7 @@ void QPackageKitUpdateInstaller::restartApplication()
 	for (auto i = 0; i < argv.size(); ++i)
 		argv[i] = argList[i].data();
 	::execv(qUtf8Printable(QCoreApplication::applicationFilePath()), argv.data());
-	abort();
+	qCCritical(logPackageKitInstaller) << "Failed to restart application";
 }
 
 void QPackageKitUpdateInstaller::startInstallImpl()
@@ -133,8 +134,8 @@ void QPackageKitUpdateInstaller::errorCode(Transaction::Error code, const QStrin
 {
 	_installTrans->disconnect(this);
 	_installTrans->deleteLater();
-	qCritical() << "Update-Install-Transaction failed with code" << code
-				<< "and message:" << qUtf8Printable(details);
+	qCCritical(logPackageKitInstaller) << "Update-Install-Transaction failed with code" << code
+									   << "and message:" << qUtf8Printable(details);
 	emit installFailed(details);
 }
 

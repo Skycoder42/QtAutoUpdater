@@ -4,6 +4,7 @@
 #include <transaction.h>
 
 #include <QtCore/QPointer>
+#include <QtCore/QLoggingCategory>
 #include <QtAutoUpdaterCore/UpdateInstaller>
 
 class QPackageKitUpdateInstaller : public QtAutoUpdater::UpdateInstaller
@@ -18,7 +19,7 @@ public:
 public Q_SLOTS:
 	void cancelInstall() override;
 	void eulaHandled(const QVariant &id, bool accepted) override;
-	Q_NORETURN void restartApplication() override;
+	void restartApplication() override;
 
 protected:
 	void startInstallImpl() override;
@@ -41,5 +42,7 @@ private:
 
 	QHash<QString, QString> _packageMap;
 };
+
+Q_DECLARE_LOGGING_CATEGORY(logPackageKitInstaller)
 
 #endif // QPACKAGEKITUPDATEINSTALLER_H

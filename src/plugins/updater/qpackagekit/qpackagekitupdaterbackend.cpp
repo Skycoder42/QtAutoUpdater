@@ -4,6 +4,8 @@
 using namespace QtAutoUpdater;
 using namespace PackageKit;
 
+Q_LOGGING_CATEGORY(logPackageKitBackend, "qt.autoupdater.core.plugin.packagekit.backend")
+
 QString QPackageKitUpdaterBackend::statusString(Transaction::Status status)
 {
 	switch (status) {
@@ -81,6 +83,9 @@ QString QPackageKitUpdaterBackend::statusString(Transaction::Status status)
 		return tr("Running install hooks…");
 	case PackageKit::Transaction::StatusUnknown:
 		return {};
+	default:
+		Q_UNREACHABLE();
+		return {};
 	}
 }
 
@@ -142,7 +147,7 @@ bool QPackageKitUpdaterBackend::initialize()
 			_packageFilter = pData->toString().split(QLatin1Char(';'));
 		return !_packageFilter.isEmpty();
 	} else {
-		qCCritical(logCat()) << "Configuration for packagekit must contain 'packages'";
+		qCCritical(logPackageKitBackend) << "Configuration for packagekit must contain 'packages'";
 		return false;
 	}
 }
@@ -188,8 +193,8 @@ void QPackageKitUpdaterBackend::errorCode(Transaction::Error code, const QString
 {
 	_checkTrans->disconnect(this);
 	_checkTrans->deleteLater();
-	qCCritical(logCat()) << "Update-Check-Transaction failed with code" << code
-						 << "and message:" << qUtf8Printable(details);
+	qCCritical(logPackageKitBackend) << "Update-Check-Transaction failed with code" << code
+									 << "and message:" << qUtf8Printable(details);
 	emit checkDone(false);
 	_updates.clear();
 }

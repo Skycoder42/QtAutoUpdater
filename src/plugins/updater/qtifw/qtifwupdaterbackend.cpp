@@ -5,6 +5,8 @@
 #include <QtCore/QDebug>
 using namespace QtAutoUpdater;
 
+Q_LOGGING_CATEGORY(logQtIfwBackend, "qt.autoupdater.core.plugin.qtifw.backend")
+
 QtIfwUpdaterBackend::QtIfwUpdaterBackend(QString &&key, QObject *parent) :
 	UpdaterBackend{std::move(key), parent}
 {}
@@ -54,7 +56,7 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 
 	if (runAsAdmin) {
 		if (track)
-			qCWarning(logCat()) << "Unable to track progress of application executed as root user!";
+			qCWarning(logQtIfwBackend) << "Unable to track progress of application executed as root user!";
 		const auto ok = AdminAuthoriser::executeAsAdmin(_process->program(),
 														_process->arguments(),
 														_process->workingDirectory());
@@ -79,7 +81,7 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 			if (QProcess::startDetached(_process->program(), arguments, _process->workingDirectory()))
 				return true;
 			else {
-				qCCritical(logCat()) << "Failed to start" << _process->program() << "to install updates";
+				qCCritical(logQtIfwBackend) << "Failed to start" << _process->program() << "to install updates";
 				return false;
 			}
 		}
@@ -95,8 +97,8 @@ bool QtIfwUpdaterBackend::initialize()
 {
 	auto mtInfo = findMaintenanceTool();
 	if (!mtInfo) {
-		qCCritical(logCat()) << "Path to maintenancetool could not be determined or does not exist. "
-								"Use the 'path' configuration parameter to explicitly specify it";
+		qCCritical(logQtIfwBackend) << "Path to maintenancetool could not be determined or does not exist. "
+									   "Use the 'path' configuration parameter to explicitly specify it";
 		return false;
 	}
 
@@ -136,8 +138,8 @@ void QtIfwUpdaterBackend::updaterReady(int exitCode, QProcess::ExitStatus exitSt
 
 void QtIfwUpdaterBackend::updaterError(QProcess::ProcessError procError)
 {
-	qCCritical(logCat()) << "Maintenancetool-Error:"
-						 << qUtf8Printable(_process->errorString());
+	qCCritical(logQtIfwBackend) << "Maintenancetool-Error:"
+								<< qUtf8Printable(_process->errorString());
 	if (procError == QProcess::FailedToStart) {
 		emit checkDone(false);
 		_process->close();
@@ -214,7 +216,7 @@ std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates()
 			info.setSize(reader.attributes().value(QStringLiteral("size")).toULongLong(&ok));
 
 			if(info.name().isEmpty() || info.version().isNull() || !ok) {
-				qCCritical(logCat()) << "Invalid <update> XML-Element, attributes are incomplete or unparsable";
+				qCCritical(logQtIfwBackend) << "Invalid <update> XML-Element, attributes are incomplete or unparsable";
 				throw std::nullopt;
 			} if(reader.readNextStartElement())
 				throwUnexpectedElement(reader);
@@ -234,13 +236,13 @@ std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates()
 void QtIfwUpdaterBackend::checkReader(QXmlStreamReader &reader)
 {
 	if(reader.hasError()) {
-		qCCritical(logCat()) << "XML parse error:" << qUtf8Printable(reader.errorString());
+		qCCritical(logQtIfwBackend) << "XML parse error:" << qUtf8Printable(reader.errorString());
 		throw std::nullopt;
 	}
 }
 
 void QtIfwUpdaterBackend::throwUnexpectedElement(QXmlStreamReader &reader)
 {
-	qCCritical(logCat()) << "Unexpected XML-Element" << reader.name();
+	qCCritical(logQtIfwBackend) << "Unexpected XML-Element" << reader.name();
 	throw std::nullopt;
 }

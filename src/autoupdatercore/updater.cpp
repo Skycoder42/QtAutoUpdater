@@ -182,7 +182,7 @@ bool Updater::runUpdater(bool forceOnExit)
 		}
 	} else if (d->backend->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
 		if (forceOnExit) {
-			qCCritical(d->backend->logCat()) << "Backend does not support installation after exiting";
+			qCCritical(logUpdater) << "Backend" << d->backend->key() << "does not support installation after exiting";
 			return false;
 		} else {
 			auto installer = d->backend->createInstaller();
@@ -212,7 +212,7 @@ bool Updater::runUpdater(bool forceOnExit)
 				return false;
 		}
 	} else {
-		qCCritical(d->backend->logCat()) << "Backend does not support installation";
+		qCCritical(logUpdater) << "Backend" << d->backend->key() << "does not support installation";
 		return false;
 	}
 }

@@ -4,6 +4,7 @@
 #include <transaction.h>
 
 #include <QtCore/QPointer>
+#include <QtCore/QLoggingCategory>
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
 class QPackageKitUpdaterBackend : public QtAutoUpdater::UpdaterBackend
@@ -39,5 +40,7 @@ private:
 	double _lastPercent = -1.0;
 	QString _lastStatus;
 };
+
+Q_DECLARE_LOGGING_CATEGORY(logPackageKitBackend)
 
 #endif // QPACKAGEKITUPDATERBACKEND_H

@@ -65,8 +65,6 @@ protected:
 	explicit UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent = nullptr);
 
 	IConfigReader *config() const;
-	const QLoggingCategory &logCat() const;
-	QByteArray logCatBase() const;
 
 	virtual bool initialize() = 0;
 
