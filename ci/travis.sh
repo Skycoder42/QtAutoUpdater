@@ -9,6 +9,4 @@ if [[ $PLATFORM == "gcc_64" ]]; then
 	mv qtmodules-travis/ci/linux/build-docker.sh qtmodules-travis/ci/linux/build-docker.sh.orig
 	mv "$currDir/travis_pkgkit.sh" qtmodules-travis/ci/linux/build-docker.sh
 	cat qtmodules-travis/ci/linux/build-docker.sh.orig >> qtmodules-travis/ci/linux/build-docker.sh
-	
-	cat qtmodules-travis/ci/linux/build-docker.sh
 fi

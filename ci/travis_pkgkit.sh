@@ -2,7 +2,7 @@
 set -ex
 
 apt-get -qq update
-apt-get -qq install cmake packagekit
+apt-get -qq install cmake packagekit pkgconf
 
 mkdir pkgit && cd pkgit 
 
