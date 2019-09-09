@@ -1,7 +1,7 @@
 #ifndef QPACKAGEKITUPDATEINSTALLER_H
 #define QPACKAGEKITUPDATEINSTALLER_H
 
-#include <transaction.h>
+#include <packagekitqt5/PackageKit/Transaction>
 
 #include <QtCore/QPointer>
 #include <QtCore/QLoggingCategory>

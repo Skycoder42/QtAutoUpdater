@@ -26,8 +26,6 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 DEFINES += BINDIR=\\\"$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/$$QT_IFW_VERSION/bin/\\\"
 DEFINES += QTDIR=\\\"$$[QT_INSTALL_BINS]/../../../\\\"
 
-message($$DEFINES)
-
 include($$PWD/../testlib/testlib.pri)
 
 include($$PWD/../../testrun.pri)

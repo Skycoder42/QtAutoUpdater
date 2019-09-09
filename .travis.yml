@@ -49,6 +49,7 @@ before_install:
   - travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh
 
 script:
+  - ./ci/travis.sh
   - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
 
 before_deploy:

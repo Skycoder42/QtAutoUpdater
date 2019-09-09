@@ -1,7 +1,7 @@
 #include "qpackagekitupdateinstaller.h"
 #include "qpackagekitupdaterbackend.h"
 #include <QtCore/QCoreApplication>
-#include <daemon.h>
+#include <packagekitqt5/PackageKit/Daemon>
 #include <unistd.h>
 using namespace QtAutoUpdater;
 using namespace PackageKit;
@@ -30,7 +30,7 @@ void QPackageKitUpdateInstaller::cancelInstall()
 void QPackageKitUpdateInstaller::eulaHandled(const QVariant &id, bool accepted)
 {
 	if (accepted) {
-		auto eulaTrans = Daemon::global()->acceptEula(id.toString());
+		auto eulaTrans = Daemon::acceptEula(id.toString());
 		connect(eulaTrans, &Transaction::finished,
 				this, [this, eulaTrans](Transaction::Exit status) {
 			eulaTrans->deleteLater();
@@ -81,8 +81,8 @@ void QPackageKitUpdateInstaller::startInstallImpl()
 		_packageMap.insert(name, id);
 	}
 
-	_installTrans = Daemon::global()->updatePackages(_packageMap.values(),
-													 Transaction::TransactionFlagOnlyTrusted);
+	_installTrans = Daemon::updatePackages(_packageMap.values(),
+										   Transaction::TransactionFlagOnlyTrusted);
 	connect(_installTrans, &Transaction::percentageChanged,
 			this, &QPackageKitUpdateInstaller::percentageChanged);
 	connect(_installTrans, &Transaction::statusChanged,

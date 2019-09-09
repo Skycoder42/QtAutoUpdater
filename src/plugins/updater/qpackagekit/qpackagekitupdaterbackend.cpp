@@ -1,6 +1,6 @@
 #include "qpackagekitupdaterbackend.h"
 #include "qpackagekitupdateinstaller.h"
-#include <Daemon>
+#include <packagekitqt5/PackageKit/Daemon>
 using namespace QtAutoUpdater;
 using namespace PackageKit;
 

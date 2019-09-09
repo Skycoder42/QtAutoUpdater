@@ -1,7 +1,7 @@
 #ifndef QPACKAGEKITUPDATERBACKEND_H
 #define QPACKAGEKITUPDATERBACKEND_H
 
-#include <transaction.h>
+#include <packagekitqt5/PackageKit/Transaction>
 
 #include <QtCore/QPointer>
 #include <QtCore/QLoggingCategory>
