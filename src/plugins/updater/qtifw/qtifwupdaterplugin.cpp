@@ -6,7 +6,7 @@ QtIfwUpdaterPlugin::QtIfwUpdaterPlugin(QObject *parent) :
 	QObject{parent}
 {}
 
-QtAutoUpdater::UpdaterBackend *QtIfwUpdaterPlugin::create(QString key, QObject *parent)
+UpdaterBackend *QtIfwUpdaterPlugin::create(QString key, QObject *parent)
 {
 	if (key == QStringLiteral("qtifw"))
 		return new QtIfwUpdaterBackend{std::move(key), parent};

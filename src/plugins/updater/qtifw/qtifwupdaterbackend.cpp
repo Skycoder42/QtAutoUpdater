@@ -58,7 +58,7 @@ bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
 		if (track)
 			qCWarning(logQtIfwBackend) << "Unable to track progress of application executed as root user!";
 		const auto ok = AdminAuthoriser::executeAsAdmin(_process->program(),
-														_process->arguments(),
+														arguments,
 														_process->workingDirectory());
 		if (ok && track) { // invoke queued to make shure is emitted AFTER the start install signal in the updater
 			QMetaObject::invokeMethod(this, "triggerInstallDone", Qt::QueuedConnection,
