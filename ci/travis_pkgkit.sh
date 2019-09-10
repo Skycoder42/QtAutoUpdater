@@ -15,4 +15,6 @@ make
 make install
 
 cd ..
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig/:$PKG_CONFIG_PATH
 pkg-config --exists packagekitqt5
