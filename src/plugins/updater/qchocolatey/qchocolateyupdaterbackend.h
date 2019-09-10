@@ -10,6 +10,8 @@ class QChocolateyUpdaterBackend : public QtAutoUpdater::ProcessBackend
 	Q_OBJECT
 
 public:
+	static const QString DefaultGuiPath;
+
 	explicit QChocolateyUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
@@ -24,7 +26,7 @@ private:
 	QProcess *_chocoProc = nullptr;
 	QStringList _packages;
 
-	QString chocoPath(bool asGui) const;
+	QString guiPath() const;
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logChocoBackend)

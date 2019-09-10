@@ -1,10 +1,12 @@
 #include "qchocolateyupdaterbackend.h"
 #include <QtCore/QStandardPaths>
+#include <QtCore/QFileInfo>
 #include <QtCore/QDir>
-#include <QtAutoUpdaterCore/AdminAuthoriser>
 using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logChocoBackend, "qt.autoupdater.core.plugin.chocolatey.backend")
+
+const QString QChocolateyUpdaterBackend::DefaultGuiPath {QStringLiteral(R"_(C:\Program Files (x86)\Chocolatey GUI\ChocolateyGui.exe)_")};
 
 QChocolateyUpdaterBackend::QChocolateyUpdaterBackend(QString &&key, QObject *parent) :
 	ProcessBackend{std::move(key), parent}
@@ -12,9 +14,9 @@ QChocolateyUpdaterBackend::QChocolateyUpdaterBackend(QString &&key, QObject *par
 
 UpdaterBackend::Features QChocolateyUpdaterBackend::features() const
 {
-	return chocoPath(true).isEmpty() ?
-				Feature::CheckUpdates :
-				Feature::TriggerInstall;
+	return QFileInfo{guiPath()}.isExecutable() ?
+				Feature::TriggerInstall :
+				Feature::CheckUpdates;
 }
 
 UpdateInstaller *QChocolateyUpdaterBackend::createInstaller()
@@ -35,8 +37,16 @@ std::optional<ProcessBackend::UpdateProcessInfo> QChocolateyUpdaterBackend::init
 		return std::nullopt;
 	}
 
+	QStringList paths;
+	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths) {
+		if (mPaths->userType() == QMetaType::QStringList)
+			paths = mPaths->toStringList();
+		else
+			paths = mPaths->toString().split(QDir::listSeparator());
+	}
+
 	UpdateProcessInfo info;
-	info.program = chocoPath(false);
+	info.program = QStandardPaths::findExecutable(QStringLiteral("choco"), paths);
 	if (info.program.isEmpty()) {
 		qCCritical(logChocoBackend) << "Failed to find choco executable";
 		return std::nullopt;
@@ -94,7 +104,12 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 	Q_UNUSED(track)
 
 	InstallProcessInfo info;
-	info.program = chocoPath(true);
+	info.program = guiPath();
+	if (!QFileInfo{info.program}.isExecutable()) {
+		qCCritical(logChocoBackend) << "Failed to find Chocolatey GUI executable";
+		return std::nullopt;
+	}
+
 	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs) {
 		if (extraArgs->userType() == QMetaType::QStringList)
 			info.arguments.append(extraArgs->toStringList());
@@ -107,14 +122,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 	return info;
 }
 
-QString QChocolateyUpdaterBackend::chocoPath(bool asGui) const
+QString QChocolateyUpdaterBackend::guiPath() const
 {
-	QStringList paths;
-	if (auto mPaths = config()->value(asGui ? QStringLiteral("guiPath") : QStringLiteral("path")); mPaths) {
-		if (mPaths->userType() == QMetaType::QStringList)
-			paths = mPaths->toStringList();
-		else
-			paths = mPaths->toString().split(QDir::listSeparator());
-	}
-	return QStandardPaths::findExecutable(asGui ? QStringLiteral("ChocolateyGui") : QStringLiteral("choco"), paths);
+	return config()->value(QStringLiteral("guiExePath"), DefaultGuiPath).toString();
 }

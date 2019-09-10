@@ -1,8 +1,6 @@
 #include "qtifwupdaterbackend.h"
-#include <QtAutoUpdaterCore/AdminAuthoriser>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
-#include <QtCore/QDebug>
 using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logQtIfwBackend, "qt.autoupdater.core.plugin.qtifw.backend")
