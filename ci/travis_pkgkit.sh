@@ -2,7 +2,7 @@
 set -ex
 
 apt-get -qq update
-apt-get -qq install cmake packagekit pkgconf
+apt-get -qq install cmake packagekit
 
 mkdir pkgit && cd pkgit 
 
@@ -15,4 +15,4 @@ make
 make install
 
 cd ..
-pkgconf --exists packagekitqt5
+pkg-config --exists packagekitqt5
