@@ -9,12 +9,17 @@ mkdir pkgit && cd pkgit
 scriptDir=../src/3rdparty/PackageKit-Qt
 sed -i 's/set(BUILD_SHARED_LIBS ON)/set(BUILD_SHARED_LIBS OFF)/g' "$scriptDir/CMakeLists.txt"
 
+QMAKE=/opt/qt/$QT_VER/$PLATFORM/bin/qmake
 export CMAKE_PREFIX_PATH=/opt/qt/$QT_VER/$PLATFORM:$CMAKE_PREFIX_PATH
-cmake $scriptDir
+cmake \
+	"-DCMAKE_INSTALL_PREFIX=$($QMAKE -query QT_INSTALL_PREFIX)" \
+	"-DCMAKE_INSTALL_LIBDIR=$($QMAKE -query QT_INSTALL_LIBS)" \
+	"-DCMAKE_INSTALL_INCLUDEDIR=$($QMAKE -query QT_INSTALL_HEADERS)" \
+	"$scriptDir"
 make
 make install
 
 cd ..
 
-export PKG_CONFIG_PATH=/usr/lib/pkgconfig/:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=/opt/qt/$QT_VER/$PLATFORM/lib/pkgconfig/:$PKG_CONFIG_PATH
 pkg-config --exists packagekitqt5
