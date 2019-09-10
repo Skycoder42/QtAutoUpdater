@@ -1,10 +1,10 @@
-#/!bin/bash
+#!/bin/bash
 set -ex
 
 apt-get -qq update
 apt-get -qq install cmake packagekit
 
-mkdir pkgit && cd pkgit 
+mkdir pkgit && pushd pkgit 
 
 scriptDir=../src/3rdparty/PackageKit-Qt
 sed -i 's/set(BUILD_SHARED_LIBS ON)/set(BUILD_SHARED_LIBS OFF)/g' "$scriptDir/CMakeLists.txt"
@@ -19,7 +19,7 @@ cmake \
 make
 make install
 
-cd ..
+popd
 
 export PKG_CONFIG_PATH=/opt/qt/$QT_VER/$PLATFORM/lib/pkgconfig/:$PKG_CONFIG_PATH
 pkg-config --exists packagekitqt5
