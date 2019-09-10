@@ -33,11 +33,7 @@ private Q_SLOTS:
 
 	void testUpdateCheck_data();
 	void testUpdateCheck();
-
-	void testUpdateProgress();
-
 	void testTriggerInstall();
-
 	void testPerformInstall();
 
 private:

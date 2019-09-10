@@ -106,11 +106,6 @@ void PluginTest::testUpdateCheck()
 	QCOMPARE(doneSpy[0][1].value<QList<UpdateInfo>>(), updates);
 }
 
-void PluginTest::testUpdateProgress()
-{
-
-}
-
 void PluginTest::testTriggerInstall()
 {
 	QVERIFY(simulateInstall(QVersionNumber{1,0,0}));

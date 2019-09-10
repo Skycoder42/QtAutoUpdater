@@ -8,7 +8,7 @@ using namespace QtAutoUpdater;
 Q_LOGGING_CATEGORY(logQtIfwBackend, "qt.autoupdater.core.plugin.qtifw.backend")
 
 QtIfwUpdaterBackend::QtIfwUpdaterBackend(QString &&key, QObject *parent) :
-	UpdaterBackend{std::move(key), parent}
+	ProcessBackend{std::move(key), parent}
 {}
 
 UpdaterBackend::Features QtIfwUpdaterBackend::features() const
@@ -20,144 +20,64 @@ UpdaterBackend::Features QtIfwUpdaterBackend::features() const
 			Feature::TriggerInstall;
 }
 
-void QtIfwUpdaterBackend::checkForUpdates()
-{
-	if (_process->state() == QProcess::NotRunning)
-		_process->start(QIODevice::ReadOnly);
-}
-
-void QtIfwUpdaterBackend::abort(bool force)
-{
-	if (_process->state() != QProcess::NotRunning) {
-		if (force)
-			_process->kill();
-		else
-			_process->terminate();
-	}
-}
-
-bool QtIfwUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &, bool track)
-{
-	QStringList arguments {
-		config()->value(QStringLiteral("silent"), false).toBool() ?
-					QStringLiteral("--silentUpdate") :
-					QStringLiteral("--updater")
-	};
-	const auto extraArgs = config()->value(QStringLiteral("extraInstallArgs"));
-	if (extraArgs)
-		arguments.append(extraArgs->toStringList());
-
-	// find out if the application needs to be run as admin
-	bool runAsAdmin;
-	if (auto runAsAdminOpt = config()->value(QStringLiteral("runAsAdmin")); runAsAdminOpt)
-		runAsAdmin = runAsAdminOpt->toBool();
-	else
-		runAsAdmin = AdminAuthoriser::needsAdminPermission(_process->program());
-
-	if (runAsAdmin) {
-		if (track)
-			qCWarning(logQtIfwBackend) << "Unable to track progress of application executed as root user!";
-		const auto ok = AdminAuthoriser::executeAsAdmin(_process->program(),
-														arguments,
-														_process->workingDirectory());
-		if (ok && track) { // invoke queued to make shure is emitted AFTER the start install signal in the updater
-			QMetaObject::invokeMethod(this, "triggerInstallDone", Qt::QueuedConnection,
-									  Q_ARG(bool, true));
-		}
-		return ok;
-	} else {
-		if (track) {
-			auto proc = new QProcess{this};
-			proc->setProgram(_process->program());
-			proc->setArguments(arguments);
-			proc->setWorkingDirectory(_process->workingDirectory());
-			proc->setProcessChannelMode(QProcess::ForwardedChannels);
-			proc->setInputChannelMode(QProcess::ForwardedInputChannel);
-			connect(proc, &QProcess::stateChanged,
-					this, &QtIfwUpdaterBackend::installerState);
-			proc->start(QIODevice::ReadWrite);
-			return true;
-		} else {
-			if (QProcess::startDetached(_process->program(), arguments, _process->workingDirectory()))
-				return true;
-			else {
-				qCCritical(logQtIfwBackend) << "Failed to start" << _process->program() << "to install updates";
-				return false;
-			}
-		}
-	}
-}
-
 UpdateInstaller *QtIfwUpdaterBackend::createInstaller()
 {
 	return nullptr;
 }
 
-bool QtIfwUpdaterBackend::initialize()
+std::optional<ProcessBackend::UpdateProcessInfo> QtIfwUpdaterBackend::initializeImpl()
 {
 	auto mtInfo = findMaintenanceTool();
 	if (!mtInfo) {
 		qCCritical(logQtIfwBackend) << "Path to maintenancetool could not be determined or does not exist. "
 									   "Use the 'path' configuration parameter to explicitly specify it";
-		return false;
+		return std::nullopt;
 	}
 
-	_process = new QProcess{this};
-	_process->setProgram(mtInfo->absoluteFilePath());
-	_process->setWorkingDirectory(mtInfo->absolutePath());
-	const auto extraArgs = config()->value(QStringLiteral("extraCheckArgs"));
-	if (extraArgs)
-		_process->setArguments(QStringList{QStringLiteral("--checkupdates")} + extraArgs->toStringList());
-	else
-		_process->setArguments({QStringLiteral("--checkupdates")});
-	_process->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+	UpdateProcessInfo info;
+	info.program = mtInfo->absoluteFilePath();
+	info.workingDir = mtInfo->absolutePath();
+	info.arguments = QStringList{QStringLiteral("--checkupdates")};
+	if (auto extraArgs = config()->value(QStringLiteral("extraCheckArgs")); extraArgs)
+		info.arguments.append(extraArgs->toStringList());  // TODO or split string
+	return info;
 
-	connect(_process, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
-			this, &QtIfwUpdaterBackend::updaterReady);
-	connect(_process, &QProcess::errorOccurred,
-			this, &QtIfwUpdaterBackend::updaterError);
-
-	return true;
 }
 
-void QtIfwUpdaterBackend::updaterReady(int exitCode, QProcess::ExitStatus exitStatus)
+void QtIfwUpdaterBackend::parseResult(int exitCode, QIODevice *processDevice)
 {
-	if (exitStatus == QProcess::NormalExit) {
-		if (exitCode == EXIT_SUCCESS) {
-			auto updates = parseUpdates();
-			if (updates)
-				emit checkDone(true, *updates);
-			else
-				emit checkDone(false);
-		} else
-			emit checkDone(true);
-	} else
-		emit checkDone(false);
-	_process->close();
-}
-
-void QtIfwUpdaterBackend::updaterError(QProcess::ProcessError procError)
-{
-	qCCritical(logQtIfwBackend) << "Maintenancetool-Error:"
-								<< qUtf8Printable(_process->errorString());
-	if (procError == QProcess::FailedToStart) {
-		emit checkDone(false);
-		_process->close();
-	}
-}
-
-void QtIfwUpdaterBackend::installerState(QProcess::ProcessState state)
-{
-	if (state == QProcess::NotRunning) {
-		auto proc = qobject_cast<QProcess*>(sender());
-		if (proc->exitStatus() == QProcess::NormalExit &&
-			proc->exitCode() == EXIT_SUCCESS)
-			emit triggerInstallDone(true);
+	if (exitCode == EXIT_SUCCESS) {
+		auto updates = parseUpdates(processDevice);
+		if (updates)
+			emit checkDone(true, *updates);
 		else
-			emit triggerInstallDone(false);
-		proc->disconnect(this);
-		proc->deleteLater();
-	}
+			emit checkDone(false);
+	} else
+		emit checkDone(true);
+}
+
+std::optional<ProcessBackend::InstallProcessInfo> QtIfwUpdaterBackend::installerInfo(const QList<UpdateInfo> &infos, bool track)
+{
+	Q_UNUSED(infos)
+	Q_UNUSED(track)
+
+	auto mtInfo = findMaintenanceTool();
+	if (!mtInfo)
+		return std::nullopt;
+
+	InstallProcessInfo info;
+	info.program = mtInfo->absoluteFilePath();
+	info.workingDir = mtInfo->absolutePath();
+	info.arguments = QStringList{
+		config()->value(QStringLiteral("silent"), false).toBool() ?
+					QStringLiteral("--silentUpdate") :
+					QStringLiteral("--updater")
+	};
+	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
+		info.arguments.append(extraArgs->toStringList());  // TODO or split string
+	if (auto runAsAdmin = config()->value(QStringLiteral("runAsAdmin")); runAsAdmin)
+		info.runAsAdmin = runAsAdmin->toBool();
+	return info;
 }
 
 std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
@@ -185,10 +105,10 @@ std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
 		return std::nullopt;
 }
 
-std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates()
+std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates(QIODevice *device)
 {
 	try {
-		const auto outString = QString::fromUtf8(_process->readAllStandardOutput());
+		const auto outString = QString::fromUtf8(device->readAll());
 		const auto xmlBegin = outString.indexOf(QStringLiteral("<updates>"));
 		if(xmlBegin < 0)
 			return QList<UpdateInfo>{};
