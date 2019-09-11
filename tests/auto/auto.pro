@@ -3,8 +3,9 @@ TEMPLATE = subdirs
 SUBDIRS += \
 	cmake \
 	autoupdatercore \
-	autoupdaterwidgets \
-	plugins
+	autoupdaterwidgets
+
+!no_plugin_tests: SUBDIRS += plugins
 
 plugins.depends += autoupdatercore
 
