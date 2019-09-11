@@ -1,8 +1,9 @@
 TEMPLATE = subdirs
 
-SUBDIRS += \
-	testlib \
-	QtIfwTest
+SUBDIRS += testlib
+
+qtConfig(process): SUBDIRS += QtIfwTest
+win32:qtConfig(process): SUBDIRS += ChocolateyTest
 
 for(var, SUBDIRS):!equals(var, testlib): $${var}.depends += testlib
 
