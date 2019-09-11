@@ -4,7 +4,7 @@
 const QByteArray TestInstaller::XmlText { R"_(<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
 	<metadata>
-		<id>test-package</id>
+		<id>qtautoupdater-test-package</id>
 		<version>1.0.0</version>
 		<title>qtautoupdater-test-package</title>
 		<authors>Skycoder42</authors>
