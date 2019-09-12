@@ -1,6 +1,19 @@
 #include "testinstaller.h"
 #include <plugintest.h>
 
+const QString TestInstaller::FormulaTemplate {QStringLiteral(R"_(class Qtautoupdatertestpackage < Formula
+	version "%1"
+	revision 1
+	desc "qtautoupdatertestpackage"
+	homepage "https://github.com/Skycoder42/QtAutoUpdater"
+	url "https://github.com/Skycoder42/QtAutoUpdater/archive/2.1.5-4.tar.gz"
+	sha256 "22527251bffcee2e44946f927287ee746c541a5dd262e69915fbcdc0641e5f29"
+
+	def install
+	end
+end
+)_")};
+
 TestInstaller::TestInstaller(QObject *parent) :
 	QObject{parent}
 {}
