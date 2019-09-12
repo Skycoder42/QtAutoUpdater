@@ -33,9 +33,24 @@ bool TestInstaller::setup()
 	TEST_WRAP_BEGIN
 
 	QVERIFY(QDir{_dir.path()}.mkpath(QStringLiteral("Formula")));
+	QFile initFile{_dir.filePath(QStringLiteral(".gitignore"))};
+	QVERIFY(initFile.open(QIODevice::WriteOnly | QIODevice::Text));
+	initFile.write("*.dummy\n");
+	initFile.close();
+
 	QVERIFY(runGit({
 					   QStringLiteral("init")
 				   }));
+	QVERIFY(runGit({
+					   QStringLiteral("add"),
+					   QDir{_dir.path()}.relativeFilePath(initFile.fileName())
+				   }));
+	QVERIFY(runGit({
+					   QStringLiteral("commit"),
+					   QStringLiteral("-m"),
+					   QStringLiteral("Initialize the repository")
+				   }));
+
 	QVERIFY(runBrew({
 						QStringLiteral("tap"),
 						QStringLiteral("Skycoder42/QtAutoUpdaterTest"),
