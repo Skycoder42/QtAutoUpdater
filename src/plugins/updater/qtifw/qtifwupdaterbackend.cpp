@@ -18,18 +18,12 @@ UpdaterBackend::Features QtIfwUpdaterBackend::features() const
 			Feature::TriggerInstall;
 }
 
-UpdateInstaller *QtIfwUpdaterBackend::createInstaller()
-{
-	return nullptr;
-}
-
-std::optional<ProcessBackend::UpdateProcessInfo> QtIfwUpdaterBackend::initializeImpl()
+void QtIfwUpdaterBackend::checkForUpdates()
 {
 	auto mtInfo = findMaintenanceTool();
 	if (!mtInfo) {
-		qCCritical(logQtIfwBackend) << "Path to maintenancetool could not be determined or does not exist. "
-									   "Use the 'path' configuration parameter to explicitly specify it";
-		return std::nullopt;
+		emit checkDone(false);
+		return;
 	}
 
 	UpdateProcessInfo info;
@@ -38,12 +32,22 @@ std::optional<ProcessBackend::UpdateProcessInfo> QtIfwUpdaterBackend::initialize
 	info.arguments = QStringList{QStringLiteral("--checkupdates")};
 	if (auto extraArgs = config()->value(QStringLiteral("extraCheckArgs")); extraArgs)
 		info.arguments.append(extraArgs->toStringList());  // TODO or split string
-	return info;
-
+	runUpdateTool(0, std::move(info));
 }
 
-void QtIfwUpdaterBackend::parseResult(int exitCode, QIODevice *processDevice)
+UpdateInstaller *QtIfwUpdaterBackend::createInstaller()
 {
+	return nullptr;
+}
+
+bool QtIfwUpdaterBackend::initialize()
+{
+	return static_cast<bool>(findMaintenanceTool());
+}
+
+void QtIfwUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *processDevice)
+{
+	Q_ASSERT(id == 0);
 	if (exitCode == EXIT_SUCCESS) {
 		auto updates = parseUpdates(processDevice);
 		if (updates)
@@ -99,8 +103,11 @@ std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
 	QFileInfo mtInfo{QCoreApplication::applicationDirPath(), path};
 	if (mtInfo.exists())
 		return mtInfo;
-	else
+	else {
+		qCCritical(logQtIfwBackend) << "Path to maintenancetool could not be determined or does not exist. "
+									   "Use the 'path' configuration parameter to explicitly specify it";
 		return std::nullopt;
+	}
 }
 
 std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates(QIODevice *device)

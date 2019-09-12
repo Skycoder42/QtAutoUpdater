@@ -4,6 +4,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 using namespace QtAutoUpdater;
+using namespace std::placeholders;
 
 QT_REQUIRE_CONFIG(process);
 
@@ -13,21 +14,16 @@ Q_LOGGING_CATEGORY(logProcessBackend, "qt.autoupdater.core.ProcessBackend")
 
 }
 
-void ProcessBackend::checkForUpdates()
-{
-	Q_D(ProcessBackend);
-	if (d->updateProc->state() == QProcess::NotRunning)
-		d->updateProc->start(d->procInfo.stdinData ? QIODevice::ReadWrite : QIODevice::ReadOnly);
-}
-
 void ProcessBackend::abort(bool force)
 {
 	Q_D(ProcessBackend);
-	if (d->updateProc->state() != QProcess::NotRunning) {
-		if (force)
-			d->updateProc->kill();
-		else
-			d->updateProc->terminate();
+	for (const auto &pInfo : d->updateProcesses) {
+		if (pInfo.second->state() != QProcess::NotRunning) {
+			if (force)
+				pInfo.second->kill();
+			else
+				pInfo.second->terminate();
+		}
 	}
 }
 
@@ -85,25 +81,25 @@ ProcessBackend::ProcessBackend(ProcessBackendPrivate &dd, QObject *parent) :
 	UpdaterBackend{dd, parent}
 {}
 
-bool ProcessBackend::initialize()
+void ProcessBackend::runUpdateTool(int id, ProcessBackend::UpdateProcessInfo toolInfo)
 {
 	Q_D(ProcessBackend);
-	auto info = initializeImpl();
-	if (!info)
-		return false;
 
-	d->procInfo = *std::move(info);
-	d->updateProc = d->createProc(d->procInfo);
-	if (!d->procInfo.useStdout)
-		d->updateProc->setStandardOutputFile(QProcess::nullDevice());
-	if (!d->procInfo.useStderr)
-		d->updateProc->setProcessChannelMode(QProcess::ForwardedErrorChannel);
-	if (!d->procInfo.stdinData)
-		d->updateProc->setStandardInputFile(QProcess::nullDevice());
-	QObjectPrivate::connect(d->updateProc, &QProcess::stateChanged,
-							d, &ProcessBackendPrivate::_q_updaterStateChanged);
+	auto proc = d->createProc(toolInfo);
+	if (!toolInfo.useStdout)
+		proc->setStandardOutputFile(QProcess::nullDevice());
+	if (!toolInfo.useStderr)
+		proc->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+	if (!toolInfo.stdinData)
+		proc->setStandardInputFile(QProcess::nullDevice());
+	connect(proc, &QProcess::stateChanged,
+			this, std::bind(&ProcessBackendPrivate::_q_updaterStateChanged, d, id, _1));
 
-	return true;
+	d->updateProcesses[id].first = std::move(toolInfo);
+	d->updateProcesses[id].second = proc;
+	proc->start(d->updateProcesses[id].first.stdinData ?
+					QIODevice::ReadWrite :
+					QIODevice::ReadOnly);
 }
 
 // ------------- private implementation -------------
@@ -112,37 +108,43 @@ ProcessBackendPrivate::ProcessBackendPrivate(QString &&pKey) :
 	UpdaterBackendPrivate{std::move(pKey)}
 {}
 
-void ProcessBackendPrivate::_q_updaterStateChanged(QProcess::ProcessState state)
+void ProcessBackendPrivate::_q_updaterStateChanged(int id, QProcess::ProcessState state)
 {
 	Q_Q(ProcessBackend);
+	if (!updateProcesses.contains(id))
+		return;
+
+	const auto &info = updateProcesses[id];
+	Q_ASSERT(info.second);
 	switch (state) {
 	case QProcess::Starting:
 		break;
 	case QProcess::Running:
-		if (procInfo.stdinData)
-			updateProc->write(*procInfo.stdinData);
+		if (info.first.stdinData)
+			info.second->write(*info.first.stdinData);
 		break;
 	case QProcess::NotRunning:
-		switch (updateProc->exitStatus()) {
+		switch (info.second->exitStatus()) {
 		case QProcess::NormalExit:
-			if (procInfo.useStdout) {
-				updateProc->setReadChannel(QProcess::StandardOutput);
-				q->parseResult(updateProc->exitCode(), updateProc);
-			} else if (procInfo.useStderr) {
-				updateProc->setReadChannel(QProcess::StandardError);
-				q->parseResult(updateProc->exitCode(), updateProc);
+			if (info.first.useStdout) {
+				info.second->setReadChannel(QProcess::StandardOutput);
+				q->onToolDone(id, info.second->exitCode(), info.second);
+			} else if (info.first.useStderr) {
+				info.second->setReadChannel(QProcess::StandardError);
+				q->onToolDone(id, info.second->exitCode(), info.second);
 			} else
-				q->parseResult(updateProc->exitCode(), nullptr);
+				q->onToolDone(id, info.second->exitCode(), nullptr);
 			break;
 		case QProcess::CrashExit:
 			qCWarning(logProcessBackend) << "Failed to run"
-										 << procInfo.program
+										 << info.first.program
 										 << "with crash error:"
-										 << qUtf8Printable(updateProc->errorString());
+										 << qUtf8Printable(info.second->errorString());
 			emit q->checkDone(false);
 			break;
 		}
-		updateProc->close();
+		info.second->deleteLater();
+		updateProcesses.remove(id);
 		break;
 	}
 }

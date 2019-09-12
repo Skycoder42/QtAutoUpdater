@@ -20,7 +20,6 @@ class Q_AUTOUPDATERCORE_EXPORT ProcessBackend : public UpdaterBackend
 	Q_OBJECT
 
 public:
-	void checkForUpdates() override;
 	void abort(bool force) override;
 	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;
 
@@ -44,16 +43,14 @@ protected:
 	explicit ProcessBackend(QString &&key, QObject *parent = nullptr);
 	explicit ProcessBackend(ProcessBackendPrivate &dd, QObject *parent = nullptr);
 
-	bool initialize() final;
-
-	virtual std::optional<UpdateProcessInfo> initializeImpl() = 0;
-	virtual void parseResult(int exitCode, QIODevice *processDevice) = 0;
+	void runUpdateTool(int id, UpdateProcessInfo toolInfo);
+	virtual void onToolDone(int id, int exitCode, QIODevice *processDevice) = 0;
 	virtual std::optional<InstallProcessInfo> installerInfo(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) = 0;
 
 private:
 	Q_DECLARE_PRIVATE(ProcessBackend)
 
-	Q_PRIVATE_SLOT(d_func(), void _q_updaterStateChanged(QProcess::ProcessState state))
+	Q_PRIVATE_SLOT(d_func(), void _q_updaterStateChanged(int, QProcess::ProcessState state))
 	Q_PRIVATE_SLOT(d_func(), void _q_installerStateChanged(QProcess::ProcessState state))
 };
 

@@ -16,40 +16,17 @@ UpdaterBackend::Features QChocolateyUpdaterBackend::features() const
 {
 	return QFileInfo{guiPath()}.isExecutable() ?
 				Feature::TriggerInstall :
-				Feature::CheckUpdates;
+	Feature::CheckUpdates;
 }
 
-UpdateInstaller *QChocolateyUpdaterBackend::createInstaller()
+void QChocolateyUpdaterBackend::checkForUpdates()
 {
-	return nullptr;
-}
-
-std::optional<ProcessBackend::UpdateProcessInfo> QChocolateyUpdaterBackend::initializeImpl()
-{
-	if (auto pConf = config()->value(QStringLiteral("packages")); pConf) {
-		if (pConf->userType() == QMetaType::QStringList)
-			_packages = pConf->toStringList();
-		else
-			_packages = pConf->toString().split(QLatin1Char(','));
-	}
-	if (_packages.isEmpty()) {
-		qCCritical(logChocoBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
-		return std::nullopt;
-	}
-
-	QStringList paths;
-	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths) {
-		if (mPaths->userType() == QMetaType::QStringList)
-			paths = mPaths->toStringList();
-		else
-			paths = mPaths->toString().split(QDir::listSeparator());
-	}
-
 	UpdateProcessInfo info;
-	info.program = QStandardPaths::findExecutable(QStringLiteral("choco"), paths);
+
+	info.program = chocoPath();
 	if (info.program.isEmpty()) {
-		qCCritical(logChocoBackend) << "Failed to find choco executable";
-		return std::nullopt;
+		emit checkDone(false);
+		return;
 	}
 
 	info.arguments = QStringList {
@@ -66,11 +43,33 @@ std::optional<ProcessBackend::UpdateProcessInfo> QChocolateyUpdaterBackend::init
 			info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
 	}
 
-	return info;
+	runUpdateTool(0, std::move(info));
 }
 
-void QChocolateyUpdaterBackend::parseResult(int exitCode, QIODevice *processDevice)
+UpdateInstaller *QChocolateyUpdaterBackend::createInstaller()
 {
+	return nullptr;
+}
+
+bool QChocolateyUpdaterBackend::initialize()
+{
+	if (auto pConf = config()->value(QStringLiteral("packages")); pConf) {
+		if (pConf->userType() == QMetaType::QStringList)
+			_packages = pConf->toStringList();
+		else
+			_packages = pConf->toString().split(QLatin1Char(','));
+	}
+	if (_packages.isEmpty()) {
+		qCCritical(logChocoBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
+		return false;
+	}
+
+	return !chocoPath().isEmpty();
+}
+
+void QChocolateyUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *processDevice)
+{
+	Q_ASSERT(id == 0);
 	switch (exitCode) {
 	case 0:
 	case 2: {
@@ -120,6 +119,24 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 	info.runAsAdmin = config()->value(QStringLiteral("runAsAdmin"), true).toBool();
 
 	return info;
+}
+
+QString QChocolateyUpdaterBackend::chocoPath() const
+{
+	QStringList paths;
+	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths) {
+		if (mPaths->userType() == QMetaType::QStringList)
+			paths = mPaths->toStringList();
+		else
+			paths = mPaths->toString().split(QDir::listSeparator());
+	}
+
+	const auto path = QStandardPaths::findExecutable(QStringLiteral("choco"), paths);
+	if (path.isEmpty()) {
+		qCCritical(logChocoBackend) << "Failed to find choco executable";
+		return {};
+	} else
+		return path;
 }
 
 QString QChocolateyUpdaterBackend::guiPath() const

@@ -13,17 +13,26 @@ public:
 	explicit QHomebrewUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
+	void checkForUpdates() override;
 	QtAutoUpdater::UpdateInstaller *createInstaller() override;
 
 protected:
-	std::optional<UpdateProcessInfo> initializeImpl() override;
-	void parseResult(int exitCode, QIODevice *processDevice) override;
+	bool initialize() override;
+	void onToolDone(int id, int exitCode, QIODevice *processDevice) override;
 	std::optional<InstallProcessInfo> installerInfo(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;
 
 private:
+	enum RunId {
+		Update = 0,
+		Outdated = 1
+	};
 	QStringList _packages;
 
+	QString brewPath() const;
 	QString cakebrewPath() const;
+
+	void onUpdated(int exitCode);
+	void onOutdated(int exitCode, QIODevice *processDevice);
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logBrewBackend)

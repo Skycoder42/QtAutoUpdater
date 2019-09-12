@@ -8,6 +8,7 @@
 #include "processbackend.h"
 #include "updaterbackend_p.h"
 
+#include <QtCore/QHash>
 #include <QtCore/QProcess>
 
 namespace QtAutoUpdater {
@@ -23,11 +24,10 @@ public:
 
 	ProcessBackendPrivate(QString &&pKey);
 
-	UpdateProcessInfo procInfo;
-	QProcess *updateProc = nullptr;
+	QHash<int, std::pair<UpdateProcessInfo, QProcess*>> updateProcesses;
 	QPointer<QProcess> installProc;
 
-	void _q_updaterStateChanged(QProcess::ProcessState state);
+	void _q_updaterStateChanged(int id, QProcess::ProcessState state);
 	void _q_installerStateChanged(QProcess::ProcessState state);
 
 	QProcess *createProc(const ProcessInfoBase &info);

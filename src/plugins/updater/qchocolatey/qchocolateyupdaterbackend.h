@@ -15,17 +15,19 @@ public:
 	explicit QChocolateyUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
+	void checkForUpdates() override;
 	QtAutoUpdater::UpdateInstaller *createInstaller() override;
 
 protected:
-	std::optional<UpdateProcessInfo> initializeImpl() override;
-	void parseResult(int exitCode, QIODevice *processDevice) override;
+	bool initialize() override;
+	void onToolDone(int id, int exitCode, QIODevice *processDevice) override;
 	std::optional<InstallProcessInfo> installerInfo(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;
 
 private:
 	QProcess *_chocoProc = nullptr;
 	QStringList _packages;
 
+	QString chocoPath() const;
 	QString guiPath() const;
 };
 

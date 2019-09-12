@@ -17,7 +17,30 @@ UpdaterBackend::Features QHomebrewUpdaterBackend::features() const
 {
 	return QFileInfo{cakebrewPath()}.isExecutable() ?
 				(Feature::TriggerInstall | Feature::ParallelInstall) :
-				Feature::CheckUpdates;
+	Feature::CheckUpdates;
+}
+
+void QHomebrewUpdaterBackend::checkForUpdates()
+{
+	UpdateProcessInfo info;
+	info.program = brewPath();
+	if (info.program.isEmpty()) {
+		emit checkDone(false);
+		return;
+	}
+
+	info.arguments = QStringList {
+		QStringLiteral("update")
+	};
+	if (auto argsVal = config()->value(QStringLiteral("extraUpdateArgs")); argsVal) {
+		if (argsVal->userType() == QMetaType::QStringList)
+			info.arguments.append(argsVal->toStringList());
+		else
+			info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
+	}
+
+	info.useStdout = false;
+	runUpdateTool(Update, std::move(info));
 }
 
 UpdateInstaller *QHomebrewUpdaterBackend::createInstaller()
@@ -25,7 +48,7 @@ UpdateInstaller *QHomebrewUpdaterBackend::createInstaller()
 	return nullptr;
 }
 
-std::optional<ProcessBackend::UpdateProcessInfo> QHomebrewUpdaterBackend::initializeImpl()
+bool QHomebrewUpdaterBackend::initialize()
 {
 	if (auto pConf = config()->value(QStringLiteral("packages")); pConf) {
 		if (pConf->userType() == QMetaType::QStringList)
@@ -35,9 +58,53 @@ std::optional<ProcessBackend::UpdateProcessInfo> QHomebrewUpdaterBackend::initia
 	}
 	if (_packages.isEmpty()) {
 		qCCritical(logBrewBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
+		return false;
+	}
+
+	return !brewPath().isEmpty();
+}
+
+void QHomebrewUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *processDevice)
+{
+	switch (id) {
+	case Update:
+		onUpdated(exitCode);
+		break;
+	case Outdated:
+		onOutdated(exitCode, processDevice);
+		break;
+	default:
+		Q_UNREACHABLE();
+		break;
+	}
+}
+
+std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::installerInfo(const QList<UpdateInfo> &infos, bool track)
+{
+	Q_UNUSED(infos)
+	Q_UNUSED(track)
+
+	InstallProcessInfo info;
+	info.program = cakebrewPath();
+	if (!QFileInfo{info.program}.isExecutable()) {
+		qCCritical(logBrewBackend) << "Failed to find Cakebrew GUI app bundle";
 		return std::nullopt;
 	}
 
+	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs) {
+		if (extraArgs->userType() == QMetaType::QStringList)
+			info.arguments.append(extraArgs->toStringList());
+		else
+			info.arguments.append(extraArgs->toString().split(QLatin1Char(' ')));
+	}
+
+	info.runAsAdmin = false;
+
+	return info;
+}
+
+QString QHomebrewUpdaterBackend::brewPath() const
+{
 	QStringList paths;
 	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths) {
 		if (mPaths->userType() == QMetaType::QStringList)
@@ -46,29 +113,49 @@ std::optional<ProcessBackend::UpdateProcessInfo> QHomebrewUpdaterBackend::initia
 			paths = mPaths->toString().split(QDir::listSeparator());
 	}
 
-	UpdateProcessInfo info;
-	info.program = QStandardPaths::findExecutable(QStringLiteral("brew"), paths);
-	if (info.program.isEmpty()) {
+	const auto path = QStandardPaths::findExecutable(QStringLiteral("brew"), paths);
+	if (path.isEmpty()) {
 		qCCritical(logBrewBackend) << "Failed to find brew executable";
-		return std::nullopt;
-	}
-
-	// TODO run "update" instead and "outdated" in parse
-	info.arguments = QStringList {
-		QStringLiteral("outdated"),
-		QStringLiteral("--json=v1")
-	};
-	if (auto argsVal = config()->value(QStringLiteral("extraCheckArgs")); argsVal) {
-		if (argsVal->userType() == QMetaType::QStringList)
-			info.arguments.append(argsVal->toStringList());
-		else
-			info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
-	}
-
-	return info;
+		return {};
+	} else
+		return path;
 }
 
-void QHomebrewUpdaterBackend::parseResult(int exitCode, QIODevice *processDevice)
+QString QHomebrewUpdaterBackend::cakebrewPath() const
+{
+	QDir cakeDir {QStandardPaths::locate(QStandardPaths::ApplicationsLocation,
+										 QStringLiteral("Cakebrew.app"),
+										 QStandardPaths::LocateDirectory)};
+	if (cakeDir.exists())
+		return cakeDir.absoluteFilePath(QStringLiteral("Contents/MacOS/Cakebrew"));
+	else
+		return {};
+}
+
+void QHomebrewUpdaterBackend::onUpdated(int exitCode)
+{
+	if (exitCode == EXIT_SUCCESS) {
+		UpdateProcessInfo info;
+		info.program = brewPath();
+		Q_ASSERT(!info.program.isEmpty());
+		info.arguments = QStringList {
+			QStringLiteral("outdated"),
+			QStringLiteral("--json=v1")
+		};
+		if (auto argsVal = config()->value(QStringLiteral("extraOutdatedArgs")); argsVal) {
+			if (argsVal->userType() == QMetaType::QStringList)
+				info.arguments.append(argsVal->toStringList());
+			else
+				info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
+		}
+		runUpdateTool(Outdated, std::move(info));
+	} else {
+		qCCritical(logBrewBackend) << "brew update exited with error code" << exitCode;
+		emit checkDone(false);
+	}
+}
+
+void QHomebrewUpdaterBackend::onOutdated(int exitCode, QIODevice *processDevice)
 {
 	if (exitCode == EXIT_SUCCESS) {
 		QJsonParseError error;
@@ -99,42 +186,7 @@ void QHomebrewUpdaterBackend::parseResult(int exitCode, QIODevice *processDevice
 		}
 		emit checkDone(true, updates);
 	} else {
-		qCCritical(logBrewBackend) << "brew exited with error code" << exitCode;
+		qCCritical(logBrewBackend) << "brew outdated exited with error code" << exitCode;
 		emit checkDone(false);
 	}
-}
-
-std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::installerInfo(const QList<UpdateInfo> &infos, bool track)
-{
-	Q_UNUSED(infos)
-	Q_UNUSED(track)
-
-	InstallProcessInfo info;
-	info.program = cakebrewPath();
-	if (!QFileInfo{info.program}.isExecutable()) {
-		qCCritical(logBrewBackend) << "Failed to find Cakebrew GUI app bundle";
-		return std::nullopt;
-	}
-
-	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs) {
-		if (extraArgs->userType() == QMetaType::QStringList)
-			info.arguments.append(extraArgs->toStringList());
-		else
-			info.arguments.append(extraArgs->toString().split(QLatin1Char(' ')));
-	}
-
-	info.runAsAdmin = false;
-
-	return info;
-}
-
-QString QHomebrewUpdaterBackend::cakebrewPath() const
-{
-	QDir cakeDir {QStandardPaths::locate(QStandardPaths::ApplicationsLocation,
-										 QStringLiteral("Cakebrew.app"),
-										 QStandardPaths::LocateDirectory)};
-	if (cakeDir.exists())
-		return cakeDir.absoluteFilePath(QStringLiteral("Contents/MacOS/Cakebrew"));
-	else
-		return {};
 }
