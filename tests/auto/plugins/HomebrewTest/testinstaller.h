@@ -29,6 +29,7 @@ private:
 	QTemporaryDir _dir;
 	bool _installed = false;
 	QVersionNumber _version {1, 0, 0};
+	int _changeCounter = 0;
 
 	bool runGit(const QStringList &arguments);
 	bool runBrew(const QStringList &arguments, bool verify = true);

@@ -10,6 +10,7 @@ const QString TestInstaller::FormulaTemplate {QStringLiteral(R"_(class Qtautoupd
 	sha256 "22527251bffcee2e44946f927287ee746c541a5dd262e69915fbcdc0641e5f29"
 
 	def install
+		# changeling %2
 		prefix.install "README.md"
 		File.open("#{prefix}/qtautoupdatertestpackage.sh", "w") { |file| file << "echo qtautoupdatertestpackage %1" }
 	end
@@ -89,7 +90,7 @@ bool TestInstaller::package()
 
 	QFile formula{_dir.filePath(QStringLiteral("Formula/qtautoupdatertestpackage.rb"))};
 	QVERIFY(formula.open(QIODevice::WriteOnly | QIODevice::Text));
-	formula.write(FormulaTemplate.arg(_version.toString()).toUtf8());
+	formula.write(FormulaTemplate.arg(_version.toString()).arg(_changeCounter++).toUtf8());  // use _changeCounter to ensure the file was changed every time
 	formula.close();
 
 	QVERIFY(runGit({
