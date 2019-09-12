@@ -10,6 +10,7 @@ const QString TestInstaller::FormulaTemplate {QStringLiteral(R"_(class Qtautoupd
 	sha256 "22527251bffcee2e44946f927287ee746c541a5dd262e69915fbcdc0641e5f29"
 
 	def install
+		prefix.install "README.md"
 	end
 end
 )_")};
