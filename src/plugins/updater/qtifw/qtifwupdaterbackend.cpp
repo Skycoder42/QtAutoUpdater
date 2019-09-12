@@ -31,7 +31,7 @@ void QtIfwUpdaterBackend::checkForUpdates()
 	info.workingDir = mtInfo->absolutePath();
 	info.arguments = QStringList{QStringLiteral("--checkupdates")};
 	if (auto extraArgs = config()->value(QStringLiteral("extraCheckArgs")); extraArgs)
-		info.arguments.append(extraArgs->toStringList());  // TODO or split string
+		info.arguments += readArgumentList(*extraArgs);
 	runUpdateTool(0, std::move(info));
 }
 
@@ -76,7 +76,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QtIfwUpdaterBackend::installer
 					QStringLiteral("--updater")
 	};
 	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
-		info.arguments.append(extraArgs->toStringList());  // TODO or split string
+		info.arguments += readArgumentList(*extraArgs);
 	if (auto runAsAdmin = config()->value(QStringLiteral("runAsAdmin")); runAsAdmin)
 		info.runAsAdmin = runAsAdmin->toBool();
 	return info;

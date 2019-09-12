@@ -36,12 +36,8 @@ void QChocolateyUpdaterBackend::checkForUpdates()
 		QStringLiteral("--no-progress"),
 		QStringLiteral("--ignore-unfound")
 	};
-	if (auto argsVal = config()->value(QStringLiteral("extraCheckArgs")); argsVal) {
-		if (argsVal->userType() == QMetaType::QStringList)
-			info.arguments.append(argsVal->toStringList());
-		else
-			info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
-	}
+	if (auto extraArgs = config()->value(QStringLiteral("extraCheckArgs")); extraArgs)
+		info.arguments += readArgumentList(*extraArgs);
 
 	runUpdateTool(0, std::move(info));
 }
@@ -53,12 +49,8 @@ UpdateInstaller *QChocolateyUpdaterBackend::createInstaller()
 
 bool QChocolateyUpdaterBackend::initialize()
 {
-	if (auto pConf = config()->value(QStringLiteral("packages")); pConf) {
-		if (pConf->userType() == QMetaType::QStringList)
-			_packages = pConf->toStringList();
-		else
-			_packages = pConf->toString().split(QLatin1Char(','));
-	}
+	if (auto pConf = config()->value(QStringLiteral("packages")); pConf)
+		_packages = readStringList(*pConf);
 	if (_packages.isEmpty()) {
 		qCCritical(logChocoBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
 		return false;
@@ -109,12 +101,8 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 		return std::nullopt;
 	}
 
-	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs) {
-		if (extraArgs->userType() == QMetaType::QStringList)
-			info.arguments.append(extraArgs->toStringList());
-		else
-			info.arguments.append(extraArgs->toString().split(QLatin1Char(' ')));
-	}
+	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
+		info.arguments += readArgumentList(*extraArgs);
 
 	info.runAsAdmin = config()->value(QStringLiteral("runAsAdmin"), true).toBool();
 
@@ -124,12 +112,8 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 QString QChocolateyUpdaterBackend::chocoPath() const
 {
 	QStringList paths;
-	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths) {
-		if (mPaths->userType() == QMetaType::QStringList)
-			paths = mPaths->toStringList();
-		else
-			paths = mPaths->toString().split(QDir::listSeparator());
-	}
+	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths)
+		paths = readPathList(*mPaths);
 
 	const auto path = QStandardPaths::findExecutable(QStringLiteral("choco"), paths);
 	if (path.isEmpty()) {

@@ -47,6 +47,9 @@ protected:
 	virtual void onToolDone(int id, int exitCode, QIODevice *processDevice) = 0;
 	virtual std::optional<InstallProcessInfo> installerInfo(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) = 0;
 
+	QStringList readPathList(const QVariant &value) const;
+	QStringList readArgumentList(const QVariant &value) const;
+
 private:
 	Q_DECLARE_PRIVATE(ProcessBackend)
 

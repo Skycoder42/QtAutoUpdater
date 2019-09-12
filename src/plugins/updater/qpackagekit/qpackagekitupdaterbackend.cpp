@@ -139,17 +139,13 @@ UpdateInstaller *QPackageKitUpdaterBackend::createInstaller()
 
 bool QPackageKitUpdaterBackend::initialize()
 {
-	auto pData = config()->value(QStringLiteral("packages"));
-	if (pData) {
-		if (pData->userType() == QMetaType::QStringList)
-			_packageFilter = pData->toStringList();
-		else
-			_packageFilter = pData->toString().split(QLatin1Char(';'));
-		return !_packageFilter.isEmpty();
-	} else {
+	if (auto pData = config()->value(QStringLiteral("packages")); pData)
+		_packageFilter = readStringList(*pData, QLatin1Char(';'));
+	if (_packageFilter.isEmpty()) {
 		qCCritical(logPackageKitBackend) << "Configuration for packagekit must contain 'packages'";
 		return false;
-	}
+	} else
+		return true;
 }
 
 void QPackageKitUpdaterBackend::percentageChanged()

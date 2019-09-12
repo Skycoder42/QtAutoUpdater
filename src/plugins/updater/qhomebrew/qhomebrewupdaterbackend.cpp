@@ -32,14 +32,11 @@ void QHomebrewUpdaterBackend::checkForUpdates()
 	info.arguments = QStringList {
 		QStringLiteral("update")
 	};
-	if (auto argsVal = config()->value(QStringLiteral("extraUpdateArgs")); argsVal) {
-		if (argsVal->userType() == QMetaType::QStringList)
-			info.arguments.append(argsVal->toStringList());
-		else
-			info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
-	}
+	if (auto extraArgs = config()->value(QStringLiteral("extraUpdateArgs")); extraArgs)
+		info.arguments += readArgumentList(*extraArgs);
 
 	info.useStdout = false;
+	emit checkProgress(-1.0, tr("Updating local package database…"));
 	runUpdateTool(Update, std::move(info));
 }
 
@@ -50,12 +47,8 @@ UpdateInstaller *QHomebrewUpdaterBackend::createInstaller()
 
 bool QHomebrewUpdaterBackend::initialize()
 {
-	if (auto pConf = config()->value(QStringLiteral("packages")); pConf) {
-		if (pConf->userType() == QMetaType::QStringList)
-			_packages = pConf->toStringList();
-		else
-			_packages = pConf->toString().split(QLatin1Char(','));
-	}
+	if (auto pConf = config()->value(QStringLiteral("packages")); pConf)
+		_packages = readStringList(*pConf);
 	if (_packages.isEmpty()) {
 		qCCritical(logBrewBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
 		return false;
@@ -91,12 +84,8 @@ std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::insta
 		return std::nullopt;
 	}
 
-	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs) {
-		if (extraArgs->userType() == QMetaType::QStringList)
-			info.arguments.append(extraArgs->toStringList());
-		else
-			info.arguments.append(extraArgs->toString().split(QLatin1Char(' ')));
-	}
+	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
+		info.arguments += readArgumentList(*extraArgs);
 
 	info.runAsAdmin = false;
 
@@ -106,12 +95,8 @@ std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::insta
 QString QHomebrewUpdaterBackend::brewPath() const
 {
 	QStringList paths;
-	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths) {
-		if (mPaths->userType() == QMetaType::QStringList)
-			paths = mPaths->toStringList();
-		else
-			paths = mPaths->toString().split(QDir::listSeparator());
-	}
+	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths)
+		paths = readPathList(*mPaths);
 
 	const auto path = QStandardPaths::findExecutable(QStringLiteral("brew"), paths);
 	if (path.isEmpty()) {
@@ -142,12 +127,9 @@ void QHomebrewUpdaterBackend::onUpdated(int exitCode)
 			QStringLiteral("outdated"),
 			QStringLiteral("--json=v1")
 		};
-		if (auto argsVal = config()->value(QStringLiteral("extraOutdatedArgs")); argsVal) {
-			if (argsVal->userType() == QMetaType::QStringList)
-				info.arguments.append(argsVal->toStringList());
-			else
-				info.arguments.append(argsVal->toString().split(QLatin1Char(' ')));
-		}
+		if (auto extraArgs = config()->value(QStringLiteral("extraOutdatedArgs")); extraArgs)
+			info.arguments += readArgumentList(*extraArgs);
+		emit checkProgress(-1.0, tr("Scanning for outdated packages…"));
 		runUpdateTool(Outdated, std::move(info));
 	} else {
 		qCCritical(logBrewBackend) << "brew update exited with error code" << exitCode;

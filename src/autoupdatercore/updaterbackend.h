@@ -65,6 +65,7 @@ protected:
 	explicit UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent = nullptr);
 
 	IConfigReader *config() const;
+	QStringList readStringList(const QVariant &value, QChar listSeperator = QLatin1Char(',')) const;
 
 	virtual bool initialize() = 0;
 

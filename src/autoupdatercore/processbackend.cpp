@@ -102,6 +102,75 @@ void ProcessBackend::runUpdateTool(int id, ProcessBackend::UpdateProcessInfo too
 					QIODevice::ReadOnly);
 }
 
+QStringList ProcessBackend::readPathList(const QVariant &value) const
+{
+	return readStringList(value, QDir::listSeparator());
+}
+
+QStringList ProcessBackend::readArgumentList(const QVariant &value) const
+{
+	if (value.userType() == QMetaType::QStringList)
+		return value.toStringList();
+	else {
+		QStringList args;
+
+		enum { None, Word, Quoted, QuotedSingle } state = None;
+		QString current;
+		bool escaped = false;
+		for (const auto &c : value.toString()) {
+			if (escaped) {
+				current.append(c);
+				escaped = false;
+				if (state == None)
+					state = Word;
+			} else if (c == QLatin1Char('\\'))
+				escaped = true;
+			else {
+				switch (state) {
+				case None:
+					if (!c.isSpace()) {
+						if (c == QLatin1Char('"'))
+							state = Quoted;
+						else if (c == QLatin1Char('\''))
+							state = QuotedSingle;
+						else {
+							current.append(c);
+							state = Word;
+						}
+					}
+					break;
+				case Word:
+					if (c.isSpace()) {
+						args.append(current);
+						current.clear();
+						state = None;
+					} else if (c == QLatin1Char('"'))
+						state = Quoted;
+					else if (c == QLatin1Char('\''))
+						state = QuotedSingle;
+					else
+						current.append(c);
+					break;
+				case Quoted:
+					if (c == QLatin1Char('"'))
+						state = Word;
+					else
+						current.append(c);
+					break;
+				case QuotedSingle:
+					if (c == QLatin1Char('\''))
+						state = Word;
+					else
+						current.append(c);
+					break;
+				}
+			}
+		}
+
+		return args;
+	}
+}
+
 // ------------- private implementation -------------
 
 ProcessBackendPrivate::ProcessBackendPrivate(QString &&pKey) :
