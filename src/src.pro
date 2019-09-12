@@ -6,6 +6,8 @@ SUBDIRS += \
 	imports \
 	plugins
 
+android: SUBDIRS += jar
+
 plugins.depends += autoupdatercore
 autoupdaterwidgets.depends += autoupdatercore
 imports.depends += autoupdatercore

@@ -37,6 +37,11 @@ else:mac:!ios: SOURCES += adminauthoriser_mac.cpp
 else:unix:qtConfig(process): SOURCES += adminauthoriser_x11.cpp
 else: SOURCES += adminauthoriser_dummy.cpp
 
+android {
+	ANDROID_BUNDLED_JAR_DEPENDENCIES = \
+		jar/QtAutoUpdaterCorePlayStorePlugin.jar
+}
+
 load(qt_module)
 
 win32:!winrt: LIBS += -lAdvapi32 -lOle32 -lShell32
