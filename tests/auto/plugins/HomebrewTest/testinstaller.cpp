@@ -10,7 +10,8 @@ const QString TestInstaller::FormulaTemplate {QStringLiteral(R"_(class Qtautoupd
 	sha256 "22527251bffcee2e44946f927287ee746c541a5dd262e69915fbcdc0641e5f29"
 
 	def install
-		prefix.install "QtAutoUpdater-2.1.5-4/README.md"
+		prefix.install "README.md"
+		File.open("#{prefix}/qtautoupdatertestpackage.sh", "w") { |file| file << "echo qtautoupdatertestpackage %1" }
 	end
 end
 )_")};
