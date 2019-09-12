@@ -13,10 +13,10 @@ public:
 	explicit TestInstaller(QObject *parent = nullptr);
 	~TestInstaller() override;
 
-	QString repositoryPath() const;
 	bool isInstalled() const;
 
 	bool setup();
+	bool cleanup();
 
 	void setVersion(QVersionNumber version);
 	bool package();
@@ -24,13 +24,15 @@ public:
 	bool uninstall();
 
 private:
-	static const QByteArray XmlText;
+	static const QString FormulaTemplate;
 
 	QTemporaryDir _dir;
 	bool _installed = false;
 	QVersionNumber _version {1, 0, 0};
 
-	bool runChoco(QStringList arguments, bool source, bool verify = true);
+	bool runGit(const QStringList &arguments);
+	bool runBrew(const QStringList &arguments, bool verify = true);
+	bool runTool(const QString &program, const QStringList &arguments, const QString &workingDir, bool verify);
 };
 
 #endif // TESTINSTALLER_H

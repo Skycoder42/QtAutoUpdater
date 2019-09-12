@@ -4,6 +4,7 @@ SUBDIRS += testlib
 
 qtConfig(process): SUBDIRS += QtIfwTest
 win32:qtConfig(process): SUBDIRS += ChocolateyTest
+mac:!ios:qtConfig(process): SUBDIRS += HomebrewTest
 
 for(var, SUBDIRS):!equals(var, testlib): $${var}.depends += testlib
 
