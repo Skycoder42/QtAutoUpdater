@@ -12,7 +12,7 @@ ApplicationWindow {
 	title: qsTr("Hello World")
 
 	property Updater globalUpdater: QtAutoUpdater.createUpdater("playstore", {
-																	"debug": true
+																	"debug": false
 																}, appWindow)
 
 	header: ToolBar {
