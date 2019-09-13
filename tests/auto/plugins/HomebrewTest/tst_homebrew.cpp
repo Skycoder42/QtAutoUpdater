@@ -50,7 +50,7 @@ QString HomebrewTest::backend() const
 QVariantMap HomebrewTest::config()
 {
 	return {
-		{QStringLiteral("packages"), QStringLiteral("qtautoupdatertestpackage")}
+		{QStringLiteral("packages"), QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage")}
 	};
 }
 
@@ -59,10 +59,10 @@ QList<UpdateInfo> HomebrewTest::createInfos(const QVersionNumber &versionFrom, c
 	if (versionTo > versionFrom) {
 		return {
 			{
-				QStringLiteral("qtautoupdatertestpackage"),
+				QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage"),
 				versionTo,
 				0ull,
-				QStringLiteral("qtautoupdatertestpackage")
+				QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage")
 			}
 		};
 	} else
