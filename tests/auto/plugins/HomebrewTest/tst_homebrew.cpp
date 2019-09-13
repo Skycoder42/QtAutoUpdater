@@ -93,8 +93,7 @@ bool HomebrewTest::prepareUpdate(const QVersionNumber &version)
 
 bool HomebrewTest::canAbort(bool hard) const
 {
-	Q_UNUSED(hard)
-	return true;
+	return hard;
 }
 
 bool HomebrewTest::cancelState() const
