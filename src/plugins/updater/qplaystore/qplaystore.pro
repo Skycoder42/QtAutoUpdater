@@ -1,6 +1,6 @@
 TARGET = qplaystore
 
-QT = autoupdatercore androidextras autoupdatercore-private
+QT = autoupdatercore androidextras autoupdatercore-private androidextras-private
 
 HEADERS += \
 	qplaystoreupdaterbackend.h \

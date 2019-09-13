@@ -40,6 +40,7 @@ else: SOURCES += adminauthoriser_dummy.cpp
 android {
 	ANDROID_BUNDLED_JAR_DEPENDENCIES = \
 		jar/QtAutoUpdaterCorePlayStorePlugin.jar
+	MODULE_DEFINES += "QT_AUTOUPDATER_PLAY_CORE_VERSION=\\\"$$PLAY_CORE_VERSION\\\""
 }
 
 load(qt_module)

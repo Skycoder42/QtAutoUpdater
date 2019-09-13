@@ -39,7 +39,7 @@ DISTFILES += \
 	android/build.gradle \
 	android/res/values/libs.xml
 
-!android_test_build: target.path = $$[QT_INSTALL_EXAMPLES]/autoupdaterquick/QuickUpdater
+!android_test_build: target.path = $$[QT_INSTALL_EXAMPLES]/autoupdaterquick/AndroidDemo
 !install_ok: INSTALLS += target
 
 android_test_build {
