@@ -35,7 +35,7 @@ void QHomebrewUpdaterBackend::checkForUpdates()
 	if (auto extraArgs = config()->value(QStringLiteral("extraUpdateArgs")); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
-	info.useStdout = false;
+	info.useStdout = true;  // DEBUG false
 	emit checkProgress(-1.0, tr("Updating local package database…"));
 	runUpdateTool(Update, std::move(info));
 }
@@ -61,6 +61,7 @@ void QHomebrewUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *proces
 {
 	switch (id) {
 	case Update:
+		qCDebug(logBrewBackend) << processDevice->readAll().constData();  // DEBUG remove
 		onUpdated(exitCode);
 		break;
 	case Outdated:
@@ -158,6 +159,7 @@ void QHomebrewUpdaterBackend::onOutdated(int exitCode, QIODevice *processDevice)
 		QList<UpdateInfo> updates;
 		for (const auto value : doc.array()) {
 			const auto obj = value.toObject();
+			qCDebug(logBrewBackend) << obj;  // DEBUG remove
 			UpdateInfo info;
 			info.setName(obj[QStringLiteral("name")].toString());
 			if (!_packages.contains(info.name()))
