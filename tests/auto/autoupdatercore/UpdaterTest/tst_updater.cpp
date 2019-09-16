@@ -1,10 +1,18 @@
 #include <QtTest>
 #include <QtAutoUpdaterCore>
+#include <QtCore/private/qfactoryloader_p.h>
+#include <QtAutoUpdaterCore/private/updater_p.h>
 using namespace QtAutoUpdater;
 using namespace std::chrono;
 using namespace std::chrono_literals;
 
 Q_DECLARE_METATYPE(seconds)
+Q_DECLARE_METATYPE(UpdaterPrivate::InstallerType)
+Q_DECLARE_METATYPE(Updater::InstallModeFlag)
+
+Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, testLoader,
+						  (QtAutoUpdater_UpdaterPlugin_iid,
+						   QLatin1String("/updaters")))
 
 class UpdaterTest : public QObject
 {
@@ -20,10 +28,18 @@ private Q_SLOTS:
 	void testAbort();
 	void testSchedule_data();
 	void testSchedule();
+	void testModeMapping_data();
+	void testModeMapping();
 	void testTriggerUpdates_data();
 	void testTriggerUpdates();
 
 private:
+	class XUpdater : public QObject {
+	public:
+		XUpdater(UpdaterPrivate &dd, QObject *parent) :
+			QObject{dd, parent}
+		{}
+	};
 	using sptr = QScopedPointer<Updater, QScopedPointerDeleteLater>;
 
 	void parametrize(QVariantMap &params, const QList<UpdateInfo> &updates);
@@ -33,6 +49,8 @@ void UpdaterTest::initTestCase()
 {
 	qRegisterMetaType<seconds>();
 	qRegisterMetaType<UpdateInstaller*>();
+	qRegisterMetaType<UpdaterPrivate::InstallerType>();
+	qRegisterMetaType<Updater::InstallModeFlag>();
 }
 
 void UpdaterTest::testInitFail()
@@ -281,78 +299,288 @@ void UpdaterTest::testSchedule()
 	} while (repCnt-- > 0);
 }
 
+void UpdaterTest::testModeMapping_data()
+{
+	QTest::addColumn<UpdaterBackend::Features>("features");
+	QTest::addColumn<Updater::InstallMode>("mode");
+	QTest::addColumn<Updater::InstallScope>("scope");
+	QTest::addColumn<UpdaterPrivate::InstallerType>("type");
+
+	QTest::newRow("none.parallel.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+											<< Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+											<< Updater::InstallScope::PreferInternal
+											<< UpdaterPrivate::InstallerType::None;
+	QTest::newRow("none.parallel.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+												  << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+												  << Updater::InstallScope::PreferInternal
+												  << UpdaterPrivate::InstallerType::None;
+	QTest::newRow("none.parallel.external") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+											<< Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+											<< Updater::InstallScope::PreferExternal
+											<< UpdaterPrivate::InstallerType::None;
+	QTest::newRow("none.parallel.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+												  << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+												  << Updater::InstallScope::PreferExternal
+												  << UpdaterPrivate::InstallerType::None;
+
+	QTest::newRow("none.onExit.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+										  << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+										  << Updater::InstallScope::PreferInternal
+										  << UpdaterPrivate::InstallerType::None;
+	QTest::newRow("none.onExit.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+												<< Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+												<< Updater::InstallScope::PreferInternal
+												<< UpdaterPrivate::InstallerType::None;
+	QTest::newRow("none.onExit.external") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+										  << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+										  << Updater::InstallScope::PreferExternal
+										  << UpdaterPrivate::InstallerType::None;
+	QTest::newRow("none.onExit.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::CheckUpdates}
+												<< Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+												<< Updater::InstallScope::PreferExternal
+												<< UpdaterPrivate::InstallerType::None;
+
+	QTest::newRow("trigger.parallel.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+											   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+											   << Updater::InstallScope::PreferInternal
+											   << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("trigger.parallel.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+													 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+													 << Updater::InstallScope::PreferInternal
+													 << UpdaterPrivate::InstallerType::None;
+	QTest::newRow("trigger.parallel.external") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+											   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+											   << Updater::InstallScope::PreferExternal
+											   << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("trigger.parallel.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+													 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+													 << Updater::InstallScope::PreferExternal
+													 << UpdaterPrivate::InstallerType::None;
+
+	QTest::newRow("trigger.onExit.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+											 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+											 << Updater::InstallScope::PreferInternal
+											 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("trigger.onExit.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+												   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+												   << Updater::InstallScope::PreferInternal
+												   << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("trigger.onExit.external") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+											 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+											 << Updater::InstallScope::PreferExternal
+											 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("trigger.onExit.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::TriggerInstall}
+												   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+												   << Updater::InstallScope::PreferExternal
+												   << UpdaterPrivate::InstallerType::OnExit;
+
+	QTest::newRow("triggerParallel.parallel.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+													   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+													   << Updater::InstallScope::PreferInternal
+													   << UpdaterPrivate::InstallerType::Trigger;
+	QTest::newRow("triggerParallel.parallel.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+															 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+															 << Updater::InstallScope::PreferInternal
+															 << UpdaterPrivate::InstallerType::Trigger;
+	QTest::newRow("triggerParallel.parallel.external") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+													   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+													   << Updater::InstallScope::PreferExternal
+													   << UpdaterPrivate::InstallerType::Trigger;
+	QTest::newRow("triggerParallel.parallel.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+															 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+															 << Updater::InstallScope::PreferExternal
+															 << UpdaterPrivate::InstallerType::Trigger;
+
+	QTest::newRow("triggerParallel.onExit.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+													 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+													 << Updater::InstallScope::PreferInternal
+													 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("triggerParallel.onExit.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+														   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+														   << Updater::InstallScope::PreferInternal
+														   << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("triggerParallel.onExit.external") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+													 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+													 << Updater::InstallScope::PreferExternal
+													 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("triggerParallel.onExit.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::ParallelTrigger}
+														   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+														   << Updater::InstallScope::PreferExternal
+														   << UpdaterPrivate::InstallerType::OnExit;
+
+	QTest::newRow("perform.parallel.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+											   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+											   << Updater::InstallScope::PreferInternal
+											   << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform.parallel.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+													 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+													 << Updater::InstallScope::PreferInternal
+													 << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform.parallel.external") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+											   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+											   << Updater::InstallScope::PreferExternal
+											   << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform.parallel.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+													 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+													 << Updater::InstallScope::PreferExternal
+													 << UpdaterPrivate::InstallerType::Perform;
+
+	QTest::newRow("perform.onExit.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+											 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+											 << Updater::InstallScope::PreferInternal
+											 << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform.onExit.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+												   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+												   << Updater::InstallScope::PreferInternal
+												   << UpdaterPrivate::InstallerType::None;
+	QTest::newRow("perform.onExit.external") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+											 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+											 << Updater::InstallScope::PreferExternal
+											 << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform.onExit.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall}
+												   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+												   << Updater::InstallScope::PreferExternal
+												   << UpdaterPrivate::InstallerType::None;
+
+	QTest::newRow("perform-trigger.parallel.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+													   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+													   << Updater::InstallScope::PreferInternal
+													   << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform-trigger.parallel.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+															 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+															 << Updater::InstallScope::PreferInternal
+															 << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform-trigger.parallel.external") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+													   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+													   << Updater::InstallScope::PreferExternal
+													   << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform-trigger.parallel.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+															 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+															 << Updater::InstallScope::PreferExternal
+															 << UpdaterPrivate::InstallerType::Perform;
+
+	QTest::newRow("perform-trigger.onExit.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+													 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+													 << Updater::InstallScope::PreferInternal
+													 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("perform-trigger.onExit.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+														   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+														   << Updater::InstallScope::PreferInternal
+														   << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("perform-trigger.onExit.external") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+													 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+													 << Updater::InstallScope::PreferExternal
+													 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("perform-trigger.onExit.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::TriggerInstall}
+														   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+														   << Updater::InstallScope::PreferExternal
+														   << UpdaterPrivate::InstallerType::OnExit;
+
+	QTest::newRow("perform-triggerParallel.parallel.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+															   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+															   << Updater::InstallScope::PreferInternal
+															   << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform-triggerParallel.parallel.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+																	 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+																	 << Updater::InstallScope::PreferInternal
+																	 << UpdaterPrivate::InstallerType::Perform;
+	QTest::newRow("perform-triggerParallel.parallel.external") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+															   << Updater::InstallMode{Updater::InstallModeFlag::Parallel}
+															   << Updater::InstallScope::PreferExternal
+															   << UpdaterPrivate::InstallerType::Trigger;
+	QTest::newRow("perform-triggerParallel.parallel.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+																	 << Updater::InstallMode{Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force}
+																	 << Updater::InstallScope::PreferExternal
+																	 << UpdaterPrivate::InstallerType::Trigger;
+
+	QTest::newRow("perform-triggerParallel.onExit.internal") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+															 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+															 << Updater::InstallScope::PreferInternal
+															 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("perform-triggerParallel.onExit.internal.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+																   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+																   << Updater::InstallScope::PreferInternal
+																   << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("perform-triggerParallel.onExit.external") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+															 << Updater::InstallMode{Updater::InstallModeFlag::OnExit}
+															 << Updater::InstallScope::PreferExternal
+															 << UpdaterPrivate::InstallerType::OnExit;
+	QTest::newRow("perform-triggerParallel.onExit.external.force") << UpdaterBackend::Features{UpdaterBackend::Feature::PerformInstall | UpdaterBackend::Feature::ParallelTrigger}
+																   << Updater::InstallMode{Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force}
+																   << Updater::InstallScope::PreferExternal
+																   << UpdaterPrivate::InstallerType::OnExit;
+}
+
+void UpdaterTest::testModeMapping()
+{
+	QFETCH(UpdaterBackend::Features, features);
+	QFETCH(Updater::InstallMode, mode);
+	QFETCH(Updater::InstallScope, scope);
+	QFETCH(UpdaterPrivate::InstallerType, type);
+
+	QVariantMap config {
+		{QStringLiteral("features"), static_cast<int>(features)}
+	};
+
+	auto priv = new UpdaterPrivate{};
+	XUpdater obj{*priv, this};
+	priv->backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(testLoader, QStringLiteral("test"), &obj);
+	QVERIFY(priv->backend);
+	QVERIFY(priv->backend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{new VariantConfigReader{QStringLiteral("test"), std::move(config)}}));
+
+	QCOMPARE(priv->calcInstallerType(mode, scope), type);
+}
+
 void UpdaterTest::testTriggerUpdates_data()
 {
-	QTest::addColumn<bool>("canTrigger");
-	QTest::addColumn<bool>("canParallel");
 	QTest::addColumn<bool>("canInstall");
-	QTest::addColumn<bool>("forceExit");
+	QTest::addColumn<Updater::InstallModeFlag>("mode");
+	QTest::addColumn<Updater::InstallScope>("scope");
 
 	QTest::addColumn<bool>("works");
 	QTest::addColumn<bool>("exitRun");
 	QTest::addColumn<bool>("signaled");
 	QTest::addColumn<bool>("success");
 
-	QTest::newRow("trigger.detached") << true
-									  << false
-									  << false
-									  << false
-									  << true
-									  << true
-									  << false
-									  << true;
-	QTest::newRow("trigger.detached.forced") << true
-											 << false
-											 << false
-											 << true
-											 << true
-											 << true
-											 << false
-											 << true;
-	QTest::newRow("trigger.parallel") << true
-									  << true
-									  << false
-									  << false
-									  << true
-									  << false
-									  << false
-									  << true;
-	QTest::newRow("trigger.parallel.forced") << true
-											 << true
-											 << false
-											 << true
-											 << true
-											 << true
-											 << false
-											 << true;
-	QTest::newRow("trigger.parallel.failed") << true
-											 << true
-											 << false
-											 << false
-											 << true
-											 << false
-											 << false
-											 << false;
-	QTest::newRow("perform") << false
-							 << false
+	QTest::newRow("onExit") << true
+							<< Updater::InstallModeFlag::OnExit
+							<< Updater::InstallScope::PreferExternal
+							<< true
+							<< true
+							<< false
+							<< true;
+	QTest::newRow("trigger") << true
+							 << Updater::InstallModeFlag::Parallel
+							 << Updater::InstallScope::PreferExternal
 							 << true
 							 << false
+							 << false
+							 << true;
+	QTest::newRow("perform") << true
+							 << Updater::InstallModeFlag::Parallel
+							 << Updater::InstallScope::PreferInternal
 							 << true
 							 << false
 							 << true
 							 << true;
-	QTest::newRow("perform.forced") << false
-									<< false
+	QTest::newRow("none") << false
+						  << Updater::InstallModeFlag::Parallel
+						  << Updater::InstallScope::PreferInternal
+						  << false
+						  << false
+						  << false
+						  << false;
+
+	QTest::newRow("trigger.failed") << true
+									<< Updater::InstallModeFlag::Parallel
+									<< Updater::InstallScope::PreferExternal
 									<< true
-									<< true
-									<< false
 									<< false
 									<< false
 									<< false;
-	QTest::newRow("perform.failed") << false
-									<< false
-									<< true
-									<< false
+	QTest::newRow("perform.failed") << true
+									<< Updater::InstallModeFlag::Parallel
+									<< Updater::InstallScope::PreferInternal
 									<< true
 									<< false
 									<< true
@@ -361,25 +589,19 @@ void UpdaterTest::testTriggerUpdates_data()
 
 void UpdaterTest::testTriggerUpdates()
 {
-	QFETCH(bool, canTrigger);
-	QFETCH(bool, canParallel);
 	QFETCH(bool, canInstall);
-	QFETCH(bool, forceExit);
+	QFETCH(Updater::InstallModeFlag, mode);
+	QFETCH(Updater::InstallScope, scope);
 	QFETCH(bool, works);
 	QFETCH(bool, exitRun);
 	QFETCH(bool, signaled);
 	QFETCH(bool, success);
 
 	// prepare the configuration
-	UpdaterBackend::Features features = UpdaterBackend::Feature::CheckUpdates;
-	if (canTrigger)
-		features |= UpdaterBackend::Feature::TriggerInstall;
-	if (canParallel)
-		features |= UpdaterBackend::Feature::ParallelTrigger;  // TODO refactor because of flag change
-	if (canInstall)
-		features |= UpdaterBackend::Feature::PerformInstall;
 	QVariantMap config {
-		{QStringLiteral("features"), static_cast<int>(features)},
+		{QStringLiteral("features"), static_cast<int>(canInstall ?
+														  (UpdaterBackend::Feature::ParallelTrigger | UpdaterBackend::Feature::PerformInstall) :
+														  UpdaterBackend::Feature::CheckUpdates)},
 		{QStringLiteral("delay"), 1},
 		{QStringLiteral("updateTime"), 1000},
 		{QStringLiteral("updateHasError"), !success},
@@ -401,7 +623,7 @@ void UpdaterTest::testTriggerUpdates()
 	QVERIFY(showSpy.isValid());
 
 	// trigger the update installation
-	const auto ok = updater->runUpdater();  // TODO refactor because of flag change
+	const auto ok = updater->runUpdater(mode, scope);
 	QCOMPARE(ok, works);
 	if (!works)
 		return;

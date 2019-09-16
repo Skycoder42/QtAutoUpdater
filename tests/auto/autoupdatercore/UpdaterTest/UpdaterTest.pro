@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += testlib autoupdatercore
+QT += testlib autoupdatercore autoupdatercore-private
 QT -= gui
 
 CONFIG += console
