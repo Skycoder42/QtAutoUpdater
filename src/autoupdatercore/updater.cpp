@@ -162,7 +162,10 @@ bool Updater::runUpdater(InstallMode mode, Updater::InstallScope scope)
 	if (isRunning())
 		return false;
 
-	switch (d->calcInstallerType(mode, scope)) {
+	switch (d->calcInstallerType(mode,
+								 scope,
+								 backend()->features(),
+								 backend()->key())) {
 	case UpdaterPrivate::InstallerType::Perform: {
 		auto installer = d->backend->createInstaller();
 		if (installer)  {
@@ -264,6 +267,66 @@ void Updater::cancelExitRun()
 
 // ------------- private implementation -------------
 
+UpdaterPrivate::InstallerType UpdaterPrivate::calcInstallerType(UpdaterPrivate::InstallMode mode, UpdaterPrivate::InstallScope scope, UpdaterBackend::Features features, const QString &key)
+{
+	if (mode.testFlag(InstallModeFlag::OnExit)) {
+		if (features.testFlag(UpdaterBackend::Feature::TriggerInstall))
+			return InstallerType::OnExit;
+		else {
+			if (mode.testFlag(InstallModeFlag::Force)) {
+				qCCritical(logUpdater) << "Backend" << key << "does not support on exit installation";
+				return InstallerType::None;
+			} else if (features.testFlag(UpdaterBackend::Feature::PerformInstall))
+				return InstallerType::Perform;
+			else {
+				qCCritical(logUpdater) << "Backend" << key << "does not support installation";
+				return InstallerType::None;
+			}
+		}
+	} else {
+		Q_ASSERT(mode == InstallMode{InstallModeFlag::Parallel} || mode == (InstallModeFlag::Parallel | InstallModeFlag::Force));
+		if (scope == InstallScope::PreferInternal) {
+			if (features.testFlag(UpdaterBackend::Feature::PerformInstall))
+				return InstallerType::Perform;
+			else {
+				if (features.testFlag(UpdaterBackend::Feature::ParallelTrigger))
+					return InstallerType::Trigger;
+				else if (features.testFlag(UpdaterBackend::Feature::TriggerInstall)) {
+					if (mode.testFlag(InstallModeFlag::Force)) {
+						qCCritical(logUpdater) << "Backend" << key << "does not support parallel installation";
+						return InstallerType::None;
+					} else
+						return InstallerType::OnExit;
+				} else {
+					qCCritical(logUpdater) << "Backend" << key << "does not support installation";
+					return InstallerType::None;
+				}
+			}
+		} else {
+			Q_ASSERT(scope == InstallScope::PreferExternal);
+			if (features.testFlag(UpdaterBackend::Feature::ParallelTrigger))
+				return InstallerType::Trigger;
+			else {
+				if (features.testFlag(UpdaterBackend::Feature::PerformInstall))
+					return InstallerType::Perform;
+				else if (features.testFlag(UpdaterBackend::Feature::TriggerInstall)) {
+					if (mode.testFlag(InstallModeFlag::Force)) {
+						qCCritical(logUpdater) << "Backend" << key << "does not support parallel installation";
+						return InstallerType::None;
+					} else
+						return InstallerType::OnExit;
+				} else {
+					qCCritical(logUpdater) << "Backend" << key << "does not support installation";
+					return InstallerType::None;
+				}
+			}
+		}
+	}
+
+	Q_UNREACHABLE();
+	return InstallerType::None;
+}
+
 QSettings *UpdaterPrivate::findDefaultConfig()
 {
 #ifdef Q_OS_WIN
@@ -325,66 +388,6 @@ void UpdaterPrivate::setupBackend(UpdaterBackend *newBackend)
 								  Updater::QPrivateSignal{}));
 	connect(backend, &UpdaterBackend::triggerInstallDone,
 			this, &UpdaterPrivate::_q_triggerInstallDone);
-}
-
-UpdaterPrivate::InstallerType UpdaterPrivate::calcInstallerType(UpdaterPrivate::InstallMode mode, UpdaterPrivate::InstallScope scope) const
-{
-	if (mode.testFlag(InstallModeFlag::OnExit)) {
-		if (backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall))
-			return InstallerType::OnExit;
-		else {
-			if (mode.testFlag(InstallModeFlag::Force)) {
-				qCCritical(logUpdater) << "Backend" << backend->key() << "does not support on exit installation";
-				return InstallerType::None;
-			} else if (backend->features().testFlag(UpdaterBackend::Feature::PerformInstall))
-				return InstallerType::Perform;
-			else {
-				qCCritical(logUpdater) << "Backend" << backend->key() << "does not support installation";
-				return InstallerType::None;
-			}
-		}
-	} else {
-		Q_ASSERT(mode == InstallMode{InstallModeFlag::Parallel} || mode == (InstallModeFlag::Parallel | InstallModeFlag::Force));
-		if (scope == InstallScope::PreferInternal) {
-			if (backend->features().testFlag(UpdaterBackend::Feature::PerformInstall))
-				return InstallerType::Perform;
-			else {
-				if (backend->features().testFlag(UpdaterBackend::Feature::ParallelTrigger))
-					return InstallerType::Trigger;
-				else if (backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
-					if (mode.testFlag(InstallModeFlag::Force)) {
-						qCCritical(logUpdater) << "Backend" << backend->key() << "does not support parallel installation";
-						return InstallerType::None;
-					} else
-						return InstallerType::OnExit;
-				} else {
-					qCCritical(logUpdater) << "Backend" << backend->key() << "does not support installation";
-					return InstallerType::None;
-				}
-			}
-		} else {
-			Q_ASSERT(scope == InstallScope::PreferExternal);
-			if (backend->features().testFlag(UpdaterBackend::Feature::ParallelTrigger))
-				return InstallerType::Trigger;
-			else {
-				if (backend->features().testFlag(UpdaterBackend::Feature::PerformInstall))
-					return InstallerType::Perform;
-				else if (backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
-					if (mode.testFlag(InstallModeFlag::Force)) {
-						qCCritical(logUpdater) << "Backend" << backend->key() << "does not support parallel installation";
-						return InstallerType::None;
-					} else
-						return InstallerType::OnExit;
-				} else {
-					qCCritical(logUpdater) << "Backend" << backend->key() << "does not support installation";
-					return InstallerType::None;
-				}
-			}
-		}
-	}
-
-	Q_UNREACHABLE();
-	return InstallerType::None;
 }
 
 void UpdaterPrivate::_q_appAboutToExit()

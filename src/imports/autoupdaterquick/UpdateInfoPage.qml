@@ -12,7 +12,7 @@ Page {
 	property var goBackCallback: null
 
 	readonly property bool canTrigger: (updater.features & UpdaterBackend.TriggerInstall) != 0
-	readonly property bool canParallel: (updater.features & UpdaterBackend.ParallelInstall) != 0
+	readonly property bool canParallel: (updater.features & UpdaterBackend.ParallelTrigger) != 0  // TODO refactor because of flag change
 	readonly property int actionDisplayMode: canTrigger && canParallel && updateInfoPage.width < updateInfoPage.height ? ToolButton.IconOnly : ToolButton.TextBesideIcon
 
 	header: ToolBar {

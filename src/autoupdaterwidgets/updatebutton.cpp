@@ -49,6 +49,18 @@ QString UpdateButton::animationFile() const
 	return d->loadingGif->fileName();
 }
 
+Updater::InstallMode UpdateButton::installMode() const
+{
+	Q_D(const UpdateButton);
+	return d->installMode;
+}
+
+Updater::InstallScope UpdateButton::installScope() const
+{
+	Q_D(const UpdateButton);
+	return d->installScope;
+}
+
 void UpdateButton::resetState()  // TODO move to private?
 {
 	Q_D(UpdateButton);
@@ -119,6 +131,26 @@ void UpdateButton::resetAnimationFile()
 	d->loadingGif->setFileName(QStringLiteral(":/QtAutoUpdater/icons/updateRunning.gif"));
 	d->loadingGif->setSpeed(200);
 	emit animationFileChanged(this->animationFile(), {});
+}
+
+void UpdateButton::setInstallMode(Updater::InstallMode installMode)
+{
+	Q_D(UpdateButton);
+	if (d->installMode == installMode)
+		return;
+
+	d->installMode = installMode;
+	emit installModeChanged(d->installMode, {});
+}
+
+void UpdateButton::setInstallScope(Updater::InstallScope installScope)
+{
+	Q_D(UpdateButton);
+	if (d->installScope == installScope)
+		return;
+
+	d->installScope = installScope;
+	emit installScopeChanged(d->installScope, {});
 }
 
 //-----------------PRIVATE IMPLEMENTATION-----------------
@@ -210,8 +242,7 @@ void UpdateButtonPrivate::_q_clicked()
 		switch (updater->state()) {
 		case Updater::State::NewUpdates:
 			if (mode.testFlag(ModeFlag::AllowInstall)) {
-				// TODO refactor because of flag change
-				updater->runUpdater(mode.testFlag(ModeFlag::ForceOnExit) ? Updater::InstallModeFlag::Force : Updater::InstallModeFlag::Parallel);
+				updater->runUpdater(installMode, installScope);
 				break;
 			} else
 				Q_FALLTHROUGH();

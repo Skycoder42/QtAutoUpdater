@@ -29,7 +29,9 @@ public:
 	QPointer<Updater> updater;
 	QScopedPointer<Ui::UpdateButton> ui;
 	Mode mode = ModeFlag::AllowAndShowAll;
-	QMovie *loadingGif;
+	QMovie *loadingGif = nullptr;
+	Updater::InstallMode installMode = Updater::InstallModeFlag::Parallel;
+	Updater::InstallScope installScope = Updater::InstallScope::PreferInternal;
 
 	void _q_changeUpdaterState(Updater::State state);
 	void _q_updateStatus(double progress, const QString &status);

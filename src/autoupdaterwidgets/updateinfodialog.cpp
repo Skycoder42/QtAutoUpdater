@@ -11,6 +11,8 @@
 #include <QtGui/private/qguiapplication_p.h>
 #include <QtGui/qpa/qplatformtheme.h>
 
+#include <QtAutoUpdaterCore/private/updater_p.h>
+
 using namespace QtAutoUpdater;
 
 UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *parent) :
@@ -47,7 +49,6 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 			this, &UpdateInfoDialog::installLater);
 
 	//configure buttons and texts
-	// TODO refactor because of flag change
 	if (!_features.testFlag(UpdaterBackend::Feature::TriggerInstall)) {
 		// no install after exit -> hide install on exit
 		_ui->delayButton->setVisible(false);
@@ -64,14 +65,15 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 		} else
 			_ui->stateLabel->setText(tr("There are new updates available! You can install them right now by pressing <Install Now> below."));
 	} else {
-		if (!_features.testFlag(UpdaterBackend::Feature::ParallelTrigger)) {
-			_ui->stateLabel->setText(tr("There are new updates available! "
-										"Installing those requires you to close this application."
-										"You can install them now or automatically, when you exit the application."));
-		} else {
+		if (_features.testFlag(UpdaterBackend::Feature::ParallelTrigger) ||
+			_features.testFlag(UpdaterBackend::Feature::PerformInstall)) {
 			_ui->stateLabel->setText(tr("There are new updates available! "
 										"You can install them now, without having to exit the application during the update."
 										"Alternatively, you can automatically start the installert, when you exit the application."));
+		} else {
+			_ui->stateLabel->setText(tr("There are new updates available! "
+										"Installing those requires you to close this application."
+										"You can install them now or automatically, when you exit the application."));
 		}
 	}
 
@@ -111,8 +113,8 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(const QList<Upda
 
 void QtAutoUpdater::UpdateInfoDialog::installNow()
 {
-	// TODO refactor because of flag change
-	if (!_features.testFlag(UpdaterBackend::Feature::ParallelTrigger) ||
+	if (_features.testFlag(UpdaterBackend::Feature::ParallelTrigger) ||
+		_features.testFlag(UpdaterBackend::Feature::PerformInstall) ||
 		DialogMaster::questionT(this,
 								tr("Install Now?"),
 								tr("Close the application and install updates?"))

@@ -20,6 +20,8 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateButton : public QWidget
 	Q_PROPERTY(Mode mode READ mode WRITE setMode NOTIFY modeChanged)
 	//! The file of the animation to be shown
 	Q_PROPERTY(QString animationFile READ animationFile WRITE setAnimationFile RESET resetAnimationFile NOTIFY animationFileChanged)
+	Q_PROPERTY(QtAutoUpdater::Updater::InstallMode installMode READ installMode WRITE setInstallMode NOTIFY installModeChanged)
+	Q_PROPERTY(QtAutoUpdater::Updater::InstallScope installScope READ installScope WRITE setInstallScope NOTIFY installScopeChanged)
 
 public:
 	enum class ModeFlag {
@@ -27,8 +29,6 @@ public:
 		ShowStatus = 0x02,
 		AllowInstall = 0x04,
 		AllowCancel = 0x08,
-
-		ForceOnExit = (AllowInstall | 0x10),
 
 		None = 0x00,
 		AllowAndShowAll = (ShowResult | ShowStatus | AllowInstall | AllowCancel)
@@ -46,8 +46,10 @@ public:
 	Mode mode() const;
 	//! @readAcFn{UpdateButton::animationFile}
 	QString animationFile() const;
-
-
+	//! @readAcFn{UpdateButton::installMode}
+	Updater::InstallMode installMode() const;
+	//! @readAcFn{UpdateButton::installScope}
+	Updater::InstallScope installScope() const;
 
 public Q_SLOTS:
 	//! Rests the buttons visual state
@@ -63,6 +65,10 @@ public Q_SLOTS:
 	void setAnimationDevice(QIODevice *animationDevice, int speed = 100);
 	//! @resetAcFn{UpdateButton::animationFile}
 	void resetAnimationFile();
+	//! @writeAcFn{UpdateButton::installMode}
+	void setInstallMode(QtAutoUpdater::Updater::InstallMode installMode);
+	//! @writeAcFn{UpdateButton::installScope}
+	void setInstallScope(QtAutoUpdater::Updater::InstallScope installScope);
 
 Q_SIGNALS:
 	//! @notifyAcFn{UpdateButton::updater}
@@ -71,6 +77,10 @@ Q_SIGNALS:
 	void modeChanged(Mode mode, QPrivateSignal);
 	//! @notifyAcFn{UpdateButton::animationFile}
 	void animationFileChanged(const QString &animationFile, QPrivateSignal);
+	//! @notifyAcFn{UpdateButton::installMode}
+	void installModeChanged(QtAutoUpdater::Updater::InstallMode installMode, QPrivateSignal);
+	//! @notifyAcFn{UpdateButton::installScope}
+	void installScopeChanged(QtAutoUpdater::Updater::InstallScope installScope, QPrivateSignal);
 
 private:
 	Q_DECLARE_PRIVATE(UpdateButton)

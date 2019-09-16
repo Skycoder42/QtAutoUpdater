@@ -28,6 +28,7 @@ public:
 	QPointer<Updater> updater;
 
 	DisplayLevel displayLevel = DisplayLevel::Info;
+	Updater::InstallScope installScope = Updater::InstallScope::PreferInternal;
 	QString desktopFileName;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;

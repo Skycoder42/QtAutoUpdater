@@ -89,6 +89,12 @@ Updater *UpdateController::updater() const
 	return d->updater;
 }
 
+Updater::InstallScope UpdateController::installScope() const
+{
+	Q_D(const UpdateController);
+	return d->installScope;
+}
+
 void UpdateController::setDisplayLevel(UpdateController::DisplayLevel displayLevel)
 {
 	Q_D(UpdateController);
@@ -136,6 +142,16 @@ void UpdateController::setUpdater(Updater *updater)
 		d->_q_updaterStateChanged(d->updater->state());
 	}
 	emit updaterChanged(d->updater, {});
+}
+
+void UpdateController::setInstallScope(Updater::InstallScope installScope)
+{
+	Q_D(UpdateController);
+	if (d->installScope == installScope)
+		return;
+
+	d->installScope = installScope;
+	emit installScopeChanged(d->installScope, {});
 }
 
 bool UpdateController::start()
@@ -266,24 +282,28 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 														  updater->backend()->features(),
 														  q->parentWindow());
 
+		auto installStarted = true;
 		switch(res) {
 		case UpdateInfoDialog::InstallNow:
-			// TODO refactor because of flag change
-			updater->runUpdater(Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force);
-			if (updater->willRunOnExit())
+			installStarted = updater->runUpdater(Updater::InstallModeFlag::Parallel, installScope);
+			if (installStarted && updater->willRunOnExit())
 				qApp->quit();
 			break;
 		case UpdateInfoDialog::InstallLater:
-			// TODO refactor because of flag change
-			updater->runUpdater(Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force);
+			installStarted = updater->runUpdater(Updater::InstallModeFlag::ForceOnExit, installScope);
 			break;
 		case UpdateInfoDialog::NoInstall:
 			break;
 		default:
 			Q_UNREACHABLE();
 		}
-	} else {
-		// TODO refactor because of flag change
+
+		if (!installStarted) {
+			DialogMaster::criticalT(q->parentWindow(),
+									UpdateController::tr("Install Updates"),
+									UpdateController::tr("Failed to start the installer to install new updates!"));
+		}
+	} else if (displayLevel <= UpdateController::DisplayLevel::Exit) {
 		updater->runUpdater();
 		if (updater->willRunOnExit()) {
 			if(canShow(DisplayLevel::Exit)) {
@@ -291,7 +311,7 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 										   UpdateController::tr("Install Updates"),
 										   UpdateController::tr("New updates are available. The update tool will be "
 											  "started to install those as soon as you close the application!"));
-			} else
+			} else if (displayLevel == UpdateController::DisplayLevel::Automatic)
 				qApp->quit();
 		}
 	}

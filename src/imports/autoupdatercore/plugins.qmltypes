@@ -144,7 +144,7 @@ Module {
         }
         Signal {
             name: "showEula"
-            Parameter { name: "id"; type: "QUuid" }
+            Parameter { name: "id"; type: "QVariant" }
             Parameter { name: "htmlText"; type: "string" }
             Parameter { name: "required"; type: "bool" }
         }
@@ -160,7 +160,7 @@ Module {
         Method { name: "cancelInstall" }
         Method {
             name: "eulaHandled"
-            Parameter { name: "id"; type: "QUuid" }
+            Parameter { name: "id"; type: "QVariant" }
             Parameter { name: "accepted"; type: "bool" }
         }
         Method {
@@ -184,6 +184,22 @@ Module {
                 "NewUpdates": 3,
                 "Installing": 4,
                 "Error": -1
+            }
+        }
+        Enum {
+            name: "InstallMode"
+            values: {
+                "Parallel": 0,
+                "OnExit": 1,
+                "Force": 2,
+                "ForceOnExit": 3
+            }
+        }
+        Enum {
+            name: "InstallScope"
+            values: {
+                "PreferInternal": 0,
+                "PreferExternal": 1
             }
         }
         Property { name: "features"; type: "QtAutoUpdater::UpdaterBackend::Features"; isReadonly: true }
@@ -255,7 +271,13 @@ Module {
         Method {
             name: "runUpdater"
             type: "bool"
-            Parameter { name: "forceOnExit"; type: "bool" }
+            Parameter { name: "mode"; type: "InstallMode" }
+            Parameter { name: "scope"; type: "InstallScope" }
+        }
+        Method {
+            name: "runUpdater"
+            type: "bool"
+            Parameter { name: "mode"; type: "InstallMode" }
         }
         Method { name: "runUpdater"; type: "bool" }
     }
@@ -271,8 +293,8 @@ Module {
                 "CheckUpdates": 0,
                 "CheckProgress": 1,
                 "TriggerInstall": 2,
-                "ParallelInstall": 4,
-                "PerformInstall": 12
+                "ParallelTrigger": 6,
+                "PerformInstall": 8
             }
         }
         Signal {
@@ -283,7 +305,7 @@ Module {
         Signal {
             name: "checkDone"
             Parameter { name: "success"; type: "bool" }
-            Parameter { name: "updates"; type: "QList<UpdateInfo>" }
+            Parameter { name: "updates"; type: "QList<QtAutoUpdater::UpdateInfo>" }
         }
         Signal {
             name: "checkDone"

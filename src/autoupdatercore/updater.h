@@ -52,7 +52,9 @@ public:
 		Parallel = 0x00,
 		OnExit = 0x01,
 
-		Force = 0x02
+		Force = 0x02,
+
+		ForceOnExit = (OnExit | Force)
 	};
 	Q_DECLARE_FLAGS(InstallMode, InstallModeFlag)
 	Q_FLAG(InstallMode)

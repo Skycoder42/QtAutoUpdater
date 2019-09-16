@@ -1,6 +1,5 @@
 #include <QtTest>
 #include <QtAutoUpdaterCore>
-#include <QtCore/private/qfactoryloader_p.h>
 #include <QtAutoUpdaterCore/private/updater_p.h>
 using namespace QtAutoUpdater;
 using namespace std::chrono;
@@ -9,10 +8,6 @@ using namespace std::chrono_literals;
 Q_DECLARE_METATYPE(seconds)
 Q_DECLARE_METATYPE(UpdaterPrivate::InstallerType)
 Q_DECLARE_METATYPE(Updater::InstallModeFlag)
-
-Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, testLoader,
-						  (QtAutoUpdater_UpdaterPlugin_iid,
-						   QLatin1String("/updaters")))
 
 class UpdaterTest : public QObject
 {
@@ -34,12 +29,6 @@ private Q_SLOTS:
 	void testTriggerUpdates();
 
 private:
-	class XUpdater : public QObject {
-	public:
-		XUpdater(UpdaterPrivate &dd, QObject *parent) :
-			QObject{dd, parent}
-		{}
-	};
 	using sptr = QScopedPointer<Updater, QScopedPointerDeleteLater>;
 
 	void parametrize(QVariantMap &params, const QList<UpdateInfo> &updates);
@@ -518,17 +507,7 @@ void UpdaterTest::testModeMapping()
 	QFETCH(Updater::InstallScope, scope);
 	QFETCH(UpdaterPrivate::InstallerType, type);
 
-	QVariantMap config {
-		{QStringLiteral("features"), static_cast<int>(features)}
-	};
-
-	auto priv = new UpdaterPrivate{};
-	XUpdater obj{*priv, this};
-	priv->backend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(testLoader, QStringLiteral("test"), &obj);
-	QVERIFY(priv->backend);
-	QVERIFY(priv->backend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{new VariantConfigReader{QStringLiteral("test"), std::move(config)}}));
-
-	QCOMPARE(priv->calcInstallerType(mode, scope), type);
+	QCOMPARE(UpdaterPrivate::calcInstallerType(mode, scope, features, QStringLiteral("test")), type);
 }
 
 void UpdaterTest::testTriggerUpdates_data()
