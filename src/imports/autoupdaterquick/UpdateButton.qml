@@ -15,7 +15,8 @@ DelayButton {
 	property Updater updater: null
 	property int textMode: UpdateButton.Cancel
 	property bool allowInstall: true
-	property bool runOnExit: false
+	property int installMode: Updater.Parallel
+	property int installScope: Updater.PreferInternal
 
 	property real _currentProgress: -1.0
 	property string _currentStatus
@@ -157,7 +158,7 @@ DelayButton {
 			break;
 		case Updater.NewUpdates:
 			if (allowInstall)
-				updater.runUpdater(runOnExit);
+				updater.runUpdater(installMode, installScope);
 			break;
 		case Updater.Checking:
 			if (textMode == UpdateButton.Cancel)

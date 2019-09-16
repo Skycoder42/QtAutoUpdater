@@ -11,7 +11,8 @@ DialogBase {
 	property bool showOnFailure: true
 	property bool showOnNoUpdates: true
 	property bool autoRunUpdater: false
-	property bool forceOnExit: false
+	property int installMode: Updater.Parallel
+	property int installScope: Updater.PreferInternal
 
 	title: qsTr("Check for updates finished!")
 	standardButtons: Dialog.Ok
@@ -25,7 +26,7 @@ DialogBase {
 				// trigger automatic update installation if requested
 				let showInfo = showOnSuccess;
 				if (autoRunUpdater) {
-					updater.runUpdater(forceOnExit);
+					updater.runUpdater(installMode, installScope);
 					showInfo = updater.runOnExit;
 				}
 

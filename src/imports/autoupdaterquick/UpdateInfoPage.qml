@@ -12,7 +12,7 @@ Page {
 	property var goBackCallback: null
 
 	readonly property bool canTrigger: (updater.features & UpdaterBackend.TriggerInstall) != 0
-	readonly property bool canParallel: (updater.features & UpdaterBackend.ParallelTrigger) != 0  // TODO refactor because of flag change
+	readonly property bool canParallel: (updater.features & UpdaterBackend.ParallelTrigger) != 0 || (updater.features & UpdaterBackend.PerformInstall) != 0
 	readonly property int actionDisplayMode: canTrigger && canParallel && updateInfoPage.width < updateInfoPage.height ? ToolButton.IconOnly : ToolButton.TextBesideIcon
 
 	header: ToolBar {
@@ -61,12 +61,14 @@ Page {
 
 				onClicked: {
 					goBackCallback();
-					updater.runUpdater(true);
+					let ok = updater.runUpdater(Updater.ForceOnExit);
+					if (!ok)
+						errorDialog.open();
 				}
 			}
 
 			ToolButton {
-				visible: canParallel
+				visible: canParallel || canTrigger
 
 				display: actionDisplayMode
 				icon.source: "qrc:/de/skycoder42/QtAutoUpdater/Quick/icons/update.svg"
@@ -75,11 +77,15 @@ Page {
 
 				ToolTip.visible: pressed
 				ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
-				ToolTip.text: qsTr("Install the new updates immediatly")
+				ToolTip.text: qsTr("Install the new updates immediatly.") + (canParallel ? "" : qsTr(" This will exit the application to start the installer!"))
 
 				onClicked: {
 					goBackCallback();
-					updater.runUpdater(false);
+					let ok = updater.runUpdater(Updater.Parallel);
+					if (!ok)
+						errorDialog.open();
+					else if (updater.runOnExit)
+						Qt.quit();
 				}
 			}
 		}
@@ -113,6 +119,22 @@ Page {
 				ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
 				ToolTip.text: qsTr("Update size: %L1 Bytes").arg(size)
 			}
+		}
+	}
+
+	DialogBase {
+		id: errorDialog
+		visible: false
+
+		title: qsTr("Install updates failed!")
+		standardButtons: Dialog.Ok
+
+		Label {
+			id: contentLabel
+			anchors.fill: parent
+
+			text: qsTr("Unable to install updates! Failed to launch the update installer.")
+			wrapMode: Label.Wrap
 		}
 	}
 }
