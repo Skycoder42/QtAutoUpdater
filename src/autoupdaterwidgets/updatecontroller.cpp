@@ -268,12 +268,14 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 
 		switch(res) {
 		case UpdateInfoDialog::InstallNow:
-			updater->runUpdater(false);
+			// TODO refactor because of flag change
+			updater->runUpdater(Updater::InstallModeFlag::Parallel | Updater::InstallModeFlag::Force);
 			if (updater->willRunOnExit())
 				qApp->quit();
 			break;
 		case UpdateInfoDialog::InstallLater:
-			updater->runUpdater(true);
+			// TODO refactor because of flag change
+			updater->runUpdater(Updater::InstallModeFlag::OnExit | Updater::InstallModeFlag::Force);
 			break;
 		case UpdateInfoDialog::NoInstall:
 			break;
@@ -281,7 +283,8 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 			Q_UNREACHABLE();
 		}
 	} else {
-		updater->runUpdater(false);
+		// TODO refactor because of flag change
+		updater->runUpdater();
 		if (updater->willRunOnExit()) {
 			if(canShow(DisplayLevel::Exit)) {
 				DialogMaster::informationT(q->parentWindow(),

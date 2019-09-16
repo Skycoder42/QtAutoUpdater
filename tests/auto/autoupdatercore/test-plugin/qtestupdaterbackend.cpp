@@ -18,7 +18,7 @@ UpdaterBackend::Features QTestUpdaterBackend::features() const
 {
 	static constexpr int DefaultFeatures = Feature::CheckProgress |
 										   Feature::TriggerInstall |
-										   Feature::ParallelInstall |
+										   Feature::ParallelTrigger |
 										   Feature::PerformInstall;
 	return static_cast<Features>(config()->value(QStringLiteral("features"), DefaultFeatures).toInt());
 }

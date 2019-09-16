@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 		if(state == QtAutoUpdater::Updater::State::NewUpdates) {
 			qInfo() << "Update list:" << updater->updateInfo();
 			qInfo() << "Starting updater...";
-			if (updater->runUpdater(true))
+			if (updater->runUpdater(QtAutoUpdater::Updater::InstallModeFlag::OnExit | QtAutoUpdater::Updater::InstallModeFlag::Force))
 				qApp->quit();
 			else
 				qApp->exit(EXIT_FAILURE);

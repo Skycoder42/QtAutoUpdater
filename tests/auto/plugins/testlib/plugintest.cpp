@@ -118,7 +118,7 @@ void PluginTest::testTriggerInstall()
 		QEXPECT_FAIL("", "Backend does not support triggered installations", Abort);
 		QVERIFY(false);
 	}
-	if (!updater->features().testFlag(UpdaterBackend::Feature::ParallelInstall)) {
+	if (!updater->features().testFlag(UpdaterBackend::Feature::ParallelTrigger)) {  // TODO refactor because of flag change
 		QEXPECT_FAIL("", "Backend does not support parallel installations", Abort);
 		QVERIFY(false);
 	}

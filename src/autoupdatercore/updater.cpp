@@ -156,63 +156,56 @@ int Updater::scheduleUpdate(const QDateTime &when)
 	return d->scheduler->startSchedule(when);
 }
 
-bool Updater::runUpdater(bool forceOnExit)
+bool Updater::runUpdater(InstallMode mode, Updater::InstallScope scope)
 {
 	Q_D(Updater);
 	if (isRunning())
 		return false;
 
-	if (!d->backend->features().testFlag(UpdaterBackend::Feature::ParallelInstall))
-		forceOnExit = true;
+	switch (d->calcInstallerType(mode, scope)) {
+	case UpdaterPrivate::InstallerType::Perform: {
+		auto installer = d->backend->createInstaller();
+		if (installer)  {
+			connect(installer, &UpdateInstaller::installSucceeded,
+					this, [this, installer]() {
+				installer->disconnect(this);
+				d_func()->_q_triggerInstallDone(true);
+			});
+			connect(installer, &UpdateInstaller::installFailed,
+					this, [this, installer]() {
+				installer->disconnect(this);
+				d_func()->_q_triggerInstallDone(false);
+			});
+			connect(installer, &UpdateInstaller::destroyed,
+					this, [this, installer]() {
+				installer->disconnect(this);
+				d_func()->_q_triggerInstallDone(false);
+			});
+			installer->setComponents(d->updateInfos);
 
-	if (d->backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
-		if (forceOnExit) {
-			if (!d->runOnExit) {
-				d->runOnExit = true;
-				emit runOnExitChanged(d->runOnExit, {});
-			}
+			d->state = State::Installing;
+			emit stateChanged(d->state, {});
+			emit showInstaller(installer, {});
 			return true;
-		} else {
-			const auto ok = d->backend->triggerUpdates(d->updateInfos, true);
-			if (ok) {
-				d->state = State::Installing;
-				emit stateChanged(d->state, {});
-			}
-			return ok;
-		}
-	} else if (d->backend->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
-		if (forceOnExit) {
-			qCCritical(logUpdater) << "Backend" << d->backend->key() << "does not support installation after exiting";
+		} else
 			return false;
-		} else {
-			auto installer = d->backend->createInstaller();
-			if (installer)  {
-				connect(installer, &UpdateInstaller::installSucceeded,
-						this, [this, installer]() {
-					installer->disconnect(this);
-					d_func()->_q_triggerInstallDone(true);
-				});
-				connect(installer, &UpdateInstaller::installFailed,
-						this, [this, installer]() {
-					installer->disconnect(this);
-					d_func()->_q_triggerInstallDone(false);
-				});
-				connect(installer, &UpdateInstaller::destroyed,
-						this, [this, installer]() {
-					installer->disconnect(this);
-					d_func()->_q_triggerInstallDone(false);
-				});
-				installer->setComponents(d->updateInfos);
-
-				d->state = State::Installing;
-				emit stateChanged(d->state, {});
-				emit showInstaller(installer, {});
-				return true;
-			} else
-				return false;
+	}
+	case UpdaterPrivate::InstallerType::Trigger: {
+		const auto ok = d->backend->triggerUpdates(d->updateInfos, true);
+		if (ok) {
+			d->state = State::Installing;
+			emit stateChanged(d->state, {});
 		}
-	} else {
-		qCCritical(logUpdater) << "Backend" << d->backend->key() << "does not support installation";
+		return ok;
+	}
+	case UpdaterPrivate::InstallerType::OnExit:
+		d->runOnExit = true;
+		emit runOnExitChanged(d->runOnExit, {});
+		return true;
+	case UpdaterPrivate::InstallerType::None:
+		return false;
+	default:
+		Q_UNREACHABLE();
 		return false;
 	}
 }
@@ -332,6 +325,66 @@ void UpdaterPrivate::setupBackend(UpdaterBackend *newBackend)
 								  Updater::QPrivateSignal{}));
 	connect(backend, &UpdaterBackend::triggerInstallDone,
 			this, &UpdaterPrivate::_q_triggerInstallDone);
+}
+
+UpdaterPrivate::InstallerType UpdaterPrivate::calcInstallerType(UpdaterPrivate::InstallMode mode, UpdaterPrivate::InstallScope scope) const
+{
+	if (mode.testFlag(InstallModeFlag::OnExit)) {
+		if (backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall))
+			return InstallerType::OnExit;
+		else {
+			if (mode.testFlag(InstallModeFlag::Force)) {
+				qCCritical(logUpdater) << "Backend" << backend->key() << "does not support on exit installation";
+				return InstallerType::None;
+			} else if (backend->features().testFlag(UpdaterBackend::Feature::PerformInstall))
+				return InstallerType::Perform;
+			else {
+				qCCritical(logUpdater) << "Backend" << backend->key() << "does not support installation";
+				return InstallerType::None;
+			}
+		}
+	} else {
+		Q_ASSERT(mode == InstallMode{InstallModeFlag::Parallel} || mode == (InstallModeFlag::Parallel | InstallModeFlag::Force));
+		if (scope == InstallScope::PreferInternal) {
+			if (backend->features().testFlag(UpdaterBackend::Feature::PerformInstall))
+				return InstallerType::Perform;
+			else {
+				if (backend->features().testFlag(UpdaterBackend::Feature::ParallelTrigger))
+					return InstallerType::Trigger;
+				else if (backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
+					if (mode.testFlag(InstallModeFlag::Force)) {
+						qCCritical(logUpdater) << "Backend" << backend->key() << "does not support parallel installation";
+						return InstallerType::None;
+					} else
+						return InstallerType::OnExit;
+				} else {
+					qCCritical(logUpdater) << "Backend" << backend->key() << "does not support installation";
+					return InstallerType::None;
+				}
+			}
+		} else {
+			Q_ASSERT(scope == InstallScope::PreferExternal);
+			if (backend->features().testFlag(UpdaterBackend::Feature::ParallelTrigger))
+				return InstallerType::Trigger;
+			else {
+				if (backend->features().testFlag(UpdaterBackend::Feature::PerformInstall))
+					return InstallerType::Perform;
+				else if (backend->features().testFlag(UpdaterBackend::Feature::TriggerInstall)) {
+					if (mode.testFlag(InstallModeFlag::Force)) {
+						qCCritical(logUpdater) << "Backend" << backend->key() << "does not support parallel installation";
+						return InstallerType::None;
+					} else
+						return InstallerType::OnExit;
+				} else {
+					qCCritical(logUpdater) << "Backend" << backend->key() << "does not support installation";
+					return InstallerType::None;
+				}
+			}
+		}
+	}
+
+	Q_UNREACHABLE();
+	return InstallerType::None;
 }
 
 void UpdaterPrivate::_q_appAboutToExit()

@@ -48,6 +48,21 @@ public:
 	};
 	Q_ENUM(State)
 
+	enum class InstallModeFlag {
+		Parallel = 0x00,
+		OnExit = 0x01,
+
+		Force = 0x02
+	};
+	Q_DECLARE_FLAGS(InstallMode, InstallModeFlag)
+	Q_FLAG(InstallMode)
+
+	enum class InstallScope {
+		PreferInternal,
+		PreferExternal
+	};
+	Q_ENUM(InstallScope)
+
 	static Updater *create(QObject *parent = nullptr);
 	static Updater *create(const QString &configPath,
 						   QObject *parent = nullptr);
@@ -84,7 +99,8 @@ public:
 	template <typename TClock, typename TDur>
 	int scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when);
 
-	Q_INVOKABLE bool runUpdater(bool forceOnExit = false);
+	Q_INVOKABLE bool runUpdater(InstallMode mode = InstallModeFlag::Parallel,
+								InstallScope scope = InstallScope::PreferInternal);
 
 public Q_SLOTS:
 	//! Starts checking for updates
@@ -146,5 +162,6 @@ int Updater::scheduleUpdate(const std::chrono::time_point<TClock, TDur> &when)
 }
 
 Q_DECLARE_METATYPE(QtAutoUpdater::Updater::State)
+Q_DECLARE_OPERATORS_FOR_FLAGS(QtAutoUpdater::Updater::InstallMode)
 
 #endif // QTAUTOUPDATER_UPDATER_H

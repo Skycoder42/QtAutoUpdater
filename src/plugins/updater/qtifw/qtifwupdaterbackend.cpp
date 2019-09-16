@@ -13,9 +13,10 @@ UpdaterBackend::Features QtIfwUpdaterBackend::features() const
 {
 	return Feature::CheckUpdates |
 #ifndef Q_OS_WIN
-			Feature::ParallelInstall |
-#endif
+			Feature::ParallelTrigger;
+#else
 			Feature::TriggerInstall;
+#endif
 }
 
 void QtIfwUpdaterBackend::checkForUpdates()

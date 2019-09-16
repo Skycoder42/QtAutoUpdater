@@ -25,7 +25,7 @@ QPlayStoreUpdaterBackend::~QPlayStoreUpdaterBackend()
 UpdaterBackend::Features QPlayStoreUpdaterBackend::features() const
 {
 	return Feature::CheckUpdates |
-			Feature::TriggerInstall |
+			Feature::ParallelTrigger |
 			Feature::PerformInstall;
 }
 

@@ -375,7 +375,7 @@ void UpdaterTest::testTriggerUpdates()
 	if (canTrigger)
 		features |= UpdaterBackend::Feature::TriggerInstall;
 	if (canParallel)
-		features |= UpdaterBackend::Feature::ParallelInstall;
+		features |= UpdaterBackend::Feature::ParallelTrigger;  // TODO refactor because of flag change
 	if (canInstall)
 		features |= UpdaterBackend::Feature::PerformInstall;
 	QVariantMap config {
@@ -401,7 +401,7 @@ void UpdaterTest::testTriggerUpdates()
 	QVERIFY(showSpy.isValid());
 
 	// trigger the update installation
-	const auto ok = updater->runUpdater(forceExit);
+	const auto ok = updater->runUpdater();  // TODO refactor because of flag change
 	QCOMPARE(ok, works);
 	if (!works)
 		return;

@@ -210,7 +210,8 @@ void UpdateButtonPrivate::_q_clicked()
 		switch (updater->state()) {
 		case Updater::State::NewUpdates:
 			if (mode.testFlag(ModeFlag::AllowInstall)) {
-				updater->runUpdater(mode.testFlag(ModeFlag::ForceOnExit));
+				// TODO refactor because of flag change
+				updater->runUpdater(mode.testFlag(ModeFlag::ForceOnExit) ? Updater::InstallModeFlag::Force : Updater::InstallModeFlag::Parallel);
 				break;
 			} else
 				Q_FALLTHROUGH();

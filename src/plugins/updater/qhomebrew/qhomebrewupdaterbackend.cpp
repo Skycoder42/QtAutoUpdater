@@ -16,8 +16,8 @@ QHomebrewUpdaterBackend::QHomebrewUpdaterBackend(QString &&key, QObject *parent)
 UpdaterBackend::Features QHomebrewUpdaterBackend::features() const
 {
 	return QFileInfo{cakebrewPath()}.isExecutable() ?
-				(Feature::TriggerInstall | Feature::ParallelInstall) :
-	Feature::CheckUpdates;
+				Feature::ParallelTrigger :
+				Feature::CheckUpdates;
 }
 
 void QHomebrewUpdaterBackend::checkForUpdates()

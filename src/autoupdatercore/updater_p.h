@@ -21,6 +21,16 @@ class Q_AUTOUPDATERCORE_EXPORT UpdaterPrivate : public QObjectPrivate
 
 public:
 	using State = Updater::State;
+	using InstallModeFlag = Updater::InstallModeFlag;
+	using InstallMode = Updater::InstallMode;
+	using InstallScope = Updater::InstallScope;
+
+	enum class InstallerType {
+		None,
+		Perform,
+		Trigger,
+		OnExit
+	};
 
 	State state = State::NoUpdates;
 	QList<UpdateInfo> updateInfos;
@@ -35,6 +45,7 @@ public:
 								  QObject *parent);
 
 	void setupBackend(UpdaterBackend *newBackend);
+	InstallerType calcInstallerType(InstallMode mode, InstallScope scope) const;
 	void _q_appAboutToExit();
 	void _q_checkDone(bool success, QList<UpdateInfo> updates);
 	void _q_triggerInstallDone(bool success);
