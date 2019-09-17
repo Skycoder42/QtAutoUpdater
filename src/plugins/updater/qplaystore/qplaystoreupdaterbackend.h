@@ -59,7 +59,7 @@ private:
 
 	QUuid id = QUuid::createUuid();
 	QAndroidJniObject _updateHelper;
-	QCache<QString, QAndroidJniObject> _updateInfoCache {100};
+	QCache<QString, QAndroidJniObject> _updateInfoCache {10};
 
 	void reportCheckResult(const QAndroidJniObject &info);
 	void onStateUpdate(const QAndroidJniObject &state);

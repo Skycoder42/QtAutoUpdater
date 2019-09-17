@@ -1,6 +1,7 @@
 #include "qplaystoreupdaterbackend.h"
 #include <QtAndroidExtras/QtAndroid>
 #include <QtAndroidExtras/QAndroidJniExceptionCleaner>
+#include <QtAndroidExtras/QAndroidIntent>
 #include <QtAndroidExtras/private/qandroidactivityresultreceiver_p.h>
 using namespace QtAutoUpdater;
 
@@ -55,20 +56,28 @@ void QPlayStoreUpdaterBackend::abort(bool force)
 
 bool QPlayStoreUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bool track)
 {
-	auto ok = true;
-	for (const auto &info : infos) {
-		auto jInfo = _updateInfoCache.take(info.identifier().toString());
-		if (!jInfo)
-			continue;
-		// workaround -> add one to one mapping of codes to the receiver
-		ok = _updateHelper.callMethod<jboolean>("triggerUpdate",
-												"(ILandroid/app/Activity;Lcom/google/android/play/core/appupdate/AppUpdateInfo;)Z",
-												track ? InstallUpdatesRequestCode : InstallUpdatesRequestCode + 1,
-												QtAndroid::androidActivity().object(),
-												nullptr) && ok;
-		delete jInfo;
+	QAndroidJniExceptionCleaner _;
+	if (infos.size() != 1)
+		return false;
+	const auto &info = infos[0];
+
+	const auto jInfo = _updateInfoCache.object(info.identifier().toString());
+	if (!jInfo)
+		return false;
+
+	if (track) {
+		return _updateHelper.callMethod<jboolean>("triggerUpdate",
+												  "(ILandroid/app/Activity;Lcom/google/android/play/core/appupdate/AppUpdateInfo;)Z",
+												  InstallUpdatesRequestCode,
+												  QtAndroid::androidActivity().object(),
+												  jInfo->object());
+	} else {
+		_updateHelper.callMethod<void>("openInPlay",
+									   "(Landroid/content/Context;Lcom/google/android/play/core/appupdate/AppUpdateInfo;)V",
+									   QtAndroid::androidContext().object(),
+									   jInfo->object());
+		return true;
 	}
-	return ok;
 }
 
 QtAutoUpdater::UpdateInstaller *QPlayStoreUpdaterBackend::createInstaller()
@@ -79,6 +88,7 @@ QtAutoUpdater::UpdateInstaller *QPlayStoreUpdaterBackend::createInstaller()
 
 void QPlayStoreUpdaterBackend::handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject &data)
 {
+	Q_UNUSED(data)
 	if (receiverRequestCode == InstallUpdatesRequestCode) {
 		switch (resultCode) {
 		case UpdateResult::ResultOk:
@@ -182,7 +192,7 @@ void QPlayStoreUpdaterBackend::onStateUpdate(const QAndroidJniObject &state)
 	Q_UNIMPLEMENTED();
 }
 
-void QPlayStoreUpdaterBackend::jniReportCheckResult(JNIEnv *env, jobject updateHelper, jobject info)
+void QPlayStoreUpdaterBackend::jniReportCheckResult(JNIEnv */*env*/, jobject updateHelper, jobject info)
 {
 	QAndroidJniObject helper{updateHelper};
 	const auto id = QUuid::fromString(helper.callObjectMethod<jstring>("id").toString());
@@ -191,7 +201,7 @@ void QPlayStoreUpdaterBackend::jniReportCheckResult(JNIEnv *env, jobject updateH
 		backend->reportCheckResult(QAndroidJniObject{info});
 }
 
-void QPlayStoreUpdaterBackend::jniOnStateUpdate(JNIEnv *env, jobject updateHelper, jobject state)
+void QPlayStoreUpdaterBackend::jniOnStateUpdate(JNIEnv */*env*/, jobject updateHelper, jobject state)
 {
 	QAndroidJniObject helper{updateHelper};
 	const auto id = QUuid::fromString(helper.callObjectMethod<jstring>("id").toString());
@@ -203,7 +213,7 @@ void QPlayStoreUpdaterBackend::jniOnStateUpdate(JNIEnv *env, jobject updateHelpe
 QList<UpdateInfo> QPlayStoreUpdaterBackend::parseInfo(const QAndroidJniObject &jInfo)
 {
 	UpdateInfo info;
-	info.setName(jInfo.callObjectMethod("packageName", "()Ljava/lang/String;").toString());
+	info.setName(jInfo.callObjectMethod<jstring>("packageName").toString());
 	info.setVersion({jInfo.callMethod<jint>("availableVersionCode")});
 	info.setIdentifier(info.name());
 	_updateInfoCache.insert(info.name(), new QAndroidJniObject{jInfo});
