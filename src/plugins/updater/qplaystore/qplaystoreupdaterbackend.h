@@ -11,6 +11,7 @@
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtAndroidExtras/QAndroidActivityResultReceiver>
 
+class QPlayStoreUpdateInstaller;
 class QPlayStoreUpdaterBackend : public QtAutoUpdater::UpdaterBackend, public QAndroidActivityResultReceiver
 {
 	Q_OBJECT
@@ -31,10 +32,16 @@ public:
 	};
 	Q_ENUM(UpdateResult)
 
+	static constexpr jint InstallImmediateRequestCode = 0x09714831; // random hard coded value
+	static constexpr jint InstallFlexibleRequestCode = 0x09714832; // random hard coded value
+	static constexpr jint InstallIgnoredRequestCode = 0x09714832; // random hard coded value
+
 	static void registerNatives(JNIEnv *env);
 
 	explicit QPlayStoreUpdaterBackend(QString &&key, QObject *parent = nullptr);
 	~QPlayStoreUpdaterBackend() override;
+
+	QAndroidJniObject getAppUpdateInfo(const QString &infoId) const;
 
 	Features features() const override;
 	void checkForUpdates() override;
@@ -48,9 +55,11 @@ public:
 protected:
 	bool initialize() override;
 
-private:
-	static constexpr jint InstallUpdatesRequestCode = 0x09714831; // random hard coded value
+private Q_SLOTS:
+	void reportCheckResult(const QAndroidJniObject &info);
+	void onStateUpdate(const QAndroidJniObject &state);
 
+private:
 #ifndef QT_NO_DEBUG
 	static void assertEnums();
 #endif
@@ -61,8 +70,7 @@ private:
 	QAndroidJniObject _updateHelper;
 	QCache<QString, QAndroidJniObject> _updateInfoCache {10};
 
-	void reportCheckResult(const QAndroidJniObject &info);
-	void onStateUpdate(const QAndroidJniObject &state);
+	QPointer<QPlayStoreUpdateInstaller> _installer;
 
 	static void jniReportCheckResult(JNIEnv *env, jobject updateHelper, jobject info);
 	static void jniOnStateUpdate(JNIEnv *env, jobject updateHelper, jobject state);

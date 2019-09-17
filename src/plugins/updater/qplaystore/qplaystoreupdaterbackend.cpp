@@ -1,7 +1,7 @@
 #include "qplaystoreupdaterbackend.h"
+#include "qplaystoreupdateinstaller.h"
 #include <QtAndroidExtras/QtAndroid>
 #include <QtAndroidExtras/QAndroidJniExceptionCleaner>
-#include <QtAndroidExtras/QAndroidIntent>
 #include <QtAndroidExtras/private/qandroidactivityresultreceiver_p.h>
 using namespace QtAutoUpdater;
 
@@ -9,6 +9,8 @@ QHash<QUuid, QPointer<QPlayStoreUpdaterBackend>> QPlayStoreUpdaterBackend::backe
 
 void QPlayStoreUpdaterBackend::registerNatives(JNIEnv *env)
 {
+	QAndroidJniExceptionCleaner _;
+
 	// register natives:
 	static const std::array<JNINativeMethod, 2> methods {
 		JNINativeMethod{"reportCheckResult", "(Lcom/google/android/play/core/appupdate/AppUpdateInfo;)V", reinterpret_cast<void*>(&QPlayStoreUpdaterBackend::jniReportCheckResult)},
@@ -27,14 +29,25 @@ QPlayStoreUpdaterBackend::QPlayStoreUpdaterBackend(QString &&key, QObject *paren
 #ifndef QT_NO_DEBUG
 	assertEnums();
 #endif
+
+	qRegisterMetaType<QAndroidJniObject>("QAndroidJniObject");
+
 	const auto receiverPrivate = QAndroidActivityResultReceiverPrivate::get(this);
-	receiverPrivate->localToGlobalRequestCode.insert(InstallUpdatesRequestCode, InstallUpdatesRequestCode);
-	receiverPrivate->globalToLocalRequestCode.insert(InstallUpdatesRequestCode, InstallUpdatesRequestCode);
+	receiverPrivate->localToGlobalRequestCode.insert(InstallImmediateRequestCode, InstallImmediateRequestCode);
+	receiverPrivate->globalToLocalRequestCode.insert(InstallImmediateRequestCode, InstallImmediateRequestCode);
+	receiverPrivate->localToGlobalRequestCode.insert(InstallFlexibleRequestCode, InstallFlexibleRequestCode);
+	receiverPrivate->globalToLocalRequestCode.insert(InstallFlexibleRequestCode, InstallFlexibleRequestCode);
 }
 
 QPlayStoreUpdaterBackend::~QPlayStoreUpdaterBackend()
 {
 	backends.remove(id);
+}
+
+QAndroidJniObject QPlayStoreUpdaterBackend::getAppUpdateInfo(const QString &infoId) const
+{
+	const auto obj = _updateInfoCache.object(infoId);
+	return obj ? *obj : QAndroidJniObject{};
 }
 
 UpdaterBackend::Features QPlayStoreUpdaterBackend::features() const
@@ -68,7 +81,7 @@ bool QPlayStoreUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bo
 	if (track) {
 		return _updateHelper.callMethod<jboolean>("triggerUpdate",
 												  "(ILandroid/app/Activity;Lcom/google/android/play/core/appupdate/AppUpdateInfo;)Z",
-												  InstallUpdatesRequestCode,
+												  InstallImmediateRequestCode,
 												  QtAndroid::androidActivity().object(),
 												  jInfo->object());
 	} else {
@@ -82,14 +95,14 @@ bool QPlayStoreUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bo
 
 QtAutoUpdater::UpdateInstaller *QPlayStoreUpdaterBackend::createInstaller()
 {
-	Q_UNIMPLEMENTED();
-	return nullptr;
+	_installer = new QPlayStoreUpdateInstaller{_updateHelper, this};
+	return _installer;
 }
 
 void QPlayStoreUpdaterBackend::handleActivityResult(int receiverRequestCode, int resultCode, const QAndroidJniObject &data)
 {
 	Q_UNUSED(data)
-	if (receiverRequestCode == InstallUpdatesRequestCode) {
+	if (receiverRequestCode == InstallImmediateRequestCode) {
 		switch (resultCode) {
 		case UpdateResult::ResultOk:
 			emit triggerInstallDone(true);
@@ -137,7 +150,7 @@ bool QPlayStoreUpdaterBackend::initialize()
 	if (config()->value(QStringLiteral("autoResumeInstall"), QtAndroid::androidActivity().isValid()).toBool()) {
 		_updateHelper.callMethod<void>("resumeStalledUpdate",
 									   "(ILandroid/app/Activity;)V",
-									   InstallUpdatesRequestCode + 1,
+									   InstallIgnoredRequestCode,
 									   QtAndroid::androidActivity().object());
 	}
 
@@ -147,6 +160,7 @@ bool QPlayStoreUpdaterBackend::initialize()
 #ifndef QT_NO_DEBUG
 void QPlayStoreUpdaterBackend::assertEnums()
 {
+	QAndroidJniExceptionCleaner _;
 	#define ASSERT_ENUM(enumValue, jClass, field) Q_ASSERT(static_cast<jint>(enumValue) == QAndroidJniObject::getStaticField<jint>(jClass, field))
 
 	#define ASSERT_UA_ENUM(enumValue, field) ASSERT_ENUM((enumValue), "com/google/android/play/core/install/model/UpdateAvailability", (field))
@@ -159,6 +173,31 @@ void QPlayStoreUpdaterBackend::assertEnums()
 	ASSERT_ENUM(UpdateResult::ResultOk, "android/app/Activity", "RESULT_OK");
 	ASSERT_ENUM(UpdateResult::ResultOk, "android/app/Activity", "RESULT_CANCELED");
 	ASSERT_ENUM(UpdateResult::ResultOk, "com/google/android/play/core/install/model/ActivityResult", "RESULT_IN_APP_UPDATE_FAILED");
+
+	#define ASSERT_IS_ENUM(enumValue, field) ASSERT_ENUM((enumValue), "com/google/android/play/core/install/model/InstallStatus", (field))
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Unknown, "UNKNOWN");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Pending, "PENDING");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Downloading, "DOWNLOADING");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Installing, "INSTALLING");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Installed, "INSTALLED");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Failed, "FAILED");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Canceled, "CANCELED");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::RequiresUiIntent, "REQUIRES_UI_INTENT");
+	ASSERT_IS_ENUM(QPlayStoreUpdateInstaller::InstallStatus::Downloaded, "DOWNLOADED");
+	#undef ASSERT_IS_ENUM
+
+	#define ASSERT_IEC_ENUM(enumValue, field) ASSERT_ENUM((enumValue), "com/google/android/play/core/install/model/InstallErrorCode", (field))
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::NoError, "NO_ERROR");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::NoErrorPartiallyAllowed, "NO_ERROR_PARTIALLY_ALLOWED");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorUnknown, "ERROR_UNKNOWN");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorApiNotAvailable, "ERROR_API_NOT_AVAILABLE");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorInvalidRequest, "ERROR_INVALID_REQUEST");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorInstallUnavailable, "ERROR_INSTALL_UNAVAILABLE");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorInstallNotAllowed, "ERROR_INSTALL_NOT_ALLOWED");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorDownloadNotPresent, "ERROR_DOWNLOAD_NOT_PRESENT");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorInstallInProgress, "ERROR_INSTALL_IN_PROGRESS");
+	ASSERT_IEC_ENUM(QPlayStoreUpdateInstaller::InstallErrorCode::ErrorInternalError, "ERROR_INTERNAL_ERROR");
+	#undef ASSERT_IEC_ENUM
 
 	#undef ASSERT_ENUM
 }
@@ -189,29 +228,37 @@ void QPlayStoreUpdaterBackend::reportCheckResult(const QAndroidJniObject &info)
 
 void QPlayStoreUpdaterBackend::onStateUpdate(const QAndroidJniObject &state)
 {
-	Q_UNIMPLEMENTED();
+	if (_installer)
+		_installer->onStateUpdate(state);
 }
 
 void QPlayStoreUpdaterBackend::jniReportCheckResult(JNIEnv */*env*/, jobject updateHelper, jobject info)
 {
+	QAndroidJniExceptionCleaner _;
 	QAndroidJniObject helper{updateHelper};
 	const auto id = QUuid::fromString(helper.callObjectMethod<jstring>("id").toString());
 	const auto backend = QPlayStoreUpdaterBackend::backends.value(id);
-	if (backend)
-		backend->reportCheckResult(QAndroidJniObject{info});
+	if (backend) {
+		QMetaObject::invokeMethod(backend, "reportCheckResult", Qt::QueuedConnection,
+								  Q_ARG(QAndroidJniObject, QAndroidJniObject{info}));
+	}
 }
 
 void QPlayStoreUpdaterBackend::jniOnStateUpdate(JNIEnv */*env*/, jobject updateHelper, jobject state)
 {
+	QAndroidJniExceptionCleaner _;
 	QAndroidJniObject helper{updateHelper};
 	const auto id = QUuid::fromString(helper.callObjectMethod<jstring>("id").toString());
 	const auto backend = QPlayStoreUpdaterBackend::backends.value(id);
-	if (backend)
-		backend->onStateUpdate(QAndroidJniObject{state});
+	if (backend) {
+		QMetaObject::invokeMethod(backend, "onStateUpdate", Qt::QueuedConnection,
+								  Q_ARG(QAndroidJniObject, QAndroidJniObject{state}));
+	}
 }
 
 QList<UpdateInfo> QPlayStoreUpdaterBackend::parseInfo(const QAndroidJniObject &jInfo)
 {
+	QAndroidJniExceptionCleaner _;
 	UpdateInfo info;
 	info.setName(jInfo.callObjectMethod<jstring>("packageName").toString());
 	info.setVersion({jInfo.callMethod<jint>("availableVersionCode")});

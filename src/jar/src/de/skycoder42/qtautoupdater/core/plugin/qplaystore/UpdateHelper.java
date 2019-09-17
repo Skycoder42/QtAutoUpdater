@@ -9,6 +9,7 @@ import android.content.IntentSender.SendIntentException;
 
 import android.content.pm.ResolveInfo;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 
 import android.net.Uri;
 
@@ -144,5 +145,14 @@ class UpdateHelper implements InstallStateUpdatedListener
 
 	public void completeUpdate() {
 		_manager.completeUpdate();
+	}
+
+	public void triggerRestart(Context context) {
+		PackageManager packageManager = context.getPackageManager();
+		Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+		ComponentName componentName = intent.getComponent();
+		Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+		context.startActivity(mainIntent);
+		System.exit(0);
 	}
 }

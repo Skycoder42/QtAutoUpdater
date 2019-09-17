@@ -15,28 +15,44 @@ ApplicationWindow {
 																	"debug": false
 																}, appWindow)
 
-	header: ToolBar {
-		Label {
-			anchors.fill: parent
-			text: qsTr("Android Updater Demo")
-			verticalAlignment: Qt.AlignVCenter
-			leftPadding: 16
-			font.bold: true
-			font.pointSize: label.font.pointSize * 1.5
+	StackView {
+		id: stackView
+		anchors.fill: parent
+
+		initialItem: Page {
+			header: ToolBar {
+				Label {
+					anchors.fill: parent
+					text: qsTr("Android Updater Demo")
+					verticalAlignment: Qt.AlignVCenter
+					leftPadding: 16
+					font.bold: true
+					font.pointSize: label.font.pointSize * 1.5
+				}
+			}
+
+			Label {
+				id: label
+				anchors.centerIn: parent
+				text: qsTr("App Version: %1").arg(AppVersion)
+			}
+
+			UpdateButton {
+				updater: globalUpdater
+				anchors.top: label.bottom
+				anchors.horizontalCenter: parent.horizontalCenter
+				installMode: Updater.Parallel
+				installScope: Updater.PreferExternal
+			}
 		}
 	}
 
-	Label {
-		id: label
-		anchors.centerIn: parent
-		text: qsTr("App Version: %1").arg(AppVersion)
-	}
-
-	UpdateButton {
+	UpdateInstallerComponent {
 		updater: globalUpdater
-		anchors.top: label.bottom
-		anchors.horizontalCenter: parent.horizontalCenter
-		installMode: Updater.Parallel
-		installScope: Updater.PreferExternal
+		useAsComponent: true
+
+		goBackCallback: stackView.pop
+
+		onShowComponent: stackView.push(component, params)
 	}
 }

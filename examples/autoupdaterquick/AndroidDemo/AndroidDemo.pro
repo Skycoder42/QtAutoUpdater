@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += quick autoupdatercore androidextras
+QT += quick autoupdatercore androidextras svg
 CONFIG += c++17
 
 defineReplace(droidVersionCode) {
@@ -23,7 +23,7 @@ defineReplace(droidVersionCode) {
 }
 
 TARGET = AndroidDemo
-VERSION = 1.1.0
+VERSION = 1.0.3
 ANDROID_VERSION_NAME = $$VERSION
 ANDROID_VERSION_CODE = $$droidVersionCode($$ANDROID_VERSION_NAME)
 
