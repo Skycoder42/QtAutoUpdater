@@ -65,6 +65,8 @@ public:
 	};
 	Q_ENUM(InstallScope)
 
+	static QStringList supportedUpdaterBackends();
+
 	static Updater *create(QObject *parent = nullptr);
 	static Updater *create(const QString &configPath,
 						   QObject *parent = nullptr);

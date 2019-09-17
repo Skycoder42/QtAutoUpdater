@@ -21,14 +21,20 @@ import com.google.android.play.core.install.model.InstallStatus;
 
 class UpdateHelper implements InstallStateUpdatedListener
 {
+	private String _id;
 	private AppUpdateManager _manager;
 
 	private native void reportCheckResult(AppUpdateInfo info);
 	@Override
 	public native void onStateUpdate(InstallState state);
 
-	public UpdateHelper(AppUpdateManager manager) {
+	public UpdateHelper(String id, AppUpdateManager manager) {
+		_id = id;
 		_manager = manager;
+	}
+
+	public String id() {
+		return _id;
 	}
 
 	public void startUpdateCheck() {

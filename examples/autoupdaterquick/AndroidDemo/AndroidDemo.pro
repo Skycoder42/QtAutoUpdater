@@ -1,6 +1,7 @@
 TEMPLATE = app
 
-QT += quick autoupdatercore
+QT += quick autoupdatercore androidextras
+CONFIG += c++17
 
 defineReplace(droidVersionCode) {
 	segments = $$split(1, ".")
@@ -22,7 +23,7 @@ defineReplace(droidVersionCode) {
 }
 
 TARGET = AndroidDemo
-VERSION = 1.0.0
+VERSION = 1.1.0
 ANDROID_VERSION_NAME = $$VERSION
 ANDROID_VERSION_CODE = $$droidVersionCode($$ANDROID_VERSION_NAME)
 
@@ -44,6 +45,12 @@ DISTFILES += \
 
 android_test_build {
 	ANDROID_EXTRA_LIBS += $$(QMAKEPATH)/lib/libQt5AutoUpdaterCore.so
-	ANDROID_EXTRA_LIBS += $$(QMAKEPATH)/plugins/updaters/libqplaystore.so
+	ANDROID_EXTRA_PLUGINS += $$(QMAKEPATH)/plugins
 	QML_IMPORT_PATH += $$(QMAKEPATH)/qml
+
+	cp_jar_target.target = android-build/libs/QtAutoUpdaterCorePlayStorePlugin.jar
+	cp_jar_target.depends += install_target
+	cp_jar_target.commands += $$QMAKE_COPY_FILE $$shell_path($$(QMAKEPATH)/jar/QtAutoUpdaterCorePlayStorePlugin.jar) $$shell_path(android-build/libs/QtAutoUpdaterCorePlayStorePlugin.jar)
+	install.depends += android-build/libs/QtAutoUpdaterCorePlayStorePlugin.jar
+	QMAKE_EXTRA_TARGETS += install cp_jar_target
 }

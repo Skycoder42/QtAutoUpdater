@@ -8,6 +8,7 @@ Page {
 	id: updateInfoPage
 
 	property Updater updater: null
+	property int installScope: Updater.PreferInternal
 
 	property var goBackCallback: null
 
@@ -61,7 +62,7 @@ Page {
 
 				onClicked: {
 					goBackCallback();
-					let ok = updater.runUpdater(Updater.ForceOnExit);
+					let ok = updater.runUpdater(Updater.ForceOnExit, installScope);
 					if (!ok)
 						errorDialog.open();
 				}
@@ -81,7 +82,7 @@ Page {
 
 				onClicked: {
 					goBackCallback();
-					let ok = updater.runUpdater(Updater.Parallel);
+					let ok = updater.runUpdater(Updater.Parallel, installScope);
 					if (!ok)
 						errorDialog.open();
 					else if (updater.runOnExit)

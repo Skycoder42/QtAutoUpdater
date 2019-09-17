@@ -36,5 +36,7 @@ ApplicationWindow {
 		updater: globalUpdater
 		anchors.top: label.bottom
 		anchors.horizontalCenter: parent.horizontalCenter
+		installMode: Updater.Parallel
+		installScope: Updater.PreferExternal
 	}
 }

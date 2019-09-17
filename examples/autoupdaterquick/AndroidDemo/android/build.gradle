@@ -17,7 +17,7 @@ repositories {
 apply plugin: 'com.android.application'
 
 dependencies {
-	implementation 'com.google.android.play:core:+'
+	implementation 'com.google.android.play:core:1.6.3'
 	implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
 

@@ -4,7 +4,21 @@
 #include <QtAndroidExtras/private/qandroidactivityresultreceiver_p.h>
 using namespace QtAutoUpdater;
 
-QHash<jobject, QPointer<QPlayStoreUpdaterBackend>> QPlayStoreUpdaterBackend::backends;
+QHash<QUuid, QPointer<QPlayStoreUpdaterBackend>> QPlayStoreUpdaterBackend::backends;
+
+void QPlayStoreUpdaterBackend::registerNatives(JNIEnv *env)
+{
+	// register natives:
+	static const std::array<JNINativeMethod, 2> methods {
+		JNINativeMethod{"reportCheckResult", "(Lcom/google/android/play/core/appupdate/AppUpdateInfo;)V", reinterpret_cast<void*>(&QPlayStoreUpdaterBackend::jniReportCheckResult)},
+		JNINativeMethod{"onStateUpdate", "(Lcom/google/android/play/core/install/InstallState;)V", reinterpret_cast<void*>(&QPlayStoreUpdaterBackend::jniOnStateUpdate)}
+	};
+
+	const auto clazz = env->FindClass("de/skycoder42/qtautoupdater/core/plugin/qplaystore/UpdateHelper");
+	Q_ASSERT_X(clazz, Q_FUNC_INFO, "Unable to find de.skycoder42.qtautoupdater.core.plugin.qplaystore.UpdateHelper - make shure the jar was added to your app.");
+	const auto ok = env->RegisterNatives(clazz, methods.data(), methods.size());
+	Q_ASSERT_X(ok >= 0, Q_FUNC_INFO, "Failed to register natives for de.skycoder42.qtautoupdater.core.plugin.qplaystore.UpdateHelper");
+}
 
 QPlayStoreUpdaterBackend::QPlayStoreUpdaterBackend(QString &&key, QObject *parent) :
 	UpdaterBackend{std::move(key), parent}
@@ -19,7 +33,7 @@ QPlayStoreUpdaterBackend::QPlayStoreUpdaterBackend(QString &&key, QObject *paren
 
 QPlayStoreUpdaterBackend::~QPlayStoreUpdaterBackend()
 {
-	backends.remove(_updateHelper.object());
+	backends.remove(id);
 }
 
 UpdaterBackend::Features QPlayStoreUpdaterBackend::features() const
@@ -102,12 +116,13 @@ bool QPlayStoreUpdaterBackend::initialize()
 
 	_updateHelper = QAndroidJniObject {
 		"de/skycoder42/qtautoupdater/core/plugin/qplaystore/UpdateHelper",
-		"(Lcom/google/android/play/core/appupdate/AppUpdateManager;)V",
+		"(Ljava/lang/String;Lcom/google/android/play/core/appupdate/AppUpdateManager;)V",
+		QAndroidJniObject::fromString(id.toString(QUuid::WithoutBraces)).object(),
 		appUpdateManager.object()
 	};
 	if (!_updateHelper.isValid())
 		return false;
-	backends.insert(_updateHelper.object(), this);
+	backends.insert(id, this);
 
 	if (config()->value(QStringLiteral("autoResumeInstall"), QtAndroid::androidActivity().isValid()).toBool()) {
 		_updateHelper.callMethod<void>("resumeStalledUpdate",
@@ -167,6 +182,24 @@ void QPlayStoreUpdaterBackend::onStateUpdate(const QAndroidJniObject &state)
 	Q_UNIMPLEMENTED();
 }
 
+void QPlayStoreUpdaterBackend::jniReportCheckResult(JNIEnv *env, jobject updateHelper, jobject info)
+{
+	QAndroidJniObject helper{updateHelper};
+	const auto id = QUuid::fromString(helper.callObjectMethod<jstring>("id").toString());
+	const auto backend = QPlayStoreUpdaterBackend::backends.value(id);
+	if (backend)
+		backend->reportCheckResult(QAndroidJniObject{info});
+}
+
+void QPlayStoreUpdaterBackend::jniOnStateUpdate(JNIEnv *env, jobject updateHelper, jobject state)
+{
+	QAndroidJniObject helper{updateHelper};
+	const auto id = QUuid::fromString(helper.callObjectMethod<jstring>("id").toString());
+	const auto backend = QPlayStoreUpdaterBackend::backends.value(id);
+	if (backend)
+		backend->onStateUpdate(QAndroidJniObject{state});
+}
+
 QList<UpdateInfo> QPlayStoreUpdaterBackend::parseInfo(const QAndroidJniObject &jInfo)
 {
 	UpdateInfo info;
@@ -175,24 +208,4 @@ QList<UpdateInfo> QPlayStoreUpdaterBackend::parseInfo(const QAndroidJniObject &j
 	info.setIdentifier(info.name());
 	_updateInfoCache.insert(info.name(), new QAndroidJniObject{jInfo});
 	return {info};
-}
-
-// ------------- JNI implementations -------------
-
-extern "C" {
-
-JNIEXPORT void JNICALL Java_de_skycoder42_qtautoupdater_core_plugin_qplaystore_UpdateHelper_reportCheckResult(JNIEnv */*env*/, jobject updateHelper, jobject info)
-{
-	auto backend = QPlayStoreUpdaterBackend::backends.value(updateHelper);
-	if (backend)
-		backend->reportCheckResult(QAndroidJniObject{info});
-}
-
-JNIEXPORT void JNICALL Java_de_skycoder42_qtautoupdater_core_plugin_qplaystore_UpdateHelper_onStateUpdate(JNIEnv */*env*/, jobject updateHelper, jobject state)
-{
-	auto backend = QPlayStoreUpdaterBackend::backends.value(updateHelper);
-	if (backend)
-		backend->onStateUpdate(QAndroidJniObject{state});
-}
-
 }

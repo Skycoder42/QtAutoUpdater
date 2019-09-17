@@ -55,6 +55,11 @@ Updater::Updater(UpdaterPrivate &dd, QObject *parent) :
 	});
 }
 
+QStringList Updater::supportedUpdaterBackends()
+{
+	return loader->keyMap().values();
+}
+
 Updater *Updater::create(QObject *parent)
 {
 	auto config = UpdaterPrivate::findDefaultConfig();

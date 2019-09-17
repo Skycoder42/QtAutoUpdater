@@ -4,16 +4,12 @@
 #include <QtCore/QPointer>
 #include <QtCore/QHash>
 #include <QtCore/QCache>
+#include <QtCore/QUuid>
 
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtAndroidExtras/QAndroidActivityResultReceiver>
-
-extern "C" {
-	JNIEXPORT void JNICALL Java_de_skycoder42_qtautoupdater_core_plugin_qplaystore_UpdateHelper_reportCheckResult(JNIEnv *env, jobject updateHelper, jobject info);
-	JNIEXPORT void JNICALL Java_de_skycoder42_qtautoupdater_core_plugin_qplaystore_UpdateHelper_onStateUpdate(JNIEnv *env, jobject updateHelper, jobject state);
-}
 
 class QPlayStoreUpdaterBackend : public QtAutoUpdater::UpdaterBackend, public QAndroidActivityResultReceiver
 {
@@ -34,6 +30,8 @@ public:
 		ResultInAppUpdateFailed = 0x00000001
 	};
 	Q_ENUM(UpdateResult)
+
+	static void registerNatives(JNIEnv *env);
 
 	explicit QPlayStoreUpdaterBackend(QString &&key, QObject *parent = nullptr);
 	~QPlayStoreUpdaterBackend() override;
@@ -57,16 +55,17 @@ private:
 	static void assertEnums();
 #endif
 
-	friend JNIEXPORT void JNICALL Java_de_skycoder42_qtautoupdater_core_plugin_qplaystore_UpdateHelper_reportCheckResult(JNIEnv *env, jobject updateHelper, jobject info);
-	friend JNIEXPORT void JNICALL Java_de_skycoder42_qtautoupdater_core_plugin_qplaystore_UpdateHelper_onStateUpdate(JNIEnv *env, jobject updateHelper, jobject state);
+	static QHash<QUuid, QPointer<QPlayStoreUpdaterBackend>> backends;
 
-	static QHash<jobject, QPointer<QPlayStoreUpdaterBackend>> backends;
-
+	QUuid id = QUuid::createUuid();
 	QAndroidJniObject _updateHelper;
 	QCache<QString, QAndroidJniObject> _updateInfoCache {100};
 
 	void reportCheckResult(const QAndroidJniObject &info);
 	void onStateUpdate(const QAndroidJniObject &state);
+
+	static void jniReportCheckResult(JNIEnv *env, jobject updateHelper, jobject info);
+	static void jniOnStateUpdate(JNIEnv *env, jobject updateHelper, jobject state);
 
 	QList<QtAutoUpdater::UpdateInfo> parseInfo(const QAndroidJniObject &jInfo);
 };
