@@ -17,6 +17,7 @@ Item {
 	signal abortInstaller()
 
 	readonly property int _canCancel: (installer.features & UpdateInstaller.CanCancel) != 0
+	readonly property int _hasDetails: (installer.features & UpdateInstaller.DetailedProgress) != 0
 
 	state: "ready"
 	states: [
@@ -112,6 +113,7 @@ Item {
 					id: detailsButton
 					text: qsTr("Details…")
 					checkable: true
+					enabled: _hasDetails
 				}
 
 				Item {
