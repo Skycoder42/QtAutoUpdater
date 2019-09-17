@@ -23,9 +23,15 @@ ApplicationWindow {
 
 				CheckBox {
 					id: btnOnlyBox
-					text: qsTr("update button only")
+					text: qsTr("Update button only")
 					checked: false
 					Layout.minimumWidth: implicitWidth * 1.3
+				}
+
+				CheckBox {
+					id: detailsBox
+					text: qsTr("Detailed infos")
+					checked: false
 				}
 
 				Button {
@@ -53,10 +59,11 @@ ApplicationWindow {
 
 	UpdateResultDialog {
 		updater: buttonOnly ? null : globalUpdater
+		showOnSuccess: !detailsBox.checked
 	}
 
 	UpdateInfoComponent {
-		updater: buttonOnly ? null : globalUpdater
+		updater: buttonOnly || !detailsBox.checked ? null : globalUpdater
 		useAsComponent: true
 
 		goBackCallback: stackView.pop
