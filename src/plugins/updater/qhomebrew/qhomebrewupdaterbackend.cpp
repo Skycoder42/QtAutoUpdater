@@ -1,10 +1,12 @@
 #include "qhomebrewupdaterbackend.h"
+#include "qhomebrewupdateinstaller.h"
 #include <QtCore/QStandardPaths>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
+#include <QtCore/QRegularExpression>
 using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logBrewBackend, "qt.autoupdater.core.plugin.homebrew.backend")
@@ -15,9 +17,10 @@ QHomebrewUpdaterBackend::QHomebrewUpdaterBackend(QString &&key, QObject *parent)
 
 UpdaterBackend::Features QHomebrewUpdaterBackend::features() const
 {
-	return QFileInfo{cakebrewPath()}.isExecutable() ?
+	return Feature::PerformInstall |
+			(QFileInfo{cakebrewPath()}.isExecutable() ?
 				Feature::ParallelTrigger :
-				Feature::CheckUpdates;
+				Feature::CheckUpdates);
 }
 
 void QHomebrewUpdaterBackend::checkForUpdates()
@@ -42,7 +45,7 @@ void QHomebrewUpdaterBackend::checkForUpdates()
 
 UpdateInstaller *QHomebrewUpdaterBackend::createInstaller()
 {
-	return nullptr;
+	return new QHomebrewUpdateInstaller{brewPath(), config(), this};
 }
 
 bool QHomebrewUpdaterBackend::initialize()
@@ -66,6 +69,8 @@ void QHomebrewUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *proces
 	case Outdated:
 		onOutdated(exitCode, processDevice);
 		break;
+	case CaskOutdated:
+		onCaskOutdated(exitCode, processDevice);
 	default:
 		Q_UNREACHABLE();
 		break;
@@ -84,7 +89,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::insta
 		return std::nullopt;
 	}
 
-	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
+	if (auto extraArgs = config()->value(QStringLiteral("extraCakebrewArgs")); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
 	info.runAsAdmin = false;
@@ -123,14 +128,22 @@ void QHomebrewUpdaterBackend::onUpdated(int exitCode)
 		UpdateProcessInfo info;
 		info.program = brewPath();
 		Q_ASSERT(!info.program.isEmpty());
-		info.arguments = QStringList {
-			QStringLiteral("outdated"),
-			QStringLiteral("--json=v1")
-		};
+		const auto asCask = config()->value(QStringLiteral("cask"), false).toBool();
+		if (asCask) {
+			info.arguments = QStringList {
+				QStringLiteral("cask"),
+				QStringLiteral("outdated")
+			};
+		} else {
+			info.arguments = QStringList {
+				QStringLiteral("outdated"),
+				QStringLiteral("--json=v1")
+			};
+		}
 		if (auto extraArgs = config()->value(QStringLiteral("extraOutdatedArgs")); extraArgs)
 			info.arguments += readArgumentList(*extraArgs);
 		emit checkProgress(-1.0, tr("Scanning for outdated packages…"));
-		runUpdateTool(Outdated, std::move(info));
+		runUpdateTool(asCask ? CaskOutdated : Outdated, std::move(info));
 	} else {
 		qCCritical(logBrewBackend) << "brew update exited with error code" << exitCode;
 		emit checkDone(false);
@@ -169,6 +182,28 @@ void QHomebrewUpdaterBackend::onOutdated(int exitCode, QIODevice *processDevice)
 		emit checkDone(true, updates);
 	} else {
 		qCCritical(logBrewBackend) << "brew outdated exited with error code" << exitCode;
+		emit checkDone(false);
+	}
+}
+
+void QHomebrewUpdaterBackend::onCaskOutdated(int exitCode, QIODevice *processDevice)
+{
+	if (exitCode == EXIT_SUCCESS) {
+		QList<UpdateInfo> updates;
+		static const QRegularExpression packageRegexp {QStringLiteral(R"__(^(.+)\s+\(.+\)\s+(?:<|!=)\s+(.+)$)__")};
+		while (!processDevice->atEnd()) {
+			const auto line = QString::fromUtf8(processDevice->readLine().trimmed());
+			if (const auto match = packageRegexp.match(line); match.hasMatch()) {
+				UpdateInfo info;
+				info.setName(match.captured(1));
+				info.setVersion(QVersionNumber::fromString(match.captured(2)));
+				info.setIdentifier(info.name());
+				updates.append(info);
+			}
+		}
+		emit checkDone(true, updates);
+	} else {
+		qCCritical(logBrewBackend) << "brew cask outdated exited with error code" << exitCode;
 		emit checkDone(false);
 	}
 }

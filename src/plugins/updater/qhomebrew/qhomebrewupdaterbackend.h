@@ -24,7 +24,8 @@ protected:
 private:
 	enum RunId {
 		Update = 0,
-		Outdated = 1
+		Outdated = 1,
+		CaskOutdated =2
 	};
 	QStringList _packages;
 
@@ -33,6 +34,7 @@ private:
 
 	void onUpdated(int exitCode);
 	void onOutdated(int exitCode, QIODevice *processDevice);
+	void onCaskOutdated(int exitCode, QIODevice *processDevice);
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logBrewBackend)

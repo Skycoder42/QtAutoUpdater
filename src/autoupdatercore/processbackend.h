@@ -23,6 +23,9 @@ public:
 	void abort(bool force) override;
 	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;
 
+	static QStringList readPathList(const QVariant &value);
+	static QStringList readArgumentList(const QVariant &value);
+
 protected:
 	struct Q_AUTOUPDATERCORE_EXPORT ProcessInfoBase {
 		QString program;
@@ -46,9 +49,6 @@ protected:
 	void runUpdateTool(int id, UpdateProcessInfo toolInfo);
 	virtual void onToolDone(int id, int exitCode, QIODevice *processDevice) = 0;
 	virtual std::optional<InstallProcessInfo> installerInfo(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) = 0;
-
-	QStringList readPathList(const QVariant &value) const;
-	QStringList readArgumentList(const QVariant &value) const;
 
 private:
 	Q_DECLARE_PRIVATE(ProcessBackend)

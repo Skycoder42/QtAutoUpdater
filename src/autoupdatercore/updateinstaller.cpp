@@ -18,6 +18,11 @@ UpdateInstaller::UpdateInstaller(UpdateInstallerPrivate &dd, QObject *parent) :
 	Q_D(UpdateInstaller);
 	d->componentModel = new ComponentModel{this};
 	d->progressModel = new ProgressModel{this};
+
+	connect(this, &UpdateInstaller::installSucceeded,
+			this, std::bind(&UpdateInstaller::updateGlobalProgress, this, 1.0, tr("Installation complete")));
+	connect(this, &UpdateInstaller::installFailed,
+			this, std::bind(&UpdateInstaller::updateGlobalProgress, this, 1.0, tr("Installation failed!")));
 }
 
 QList<UpdateInfo> UpdateInstaller::components() const

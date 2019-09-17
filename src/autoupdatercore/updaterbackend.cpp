@@ -16,7 +16,7 @@ UpdaterBackend::IConfigReader *UpdaterBackend::config() const
 	return d->config.data();
 }
 
-QStringList UpdaterBackend::readStringList(const QVariant &value, QChar listSeperator) const
+QStringList UpdaterBackend::readStringList(const QVariant &value, QChar listSeperator)
 {
 	if (value.userType() == QMetaType::QStringList)
 		return value.toStringList();

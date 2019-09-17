@@ -38,7 +38,6 @@ DialogBase {
 		target: updater
 
 		onCheckUpdatesDone: {
-
 			switch (result) {
 			case Updater.NewUpdates:
 				// trigger automatic update installation if requested

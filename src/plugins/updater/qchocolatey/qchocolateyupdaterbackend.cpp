@@ -101,7 +101,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 		return std::nullopt;
 	}
 
-	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
+	if (auto extraArgs = config()->value(QStringLiteral("extraGuiArgs")); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
 	info.runAsAdmin = config()->value(QStringLiteral("runAsAdmin"), true).toBool();

@@ -55,6 +55,8 @@ public:
 	virtual bool triggerUpdates(const QList<UpdateInfo> &infos, bool track) = 0;
 	virtual UpdateInstaller *createInstaller() = 0;
 
+	static QStringList readStringList(const QVariant &value, QChar listSeperator = QLatin1Char(','));
+
 Q_SIGNALS:
 	void checkProgress(double percent, const QString &status);
 	void checkDone(bool success, const QList<QtAutoUpdater::UpdateInfo> &updates = {});
@@ -65,7 +67,6 @@ protected:
 	explicit UpdaterBackend(UpdaterBackendPrivate &dd, QObject *parent = nullptr);
 
 	IConfigReader *config() const;
-	QStringList readStringList(const QVariant &value, QChar listSeperator = QLatin1Char(',')) const;
 
 	virtual bool initialize() = 0;
 

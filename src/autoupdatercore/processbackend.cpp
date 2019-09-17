@@ -102,12 +102,12 @@ void ProcessBackend::runUpdateTool(int id, ProcessBackend::UpdateProcessInfo too
 					QIODevice::ReadOnly);
 }
 
-QStringList ProcessBackend::readPathList(const QVariant &value) const
+QStringList ProcessBackend::readPathList(const QVariant &value)
 {
 	return readStringList(value, QDir::listSeparator());
 }
 
-QStringList ProcessBackend::readArgumentList(const QVariant &value) const
+QStringList ProcessBackend::readArgumentList(const QVariant &value)
 {
 	if (value.userType() == QMetaType::QStringList)
 		return value.toStringList();

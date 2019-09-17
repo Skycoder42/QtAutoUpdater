@@ -3,10 +3,12 @@ TARGET = qhomebrew
 QT = autoupdatercore autoupdatercore-private
 
 HEADERS += \
+	qhomebrewupdateinstaller.h \
 	qhomebrewupdaterbackend.h \
 	qhomebrewupdaterplugin.h
 
 SOURCES += \
+	qhomebrewupdateinstaller.cpp \
 	qhomebrewupdaterbackend.cpp \
 	qhomebrewupdaterplugin.cpp
 
