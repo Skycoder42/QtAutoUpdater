@@ -24,6 +24,7 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 	Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName NOTIFY desktopFileNameChanged)
 	Q_PROPERTY(QtAutoUpdater::Updater::InstallScope installScope READ installScope WRITE setInstallScope NOTIFY installScopeChanged)
+	Q_PROPERTY(bool detailedUpdateInfo READ isDetailedUpdateInfo WRITE setDetailedUpdateInfo NOTIFY detailedUpdateInfoChanged)
 
 public:
 	//! Defines the different display-levels of the dialog
@@ -59,6 +60,8 @@ public:
 	Updater *updater() const;
 	//! @readAcFn{UpdateController::installScope}
 	Updater::InstallScope installScope() const;
+	//! @readAcFn{UpdateController::detailedUpdateInfo}
+	bool isDetailedUpdateInfo() const;
 
 public Q_SLOTS:
 	//! @writeAcFn{UpdateController::displayLevel}
@@ -69,6 +72,8 @@ public Q_SLOTS:
 	void setUpdater(QtAutoUpdater::Updater* updater);
 	//! @writeAcFn{UpdateController::installScope}
 	void setInstallScope(QtAutoUpdater::Updater::InstallScope installScope);
+	//! @writeAcFn{UpdateController::detailedUpdateInfo}
+	void setDetailedUpdateInfo(bool detailedUpdateInfo);
 
 	bool start();
 	//! Starts the controller with the specified display level
@@ -83,6 +88,8 @@ Q_SIGNALS:
 	void updaterChanged(QtAutoUpdater::Updater* updater, QPrivateSignal);
 	//! @notifyAcFn{UpdateController::installScope}
 	void installScopeChanged(QtAutoUpdater::Updater::InstallScope installScope, QPrivateSignal);
+	//! @notifyAcFn{UpdateController::detailedUpdateInfo}
+	void detailedUpdateInfoChanged(bool detailedUpdateInfo, QPrivateSignal);
 
 private:
 	Q_DECLARE_PRIVATE(UpdateController)

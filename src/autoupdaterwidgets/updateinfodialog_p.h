@@ -1,6 +1,8 @@
 #ifndef QTAUTOUPDATER_UPDATEINFODIALOG_H
 #define QTAUTOUPDATER_UPDATEINFODIALOG_H
 
+#include <tuple>
+
 #include <QtAutoUpdaterCore/UpdateInfo>
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
@@ -29,6 +31,10 @@ public:
 	};
 	Q_ENUM(DialogResult)
 
+	static DialogResult showSimpleInfo(const QList<UpdateInfo> &updates,
+									   const QString &desktopFileName,
+									   UpdaterBackend::Features features,
+									   QWidget *parent);
 	static DialogResult showUpdateInfo(const QList<UpdateInfo> &updates,
 									   const QString &desktopFileName,
 									   UpdaterBackend::Features features,
@@ -49,6 +55,8 @@ private:
 	void addUpdates(const QList<UpdateInfo> &updates);
 
 	QString getByteText(quint64 bytes);
+
+	static std::tuple<QString, bool, bool> capabilities(UpdaterBackend::Features features); // (text, install, onExit)
 };
 
 }

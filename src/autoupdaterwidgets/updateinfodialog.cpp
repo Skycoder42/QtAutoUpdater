@@ -15,6 +15,57 @@
 
 using namespace QtAutoUpdater;
 
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showSimpleInfo(const QList<UpdateInfo> &updates, const QString &desktopFileName, UpdaterBackend::Features features, QWidget *parent)
+{
+	DialogMaster::MessageBoxInfo mboxInfo;
+	mboxInfo.parent = parent;
+	mboxInfo.windowTitle = tr("Check for Updates");
+	mboxInfo.icon = UpdateControllerPrivate::getUpdatesIcon();
+	mboxInfo.title = tr("Updates for %1 are available!")
+					 .arg(QApplication::applicationDisplayName());
+	mboxInfo.buttons = QMessageBox::NoButton;
+
+	auto [text, canInstall, canOnExit] = capabilities(features);
+	mboxInfo.text = std::move(text);
+	if (canOnExit)
+		mboxInfo.buttonTexts.insert(QMessageBox::Apply, tr("Install on exit"));
+	if (canInstall) {
+		mboxInfo.buttonTexts.insert(QMessageBox::Ok, tr("Install now"));
+		mboxInfo.buttonTexts.insert(QMessageBox::Cancel, tr("Install later"));
+		mboxInfo.escapeButton = QMessageBox::Cancel;
+	} else {
+		mboxInfo.buttons = QMessageBox::Ok;
+		mboxInfo.escapeButton = QMessageBox::Ok;
+	}
+	mboxInfo.defaultButton = QMessageBox::Ok;
+
+	QStringList updateDetails;
+	updateDetails.reserve(updates.size());
+	for (const auto &info : updates)
+		updateDetails.append(tr("%1 – %2").arg(info.name(), info.version().toString()));
+	mboxInfo.details = updateDetails.join(QLatin1Char('\n'));
+
+	switch (DialogMaster::messageBox(mboxInfo)) {
+	case QMessageBox::Ok:
+		return InstallNow;
+	case QMessageBox::Apply:
+		return InstallLater;
+	case QMessageBox::Cancel:
+		return NoInstall;
+	default:
+		Q_UNREACHABLE();
+		return NoInstall;
+	}
+}
+
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(const QList<UpdateInfo> &updates, const QString &desktopFileName, UpdaterBackend::Features features, QWidget *parent)
+{
+	UpdateInfoDialog dialog{features, parent};
+	dialog._taskbar->setAttribute(QTaskbarControl::LinuxDesktopFile, desktopFileName);
+	dialog.addUpdates(updates);
+	return static_cast<DialogResult>(dialog.exec());
+}
+
 UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *parent) :
 	QDialog{parent},
 	_ui{new Ui::UpdateInfoDialog},
@@ -49,32 +100,17 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 			this, &UpdateInfoDialog::installLater);
 
 	//configure buttons and texts
-	if (!_features.testFlag(UpdaterBackend::Feature::TriggerInstall)) {
-		// no install after exit -> hide install on exit
+	auto [text, canInstall, canOnExit] = capabilities(_features);
+	_ui->stateLabel->setText(text);
+	if (!canOnExit)
 		_ui->delayButton->setVisible(false);
-		if (!_features.testFlag(UpdaterBackend::Feature::PerformInstall)) {
-			// can't install at all -> only show a simple "OK"
-			_ui->acceptButton->setText(QGuiApplicationPrivate::platformTheme()->standardButtonText(QDialogButtonBox::Ok));
-			_ui->skipButton->setVisible(false);
-			_ui->stateLabel->setText(tr("There are new updates available! "
-										"To install the displayed updates, exit this application and start the updater."));
-			disconnect(_ui->acceptButton, &QPushButton::clicked,
-					   this, &UpdateInfoDialog::installNow);
-			connect(_ui->acceptButton, &QPushButton::clicked,
-					this, &UpdateInfoDialog::reject);
-		} else
-			_ui->stateLabel->setText(tr("There are new updates available! You can install them right now by pressing <Install Now> below."));
-	} else {
-		if (_features.testFlag(UpdaterBackend::Feature::ParallelTrigger) ||
-			_features.testFlag(UpdaterBackend::Feature::PerformInstall)) {
-			_ui->stateLabel->setText(tr("There are new updates available! "
-										"You can install them now, without having to exit the application during the update."
-										"Alternatively, you can automatically start the installert, when you exit the application."));
-		} else {
-			_ui->stateLabel->setText(tr("There are new updates available! "
-										"Installing those requires you to close this application."
-										"You can install them now or automatically, when you exit the application."));
-		}
+	if (!canInstall) {
+		_ui->acceptButton->setText(QGuiApplicationPrivate::platformTheme()->standardButtonText(QDialogButtonBox::Ok));
+		_ui->skipButton->setVisible(false);
+		disconnect(_ui->acceptButton, &QPushButton::clicked,
+				   this, &UpdateInfoDialog::installNow);
+		connect(_ui->acceptButton, &QPushButton::clicked,
+				this, &UpdateInfoDialog::reject);
 	}
 
 	_taskbar->setCounterVisible(false);
@@ -101,14 +137,6 @@ void UpdateInfoDialog::addUpdates(const QList<UpdateInfo> &updates)
 	_ui->updateListTreeWidget->resizeColumnToContents(2);
 	_taskbar->setCounter(updates.size());
 	_taskbar->setCounterVisible(true);
-}
-
-UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(const QList<UpdateInfo> &updates, const QString &desktopFileName, UpdaterBackend::Features features, QWidget *parent)
-{
-	UpdateInfoDialog dialog{features, parent};
-	dialog._taskbar->setAttribute(QTaskbarControl::LinuxDesktopFile, desktopFileName);
-	dialog.addUpdates(updates);
-	return static_cast<DialogResult>(dialog.exec());
 }
 
 void QtAutoUpdater::UpdateInfoDialog::installNow()
@@ -154,5 +182,46 @@ QString UpdateInfoDialog::getByteText(quint64 bytes)
 	default:
 		Q_UNREACHABLE();
 		return {};
+	}
+}
+
+std::tuple<QString, bool, bool> UpdateInfoDialog::capabilities(UpdaterBackend::Features features)
+{
+	if (!features.testFlag(UpdaterBackend::Feature::TriggerInstall)) {
+		if (!features.testFlag(UpdaterBackend::Feature::PerformInstall)) {
+			// can't install at all -> only show a simple "OK"
+			return {
+				tr("There are new updates available! "
+				   "To install the displayed updates, exit this application and start the updater."),
+				false,
+				false
+			};
+		} else {
+			// no install after exit -> only show normal install
+			return {
+				tr("There are new updates available! You can install them right now by pressing <Install Now> below."),
+				true,
+				false
+			};
+		}
+	} else {
+		if (features.testFlag(UpdaterBackend::Feature::ParallelTrigger) ||
+			features.testFlag(UpdaterBackend::Feature::PerformInstall)) {
+			return {
+				tr("There are new updates available! "
+				   "You can install them now, without having to exit the application during the update. "
+				   "Alternatively, you can automatically start the installer, when you exit the application."),
+				true,
+				true
+			};
+		} else {
+			return {
+				tr("There are new updates available! "
+				   "Installing those requires you to close this application. "
+				   "You can install them now or automatically, when you exit the application."),
+				true,
+				true
+			};
+		}
 	}
 }

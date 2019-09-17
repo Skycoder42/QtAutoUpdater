@@ -30,6 +30,7 @@ public:
 	DisplayLevel displayLevel = DisplayLevel::Info;
 	Updater::InstallScope installScope = Updater::InstallScope::PreferInternal;
 	QString desktopFileName;
+	bool detailedUpdateInfo = false;
 
 	QPointer<ProgressDialog> checkUpdatesProgress;
 	bool wasChecking = false;

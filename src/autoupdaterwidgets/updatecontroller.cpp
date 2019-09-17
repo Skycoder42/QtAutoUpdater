@@ -95,6 +95,12 @@ Updater::InstallScope UpdateController::installScope() const
 	return d->installScope;
 }
 
+bool UpdateController::isDetailedUpdateInfo() const
+{
+	Q_D(const UpdateController);
+	return d->detailedUpdateInfo;
+}
+
 void UpdateController::setDisplayLevel(UpdateController::DisplayLevel displayLevel)
 {
 	Q_D(UpdateController);
@@ -152,6 +158,16 @@ void UpdateController::setInstallScope(Updater::InstallScope installScope)
 
 	d->installScope = installScope;
 	emit installScopeChanged(d->installScope, {});
+}
+
+void UpdateController::setDetailedUpdateInfo(bool detailedUpdateInfo)
+{
+	Q_D(UpdateController);
+	if (d->detailedUpdateInfo == detailedUpdateInfo)
+		return;
+
+	d->detailedUpdateInfo = detailedUpdateInfo;
+	emit detailedUpdateInfoChanged(d->detailedUpdateInfo, {});
 }
 
 bool UpdateController::start()
@@ -277,10 +293,11 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 
 	if(canShow(DisplayLevel::Info)) {
 		const auto updateInfos = updater->updateInfo();
-		const auto res = UpdateInfoDialog::showUpdateInfo(updateInfos,
-														  desktopFileName,
-														  updater->backend()->features(),
-														  q->parentWindow());
+		const auto mMethod = detailedUpdateInfo ? &UpdateInfoDialog::showUpdateInfo : &UpdateInfoDialog::showSimpleInfo;
+		const auto res = mMethod(updateInfos,
+								 desktopFileName,
+								 updater->backend()->features(),
+								 q->parentWindow());
 
 		auto installStarted = true;
 		switch(res) {

@@ -79,6 +79,7 @@ void MainWindow::on_activeBox_toggled(bool checked)
 		else
 			controller = new QtAutoUpdater::UpdateController{updater};
 		controller->setDesktopFileName(QStringLiteral("WidgetsUpdater"));
+		controller->setDetailedUpdateInfo(ui->detailedInfosCheckBox->isChecked());
 		controller->setDisplayLevel(static_cast<QtAutoUpdater::UpdateController::DisplayLevel>(ui->displayLevelComboBox->currentIndex()));
 		auto action = QtAutoUpdater::UpdateController::createUpdateAction(updater, this);
 		action->setIconVisibleInMenu(false);

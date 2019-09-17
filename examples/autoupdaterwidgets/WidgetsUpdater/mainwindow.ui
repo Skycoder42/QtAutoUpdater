@@ -106,14 +106,14 @@
         </item>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QCheckBox" name="scheduleUpdateDateCheckBox">
         <property name="text">
          <string>Schedule Update:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <widget class="QDateTimeEdit" name="scheduleUpdateDateTimeEdit">
         <property name="enabled">
          <bool>false</bool>
@@ -132,7 +132,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -145,7 +145,7 @@
         </property>
        </spacer>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <layout class="QVBoxLayout" name="buttonLayout">
         <item>
          <widget class="QCommandLinkButton" name="checkUpdatesButton">
@@ -168,6 +168,16 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="detailedInfosLabel">
+        <property name="text">
+         <string>Detailed Infos</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="detailedInfosCheckBox"/>
       </item>
      </layout>
     </item>
@@ -302,6 +312,22 @@
     <hint type="destinationlabel">
      <x>269</x>
      <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>activeBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>detailedInfosCheckBox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>269</x>
+     <y>147</y>
     </hint>
    </hints>
   </connection>
