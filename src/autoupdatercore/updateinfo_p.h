@@ -11,6 +11,7 @@ struct UpdateInfoPrivate : public QSharedData
 	QVersionNumber version;
 	quint64 size = 0;
 	QVariant identifier;
+	QVariantMap data;
 };
 
 }

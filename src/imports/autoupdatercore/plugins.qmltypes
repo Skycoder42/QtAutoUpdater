@@ -98,6 +98,7 @@ Module {
         Property { name: "version"; type: "QVersionNumber" }
         Property { name: "size"; type: "qulonglong" }
         Property { name: "identifier"; type: "QVariant" }
+        Property { name: "data"; type: "QVariantMap" }
     }
     Component {
         name: "QtAutoUpdater::UpdateInstaller"

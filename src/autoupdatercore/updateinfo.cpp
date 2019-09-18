@@ -18,8 +18,8 @@ UpdateInfo::UpdateInfo() :
 	UpdateInfo{new UpdateInfoPrivate{}}
 {}
 
-UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size, QVariant identifier) :
-	UpdateInfo{new UpdateInfoPrivate{{}, std::move(name), std::move(version), size, std::move(identifier)}}
+UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size, QVariant identifier, QVariantMap data) :
+	UpdateInfo{new UpdateInfoPrivate{{}, std::move(name), std::move(version), size, std::move(identifier), std::move(data)}}
 {}
 
 UpdateInfo::UpdateInfo(UpdateInfoPrivate *d_ptr) :
@@ -42,7 +42,8 @@ bool UpdateInfo::operator==(const UpdateInfo &other) const
 				d->name == other.d->name &&
 				d->version == other.d->version &&
 				d->size == other.d->size &&
-				d->identifier == other.d->identifier);
+				d->identifier == other.d->identifier &&
+				d->data == other.d->data);
 }
 
 bool UpdateInfo::operator!=(const UpdateInfo &other) const
@@ -51,7 +52,8 @@ bool UpdateInfo::operator!=(const UpdateInfo &other) const
 				d->name != other.d->name ||
 				d->version != other.d->version ||
 				d->size != other.d->size ||
-				d->identifier != other.d->identifier);
+				d->identifier != other.d->identifier ||
+				d->data != other.d->data);
 }
 
 QString UpdateInfo::name() const
@@ -74,6 +76,11 @@ QVariant UpdateInfo::identifier() const
 	return d->identifier;
 }
 
+QVariantMap UpdateInfo::data() const
+{
+	return d->data;
+}
+
 void UpdateInfo::setName(QString name)
 {
 	d->name = std::move(name);
@@ -92,6 +99,11 @@ void UpdateInfo::setSize(quint64 size)
 void UpdateInfo::setIdentifier(QVariant identifier)
 {
 	d->identifier = std::move(identifier);
+}
+
+void UpdateInfo::setData(QVariantMap data)
+{
+	d->data = std::move(data);
 }
 
 uint QtAutoUpdater::qHash(const UpdateInfo &info, uint seed)

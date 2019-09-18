@@ -18,10 +18,15 @@ struct Q_AUTOUPDATERCORE_EXPORT UpdateInfo
 	Q_PROPERTY(QVersionNumber version READ version WRITE setVersion)
 	Q_PROPERTY(quint64 size READ size WRITE setSize)
 	Q_PROPERTY(QVariant identifier READ identifier WRITE setIdentifier)
+	Q_PROPERTY(QVariantMap data READ data WRITE setData)
 
 public:
 	UpdateInfo();
-	UpdateInfo(QString name, QVersionNumber version, quint64 size = 0, QVariant identifier = {});
+	UpdateInfo(QString name,
+			   QVersionNumber version,
+			   quint64 size = 0,
+			   QVariant identifier = {},
+			   QVariantMap data = {});
 	UpdateInfo(UpdateInfoPrivate *d_ptr);
 	~UpdateInfo();
 	UpdateInfo(const UpdateInfo &other);
@@ -36,11 +41,13 @@ public:
 	QVersionNumber version() const;
 	quint64 size() const;
 	QVariant identifier() const;
+	QVariantMap data() const;
 
 	void setName(QString name);
 	void setVersion(QVersionNumber version);
 	void setSize(quint64 size);
 	void setIdentifier(QVariant identifier);
+	void setData(QVariantMap data);
 
 private:
 	QSharedDataPointer<UpdateInfoPrivate> d;
