@@ -1,4 +1,5 @@
 #include "qwebqueryupdaterbackend.h"
+#include "qwebqueryupdateinstaller.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSysInfo>
 #include <QtCore/QJsonDocument>
@@ -108,8 +109,8 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 		return runProcess(*program, infos, track);
 #endif
 
-	if (auto url = config()->value(QStringLiteral("install/tool"), {}).toUrl(); url.isValid()) {
-		if (config()->value(QStringLiteral("install/addDataArgs"), true).toBool()) {
+	if (auto url = config()->value(QStringLiteral("install/url"), {}).toUrl(); url.isValid()) {
+		if (config()->value(QStringLiteral("install/addDataArgs"), false).toBool()) {
 			QUrlQuery query{url};
 			for (const auto &info : infos) {
 				auto data = info.data();
@@ -135,7 +136,7 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 
 UpdateInstaller *QWebQueryUpdaterBackend::createInstaller()
 {
-	return nullptr;
+	return new QWebQueryUpdateInstaller{config(), _nam, this};
 }
 
 bool QWebQueryUpdaterBackend::initialize()
@@ -183,7 +184,7 @@ void QWebQueryUpdaterBackend::handleReply()
 void QWebQueryUpdaterBackend::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
 	if (bytesTotal == 0)
-		emit checkProgress(-1.0, tr("Process reply…"));
+		emit checkProgress(-1.0, tr("Processing reply…"));
 	else if (bytesTotal < 0)
 		emit checkProgress(-1.0, tr("Downloading update infos…"));
 	else if (bytesReceived == bytesTotal)
@@ -314,7 +315,7 @@ bool QWebQueryUpdaterBackend::runProcess(const QString &program, const QList<Upd
 	QStringList args;
 	if (const auto mArgs = config()->value(QStringLiteral("install/arguments")); mArgs)
 		args = ProcessBackend::readArgumentList(*mArgs);
-	if (config()->value(QStringLiteral("install/addDataArgs"), true).toBool()) {
+	if (config()->value(QStringLiteral("install/addDataArgs"), false).toBool()) {
 		for (const auto &info : infos) {
 			auto data = info.data();
 			if (const auto key = QStringLiteral("arguments"); data.contains(key))
