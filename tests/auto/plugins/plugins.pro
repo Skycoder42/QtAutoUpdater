@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += testlib
+SUBDIRS += testlib \
+	WebQueryTest
 
 qtConfig(process): SUBDIRS += QtIfwTest
 win32:qtConfig(process): SUBDIRS += ChocolateyTest

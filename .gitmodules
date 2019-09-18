@@ -1,3 +1,6 @@
 [submodule "src/3rdparty/PackageKit-Qt"]
 	path = src/3rdparty/PackageKit-Qt
 	url = https://github.com/hughsie/PackageKit-Qt.git
+[submodule "src/3rdparty/qthttpserver"]
+	path = src/3rdparty/qthttpserver
+	url = https://code.qt.io/qt-labs/qthttpserver.git

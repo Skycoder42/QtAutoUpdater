@@ -111,7 +111,7 @@ uint QtAutoUpdater::qHash(const UpdateInfo &info, uint seed)
 	return qHashImpl(info, seed);
 }
 
-QDebug &QtAutoUpdater::operator<<(QDebug &debug, const UpdateInfo &info)
+QDebug QtAutoUpdater::operator<<(QDebug debug, const UpdateInfo &info)
 {
 	QDebugStateSaver state{debug};
 	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")

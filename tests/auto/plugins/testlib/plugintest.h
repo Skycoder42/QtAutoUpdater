@@ -7,6 +7,10 @@
 #include <QtAutoUpdaterCore>
 #include <QtTest>
 
+#ifndef TEST_FRIEND
+#define TEST_FRIEND QObject
+#endif
+
 class PluginTest : public QObject
 {
 	Q_OBJECT
@@ -37,6 +41,7 @@ private Q_SLOTS:
 	void testPerformInstall();
 
 private:
+	friend class TEST_FRIEND;
 	QtAutoUpdater::UpdaterBackend *loadBackend();
 };
 

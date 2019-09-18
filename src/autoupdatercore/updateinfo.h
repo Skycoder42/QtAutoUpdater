@@ -54,7 +54,7 @@ private:
 };
 
 Q_AUTOUPDATERCORE_EXPORT uint qHash(const UpdateInfo &info, uint seed = 0);
-Q_AUTOUPDATERCORE_EXPORT QDebug &operator<<(QDebug &debug, const UpdateInfo &info);
+Q_AUTOUPDATERCORE_EXPORT QDebug operator<<(QDebug debug, const UpdateInfo &info);
 
 }
 

@@ -88,8 +88,10 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 	emit updateGlobalProgress(0.0, tr("Downloading update files…"));
 
 	QNetworkRequest request{*url};
-	request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, true);
-	request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, true);
+	if (const auto useSpdy = _config->value(QStringLiteral("check/spdy")); useSpdy)
+		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
+	if (const auto useHttp2 = _config->value(QStringLiteral("check/http2")); useHttp2)
+		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
 	// optional ssl config
 	if (const auto sslConf = _config->value(QStringLiteral("install/sslConfiguration")); sslConf)
 		request.setSslConfiguration(sslConf->value<QSslConfiguration>());

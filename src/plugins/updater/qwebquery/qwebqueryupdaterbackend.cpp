@@ -33,9 +33,12 @@ QWebQueryUpdaterBackend::QWebQueryUpdaterBackend(QString &&key, QObject *parent)
 UpdaterBackend::Features QWebQueryUpdaterBackend::features() const
 {
 	Features features = Feature::CheckProgress;
+#if QT_CONFIG(process)
 	if (config()->value(QStringLiteral("install/download"), false).toBool())
 		features |= Feature::PerformInstall;
-	else if (config()->value(QStringLiteral("install/parallel"), false).toBool())
+	else
+#endif
+	if (config()->value(QStringLiteral("install/parallel"), false).toBool())
 		features |= Feature::ParallelTrigger;
 	else if (config()->value(QStringLiteral("install/tool"), false).toBool())
 		features |= Feature::TriggerInstall;
@@ -55,8 +58,10 @@ void QWebQueryUpdaterBackend::checkForUpdates()
 		addStandardQuery(url);
 	QNetworkRequest request{url};
 	request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-	request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, true);
-	request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, true);
+	if (const auto useSpdy = config()->value(QStringLiteral("check/spdy")); useSpdy)
+		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
+	if (const auto useHttp2 = config()->value(QStringLiteral("check/http2")); useHttp2)
+		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
 	// optional ssl config
 	if (const auto sslConf = config()->value(QStringLiteral("check/sslConfiguration")); sslConf)
 		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
@@ -150,7 +155,7 @@ bool QWebQueryUpdaterBackend::initialize()
 {
 	_nam = new QNetworkAccessManager{this};
 	_nam->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-	_nam->setStrictTransportSecurityEnabled(config()->value(QStringLiteral("check/hsts"), true).toBool());  // TODO test
+	_nam->setStrictTransportSecurityEnabled(config()->value(QStringLiteral("check/hsts"), true).toBool());
 	return true;
 }
 
@@ -213,6 +218,10 @@ void QWebQueryUpdaterBackend::addStandardQuery(QUrl &url) const
 		query.addQueryItem(key, QCoreApplication::organizationDomain());
 	if (const auto key = QStringLiteral("abi"); !query.hasQueryItem(key))
 		query.addQueryItem(key, QSysInfo::buildAbi());
+	if (const auto key = QStringLiteral("kernel-type"); !query.hasQueryItem(key))
+		query.addQueryItem(key, QSysInfo::kernelType());
+	if (const auto key = QStringLiteral("kernel-version"); !query.hasQueryItem(key))
+		query.addQueryItem(key, QSysInfo::kernelVersion());
 	if (const auto key = QStringLiteral("os-type"); !query.hasQueryItem(key))
 		query.addQueryItem(key, QSysInfo::productType());
 	if (const auto key = QStringLiteral("os-version"); !query.hasQueryItem(key))
