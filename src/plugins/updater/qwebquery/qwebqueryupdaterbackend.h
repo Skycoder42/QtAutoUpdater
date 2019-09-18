@@ -4,6 +4,7 @@
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QVariant>
 #include <QtCore/QJsonValue>
+#include <QtCore/QMetaMethod>
 
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
@@ -21,6 +22,16 @@ public:
 	void abort(bool force) override;
 	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;
 	QtAutoUpdater::UpdateInstaller *createInstaller() override;
+
+#if QT_CONFIG(process)
+	static std::optional<QString> testForProcess(IConfigReader *config);
+	static bool runProcess(QObject *parent,
+						   QMetaMethod doneSignal,
+						   IConfigReader *config,
+						   const QString &program,
+						   const QList<QtAutoUpdater::UpdateInfo> &infos,
+						   bool track);
+#endif
 
 Q_SIGNALS:
 	void abortCheck(QPrivateSignal);
@@ -46,11 +57,6 @@ private:
 	void parseVersion(QNetworkReply *device);
 
 	QString requestUrl(QNetworkReply *reply) const;
-
-#if QT_CONFIG(process)
-	std::optional<QString> testForProcess() const;
-	bool runProcess(const QString &program, const QList<QtAutoUpdater::UpdateInfo> &infos, bool track);
-#endif
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logWebBackend)

@@ -105,8 +105,11 @@ void QWebQueryUpdaterBackend::abort(bool force)
 bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bool track)
 {
 #if QT_CONFIG(process)
-	if (const auto program = testForProcess(); program)
-		return runProcess(*program, infos, track);
+	if (const auto program = testForProcess(config()); program) {
+		auto sigMethodIdx = metaObject()->indexOfSignal("triggerInstallDone(bool)");
+		Q_ASSERT(sigMethodIdx != -1);
+		return runProcess(this, metaObject()->method(sigMethodIdx), config(), *program, infos, track);
+	}
 #endif
 
 	if (auto url = config()->value(QStringLiteral("install/url"), {}).toUrl(); url.isValid()) {
@@ -295,13 +298,13 @@ QString QWebQueryUpdaterBackend::requestUrl(QNetworkReply *reply) const
 }
 
 #if QT_CONFIG(process)
-std::optional<QString> QWebQueryUpdaterBackend::testForProcess() const
+std::optional<QString> QWebQueryUpdaterBackend::testForProcess(IConfigReader *config)
 {
-	auto tool = config()->value(QStringLiteral("install/tool"));
+	auto tool = config->value(QStringLiteral("install/tool"));
 	if (!tool)
 		return std::nullopt;
 	QStringList paths;
-	if (const auto mPaths = config()->value(QStringLiteral("install/path")); mPaths)
+	if (const auto mPaths = config->value(QStringLiteral("install/path")); mPaths)
 		paths = ProcessBackend::readPathList(*mPaths);
 	const auto fullExe = QStandardPaths::findExecutable(tool->toString(), paths);
 	if (QFileInfo{fullExe}.isExecutable())
@@ -310,12 +313,12 @@ std::optional<QString> QWebQueryUpdaterBackend::testForProcess() const
 		return std::nullopt;
 }
 
-bool QWebQueryUpdaterBackend::runProcess(const QString &program, const QList<UpdateInfo> &infos, bool track)
+bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal, IConfigReader *config, const QString &program, const QList<UpdateInfo> &infos, bool track)
 {
 	QStringList args;
-	if (const auto mArgs = config()->value(QStringLiteral("install/arguments")); mArgs)
+	if (const auto mArgs = config->value(QStringLiteral("install/arguments")); mArgs)
 		args = ProcessBackend::readArgumentList(*mArgs);
-	if (config()->value(QStringLiteral("install/addDataArgs"), false).toBool()) {
+	if (config->value(QStringLiteral("install/addDataArgs"), false).toBool()) {
 		for (const auto &info : infos) {
 			auto data = info.data();
 			if (const auto key = QStringLiteral("arguments"); data.contains(key))
@@ -324,23 +327,23 @@ bool QWebQueryUpdaterBackend::runProcess(const QString &program, const QList<Upd
 	}
 
 	QString pwd;
-	if (const auto mPwd = config()->value(QStringLiteral("install/pwd")); mPwd) {
+	if (const auto mPwd = config->value(QStringLiteral("install/pwd")); mPwd) {
 		pwd = mPwd->toString();
 		if (pwd.isEmpty())
 			pwd = QCoreApplication::applicationDirPath();
 	}
 
-	if (config()->value(QStringLiteral("install/runAsAdmin"), AdminAuthoriser::needsAdminPermission(program)).toBool()) {
+	if (config->value(QStringLiteral("install/runAsAdmin"), AdminAuthoriser::needsAdminPermission(program)).toBool()) {
 		if (track)
 			qCWarning(logWebBackend) << "Unable to track progress of application executed as root/admin! It will be run detached instead";
 		const auto ok =  AdminAuthoriser::executeAsAdmin(program, args, pwd);
 		if (ok && track) { // invoke queued to make shure is emitted AFTER the start install signal in the updater
-			QMetaObject::invokeMethod(this, "triggerInstallDone", Qt::QueuedConnection,
+			QMetaObject::invokeMethod(parent, "triggerInstallDone", Qt::QueuedConnection,
 									  Q_ARG(bool, true));
 		}
 		return ok;
 	} else {
-		auto proc = new QProcess{this};
+		auto proc = new QProcess{parent};
 		proc->setProgram(program);
 		proc->setArguments(args);
 		if (!pwd.isEmpty())
@@ -349,20 +352,20 @@ bool QWebQueryUpdaterBackend::runProcess(const QString &program, const QList<Upd
 			proc->setProcessChannelMode(QProcess::ForwardedErrorChannel);
 			proc->setStandardOutputFile(QProcess::nullDevice());
 			proc->setStandardInputFile(QProcess::nullDevice());
-			connect(proc, &QProcess::stateChanged, this, [this, proc, program](QProcess::ProcessState state) {
+			connect(proc, &QProcess::stateChanged, parent, [parent, doneSignal, proc, program](QProcess::ProcessState state) {
 				if (state == QProcess::NotRunning) {
 					switch (proc->exitStatus()) {
 					case QProcess::NormalExit:
 						if (const auto code = proc->exitCode(); code != EXIT_SUCCESS)
 							qCWarning(logWebBackend) << program << "exited with unclean exit code" << code;
-						emit triggerInstallDone(true);
+						doneSignal.invoke(parent, Q_ARG(bool, true));
 						break;
 					case QProcess::CrashExit:
 						qCCritical(logWebBackend) << "Failed to run"
 												  << program <<
 													 "- crashed with error:"
 												  << qUtf8Printable(proc->errorString());
-						emit triggerInstallDone(false);
+						doneSignal.invoke(parent, Q_ARG(bool, false));
 						break;
 					}
 				}

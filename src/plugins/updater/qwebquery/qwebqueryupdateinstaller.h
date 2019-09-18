@@ -36,24 +36,24 @@ private Q_SLOTS:
 	void replyDone();
 	void replyData();
 	void replyProgress(qint64 bytesReceived, qint64 bytesTotal);
+	void installerDone(bool success);
 
 private:
-	using HashInfo = std::optional<std::pair<QSharedPointer<QCryptographicHash>, QByteArray>>;
-	using DownloadInfo = std::tuple<QtAutoUpdater::UpdateInfo, HashInfo, QTemporaryFile*>;
+	using HashInfo = std::optional<std::pair<QCryptographicHash::Algorithm, QByteArray>>;
 
 	QtAutoUpdater::UpdaterBackend::IConfigReader *_config;
 	QNetworkAccessManager *_nam;
 
-	quint64 _repliesTotal = 0;
-	QHash<QNetworkReply*, DownloadInfo> _replyCache;
+	QtAutoUpdater::UpdateInfo _info;
+	QScopedPointer<QCryptographicHash> _hash;
+	QByteArray _hashResult;
+	QTemporaryFile *_file;
 
-	QUrl generateUrl(QString base, const QtAutoUpdater::UpdateInfo &info);
+	std::optional<QUrl> generateUrl(const std::optional<QVariant> &base);
 	HashInfo extractHash(const QVariantMap &data) const;
-	void sendRequest(const QUrl &url, QtAutoUpdater::UpdateInfo info, HashInfo &&hashInfo = std::nullopt);
 	void finishInstall();
 
-	void abort(const QVariant &id, const QString &message);
-	void abort(const QString &message);
+	void abort(const QString &message = {});
 };
 
 Q_DECLARE_LOGGING_CATEGORY(logWebInstaller)
