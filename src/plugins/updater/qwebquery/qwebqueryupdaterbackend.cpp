@@ -1,5 +1,4 @@
 #include "qwebqueryupdaterbackend.h"
-#include "qwebqueryupdateinstaller.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSysInfo>
 #include <QtCore/QJsonDocument>
@@ -17,6 +16,7 @@
 #include <QtCore/QProcess>
 #include <QtAutoUpdaterCore/ProcessBackend>
 #include <QtAutoUpdaterCore/AdminAuthoriser>
+#include "qwebqueryupdateinstaller.h"
 #endif
 using namespace QtAutoUpdater;
 
@@ -139,7 +139,11 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 
 UpdateInstaller *QWebQueryUpdaterBackend::createInstaller()
 {
+#if QT_CONFIG(process)
 	return new QWebQueryUpdateInstaller{config(), _nam, this};
+#else
+	return nullptr;
+#endif
 }
 
 bool QWebQueryUpdaterBackend::initialize()

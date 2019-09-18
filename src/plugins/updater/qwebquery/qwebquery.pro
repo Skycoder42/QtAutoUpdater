@@ -3,14 +3,19 @@ TARGET = qwebquery
 QT = core gui autoupdatercore network autoupdatercore-private
 
 HEADERS += \
-	qwebqueryupdateinstaller.h \
 	qwebqueryupdaterbackend.h \
 	qwebqueryupdaterplugin.h
 
 SOURCES += \
-	qwebqueryupdateinstaller.cpp \
 	qwebqueryupdaterbackend.cpp \
 	qwebqueryupdaterplugin.cpp
+
+qtConfig(process) {
+	HEADERS += \
+		qwebqueryupdateinstaller.h
+	SOURCES += \
+		qwebqueryupdateinstaller.cpp
+}
 
 DISTFILES += qwebquery.json
 

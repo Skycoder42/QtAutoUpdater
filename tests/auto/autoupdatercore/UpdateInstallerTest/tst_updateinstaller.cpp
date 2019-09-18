@@ -316,7 +316,7 @@ void UpdateInstallerTest::testInstallProgress()
 	installer->startInstall();
 	QVERIFY(doneSpy.wait());
 	QCOMPARE(doneSpy.size(), 1);
-	QCOMPARE(globSpy.size(), 21);
+	QCOMPARE(globSpy.size(), 22);
 	QCOMPARE(compSpy.size(), 20);
 
 	// verify model data
