@@ -15,6 +15,7 @@ public:
 	bool create();
 
 	QUrl checkUrl() const;
+	QUrl installUrl() const;
 
 	void setUpdateInfo(QList<QtAutoUpdater::UpdateInfo> infos);
 	void setUpdateInfo(const QVersionNumber &version);

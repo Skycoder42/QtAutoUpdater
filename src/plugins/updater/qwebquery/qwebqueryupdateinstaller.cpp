@@ -249,7 +249,6 @@ void QWebQueryUpdateInstaller::finishInstall()
 	} else
 		program = QWebQueryUpdaterBackend::testForProcess(_config);
 	if (!program) {
-		qCCritical(logWebBackend) << "Downloaded data is not executable and no tool was specified";
 		abort(tr("Unable to find executable to install the update!"));
 		return;
 	}

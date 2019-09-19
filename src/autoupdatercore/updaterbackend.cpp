@@ -18,7 +18,8 @@ UpdaterBackend::IConfigReader *UpdaterBackend::config() const
 
 QStringList UpdaterBackend::readStringList(const QVariant &value, QChar listSeperator)
 {
-	if (value.userType() == QMetaType::QStringList)
+	if (value.userType() == QMetaType::QStringList ||
+		value.userType() == QMetaType::QVariantList)
 		return value.toStringList();
 	else
 		return value.toString().split(listSeperator);

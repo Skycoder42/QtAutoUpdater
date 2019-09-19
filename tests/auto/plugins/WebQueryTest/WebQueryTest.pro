@@ -14,6 +14,9 @@ SOURCES += \
 	tst_webquery.cpp \
 	updaterserver.cpp
 
+DISTFILES += \
+	installer.py
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 include($$PWD/../testlib/testlib.pri)

@@ -39,11 +39,13 @@ UpdaterBackend::Features QWebQueryUpdaterBackend::features() const
 #if QT_CONFIG(process)
 	if (config()->value(QStringLiteral("install/download"), false).toBool())
 		features |= Feature::PerformInstall;
-	else
+	else if (config()->value(QStringLiteral("install/tool"))) {
+		features |= Feature::TriggerInstall;
+		if (config()->value(QStringLiteral("install/parallel"), false).toBool())
+			features |= Feature::ParallelTrigger;
+	}
 #endif
-	if (config()->value(QStringLiteral("install/parallel"), false).toBool())
-		features |= Feature::ParallelTrigger;
-	else if (config()->value(QStringLiteral("install/tool"), false).toBool())
+	if (config()->value(QStringLiteral("install/url")))
 		features |= Feature::TriggerInstall;
 	return features;
 }
@@ -117,15 +119,17 @@ void QWebQueryUpdaterBackend::abort(bool force)
 bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bool track)
 {
 #if QT_CONFIG(process)
-	if (const auto program = testForProcess(config()); program) {
-		auto sigMethodIdx = metaObject()->indexOfSignal("triggerInstallDone(bool)");
-		Q_ASSERT(sigMethodIdx != -1);
-		return runProcess(this,
-						  metaObject()->method(sigMethodIdx),
-						  config(),
-						  *program,
-						  infos,
-						  track);
+	if (!config()->value(QStringLiteral("install/download"), false).toBool()) {
+		if (const auto program = testForProcess(config()); program) {
+			auto sigMethodIdx = metaObject()->indexOfSignal("triggerInstallDone(bool)");
+			Q_ASSERT(sigMethodIdx != -1);
+			return runProcess(this,
+							  metaObject()->method(sigMethodIdx),
+							  config(),
+							  *program,
+							  infos,
+							  track);
+		}
 	}
 #endif
 
@@ -157,10 +161,11 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 UpdateInstaller *QWebQueryUpdaterBackend::createInstaller()
 {
 #if QT_CONFIG(process)
-	return new QWebQueryUpdateInstaller{config(), _nam, this};
-#else
-	return nullptr;
+	if (config()->value(QStringLiteral("install/download"), false).toBool())
+		return new QWebQueryUpdateInstaller{config(), _nam, this};
+	else
 #endif
+		return nullptr;
 }
 
 bool QWebQueryUpdaterBackend::initialize()
@@ -334,8 +339,10 @@ std::optional<QString> QWebQueryUpdaterBackend::testForProcess(IConfigReader *co
 	const auto fullExe = QStandardPaths::findExecutable(tool->toString(), paths);
 	if (QFileInfo{fullExe}.isExecutable())
 		return fullExe;
-	else
+	else {
+		qCCritical(logWebBackend) << "Unable to find executable" << tool->toString();
 		return std::nullopt;
+	}
 }
 
 bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal, IConfigReader *config, const QString &program, const QList<UpdateInfo> &infos, bool track, const std::optional<QString> &replaceArg)
@@ -398,8 +405,8 @@ bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal
 						doneSignal.invoke(parent, Q_ARG(bool, false));
 						break;
 					}
+					proc->deleteLater();
 				}
-				proc->deleteLater();
 			});
 			proc->start(QIODevice::ReadOnly);
 			return true;

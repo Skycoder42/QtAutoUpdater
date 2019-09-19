@@ -58,7 +58,20 @@ QVariantMap WebQueryTest::config()
 	return {
 		{QStringLiteral("check/url"), _server->checkUrl()},
 		{QStringLiteral("check/autoQuery"), _autoQuery},
-		{QStringLiteral("check/parser"), _parser}
+		{QStringLiteral("check/parser"), _parser},
+
+#ifdef Q_OS_WIN
+		{QStringLiteral("install/tool"), QStringLiteral("python")},
+#else
+		{QStringLiteral("install/tool"), QStringLiteral("python3")},
+#endif
+		{QStringLiteral("install/parallel"), true},
+		{QStringLiteral("install/arguments"), QStringList {
+			QStringLiteral(SRCDIR "installer.py"),
+			_server->installUrl().toString(QUrl::FullyEncoded)
+		}},
+		{QStringLiteral("install/addDataArgs"), true},
+		{QStringLiteral("install/runAsAdmin"), false}
 	};
 }
 
@@ -80,7 +93,13 @@ QList<UpdateInfo> WebQueryTest::createInfos(const QVersionNumber &versionFrom, c
 					QStringLiteral("test-update"),
 					versionTo,
 					42ull,
-					42
+					42,
+					{
+						{QStringLiteral("arguments"), QStringList {
+							QVariant{true}.toString(),
+							versionTo.toString()
+						}}
+					}
 				}
 			};
 		}

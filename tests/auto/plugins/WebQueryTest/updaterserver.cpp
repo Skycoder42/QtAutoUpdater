@@ -15,7 +15,7 @@ bool UpdaterServer::create()
 	QVERIFY(_server->route(QStringLiteral("/test-api/update-check"), [this](const QHttpServerRequest &request) -> QHttpServerResponse {
 		auto ok = false;
 		[&](){
-			QCOMPARE(QUrlQuery{request.url()}, _testQuery);
+			QCOMPARE(request.query(), _testQuery);
 			ok = true;
 		}();
 		if (!ok)
@@ -41,6 +41,25 @@ bool UpdaterServer::create()
 		}
 	}));
 
+	QVERIFY(_server->route(QStringLiteral("/test-api/install"), [this](const QHttpServerRequest &request) -> QHttpServerResponse {
+		QUrlQuery query{QString::fromUtf8(request.body())};
+		if (query.queryItemValue(QStringLiteral("success")) == QVariant{true}) {
+			const auto key = QStringLiteral("version");
+			QCoreApplication::setApplicationVersion(query.queryItemValue(key));
+			QUrlQuery newQuery;
+			for (const auto &q : _testQuery.queryItems()) {
+				if (q.first == key)
+					newQuery.addQueryItem(key, query.queryItemValue(key));
+				else
+					newQuery.addQueryItem(q.first, q.second);
+			}
+			_testQuery = newQuery;
+			_infos.clear();
+			return QHttpServerResponse::StatusCode::NoContent;
+		} else
+			return QHttpServerResponse::StatusCode::NotAcceptable;
+	}));
+
 	auto port = _server->listen(QHostAddress::LocalHost);
 	QVERIFY(port != -1);
 	_port = static_cast<quint16>(port);
@@ -51,6 +70,11 @@ bool UpdaterServer::create()
 QUrl UpdaterServer::checkUrl() const
 {
 	return QStringLiteral("http://localhost:%1/test-api/update-check").arg(_port);
+}
+
+QUrl UpdaterServer::installUrl() const
+{
+	return QStringLiteral("http://localhost:%1/test-api/install").arg(_port);
 }
 
 void UpdaterServer::setUpdateInfo(QList<QtAutoUpdater::UpdateInfo> infos)
@@ -68,5 +92,5 @@ void UpdaterServer::setUpdateInfo(const QVersionNumber &version)
 
 void UpdaterServer::setQuery(QUrlQuery query)
 {
-	_testQuery = query;
+	_testQuery = std::move(query);
 }

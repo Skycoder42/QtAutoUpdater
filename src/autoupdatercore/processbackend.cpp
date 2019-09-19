@@ -109,7 +109,8 @@ QStringList ProcessBackend::readPathList(const QVariant &value)
 
 QStringList ProcessBackend::readArgumentList(const QVariant &value)
 {
-	if (value.userType() == QMetaType::QStringList)
+	if (value.userType() == QMetaType::QStringList ||
+		value.userType() == QMetaType::QVariantList)
 		return value.toStringList();
 	else {
 		QStringList args;
@@ -166,6 +167,8 @@ QStringList ProcessBackend::readArgumentList(const QVariant &value)
 				}
 			}
 		}
+		if (state != None)
+			args.append(current);
 
 		return args;
 	}
