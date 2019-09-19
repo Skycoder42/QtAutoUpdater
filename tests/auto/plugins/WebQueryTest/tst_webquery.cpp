@@ -15,6 +15,7 @@ protected:
 	bool cleanup() override;
 	QString backend() const override;
 	QVariantMap config() override;
+	QVariantMap performConfig() override;
 	QList<UpdateInfo> createInfos(const QVersionNumber &versionFrom, const QVersionNumber &versionTo) override;
 	bool simulateInstall(const QVersionNumber &version) override;
 	bool prepareUpdate(const QVersionNumber &version) override;
@@ -68,6 +69,30 @@ QVariantMap WebQueryTest::config()
 		{QStringLiteral("install/parallel"), true},
 		{QStringLiteral("install/arguments"), QStringList {
 			QStringLiteral(SRCDIR "installer.py"),
+			_server->installUrl().toString(QUrl::FullyEncoded)
+		}},
+		{QStringLiteral("install/addDataArgs"), true},
+		{QStringLiteral("install/runAsAdmin"), false}
+	};
+}
+
+QVariantMap WebQueryTest::performConfig()
+{
+	return {
+		{QStringLiteral("check/url"), _server->checkUrl()},
+		{QStringLiteral("check/autoQuery"), _autoQuery},
+		{QStringLiteral("check/parser"), _parser},
+
+		{QStringLiteral("install/download"), true},
+		{QStringLiteral("install/downloadUrl"), _server->downloadUrl()},
+#ifdef Q_OS_WIN
+		{QStringLiteral("install/tool"), QStringLiteral("python")},
+#else
+		{QStringLiteral("install/tool"), QStringLiteral("python3")},
+#endif
+		{QStringLiteral("install/parallel"), true},
+		{QStringLiteral("install/arguments"), QStringList {
+			QStringLiteral("%{downloadPath}"),
 			_server->installUrl().toString(QUrl::FullyEncoded)
 		}},
 		{QStringLiteral("install/addDataArgs"), true},

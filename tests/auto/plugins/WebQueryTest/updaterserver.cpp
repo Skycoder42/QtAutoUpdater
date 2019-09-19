@@ -59,6 +59,16 @@ bool UpdaterServer::create()
 			return QHttpServerResponse::StatusCode::NotAcceptable;
 	}));
 
+	QVERIFY(_server->route(QStringLiteral("/test-api/download/<arg>/<arg>"), [this](const QString &id, const QString &version) -> QHttpServerResponse {
+		if (_infos.size() != 1)
+			return QHttpServerResponse::StatusCode::BadRequest;
+		if (_infos[0].identifier() != id)
+			return QHttpServerResponse::StatusCode::BadRequest;
+		if (_infos[0].version() != QVersionNumber::fromString(version))
+			return QHttpServerResponse::StatusCode::BadRequest;
+		return QHttpServerResponse::fromFile(QStringLiteral(SRCDIR "installer.py"));
+	}));
+
 	auto port = _server->listen(QHostAddress::LocalHost);
 	QVERIFY(port != -1);
 	_port = static_cast<quint16>(port);
@@ -74,6 +84,11 @@ QUrl UpdaterServer::checkUrl() const
 QUrl UpdaterServer::installUrl() const
 {
 	return QStringLiteral("http://localhost:%1/test-api/install").arg(_port);
+}
+
+QString UpdaterServer::downloadUrl() const
+{
+	return QStringLiteral("http://localhost:%1/test-api/download/%{id}/%{version}").arg(_port);
 }
 
 void UpdaterServer::setUpdateInfo(QList<QtAutoUpdater::UpdateInfo> infos)

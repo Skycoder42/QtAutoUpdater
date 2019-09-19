@@ -45,8 +45,8 @@ const QString QWebQueryUpdaterBackend::Install::KeyTool {QStringLiteral("install
 const QString QWebQueryUpdaterBackend::Install::KeyParallel {QStringLiteral("install/parallel")};
 const QString QWebQueryUpdaterBackend::Install::KeyUrl {QStringLiteral("install/url")};
 const QString QWebQueryUpdaterBackend::Install::KeyAddDataArgs {QStringLiteral("install/addDataArgs")};
-const QString QWebQueryUpdaterBackend::Install::KeyDownloadUrl {QStringLiteral("installer/downloadUrl")};
-const QString QWebQueryUpdaterBackend::Install::KeyUseInfoDownloads {QStringLiteral("installer/useInfoDownloads")};
+const QString QWebQueryUpdaterBackend::Install::KeyDownloadUrl {QStringLiteral("install/downloadUrl")};
+const QString QWebQueryUpdaterBackend::Install::KeyUseInfoDownload {QStringLiteral("install/useInfoDownload")};
 const QString QWebQueryUpdaterBackend::Install::Headers::KeySize {QStringLiteral("install/headers/size")};
 const QString QWebQueryUpdaterBackend::Install::Headers::KeyKey {QStringLiteral("install/headers/%1/key")};
 const QString QWebQueryUpdaterBackend::Install::Headers::KeyValue {QStringLiteral("install/headers/%1/value")};

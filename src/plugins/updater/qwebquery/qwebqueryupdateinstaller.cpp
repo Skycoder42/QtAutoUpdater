@@ -54,7 +54,7 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 
 	// get the download url
 	auto url = generateUrl(_config->value(Install::KeyDownloadUrl));
-	if (_config->value(Install::KeyUseInfoDownloads, Install::DefaultUseInfoDownloads).toBool()) {
+	if (_config->value(Install::KeyUseInfoDownload, Install::DefaultUseInfoDownloads).toBool()) {
 		if (const auto key = QStringLiteral("download"); data.contains(key)) {
 			auto infoUrl = data[key].toUrl();
 			if (infoUrl.isRelative() && url)
@@ -202,10 +202,14 @@ void QWebQueryUpdateInstaller::installerDone(bool success)
 std::optional<QUrl> QWebQueryUpdateInstaller::generateUrl(const std::optional<QVariant> &base)
 {
 	if (base) {
-		return base->toString()
-				.replace(QStringLiteral("%{id}"), _info.identifier().toString())
-				.replace(QStringLiteral("%{version}"), _info.version().toString())
-				.replace(QStringLiteral("%{name}"), _info.name());
+		if (base->userType() == QMetaType::QUrl)
+			return base->toUrl();
+		else {
+			return base->toString()
+					.replace(QStringLiteral("%{id}"), _info.identifier().toString())
+					.replace(QStringLiteral("%{version}"), _info.version().toString())
+					.replace(QStringLiteral("%{name}"), _info.name());
+		}
 	} else
 		return std::nullopt;
 }
@@ -255,7 +259,7 @@ void QWebQueryUpdateInstaller::finishInstall()
 	// connect if parallel is allowed
 	QMetaMethod trackSignal;
 	if (_config->value(Install::KeyParallel, Install::DefaultParallel).toBool()) {
-		auto sigMethodIdx = metaObject()->indexOfSignal("installerDone(bool)");
+		auto sigMethodIdx = metaObject()->indexOfSlot("installerDone(bool)");
 		Q_ASSERT(sigMethodIdx != -1);
 		trackSignal = metaObject()->method(sigMethodIdx);
 	}

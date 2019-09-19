@@ -16,6 +16,7 @@ public:
 
 	QUrl checkUrl() const;
 	QUrl installUrl() const;
+	QString downloadUrl() const;
 
 	void setUpdateInfo(QList<QtAutoUpdater::UpdateInfo> infos);
 	void setUpdateInfo(const QVersionNumber &version);

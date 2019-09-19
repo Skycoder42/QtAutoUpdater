@@ -23,6 +23,7 @@ protected:
 
 	virtual QString backend() const = 0;
 	virtual QVariantMap config() = 0;
+	virtual QVariantMap performConfig();
 
 	virtual QList<QtAutoUpdater::UpdateInfo> createInfos(const QVersionNumber &versionFrom, const QVersionNumber &versionTo) = 0;
 	virtual bool simulateInstall(const QVersionNumber &version) = 0;
@@ -42,7 +43,7 @@ private Q_SLOTS:
 
 private:
 	friend class TEST_FRIEND;
-	QtAutoUpdater::UpdaterBackend *loadBackend();
+	QtAutoUpdater::UpdaterBackend *loadBackend(bool asPerform = false);
 };
 
 #define TEST_WRAP_BEGIN \

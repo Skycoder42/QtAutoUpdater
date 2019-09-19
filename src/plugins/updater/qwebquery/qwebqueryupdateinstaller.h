@@ -52,7 +52,7 @@ private:
 	QtAutoUpdater::UpdateInfo _info;
 	QScopedPointer<QCryptographicHash> _hash;
 	QByteArray _hashResult;
-	QTemporaryFile *_file;
+	QTemporaryFile *_file = nullptr;
 
 	std::optional<QUrl> generateUrl(const std::optional<QVariant> &base);
 	HashInfo extractHash(const QVariantMap &data) const;

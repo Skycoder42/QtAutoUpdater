@@ -19,6 +19,11 @@ bool PluginTest::cleanup()
 	return true;
 }
 
+QVariantMap PluginTest::performConfig()
+{
+	return config();
+}
+
 void PluginTest::initTestCase()
 {
 	QVERIFY(init());
@@ -148,22 +153,66 @@ void PluginTest::testTriggerInstall()
 
 void PluginTest::testPerformInstall()
 {
-	sptr updater { loadBackend() };
+	QVERIFY(simulateInstall(QVersionNumber{1,1,0}));
+	QVERIFY(prepareUpdate(QVersionNumber{1,2,0}));
+
+	sptr updater { loadBackend(true) };
 	QVERIFY(updater);
 
 	if (!updater->features().testFlag(UpdaterBackend::Feature::PerformInstall)) {
 		QEXPECT_FAIL("", "Backend does not support performed installations", Abort);
 		QVERIFY(false);
 	}
+
+	// check for updates
+	QSignalSpy doneSpy{updater.data(), &UpdaterBackend::checkDone};
+	QVERIFY(doneSpy.isValid());
+	updater->checkForUpdates();
+	QVERIFY(doneSpy.wait(60000));
+	QCOMPARE(doneSpy.size(), 1);
+	QCOMPARE(doneSpy[0][0].toBool(), true);
+	const auto updates = doneSpy[0][1].value<QList<UpdateInfo>>();
+	QVERIFY(updates.size() > 0);
+
+	// prepare the installer
+	auto installer = updater->createInstaller();
+	QVERIFY(installer);
+	QSignalSpy successSpy{installer, &UpdateInstaller::installSucceeded};
+	QVERIFY(successSpy.isValid());
+	QSignalSpy failSpy{installer, &UpdateInstaller::installFailed};
+	QVERIFY(failSpy.isValid());
+	connect(installer, &UpdateInstaller::showEula,
+			installer, [installer](const QVariant &id, const QString &, bool required) {
+		if (required)
+			installer->eulaHandled(id, true);
+	});
+
+	// install the updates
+	installer->setComponents(updates);
+	installer->startInstall();
+	QCOMPARE(failSpy.size(), 0);
+	if (successSpy.isEmpty())
+		QVERIFY(successSpy.wait(60000));
+	QCOMPARE(successSpy.size(), 1);
+	QCOMPARE(failSpy.size(), 0);
+	installer->deleteLater();
+
+	// check for updates again to make shure there are none
+	doneSpy.clear();
+	updater->checkForUpdates();
+	QVERIFY(doneSpy.wait(60000));
+	QCOMPARE(doneSpy.size(), 1);
+	QCOMPARE(doneSpy[0][0].toBool(), true);
+	QVERIFY(doneSpy[0][1].value<QList<UpdateInfo>>().isEmpty());
 }
 
-UpdaterBackend *PluginTest::loadBackend()
+UpdaterBackend *PluginTest::loadBackend(bool asPerform)
 {
 	UpdaterBackend *backendRes = nullptr;
 	[&]() {
 		auto uBackend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, backend(), this);
 		QVERIFY(uBackend);
-		auto reader = new VariantConfigReader{backend(), config()};
+		auto reader = new VariantConfigReader{backend(), asPerform ? performConfig() : config()};
 		QVERIFY(uBackend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{reader}));
 		backendRes = uBackend;
 	}();

@@ -42,7 +42,7 @@ public:
 		static const QString KeyUrl;
 		static const QString KeyAddDataArgs;
 		static const QString KeyDownloadUrl;
-		static const QString KeyUseInfoDownloads;
+		static const QString KeyUseInfoDownload;
 		struct Headers {
 			static const QString KeySize;
 			static const QString KeyKey;
