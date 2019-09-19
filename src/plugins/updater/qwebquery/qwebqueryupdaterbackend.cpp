@@ -120,7 +120,12 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 	if (const auto program = testForProcess(config()); program) {
 		auto sigMethodIdx = metaObject()->indexOfSignal("triggerInstallDone(bool)");
 		Q_ASSERT(sigMethodIdx != -1);
-		return runProcess(this, metaObject()->method(sigMethodIdx), config(), *program, infos, track);
+		return runProcess(this,
+						  metaObject()->method(sigMethodIdx),
+						  config(),
+						  *program,
+						  infos,
+						  track);
 	}
 #endif
 
@@ -333,7 +338,7 @@ std::optional<QString> QWebQueryUpdaterBackend::testForProcess(IConfigReader *co
 		return std::nullopt;
 }
 
-bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal, IConfigReader *config, const QString &program, const QList<UpdateInfo> &infos, bool track)
+bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal, IConfigReader *config, const QString &program, const QList<UpdateInfo> &infos, bool track, const std::optional<QString> &replaceArg)
 {
 	QStringList args;
 	if (const auto mArgs = config->value(QStringLiteral("install/arguments")); mArgs)
@@ -344,6 +349,11 @@ bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal
 			if (const auto key = QStringLiteral("arguments"); data.contains(key))
 				args += ProcessBackend::readArgumentList(data.value(key));
 		}
+	}
+
+	if (replaceArg) {
+		for (auto &arg : args)
+			arg.replace(QStringLiteral("%{downloadPath}"), *replaceArg, Qt::CaseSensitive);
 	}
 
 	QString pwd;

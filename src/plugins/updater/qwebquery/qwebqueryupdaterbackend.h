@@ -30,7 +30,8 @@ public:
 						   IConfigReader *config,
 						   const QString &program,
 						   const QList<QtAutoUpdater::UpdateInfo> &infos,
-						   bool track);
+						   bool track,
+						   const std::optional<QString> &replaceArg = std::nullopt);
 #endif
 
 Q_SIGNALS:

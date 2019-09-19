@@ -263,7 +263,13 @@ void QWebQueryUpdateInstaller::finishInstall()
 	}
 
 	// execute the installer
-	const auto ok = QWebQueryUpdaterBackend::runProcess(this, trackSignal, _config, *program, {_info}, trackSignal.isValid());
+	const auto ok = QWebQueryUpdaterBackend::runProcess(this,
+														trackSignal,
+														_config,
+														*program,
+														{_info},
+														trackSignal.isValid(),
+														_file->fileName());
 	if (ok) {
 		_file->setAutoRemove(false);
 		_file->deleteLater();
