@@ -97,6 +97,10 @@ void ProcessBackend::runUpdateTool(int id, ProcessBackend::UpdateProcessInfo too
 
 	d->updateProcesses[id].first = std::move(toolInfo);
 	d->updateProcesses[id].second = proc;
+	qCDebug(logProcessBackend) << "Starting process for id" << id
+							   << "as" << d->updateProcesses[id].second->program()
+							   << "with arguments" << d->updateProcesses[id].second->arguments()
+							   << "and working dir" << d->updateProcesses[id].second->workingDirectory();
 	proc->start(d->updateProcesses[id].first.stdinData ?
 					QIODevice::ReadWrite :
 					QIODevice::ReadOnly);
@@ -188,6 +192,8 @@ void ProcessBackendPrivate::_q_updaterStateChanged(int id, QProcess::ProcessStat
 
 	const auto &info = updateProcesses[id];
 	Q_ASSERT(info.second);
+	qCDebug(logProcessBackend) << "Process for id" << id
+							   << "changed to state" << state;
 	switch (state) {
 	case QProcess::Starting:
 		break;
