@@ -11,6 +11,14 @@ using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logBrewBackend, "qt.autoupdater.core.plugin.homebrew.backend")
 
+const QString QHomebrewUpdaterBackend::KeyPackages {QStringLiteral("packages")};
+const QString QHomebrewUpdaterBackend::KeyCask {QStringLiteral("cask")};
+const QString QHomebrewUpdaterBackend::KeyPath {QStringLiteral("path")};
+const QString QHomebrewUpdaterBackend::KeyExtraUpdateArgs {QStringLiteral("extraUpdateArgs")};
+const QString QHomebrewUpdaterBackend::KeyExtraOutdatedArgs {QStringLiteral("extraOutdatedArgs")};
+const QString QHomebrewUpdaterBackend::KeyCakebrewPath {QStringLiteral("cakebrewPath")};
+const QString QHomebrewUpdaterBackend::KeyExtraCakebrewArgs {QStringLiteral("extraCakebrewArgs")};
+
 QHomebrewUpdaterBackend::QHomebrewUpdaterBackend(QString &&key, QObject *parent) :
 	ProcessBackend{std::move(key), parent}
 {}
@@ -35,7 +43,7 @@ void QHomebrewUpdaterBackend::checkForUpdates()
 	info.arguments = QStringList {
 		QStringLiteral("update")
 	};
-	if (auto extraArgs = config()->value(QStringLiteral("extraUpdateArgs")); extraArgs)
+	if (auto extraArgs = config()->value(KeyExtraUpdateArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
 	info.useStdout = false;
@@ -50,7 +58,7 @@ UpdateInstaller *QHomebrewUpdaterBackend::createInstaller()
 
 bool QHomebrewUpdaterBackend::initialize()
 {
-	if (auto pConf = config()->value(QStringLiteral("packages")); pConf)
+	if (auto pConf = config()->value(KeyPackages); pConf)
 		_packages = readStringList(*pConf);
 	if (_packages.isEmpty()) {
 		qCCritical(logBrewBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
@@ -71,6 +79,7 @@ void QHomebrewUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *proces
 		break;
 	case CaskOutdated:
 		onCaskOutdated(exitCode, processDevice);
+		break;
 	default:
 		Q_UNREACHABLE();
 		break;
@@ -89,7 +98,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::insta
 		return std::nullopt;
 	}
 
-	if (auto extraArgs = config()->value(QStringLiteral("extraCakebrewArgs")); extraArgs)
+	if (auto extraArgs = config()->value(KeyExtraCakebrewArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
 	info.runAsAdmin = false;
@@ -100,7 +109,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QHomebrewUpdaterBackend::insta
 QString QHomebrewUpdaterBackend::brewPath() const
 {
 	QStringList paths;
-	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths)
+	if (auto mPaths = config()->value(KeyPath); mPaths)
 		paths = readPathList(*mPaths);
 
 	const auto path = QStandardPaths::findExecutable(QStringLiteral("brew"), paths);
@@ -113,13 +122,21 @@ QString QHomebrewUpdaterBackend::brewPath() const
 
 QString QHomebrewUpdaterBackend::cakebrewPath() const
 {
-	QDir cakeDir {QStandardPaths::locate(QStandardPaths::ApplicationsLocation,
-										 QStringLiteral("Cakebrew.app"),
-										 QStandardPaths::LocateDirectory)};
-	if (cakeDir.exists())
-		return cakeDir.absoluteFilePath(QStringLiteral("Contents/MacOS/Cakebrew"));
-	else
-		return {};
+	if (const auto path = config()->value(KeyCakebrewPath); path) {
+		auto pathStr = path->toString();
+		if (!pathStr.endsWith(QStringLiteral(".app"))) {
+			pathStr += QStringLiteral("Contents/MacOS/") +
+					   QFileInfo{pathStr}.completeBaseName();
+		}
+		return QFileInfo::exists(pathStr) ? pathStr : QString{};
+	} else {
+		QDir cakeDir {QStandardPaths::locate(QStandardPaths::ApplicationsLocation,
+											 QStringLiteral("Cakebrew.app"),
+											 QStandardPaths::LocateDirectory)};
+		return cakeDir.exists() ?
+					cakeDir.absoluteFilePath(QStringLiteral("Contents/MacOS/Cakebrew")) :
+					QString{};
+	}
 }
 
 void QHomebrewUpdaterBackend::onUpdated(int exitCode)
@@ -128,7 +145,7 @@ void QHomebrewUpdaterBackend::onUpdated(int exitCode)
 		UpdateProcessInfo info;
 		info.program = brewPath();
 		Q_ASSERT(!info.program.isEmpty());
-		const auto asCask = config()->value(QStringLiteral("cask"), false).toBool();
+		const auto asCask = config()->value(KeyCask, DefaultCask).toBool();
 		if (asCask) {
 			info.arguments = QStringList {
 				QStringLiteral("cask"),
@@ -140,7 +157,7 @@ void QHomebrewUpdaterBackend::onUpdated(int exitCode)
 				QStringLiteral("--json=v1")
 			};
 		}
-		if (auto extraArgs = config()->value(QStringLiteral("extraOutdatedArgs")); extraArgs)
+		if (auto extraArgs = config()->value(KeyExtraOutdatedArgs); extraArgs)
 			info.arguments += readArgumentList(*extraArgs);
 		emit checkProgress(-1.0, tr("Scanning for outdated packages…"));
 		runUpdateTool(asCask ? CaskOutdated : Outdated, std::move(info));

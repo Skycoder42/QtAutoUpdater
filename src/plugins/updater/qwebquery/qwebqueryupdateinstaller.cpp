@@ -1,5 +1,4 @@
 #include "qwebqueryupdateinstaller.h"
-#include "qwebqueryupdaterbackend.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
@@ -54,8 +53,8 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 	// TODO handle eulas
 
 	// get the download url
-	auto url = generateUrl(_config->value(QStringLiteral("installer/downloadUrl")));
-	if (_config->value(QStringLiteral("installer/useInfoDownloads"), false).toBool()) {
+	auto url = generateUrl(_config->value(Install::KeyDownloadUrl));
+	if (_config->value(Install::KeyUseInfoDownloads, Install::DefaultUseInfoDownloads).toBool()) {
 		if (const auto key = QStringLiteral("download"); data.contains(key)) {
 			auto infoUrl = data[key].toUrl();
 			if (infoUrl.isRelative() && url)
@@ -88,20 +87,20 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 	emit updateGlobalProgress(0.0, tr("Downloading update files…"));
 
 	QNetworkRequest request{*url};
-	if (const auto useSpdy = _config->value(QStringLiteral("check/spdy")); useSpdy)
+	if (const auto useSpdy = _config->value(Check::KeySpdy); useSpdy)
 		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
-	if (const auto useHttp2 = _config->value(QStringLiteral("check/http2")); useHttp2)
+	if (const auto useHttp2 = _config->value(Check::KeyHttp2); useHttp2)
 		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
 	// optional ssl config
 #ifndef QT_NO_SSL
-	if (const auto sslConf = _config->value(QStringLiteral("install/sslConfiguration")); sslConf)
+	if (const auto sslConf = _config->value(Check::KeySslConfiguration); sslConf)
 		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
 #endif
 	// optional headers
-	if (const auto cnt = _config->value(QStringLiteral("install/headers/size")); cnt) {
+	if (const auto cnt = _config->value(Install::Headers::KeySize); cnt) {
 		for (auto i = 0; i < cnt->toInt(); ++i) {
-			request.setRawHeader(_config->value(QStringLiteral("install/headers/%1/key").arg(i))->toByteArray(),
-								 _config->value(QStringLiteral("install/headers/%1/value").arg(i)).value_or(QVariant{}).toByteArray());
+			request.setRawHeader(_config->value(Install::Headers::KeyKey.arg(i))->toByteArray(),
+								 _config->value(Install::Headers::KeyValue.arg(i)).value_or(QVariant{}).toByteArray());
 		}
 	}
 
@@ -238,7 +237,7 @@ void QWebQueryUpdateInstaller::finishInstall()
 
 	// find the executable
 	std::optional<QString> program;
-	if (_config->value(QStringLiteral("installer/execDownload"), false).toBool() &&
+	if (_config->value(Install::KeyExecDownload, Install::DefaultExecDownload).toBool() &&
 		_info.data().value(QStringLiteral("exec"), false).toBool()) {
 		program = _file->fileName();
 		if (!_file->setPermissions(_file->permissions() | QFileDevice::ExeUser)) {
@@ -255,7 +254,7 @@ void QWebQueryUpdateInstaller::finishInstall()
 
 	// connect if parallel is allowed
 	QMetaMethod trackSignal;
-	if (_config->value(QStringLiteral("install/parallel"), false).toBool()) {
+	if (_config->value(Install::KeyParallel, Install::DefaultParallel).toBool()) {
 		auto sigMethodIdx = metaObject()->indexOfSignal("installerDone(bool)");
 		Q_ASSERT(sigMethodIdx != -1);
 		trackSignal = metaObject()->method(sigMethodIdx);

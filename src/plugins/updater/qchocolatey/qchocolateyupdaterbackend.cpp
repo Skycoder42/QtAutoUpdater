@@ -6,7 +6,14 @@ using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logChocoBackend, "qt.autoupdater.core.plugin.chocolatey.backend")
 
-const QString QChocolateyUpdaterBackend::DefaultGuiPath {QStringLiteral(R"_(C:\Program Files (x86)\Chocolatey GUI\ChocolateyGui.exe)_")};
+const QString QChocolateyUpdaterBackend::KeyPackages {QStringLiteral("packages")};
+const QString QChocolateyUpdaterBackend::KeyPath {QStringLiteral("path")};
+const QString QChocolateyUpdaterBackend::KeyExtraCheckArgs {QStringLiteral("extraCheckArgs")};
+const QString QChocolateyUpdaterBackend::KeyGuiExePath {QStringLiteral("guiExePath")};
+const QString QChocolateyUpdaterBackend::KeyExtraGuiArgs {QStringLiteral("extraGuiArgs")};
+const QString QChocolateyUpdaterBackend::KeyRunAsAdmin {QStringLiteral("runAsAdmin")};
+
+const QString QChocolateyUpdaterBackend::DefaultGuiExePath {QStringLiteral(R"_(C:\Program Files (x86)\Chocolatey GUI\ChocolateyGui.exe)_")};
 
 QChocolateyUpdaterBackend::QChocolateyUpdaterBackend(QString &&key, QObject *parent) :
 	ProcessBackend{std::move(key), parent}
@@ -36,7 +43,7 @@ void QChocolateyUpdaterBackend::checkForUpdates()
 		QStringLiteral("--no-progress"),
 		QStringLiteral("--ignore-unfound")
 	};
-	if (auto extraArgs = config()->value(QStringLiteral("extraCheckArgs")); extraArgs)
+	if (auto extraArgs = config()->value(KeyExtraCheckArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
 	runUpdateTool(0, std::move(info));
@@ -49,7 +56,7 @@ UpdateInstaller *QChocolateyUpdaterBackend::createInstaller()
 
 bool QChocolateyUpdaterBackend::initialize()
 {
-	if (auto pConf = config()->value(QStringLiteral("packages")); pConf)
+	if (auto pConf = config()->value(KeyPackages); pConf)
 		_packages = readStringList(*pConf);
 	if (_packages.isEmpty()) {
 		qCCritical(logChocoBackend) << "Configuration for chocolatey must contain 'packages' with at least one package";
@@ -101,10 +108,10 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 		return std::nullopt;
 	}
 
-	if (auto extraArgs = config()->value(QStringLiteral("extraGuiArgs")); extraArgs)
+	if (auto extraArgs = config()->value(KeyExtraGuiArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 
-	info.runAsAdmin = config()->value(QStringLiteral("runAsAdmin"), true).toBool();
+	info.runAsAdmin = config()->value(KeyRunAsAdmin, true).toBool();
 
 	return info;
 }
@@ -112,7 +119,7 @@ std::optional<ProcessBackend::InstallProcessInfo> QChocolateyUpdaterBackend::ins
 QString QChocolateyUpdaterBackend::chocoPath() const
 {
 	QStringList paths;
-	if (auto mPaths = config()->value(QStringLiteral("path")); mPaths)
+	if (auto mPaths = config()->value(KeyPath); mPaths)
 		paths = readPathList(*mPaths);
 
 	const auto path = QStandardPaths::findExecutable(QStringLiteral("choco"), paths);
@@ -125,5 +132,5 @@ QString QChocolateyUpdaterBackend::chocoPath() const
 
 QString QChocolateyUpdaterBackend::guiPath() const
 {
-	return config()->value(QStringLiteral("guiExePath"), DefaultGuiPath).toString();
+	return config()->value(KeyGuiExePath, DefaultGuiExePath).toString();
 }

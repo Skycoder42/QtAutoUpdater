@@ -10,11 +10,16 @@
 
 #include <QtNetwork/QNetworkAccessManager>
 
+#include "qwebqueryupdaterbackend.h"
+
 class QWebQueryUpdateInstaller : public QtAutoUpdater::UpdateInstaller
 {
 	Q_OBJECT
 
 public:
+	using Check = QWebQueryUpdaterBackend::Check;
+	using Install = QWebQueryUpdaterBackend::Install;
+
 	explicit QWebQueryUpdateInstaller(QtAutoUpdater::UpdaterBackend::IConfigReader *config,
 									  QNetworkAccessManager *nam,
 									  QObject *parent = nullptr);

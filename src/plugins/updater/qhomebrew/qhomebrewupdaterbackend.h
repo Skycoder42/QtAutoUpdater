@@ -10,6 +10,16 @@ class QHomebrewUpdaterBackend : public QtAutoUpdater::ProcessBackend
 	Q_OBJECT
 
 public:
+	static const QString KeyPackages;
+	static const QString KeyCask;
+	static const QString KeyPath;
+	static const QString KeyExtraUpdateArgs;
+	static const QString KeyExtraOutdatedArgs;
+	static const QString KeyCakebrewPath;
+	static const QString KeyExtraCakebrewArgs;
+
+	static constexpr bool DefaultCask {false};
+
 	explicit QHomebrewUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
@@ -27,6 +37,7 @@ private:
 		Outdated = 1,
 		CaskOutdated =2
 	};
+
 	QStringList _packages;
 
 	QString brewPath() const;

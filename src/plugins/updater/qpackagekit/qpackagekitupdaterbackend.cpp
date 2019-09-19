@@ -6,6 +6,8 @@ using namespace PackageKit;
 
 Q_LOGGING_CATEGORY(logPackageKitBackend, "qt.autoupdater.core.plugin.packagekit.backend")
 
+const QString QPackageKitUpdaterBackend::KeyPackages {QStringLiteral("packages")};
+
 QString QPackageKitUpdaterBackend::statusString(Transaction::Status status)
 {
 	switch (status) {
@@ -139,7 +141,7 @@ UpdateInstaller *QPackageKitUpdaterBackend::createInstaller()
 
 bool QPackageKitUpdaterBackend::initialize()
 {
-	if (auto pData = config()->value(QStringLiteral("packages")); pData)
+	if (auto pData = config()->value(KeyPackages); pData)
 		_packageFilter = readStringList(*pData, QLatin1Char(';'));
 	if (_packageFilter.isEmpty()) {
 		qCCritical(logPackageKitBackend) << "Configuration for packagekit must contain 'packages'";

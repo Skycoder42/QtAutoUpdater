@@ -12,6 +12,8 @@ class QPackageKitUpdaterBackend : public QtAutoUpdater::UpdaterBackend
 	Q_OBJECT
 
 public:
+	static const QString KeyPackages;
+
 	static QString statusString(PackageKit::Transaction::Status status);
 
 	explicit QPackageKitUpdaterBackend(QString &&key, QObject *parent = nullptr);

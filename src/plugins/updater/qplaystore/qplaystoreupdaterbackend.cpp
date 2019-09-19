@@ -5,6 +5,11 @@
 #include <QtAndroidExtras/private/qandroidactivityresultreceiver_p.h>
 using namespace QtAutoUpdater;
 
+Q_DECLARE_METATYPE(QAndroidJniObject)
+
+const QString QPlayStoreUpdaterBackend::KeyDebug {QStringLiteral("debug")};
+const QString QPlayStoreUpdaterBackend::KeyAutoResumeInstall {QStringLiteral("autoResumeInstall")};
+
 QHash<QUuid, QPointer<QPlayStoreUpdaterBackend>> QPlayStoreUpdaterBackend::backends;
 
 void QPlayStoreUpdaterBackend::registerNatives(JNIEnv *env)
@@ -30,7 +35,7 @@ QPlayStoreUpdaterBackend::QPlayStoreUpdaterBackend(QString &&key, QObject *paren
 	assertEnums();
 #endif
 
-	qRegisterMetaType<QAndroidJniObject>("QAndroidJniObject");
+	qRegisterMetaType<QAndroidJniObject>();
 
 	const auto receiverPrivate = QAndroidActivityResultReceiverPrivate::get(this);
 	receiverPrivate->localToGlobalRequestCode.insert(InstallImmediateRequestCode, InstallImmediateRequestCode);
@@ -123,12 +128,13 @@ bool QPlayStoreUpdaterBackend::initialize()
 	QAndroidJniExceptionCleaner _;
 
 	QAndroidJniObject appUpdateManager;
-	if (config()->value(QStringLiteral("debug"), false).toBool()) {
+	if (config()->value(KeyDebug, DefaultDebug).toBool()) {
 		appUpdateManager = QAndroidJniObject {
 			"com/google/android/play/core/appupdate/testing/FakeAppUpdateManager",
 			"(Landroid/content/Context;)V",
 			QtAndroid::androidContext().object()
 		};
+		setProperty("fakeAppUpdateManager", QVariant::fromValue(appUpdateManager));
 	} else {
 		appUpdateManager = QAndroidJniObject::callStaticObjectMethod("com/google/android/play/core/appupdate/AppUpdateManagerFactory",
 																	 "create", "(Landroid/content/Context;)Lcom/google/android/play/core/appupdate/AppUpdateManager;",
@@ -147,7 +153,7 @@ bool QPlayStoreUpdaterBackend::initialize()
 		return false;
 	backends.insert(id, this);
 
-	if (config()->value(QStringLiteral("autoResumeInstall"), QtAndroid::androidActivity().isValid()).toBool()) {
+	if (config()->value(KeyAutoResumeInstall, QtAndroid::androidActivity().isValid()).toBool()) {
 		_updateHelper.callMethod<void>("resumeStalledUpdate",
 									   "(ILandroid/app/Activity;)V",
 									   InstallIgnoredRequestCode,

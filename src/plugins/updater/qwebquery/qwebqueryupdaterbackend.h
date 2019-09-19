@@ -15,6 +15,48 @@ class QWebQueryUpdaterBackend : public QtAutoUpdater::UpdaterBackend
 	Q_OBJECT
 
 public:
+	struct Check {
+		static const QString KeyUrl;
+		static const QString KeyAutoQuery;
+		static const QString KeySpdy;
+		static const QString KeyHttp2;
+		static const QString KeyHsts;
+		static const QString KeySslConfiguration;
+		struct Headers {
+			static const QString KeySize;
+			static const QString KeyKey;
+			static const QString KeyValue;
+		};
+		static const QString KeyVerb;
+		static const QString KeyBody;
+		static const QString KeyParser;
+
+		static constexpr bool DefaultAutoQuery {true};
+		static const QByteArray DefaultVerb;
+	};
+
+	struct Install {
+		static const QString KeyDownload;
+		static const QString KeyTool;
+		static const QString KeyParallel;
+		static const QString KeyUrl;
+		static const QString KeyAddDataArgs;
+		static const QString KeyDownloadUrl;
+		static const QString KeyUseInfoDownloads;
+		struct Headers {
+			static const QString KeySize;
+			static const QString KeyKey;
+			static const QString KeyValue;
+		};
+		static const QString KeyExecDownload;
+
+		static constexpr bool DefaultDownload {false};
+		static constexpr bool DefaultParallel {false};
+		static constexpr bool DefaultAddDataArgs {false};
+		static constexpr bool DefaultUseInfoDownloads {false};
+		static constexpr bool DefaultExecDownload {false};
+	};
+
 	explicit QWebQueryUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;

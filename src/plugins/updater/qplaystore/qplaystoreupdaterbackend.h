@@ -17,6 +17,11 @@ class QPlayStoreUpdaterBackend : public QtAutoUpdater::UpdaterBackend, public QA
 	Q_OBJECT
 
 public:
+	static const QString KeyDebug;
+	static const QString KeyAutoResumeInstall;
+
+	static constexpr bool DefaultDebug {false};
+
 	enum UpdateAvailability : int {
 		Unknown = 0x00000000,
 		UpdateNotAvailable = 0x00000001,

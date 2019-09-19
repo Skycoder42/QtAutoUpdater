@@ -25,9 +25,36 @@ using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logWebBackend, "qt.autoupdater.core.plugin.webquery.backend")
 
-const QString QWebQueryUpdaterBackend::ParserAuto = QStringLiteral("auto");
-const QString QWebQueryUpdaterBackend::ParserVersion = QStringLiteral("version");
-const QString QWebQueryUpdaterBackend::ParserJson = QStringLiteral("json");
+const QString QWebQueryUpdaterBackend::Check::KeyUrl {QStringLiteral("check/url")};
+const QString QWebQueryUpdaterBackend::Check::KeyAutoQuery {QStringLiteral("check/autoQuery")};
+const QString QWebQueryUpdaterBackend::Check::KeySpdy {QStringLiteral("check/spdy")};
+const QString QWebQueryUpdaterBackend::Check::KeyHttp2 {QStringLiteral("check/http2")};
+const QString QWebQueryUpdaterBackend::Check::KeyHsts {QStringLiteral("check/hsts")};
+const QString QWebQueryUpdaterBackend::Check::KeySslConfiguration {QStringLiteral("check/sslConfiguration")};
+const QString QWebQueryUpdaterBackend::Check::Headers::KeySize {QStringLiteral("check/headers/size")};
+const QString QWebQueryUpdaterBackend::Check::Headers::KeyKey {QStringLiteral("check/headers/%1/key")};
+const QString QWebQueryUpdaterBackend::Check::Headers::KeyValue {QStringLiteral("check/headers/%1/value")};
+const QString QWebQueryUpdaterBackend::Check::KeyVerb {QStringLiteral("check/verb")};
+const QString QWebQueryUpdaterBackend::Check::KeyBody {QStringLiteral("check/body")};
+const QString QWebQueryUpdaterBackend::Check::KeyParser {QStringLiteral("check/parser")};
+
+const QByteArray QWebQueryUpdaterBackend::Check::DefaultVerb {"GET"};
+
+const QString QWebQueryUpdaterBackend::Install::KeyDownload {QStringLiteral("install/download")};
+const QString QWebQueryUpdaterBackend::Install::KeyTool {QStringLiteral("install/tool")};
+const QString QWebQueryUpdaterBackend::Install::KeyParallel {QStringLiteral("install/parallel")};
+const QString QWebQueryUpdaterBackend::Install::KeyUrl {QStringLiteral("install/url")};
+const QString QWebQueryUpdaterBackend::Install::KeyAddDataArgs {QStringLiteral("install/addDataArgs")};
+const QString QWebQueryUpdaterBackend::Install::KeyDownloadUrl {QStringLiteral("installer/downloadUrl")};
+const QString QWebQueryUpdaterBackend::Install::KeyUseInfoDownloads {QStringLiteral("installer/useInfoDownloads")};
+const QString QWebQueryUpdaterBackend::Install::Headers::KeySize {QStringLiteral("install/headers/size")};
+const QString QWebQueryUpdaterBackend::Install::Headers::KeyKey {QStringLiteral("install/headers/%1/key")};
+const QString QWebQueryUpdaterBackend::Install::Headers::KeyValue {QStringLiteral("install/headers/%1/value")};
+const QString QWebQueryUpdaterBackend::Install::KeyExecDownload {QStringLiteral("installer/execDownload")};
+
+const QString QWebQueryUpdaterBackend::ParserAuto {QStringLiteral("auto")};
+const QString QWebQueryUpdaterBackend::ParserVersion {QStringLiteral("version")};
+const QString QWebQueryUpdaterBackend::ParserJson {QStringLiteral("json")};
 
 QWebQueryUpdaterBackend::QWebQueryUpdaterBackend(QString &&key, QObject *parent) :
 	UpdaterBackend{std::move(key), parent}
@@ -37,53 +64,53 @@ UpdaterBackend::Features QWebQueryUpdaterBackend::features() const
 {
 	Features features = Feature::CheckProgress;
 #if QT_CONFIG(process)
-	if (config()->value(QStringLiteral("install/download"), false).toBool())
+	if (config()->value(Install::KeyDownload, Install::DefaultDownload).toBool())
 		features |= Feature::PerformInstall;
-	else if (config()->value(QStringLiteral("install/tool"))) {
+	else if (config()->value(Install::KeyTool)) {
 		features |= Feature::TriggerInstall;
-		if (config()->value(QStringLiteral("install/parallel"), false).toBool())
+		if (config()->value(Install::KeyParallel, Install::DefaultParallel).toBool())
 			features |= Feature::ParallelTrigger;
 	}
 #endif
-	if (config()->value(QStringLiteral("install/url")))
+	if (config()->value(Install::KeyUrl))
 		features |= Feature::TriggerInstall;
 	return features;
 }
 
 void QWebQueryUpdaterBackend::checkForUpdates()
 {
-	const auto urlVariant = config()->value(QStringLiteral("check/url"));
+	const auto urlVariant = config()->value(Check::KeyUrl);
 	if (!urlVariant) {
 		emit checkDone(false);
 		return;
 	}
 
 	auto url = urlVariant->toUrl();
-	if (config()->value(QStringLiteral("check/autoQuery"), true).toBool())
+	if (config()->value(Check::KeyAutoQuery, Check::DefaultAutoQuery).toBool())
 		addStandardQuery(url);
 	QNetworkRequest request{url};
 	request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-	if (const auto useSpdy = config()->value(QStringLiteral("check/spdy")); useSpdy)
+	if (const auto useSpdy = config()->value(Check::KeySpdy); useSpdy)
 		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
-	if (const auto useHttp2 = config()->value(QStringLiteral("check/http2")); useHttp2)
+	if (const auto useHttp2 = config()->value(Check::KeyHttp2); useHttp2)
 		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
 #ifndef QT_NO_SSL
 	// optional ssl config
-	if (const auto sslConf = config()->value(QStringLiteral("check/sslConfiguration")); sslConf)
+	if (const auto sslConf = config()->value(Check::KeySslConfiguration); sslConf)
 		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
 #endif
 	// optional headers
-	if (const auto cnt = config()->value(QStringLiteral("check/headers/size")); cnt) {
+	if (const auto cnt = config()->value(Check::Headers::KeySize); cnt) {
 		for (auto i = 0; i < cnt->toInt(); ++i) {
-			request.setRawHeader(config()->value(QStringLiteral("check/headers/%1/key").arg(i))->toByteArray(),
-								 config()->value(QStringLiteral("check/headers/%1/value").arg(i)).value_or(QVariant{}).toByteArray());
+			request.setRawHeader(config()->value(Check::Headers::KeyKey.arg(i))->toByteArray(),
+								 config()->value(Check::Headers::KeyValue.arg(i)).value_or(QVariant{}).toByteArray());
 		}
 	}
 
 	// figure out the verb and body and send the request
 	QNetworkReply *reply = nullptr;
-	const auto verb = config()->value(QStringLiteral("check/verb"), QByteArray{"GET"}).toByteArray();
-	if (const auto body = config()->value(QStringLiteral("check/body")); body) {
+	const auto verb = config()->value(Check::KeyVerb, Check::DefaultVerb).toByteArray();
+	if (const auto body = config()->value(Check::KeyBody); body) {
 		auto bodyObj = body->value<QObject*>();
 		if (bodyObj) {
 			if (bodyObj->metaObject()->inherits(&QIODevice::staticMetaObject))
@@ -119,7 +146,7 @@ void QWebQueryUpdaterBackend::abort(bool force)
 bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, bool track)
 {
 #if QT_CONFIG(process)
-	if (!config()->value(QStringLiteral("install/download"), false).toBool()) {
+	if (!config()->value(Install::KeyDownload, Install::DefaultDownload).toBool()) {
 		if (const auto program = testForProcess(config()); program) {
 			auto sigMethodIdx = metaObject()->indexOfSignal("triggerInstallDone(bool)");
 			Q_ASSERT(sigMethodIdx != -1);
@@ -133,8 +160,8 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 	}
 #endif
 
-	if (auto url = config()->value(QStringLiteral("install/url"), {}).toUrl(); url.isValid()) {
-		if (config()->value(QStringLiteral("install/addDataArgs"), false).toBool()) {
+	if (auto url = config()->value(Install::KeyUrl, {}).toUrl(); url.isValid()) {
+		if (config()->value(Install::KeyAddDataArgs, Install::DefaultAddDataArgs).toBool()) {
 			QUrlQuery query{url};
 			for (const auto &info : infos) {
 				auto data = info.data();
@@ -161,7 +188,7 @@ bool QWebQueryUpdaterBackend::triggerUpdates(const QList<UpdateInfo> &infos, boo
 UpdateInstaller *QWebQueryUpdaterBackend::createInstaller()
 {
 #if QT_CONFIG(process)
-	if (config()->value(QStringLiteral("install/download"), false).toBool())
+	if (config()->value(Install::KeyDownload, Install::DefaultDownload).toBool())
 		return new QWebQueryUpdateInstaller{config(), _nam, this};
 	else
 #endif
@@ -172,7 +199,8 @@ bool QWebQueryUpdaterBackend::initialize()
 {
 	_nam = new QNetworkAccessManager{this};
 	_nam->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-	_nam->setStrictTransportSecurityEnabled(config()->value(QStringLiteral("check/hsts"), true).toBool());
+	if (const auto hsts = config()->value(Check::KeyHsts); hsts)
+		_nam->setStrictTransportSecurityEnabled(hsts->toBool());
 	return true;
 }
 
@@ -248,7 +276,7 @@ void QWebQueryUpdaterBackend::addStandardQuery(QUrl &url) const
 
 void QWebQueryUpdaterBackend::parseResult(QNetworkReply *reply)
 {
-	const auto parser = config()->value(QStringLiteral("check/parser"), ParserAuto).toString();
+	const auto parser = config()->value(Check::KeyParser, ParserAuto).toString();
 	if (parser == ParserAuto) {
 		const auto contentType = reply->header(QNetworkRequest::ContentTypeHeader).toByteArray();
 		if (contentType == "application/json")

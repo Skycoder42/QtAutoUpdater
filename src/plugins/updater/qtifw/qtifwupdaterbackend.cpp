@@ -5,6 +5,18 @@ using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logQtIfwBackend, "qt.autoupdater.core.plugin.qtifw.backend")
 
+const QString QtIfwUpdaterBackend::KeyPath {QStringLiteral("path")};
+const QString QtIfwUpdaterBackend::KeyExtraCheckArgs {QStringLiteral("extraCheckArgs")};
+const QString QtIfwUpdaterBackend::KeySilent {QStringLiteral("silent")};
+const QString QtIfwUpdaterBackend::KeyExtraInstallArgs {QStringLiteral("extraInstallArgs")};
+const QString QtIfwUpdaterBackend::KeyRunAsAdmin {QStringLiteral("runAsAdmin")};
+
+#ifdef Q_OS_OSX
+const QString QtIfwUpdaterBackend::DefaultPath {QStringLiteral("../../maintenancetool")};
+#else
+const QString QtIfwUpdaterBackend::DefaultPath {QStringLiteral("./maintenancetool")};
+#endif
+
 QtIfwUpdaterBackend::QtIfwUpdaterBackend(QString &&key, QObject *parent) :
 	ProcessBackend{std::move(key), parent}
 {}
@@ -31,7 +43,7 @@ void QtIfwUpdaterBackend::checkForUpdates()
 	info.program = mtInfo->absoluteFilePath();
 	info.workingDir = mtInfo->absolutePath();
 	info.arguments = QStringList{QStringLiteral("--checkupdates")};
-	if (auto extraArgs = config()->value(QStringLiteral("extraCheckArgs")); extraArgs)
+	if (auto extraArgs = config()->value(KeyExtraCheckArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
 	runUpdateTool(0, std::move(info));
 }
@@ -72,25 +84,20 @@ std::optional<ProcessBackend::InstallProcessInfo> QtIfwUpdaterBackend::installer
 	info.program = mtInfo->absoluteFilePath();
 	info.workingDir = mtInfo->absolutePath();
 	info.arguments = QStringList{
-		config()->value(QStringLiteral("silent"), false).toBool() ?
+		config()->value(KeySilent, DefaultSilent).toBool() ?
 					QStringLiteral("--silentUpdate") :
 					QStringLiteral("--updater")
 	};
-	if (auto extraArgs = config()->value(QStringLiteral("extraInstallArgs")); extraArgs)
+	if (auto extraArgs = config()->value(KeyExtraInstallArgs); extraArgs)
 		info.arguments += readArgumentList(*extraArgs);
-	if (auto runAsAdmin = config()->value(QStringLiteral("runAsAdmin")); runAsAdmin)
+	if (auto runAsAdmin = config()->value(KeyRunAsAdmin); runAsAdmin)
 		info.runAsAdmin = runAsAdmin->toBool();
 	return info;
 }
 
 std::optional<QFileInfo> QtIfwUpdaterBackend::findMaintenanceTool()
 {
-#ifdef Q_OS_OSX
-		auto path = QStringLiteral("../../maintenancetool");
-#else
-		auto path =  QStringLiteral("./maintenancetool");
-#endif
-	path = config()->value(QStringLiteral("path"), path).toString();
+	auto path = config()->value(KeyPath, DefaultPath).toString();
 
 #if defined(Q_OS_WIN32)
 	if(!path.endsWith(QStringLiteral(".exe")))

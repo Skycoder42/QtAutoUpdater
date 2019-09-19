@@ -1,10 +1,15 @@
 #include "qhomebrewupdateinstaller.h"
+#include "qhomebrewupdaterbackend.h"
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtAutoUpdaterCore/ProcessBackend>
 using namespace QtAutoUpdater;
 
 Q_LOGGING_CATEGORY(logBrewInstaller, "qt.autoupdater.core.plugin.homebrew.installer")
+
+const QString QHomebrewUpdateInstaller::KeyCask {QHomebrewUpdaterBackend::KeyCask};
+const QString QHomebrewUpdateInstaller::KeyExtraInstallArgs {QStringLiteral("extraInstallArgs")};
+const bool QHomebrewUpdateInstaller::DefaultCask {QHomebrewUpdaterBackend::DefaultCask};
 
 QHomebrewUpdateInstaller::QHomebrewUpdateInstaller(const QString &brewPath, UpdaterBackend::IConfigReader *config, QObject *parent) :
 	UpdateInstaller{parent},
@@ -46,9 +51,9 @@ void QHomebrewUpdateInstaller::startInstallImpl()
 	QStringList args {
 		QStringLiteral("upgrade")
 	};
-	if (_config->value(QStringLiteral("cask"), false).toBool())
+	if (_config->value(KeyCask, DefaultCask).toBool())
 		args.append(QStringLiteral("cask"));
-	if (auto extraArgs = _config->value(QStringLiteral("extraInstallArgs")); extraArgs)
+	if (auto extraArgs = _config->value(KeyExtraInstallArgs); extraArgs)
 		args += ProcessBackend::readArgumentList(*extraArgs);
 	for (const auto &info : components())
 		args.append(info.identifier().toString());

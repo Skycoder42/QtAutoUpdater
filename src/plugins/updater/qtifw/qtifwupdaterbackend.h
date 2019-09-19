@@ -14,6 +14,15 @@ class QtIfwUpdaterBackend : public QtAutoUpdater::ProcessBackend
 	Q_OBJECT
 
 public:
+	static const QString KeyPath;
+	static const QString KeyExtraCheckArgs;
+	static const QString KeySilent;
+	static const QString KeyExtraInstallArgs;
+	static const QString KeyRunAsAdmin;
+
+	static const QString DefaultPath;
+	static constexpr bool DefaultSilent {false};
+
 	explicit QtIfwUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
