@@ -5,6 +5,6 @@ mkdir qthttpserver && pushd qthttpserver
 
 /opt/qt/$QT_VER/$PLATFORM/bin/qmake ../src/3rdparty/qthttpserver
 make
-make install
+$SUDO make install
 
 popd

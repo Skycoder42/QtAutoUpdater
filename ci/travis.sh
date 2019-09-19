@@ -11,5 +11,5 @@ if [[ $PLATFORM == "gcc_64" ]]; then
 	cat "$currDir/travis_qthttpserver.sh" >> qtmodules-travis/ci/linux/build-docker.sh
 	cat qtmodules-travis/ci/linux/build-docker.sh.orig >> qtmodules-travis/ci/linux/build-docker.sh
 elif [[ $PLATFORM == "clang_64" ]]; then
-	"$currDir/travis_qthttpserver.sh"
+	SUDO=sudo "$currDir/travis_qthttpserver.sh"
 fi
