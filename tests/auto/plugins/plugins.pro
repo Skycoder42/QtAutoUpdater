@@ -1,8 +1,8 @@
 TEMPLATE = subdirs
 
-SUBDIRS += testlib \
-	WebQueryTest
+SUBDIRS += testlib 
 
+qtHaveModule(httpserver): SUBDIRS += WebQueryTest
 qtConfig(process): SUBDIRS += QtIfwTest
 win32:qtConfig(process): SUBDIRS += ChocolateyTest
 mac:!ios:qtConfig(process): SUBDIRS += HomebrewTest
