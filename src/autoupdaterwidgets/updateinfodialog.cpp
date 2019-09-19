@@ -15,7 +15,7 @@
 
 using namespace QtAutoUpdater;
 
-UpdateInfoDialog::DialogResult UpdateInfoDialog::showSimpleInfo(const QList<UpdateInfo> &updates, const QString &desktopFileName, UpdaterBackend::Features features, QWidget *parent)
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showSimpleInfo(const QList<UpdateInfo> &updates, UpdaterBackend::Features features, QWidget *parent)
 {
 	DialogMaster::MessageBoxInfo mboxInfo;
 	mboxInfo.parent = parent;

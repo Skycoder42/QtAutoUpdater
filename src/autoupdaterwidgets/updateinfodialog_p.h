@@ -32,7 +32,6 @@ public:
 	Q_ENUM(DialogResult)
 
 	static DialogResult showSimpleInfo(const QList<UpdateInfo> &updates,
-									   const QString &desktopFileName,
 									   UpdaterBackend::Features features,
 									   QWidget *parent);
 	static DialogResult showUpdateInfo(const QList<UpdateInfo> &updates,

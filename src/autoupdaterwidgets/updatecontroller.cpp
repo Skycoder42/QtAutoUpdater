@@ -293,11 +293,14 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 
 	if(canShow(DisplayLevel::Info)) {
 		const auto updateInfos = updater->updateInfo();
-		const auto mMethod = detailedUpdateInfo ? &UpdateInfoDialog::showUpdateInfo : &UpdateInfoDialog::showSimpleInfo;
-		const auto res = mMethod(updateInfos,
-								 desktopFileName,
-								 updater->backend()->features(),
-								 q->parentWindow());
+		const auto res = detailedUpdateInfo ?
+							 UpdateInfoDialog::showUpdateInfo(updateInfos,
+															  desktopFileName,
+															  updater->backend()->features(),
+															  q->parentWindow()) :
+							 UpdateInfoDialog::showSimpleInfo(updateInfos,
+															  updater->backend()->features(),
+															  q->parentWindow());
 
 		auto installStarted = true;
 		switch(res) {

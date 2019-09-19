@@ -6,9 +6,12 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QUrlQuery>
 #include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QHttpMultiPart>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QDesktopServices>
+
+#if QT_CONFIG(http)
+#include <QtNetwork/QHttpMultiPart>
+#endif
 
 #if QT_CONFIG(process)
 #include <QtCore/QStandardPaths>
@@ -62,9 +65,11 @@ void QWebQueryUpdaterBackend::checkForUpdates()
 		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
 	if (const auto useHttp2 = config()->value(QStringLiteral("check/http2")); useHttp2)
 		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
+#ifndef QT_NO_SSL
 	// optional ssl config
 	if (const auto sslConf = config()->value(QStringLiteral("check/sslConfiguration")); sslConf)
 		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
+#endif
 	// optional headers
 	if (const auto cnt = config()->value(QStringLiteral("check/headers/size")); cnt) {
 		for (auto i = 0; i < cnt->toInt(); ++i) {
@@ -81,8 +86,10 @@ void QWebQueryUpdaterBackend::checkForUpdates()
 		if (bodyObj) {
 			if (bodyObj->metaObject()->inherits(&QIODevice::staticMetaObject))
 				reply = _nam->sendCustomRequest(request, verb, static_cast<QIODevice*>(bodyObj));
+#if QT_CONFIG(http)
 			else if (bodyObj->metaObject()->inherits(&QHttpMultiPart::staticMetaObject))
 				reply = _nam->sendCustomRequest(request, verb, static_cast<QHttpMultiPart*>(bodyObj));
+#endif
 			else
 				emit checkDone(false);
 		} else

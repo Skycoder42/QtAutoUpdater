@@ -93,8 +93,10 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 	if (const auto useHttp2 = _config->value(QStringLiteral("check/http2")); useHttp2)
 		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
 	// optional ssl config
+#ifndef QT_NO_SSL
 	if (const auto sslConf = _config->value(QStringLiteral("install/sslConfiguration")); sslConf)
 		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
+#endif
 	// optional headers
 	if (const auto cnt = _config->value(QStringLiteral("install/headers/size")); cnt) {
 		for (auto i = 0; i < cnt->toInt(); ++i) {
