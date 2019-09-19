@@ -23,6 +23,15 @@ UpdaterBackend::Features QTestUpdaterBackend::features() const
 	return static_cast<Features>(config()->value(QStringLiteral("features"), DefaultFeatures).toInt());
 }
 
+UpdaterBackend::SecondaryInfo QTestUpdaterBackend::secondaryInfo() const
+{
+	auto key = config()->value(QStringLiteral("secondaryInfo/key"));
+	if (key)
+		return std::make_pair(key->toString(), config()->value(QStringLiteral("secondaryInfo/displayName"), key->toString()).toString());
+	else
+		return std::nullopt;
+}
+
 void QTestUpdaterBackend::checkForUpdates()
 {
 	qCDebug(logTestPlugin) << Q_FUNC_INFO;
@@ -122,7 +131,9 @@ void QTestUpdaterBackend::timerTriggered()
 					info.setIdentifier(config()->value(QStringLiteral("updates/%1/id").arg(i), {}));
 					info.setName(config()->value(QStringLiteral("updates/%1/name").arg(i), {}).toString());
 					info.setVersion(QVersionNumber::fromString(config()->value(QStringLiteral("updates/%1/version").arg(i), {}).toString()));
-					info.setSize(config()->value(QStringLiteral("updates/%1/size").arg(i), 0).toULongLong());
+					const auto dataKeys = readStringList(config()->value(QStringLiteral("updates/%1/data").arg(i), {}));
+					for (const auto &key : dataKeys)
+						info.setData(key, config()->value(QStringLiteral("updates/%1/%2").arg(i).arg(key), {}));
 					updates.append(info);
 				}
 			}

@@ -81,19 +81,17 @@ QList<UpdateInfo> WebQueryTest::createInfos(const QVersionNumber &versionFrom, c
 		if (_parser == QStringLiteral("version")) {
 			return {
 				{
+					QCoreApplication::applicationName(),
 					QGuiApplication::applicationDisplayName(),
-					versionTo,
-					0ull,
-					QCoreApplication::applicationName()
+					versionTo
 				}
 			};
 		} else {
 			return {
 				{
 					QStringLiteral("test-update"),
+					QStringLiteral("test-update"),
 					versionTo,
-					42ull,
-					42,
 					{
 						{QStringLiteral("arguments"), QStringList {
 							QVariant{true}.toString(),

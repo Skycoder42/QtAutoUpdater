@@ -7,9 +7,9 @@ namespace {
 
 uint qHashImpl(const UpdateInfo &info, uint seed)
 {
-	return qHash(info.name(), seed) ^
-			qHash(info.version(), seed) ^
-			qHash(info.size(), seed);
+	return qHash(info.identifier().toString(), seed) ^
+			qHash(info.name(), seed) ^
+			qHash(info.version(), seed);
 }
 
 }
@@ -18,8 +18,8 @@ UpdateInfo::UpdateInfo() :
 	UpdateInfo{new UpdateInfoPrivate{}}
 {}
 
-UpdateInfo::UpdateInfo(QString name, QVersionNumber version, quint64 size, QVariant identifier, QVariantMap data) :
-	UpdateInfo{new UpdateInfoPrivate{{}, std::move(name), std::move(version), size, std::move(identifier), std::move(data)}}
+UpdateInfo::UpdateInfo(QVariant identifier, QString name, QVersionNumber version, QVariantMap data) :
+	UpdateInfo{new UpdateInfoPrivate{{}, std::move(identifier), std::move(name), std::move(version), std::move(data)}}
 {}
 
 UpdateInfo::UpdateInfo(UpdateInfoPrivate *d_ptr) :
@@ -39,21 +39,24 @@ UpdateInfo::~UpdateInfo() = default;
 bool UpdateInfo::operator==(const UpdateInfo &other) const
 {
 	return d == other.d || (
+				d->identifier == other.d->identifier &&
 				d->name == other.d->name &&
 				d->version == other.d->version &&
-				d->size == other.d->size &&
-				d->identifier == other.d->identifier &&
 				d->data == other.d->data);
 }
 
 bool UpdateInfo::operator!=(const UpdateInfo &other) const
 {
 	return d != other.d && (
+				d->identifier != other.d->identifier ||
 				d->name != other.d->name ||
 				d->version != other.d->version ||
-				d->size != other.d->size ||
-				d->identifier != other.d->identifier ||
 				d->data != other.d->data);
+}
+
+QVariant UpdateInfo::identifier() const
+{
+	return d->identifier;
 }
 
 QString UpdateInfo::name() const
@@ -66,19 +69,14 @@ QVersionNumber UpdateInfo::version() const
 	return d->version;
 }
 
-quint64 UpdateInfo::size() const
-{
-	return d->size;
-}
-
-QVariant UpdateInfo::identifier() const
-{
-	return d->identifier;
-}
-
 QVariantMap UpdateInfo::data() const
 {
 	return d->data;
+}
+
+void UpdateInfo::setIdentifier(QVariant identifier)
+{
+	d->identifier = std::move(identifier);
 }
 
 void UpdateInfo::setName(QString name)
@@ -91,19 +89,14 @@ void UpdateInfo::setVersion(QVersionNumber version)
 	d->version = std::move(version);
 }
 
-void UpdateInfo::setSize(quint64 size)
-{
-	d->size = size;
-}
-
-void UpdateInfo::setIdentifier(QVariant identifier)
-{
-	d->identifier = std::move(identifier);
-}
-
 void UpdateInfo::setData(QVariantMap data)
 {
 	d->data = std::move(data);
+}
+
+void UpdateInfo::setData(const QString &key, const QVariant &value)
+{
+	d->data.insert(key, value);
 }
 
 uint QtAutoUpdater::qHash(const UpdateInfo &info, uint seed)
@@ -114,8 +107,9 @@ uint QtAutoUpdater::qHash(const UpdateInfo &info, uint seed)
 QDebug QtAutoUpdater::operator<<(QDebug debug, const UpdateInfo &info)
 {
 	QDebugStateSaver state{debug};
-	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Size: %3}")
-					   .arg(info.name(), info.version().toString())
-					   .arg(info.size());
+	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Data-Keys: %3}")
+					   .arg(info.name(),
+							info.version().toString(),
+							info.data().keys().join(QLatin1Char(',')));
 	return debug;
 }

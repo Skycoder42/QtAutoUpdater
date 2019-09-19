@@ -110,11 +110,6 @@
          <string>Version</string>
         </property>
        </column>
-       <column>
-        <property name="text">
-         <string>Update Size</string>
-        </property>
-       </column>
       </widget>
      </item>
      <item>

@@ -9,13 +9,14 @@ class QmlUpdateInfoModel : public QAbstractListModel
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString secondaryInfo MEMBER _secondaryInfo NOTIFY secondaryInfoChanged)
 	Q_PROPERTY(QList<QtAutoUpdater::UpdateInfo> updateInfos MEMBER _updateInfos WRITE setUpdateInfos NOTIFY updateInfosChanged)
 
 public:
 	enum Roles {
 		NameRole = Qt::UserRole,
 		VersionRole,
-		SizeRole,
+		SecondaryInfoRole,
 		IdentifierRole,
 		GadgetRole
 	};
@@ -29,9 +30,11 @@ public:
 	QHash<int, QByteArray> roleNames() const override;
 
 Q_SIGNALS:
+	void secondaryInfoChanged(const QString &secondaryInfos);
 	void updateInfosChanged(const QList<QtAutoUpdater::UpdateInfo> &updateInfos);
 
 private:
+	QString _secondaryInfo;
 	QList<QtAutoUpdater::UpdateInfo> _updateInfos;
 
 	void setUpdateInfos(QList<QtAutoUpdater::UpdateInfo> updateInfos);

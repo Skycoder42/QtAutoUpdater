@@ -58,19 +58,20 @@ UpdateInfoDialog::DialogResult UpdateInfoDialog::showSimpleInfo(const QList<Upda
 	}
 }
 
-UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(const QList<UpdateInfo> &updates, const QString &desktopFileName, UpdaterBackend::Features features, QWidget *parent)
+UpdateInfoDialog::DialogResult UpdateInfoDialog::showUpdateInfo(const QList<UpdateInfo> &updates, const QString &desktopFileName, UpdaterBackend::Features features, UpdaterBackend::SecondaryInfo secInfo, QWidget *parent)
 {
-	UpdateInfoDialog dialog{features, parent};
+	UpdateInfoDialog dialog{features, std::move(secInfo), parent};
 	dialog._taskbar->setAttribute(QTaskbarControl::LinuxDesktopFile, desktopFileName);
 	dialog.addUpdates(updates);
 	return static_cast<DialogResult>(dialog.exec());
 }
 
-UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *parent) :
+UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, UpdaterBackend::SecondaryInfo &&secInfo, QWidget *parent) :
 	QDialog{parent},
 	_ui{new Ui::UpdateInfoDialog},
 	_taskbar{new QTaskbarControl{this}},
-	_features{features}
+	_features{features},
+	_secInfo{std::move(secInfo)}
 {
 	_ui->setupUi(this);
 	DialogMaster::masterDialog(this);
@@ -93,6 +94,9 @@ UpdateInfoDialog::UpdateInfoDialog(UpdaterBackend::Features features, QWidget *p
 	_ui->headerLabel->setText(tr("Updates for %1 are available!")
 								   .arg(QApplication::applicationDisplayName()));
 	_ui->imageLabel->setPixmap(UpdateControllerPrivate::getUpdatesIcon().pixmap(64, 64));
+
+	if (_secInfo)
+		_ui->updateListTreeWidget->headerItem()->setText(2, _secInfo->second);
 
 	connect(_ui->acceptButton, &QPushButton::clicked,
 			this, &UpdateInfoDialog::installNow);
@@ -129,12 +133,15 @@ void UpdateInfoDialog::addUpdates(const QList<UpdateInfo> &updates)
 		item->setToolTip(0, info.name());
 		item->setText(1, info.version().toString());
 		item->setToolTip(1, info.version().toString());
-		item->setText(2, getByteText(info.size()));
-		item->setToolTip(2, tr("%L1 Bytes").arg(info.size()));
+		if (_secInfo) {
+			qDebug() << _secInfo->first << info.data().value(_secInfo->first);
+			item->setText(2, info.data().value(_secInfo->first).toString());
+		}
 	}
 	_ui->updateListTreeWidget->resizeColumnToContents(0);
 	_ui->updateListTreeWidget->resizeColumnToContents(1);
-	_ui->updateListTreeWidget->resizeColumnToContents(2);
+	if (_secInfo)
+		_ui->updateListTreeWidget->resizeColumnToContents(2);
 	_taskbar->setCounter(updates.size());
 	_taskbar->setCounterVisible(true);
 }
@@ -157,32 +164,6 @@ void QtAutoUpdater::UpdateInfoDialog::installLater()
 							   tr("Updates will be installed on exit. The update tool "
 								  "will be started as soon as you close the application!"));
 	done(InstallLater);
-}
-
-QString UpdateInfoDialog::getByteText(quint64 bytes)
-{
-	auto counter = 0;
-	auto disNum = static_cast<double>(bytes);
-
-	while ((bytes / 1024ull) > 0 && counter < 3) {
-		disNum = bytes / 1024.;
-		bytes = static_cast<quint64>(std::floor(disNum));
-		++counter;
-	}
-
-	switch (counter) {
-	case 0:
-		return tr("%L1 Bytes").arg(bytes);
-	case 1:
-		return tr("%L1 KiB").arg(disNum, 0, 'f', 2);
-	case 2:
-		return tr("%L1 MiB").arg(disNum, 0, 'f', 2);
-	case 3:
-		return tr("%L1 GiB").arg(disNum, 0, 'f', 2);
-	default:
-		Q_UNREACHABLE();
-		return {};
-	}
 }
 
 std::tuple<QString, bool, bool> UpdateInfoDialog::capabilities(UpdaterBackend::Features features)

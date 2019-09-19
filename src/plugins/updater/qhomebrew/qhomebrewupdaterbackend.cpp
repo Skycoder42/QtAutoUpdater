@@ -28,7 +28,12 @@ UpdaterBackend::Features QHomebrewUpdaterBackend::features() const
 	return Feature::PerformInstall |
 			(QFileInfo{cakebrewPath()}.isExecutable() ?
 				Feature::ParallelTrigger :
-				Feature::CheckUpdates);
+				 Feature::CheckUpdates);
+}
+
+UpdaterBackend::SecondaryInfo QHomebrewUpdaterBackend::secondaryInfo() const
+{
+	return std::make_pair(QStringLiteral("oldVersions"), tr("Installed Versions"));
 }
 
 void QHomebrewUpdaterBackend::checkForUpdates()
@@ -193,6 +198,7 @@ void QHomebrewUpdaterBackend::onOutdated(int exitCode, QIODevice *processDevice)
 			if (!_packages.contains(info.name()))
 				continue;
 			info.setVersion(QVersionNumber::fromString(obj[QStringLiteral("current_version")].toString()));
+			info.setData(QStringLiteral("oldVersions"), obj[QStringLiteral("installed_versions")].toVariant());
 			info.setIdentifier(info.name());
 			updates.append(info);
 		}
@@ -207,13 +213,14 @@ void QHomebrewUpdaterBackend::onCaskOutdated(int exitCode, QIODevice *processDev
 {
 	if (exitCode == EXIT_SUCCESS) {
 		QList<UpdateInfo> updates;
-		static const QRegularExpression packageRegexp {QStringLiteral(R"__(^(.+)\s+\(.+\)\s+(?:<|!=)\s+(.+)$)__")};
+		static const QRegularExpression packageRegexp {QStringLiteral(R"__(^(.+)\s+\((.+\))\s+(?:<|!=)\s+(.+)$)__")};
 		while (!processDevice->atEnd()) {
 			const auto line = QString::fromUtf8(processDevice->readLine().trimmed());
 			if (const auto match = packageRegexp.match(line); match.hasMatch()) {
 				UpdateInfo info;
 				info.setName(match.captured(1));
-				info.setVersion(QVersionNumber::fromString(match.captured(2)));
+				info.setVersion(QVersionNumber::fromString(match.captured(3)));
+				info.setData(QStringLiteral("oldVersion"), QVariant::fromValue(QVersionNumber::fromString(match.captured(2))));
 				info.setIdentifier(info.name());
 				updates.append(info);
 			}

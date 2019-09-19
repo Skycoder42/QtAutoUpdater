@@ -18,21 +18,15 @@ Module {
         Method {
             name: "createInfo"
             type: "QtAutoUpdater::UpdateInfo"
-            Parameter { name: "name"; type: "string" }
-            Parameter { name: "version"; type: "QVersionNumber" }
-            Parameter { name: "size"; type: "qulonglong" }
             Parameter { name: "identifier"; type: "QVariant" }
-        }
-        Method {
-            name: "createInfo"
-            type: "QtAutoUpdater::UpdateInfo"
             Parameter { name: "name"; type: "string" }
             Parameter { name: "version"; type: "QVersionNumber" }
-            Parameter { name: "size"; type: "qulonglong" }
+            Parameter { name: "data"; type: "QVariantMap" }
         }
         Method {
             name: "createInfo"
             type: "QtAutoUpdater::UpdateInfo"
+            Parameter { name: "identifier"; type: "QVariant" }
             Parameter { name: "name"; type: "string" }
             Parameter { name: "version"; type: "QVersionNumber" }
         }
@@ -94,10 +88,9 @@ Module {
         exports: ["de.skycoder42.QtAutoUpdater.Core/UpdateInfo 3.0"]
         isCreatable: false
         exportMetaObjectRevisions: [0]
+        Property { name: "identifier"; type: "QVariant" }
         Property { name: "name"; type: "string" }
         Property { name: "version"; type: "QVersionNumber" }
-        Property { name: "size"; type: "qulonglong" }
-        Property { name: "identifier"; type: "QVariant" }
         Property { name: "data"; type: "QVariantMap" }
     }
     Component {

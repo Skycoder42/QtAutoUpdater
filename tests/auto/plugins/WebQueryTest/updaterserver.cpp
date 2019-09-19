@@ -32,7 +32,6 @@ bool UpdaterServer::create()
 				QJsonObject infoObj;
 				infoObj[QStringLiteral("name")] = info.name();
 				infoObj[QStringLiteral("version")] = info.version().toString();
-				infoObj[QStringLiteral("size")] = static_cast<double>(info.size());
 				infoObj[QStringLiteral("identifier")] = QJsonValue::fromVariant(info.identifier());
 				infoObj[QStringLiteral("data")] = QJsonValue::fromVariant(info.data());
 				infoArray.append(infoObj);
@@ -86,7 +85,7 @@ void UpdaterServer::setUpdateInfo(QList<QtAutoUpdater::UpdateInfo> infos)
 void UpdaterServer::setUpdateInfo(const QVersionNumber &version)
 {
 	_infos.clear();
-	_infos.append({QString{}, version});
+	_infos.append({{}, {}, version});
 	_versionOnly = true;
 }
 

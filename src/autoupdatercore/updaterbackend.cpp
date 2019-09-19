@@ -31,6 +31,11 @@ QString UpdaterBackend::key() const
 	return d->key;
 }
 
+UpdaterBackend::SecondaryInfo UpdaterBackend::secondaryInfo() const
+{
+	return std::nullopt;
+}
+
 bool UpdaterBackend::initialize(QScopedPointer<UpdaterBackend::IConfigReader> &&config)
 {
 	Q_D(UpdaterBackend);

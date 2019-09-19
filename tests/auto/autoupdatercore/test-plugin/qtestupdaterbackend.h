@@ -14,6 +14,7 @@ public:
 	explicit QTestUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
+	SecondaryInfo secondaryInfo() const override;
 	void checkForUpdates() override;
 	void abort(bool force) override;
 	bool triggerUpdates(const QList<QtAutoUpdater::UpdateInfo> &infos, bool track) override;

@@ -21,8 +21,8 @@ QVariant QmlUpdateInfoModel::data(const QModelIndex &index, int role) const
 		return _updateInfos[index.row()].name();
 	case VersionRole:
 		return _updateInfos[index.row()].version().toString();
-	case SizeRole:
-		return _updateInfos[index.row()].size();
+	case SecondaryInfoRole:
+		return _updateInfos[index.row()].data().value(_secondaryInfo);
 	case IdentifierRole:
 		return _updateInfos[index.row()].identifier();
 	case GadgetRole:
@@ -37,7 +37,7 @@ QHash<int, QByteArray> QmlUpdateInfoModel::roleNames() const
 	static const QHash<int, QByteArray> roleNames {
 		{NameRole, "name"},
 		{VersionRole, "version"},
-		{SizeRole, "size"},
+		{SecondaryInfoRole, "secondaryInfo"},
 		{IdentifierRole, "identifier"},
 		{GadgetRole, "gadget"}
 	};

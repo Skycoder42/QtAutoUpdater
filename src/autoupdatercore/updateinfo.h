@@ -14,18 +14,16 @@ struct Q_AUTOUPDATERCORE_EXPORT UpdateInfo
 {
 	Q_GADGET
 
+	Q_PROPERTY(QVariant identifier READ identifier WRITE setIdentifier)
 	Q_PROPERTY(QString name READ name WRITE setName)
 	Q_PROPERTY(QVersionNumber version READ version WRITE setVersion)
-	Q_PROPERTY(quint64 size READ size WRITE setSize)
-	Q_PROPERTY(QVariant identifier READ identifier WRITE setIdentifier)
 	Q_PROPERTY(QVariantMap data READ data WRITE setData)
 
 public:
 	UpdateInfo();
-	UpdateInfo(QString name,
+	UpdateInfo(QVariant identifier,
+			   QString name,
 			   QVersionNumber version,
-			   quint64 size = 0,
-			   QVariant identifier = {},
 			   QVariantMap data = {});
 	UpdateInfo(UpdateInfoPrivate *d_ptr);
 	~UpdateInfo();
@@ -37,17 +35,16 @@ public:
 	bool operator==(const UpdateInfo &other) const;
 	bool operator!=(const UpdateInfo &other) const;
 
+	QVariant identifier() const;
 	QString name() const;
 	QVersionNumber version() const;
-	quint64 size() const;
-	QVariant identifier() const;
 	QVariantMap data() const;
 
+	void setIdentifier(QVariant identifier);
 	void setName(QString name);
 	void setVersion(QVersionNumber version);
-	void setSize(quint64 size);
-	void setIdentifier(QVariant identifier);
 	void setData(QVariantMap data);
+	void setData(const QString &key, const QVariant &value);
 
 private:
 	QSharedDataPointer<UpdateInfoPrivate> d;

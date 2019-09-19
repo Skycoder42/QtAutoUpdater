@@ -48,8 +48,11 @@ QList<UpdateInfo> QtIfwTest::createInfos(const QVersionNumber &versionFrom, cons
 		return {
 			{
 				QStringLiteral("QtAutoUpdaterTestInstaller"),
+				QStringLiteral("QtAutoUpdaterTestInstaller"),
 				versionTo,
-				45ull
+				{
+					{QStringLiteral("size"), 45ull}
+				}
 			}
 		};
 	} else

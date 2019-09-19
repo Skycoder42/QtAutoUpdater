@@ -37,6 +37,7 @@ public:
 	static DialogResult showUpdateInfo(const QList<UpdateInfo> &updates,
 									   const QString &desktopFileName,
 									   UpdaterBackend::Features features,
+									   UpdaterBackend::SecondaryInfo secInfo,
 									   QWidget *parent);
 
 private Q_SLOTS:
@@ -47,13 +48,12 @@ private:
 	QScopedPointer<Ui::UpdateInfoDialog> _ui;
 	QTaskbarControl *_taskbar;
 	UpdaterBackend::Features _features;
+	UpdaterBackend::SecondaryInfo _secInfo;
 
-	explicit UpdateInfoDialog(UpdaterBackend::Features features, QWidget *parent = nullptr);
+	explicit UpdateInfoDialog(UpdaterBackend::Features features, UpdaterBackend::SecondaryInfo &&secInfo, QWidget *parent = nullptr);
 	~UpdateInfoDialog() override;
 
 	void addUpdates(const QList<UpdateInfo> &updates);
-
-	QString getByteText(quint64 bytes);
 
 	static std::tuple<QString, bool, bool> capabilities(UpdaterBackend::Features features); // (text, install, onExit)
 };

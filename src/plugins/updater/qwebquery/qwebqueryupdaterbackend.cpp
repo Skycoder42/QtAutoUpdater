@@ -323,7 +323,6 @@ void QWebQueryUpdaterBackend::parseJson(QNetworkReply *reply)
 		UpdateInfo info;
 		info.setName(obj[QStringLiteral("name")].toString());
 		info.setVersion(QVersionNumber::fromString(obj[QStringLiteral("version")].toString()));
-		info.setSize(static_cast<quint64>(obj[QStringLiteral("size")].toDouble()));
 		info.setIdentifier(obj[QStringLiteral("identifier")].toVariant());
 		info.setData(obj[QStringLiteral("data")].toVariant().toMap());
 		infos.append(info);

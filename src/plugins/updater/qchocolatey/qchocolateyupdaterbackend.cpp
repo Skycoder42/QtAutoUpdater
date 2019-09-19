@@ -26,6 +26,11 @@ UpdaterBackend::Features QChocolateyUpdaterBackend::features() const
 	Feature::CheckUpdates;
 }
 
+UpdaterBackend::SecondaryInfo QChocolateyUpdaterBackend::secondaryInfo() const
+{
+	return std::make_pair(QStringLiteral("oldVersion"), tr("Installed Version"));
+}
+
 void QChocolateyUpdaterBackend::checkForUpdates()
 {
 	UpdateProcessInfo info;
@@ -80,10 +85,11 @@ void QChocolateyUpdaterBackend::onToolDone(int id, int exitCode, QIODevice *proc
 
 			UpdateInfo info;
 			info.setName(QString::fromUtf8(line[0]));
+			info.setIdentifier(info.name());
 			if (!_packages.contains(info.name()))
 				continue;
 			info.setVersion(QVersionNumber::fromString(QString::fromUtf8(line[2])));
-			info.setIdentifier(info.name());
+			info.setData(QStringLiteral("oldVersion"), QVariant::fromValue(QVersionNumber::fromString(QString::fromUtf8(line[1]))));
 			updates.append(info);
 		}
 		emit checkDone(true, updates);

@@ -39,9 +39,9 @@ void UpdateInstallerTest::testComponentSelection()
 		{QStringLiteral("installer/features"), static_cast<int>(UpdateInstaller::Feature::SelectComponents)},
 	};
 	QList<UpdateInfo> updates {
-		{QStringLiteral("test_1"), {1,1,2}, 1, 0},
-		{QStringLiteral("test_2"), {1,2,0}, 2, 1},
-		{QStringLiteral("test_3"), {2,0,0}, 3, 2},
+		{0, QStringLiteral("test_1"), {1,1,2}},
+		{1, QStringLiteral("test_2"), {1,2,0}},
+		{2, QStringLiteral("test_3"), {2,0,0}}
 	};
 	parametrize(config, updates);
 
@@ -116,8 +116,8 @@ void UpdateInstallerTest::testInstallFlow()
 		{QStringLiteral("installer/success"), success}
 	};
 	QList<UpdateInfo> updates {
-		{QStringLiteral("test_1"), {1,1,2}, 1, 0},
-		{QStringLiteral("test_2"), {1,2,0}, 2, 1},
+		{0, QStringLiteral("test_1"), {1,1,2}},
+		{1, QStringLiteral("test_2"), {1,2,0}},
 	};
 	parametrize(config, updates);
 
@@ -157,8 +157,8 @@ void UpdateInstallerTest::testInstallCancel()
 		{QStringLiteral("installer/delay"), 100}
 	};
 	QList<UpdateInfo> updates {
-		{QStringLiteral("test_1"), {1,1,2}, 1, 0},
-		{QStringLiteral("test_2"), {1,2,0}, 2, 1},
+		{0, QStringLiteral("test_1"), {1,1,2}},
+		{1, QStringLiteral("test_2"), {1,2,0}},
 	};
 	parametrize(config, updates);
 
@@ -229,7 +229,7 @@ void UpdateInstallerTest::testInstallEula()
 		{QStringLiteral("installer/delay"), 1}
 	};
 	QList<UpdateInfo> updates {
-		{QStringLiteral("test_1"), {1,1,2}, 1, 0}
+		{0, QStringLiteral("test_1"), {1,1,2}}
 	};
 	parametrize(config, updates);
 
@@ -290,8 +290,8 @@ void UpdateInstallerTest::testInstallProgress()
 		{QStringLiteral("installer/status"), QStringLiteral("test_status")},
 	};
 	QList<UpdateInfo> updates {
-		{QStringLiteral("test_1"), {1,1,2}, 1, 0},
-		{QStringLiteral("test_2"), {1,2,0}, 2, 1},
+		{0, QStringLiteral("test_1"), {1,1,2}},
+		{1, QStringLiteral("test_2"), {1,2,0}},
 	};
 	parametrize(config, updates);
 
@@ -341,10 +341,10 @@ void UpdateInstallerTest::parametrize(QVariantMap &params, const QList<UpdateInf
 	params.insert(QStringLiteral("updates/size"), updates.size());
 	for (auto i = 0; i < updates.size(); ++i) {
 		const auto &info = updates[i];
+		params.insert(QStringLiteral("updates/%1/id").arg(i), info.identifier());
 		params.insert(QStringLiteral("updates/%1/name").arg(i), info.name());
 		params.insert(QStringLiteral("updates/%1/version").arg(i), info.version().toString());
-		params.insert(QStringLiteral("updates/%1/size").arg(i), info.size());
-		params.insert(QStringLiteral("updates/%1/id").arg(i), info.identifier());
+		params.insert(QStringLiteral("updates/%1/data").arg(i), info.data());
 	}
 }
 

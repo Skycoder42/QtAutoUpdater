@@ -60,9 +60,11 @@ QList<UpdateInfo> HomebrewTest::createInfos(const QVersionNumber &versionFrom, c
 		return {
 			{
 				QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage"),
+				QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage"),
 				versionTo,
-				0ull,
-				QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage")
+				{
+					{QStringLiteral("oldVersions"), QVariantList{versionFrom.toString()}}
+				}
 			}
 		};
 	} else

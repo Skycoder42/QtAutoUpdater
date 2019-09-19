@@ -297,6 +297,7 @@ void UpdateControllerPrivate::enterNewUpdatesState()
 							 UpdateInfoDialog::showUpdateInfo(updateInfos,
 															  desktopFileName,
 															  updater->backend()->features(),
+															  updater->backend()->secondaryInfo(),
 															  q->parentWindow()) :
 							 UpdateInfoDialog::showSimpleInfo(updateInfos,
 															  updater->backend()->features(),

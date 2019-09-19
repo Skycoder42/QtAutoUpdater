@@ -31,6 +31,11 @@ UpdaterBackend::Features QtIfwUpdaterBackend::features() const
 #endif
 }
 
+UpdaterBackend::SecondaryInfo QtIfwUpdaterBackend::secondaryInfo() const
+{
+	return std::make_pair(QStringLiteral("size"), tr("Update-Size (Bytes)"));
+}
+
 void QtIfwUpdaterBackend::checkForUpdates()
 {
 	auto mtInfo = findMaintenanceTool();
@@ -145,8 +150,9 @@ std::optional<QList<UpdateInfo>> QtIfwUpdaterBackend::parseUpdates(QIODevice *de
 			auto ok = false;
 			UpdateInfo info;
 			info.setName(reader.attributes().value(QStringLiteral("name")).toString());
+			info.setIdentifier(info.name());
 			info.setVersion(QVersionNumber::fromString(reader.attributes().value(QStringLiteral("version")).toString()));
-			info.setSize(reader.attributes().value(QStringLiteral("size")).toULongLong(&ok));
+			info.setData(QStringLiteral("size"), reader.attributes().value(QStringLiteral("size")).toULongLong(&ok));
 
 			if(info.name().isEmpty() || info.version().isNull() || !ok) {
 				qCCritical(logQtIfwBackend) << "Invalid <update> XML-Element, attributes are incomplete or unparsable";

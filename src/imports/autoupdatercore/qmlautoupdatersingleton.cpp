@@ -6,9 +6,9 @@ QmlAutoUpdaterSingleton::QmlAutoUpdaterSingleton(QObject *parent) :
 	QObject{parent}
 {}
 
-UpdateInfo QmlAutoUpdaterSingleton::createInfo(QString name, QVersionNumber version, quint64 size, QVariant identifier) const
+UpdateInfo QmlAutoUpdaterSingleton::createInfo(QVariant identifier, QString name, QVersionNumber version, QVariantMap data) const
 {
-	return {std::move(name), std::move(version), size, std::move(identifier)};
+	return {std::move(identifier), std::move(name), std::move(version), std::move(data)};
 }
 
 QVariantList QmlAutoUpdaterSingleton::infosAsList(const QList<UpdateInfo> &infos) const

@@ -63,9 +63,9 @@ void UpdaterTest::testUpdateCheck_data()
 	QTest::newRow("updates") << false
 							 << true
 							 << QList<UpdateInfo>{
-									{QStringLiteral("update_0"), QVersionNumber{1,1,2}, 1000ull, 0},
-									{QStringLiteral("update_1"), QVersionNumber{1,2,1}, 1000000ull, 1},
-									{QStringLiteral("update_2"), QVersionNumber{2,1,1}, 1000000000ull, 1}
+									{0, QStringLiteral("update_0"), QVersionNumber{1,1,2}},
+									{1, QStringLiteral("update_1"), QVersionNumber{1,2,1}},
+									{2, QStringLiteral("update_2"), QVersionNumber{2,1,1}}
 								};
 	QTest::newRow("error") << false
 						   << false
@@ -624,7 +624,7 @@ void UpdaterTest::testTriggerUpdates()
 		if (signaled) {
 			auto installer = showSpy.takeFirst()[0].value<UpdateInstaller*>();
 			QVERIFY(installer);
-			installer->setComponents({{{}, {}, 0, 42}}); // set a component so the installer can actually operate
+			installer->setComponents({UpdateInfo{0, {}, {}}}); // set a component so the installer can actually operate
 			installer->startInstall();
 		}
 
@@ -642,10 +642,10 @@ void UpdaterTest::parametrize(QVariantMap &params, const QList<UpdateInfo> &upda
 	params.insert(QStringLiteral("updates/size"), updates.size());
 	for (auto i = 0; i < updates.size(); ++i) {
 		const auto &info = updates[i];
+		params.insert(QStringLiteral("updates/%1/id").arg(i), info.identifier());
 		params.insert(QStringLiteral("updates/%1/name").arg(i), info.name());
 		params.insert(QStringLiteral("updates/%1/version").arg(i), info.version().toString());
-		params.insert(QStringLiteral("updates/%1/size").arg(i), info.size());
-		params.insert(QStringLiteral("updates/%1/id").arg(i), info.identifier());
+		params.insert(QStringLiteral("updates/%1/data").arg(i), info.data());
 	}
 }
 

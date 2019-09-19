@@ -7,10 +7,9 @@ namespace QtAutoUpdater {
 
 struct UpdateInfoPrivate : public QSharedData
 {
+	QVariant identifier;
 	QString name;
 	QVersionNumber version;
-	quint64 size = 0;
-	QVariant identifier;
 	QVariantMap data;
 };
 

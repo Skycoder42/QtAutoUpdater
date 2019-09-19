@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import de.skycoder42.QtAutoUpdater.Core 3.0
 import de.skycoder42.QtAutoUpdater.Quick 3.0
+import de.skycoder42.QtAutoUpdater.Quick.internal 3.0
 
 Page {
 	id: updateInfoPage
@@ -100,6 +101,7 @@ Page {
 			id: listView
 
 			model: UpdateInfoModel {
+				secondaryInfo: QtAutoUpdaterQuick.secondaryInfoKey(updater)
 				updateInfos: updater.updateInfo
 			}
 
@@ -116,9 +118,9 @@ Page {
 					anchors.verticalCenter: parent.verticalCenter
 				}
 
-				ToolTip.visible: pressed
+				ToolTip.visible: listView.model.secondaryInfo != "" && pressed
 				ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
-				ToolTip.text: qsTr("Update size: %L1 Bytes").arg(size)
+				ToolTip.text: qsTr("%1: %2").arg(QtAutoUpdaterQuick.secondaryInfoDisplayName(updater)).arg(secondaryInfo)
 			}
 		}
 	}

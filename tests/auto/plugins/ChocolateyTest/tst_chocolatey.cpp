@@ -58,9 +58,11 @@ QList<UpdateInfo> ChocolateyTest::createInfos(const QVersionNumber &versionFrom,
 		return {
 			{
 				QStringLiteral("qtautoupdater-test-package"),
+				QStringLiteral("qtautoupdater-test-package"),
 				versionTo,
-				0ull,
-				QStringLiteral("qtautoupdater-test-package")
+				{
+					{"oldVersion", QVariant::fromValue(versionFrom)}
+				}
 			}
 		};
 	} else

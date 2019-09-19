@@ -44,6 +44,16 @@ Module {
             name: "destroy"
             Parameter { name: "object"; type: "QObject"; isPointer: true }
         }
+        Method {
+            name: "secondaryInfoKey"
+            type: "string"
+            Parameter { name: "updater"; type: "QtAutoUpdater::Updater"; isPointer: true }
+        }
+        Method {
+            name: "secondaryInfoDisplayName"
+            type: "string"
+            Parameter { name: "updater"; type: "QtAutoUpdater::Updater"; isPointer: true }
+        }
     }
     Component {
         name: "QmlUpdateInfoModel"
@@ -55,12 +65,17 @@ Module {
             values: {
                 "NameRole": 256,
                 "VersionRole": 257,
-                "SizeRole": 258,
+                "SecondaryInfoRole": 258,
                 "IdentifierRole": 259,
                 "GadgetRole": 260
             }
         }
+        Property { name: "secondaryInfo"; type: "string" }
         Property { name: "updateInfos"; type: "QList<QtAutoUpdater::UpdateInfo>" }
+        Signal {
+            name: "secondaryInfoChanged"
+            Parameter { name: "secondaryInfos"; type: "string" }
+        }
         Signal {
             name: "updateInfosChanged"
             Parameter { name: "updateInfos"; type: "QList<QtAutoUpdater::UpdateInfo>" }

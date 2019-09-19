@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->configPathLineEdit->setText(settings.value(QStringLiteral("path")).toString());
 	ui->hasParentWindowCheckBox->setChecked(settings.value(QStringLiteral("hasParent"), true).toBool());
 	ui->displayLevelComboBox->setCurrentIndex(settings.value(QStringLiteral("level")).toInt());
+	ui->detailedInfosCheckBox->setChecked(settings.value(QStringLiteral("details"), false).toBool());
 }
 
 MainWindow::~MainWindow()
@@ -27,6 +28,7 @@ MainWindow::~MainWindow()
 	settings.setValue(QStringLiteral("path"), ui->configPathLineEdit->text());
 	settings.setValue(QStringLiteral("hasParent"), ui->hasParentWindowCheckBox->isChecked());
 	settings.setValue(QStringLiteral("level"), ui->displayLevelComboBox->currentIndex());
+	settings.setValue(QStringLiteral("details"), ui->detailedInfosCheckBox->isChecked());
 	delete ui;
 }
 

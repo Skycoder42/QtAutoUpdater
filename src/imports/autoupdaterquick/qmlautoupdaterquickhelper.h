@@ -3,6 +3,8 @@
 
 #include <QtCore/QObject>
 
+#include <QtAutoUpdaterCore/Updater>
+
 class QmlAutoUpdaterQuickHelper : public QObject
 {
 	Q_OBJECT
@@ -10,8 +12,10 @@ class QmlAutoUpdaterQuickHelper : public QObject
 public:
 	explicit QmlAutoUpdaterQuickHelper(QObject *parent = nullptr);
 
-	Q_INVOKABLE void jsOwn(QObject *object);
-	Q_INVOKABLE void destroy(QObject *object);
+	Q_INVOKABLE void jsOwn(QObject *object) const;
+	Q_INVOKABLE void destroy(QObject *object) const;
+	Q_INVOKABLE QString secondaryInfoKey(QtAutoUpdater::Updater *updater) const;
+	Q_INVOKABLE QString secondaryInfoDisplayName(QtAutoUpdater::Updater *updater) const;
 };
 
 #endif // QMLAUTOUPDATERQUICKHELPER_H

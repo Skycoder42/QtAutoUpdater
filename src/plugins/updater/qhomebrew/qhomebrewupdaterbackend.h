@@ -23,6 +23,7 @@ public:
 	explicit QHomebrewUpdaterBackend(QString &&key, QObject *parent = nullptr);
 
 	Features features() const override;
+	SecondaryInfo secondaryInfo() const override;
 	void checkForUpdates() override;
 	QtAutoUpdater::UpdateInstaller *createInstaller() override;
 
