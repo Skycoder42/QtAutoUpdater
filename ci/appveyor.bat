@@ -11,14 +11,12 @@ echo %PLATFORM% | findstr /C:"mingw" > nul && (
 		set VC_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
 	)
 
-	:: winrt: skip tests
-	echo %PLATFORM% | findstr /C:"winrt" > nul && (
-		exit /B 0
-	)
-
 	:: find the varsall parameters
 	if "%PLATFORM%" == "msvc2017_64" set VC_VARSALL=amd64
 	if "%PLATFORM%" == "msvc2017" set VC_VARSALL=amd64_x86
+	if "%PLATFORM%" == "winrt_x64_msvc2017" set VC_VARSALL=amd64_x86
+	if "%PLATFORM%" == "winrt_x86_msvc2017" set VC_VARSALL=amd64_x86
+	if "%PLATFORM%" == "winrt_armv7_msvc2017" set VC_VARSALL=amd64_x86
 
 	:: build
 	call %~dp0\appveyor_msvc.bat || exit /B 1
