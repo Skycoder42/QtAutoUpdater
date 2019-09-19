@@ -123,7 +123,8 @@ InstallPage::InstallPage(InstallWizard *parent) :
 	connect(_wizard->installer(), &UpdateInstaller::updateGlobalProgress,
 			this, &InstallPage::updateGlobalProgress);
 	connect(_wizard->installer(), &UpdateInstaller::showEula,
-			this, &InstallPage::showEula);
+			this, &InstallPage::showEula,
+			Qt::QueuedConnection); // needed to not break installers that emit eulas from the start method
 	connect(_wizard->installer(), &UpdateInstaller::installSucceeded,
 			this, &InstallPage::installSucceeded);
 	connect(_wizard->installer(), &UpdateInstaller::installFailed,
@@ -224,18 +225,10 @@ void InstallPage::updateGlobalProgress(double percentage, const QString &status)
 
 void InstallPage::showEula(const QVariant &id, const QString &htmlText, bool required)
 {
-	if (required) {
-		auto res = DialogMaster::question(this,
-										  htmlText,
-										  tr("Accept this EULA to continue installation?"),
-										  tr("EULA acceptance requested"));
-		_wizard->installer()->eulaHandled(id, res == QMessageBox::Yes);
-	} else {
-		DialogMaster::information(this,
-								  htmlText,
-								  tr("Installation comes with the following EULA"),
-								  tr("EULA information"));
-	}
+	const auto isFirst = _eulaQueue.isEmpty();
+	_eulaQueue.enqueue(std::make_tuple(id, htmlText, required));
+	if (isFirst)
+		showEulaImpl();
 }
 
 void InstallPage::installSucceeded(bool shouldRestart)
@@ -259,6 +252,27 @@ void InstallPage::installFailed(const QString &errorMessage)
 	emit completeChanged();
 	_wizard->setButtonText(QWizard::NextButton, _nextText);
 	_wizard->button(QWizard::BackButton)->setEnabled(false);
+}
+
+void InstallPage::showEulaImpl()
+{
+	const auto &[id, htmlText, required] = _eulaQueue.head();
+	if (required) {
+		auto res = DialogMaster::question(this,
+										  htmlText,
+										  tr("Accept this EULA to continue installation?"),
+										  tr("EULA acceptance requested"));
+		_wizard->installer()->eulaHandled(id, res == QMessageBox::Yes);
+	} else {
+		DialogMaster::information(this,
+								  htmlText,
+								  tr("Installation comes with the following EULA"),
+								  tr("EULA information"));
+	}
+
+	_eulaQueue.dequeue();
+	if (!_eulaQueue.isEmpty())
+		showEulaImpl();
 }
 
 

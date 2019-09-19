@@ -2,6 +2,7 @@
 #define QTAUTOUPDATER_INSTALLWIZARD_P_H
 
 #include <QtCore/QScopedPointer>
+#include <QtCore/QQueue>
 
 #include <QtAutoUpdaterCore/UpdateInstaller>
 
@@ -112,6 +113,10 @@ private:
 	bool _installDone = false;
 	bool _hasError = false;
 	bool _nextEnabled = true;
+
+	QQueue<std::tuple<QVariant, QString, bool>> _eulaQueue;
+
+	void showEulaImpl();
 };
 
 class Q_AUTOUPDATERWIDGETS_EXPORT SuccessPage : public QWizardPage

@@ -72,6 +72,58 @@ Page {
 		initialItem: _pageOffset == 0 ? selectComponentsComponent : installComponent
 	}
 
+	DialogBase {
+		id: eulaDialog
+
+		property var eulaList: []
+		property var currentId
+		property alias text: contentLabel.text
+		property bool required: false
+
+		title: required ? qsTr("Accept EULA?") : qsTr("EULA provided")
+		standardButtons: required ? Dialog.Yes | Dialog.No : Dialog.Ok
+
+		onAccepted: {
+			if (required)
+				installer.eulaHandled(currentId, true);
+			if (eulaList.length > 0)
+				Qt.callLater(eulaDialog.nextEula);
+		}
+
+		onRejected: {
+			if (required)
+				installer.eulaHandled(currentId, false);
+		}
+
+		function nextEula() {
+			currentId = eulaList[0].id;
+			text = eulaList[0].htmlText;
+			required = eulaList[0].required;
+			eulaList.splice(0, 1);
+			eulaDialog.open();
+		}
+
+		Label {
+			id: contentLabel
+			anchors.fill: parent
+
+			wrapMode: Label.Wrap
+		}
+
+		Connections {
+			target: installer
+			onShowEula: {
+				eulaDialog.eulaList.push({
+											 id: id,
+											 htmlText: htmlText,
+											 required: required,
+										 });
+				if (!eulaDialog.opened)
+					eulaDialog.nextEula(true);
+			}
+		}
+	}
+
 	footer: RowLayout {
 		ToolButton {
 			enabled: pageStack.currentItem.canGoBack && (pageStack.depth > 1 || goBackCallback)
