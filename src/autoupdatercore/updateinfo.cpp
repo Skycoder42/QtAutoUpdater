@@ -24,7 +24,14 @@ UpdateInfo::UpdateInfo(QVariant identifier, QString name, QVersionNumber version
 
 UpdateInfo::UpdateInfo(UpdateInfoPrivate *d_ptr) :
 	d{d_ptr}
-{}
+{
+	static auto once = true;
+	if (once) {
+		once = false;
+		qRegisterMetaType<UpdateInfo>();
+		qRegisterMetaType<QList<UpdateInfo>>();
+	}
+}
 
 UpdateInfo::UpdateInfo(const UpdateInfo &other) = default;
 

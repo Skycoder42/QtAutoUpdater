@@ -12,8 +12,6 @@ int main(int argc, char *argv[])
 	QGuiApplication app(argc, argv);
 
 	qInfo() << QtAutoUpdater::Updater::supportedUpdaterBackends();
-	qRegisterMetaType<QtAutoUpdater::UpdateInfo>();
-	qRegisterMetaType<QList<QtAutoUpdater::UpdateInfo>>();
 
 	QQmlApplicationEngine engine;
 	engine.rootContext()->setContextProperty(QStringLiteral("AppVersion"), QCoreApplication::applicationVersion());
