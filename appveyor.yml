@@ -18,10 +18,12 @@ environment:
     - PLATFORM: winrt_armv7_msvc2017
 
 install:
+  - git submodule update --init --recursive
   - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis
   - .\qtmodules-travis\ci\win\setup.bat
 
 build_script:
+  - .\ci\appveyor.bat
   - .\qtmodules-travis\ci\win\build.bat
 
 after_build:
