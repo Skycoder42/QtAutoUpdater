@@ -13,10 +13,20 @@ class UpdaterTest : public QObject
 {
 	Q_OBJECT
 
+public:
+	enum class ListType {
+		String,
+		Path,
+		Argument
+	};
+	Q_ENUM(ListType)
+
 private Q_SLOTS:
 	void initTestCase();
 
 	void testInitFail();
+	void testListConversion_data();
+	void testListConversion();
 	void testUpdateCheck_data();
 	void testUpdateCheck();
 	void testAbort_data();
@@ -49,6 +59,112 @@ void UpdaterTest::testInitFail()
 	};
 	sptr updater {Updater::create(QStringLiteral("test"), config, this)};
 	QVERIFY(!updater);
+}
+
+void UpdaterTest::testListConversion_data()
+{
+	QTest::addColumn<ListType>("type");
+	QTest::addColumn<QVariant>("data");
+	QTest::addColumn<QStringList>("result");
+
+	QTest::newRow("string.stringlist") << ListType::String
+									   << QVariant{QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")}}
+									   << QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("string.variantlist") << ListType::String
+										<< QVariant{QVariantList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")}}
+										<< QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("string.standard") << ListType::String
+									 << QVariant{QStringLiteral("a,\"b,'c\",d',e")}
+									 << QStringList{
+											QStringLiteral("a"),
+											QStringLiteral("\"b"),
+											QStringLiteral("'c\""),
+											QStringLiteral("d'"),
+											QStringLiteral("e")
+										};
+	QTest::newRow("string.single") << ListType::String
+								   << QVariant{QStringLiteral("a b c")}
+								   << QStringList{QStringLiteral("a b c")};
+	QTest::newRow("string.empty") << ListType::String
+								  << QVariant{QStringLiteral("")}
+								  << QStringList{};
+
+	QTest::newRow("path.stringlist") << ListType::Path
+									 << QVariant{QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")}}
+									 << QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("path.variantlist") << ListType::Path
+									  << QVariant{QVariantList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")}}
+									  << QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("path.standard") << ListType::Path
+#ifdef Q_OS_WIN
+								   << QVariant{QStringLiteral("a;b,c;d:e;f g")}
+								   << QStringList{QStringLiteral("a"), QStringLiteral("b,c"), QStringLiteral("d:e"), QStringLiteral("f g")};
+#else
+								   << QVariant{QStringLiteral("a:b,c:d;e:f g")}
+								   << QStringList{
+											QStringLiteral("a"),
+											QStringLiteral("b,c"),
+											QStringLiteral("d;e"),
+											QStringLiteral("f g")
+										};
+#endif
+	QTest::newRow("path.single") << ListType::Path
+								 << QVariant{QStringLiteral("a b c")}
+								 << QStringList{QStringLiteral("a b c")};
+	QTest::newRow("path.empty") << ListType::Path
+								<< QVariant{QStringLiteral("")}
+								<< QStringList{};
+
+	QTest::newRow("args.stringlist") << ListType::Argument
+									 << QVariant{QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")}}
+									 << QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("args.variantlist") << ListType::Argument
+									  << QVariant{QVariantList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")}}
+									  << QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("args.standard") << ListType::Argument
+								   << QVariant{QStringLiteral("a b c")}
+								   << QStringList{QStringLiteral("a"), QStringLiteral("b"), QStringLiteral("c")};
+	QTest::newRow("args.single") << ListType::Argument
+								 << QVariant{QStringLiteral("a")}
+								 << QStringList{QStringLiteral("a")};
+	QTest::newRow("args.empty") << ListType::Argument
+								<< QVariant{QStringLiteral("")}
+								<< QStringList{};
+	QTest::newRow("args.complex") << ListType::Argument
+								  << QVariant{QStringLiteral("a b \"c d\" 'e f' g\" 'h' \"i j' \"k\" 'l m\\' \\'n o\\\" \\\"p q\\ r 's")}
+								  << QStringList {
+											QStringLiteral("a"),
+											QStringLiteral("b"),
+											QStringLiteral("c d"),
+											QStringLiteral("e f"),
+											QStringLiteral("g 'h' i"),
+											QStringLiteral("j \"k\" l"),
+											QStringLiteral("m'"),
+											QStringLiteral("'n"),
+											QStringLiteral("o\""),
+											QStringLiteral("\"p"),
+											QStringLiteral("q r"),
+											QStringLiteral("s")
+										};
+}
+
+void UpdaterTest::testListConversion()
+{
+	QFETCH(ListType, type);
+	QFETCH(QVariant, data);
+	QFETCH(QStringList, result);
+
+	switch (type) {
+	case ListType::String:
+		QCOMPARE(UpdaterBackend::readStringList(data), result);
+		break;
+	case ListType::Path:
+		QCOMPARE(ProcessBackend::readPathList(data), result);
+		break;
+	case ListType::Argument:
+		QCOMPARE(ProcessBackend::readArgumentList(data), result);
+		break;
+	}
 }
 
 void UpdaterTest::testUpdateCheck_data()

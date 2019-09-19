@@ -21,8 +21,10 @@ QStringList UpdaterBackend::readStringList(const QVariant &value, QChar listSepe
 	if (value.userType() == QMetaType::QStringList ||
 		value.userType() == QMetaType::QVariantList)
 		return value.toStringList();
-	else
-		return value.toString().split(listSeperator);
+	else {
+		const auto vStr = value.toString();
+		return vStr.isEmpty() ? QStringList{} : vStr.split(listSeperator);
+	}
 }
 
 QString UpdaterBackend::key() const
