@@ -48,9 +48,7 @@ void QTestUpdaterBackend::abort(bool force)
 	const auto abortLevel = config()->value(QStringLiteral("abortLevel"), 0).toInt();
 	switch (abortLevel) {
 	case 0:
-		if (force)
-			Q_FALLTHROUGH();
-		else {
+		if (!force) {
 			QTimer::singleShot(config()->value(QStringLiteral("cancelDelay"), 0).toInt(), this, [this](){
 				if (_timer->isActive()) {
 					_timer->stop();
@@ -59,6 +57,7 @@ void QTestUpdaterBackend::abort(bool force)
 			});
 			break;
 		}
+		Q_FALLTHROUGH();
 	case 1:
 		if (force) {
 			_timer->stop();

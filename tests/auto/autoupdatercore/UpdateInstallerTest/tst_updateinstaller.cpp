@@ -344,7 +344,9 @@ void UpdateInstallerTest::parametrize(QVariantMap &params, const QList<UpdateInf
 		params.insert(QStringLiteral("updates/%1/id").arg(i), info.identifier());
 		params.insert(QStringLiteral("updates/%1/name").arg(i), info.name());
 		params.insert(QStringLiteral("updates/%1/version").arg(i), info.version().toString());
-		params.insert(QStringLiteral("updates/%1/data").arg(i), info.data());
+		params.insert(QStringLiteral("updates/%1/data").arg(i), QVariant{info.data().keys()});
+		for (auto it = info.data().constBegin(); it != info.data().constEnd(); ++it)
+			params.insert(QStringLiteral("updates/%1/%2").arg(i).arg(it.key()), it.value());
 	}
 }
 
