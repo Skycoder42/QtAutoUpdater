@@ -199,7 +199,10 @@ void QHomebrewUpdaterBackend::onOutdated(int exitCode, QIODevice *processDevice)
 			if (!_packages.contains(info.name()))
 				continue;
 			info.setVersion(QVersionNumber::fromString(obj[QStringLiteral("current_version")].toString()));
-			info.setData(QStringLiteral("oldVersions"), obj[QStringLiteral("installed_versions")].toVariant());
+			auto vList = obj[QStringLiteral("installed_versions")].toVariant().toList();
+			for (auto &vValue : vList)
+				vValue = QVariant::fromValue(QVersionNumber::fromString(vValue.toString()));
+			info.setData(QStringLiteral("oldVersions"), vList);
 			info.setIdentifier(info.name());
 			updates.append(info);
 		}
@@ -221,7 +224,7 @@ void QHomebrewUpdaterBackend::onCaskOutdated(int exitCode, QIODevice *processDev
 				UpdateInfo info;
 				info.setName(match.captured(1));
 				info.setVersion(QVersionNumber::fromString(match.captured(3)));
-				info.setData(QStringLiteral("oldVersion"), QVariant::fromValue(QVersionNumber::fromString(match.captured(2))));
+				info.setData(QStringLiteral("oldVersions"), QVariant::fromValue(QVersionNumber::fromString(match.captured(2))));
 				info.setIdentifier(info.name());
 				updates.append(info);
 			}
