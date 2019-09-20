@@ -14,17 +14,17 @@
     <message>
         <location filename="../../plugins/updater/qhomebrew/qhomebrewupdateinstaller.cpp" line="+65"/>
         <source>Starting homebrew…</source>
-        <translation type="unfinished">Starte homebrew…</translation>
+        <translation>Starte homebrew…</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Running homebrew in the background to perform the upgrade…</source>
-        <translation type="unfinished"></translation>
+        <translation>Homebrew wird im Hintergrund ausgeführt, um die Updates zu installieren…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Homebrew exited with unclean exit code %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Homebrew wurde mit fehlerhaftem Code beendet: %1</translation>
     </message>
 </context>
 <context>
@@ -32,17 +32,17 @@
     <message>
         <location filename="../../plugins/updater/qhomebrew/qhomebrewupdaterbackend.cpp" line="+37"/>
         <source>Installed Versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Installierte Version</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Updating local package database…</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisiere lokale Paket-Datenbank…</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Scanning for outdated packages…</source>
-        <translation type="unfinished"></translation>
+        <translation>Scanne nach veralteten Paketen…</translation>
     </message>
 </context>
 <context>
@@ -51,47 +51,47 @@
         <location filename="../../plugins/updater/qpackagekit/qpackagekitupdateinstaller.cpp" line="+42"/>
         <location line="+8"/>
         <source>EULA was rejected!</source>
-        <translation type="unfinished"></translation>
+        <translation>EULA wurde abgelehnt!</translation>
     </message>
     <message>
         <location line="+74"/>
         <source>Waiting for EULA to be accepted…</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte auf Annahme der EULA…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Eula aus Paket %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Paket-Hersteller: %3&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Installation failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Installation fehlgeschlagen!</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Installation was canceled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Installation wurde abgebrochen.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>A key was required!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Schlüssel wird benötigt!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Media exchange was required!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Austausch des Installations-Mediums wird benötigt!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot install untrusted packages!</source>
-        <translation type="unfinished"></translation>
+        <translation>Es können nur Pakete installiert werden, denen vertraut wird!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The system is corrupted and needs to be repaired!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das System ist korrumpiert und muss repariert werden!</translation>
     </message>
 </context>
 <context>
@@ -99,182 +99,182 @@
     <message>
         <location filename="../../plugins/updater/qpackagekit/qpackagekitupdaterbackend.cpp" line="+15"/>
         <source>Please wait…</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte warten…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Setting up…</source>
-        <translation type="unfinished"></translation>
+        <translation>Bereite vor…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running…</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird ausgeführt…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Querying database…</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfe Datenbank…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Showing information…</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Informationen…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Removing packages…</source>
-        <translation type="unfinished"></translation>
+        <translation>Entferne Pakete…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Refreshing package cache…</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisiere Paket-Zwischenspeicher…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading packages…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Pakete herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Installing packages…</source>
-        <translation type="unfinished"></translation>
+        <translation>Installiere Pakete…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Updating packages…</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisiere Pakete…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cleaning up…</source>
-        <translation type="unfinished"></translation>
+        <translation>Räume auf…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Package obsolete!</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket veraltet!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Resolving package dependencies…</source>
-        <translation type="unfinished"></translation>
+        <translation>Löse Abhängigkeiten zwischen den Paketen auf…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying package signatures…</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifiziere Paket-Signaturen…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Testing for commit…</source>
-        <translation type="unfinished"></translation>
+        <translation>Prüfe auf Commit…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Committing updates…</source>
-        <translation type="unfinished"></translation>
+        <translation>Committe Updates…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending request…</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende Anfrage…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abgeschlossen.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Canceling…</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird abgebrochen…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package repositories…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Paket-Datenbanken herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package list…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Paketliste herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading file list…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Dateiliste herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading changelog…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Änderungshistorie herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package group…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Paketgruppen herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading update infos…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Update-Informationen herunter…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Repackaging…</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstelle Pakete…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading cache…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Zwischenspeicher…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning applications…</source>
-        <translation type="unfinished"></translation>
+        <translation>Scanne Anwendungen…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Generating package list…</source>
-        <translation type="unfinished"></translation>
+        <translation>Generiere Paketliste…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for lock…</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte für Sperre…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for authentication…</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte auf Authentifizierung…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning processes…</source>
-        <translation type="unfinished"></translation>
+        <translation>Scanne Prozesse…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying executables…</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifiziere ausführbare Dateien…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying libraries…</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifiziere Bibliotheken…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Copying files…</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiere Dateien…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running install hooks…</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe Installations-Skripte aus…</translation>
     </message>
 </context>
 <context>
