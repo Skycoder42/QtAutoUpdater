@@ -21,9 +21,7 @@ const QString QHomebrewUpdaterBackend::KeyExtraCakebrewArgs {QStringLiteral("ext
 
 QHomebrewUpdaterBackend::QHomebrewUpdaterBackend(QString &&key, QObject *parent) :
 	ProcessBackend{std::move(key), parent}
-{
-	qDebug() << Q_FUNC_INFO;
-}
+{}
 
 UpdaterBackend::Features QHomebrewUpdaterBackend::features() const
 {
