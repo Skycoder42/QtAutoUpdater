@@ -4,52 +4,92 @@
 <context>
     <name>AdminAuthorization</name>
     <message>
-        <location filename="../adminauthorization_x11.cpp" line="+188"/>
         <source>Enter Password</source>
-        <translation>إدخال كلمة المرور</translation>
+        <translation type="vanished">إدخال كلمة المرور</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Enter your root password to run the maintenancetool:</source>
-        <translation>أدخل كلمة مرور الجذز لتشغيل أداة الصيانة:</translation>
+        <translation type="vanished">أدخل كلمة مرور الجذز لتشغيل أداة الصيانة:</translation>
+    </message>
+</context>
+<context>
+    <name>ComponentsPage</name>
+    <message>
+        <location filename="../componentspage.ui" line="+14"/>
+        <source>Select Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Select the components you wish to install.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DialogMaster</name>
     <message>
-        <location filename="../../3rdparty/vendor/de/skycoder42/dialog-master/dialogmaster.cpp" line="+140"/>
         <source>Information</source>
-        <translation>معلومات</translation>
+        <translation type="vanished">معلومات</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>Question</source>
-        <translation>سؤال</translation>
+        <translation type="vanished">سؤال</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>Warning</source>
-        <translation>تحذير</translation>
+        <translation type="vanished">تحذير</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>Error</source>
-        <translation>خطأ</translation>
+        <translation type="vanished">خطأ</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>About</source>
-        <translation>حول</translation>
+        <translation type="vanished">حول</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>%1 — Version %2</source>
-        <translation>%1 -- الإصدار %2</translation>
+        <translation type="vanished">%1 -- الإصدار %2</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>&lt;p&gt;Developed by: &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;طوره: &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/p&gt;</translation>
+        <translation type="vanished">&lt;p&gt;طوره: &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ErrorPage</name>
+    <message>
+        <location filename="../errorpage.ui" line="+14"/>
+        <source>Installation failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>The installation could not be completed because of an error during the installation. The error message can be found below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Unknown Error…</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InstallPage</name>
+    <message>
+        <location filename="../installpage.ui" line="+14"/>
+        <source>Install Updates</source>
+        <translation type="unfinished">تثبيت التحديثات</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Updates are ready to be installed. Press &lt;Install&gt; to start the installation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Show Details</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -60,15 +100,74 @@
         <translation>التحقق من التحديثات</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+19"/>
         <source>Checking for updates…</source>
         <translation>جارٍ التحقق من التحديثات...</translation>
     </message>
 </context>
 <context>
+    <name>QtAutoUpdater::ComponentsPage</name>
+    <message>
+        <location filename="../installwizard.cpp" line="+94"/>
+        <source>You must select at least one component to be installed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Component selection invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QtAutoUpdater::InstallPage</name>
+    <message>
+        <location line="+51"/>
+        <source>Cancel installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cancel the update installation? This might leave the application in an unrepairable state!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+101"/>
+        <source>Accept this EULA to continue installation?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>EULA acceptance requested</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Installation comes with the following EULA</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>EULA information</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QtAutoUpdater::InstallWizard</name>
+    <message>
+        <location line="-245"/>
+        <source>Updater installer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QtAutoUpdater::ProgressDialog</name>
     <message>
-        <location filename="../progressdialog.cpp" line="+36"/>
+        <location filename="../progressdialog.cpp" line="+35"/>
         <source>Canceling update check…</source>
         <translation>جارٍ إلغاء التحقق من التحديثات...</translation>
     </message>
@@ -76,70 +175,125 @@
 <context>
     <name>QtAutoUpdater::UpdateButton</name>
     <message>
-        <location filename="../updatebutton.cpp" line="+95"/>
+        <location filename="../updatebutton.cpp" line="+70"/>
+        <location line="+94"/>
+        <location line="+11"/>
+        <location line="+17"/>
+        <location line="+7"/>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-33"/>
+        <source>No new updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+49"/>
         <source>Checking for updates…</source>
         <translation>جارٍ التحقق من التحديثات...</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>New Update!</source>
-        <translation>تحديث جديد!</translation>
+        <location line="-43"/>
+        <source>Canceling…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+6"/>
+        <source>Install updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>New updates are available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Update error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Installing updates…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Update!</source>
+        <translation type="vanished">تحديث جديد!</translation>
+    </message>
+    <message>
         <source>No new updates available</source>
-        <translation>لا تحديثات جديدة متوفرة</translation>
+        <translation type="vanished">لا تحديثات جديدة متوفرة</translation>
     </message>
 </context>
 <context>
     <name>QtAutoUpdater::UpdateController</name>
     <message>
-        <location filename="../updatecontroller.cpp" line="+40"/>
-        <location line="+98"/>
-        <location line="+12"/>
-        <location line="+75"/>
-        <location line="+49"/>
-        <location line="+4"/>
+        <location filename="../updatecontroller.cpp" line="+53"/>
+        <location line="+129"/>
+        <location line="+84"/>
+        <location line="+84"/>
+        <location line="+35"/>
         <source>Check for Updates</source>
         <translation>تحقق من التحديثات</translation>
     </message>
     <message>
-        <location line="-139"/>
+        <location line="-202"/>
         <source>Do you want to check for updates now?</source>
         <translation>أتريد التحقق من التحديثات الآن؟</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>The program is already checking for updates!</source>
-        <translation>يتحقق البرنامج بالفعل من التحديثات!</translation>
+        <location line="+142"/>
+        <source>Failed to start the installer to install new updates!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+8"/>
+        <source>New updates are available. The update tool will be started to install those as soon as you close the application!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>An error occured while trying to check for updates!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The program is already checking for updates!</source>
+        <translation type="vanished">يتحقق البرنامج بالفعل من التحديثات!</translation>
+    </message>
+    <message>
+        <location line="+35"/>
         <source>Checking for updates was canceled!</source>
         <translation>أُلغي التحقق من التحديثات!</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="-62"/>
+        <location line="+8"/>
         <source>Install Updates</source>
         <translation>تثبيت التحديثات</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>New updates are available. The maintenance tool will be started to install those as soon as you close the application!</source>
-        <translation>هناك تحديثات جديدة متوفرة. سيتم تشغيل أداة الصيانة لتثبيتها عند إغلاق البرنامج!</translation>
+        <translation type="vanished">هناك تحديثات جديدة متوفرة. سيتم تشغيل أداة الصيانة لتثبيتها عند إغلاق البرنامج!</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>The update process crashed!</source>
-        <translation>انهارت عملية التحديث!</translation>
+        <translation type="vanished">انهارت عملية التحديث!</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-65"/>
         <source>No new updates available!</source>
         <translation>لا تحديثات جديدة متوفرة!</translation>
     </message>
     <message>
-        <location line="-232"/>
+        <location line="-210"/>
         <source>Checks if new updates are available. You will be prompted before updates are installed.</source>
         <translation>تحقق من وجود تحديثات جديدة. سيتم إشعارك قبل تثبيت التحديثات.</translation>
     </message>
@@ -147,90 +301,141 @@
 <context>
     <name>QtAutoUpdater::UpdateInfoDialog</name>
     <message>
-        <location filename="../updateinfodialog.cpp" line="+33"/>
-        <location line="+14"/>
+        <location filename="../updateinfodialog.cpp" line="+24"/>
+        <location line="+70"/>
         <source>Updates for %1 are available!</source>
         <translation>التحديثات لـ %1 متوفرة!</translation>
     </message>
     <message>
-        <location line="+40"/>
-        <location line="+48"/>
         <source>%L1 Bytes</source>
-        <translation>%L1 بايت</translation>
+        <translation type="vanished">%L1 بايت</translation>
     </message>
     <message>
-        <location line="-73"/>
         <source>Install Now</source>
-        <translation>ثبّت الآن</translation>
+        <translation type="vanished">ثبّت الآن</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="-63"/>
+        <source>Install on exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Install now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>%1 – %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+110"/>
         <source>Close the application and install updates?</source>
         <translation>أتريد إغلاق التطبيق وتثبيت التحديثات؟</translation>
     </message>
     <message>
-        <location line="-44"/>
-        <location line="+53"/>
+        <location line="+8"/>
         <source>Install On Exit</source>
         <translation>ثبّت عند الخروج</translation>
     </message>
     <message>
-        <location line="-71"/>
+        <location line="+1"/>
+        <source>Updates will be installed on exit. The update tool will be started as soon as you close the application!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>There are new updates available! To install the displayed updates, exit this application and start the updater.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>There are new updates available! You can install them right now by pressing &lt;Install Now&gt; below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>There are new updates available! You can install them now, without having to exit the application during the update. Alternatively, you can automatically start the installer, when you exit the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>There are new updates available! Installing those requires you to close this application. You can install them now or automatically, when you exit the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-178"/>
         <source>Check for Updates</source>
         <translation>التحقق من التحديثات</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>There are new updates available! You can install them now or later.</source>
-        <translation>هناك تحديثات جديدة متوفرة! يمكنك تثبيتها الآن أو لاحقاً.</translation>
+        <translation type="vanished">هناك تحديثات جديدة متوفرة! يمكنك تثبيتها الآن أو لاحقاً.</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>%1 v%2 — %3</source>
-        <translation>%1 v%2 — %3</translation>
+        <translation type="vanished">%1 v%2 — %3</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Run with &amp;elevated rights</source>
-        <translation>شغّل بصلاحيات &amp;معلاة</translation>
+        <translation type="vanished">شغّل بصلاحيات &amp;معلاة</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+12"/>
         <source>Install later</source>
         <translation>ثبّت لاحقاً</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+120"/>
         <source>Install Now?</source>
         <translation>أتريد التثبيت الآن؟</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>Updates will be installed on exit. The maintenance tool will be started as soon as you close the application!</source>
-        <translation>ستثبت التحديثات عند الخروج. ستشغل أداة الصيانة عند إغلاق التطبيق!</translation>
+        <translation type="vanished">ستثبت التحديثات عند الخروج. ستشغل أداة الصيانة عند إغلاق التطبيق!</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>%L1 KiB</source>
-        <translation>%L1 كيلو بايت</translation>
+        <translation type="vanished">%L1 كيلو بايت</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%L1 MiB</source>
-        <translation>%L1 ميجا بايت</translation>
+        <translation type="vanished">%L1 ميجا بايت</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%L1 GiB</source>
-        <translation>%L1 جيجا بايت</translation>
+        <translation type="vanished">%L1 جيجا بايت</translation>
+    </message>
+</context>
+<context>
+    <name>SuccessPage</name>
+    <message>
+        <location filename="../successpage.ui" line="+14"/>
+        <source>Installation completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>The installation has been completed successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Restart application</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UpdateButton</name>
     <message>
-        <location filename="../updatebutton.ui" line="+35"/>
         <source>Check for Updates</source>
-        <translation>تحقق من التحديثات</translation>
+        <translation type="vanished">تحقق من التحديثات</translation>
+    </message>
+    <message>
+        <location filename="../updatebutton.ui" line="+35"/>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -241,12 +446,11 @@
         <translation>التحقق من التحديثات</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>There are new updates available! You can install them now or automatically, when you exit the application. If you don&apos;t want to install updates right know, you can install them later.</source>
-        <translation>هناك تحديثات جديدة متوفرة! يمكنك تثبيتها الآن أو تثبيتها تلقائياً عند إغلاق التطبيق. إن كنت لا تريد تثبيت التحديثات الآن، يمكنك تثبيتها لاحقاً.</translation>
+        <translation type="vanished">هناك تحديثات جديدة متوفرة! يمكنك تثبيتها الآن أو تثبيتها تلقائياً عند إغلاق التطبيق. إن كنت لا تريد تثبيت التحديثات الآن، يمكنك تثبيتها لاحقاً.</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+54"/>
         <source>Updates:</source>
         <translation>التحديثات:</translation>
     </message>
@@ -261,17 +465,15 @@
         <translation>الإصدار</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Update Size</source>
-        <translation>حجم التحديث</translation>
+        <translation type="vanished">حجم التحديث</translation>
     </message>
     <message>
-        <location line="+26"/>
         <source>Run with &amp;elevated rights</source>
-        <translation>شغّل بصلاحيات &amp;معلاة</translation>
+        <translation type="vanished">شغّل بصلاحيات &amp;معلاة</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
         <source>Close and do nothing. You can install updates later.</source>
         <translation>أغلق ولا تفعل شيئاً. يمكنك تثبيت التحديثات لاحقاً.</translation>
     </message>

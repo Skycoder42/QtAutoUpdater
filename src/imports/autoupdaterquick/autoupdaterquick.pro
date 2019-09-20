@@ -32,13 +32,24 @@ QML_FILES += \
 	SuccessView.qml \
 	UpdateButton.qml
 
+RESOURCES += \
+	autoupdaterquick.qrc
+
+TRANSLATIONS += \
+	translations/qtautoupdaterquick_de.ts \
+	translations/qtautoupdaterquick_es.ts \
+	translations/qtautoupdaterquick_fr.ts \
+	translations/qtautoupdaterquick_ar.ts \
+	translations/qtautoupdaterquick_template.ts
+
 OTHER_FILES += \
 	qmldir
 
-DISTFILES +=
-
 CONFIG += qmlcache
 load(qml_plugin)
+
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 generate_qmltypes {
 	# run again to overwrite module env
@@ -64,5 +75,9 @@ generate_qmltypes {
 	QMAKE_EXTRA_TARGETS += mfirst
 }
 
-RESOURCES += \
-	autoupdaterquick.qrc
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
+
+#replace template qm by ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdaterquick_template.qm
+QM_FILES += translations/qtautoupdaterquick_template.ts
+

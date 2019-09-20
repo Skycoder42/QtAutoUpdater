@@ -43,7 +43,22 @@ android {
 	MODULE_DEFINES += "QT_AUTOUPDATER_PLAY_CORE_VERSION=\\\"$$PLAY_CORE_VERSION\\\""
 }
 
+TRANSLATIONS += \
+	translations/qtautoupdatercore_de.ts \
+	translations/qtautoupdatercore_es.ts \
+	translations/qtautoupdatercore_fr.ts \
+	translations/qtautoupdatercore_ar.ts \
+	translations/qtautoupdatercore_template.ts
+
+QDEP_LUPDATE_INPUTS += \
+	$$PWD/../plugins \
+	$$PWD/../jar \
+	$$PWD/../imports/autoupdatercore \
+
 load(qt_module)
+
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 win32:!winrt: LIBS += -lAdvapi32 -lOle32 -lShell32
 else:mac:!ios: LIBS += -framework Security
@@ -57,3 +72,9 @@ win32 {
 } else:mac {
 	QMAKE_TARGET_BUNDLE_PREFIX = "de.skycoder42."
 }
+
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
+
+#replace template qm by ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdatercore_template.qm
+QM_FILES += translations/qtautoupdatercore_template.ts

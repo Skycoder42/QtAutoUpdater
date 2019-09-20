@@ -14,5 +14,11 @@ runtests.recurse_target = run-tests
 runtests.recurse += sub_tests sub_src
 QMAKE_EXTRA_TARGETS += runtests
 
+lupdate.target = lupdate
+lupdate.CONFIG = recursive
+lupdate.recurse_target = lupdate
+lupdate.recurse += sub_src
+QMAKE_EXTRA_TARGETS += lupdate
+
 DISTFILES += .qmake.conf \
 	sync.profile
