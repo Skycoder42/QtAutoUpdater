@@ -49,7 +49,6 @@ QString HomebrewTest::backend() const
 
 QVariantMap HomebrewTest::config()
 {
-	qDebug() << Q_FUNC_INFO;
 	return {
 		{QStringLiteral("packages"), QStringLiteral("skycoder42/qtautoupdatertest/qtautoupdatertestpackage")}
 	};
@@ -57,7 +56,6 @@ QVariantMap HomebrewTest::config()
 
 QList<UpdateInfo> HomebrewTest::createInfos(const QVersionNumber &versionFrom, const QVersionNumber &versionTo)
 {
-	qDebug() << Q_FUNC_INFO << versionFrom << versionTo;
 	if (versionTo > versionFrom) {
 		return {
 			{
@@ -75,7 +73,6 @@ QList<UpdateInfo> HomebrewTest::createInfos(const QVersionNumber &versionFrom, c
 
 bool HomebrewTest::simulateInstall(const QVersionNumber &version)
 {
-	qDebug() << Q_FUNC_INFO << "enter" << version;
 	TEST_WRAP_BEGIN
 
 	if (_installer->isInstalled())
@@ -83,19 +80,16 @@ bool HomebrewTest::simulateInstall(const QVersionNumber &version)
 	QVERIFY(prepareUpdate(version));
 	QVERIFY(_installer->install());
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 
 bool HomebrewTest::prepareUpdate(const QVersionNumber &version)
 {
-	qDebug() << Q_FUNC_INFO << "enter" << version;
 	TEST_WRAP_BEGIN
 
 	_installer->setVersion(version);
 	QVERIFY(_installer->package());
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 

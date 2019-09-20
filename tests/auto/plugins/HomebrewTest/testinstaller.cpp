@@ -86,7 +86,6 @@ void TestInstaller::setVersion(QVersionNumber version)
 
 bool TestInstaller::package()
 {
-	qDebug() << Q_FUNC_INFO << "enter";
 	TEST_WRAP_BEGIN
 
 	QFile formula{_dir.filePath(QStringLiteral("Formula/qtautoupdatertestpackage.rb"))};
@@ -104,13 +103,11 @@ bool TestInstaller::package()
 					   QStringLiteral("Updated test formula to %1").arg(_version.toString())
 				   }));
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 
 bool TestInstaller::install()
 {
-	qDebug() << Q_FUNC_INFO << "enter";
 	TEST_WRAP_BEGIN
 
 	QVERIFY2(!_installed, "You must run uninstall before installing again");
@@ -123,13 +120,11 @@ bool TestInstaller::install()
 					}));
 	_installed = true;
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 
 bool TestInstaller::uninstall()
 {
-	qDebug() << Q_FUNC_INFO << "enter";
 	TEST_WRAP_BEGIN
 
 	QVERIFY(runBrew({
@@ -139,39 +134,33 @@ bool TestInstaller::uninstall()
 					}, _installed));
 	_installed = false;
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 
 bool TestInstaller::runGit(const QStringList &arguments)
 {
-	qDebug() << Q_FUNC_INFO << "enter" << arguments;
 	TEST_WRAP_BEGIN
 
 	const auto gitExe = QStandardPaths::findExecutable(QStringLiteral("git"));
 	QVERIFY(!gitExe.isEmpty());
 	QVERIFY(runTool(gitExe, arguments, _dir.path(), true));
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 
 bool TestInstaller::runBrew(const QStringList &arguments, bool verify)
 {
-	qDebug() << Q_FUNC_INFO << "enter" << arguments << verify;
 	TEST_WRAP_BEGIN
 
 	const auto brewExe = QStandardPaths::findExecutable(QStringLiteral("brew"));
 	QVERIFY(!brewExe.isEmpty());
 	QVERIFY(runTool(brewExe, arguments, {}, verify));
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }
 
 bool TestInstaller::runTool(const QString &program, const QStringList &arguments, const QString &workingDir, bool verify)
 {
-	qDebug() << Q_FUNC_INFO << "enter" << program << arguments << workingDir << verify;
 	TEST_WRAP_BEGIN
 
 	QProcess proc;
@@ -191,6 +180,5 @@ bool TestInstaller::runTool(const QString &program, const QStringList &arguments
 	else if (proc.exitCode() != EXIT_SUCCESS)
 		qWarning() << qUtf8Printable(program) << "process exited with unclean exit code:" << proc.exitCode();
 
-	qDebug() << Q_FUNC_INFO << "exit";
 	TEST_WRAP_END
 }

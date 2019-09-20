@@ -69,7 +69,6 @@ void PluginTest::testUpdateCheck_data()
 
 void PluginTest::testUpdateCheck()
 {
-	qDebug() << Q_FUNC_INFO << "enter";
 	QFETCH(QVersionNumber, installedVersion);
 	QFETCH(QVersionNumber, updateVersion);
 	QFETCH(int, abortLevel);
@@ -82,13 +81,11 @@ void PluginTest::testUpdateCheck()
 		}
 	}
 
-	qDebug() << Q_FUNC_INFO << "before install";
 	QVERIFY(simulateInstall(installedVersion));
 	QVERIFY(prepareUpdate(updateVersion));
 	const auto updates = abortLevel > 0 ?
 							 QList<UpdateInfo>{} :
 							 createInfos(installedVersion, updateVersion);
-	qDebug() << Q_FUNC_INFO << "after install";
 
 	sptr updater { loadBackend() };
 	if (!updater)
@@ -98,7 +95,6 @@ void PluginTest::testUpdateCheck()
 	QVERIFY(doneSpy.isValid());
 
 	//start the check updates
-	qDebug() << Q_FUNC_INFO << "before check";
 	updater->checkForUpdates();
 
 	if (abortLevel > 0) {
@@ -108,13 +104,11 @@ void PluginTest::testUpdateCheck()
 		}
 	} else  //wait max 1 min for the process to finish
 		QVERIFY(doneSpy.wait(60000));
-	qDebug() << Q_FUNC_INFO << "after check";
 
 	//check if the finished signal is without error
 	QCOMPARE(doneSpy.size(), 1);
 	QCOMPARE(doneSpy[0][0].toBool(), success);
 	QCOMPARE(doneSpy[0][1].value<QList<UpdateInfo>>(), updates);
-	qDebug() << Q_FUNC_INFO << "exit";
 }
 
 void PluginTest::testTriggerInstall()
