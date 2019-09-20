@@ -114,9 +114,9 @@ uint QtAutoUpdater::qHash(const UpdateInfo &info, uint seed)
 QDebug QtAutoUpdater::operator<<(QDebug debug, const UpdateInfo &info)
 {
 	QDebugStateSaver state{debug};
-	debug.noquote() << QStringLiteral("{Name: \"%1\"; Version: %2; Data-Keys: %3}")
-					   .arg(info.name(),
-							info.version().toString(),
-							info.data().keys().join(QLatin1Char(',')));
+	debug.nospace() << "{Name: " << info.name()
+					<< "; Version: " << qUtf8Printable(info.version().toString())
+					<< "; Data: " << info.data()
+					<< "}";
 	return debug;
 }
