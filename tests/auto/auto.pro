@@ -3,11 +3,13 @@ TEMPLATE = subdirs
 SUBDIRS += \
 	cmake \
 	autoupdatercore \
-	autoupdaterwidgets
+	autoupdaterwidgets \
+	qml
 
 !no_plugin_tests: SUBDIRS += plugins
 
 plugins.depends += autoupdatercore
+qml.depends += autoupdatercore
 
 cmake.CONFIG += no_run-tests_target
 prepareRecursiveTarget(run-tests)

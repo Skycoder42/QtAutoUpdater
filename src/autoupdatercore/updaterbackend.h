@@ -47,7 +47,7 @@ public:
 
 	using SecondaryInfo = std::optional<std::pair<QString, QString>>;  // (key, display-name)
 
-	QString key() const ;
+	Q_INVOKABLE QString key() const;
 	virtual Features features() const = 0;
 	virtual SecondaryInfo secondaryInfo() const;
 	bool initialize(QScopedPointer<IConfigReader> &&config);

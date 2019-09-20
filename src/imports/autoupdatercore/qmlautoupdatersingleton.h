@@ -16,7 +16,7 @@ class QmlAutoUpdaterSingleton : public QObject
 public:
 	explicit QmlAutoUpdaterSingleton(QObject *parent = nullptr);
 
-	Q_INVOKABLE QtAutoUpdater::UpdateInfo createInfo(QVariant identifier, QString name, QVersionNumber version, QVariantMap data = {}) const;
+	Q_INVOKABLE QVariant createInfo(QVariant identifier, QString name, const QVariant &version, QVariantMap data = {}) const;
 	Q_INVOKABLE QVariantList infosAsList(const QList<QtAutoUpdater::UpdateInfo> &infos) const;
 
 

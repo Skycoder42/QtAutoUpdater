@@ -81,7 +81,7 @@ public:
 	//! Destroyes the updater and kills the update check (if running)
 	~Updater() override;
 
-	Q_INVOKABLE UpdaterBackend *backend() const;
+	Q_INVOKABLE QtAutoUpdater::UpdaterBackend *backend() const;
 
 	UpdaterBackend::Features features() const;
 	//! readAcFn{Updater::state}

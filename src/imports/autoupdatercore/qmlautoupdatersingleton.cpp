@@ -6,9 +6,16 @@ QmlAutoUpdaterSingleton::QmlAutoUpdaterSingleton(QObject *parent) :
 	QObject{parent}
 {}
 
-UpdateInfo QmlAutoUpdaterSingleton::createInfo(QVariant identifier, QString name, QVersionNumber version, QVariantMap data) const
+QVariant QmlAutoUpdaterSingleton::createInfo(QVariant identifier, QString name, const QVariant &version, QVariantMap data) const
 {
-	return {std::move(identifier), std::move(name), std::move(version), std::move(data)};
+	return QVariant::fromValue(UpdateInfo {
+		std::move(identifier),
+		std::move(name),
+		version.canConvert(qMetaTypeId<QVersionNumber>()) ?
+			version.value<QVersionNumber>() :
+			QVersionNumber::fromString(version.toString()),
+		std::move(data)
+	});
 }
 
 QVariantList QmlAutoUpdaterSingleton::infosAsList(const QList<UpdateInfo> &infos) const
@@ -70,25 +77,17 @@ QString QmlAutoUpdaterSingleton::QmlConfigReader::backend() const
 std::optional<QVariant> QmlAutoUpdaterSingleton::QmlConfigReader::value(const QString &key) const
 {
 	QVariant res;
-	if (QMetaObject::invokeMethod(_qmlSettings, "value", Qt::DirectConnection,
-								  Q_RETURN_ARG(QVariant, res),
-								  Q_ARG(QString, key))) {
-		if (res.isValid())
-			return res;
-		else
-			return std::nullopt;
-	} else
+	QQmlProperty prop {
+		_qmlSettings,
+		QString{key}.replace(QRegularExpression{QStringLiteral("\\W")}, QStringLiteral("_"))
+	};
+	if (prop.isValid())
+		return prop.read();
+	else
 		return std::nullopt;
 }
 
 QVariant QmlAutoUpdaterSingleton::QmlConfigReader::value(const QString &key, const QVariant &defaultValue) const
 {
-	QVariant res;
-	if (QMetaObject::invokeMethod(_qmlSettings, "value", Qt::DirectConnection,
-								  Q_RETURN_ARG(QVariant, res),
-								  Q_ARG(QString, key),
-								  Q_ARG(QVariant, defaultValue)))
-		return res;
-	else
-		return {};
+	return value(key).value_or(defaultValue);
 }

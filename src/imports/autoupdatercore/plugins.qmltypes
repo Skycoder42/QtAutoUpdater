@@ -17,18 +17,18 @@ Module {
         exportMetaObjectRevisions: [0]
         Method {
             name: "createInfo"
-            type: "QtAutoUpdater::UpdateInfo"
+            type: "QVariant"
             Parameter { name: "identifier"; type: "QVariant" }
             Parameter { name: "name"; type: "string" }
-            Parameter { name: "version"; type: "QVersionNumber" }
+            Parameter { name: "version"; type: "QVariant" }
             Parameter { name: "data"; type: "QVariantMap" }
         }
         Method {
             name: "createInfo"
-            type: "QtAutoUpdater::UpdateInfo"
+            type: "QVariant"
             Parameter { name: "identifier"; type: "QVariant" }
             Parameter { name: "name"; type: "string" }
-            Parameter { name: "version"; type: "QVersionNumber" }
+            Parameter { name: "version"; type: "QVariant" }
         }
         Method {
             name: "infosAsList"
@@ -245,7 +245,7 @@ Module {
             Parameter { name: "taskId"; type: "int" }
         }
         Method { name: "cancelExitRun" }
-        Method { name: "backend"; type: "UpdaterBackend*" }
+        Method { name: "backend"; type: "QtAutoUpdater::UpdaterBackend*" }
         Method {
             name: "scheduleUpdate"
             type: "int"
@@ -309,5 +309,6 @@ Module {
             name: "triggerInstallDone"
             Parameter { name: "success"; type: "bool" }
         }
+        Method { name: "key"; type: "string" }
     }
 }

@@ -30,6 +30,7 @@ UpdateInfo::UpdateInfo(UpdateInfoPrivate *d_ptr) :
 		once = false;
 		qRegisterMetaType<UpdateInfo>();
 		qRegisterMetaType<QList<UpdateInfo>>();
+		QMetaType::registerEqualsComparator<UpdateInfo>();
 	}
 }
 
