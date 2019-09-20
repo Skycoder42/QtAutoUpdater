@@ -116,6 +116,10 @@ void PluginTest::testUpdateCheck()
 	//check if the finished signal is without error
 	QCOMPARE(doneSpy.size(), 1);
 	QCOMPARE(doneSpy[0][0].toBool(), success);
+	if (!updates.isEmpty()) {
+		qDebug() << updates[0];
+		qDebug() << doneSpy[0][1].value<QList<UpdateInfo>>()[0];
+	}
 	QCOMPARE(doneSpy[0][1].value<QList<UpdateInfo>>(), updates);
 }
 
