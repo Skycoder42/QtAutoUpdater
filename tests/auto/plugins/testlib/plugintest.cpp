@@ -21,6 +21,7 @@ bool PluginTest::cleanup()
 
 QVariantMap PluginTest::performConfig()
 {
+	qDebug() << Q_FUNC_INFO;
 	return config();
 }
 
@@ -93,7 +94,6 @@ void PluginTest::testUpdateCheck()
 	sptr updater { loadBackend() };
 	if (!updater)
 		return;
-
 	QSignalSpy doneSpy{updater.data(), &UpdaterBackend::checkDone};
 	QVERIFY(doneSpy.isValid());
 
@@ -214,13 +214,16 @@ void PluginTest::testPerformInstall()
 
 UpdaterBackend *PluginTest::loadBackend(bool asPerform)
 {
+	qDebug() << Q_FUNC_INFO << "enter" << asPerform;
 	UpdaterBackend *backendRes = nullptr;
 	[&]() {
+		QVERIFY(Updater::supportedUpdaterBackends().contains(backend()));
 		auto uBackend = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, backend(), this);
 		QVERIFY(uBackend);
 		auto reader = new VariantConfigReader{backend(), asPerform ? performConfig() : config()};
 		QVERIFY(uBackend->initialize(QScopedPointer<UpdaterBackend::IConfigReader>{reader}));
 		backendRes = uBackend;
 	}();
+	qDebug() << Q_FUNC_INFO << "exit";
 	return backendRes;
 }
