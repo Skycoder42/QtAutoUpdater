@@ -35,19 +35,7 @@ FORMS += \
 RESOURCES += \
 	autoupdaterwidgets.qrc
 
-TRANSLATIONS += \
-	translations/qtautoupdaterwidgets_de.ts \
-	translations/qtautoupdaterwidgets_es.ts \
-	translations/qtautoupdaterwidgets_fr.ts \
-	translations/qtautoupdaterwidgets_ar.ts \
-	translations/qtautoupdaterwidgets_template.ts
-
-DISTFILES += $$TRANSLATIONS
-
 load(qt_module)
-
-CONFIG += lrelease
-QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 win32 {
 	QMAKE_TARGET_PRODUCT = "$$TARGET"
@@ -62,7 +50,3 @@ QDEP_DEPENDS += \
 	Skycoder42/QTaskbarControl@1.3.2
 
 !load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
-
-#replace template qm by ts
-QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdaterwidgets_template.qm
-QM_FILES += translations/qtautoupdaterwidgets_template.ts

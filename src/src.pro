@@ -4,7 +4,8 @@ SUBDIRS += \
 	autoupdatercore \
 	autoupdaterwidgets \
 	imports \
-	plugins
+	plugins \
+	translations
 
 android: SUBDIRS += jar
 
@@ -12,8 +13,10 @@ plugins.depends += autoupdatercore
 autoupdaterwidgets.depends += autoupdatercore
 imports.depends += autoupdatercore
 
-plugins.CONFIG += no_lupdate_target
-jar.CONFIG += no_lupdate_target
+lupdate.target = lupdate
+lupdate.CONFIG = recursive
+lupdate.recurse_target = lupdate
+lupdate.recurse += translations
+QMAKE_EXTRA_TARGETS += lupdate
 
-prepareRecursiveTarget(lupdate)
-QMAKE_EXTRA_TARGETS += run-tests lupdate
+QMAKE_EXTRA_TARGETS += run-tests
