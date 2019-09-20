@@ -15,6 +15,7 @@ public:
 	static const QString KeyPath;
 	static const QString KeyExtraUpdateArgs;
 	static const QString KeyExtraOutdatedArgs;
+	static const QString KeyExtraInstallArgs;
 	static const QString KeyCakebrewPath;
 	static const QString KeyExtraCakebrewArgs;
 

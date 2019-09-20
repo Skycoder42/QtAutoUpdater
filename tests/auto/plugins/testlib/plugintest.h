@@ -36,6 +36,7 @@ private Q_SLOTS:
 	void initTestCase();
 	void cleanupTestCase();
 
+	void testPluginLoadable();
 	void testUpdateCheck_data();
 	void testUpdateCheck();
 	void testTriggerInstall();

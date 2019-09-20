@@ -16,6 +16,7 @@ const QString QHomebrewUpdaterBackend::KeyCask {QStringLiteral("cask")};
 const QString QHomebrewUpdaterBackend::KeyPath {QStringLiteral("path")};
 const QString QHomebrewUpdaterBackend::KeyExtraUpdateArgs {QStringLiteral("extraUpdateArgs")};
 const QString QHomebrewUpdaterBackend::KeyExtraOutdatedArgs {QStringLiteral("extraOutdatedArgs")};
+const QString QHomebrewUpdaterBackend::KeyExtraInstallArgs {QStringLiteral("extraInstallArgs")};
 const QString QHomebrewUpdaterBackend::KeyCakebrewPath {QStringLiteral("cakebrewPath")};
 const QString QHomebrewUpdaterBackend::KeyExtraCakebrewArgs {QStringLiteral("extraCakebrewArgs")};
 

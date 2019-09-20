@@ -11,10 +11,6 @@ class QHomebrewUpdateInstaller : public QtAutoUpdater::UpdateInstaller
 	Q_OBJECT
 
 public:
-	static const QString KeyCask;
-	static const QString KeyExtraInstallArgs;
-	static const bool DefaultCask;
-
 	explicit QHomebrewUpdateInstaller(const QString &brewPath,
 									  QtAutoUpdater::UpdaterBackend::IConfigReader *config,
 									  QObject *parent = nullptr);

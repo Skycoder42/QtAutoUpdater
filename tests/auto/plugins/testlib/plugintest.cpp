@@ -34,6 +34,14 @@ void PluginTest::cleanupTestCase()
 	QVERIFY(cleanup());
 }
 
+void PluginTest::testPluginLoadable()
+{
+	qDebug() << Updater::supportedUpdaterBackends();
+	QVERIFY(Updater::supportedUpdaterBackends().contains(backend()));
+	auto instance = qLoadPlugin<UpdaterBackend, UpdaterPlugin>(loader, backend(), this);
+	QVERIFY(instance);
+}
+
 void PluginTest::testUpdateCheck_data()
 {
 	QTest::addColumn<QVersionNumber>("installedVersion");
