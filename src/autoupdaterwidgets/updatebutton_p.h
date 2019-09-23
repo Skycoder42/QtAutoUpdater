@@ -20,23 +20,25 @@ namespace QtAutoUpdater
 
 class Q_AUTOUPDATERWIDGETS_EXPORT UpdateButtonPrivate : public QWidgetPrivate
 {
-	Q_DECLARE_PUBLIC(UpdateButton)
+    Q_DECLARE_PUBLIC(UpdateButton)
 
 public:
-	using Mode = UpdateButton::Mode;
-	using ModeFlag = UpdateButton::ModeFlag;
+    using Mode = UpdateButton::Mode;
+    using ModeFlag = UpdateButton::ModeFlag;
 
-	QPointer<Updater> updater;
-	QScopedPointer<Ui::UpdateButton> ui;
-	Mode mode = ModeFlag::AllowAndShowAll;
-	QMovie *loadingGif = nullptr;
-	Updater::InstallMode installMode = Updater::InstallModeFlag::Parallel;
-	Updater::InstallScope installScope = Updater::InstallScope::PreferInternal;
+    QPointer<Updater> updater;
+    QScopedPointer<Ui::UpdateButton> ui;
+    Mode mode = ModeFlag::AllowAndShowAll;
+    QMovie *loadingGif = nullptr;
+    Updater::InstallMode installMode = Updater::InstallModeFlag::Parallel;
+    Updater::InstallScope installScope = Updater::InstallScope::PreferInternal;
 
-	void _q_changeUpdaterState(Updater::State state);
-	void _q_updateStatus(double progress, const QString &status);
-	void _q_updaterDestroyed();
-	void _q_clicked();
+    void resetState();
+
+    void _q_changeUpdaterState(Updater::State state);
+    void _q_updateStatus(double progress, const QString &status);
+    void _q_updaterDestroyed();
+    void _q_clicked();
 };
 
 }

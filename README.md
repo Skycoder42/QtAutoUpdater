@@ -140,6 +140,11 @@ together with the module for both the custom repository and the package on the r
 ## Translations
 The core library does not need any translation, because it won't show anything to the user. The Gui library however does. The project is prepared for translation. Only german and spanish translations are provided. However, you can easily create the translations yourself. The file `src/autoupdatergui/translations/QtAutoUpdaterController_template.ts` is a ready-made TS file. Just rename it (e.g. to `QtAutoUpdaterController_jp.ts`) and open it with the QtLinguist to create the translations.
 
+### Contributed translations:
+- French by @aalex420
+- Spanish by @checor
+- Arabic by @abdullah-radwan
+
 ## Icon sources/Links
 - [FatCow Free Icons](https://www.fatcow.com/free-icons)
 - [Icons - Material Design](https://material.io/resources/icons/?style=outline)
