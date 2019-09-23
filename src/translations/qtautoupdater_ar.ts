@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="ar">
 <context>
@@ -6,7 +6,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/AskUpdateDialog.qml" line="+10"/>
         <source>Check for updates?</source>
-        <translation>بالتحقق من التحديثات</translation>
+        <translation>بالتحقق من التحديثات؟</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -32,7 +32,7 @@
     <message>
         <location filename="../autoupdaterwidgets/errorpage.ui" line="+14"/>
         <source>Installation failed!</source>
-        <translation>|||UNTRANSLATED_CONTENT_START|||Installation failed!|||UNTRANSLATED_CONTENT_END|||</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -42,7 +42,7 @@
     <message>
         <location line="+68"/>
         <source>Unknown Error…</source>
-        <translation>‏‏خطأ غير معروف</translation>
+        <translation>‏‏خطأ غير معروف…</translation>
     </message>
 </context>
 <context>
@@ -54,8 +54,8 @@
     </message>
     <message>
         <location line="+3"/>
-        <source>Updates are ready to be installed. Press &lt;Install> to start the installation.</source>
-        <translation>التحديثات جاهزة للتثبيت. صحافة &lt;Install> لبدء التثبيت.</translation>
+        <source>Updates are ready to be installed. Press &lt;Install&gt; to start the installation.</source>
+        <translation>التحديثات جاهزة للتثبيت. صحافة &lt;Install&gt; لبدء التثبيت.</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -79,7 +79,7 @@
     <message>
         <location line="+64"/>
         <source>Details…</source>
-        <translation>التفاصيل</translation>
+        <translation>التفاصيل…</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -89,14 +89,19 @@
     <message numerus="yes">
         <location line="+75"/>
         <source>%n%</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
         </translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Installation failed!</source>
-        <translation>|||UNTRANSLATED_CONTENT_START|||Installation failed!|||UNTRANSLATED_CONTENT_END|||</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
@@ -115,12 +120,12 @@
         <location line="+19"/>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+9"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات...</translation>
+        <translation>جار التحقق من وجود تحديثات…</translation>
     </message>
     <message>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+45"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل</translation>
+        <translation>إالغاء, تبطيل…</translation>
     </message>
 </context>
 <context>
@@ -129,8 +134,13 @@
         <location filename="../imports/autoupdaterquick/ProgressItem.qml" line="+35"/>
         <location line="+4"/>
         <source>%n%</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
         </translation>
     </message>
 </context>
@@ -139,7 +149,7 @@
     <message>
         <location filename="../plugins/updater/qchocolatey/qchocolateyupdaterbackend.cpp" line="+31"/>
         <source>Installed Version</source>
-        <translation>الإصدار المثبت:</translation>
+        <translation>الإصدار المثبت</translation>
     </message>
 </context>
 <context>
@@ -147,17 +157,17 @@
     <message>
         <location filename="../plugins/updater/qhomebrew/qhomebrewupdateinstaller.cpp" line="+65"/>
         <source>Starting homebrew…</source>
-        <translation>بدء تشغيل البيرة ...</translation>
+        <translation>بدء تشغيل البيرة …</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Running homebrew in the background to perform the upgrade…</source>
-        <translation>تشغيل البيرة في الخلفية لإجراء الترقية ...</translation>
+        <translation>تشغيل البيرة في الخلفية لإجراء الترقية …</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Homebrew exited with unclean exit code %1</source>
-        <translation>تم إنهاء المشروب برمز الخروج غير النظيف٪ 1</translation>
+        <translation>تم إنهاء المشروب برمز الخروج غير النظيف %1</translation>
     </message>
 </context>
 <context>
@@ -170,41 +180,37 @@
     <message>
         <location line="+19"/>
         <source>Updating local package database…</source>
-        <translation>تحديث قاعدة بيانات الحزمة المحلية ...</translation>
+        <translation>تحديث قاعدة بيانات الحزمة المحلية …</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Scanning for outdated packages…</source>
-        <translation>جارٍ المسح بحثًا عن حزم قديمة ...</translation>
+        <translation>جارٍ المسح بحثًا عن حزم قديمة …</translation>
     </message>
 </context>
 <context>
     <name>QHttpServer</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/src/httpserver/qhttpserver.cpp" line="+68"/>
         <source>missing handler:</source>
-        <translation>معالج مفقود:</translation>
+        <translation type="vanished">معالج مفقود:</translation>
     </message>
 </context>
 <context>
     <name>QHttpServerExample</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/examples/httpserver/simple/main.cpp" line="+117"/>
         <source>Could not run on http://127.0.0.1:%1/</source>
-        <translation>لا يمكن التشغيل على http://127.0.0.1:٪1/</translation>
+        <translation type="vanished">لا يمكن التشغيل على http://127.0.0.1:٪1/</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
-        <translation>يعمل على http://127.0.0.1:٪1/ (اضغط CTRL + C لإنهاء)</translation>
+        <translation type="vanished">يعمل على http://127.0.0.1:٪1/ (اضغط CTRL + C لإنهاء)</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../3rdparty/PackageKit-Qt/src/transactionprivate.cpp" line="+262"/>
         <source>The PackageKit daemon has crashed</source>
-        <translation>تعطل PackageKit الخفي</translation>
+        <translation type="vanished">تعطل PackageKit الخفي</translation>
     </message>
 </context>
 <context>
@@ -218,17 +224,21 @@
     <message>
         <location line="+74"/>
         <source>Waiting for EULA to be accepted…</source>
-        <translation>في انتظار قبول اتفاقية ترخيص المستخدم النهائي ...</translation>
+        <translation>في انتظار قبول اتفاقية ترخيص المستخدم النهائي …</translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <translation type="vanished">&lt;h1&gt; حزمة الحزمة٪ 1 &lt;&amp; h1&gt; &lt;p&gt; ٪ 2 &lt;/p&gt;&lt;p&gt; بائع الحزمة:٪ 3 &lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;h1>Eula of package %1&lt;&amp;h1>&lt;p>%2&lt;/p>&lt;p>Package Vendor: %3&lt;/p></source>
-        <translation>&lt;h1> حزمة الحزمة٪ 1 &lt;&amp; h1> &lt;p> ٪ 2 &lt;/p>&lt;p> بائع الحزمة:٪ 3 &lt;/p></translation>
+        <source>&lt;h1&gt;Eula of package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <translation>&lt;h1&gt;حزمة الحزمة %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;بائع الحزمة: %3&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Installation failed!</source>
-        <translation>|||UNTRANSLATED_CONTENT_START|||Installation failed!|||UNTRANSLATED_CONTENT_END|||</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
@@ -261,57 +271,57 @@
     <message>
         <location filename="../plugins/updater/qpackagekit/qpackagekitupdaterbackend.cpp" line="+15"/>
         <source>Please wait…</source>
-        <translation>يرجى الانتظار..</translation>
+        <translation>يرجى الانتظار…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Setting up…</source>
-        <translation>تأسيس</translation>
+        <translation>تأسيس…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running…</source>
-        <translation>الجري</translation>
+        <translation>الجري…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Querying database…</source>
-        <translation>الاستعلام عن قاعدة البيانات ...</translation>
+        <translation>الاستعلام عن قاعدة البيانات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Showing information…</source>
-        <translation>عرض المعلومات ...</translation>
+        <translation>عرض المعلومات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Removing packages…</source>
-        <translation>يزيل الحزم</translation>
+        <translation>يزيل الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Refreshing package cache…</source>
-        <translation>جارٍ تحديث ذاكرة التخزين المؤقت للحزمة ...</translation>
+        <translation>جارٍ تحديث ذاكرة التخزين المؤقت للحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading packages…</source>
-        <translation>تنزيل الحزم</translation>
+        <translation>تنزيل الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Installing packages…</source>
-        <translation>يثبّت الحزم</translation>
+        <translation>يثبّت الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Updating packages…</source>
-        <translation>يحدّث الحزم</translation>
+        <translation>يحدّث الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cleaning up…</source>
-        <translation>التنظيف</translation>
+        <translation>التنظيف…</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -321,122 +331,122 @@
     <message>
         <location line="+2"/>
         <source>Resolving package dependencies…</source>
-        <translation>حل تبعيات الحزمة ...</translation>
+        <translation>حل تبعيات الحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying package signatures…</source>
-        <translation>التحقق من تواقيع الحزمة ...</translation>
+        <translation>التحقق من تواقيع الحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Testing for commit…</source>
-        <translation>اختبار الالتزام ...</translation>
+        <translation>اختبار الالتزام …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Committing updates…</source>
-        <translation>الالتزام بالتحديثات ...</translation>
+        <translation>الالتزام بالتحديثات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending request…</source>
-        <translation>طلب إرسال</translation>
+        <translation>طلب إرسال…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Finished.</source>
-        <translation>تام الصنع</translation>
+        <translation>تام الصنع.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل</translation>
+        <translation>إالغاء, تبطيل…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package repositories…</source>
-        <translation>جارٍ تنزيل مستودعات الحزمة ...</translation>
+        <translation>جارٍ تنزيل مستودعات الحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package list…</source>
-        <translation>جار تنزيل الحزمة ...</translation>
+        <translation>جار تنزيل الحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading file list…</source>
-        <translation>جارٍ تنزيل قائمة الملفات ...</translation>
+        <translation>جارٍ تنزيل قائمة الملفات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading changelog…</source>
-        <translation>جارٍ تحميل سجل التغيير ...</translation>
+        <translation>جارٍ تحميل سجل التغيير …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package group…</source>
-        <translation>جارٍ تحميل مجموعة الحزم ...</translation>
+        <translation>جارٍ تحميل مجموعة الحزم …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading update infos…</source>
-        <translation>جارٍ تحميل معلومات التحديث ...</translation>
+        <translation>جارٍ تحميل معلومات التحديث …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Repackaging…</source>
-        <translation>تحزيم ...</translation>
+        <translation>تحزيم …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading cache…</source>
-        <translation>تحميل المخزن</translation>
+        <translation>تحميل المخزن…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning applications…</source>
-        <translation>مسح التطبيقات ...</translation>
+        <translation>مسح التطبيقات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Generating package list…</source>
-        <translation>جارٍ إنشاء الحزمة...</translation>
+        <translation>جارٍ إنشاء الحزمة…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for lock…</source>
-        <translation>في انتظار القفل ...</translation>
+        <translation>في انتظار القفل …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for authentication…</source>
-        <translation>في انتظار الاستيثاق</translation>
+        <translation>في انتظار الاستيثاق…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning processes…</source>
-        <translation>عمليات المسح ...</translation>
+        <translation>عمليات المسح …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying executables…</source>
-        <translation>التحقق من الملفات التنفيذية ...</translation>
+        <translation>التحقق من الملفات التنفيذية …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying libraries…</source>
-        <translation>التحقق من المكتبات ...</translation>
+        <translation>التحقق من المكتبات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Copying files…</source>
-        <translation>جار نسخ الملفات...</translation>
+        <translation>جار نسخ الملفات…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running install hooks…</source>
-        <translation>تشغيل تثبيت خطاطيف ...</translation>
+        <translation>تشغيل تثبيت خطاطيف …</translation>
     </message>
 </context>
 <context>
@@ -465,17 +475,17 @@
     <message>
         <location line="+14"/>
         <source>Unknown state…</source>
-        <translation>دولة غير معروفة ...</translation>
+        <translation>دولة غير معروفة …</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Update installation is pending. Please wait…</source>
-        <translation>تحديث التثبيت معلق. يرجى الانتظار..</translation>
+        <translation>تحديث التثبيت معلق. يرجى الانتظار…</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Downloading update…</source>
-        <translation>جار تحميل التحديث</translation>
+        <translation>جار تحميل التحديث…</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -485,7 +495,7 @@
     <message>
         <location line="+4"/>
         <source>Installing update…</source>
-        <translation>جاري تثبيت التحديث</translation>
+        <translation>جاري تثبيت التحديث…</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -505,7 +515,7 @@
     <message>
         <location line="+5"/>
         <source>Waiting for user confirmation…</source>
-        <translation>انتظار التأكيد</translation>
+        <translation>انتظار التأكيد…</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -574,17 +584,17 @@
     <message>
         <location line="+4"/>
         <source>Downloading update files…</source>
-        <translation>تنزيل ملفات التحديث ...</translation>
+        <translation>تنزيل ملفات التحديث …</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Network request failed with error: %1</source>
-        <translation>فشل طلب الشبكة بسبب الخطأ:٪ 1</translation>
+        <translation>فشل طلب الشبكة بسبب الخطأ: %1</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Network request failed with HTTP status code: %1</source>
-        <translation>فشل طلب الشبكة مع رمز حالة HTTP:٪ 1</translation>
+        <translation>فشل طلب الشبكة مع رمز حالة %1</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -594,18 +604,18 @@
     <message>
         <location line="+28"/>
         <source>Processing download…</source>
-        <translation>جاري تنفيذ التنزيل</translation>
+        <translation>جاري تنفيذ التنزيل…</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+5"/>
         <source>Downloading update…</source>
-        <translation>جار تحميل التحديث</translation>
+        <translation>جار تحميل التحديث…</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Processing downloaded data…</source>
-        <translation>جارٍ معالجة البيانات التي تم تنزيلها ...</translation>
+        <translation>جارٍ معالجة البيانات التي تم تنزيلها …</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -638,18 +648,18 @@
     <message>
         <location filename="../plugins/updater/qwebquery/qwebqueryupdaterbackend.cpp" line="+244"/>
         <source>Processing reply…</source>
-        <translation>جارٍ معالجة الرد ...</translation>
+        <translation>جارٍ معالجة الرد …</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+5"/>
         <source>Downloading update infos…</source>
-        <translation>جارٍ تحميل معلومات التحديث ...</translation>
+        <translation>جارٍ تحميل معلومات التحديث …</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Processing downloaded data…</source>
-        <translation>جارٍ معالجة البيانات التي تم تنزيلها ...</translation>
+        <translation>جارٍ معالجة البيانات التي تم تنزيلها …</translation>
     </message>
 </context>
 <context>
@@ -729,7 +739,7 @@
     <message>
         <location filename="../autoupdaterwidgets/progressdialog.cpp" line="+35"/>
         <source>Canceling update check…</source>
-        <translation>إلغاء التحقق من التحديث ...</translation>
+        <translation>إلغاء التحقق من التحديث …</translation>
     </message>
 </context>
 <context>
@@ -775,12 +785,12 @@
         <location line="+6"/>
         <location line="+49"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات...</translation>
+        <translation>جار التحقق من وجود تحديثات…</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل</translation>
+        <translation>إالغاء, تبطيل…</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -790,17 +800,17 @@
     <message>
         <location line="+4"/>
         <source>New updates are available!</source>
-        <translation>تحديثات جديدة متوفرة</translation>
+        <translation>تحديثات جديدة متوفرة!</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Update error!</source>
-        <translation>خطأ في التحديث</translation>
+        <translation>خطأ في التحديث!</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Installing updates…</source>
-        <translation>جار تثبيت التحديثات</translation>
+        <translation>جار تثبيت التحديثات…</translation>
     </message>
 </context>
 <context>
@@ -848,7 +858,7 @@
     <message>
         <location line="-65"/>
         <source>No new updates available!</source>
-        <translation>لا تتوفر تحديثات جديدة.</translation>
+        <translation>لا تتوفر تحديثات جديدة.!</translation>
     </message>
     <message>
         <location line="-210"/>
@@ -862,7 +872,7 @@
         <location filename="../autoupdaterwidgets/updateinfodialog.cpp" line="+24"/>
         <location line="+70"/>
         <source>Updates for %1 are available!</source>
-        <translation>تتوفر تحديثات لـ٪ 1!</translation>
+        <translation>تتوفر تحديثات لـ %1!</translation>
     </message>
     <message>
         <location line="-63"/>
@@ -877,7 +887,7 @@
     <message>
         <location line="+12"/>
         <source>%1 – %2</source>
-        <translation>1 –2</translation>
+        <translation>%1 – %2</translation>
     </message>
     <message>
         <location line="+110"/>
@@ -901,8 +911,8 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>There are new updates available! You can install them right now by pressing &lt;Install Now> below.</source>
-        <translation>هناك تحديثات جديدة متاحة. يمكنك تثبيتها الآن عن طريق الضغط على &lt;Install Now> أدناه.</translation>
+        <source>There are new updates available! You can install them right now by pressing &lt;Install Now&gt; below.</source>
+        <translation>هناك تحديثات جديدة متاحة. يمكنك تثبيتها الآن عن طريق الضغط على &lt;Install Now&gt; أدناه.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -927,7 +937,7 @@
     <message>
         <location line="+120"/>
         <source>Install Now?</source>
-        <translation>ثبّت الآن</translation>
+        <translation>ثبّت الآن?</translation>
     </message>
 </context>
 <context>
@@ -940,7 +950,7 @@
     <message>
         <location line="+2"/>
         <source>Installation failed!</source>
-        <translation>|||UNTRANSLATED_CONTENT_START|||Installation failed!|||UNTRANSLATED_CONTENT_END|||</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -948,7 +958,7 @@
     <message>
         <location filename="../autoupdatercore/updater.cpp" line="+233"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات...</translation>
+        <translation>جار التحقق من وجود تحديثات…</translation>
     </message>
 </context>
 <context>
@@ -972,7 +982,7 @@
     <message>
         <location filename="../autoupdaterwidgets/successpage.ui" line="+14"/>
         <source>Installation completed</source>
-        <translation>استكمل التركيب.</translation>
+        <translation>استكمل التركيب</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -990,7 +1000,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/SuccessView.qml" line="+11"/>
         <source>Installation successful!</source>
-        <translation>التثبيت بنجاح</translation>
+        <translation>التثبيت بنجاح!</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1000,7 +1010,7 @@
     <message>
         <location line="+5"/>
         <source>Press the X-Button to close the installer…</source>
-        <translation>اضغط على زر X لإغلاق برنامج التثبيت ...</translation>
+        <translation>اضغط على زر X لإغلاق برنامج التثبيت …</translation>
     </message>
 </context>
 <context>
@@ -1015,7 +1025,7 @@
         <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="-79"/>
         <location line="+3"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات...</translation>
+        <translation>جار التحقق من وجود تحديثات…</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1025,7 +1035,7 @@
     <message>
         <location line="+18"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل</translation>
+        <translation>إالغاء, تبطيل…</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1040,7 +1050,7 @@
     <message>
         <location line="+12"/>
         <source>Installing updates…</source>
-        <translation>جار تثبيت التحديثات</translation>
+        <translation>جار تثبيت التحديثات…</translation>
     </message>
 </context>
 <context>
@@ -1053,7 +1063,7 @@
     <message>
         <location line="+54"/>
         <source>Updates:</source>
-        <translation>التحديثات</translation>
+        <translation>التحديثات:</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -1106,7 +1116,7 @@
     <message>
         <location line="+8"/>
         <source>New Updates!</source>
-        <translation>تحديثات جديدة</translation>
+        <translation>تحديثات جديدة!</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1136,12 +1146,12 @@
     <message>
         <location line="+33"/>
         <source>Version: %1</source>
-        <translation>الإصدار:% 1</translation>
+        <translation>الإصدار: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1: %2</source>
-        <translation>1 2</translation>
+        <translation>%1: %2</translation>
     </message>
     <message>
         <location line="+9"/>

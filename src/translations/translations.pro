@@ -1,6 +1,10 @@
 TEMPLATE = aux
 
-QDEP_LUPDATE_INPUTS += $$PWD/..
+QDEP_LUPDATE_INPUTS += $$PWD/../autoupdatercore
+QDEP_LUPDATE_INPUTS += $$PWD/../autoupdaterwidgets
+QDEP_LUPDATE_INPUTS += $$PWD/../plugins
+QDEP_LUPDATE_INPUTS += $$PWD/../imports
+QDEP_LUPDATE_INPUTS += $$PWD/../jar
 
 TRANSLATIONS += \
 	qtautoupdater_de.ts \
@@ -22,6 +26,8 @@ QDEP_DEPENDS += \
 QM_FILES -= $$__qdep_lrelease_real_dir/qtautoupdater_template.qm
 QM_FILES += qtautoupdater_template.ts
 
-SOURCES =
 HEADERS =
+SOURCES =
 GENERATED_SOURCES =
+OBJECTIVE_SOURCES =
+RESOURCES =

@@ -183,30 +183,26 @@
 <context>
     <name>QHttpServer</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/src/httpserver/qhttpserver.cpp" line="+68"/>
         <source>missing handler:</source>
-        <translation>fehlender Handler:</translation>
+        <translation type="vanished">fehlender Handler:</translation>
     </message>
 </context>
 <context>
     <name>QHttpServerExample</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/examples/httpserver/simple/main.cpp" line="+117"/>
         <source>Could not run on http://127.0.0.1:%1/</source>
-        <translation>Konnte unter http://127.0.0.1:%1/ nicht ausgeführt werden</translation>
+        <translation type="vanished">Konnte unter http://127.0.0.1:%1/ nicht ausgeführt werden</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
-        <translation>Ausführen unter http://127.0.0.1:%1/ (Drücken Sie STRG + C, um das Programm zu beenden.)</translation>
+        <translation type="vanished">Ausführen unter http://127.0.0.1:%1/ (Drücken Sie STRG + C, um das Programm zu beenden.)</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../3rdparty/PackageKit-Qt/src/transactionprivate.cpp" line="+262"/>
         <source>The PackageKit daemon has crashed</source>
-        <translation>Der PackageKit-Dämon ist abgestürzt</translation>
+        <translation type="vanished">Der PackageKit-Dämon ist abgestürzt</translation>
     </message>
 </context>
 <context>
@@ -223,9 +219,13 @@
         <translation>Warten auf die Annahme des EULA…</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
-        <translation>|||UNTRANSLATED_CONTENT_START|||&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;|||UNTRANSLATED_CONTENT_END|||</translation>
+        <translation type="vanished">&lt;h1&gt;Eula des Pakets %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Paket-Hersteller: %3&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&lt;h1&gt;Eula of package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <translation>&lt;h1&gt;Eula des Pakets %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Paket-Hersteller: %3&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+29"/>

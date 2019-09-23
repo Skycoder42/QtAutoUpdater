@@ -179,35 +179,6 @@
     </message>
 </context>
 <context>
-    <name>QHttpServer</name>
-    <message>
-        <location filename="../3rdparty/qthttpserver/src/httpserver/qhttpserver.cpp" line="+68"/>
-        <source>missing handler:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QHttpServerExample</name>
-    <message>
-        <location filename="../3rdparty/qthttpserver/examples/httpserver/simple/main.cpp" line="+117"/>
-        <source>Could not run on http://127.0.0.1:%1/</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <location filename="../3rdparty/PackageKit-Qt/src/transactionprivate.cpp" line="+262"/>
-        <source>The PackageKit daemon has crashed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QPackageKitUpdateInstaller</name>
     <message>
         <location filename="../plugins/updater/qpackagekit/qpackagekitupdateinstaller.cpp" line="+42"/>
@@ -222,7 +193,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <source>&lt;h1&gt;Eula of package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

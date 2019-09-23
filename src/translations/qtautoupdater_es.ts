@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="es">
 <context>
@@ -6,7 +6,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/AskUpdateDialog.qml" line="+10"/>
         <source>Check for updates?</source>
-        <translation>Comprobar actualizaciones</translation>
+        <translation>¿Comprobar actualizaciones?</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -24,7 +24,7 @@
     <message>
         <location line="+3"/>
         <source>Select the components you wish to install.</source>
-        <translation>6. Seleccione los componentes que desea instalar:</translation>
+        <translation>Seleccione los componentes que desea instalar.</translation>
     </message>
 </context>
 <context>
@@ -32,7 +32,7 @@
     <message>
         <location filename="../autoupdaterwidgets/errorpage.ui" line="+14"/>
         <source>Installation failed!</source>
-        <translation>archivo de destino</translation>
+        <translation>¡archivo de destino!</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -42,7 +42,7 @@
     <message>
         <location line="+68"/>
         <source>Unknown Error…</source>
-        <translation>Error desconocido</translation>
+        <translation>Error desconocido…</translation>
     </message>
 </context>
 <context>
@@ -54,8 +54,8 @@
     </message>
     <message>
         <location line="+3"/>
-        <source>Updates are ready to be installed. Press &lt;Install> to start the installation.</source>
-        <translation>Las actualizaciones están listas para ser instaladas. prensa &lt;Install> para comenzar la instalación.</translation>
+        <source>Updates are ready to be installed. Press &lt;Install&gt; to start the installation.</source>
+        <translation>Las actualizaciones están listas para ser instaladas. prensa &lt;Install&gt; para comenzar la instalación.</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -79,7 +79,7 @@
     <message>
         <location line="+64"/>
         <source>Details…</source>
-        <translation>Detalles</translation>
+        <translation>Detalles…</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -89,14 +89,15 @@
     <message numerus="yes">
         <location line="+75"/>
         <source>%n%</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
         </translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Installation failed!</source>
-        <translation>archivo de destino</translation>
+        <translation>¡archivo de destino!</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -115,12 +116,12 @@
         <location line="+19"/>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+9"/>
         <source>Checking for updates…</source>
-        <translation>Comprobando actualizaciones</translation>
+        <translation>Comprobando actualizaciones…</translation>
     </message>
     <message>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+45"/>
         <source>Canceling…</source>
-        <translation>Cancelando...</translation>
+        <translation>Cancelando…</translation>
     </message>
 </context>
 <context>
@@ -129,8 +130,9 @@
         <location filename="../imports/autoupdaterquick/ProgressItem.qml" line="+35"/>
         <location line="+4"/>
         <source>%n%</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n%</numerusform>
+            <numerusform>%n%</numerusform>
         </translation>
     </message>
 </context>
@@ -147,17 +149,17 @@
     <message>
         <location filename="../plugins/updater/qhomebrew/qhomebrewupdateinstaller.cpp" line="+65"/>
         <source>Starting homebrew…</source>
-        <translation>Comenzando homebrew ...</translation>
+        <translation>Comenzando homebrew…</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Running homebrew in the background to perform the upgrade…</source>
-        <translation>Ejecutando homebrew en segundo plano para realizar la actualización ...</translation>
+        <translation>Ejecutando homebrew en segundo plano para realizar la actualización …</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Homebrew exited with unclean exit code %1</source>
-        <translation>Homebrew salió con el código de salida impuro% 1</translation>
+        <translation>Homebrew salió con el código de salida impuro %1</translation>
     </message>
 </context>
 <context>
@@ -170,41 +172,37 @@
     <message>
         <location line="+19"/>
         <source>Updating local package database…</source>
-        <translation>Actualizando la base de datos del paquete local ...</translation>
+        <translation>Actualizando la base de datos del paquete local …</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Scanning for outdated packages…</source>
-        <translation>Escaneando paquetes obsoletos ...</translation>
+        <translation>Escaneando paquetes obsoletos …</translation>
     </message>
 </context>
 <context>
     <name>QHttpServer</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/src/httpserver/qhttpserver.cpp" line="+68"/>
         <source>missing handler:</source>
-        <translation>controlador faltante:</translation>
+        <translation type="vanished">controlador faltante:</translation>
     </message>
 </context>
 <context>
     <name>QHttpServerExample</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/examples/httpserver/simple/main.cpp" line="+117"/>
         <source>Could not run on http://127.0.0.1:%1/</source>
-        <translation>No se pudo ejecutar en http://127.0.0.1:%1/</translation>
+        <translation type="vanished">No se pudo ejecutar en http://127.0.0.1:%1/</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
-        <translation>Se ejecuta en http://127.0.0.1:%1/ (Presione CTRL + C para salir)</translation>
+        <translation type="vanished">Se ejecuta en http://127.0.0.1:%1/ (Presione CTRL + C para salir)</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../3rdparty/PackageKit-Qt/src/transactionprivate.cpp" line="+262"/>
         <source>The PackageKit daemon has crashed</source>
-        <translation>El demonio PackageKit se ha bloqueado</translation>
+        <translation type="vanished">El demonio PackageKit se ha bloqueado</translation>
     </message>
 </context>
 <context>
@@ -218,17 +216,21 @@
     <message>
         <location line="+74"/>
         <source>Waiting for EULA to be accepted…</source>
-        <translation>Esperando a que se acepte el CLUF ...</translation>
+        <translation>Esperando a que se acepte el CLUF …</translation>
+    </message>
+    <message>
+        <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <translation type="vanished">&lt;h1&gt; Eula del paquete% 1 &lt;&amp; h1&gt; &lt;p&gt; % 2 &lt;/p&gt;&lt;p&gt; Proveedor del paquete:% 3 &lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;h1>Eula of package %1&lt;&amp;h1>&lt;p>%2&lt;/p>&lt;p>Package Vendor: %3&lt;/p></source>
-        <translation>&lt;h1> Eula del paquete% 1 &lt;&amp; h1> &lt;p> % 2 &lt;/p>&lt;p> Proveedor del paquete:% 3 &lt;/p></translation>
+        <source>&lt;h1&gt;Eula of package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <translation>&lt;h1&gt;Eula del paquete %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Proveedor del paquete: %3&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Installation failed!</source>
-        <translation>archivo de destino</translation>
+        <translation>¡archivo de destino!</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -266,52 +268,52 @@
     <message>
         <location line="+2"/>
         <source>Setting up…</source>
-        <translation>Instalación</translation>
+        <translation>Instalación…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running…</source>
-        <translation>En curso</translation>
+        <translation>En curso…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Querying database…</source>
-        <translation>Consultando base de datos ...</translation>
+        <translation>Consultando base de datos …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Showing information…</source>
-        <translation>Mostrando información ...</translation>
+        <translation>Mostrando información …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Removing packages…</source>
-        <translation>Desinstalando paquetes</translation>
+        <translation>Desinstalando paquetes…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Refreshing package cache…</source>
-        <translation>Refrescando caché de paquetesThe role of the transaction, in present tense</translation>
+        <translation>Refrescando caché de paquetesThe role of the transaction, in present tense…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading packages…</source>
-        <translation>Descargando paquetes</translation>
+        <translation>Descargando paquetes…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Installing packages…</source>
-        <translation>Instalando paquetes</translation>
+        <translation>Instalando paquetes…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Updating packages…</source>
-        <translation>Actualizando paquetes</translation>
+        <translation>Actualizando paquetes…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cleaning up…</source>
-        <translation>Limpiando...</translation>
+        <translation>Limpiando…</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -321,122 +323,122 @@
     <message>
         <location line="+2"/>
         <source>Resolving package dependencies…</source>
-        <translation>Resolver las dependencias de los paquetes</translation>
+        <translation>Resolver las dependencias de los paquetes…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying package signatures…</source>
-        <translation>Verificando firmas de paquetes ...</translation>
+        <translation>Verificando firmas de paquetes …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Testing for commit…</source>
-        <translation>Prueba para confirmar ...</translation>
+        <translation>Prueba para confirmar …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Committing updates…</source>
-        <translation>Confirmando actualizaciones ...</translation>
+        <translation>Confirmando actualizaciones …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending request…</source>
-        <translation>Enviando solicitud</translation>
+        <translation>Enviando solicitud…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Finished.</source>
-        <translation>Finalizado</translation>
+        <translation>Finalizado.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Canceling…</source>
-        <translation>Cancelando...</translation>
+        <translation>Cancelando…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package repositories…</source>
-        <translation>Descargando repositorios de paquetes ...</translation>
+        <translation>Descargando repositorios de paquetes …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package list…</source>
-        <translation>Descargando el paquete ...</translation>
+        <translation>Descargando el paquete …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading file list…</source>
-        <translation>Descargando la lista de archivos ...</translation>
+        <translation>Descargando la lista de archivos …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading changelog…</source>
-        <translation>Descargando el registro de cambios ...</translation>
+        <translation>Descargando el registro de cambios …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading package group…</source>
-        <translation>Descargando el grupo de paquetes ...</translation>
+        <translation>Descargando el grupo de paquetes …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Downloading update infos…</source>
-        <translation>Descargando infos de actualización ...</translation>
+        <translation>Descargando infos de actualización …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Repackaging…</source>
-        <translation>Reenvasado ...</translation>
+        <translation>Reenvasado …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading cache…</source>
-        <translation>Cargando cachétransaction state, scanning for running processes</translation>
+        <translation>Cargando cachétransaction state…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning applications…</source>
-        <translation>Escaneando aplicaciones ...</translation>
+        <translation>Escaneando aplicaciones …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Generating package list…</source>
-        <translation>Generando paquete...</translation>
+        <translation>Generando paquete…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for lock…</source>
-        <translation>A la espera de la cerradura ...</translation>
+        <translation>A la espera de la cerradura …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for authentication…</source>
-        <translation>Esperando la autenticación</translation>
+        <translation>Esperando la autenticación…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning processes…</source>
-        <translation>Procesos de escaneo ...</translation>
+        <translation>Procesos de escaneo …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying executables…</source>
-        <translation>Verificando ejecutables ...</translation>
+        <translation>Verificando ejecutables …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying libraries…</source>
-        <translation>Verificando bibliotecas ...</translation>
+        <translation>Verificando bibliotecas …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Copying files…</source>
-        <translation>Copiando archivo(s)</translation>
+        <translation>Copiando archivos…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running install hooks…</source>
-        <translation>Ejecutando ganchos de instalación ...</translation>
+        <translation>Ejecutando ganchos de instalación …</translation>
     </message>
 </context>
 <context>
@@ -465,7 +467,7 @@
     <message>
         <location line="+14"/>
         <source>Unknown state…</source>
-        <translation>Estado desconocidotransaction state, the daemon is in the process of starting</translation>
+        <translation>Estado desconocidotransaction state…</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -475,7 +477,7 @@
     <message>
         <location line="+3"/>
         <source>Downloading update…</source>
-        <translation>Descargando actualización.</translation>
+        <translation>Descargando actualización…</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -485,7 +487,7 @@
     <message>
         <location line="+4"/>
         <source>Installing update…</source>
-        <translation>Instalando actualización...</translation>
+        <translation>Instalando actualización…</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -505,7 +507,7 @@
     <message>
         <location line="+5"/>
         <source>Waiting for user confirmation…</source>
-        <translation>Esperando confirmación</translation>
+        <translation>Esperando confirmación…</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -520,7 +522,7 @@
     <message>
         <location line="+2"/>
         <source>Unknown error.</source>
-        <translation>Error desconocido</translation>
+        <translation>Error desconocido.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -555,7 +557,7 @@
     <message>
         <location line="+2"/>
         <source>An internal error occured!</source>
-        <translation>Ocurrió un error interno</translation>
+        <translation>¡Ocurrió un error interno!</translation>
     </message>
 </context>
 <context>
@@ -564,7 +566,7 @@
         <location filename="../plugins/updater/qwebquery/qwebqueryupdateinstaller.cpp" line="+47"/>
         <location line="+19"/>
         <source>Invalid update details!</source>
-        <translation>Detalles de actualización no válidos</translation>
+        <translation>¡Detalles de actualización no válidos!</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -574,17 +576,17 @@
     <message>
         <location line="+4"/>
         <source>Downloading update files…</source>
-        <translation>Descargando archivos de actualización ...</translation>
+        <translation>Descargando archivos de actualización …</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Network request failed with error: %1</source>
-        <translation>La solicitud de red falló con error:% 1</translation>
+        <translation>La solicitud de red falló con error: %1</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Network request failed with HTTP status code: %1</source>
-        <translation>La solicitud de red falló con el código de estado HTTP:% 1</translation>
+        <translation>La solicitud de red falló con el código de estado HTTP: %1</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -594,18 +596,18 @@
     <message>
         <location line="+28"/>
         <source>Processing download…</source>
-        <translation>Procesando descarga</translation>
+        <translation>Procesando descarga…</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+5"/>
         <source>Downloading update…</source>
-        <translation>Descargando actualización.</translation>
+        <translation>Descargando actualización…</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Processing downloaded data…</source>
-        <translation>Procesando datos descargados ...</translation>
+        <translation>Procesando datos descargados …</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -638,18 +640,18 @@
     <message>
         <location filename="../plugins/updater/qwebquery/qwebqueryupdaterbackend.cpp" line="+244"/>
         <source>Processing reply…</source>
-        <translation>Procesando respuesta ...</translation>
+        <translation>Procesando respuesta …</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+5"/>
         <source>Downloading update infos…</source>
-        <translation>Descargando infos de actualización ...</translation>
+        <translation>Descargando infos de actualización …</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Processing downloaded data…</source>
-        <translation>Procesando datos descargados ...</translation>
+        <translation>Procesando datos descargados …</translation>
     </message>
 </context>
 <context>
@@ -729,7 +731,7 @@
     <message>
         <location filename="../autoupdaterwidgets/progressdialog.cpp" line="+35"/>
         <source>Canceling update check…</source>
-        <translation>Cancelando la comprobación de actualización ...</translation>
+        <translation>Cancelando la comprobación de actualización …</translation>
     </message>
 </context>
 <context>
@@ -775,12 +777,12 @@
         <location line="+6"/>
         <location line="+49"/>
         <source>Checking for updates…</source>
-        <translation>Comprobando actualizaciones</translation>
+        <translation>Comprobando actualizaciones…</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Canceling…</source>
-        <translation>Cancelando...</translation>
+        <translation>Cancelando…</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -790,7 +792,7 @@
     <message>
         <location line="+4"/>
         <source>New updates are available!</source>
-        <translation>Nuevas actualizaciones disponibles</translation>
+        <translation>¡Nuevas actualizaciones disponibles!</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -800,7 +802,7 @@
     <message>
         <location line="+6"/>
         <source>Installing updates…</source>
-        <translation>Instalando Actualizaciones.</translation>
+        <translation>Instalando Actualizaciones…</translation>
     </message>
 </context>
 <context>
@@ -837,7 +839,7 @@
     <message>
         <location line="+35"/>
         <source>Checking for updates was canceled!</source>
-        <translation>Se canceló la búsqueda de actualizaciones.</translation>
+        <translation>¡Se canceló la búsqueda de actualizaciones!</translation>
     </message>
     <message>
         <location line="-62"/>
@@ -848,7 +850,7 @@
     <message>
         <location line="-65"/>
         <source>No new updates available!</source>
-        <translation>Nuevas actualizaciones disponibles</translation>
+        <translation>¡Nuevas actualizaciones disponibles!</translation>
     </message>
     <message>
         <location line="-210"/>
@@ -862,7 +864,7 @@
         <location filename="../autoupdaterwidgets/updateinfodialog.cpp" line="+24"/>
         <location line="+70"/>
         <source>Updates for %1 are available!</source>
-        <translation>¡Las actualizaciones para% 1 están disponibles!</translation>
+        <translation>¡Las actualizaciones para %1 están disponibles!</translation>
     </message>
     <message>
         <location line="-63"/>
@@ -877,7 +879,7 @@
     <message>
         <location line="+12"/>
         <source>%1 – %2</source>
-        <translation>1–2</translation>
+        <translation>%1 – %2</translation>
     </message>
     <message>
         <location line="+110"/>
@@ -901,8 +903,8 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>There are new updates available! You can install them right now by pressing &lt;Install Now> below.</source>
-        <translation>Hay nuevas actualizaciones disponibles. Puede instalarlos ahora mismo presionando &lt;Instalar ahora> a continuación.</translation>
+        <source>There are new updates available! You can install them right now by pressing &lt;Install Now&gt; below.</source>
+        <translation>Hay nuevas actualizaciones disponibles. Puede instalarlos ahora mismo presionando &lt;Instalar ahora&gt; a continuación.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -927,7 +929,7 @@
     <message>
         <location line="+120"/>
         <source>Install Now?</source>
-        <translation>Instalar ahora</translation>
+        <translation>¿Instalar ahora?</translation>
     </message>
 </context>
 <context>
@@ -940,7 +942,7 @@
     <message>
         <location line="+2"/>
         <source>Installation failed!</source>
-        <translation>archivo de destino</translation>
+        <translation>¡archivo de destino!</translation>
     </message>
 </context>
 <context>
@@ -948,7 +950,7 @@
     <message>
         <location filename="../autoupdatercore/updater.cpp" line="+233"/>
         <source>Checking for updates…</source>
-        <translation>Comprobando actualizaciones</translation>
+        <translation>Comprobando actualizaciones…</translation>
     </message>
 </context>
 <context>
@@ -990,7 +992,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/SuccessView.qml" line="+11"/>
         <source>Installation successful!</source>
-        <translation>Instalación exitosa</translation>
+        <translation>¡Instalación exitosa!</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1000,7 +1002,7 @@
     <message>
         <location line="+5"/>
         <source>Press the X-Button to close the installer…</source>
-        <translation>Presione el botón X para cerrar el instalador ...</translation>
+        <translation>Presione el botón X para cerrar el instalador …</translation>
     </message>
 </context>
 <context>
@@ -1015,7 +1017,7 @@
         <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="-79"/>
         <location line="+3"/>
         <source>Checking for updates…</source>
-        <translation>Comprobando actualizaciones</translation>
+        <translation>Comprobando actualizaciones…</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1025,7 +1027,7 @@
     <message>
         <location line="+18"/>
         <source>Canceling…</source>
-        <translation>Cancelando...</translation>
+        <translation>Cancelando…</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1040,7 +1042,7 @@
     <message>
         <location line="+12"/>
         <source>Installing updates…</source>
-        <translation>Instalando Actualizaciones.</translation>
+        <translation>Instalando Actualizaciones…</translation>
     </message>
 </context>
 <context>
@@ -1106,7 +1108,7 @@
     <message>
         <location line="+8"/>
         <source>New Updates!</source>
-        <translation>Nuevas actualizaciones</translation>
+        <translation>¡Nuevas actualizaciones!</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1136,12 +1138,12 @@
     <message>
         <location line="+33"/>
         <source>Version: %1</source>
-        <translation>Acerca de@action</translation>
+        <translation>Acerca: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1: %2</source>
-        <translation>1:2</translation>
+        <translation>%1: %2</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1207,7 +1209,7 @@
     <message>
         <location line="+60"/>
         <source>No new updates available.</source>
-        <translation>Nuevas actualizaciones disponibles</translation>
+        <translation>Nuevas actualizaciones disponibles.</translation>
     </message>
     <message>
         <location line="+7"/>

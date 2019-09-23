@@ -123,7 +123,7 @@ void QPackageKitUpdateInstaller::eulaRequired(const QString &eulaID, const QStri
 {
 	emit updateGlobalProgress(-1.0, tr("Waiting for EULA to be accepted…"));
 	emit showEula(eulaID,
-				  tr("<h1>Eula of package %1<&h1>"
+				  tr("<h1>Eula of package %1</h1>"
 					 "<p>%2</p>"
 					 "<p>Package Vendor: %3</p>")
 				  .arg(packageID, licenseAgreement, vendor),

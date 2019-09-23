@@ -116,7 +116,7 @@
         <location line="+19"/>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+9"/>
         <source>Checking for updates…</source>
-        <translation>Vérification de mises à jour...</translation>
+        <translation>Vérification de mises à jour…</translation>
     </message>
     <message>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+45"/>
@@ -183,30 +183,26 @@
 <context>
     <name>QHttpServer</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/src/httpserver/qhttpserver.cpp" line="+68"/>
         <source>missing handler:</source>
-        <translation>gestionnaire manquant:</translation>
+        <translation type="vanished">gestionnaire manquant:</translation>
     </message>
 </context>
 <context>
     <name>QHttpServerExample</name>
     <message>
-        <location filename="../3rdparty/qthttpserver/examples/httpserver/simple/main.cpp" line="+117"/>
         <source>Could not run on http://127.0.0.1:%1/</source>
-        <translation>Impossible de s&apos;exécuter sur http://127.0.0.1:%1/</translation>
+        <translation type="vanished">Impossible de s&apos;exécuter sur http://127.0.0.1:%1/</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
-        <translation>En cours d&apos;exécution sur http://127.0.0.1:%1/ (appuyez sur CTRL + C pour quitter)</translation>
+        <translation type="vanished">En cours d&apos;exécution sur http://127.0.0.1:%1/ (appuyez sur CTRL + C pour quitter)</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../3rdparty/PackageKit-Qt/src/transactionprivate.cpp" line="+262"/>
         <source>The PackageKit daemon has crashed</source>
-        <translation>Le démon PackageKit s&apos;est écrasé</translation>
+        <translation type="vanished">Le démon PackageKit s&apos;est écrasé</translation>
     </message>
 </context>
 <context>
@@ -223,8 +219,12 @@
         <translation>En attendant que le CLUF soit accepté…</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
+        <translation type="vanished">&lt;h1&gt;Eula du package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Fournisseur de package: %3&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&lt;h1&gt;Eula of package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
         <translation>&lt;h1&gt;Eula du package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Fournisseur de package: %3&lt;/p&gt;</translation>
     </message>
     <message>
@@ -368,7 +368,7 @@
     <message>
         <location line="+2"/>
         <source>Downloading file list…</source>
-        <translation>Téléchargement du fichier...</translation>
+        <translation>Téléchargement du fichier…</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -477,7 +477,7 @@
     <message>
         <location line="+3"/>
         <source>Downloading update…</source>
-        <translation>Téléchargement de la mise à jour...</translation>
+        <translation>Téléchargement de la mise à jour…</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -602,7 +602,7 @@
         <location line="+2"/>
         <location line="+5"/>
         <source>Downloading update…</source>
-        <translation>Téléchargement de la mise à jour...</translation>
+        <translation>Téléchargement de la mise à jour…</translation>
     </message>
     <message>
         <location line="-3"/>
@@ -777,7 +777,7 @@
         <location line="+6"/>
         <location line="+49"/>
         <source>Checking for updates…</source>
-        <translation>Vérification de mises à jour...</translation>
+        <translation>Vérification de mises à jour…</translation>
     </message>
     <message>
         <location line="-43"/>
@@ -950,7 +950,7 @@
     <message>
         <location filename="../autoupdatercore/updater.cpp" line="+233"/>
         <source>Checking for updates…</source>
-        <translation>Vérification de mises à jour...</translation>
+        <translation>Vérification de mises à jour…</translation>
     </message>
 </context>
 <context>
@@ -1017,7 +1017,7 @@
         <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="-79"/>
         <location line="+3"/>
         <source>Checking for updates…</source>
-        <translation>Vérification de mises à jour...</translation>
+        <translation>Vérification de mises à jour…</translation>
     </message>
     <message>
         <location line="+2"/>
