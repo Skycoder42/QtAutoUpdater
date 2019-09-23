@@ -4,6 +4,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QSet>
 
 #include <QtAutoUpdaterCore/UpdateInstaller>
 #include <QtAutoUpdaterCore/UpdaterBackend>
@@ -43,6 +44,8 @@ private Q_SLOTS:
 	void replyProgress(qint64 bytesReceived, qint64 bytesTotal);
 	void installerDone(bool success);
 
+	void startDownload();
+
 private:
 	using HashInfo = std::optional<std::pair<QCryptographicHash::Algorithm, QByteArray>>;
 
@@ -50,6 +53,7 @@ private:
 	QNetworkAccessManager *_nam;
 
 	QtAutoUpdater::UpdateInfo _info;
+	QSet<QUuid> _eulaCache;
 	QScopedPointer<QCryptographicHash> _hash;
 	QByteArray _hashResult;
 	QTemporaryFile *_file = nullptr;

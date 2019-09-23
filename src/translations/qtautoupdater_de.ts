@@ -563,8 +563,8 @@
 <context>
     <name>QWebQueryUpdateInstaller</name>
     <message>
-        <location filename="../plugins/updater/qwebquery/qwebqueryupdateinstaller.cpp" line="+47"/>
-        <location line="+19"/>
+        <location filename="../plugins/updater/qwebquery/qwebqueryupdateinstaller.cpp" line="+57"/>
+        <location line="+128"/>
         <source>Invalid update details!</source>
         <translation>Ungültige Update-Details!</translation>
     </message>
@@ -579,12 +579,17 @@
         <translation>Aktualisierungsdateien werden heruntergeladen …</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="-106"/>
         <source>Network request failed with error: %1</source>
         <translation>Netzwerkanforderung fehlgeschlagen mit Fehler: %1</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-64"/>
+        <source>EULA was rejected!</source>
+        <translation>EULA wurde abgelehnt!</translation>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>Network request failed with HTTP status code: %1</source>
         <translation>Netzwerkanforderung fehlgeschlagen mit HTTP-Statuscode: %1</translation>
     </message>
@@ -615,7 +620,7 @@
         <translation>Update Installer Tool fehlgeschlagen!</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+109"/>
         <source>Launching installer…</source>
         <translation>Installer starten…</translation>
     </message>
@@ -755,8 +760,8 @@
 <context>
     <name>QtAutoUpdater::UpdateButton</name>
     <message>
-        <location filename="../autoupdaterwidgets/updatebutton.cpp" line="+70"/>
-        <location line="+94"/>
+        <location filename="../autoupdaterwidgets/updatebutton.cpp" line="+153"/>
+        <location line="+10"/>
         <location line="+11"/>
         <location line="+17"/>
         <location line="+7"/>

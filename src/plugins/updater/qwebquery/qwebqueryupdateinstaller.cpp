@@ -3,6 +3,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
+#include <QtCore/QUuid>
 #include <QtNetwork/QNetworkReply>
 using namespace QtAutoUpdater;
 
@@ -26,6 +27,15 @@ void QWebQueryUpdateInstaller::cancelInstall()
 
 void QWebQueryUpdateInstaller::eulaHandled(const QVariant &id, bool accepted)
 {
+	if (_eulaCache.remove(id.toUuid())) {
+		if (accepted) {
+			if (_eulaCache.isEmpty())
+				startDownload();
+		} else {
+			_eulaCache.clear();
+			abort(tr("EULA was rejected!"));
+		}
+	}
 }
 
 void QWebQueryUpdateInstaller::restartApplication()
@@ -48,72 +58,30 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 		return;
 	}
 	_info = comps[0];
+
+	// handle eulas
+	_eulaCache.clear();
 	const auto data = _info.data();
-
-	// TODO handle eulas
-
-	// get the download url
-	auto url = generateUrl(_config->value(Install::KeyDownloadUrl));
-	if (_config->value(Install::KeyUseInfoDownload, Install::DefaultUseInfoDownloads).toBool()) {
-		if (const auto key = QStringLiteral("download"); data.contains(key)) {
-			auto infoUrl = data[key].toUrl();
-			if (infoUrl.isRelative() && url)
-				url = url->resolved(infoUrl);
-		}
-	}
-	if (!url) {
-		qCCritical(logWebInstaller) << "Unable to generate the download URL!";
-		abort(tr("Invalid update details!"));
-		return;
-	}
-
-	// extract hashsum info
-	if (auto hash = extractHash(data); hash) {
-		_hash.reset(new QCryptographicHash{hash->first});
-		_hashResult = std::move(hash->second);
-	}
-
-	// prepare the download file
-	const auto fileNamePattern = QDir::temp().absoluteFilePath(QStringLiteral("qtautoupdater_XXXXXX.%1"))
-								 .arg(QFileInfo{url->path(QUrl::FullyDecoded)}.completeSuffix());
-	_file = new QTemporaryFile{fileNamePattern, this};
-	if (!_file->open()) {
-		qCCritical(logWebInstaller) << "Unabled to create a temporary file for the download with error:"
-									<< qUtf8Printable(_file->errorString());
-		abort(tr("Unabled to cache downloaded updates!"));
-		return;
-	}
-
-	emit updateGlobalProgress(0.0, tr("Downloading update files…"));
-
-	QNetworkRequest request{*url};
-	if (const auto useSpdy = _config->value(Check::KeySpdy); useSpdy)
-		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
-	if (const auto useHttp2 = _config->value(Check::KeyHttp2); useHttp2)
-		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
-	// optional ssl config
-#ifndef QT_NO_SSL
-	if (const auto sslConf = _config->value(Check::KeySslConfiguration); sslConf)
-		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
-#endif
-	// optional headers
-	if (const auto cnt = _config->value(Install::Headers::KeySize); cnt) {
-		for (auto i = 0; i < cnt->toInt(); ++i) {
-			request.setRawHeader(_config->value(Install::Headers::KeyKey.arg(i))->toByteArray(),
-								 _config->value(Install::Headers::KeyValue.arg(i)).value_or(QVariant{}).toByteArray());
+	if (data.contains(QStringLiteral("eulas"))) {
+		const auto eulas = data.value(QStringLiteral("eulas")).toList();
+		for (const auto &eulaVal : eulas) {
+			QString text;
+			auto required = false;
+			if (eulaVal.userType() == QMetaType::QVariantMap) {
+				const auto eulaMap = eulaVal.toMap();
+				text = eulaMap.value(QStringLiteral("text")).toString();
+				required = eulaMap.value(QStringLiteral("required")).toBool();
+			} else
+				text = eulaVal.toString();
+			const auto id = QUuid::createUuid();
+			if (required)
+				_eulaCache.insert(id);
+			emit showEula(id, text, required);
 		}
 	}
 
-	auto reply = _nam->get(request);
-	connect(this, &QWebQueryUpdateInstaller::cancelDownloads,
-			reply, &QNetworkReply::abort);
-	connect(reply, &QNetworkReply::readyRead,
-			this, &QWebQueryUpdateInstaller::replyData);
-	connect(reply, &QNetworkReply::downloadProgress,
-			this, &QWebQueryUpdateInstaller::replyProgress);
-	connect(reply, &QNetworkReply::finished,
-			this, &QWebQueryUpdateInstaller::replyDone,
-			Qt::QueuedConnection);
+	if (_eulaCache.isEmpty())
+		startDownload();
 }
 
 void QWebQueryUpdateInstaller::replyDone()
@@ -197,6 +165,74 @@ void QWebQueryUpdateInstaller::installerDone(bool success)
 		emit installSucceeded(true);
 	else
 		emit installFailed(tr("Update installer tool failed!"));
+}
+
+void QWebQueryUpdateInstaller::startDownload()
+{
+	const auto data = _info.data();
+
+	// get the download url
+	auto url = generateUrl(_config->value(Install::KeyDownloadUrl));
+	if (_config->value(Install::KeyUseInfoDownload, Install::DefaultUseInfoDownloads).toBool()) {
+		if (const auto key = QStringLiteral("download"); data.contains(key)) {
+			auto infoUrl = data[key].toUrl();
+			if (infoUrl.isRelative() && url)
+				url = url->resolved(infoUrl);
+		}
+	}
+	if (!url) {
+		qCCritical(logWebInstaller) << "Unable to generate the download URL!";
+		abort(tr("Invalid update details!"));
+		return;
+	}
+
+	// extract hashsum info
+	if (auto hash = extractHash(data); hash) {
+		_hash.reset(new QCryptographicHash{hash->first});
+		_hashResult = std::move(hash->second);
+	}
+
+	// prepare the download file
+	const auto fileNamePattern = QDir::temp().absoluteFilePath(QStringLiteral("qtautoupdater_XXXXXX.%1"))
+									 .arg(QFileInfo{url->path(QUrl::FullyDecoded)}.completeSuffix());
+	_file = new QTemporaryFile{fileNamePattern, this};
+	if (!_file->open()) {
+		qCCritical(logWebInstaller) << "Unabled to create a temporary file for the download with error:"
+									<< qUtf8Printable(_file->errorString());
+		abort(tr("Unabled to cache downloaded updates!"));
+		return;
+	}
+
+	emit updateGlobalProgress(0.0, tr("Downloading update files…"));
+
+	QNetworkRequest request{*url};
+	if (const auto useSpdy = _config->value(Check::KeySpdy); useSpdy)
+		request.setAttribute(QNetworkRequest::SpdyAllowedAttribute, *useSpdy);
+	if (const auto useHttp2 = _config->value(Check::KeyHttp2); useHttp2)
+		request.setAttribute(QNetworkRequest::HTTP2AllowedAttribute, *useHttp2);
+		// optional ssl config
+#ifndef QT_NO_SSL
+	if (const auto sslConf = _config->value(Check::KeySslConfiguration); sslConf)
+		request.setSslConfiguration(sslConf->value<QSslConfiguration>());
+#endif
+	// optional headers
+	if (const auto cnt = _config->value(Install::Headers::KeySize); cnt) {
+		for (auto i = 0; i < cnt->toInt(); ++i) {
+			request.setRawHeader(_config->value(Install::Headers::KeyKey.arg(i))->toByteArray(),
+								 _config->value(Install::Headers::KeyValue.arg(i)).value_or(QVariant{}).toByteArray());
+		}
+	}
+
+	auto reply = _nam->get(request);
+	connect(this, &QWebQueryUpdateInstaller::cancelDownloads,
+			reply, &QNetworkReply::abort);
+	connect(reply, &QNetworkReply::readyRead,
+			this, &QWebQueryUpdateInstaller::replyData);
+	connect(reply, &QNetworkReply::downloadProgress,
+			this, &QWebQueryUpdateInstaller::replyProgress);
+	connect(reply, &QNetworkReply::finished,
+			this, &QWebQueryUpdateInstaller::replyDone,
+			Qt::QueuedConnection);
 }
 
 std::optional<QUrl> QWebQueryUpdateInstaller::generateUrl(const std::optional<QVariant> &base)
