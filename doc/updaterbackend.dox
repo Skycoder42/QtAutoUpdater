@@ -1,0 +1,195 @@
+/*!
+@class QtAutoUpdater::UpdaterBackend
+
+This is the primary interface you need to implement when providing a custom updater backend. If you
+are only using the library with existing backends, you won't come in contact with this class.
+
+Implement it following this documentation, and make sure to return the correct features(). Depending
+on the application, there might be multiple instances of one backend with different configurations.
+Be aware of this when implementing your own.
+
+@note If your custom backend is mostly focussed around running other executables for get update
+details etc., it is recommended to use ProcessBackend instead, as it simplifies this by a great
+amount.
+
+@sa UpdaterPlugin, ProcessBackend, ProcessBackend::features
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::secondaryInfo
+
+@returns The secondary update information meta data
+
+A UpdateInfo has the UpdateInfo::name and UpdateInfo::version property to show details to a user.
+However, the GUIs support a third column, with additional information stored in the UpdateInfo::data
+property, custom to each backend.
+
+This method allows you to specify that additional data. The `first` of the pair should be the key to
+access the value within data, i.e. `info.data()[info->first]` should return the data to be displayed
+for each update info. `second` must hold a localized string to serve as header to that data.
+
+If your backend does not have such information, simply return `std::nullopt` (or don't override this
+method)
+
+@sa UpdateInfo
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::checkForUpdates
+
+This method is called by the library to start an update check. In here, you should do whatever is
+neccessary to perform the update check.
+
+While the check is running, use checkProgress() to report the status and progress, and use
+checkDone() do report a result once done.
+
+@attention This method must be non blocking. It should only start the check for updates, not wait for
+it's completion. Exceptions are extremly shortrunning tasks, as e.g. checking a locally available
+file etc.
+
+@sa UpdaterBackend::checkProgress, UpdaterBackend::checkDone, UpdaterBackend::abort
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::abort
+
+@param force Specify, if the abortion should be forced or gentle
+
+This method is called by the library to abort an ongoing update check. The force parameter specifies
+if the abort should be done gently or forced.
+
+A gentle abort should stop the check if possible, but may take some time to gracefully do so. It is
+also possible for a soft abort to fail under certain conditions and simply continue with the check.
+A forced abort must be as fast as possible and should stop the check no matter what, even if that
+means that an invalid state might be reached.
+
+Once canceled, the checkDone() must be emitted to notify the library. The success state of that
+signal should mirror how "clean" the abort was.
+
+@sa UpdaterBackend::checkForUpdates, UpdaterBackend::checkDone
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::triggerUpdates
+
+@param infos A list of update infos to be updated
+@param track Specifies if the installers execution should be tracked
+@returns `true` if an installer was launched, `false` if not
+
+This method should launch some kind of external installer application and report whether it could be
+launched successfully. The infos parameter can be seen as hint for what updates should be installed,
+but can be ignored if the external installer cannot be given that information.
+
+@note For this method to ever be called from the library, features() must have the
+UpdaterBackend::Feature::TriggerInstall flag set.
+
+The track parameter specifies whether the execution of the external installer should be tracked. If
+true, than the backend should track the launched installer and emit triggerInstallDone() once the
+installer has completed the installation. If set to false, it should only be launched and then
+forgotten.
+
+@note track can only be true if features() has the UpdaterBackend::Feature::ParallelTrigger flag set.
+In that case, an installer might be run in parallel to the calling application. If that flag is not
+set, this method will only ever be called with track set to false and the calling application will
+exit immediatly after the installer was launched successfully. However, even if the feature is
+supported, it is still possible for track to be false and the application to exit.
+
+@sa UpdaterBackend::features(), UpdaterBackend::Feature, UpdaterBackend::triggerInstallDone
+UpdaterBackend::createInstaller
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::createInstaller
+
+@returns An UpdateInstaller instance, if the backend supports it
+
+Implement this method to return your implementation of a UpdateInstaller, if your backend supports
+a performed installation (See UpdateInstaller for more details on that). If your backend does not
+support this, simply return `nullptr`
+
+@note For this method to ever be called from the library, features() must have the
+UpdaterBackend::Feature::PerformInstall flag set.
+
+@sa UpdateInstaller, UpdaterBackend::features(), UpdaterBackend::Feature,
+UpdaterBackend::triggerUpdates
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::readStringList
+
+@param value The variant value to be parsed
+@param listSeperator The seperator to split a string by
+@returns A string list extracted from the value
+
+This method first checks the value. If it already is a QStringList, it is simply returned as one.
+If not, the value is converted to a QString and the split using QString::split with the given
+seperator to create a string list from it.
+
+@sa ProcessBackend::readPathList, ProcessBackend::readArgumentList
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::checkProgress
+
+@param percent A percentage value representing the check progress
+@param status A localized status string to explaing the current state of the check process
+
+Emit this signal to give the user some feedback on the current state of the update check. percent can
+either range from 0.0 to 1.0 to present an actual percentage, or be -1.0 to represent an
+indeterminate progress. Status can be left empty to be unchanged/unset. Emitting this signal is
+optional, but recommended for long running checks.
+
+@note For this signal to be catched by the library, features() must have the
+UpdaterBackend::Feature::CheckProgress flag set.
+
+@sa UpdaterBackend::checkForUpdates, UpdaterBackend::features(), UpdaterBackend::Feature
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::checkDone
+
+@param success Reports whether the check was successfull or not
+@param updates Returns a list of updates, if some are available
+
+Emit this signal to tell the library that checking for updates is done. Emit it with `true` if no
+error occured, even if no updates are available, as that is not considered an error. Simply leave
+updates empty in that case. If some are available, create UpdateInfos for them and pass them to
+updates.
+
+Only set success to `false`, if an actual error occured (or when canceling unclean), as this will
+show a message to the user, that something went wrong.
+
+@sa UpdaterBackend::checkForUpdates, UpdaterBackend::abort
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::triggerInstallDone
+
+@param success Reports whether the installation was successfull or not
+
+Emit this signal once an external installer, that was started with track set to true, finsihed it's
+execution. Use the parameter to report, whether the installer was successful or not. It is up to the
+developer of each backend to decide, whether updates not installed due to the user are considered an
+error or not.
+
+@note For this signal to be catched by the library, features() must have the
+UpdaterBackend::Feature::ParallelTrigger flag set, as only then triggerUpdates() can be called with
+track set to true.
+
+@sa UpdaterBackend::triggerUpdates, UpdaterBackend::features(), UpdaterBackend::Feature
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterBackend::initialize()
+
+@returns `true` if initialization was successful, `false` if not
+
+This method is internally called by initialize(QScopedPointer<IConfigReader> &&) to perform the
+actual initialization. This is done immediatly after the creation of the backend by the library. At
+this point, config() will return a valid object and can be used to configure the backend.
+
+Return true if the init was successful and the backend can now be used normally. On a failure, return
+false and the backend will be deleted.
+
+@sa UpdaterBackend::initialize(QScopedPointer<IConfigReader> &&), UpdaterBackend::config
+*/

@@ -105,6 +105,7 @@ bool AdminAuthoriser::executeAsAdmin(const QString &program, const QStringList &
 	shellExecuteInfo.lpVerb = L"runas";
 	shellExecuteInfo.lpFile = (wchar_t *)file.utf16();
 	shellExecuteInfo.lpParameters = (wchar_t *)args.utf16();
+	shellExecuteInfo.lpDirectory = (wchar_t *)workingDir.utf16();
 	shellExecuteInfo.nShow = SW_SHOW;
 
 	if (ShellExecuteExW(&shellExecuteInfo))

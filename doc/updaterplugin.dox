@@ -1,0 +1,39 @@
+/*!
+@class QtAutoUpdater::UpdaterPlugin
+
+Each custom plugin must implement one or more UpdaterBackend classes, each identified by a key. This
+key must be declared in the JSON-file of the plugin using the following format:
+
+@code{.json}
+{
+	"Keys": [ "my-backend1", "my-backend2", ... ]
+}
+@endcode
+
+Your plugin implementation must include the following in the class declaration:
+
+@code{.cpp}
+Q_OBJECT
+Q_PLUGIN_METADATA(IID QtAutoUpdater_UpdaterPlugin_iid FILE "my-backend.json")
+Q_INTERFACES(QtAutoUpdater::UpdaterPlugin)
+@endcode
+
+@sa UpdaterBackend, #QtAutoUpdater_UpdaterPlugin_iid
+*/
+
+/*!
+@fn QtAutoUpdater::UpdaterPlugin::create
+
+@param key The backend to be created
+@param parent The parent object of the backend to be created
+@returns The newly created backend or `nullptr` on an error
+
+Your implementation must return a valid backend instance for each backend declared in the json file.
+If a key is passed to the function that was not declared (which should never happen), simply return
+a nullptr to indicate the failure.
+
+Please note that the backend should not be set up on it's creation. This is done by the
+UpdaterBackend::initialize method by whomever calls this method.
+
+@sa UpdaterBackend
+*/

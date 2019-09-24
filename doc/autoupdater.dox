@@ -9,12 +9,17 @@ independet of the Widgets-Library and won't need a gui. The Widgets-Library requ
 a gui and the Core-Library.
 
 ## Core-Library:
- - Updater
- - AdminAuthoriser
+- Updater
+- UpdateInfo
+- UpdateInstaller
+- UpdaterPlugin
+- UpdaterBackend
+- ProcessBackend
+- AdminAuthoriser
 
 ## Widgets-Libray:
- - UpdateController
- - UpdateButton
+- UpdateController
+- UpdateButton
 */
 
 /*!

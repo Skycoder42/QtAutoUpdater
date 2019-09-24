@@ -1,35 +1,47 @@
 /*!
-@class QtAutoUpdater::AdminAuthoriser
+@namespace QtAutoUpdater::AdminAuthoriser
 
-The AdminAuthoriser's task is to run a program with elevated rigths. Since the way to archive this is different
-on every platform, the authoriser is an interface. Because the "default" way to gain elevated privilegs is doing so
-by using a GUI, the default implementation is done in the AutoUpdaterWidgets library. If you intend to use the
-core library only, you will have to implement admin-authorisation yourself (if you require it)
+@brief Methods to run applications as authorized user (admin/root)
 
-@sa Updater::runUpdaterOnExit(AdminAuthoriser *)
+The AdminAuthoriser's task is to run a program with elevated rigths. Since the way to archive this is
+different on every platform, it will behave differently on different systems. Generelly it will prompt
+the user for admin credentials using the system API and then execute the program on success. This may
+not work on any platform.
+
+This namespace can be used when implementing custom plugins to run elevated tasks
 */
 
 /*!
-@fn QtAutoUpdater::AdminAuthoriser::hasAdminRights
+@fn QtAutoUpdater::AdminAuthoriser::needsAdminPermission(const QString &)
 
-@returns `true`, if this program does have elevated rights, `false` if not
+@returns `true`, if this program needs to be run as priviledged user, `false` if not or unable to determine
 
-If `true` is returned, the updater assumes that by starting a normal QProcess the launched process will inherit
-this elevation and will be elevated too. If thats not the case, return `false`. The updater will call AdminAuthoriser::executeAsAdmin
-instead.
+This might return false even if a application needs such permissions in three cases:
+
+1. The system is unable to figure out, whether the program needs that permission
+2. The current application is already running with elevated rights
+3. The check is not supported on the current platform
+
+@sa AdminAuthoriser::executeAsAdmin
 */
 
 /*!
-@fn QtAutoUpdater::AdminAuthoriser::executeAsAdmin
+@fn QtAutoUpdater::AdminAuthoriser::executeAsAdmin(const QString &, const QStringList &, const QString &)
 
 @param program The path to the executable. This will be an absolute path
-@param arguments A list of arguments to be passed to the executable. Can be empty
+@param arguments A list of arguments to be passed to the executable
+@param workingDir The working directory to execute the program in. Should always be a valid path
 @returns `true`, if the program could be started with **elevated rights**, `false` if not
 
-The actual elevation and execution should be done using this function. Please note that it's possible that this function
-is called while the QCoreApplication is shutting down. If `false` is returned, no error will be shown to the user. If you want
-to do so, do it inside that function.
+This function will try to prompt the user for elevation and the execute the given program with
+elevation. Please note that workingDir may be ignored on some platforms. You should not rely on it
+beeing set correctly. Also, it may return `true`, even if the user rejected priviledged execution.
 
-@note `program` will return an absolute path using normal slashes `/`, even on windows. If you need to use native APIs,
-get the correct path using QDir::toNativeSeparators.
+This function can return false if:
+
+1. The user rejected the priviledged execution (but this may result in a successful return as well)
+2. The user accepted, but the operating system was not able to start the process
+3. The execution is not supported on the current platform
+
+@sa AdminAuthoriser::needsAdminPermission
 */

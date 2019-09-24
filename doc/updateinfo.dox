@@ -1,0 +1,76 @@
+/*!
+@class QtAutoUpdater::UpdateInfo
+
+A data gadget that holds details about updates. It is used to present updates information. While
+id, name and version are common to all backends, any additional information, like size, old versions,
+etc. are different for each backend and stored within the data property.
+
+@sa @ref backends_TODO "Updater Backend Plugins"
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInfo::identifier
+
+@default{`<invalid>`}
+
+This id is different for each backend regarding both it's type and value. The only assumption you can
+make about this id is, that it is comparable. You should never actually read the data of the returned
+QVariant. Only use it index in a map or similar, to identify update information.
+
+@accessors{
+	@readAc{identifier()}
+	@writeAc{setIdentifier()}
+}
+
+@sa UpdateInfo::name
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInfo::name
+
+@default{`<empty>`}
+
+This should be a human readable name as returned by the backends. There are no assumptions you can
+make regarding the format, language, etc. of this name. It is unique to each backend and follows the
+package conventions of that backend.
+
+@accessors{
+	@readAc{name()}
+	@writeAc{setName()}
+}
+
+@sa UpdateInfo::identifier
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInfo::version
+
+@default{`<empty version>`}
+
+The version can be used to compare versions of components or to be displayed to the user. It may not
+be the full version string of the underlying backend, as QVersionNumber strips versions down to
+segments only.
+
+@accessors{
+	@readAc{version()}
+	@writeAc{setVersion()}
+}
+
+@sa UpdateInfo::data
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInfo::data
+
+@default{`<empty map>`}
+
+What this map contains depends fully on the backend and any additional information it may provide.
+Check the @ref backends_TODO "Updater Backend Plugins" documentation for more details.
+
+@accessors{
+	@readAc{data()}
+	@writeAc{setData()}
+}
+
+@sa UpdateInfo::version, @ref backends_TODO "Updater Backend Plugins"
+*/
