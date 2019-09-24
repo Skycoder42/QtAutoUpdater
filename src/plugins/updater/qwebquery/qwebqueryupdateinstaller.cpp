@@ -66,7 +66,7 @@ void QWebQueryUpdateInstaller::startInstallImpl()
 		const auto eulas = data.value(QStringLiteral("eulas")).toList();
 		for (const auto &eulaVal : eulas) {
 			QString text;
-			auto required = false;
+			auto required = true;
 			if (eulaVal.userType() == QMetaType::QVariantMap) {
 				const auto eulaMap = eulaVal.toMap();
 				text = eulaMap.value(QStringLiteral("text")).toString();
@@ -125,9 +125,10 @@ void QWebQueryUpdateInstaller::replyDone()
 		_hash.reset();
 		_hashResult.clear();
 	}
-	_file->close();
-
-	finishInstall();
+	if (_file) {
+		_file->close();
+		finishInstall();
+	}
 }
 
 void QWebQueryUpdateInstaller::replyData()

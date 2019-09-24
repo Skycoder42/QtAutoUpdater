@@ -121,6 +121,17 @@ QList<UpdateInfo> WebQueryTest::createInfos(const QVersionNumber &versionFrom, c
 						{QStringLiteral("arguments"), QStringList {
 							QVariant{true}.toString(),
 							versionTo.toString()
+						}},
+						{QStringLiteral("eulas"), QVariantList {
+							QStringLiteral("EULA 1"),
+							QVariantMap {
+								{QStringLiteral("text"), QStringLiteral("EULA 2")},
+								{QStringLiteral("required"), true},
+							},
+							QVariantMap {
+								{QStringLiteral("text"), QStringLiteral("EULA 3")},
+								{QStringLiteral("required"), false},
+							}
 						}}
 					}
 				}

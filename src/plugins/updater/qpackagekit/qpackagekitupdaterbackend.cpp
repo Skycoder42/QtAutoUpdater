@@ -173,6 +173,7 @@ void QPackageKitUpdaterBackend::package(Transaction::Info info, const QString &p
 	case Transaction::InfoImportant:
 	case Transaction::InfoSecurity:{
 		// TODO check if secondary info is given
+		qCDebug(logPackageKitBackend).nospace() << packageID;
 		auto parts = packageID.split(QStringLiteral(";"));
 		if (!_packageFilter.contains(parts[0]))
 			break;

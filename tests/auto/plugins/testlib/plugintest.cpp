@@ -197,7 +197,7 @@ void PluginTest::testPerformInstall()
 			installer, [installer](const QVariant &id, const QString &, bool required) {
 		if (required)
 			installer->eulaHandled(id, true);
-	});
+	}, Qt::QueuedConnection);
 
 	// install the updates
 	installer->setComponents(updates);
