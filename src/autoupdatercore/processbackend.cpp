@@ -106,6 +106,18 @@ void ProcessBackend::runUpdateTool(int id, ProcessBackend::UpdateProcessInfo too
 					QIODevice::ReadOnly);
 }
 
+void ProcessBackend::cancelUpdateTool(int id, bool kill)
+{
+	Q_D(ProcessBackend);
+	if (!d->updateProcesses.contains(id))
+		return;
+
+	if (kill)
+		d->updateProcesses[id].second->kill();
+	else
+		d->updateProcesses[id].second->terminate();
+}
+
 QStringList ProcessBackend::readPathList(const QVariant &value)
 {
 	return readStringList(value, QDir::listSeparator());

@@ -125,7 +125,7 @@ This method first checks the value. If it already is a QStringList, it is simply
 If not, the value is converted to a QString and the split using QString::split with the given
 seperator to create a string list from it.
 
-@sa ProcessBackend::readPathList, ProcessBackend::readArgumentList
+@sa ProcessBackend::readPathList, ProcessBackend::readArgumentList, QString::split
 */
 
 /*!

@@ -1,0 +1,141 @@
+/*!
+@class QtAutoUpdater::ProcessBackend
+
+When your custom updater plugin primarily uses some kind of commandline tool to check and install
+updates, using this class makes implementing such a plugin much easier than using UpdaterBackend
+directly. You should prefer this base class in such cases, unless there is a specific reason to not
+do so.
+
+@sa QtAutoUpdater::UpdaterBackend, QProcess
+*/
+
+/*!
+@fn QtAutoUpdater::ProcessBackend::readPathList
+
+@param value The variant value to be parsed
+@returns A string list of paths extracted from the value
+
+This method first checks the value. If it already is a QStringList, it is simply returned as one.
+If not, the value is converted to a QString and the split using QString::split with the given
+native path seperator (QDir::listSeparator) to create a string list from it.
+
+Use this method over readStringList() when the list you are reading contains paths, as paths may
+contain spaces and other unexpected symbols. Using the native path seperator is the only safe way
+of splitting paths.
+
+@sa UpdaterBackend::readStringList, ProcessBackend::readArgumentList, QDir::listSeparator,
+QString::split
+*/
+
+/*!
+@fn QtAutoUpdater::ProcessBackend::readArgumentList
+
+@param value The variant value to be parsed
+@returns A string list of arguments extracted from the value
+
+This method first checks the value. If it already is a QStringList, it is simply returned as one.
+If not, the value is converted to a QString and then parsed. The parsing tries to seperate the string
+into quoted arguments, as they would be passed on a commandline. The arguments are split by spaces,
+but single and double quoted as well as backslash escaped characters are respected. For example, the
+following string would be seperated as shown below:
+
+@code{.cpp}
+QString string = "hello world \"this is super\" and\\ very' use\"ful'"
+QStringList list = readArgumentList(string);
+// results in:
+{
+	"hello",
+	"world",
+	"this is super",
+	"and very use\"ful"
+}
+@endcode
+
+@sa UpdaterBackend::readStringList, ProcessBackend::readPathList
+*/
+
+/*!
+@fn QtAutoUpdater::ProcessBackend::runUpdateTool
+
+@param id An internal identifier for the started process
+@param toolInfo The information about how to start the process
+
+Call this method from checkForUpdates() to start a tool that performs the update check. The toolInfo
+struct holds all information about the process required to run it. The id is used to identify the
+process when it finished via onToolDone().
+
+@note A process started this way will only emit onToolDone() if it executed without a crash. If it
+does crash, checkDone(false) is emitted automatically. If it does not crash, onToolDone() is called,
+even if the exit code is not 0. In that case, you are responsible for emitting that signal.
+
+@sa ProcessBackend::UpdateProcessInfo, ProcessBackend::cancelUpdateTool, ProcessBackend::onToolDone,
+UpdaterBackend::checkDone
+*/
+
+/*!
+@fn QtAutoUpdater::ProcessBackend::cancelUpdateTool
+
+@param id The internal identifier of the process to be canceled
+@param kill Specify if the process should be terminated or killed
+
+Call this method to stop a running process prematurely. If kill is true, QProcess::kill will be used
+to stop the process, QProcess::terminate otherwise. In both cases, the result handling stays the
+same. If the signal crashes the process, that is handled automatically. Otherwise onToolDone() is
+called.
+
+@note The implementation of abort() of this class already does this automatically. Only use this
+method yourself, if you have to cancel a process for another reason.
+
+@sa ProcessBackend::runUpdateTool, ProcessBackend::onToolDone
+*/
+
+/*!
+@fn QtAutoUpdater::ProcessBackend::onToolDone
+
+@param id The internal identifier of the finished process
+@param exitCode The code the process exited with
+@param processDevice The process as QIODevice to read data from it.
+
+This method gets called by the library if a process that was started via runUpdateTool() finished
+without crashing. The id is same as passed to runUpdateTool(), the exit code is the one that the
+process returned. processDevice is set depending on the UpdateProcessInfo that was used to run the
+tool, as shown in the table below:
+
+ useStdout	| useStderr	| processDevice state
+------------|-----------|---------------------
+ false		| false		| `nullptr`
+ false		| true		| `QProcess*`, with stderr as active read channel
+ true		| false		| `QProcess*`, with stdout as active read channel
+ true		| true		| `QProcess*`, with stdout as active read channel
+
+From withing this function, you should emit the checkDone() signals according to how you interpret
+the result exit code and output as soon as the last process you started finished.
+
+@sa ProcessBackend::runUpdateTool, ProcessBackend::cancelUpdateTool,
+ProcessBackend::UpdateProcessInfo, UpdaterBackend::checkDone
+*/
+
+/*!
+@fn QtAutoUpdater::ProcessBackend::installerInfo
+
+@param infos A list of update infos to be updated
+@param track Specifies if the installers execution should be tracked
+@returns An optional install process information, if supported
+
+This method is called from this classes triggerUpdates() implementation to get information about the
+process to be launched as external installer. If your backend does support launching an installer,
+return a valid information here. If it does not, return `nullopt` to communicate this to the
+library.
+
+@note For this method to ever be called from the library, features() must have the
+UpdaterBackend::Feature::TriggerInstall flag set. Track can only be true if features() has the
+UpdaterBackend::Feature::ParallelTrigger flag set.
+
+The launching, monitoring and handling of stdin/stderr/stdout is done automatically and
+triggerInstallDone() will also be emitted completely automatically if the process is tracked and
+did finish. After this method was called, you don't have to do anything regaring the triggered
+install anymore.
+
+@sa UpdaterBackend::triggerUpdates, ProcessBackend::InstallProcessInfo, UpdaterBackend::features(),
+UpdaterBackend::Feature
+*/
