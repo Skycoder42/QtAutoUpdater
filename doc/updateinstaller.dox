@@ -36,7 +36,7 @@ The flags indicate which features are supported and which are not.
 /*!
 @property QtAutoUpdater::UpdateInstaller::components
 
-@default{`<empty>`}
+@default{_&lt;empty&gt;_}
 
 This property only returns enabled components. If a component was disabled by the user, it is not
 visible via this property. You can thuse use this to figure out which components are actually
@@ -55,7 +55,7 @@ through this property.
 /*!
 @property QtAutoUpdater::UpdateInstaller::componentModel
 
-@default{`<instance>`}
+@default{_&lt;instance&gt;_}
 
 By default, the model provides the following roles and columns. Strings represent those accessible
 from QML via role names, others are enum values for access via C++.
@@ -90,7 +90,7 @@ UpdateInstaller::features
 /*!
 @property QtAutoUpdater::UpdateInstaller::progressModel
 
-@default{`<instance>`}
+@default{_&lt;instance&gt;_}
 
 By default, the model provides the following roles and columns. Strings represent those accessible
 from QML via role names, others are enum values for access via C++. None are writable. "progress"

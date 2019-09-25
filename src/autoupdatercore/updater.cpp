@@ -84,11 +84,11 @@ Updater *Updater::create(QSettings *config, QObject *parent)
 	return UpdaterPrivate::createUpdater(new SettingsConfigReader {config}, parent);
 }
 
-Updater *Updater::create(QString key, QVariantMap arguments, QObject *parent)
+Updater *Updater::create(QString key, QVariantMap configuration, QObject *parent)
 {
 	return UpdaterPrivate::createUpdater(new VariantConfigReader {
 											 std::move(key),
-											 std::move(arguments)
+											 std::move(configuration)
 										 }, parent);
 }
 
@@ -355,7 +355,7 @@ QSettings *UpdaterPrivate::findDefaultConfig()
 	auto paths = QStandardPaths::locateAll(QStandardPaths::AppConfigLocation, QStringLiteral("updater.conf"));
 	// then try data dirs (includes bundle/exe root etc., depending on the platform)
 	paths += QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("updater.conf"));
-	for (const auto &path : QStandardPaths::locateAll(QStandardPaths::AppConfigLocation, QStringLiteral("updater.conf"))) {
+	for (const auto &path : paths) {
 		const auto conf = new QSettings{path, QSettings::IniFormat};
 		if (conf->contains(QStringLiteral("backend")))
 			return conf;

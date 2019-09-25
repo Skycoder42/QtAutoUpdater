@@ -12,7 +12,8 @@ Be aware of this when implementing your own.
 details etc., it is recommended to use ProcessBackend instead, as it simplifies this by a great
 amount.
 
-@sa UpdaterPlugin, ProcessBackend, ProcessBackend::features
+@sa UpdaterPlugin, ProcessBackend, ProcessBackend::features,
+@ref backends_TODO "Updater Backend Plugins"
 */
 
 /*!
