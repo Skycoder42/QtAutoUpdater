@@ -157,11 +157,11 @@ Module {
             Parameter { name: "id"; type: "QVariant" }
             Parameter { name: "accepted"; type: "bool" }
         }
+        Method { name: "restartApplication" }
         Method {
             name: "setComponents"
             Parameter { name: "components"; type: "QList<QtAutoUpdater::UpdateInfo>" }
         }
-        Method { name: "restartApplication" }
     }
     Component {
         name: "QtAutoUpdater::Updater"

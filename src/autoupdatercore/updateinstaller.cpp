@@ -60,6 +60,11 @@ void UpdateInstaller::startInstall()
 
 void UpdateInstaller::cancelInstall() {}
 
+void UpdateInstaller::restartApplication()
+{
+	qCWarning(logInstaller) << "Restarting is not supported by the current backend";
+}
+
 void UpdateInstaller::setComponents(QList<UpdateInfo> components)
 {
 	Q_D(UpdateInstaller);
@@ -76,11 +81,6 @@ void UpdateInstaller::setComponents(QList<UpdateInfo> components)
 
 	// reset the model
 	d->componentModel->reset(d->components.values());
-}
-
-void UpdateInstaller::restartApplication()
-{
-	qCWarning(logInstaller) << "Restarting is not supported by the current backend";
 }
 
 void UpdateInstaller::setComponentEnabled(const QVariant &id, bool enabled)

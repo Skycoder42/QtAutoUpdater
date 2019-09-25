@@ -1,0 +1,280 @@
+/*!
+@class QtAutoUpdater::UpdateInstaller
+
+This class can be used to perform an update of the application from within the running process,
+without the need of an external installer. It can also be used if an external installer provides
+enough details about an installation for them to be presented via this class.
+
+Instances of the installer are provided via Updater::showInstaller if such an installer was selected
+by Updater::runUpdater. You can then use the public API of the installer to select components to be
+installed and perform their installation.
+
+When implementing a custom updater backend, you can use this as abstract base class for a custom
+installer.
+
+@note Using such an installer requires the UpdaterBackend to have the
+UpdaterBackend::Feature::PerformInstall flag set.
+
+@sa Updater, Updater::showInstaller, UpdaterBackend
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInstaller::features
+
+@default{`UpdateInstaller::Feature::None`}
+
+The flags indicate which features are supported and which are not.
+
+@accessors{
+	@readAc{features()}
+	@constantAc
+}
+
+@sa UpdateInstaller::Feature, UpdaterBackend::features()
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInstaller::components
+
+@default{`<empty>`}
+
+This property only returns enabled components. If a component was disabled by the user, it is not
+visible via this property. You can thuse use this to figure out which components are actually
+installed. When setting this property, all components set are marked as enabled and thus are visible
+through this property.
+
+@accessors{
+	@readAc{components()}
+	@writeAc{setComponents()}
+	@notifyAc{componentsChanged()}
+}
+
+@sa UpdateInstaller::componentModel, UpdateInstaller::setComponentEnabled
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInstaller::componentModel
+
+@default{`<instance>`}
+
+By default, the model provides the following roles and columns. Strings represent those accessible
+from QML via role names, others are enum values for access via C++.
+
+ Column	| role					| UpdateInfo property: type			| writable
+--------|-----------------------|-----------------------------------|----------
+ 0		| Qt::DisplayRole		| name: QString						| false
+ 0		| Qt::ToolTipRole		| name: QString						| false
+ 0		| Qt::CheckStateRole	| _&lt;enabled&gt;_: Qt::CheckState	| true
+ 0		| "name"				| name: QString						| false
+ 0		| "version"				| version: QString					| false
+ 0		| "selected"			| _&lt;enabled&gt;_: bool			| true
+ 0		| "updateInfo"			| _&lt;gadget&gt;_: UpdateInfo		| false
+ 1		| Qt::DisplayRole		| version: QString					| false
+ 1		| Qt::ToolTipRole		| version: QString					| false
+
+However, backends can decide to provide additional/different columns and roles as well. The model
+should always provide a way for the user to enable or disable components.
+
+@note This model is useless unless the Feature::SelectComponents was set in
+UpdateInstaller::features
+
+@accessors{
+	@readAc{componentModel()}
+	@constantAc
+}
+
+@sa UpdateInstaller::components, UpdateInstaller::setComponentEnabled, UpdateInstaller::Feature,
+UpdateInstaller::features
+*/
+
+/*!
+@property QtAutoUpdater::UpdateInstaller::progressModel
+
+@default{`<instance>`}
+
+By default, the model provides the following roles and columns. Strings represent those accessible
+from QML via role names, others are enum values for access via C++. None are writable. "progress"
+and "status" are special properties that can be set via updateComponentProgress()
+
+ Column	| role					| UpdateInfo property: type
+--------|-----------------------|---------------------------
+ 0		| Qt::DisplayRole		| name: QString
+ 0		| Qt::ToolTipRole		| name: QString
+ 0		| "name"				| name: QString
+ 0		| "progress"			| progress: double
+ 0		| "status"				| status: QString
+ 0		| "updateInfo"			| _&lt;gadget&gt;_: UpdateInfo
+ 1		| Qt::DisplayRole		| status: QString
+ 1		| Qt::ToolTipRole		| status: QString
+ 2		| Qt::DisplayRole		| progress: double
+ 2		| Qt::ToolTipRole		| progress: double
+
+However, backends can decide to provide additional/different columns and roles as well. The model
+should connect to the updateComponentProgress() signal to be able to catch the progress of
+components and should always display those in some way via the model.
+
+@note This model is useless unless the Feature::DetailedProgress was set in
+UpdateInstaller::features
+
+@accessors{
+	@readAc{progressModel()}
+	@constantAc
+}
+
+@sa UpdateInstaller::updateComponentProgress, UpdateInstaller::Feature, UpdateInstaller::features
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::startInstall
+
+Call this to start an installation.
+
+@attention Do **not** reimplement this method yourself unless you have a custom progressModel!!!
+Instead, implement startInstallImpl(), as that method is called directly from this one.
+
+@sa UpdateInstaller::startInstallImpl, UpdateInstaller::progressModel
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::cancelInstall
+
+Call this to abort an ongoing installation.
+
+@note For this method to ever be called, the Feature::DetailedProgress must be set in
+UpdateInstaller::features
+
+@warning Even if this is supported by a backend, cancelling can **always** have fatal repercussions
+on an installation and possibly corrupt it into an unrepairable state! When allowing users to
+cancel, always make them aware of this fact.
+
+@sa UpdateInstaller::startInstall, UpdateInstaller::Feature, UpdateInstaller::features
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::eulaHandled
+
+@param id The id of the EULA that was passed to it's show request
+@param accepted true, if the user accepted the EULA, false if not
+
+Call this method from a GUI to notify the installer that a required EULA was accepted or rejected.
+
+For the implementation of this method, a rejected EULA should always lead to a failed installation.
+
+@sa UpdateInstaller::showEula
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::restartApplication
+
+Implement this method if you are going to emit installSucceeded(true). The method should quit the
+current application and restart it, using the updated version of your application.
+
+@sa UpdateInstaller::installSucceeded
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::updateGlobalProgress
+
+@param progress The progress of the full installation
+@param status The current status of the installation
+
+Emit this signal to give the user some feedback on the current state of the installation. percent
+can either range from 0.0 to 1.0 to present an actual percentage, or be -1.0 to represent an
+indeterminate progress. Status can be left empty to be unchanged/unset. Emitting this signal is
+optional, but recommended.
+
+@sa UpdateInstaller::updateComponentProgress
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::updateComponentProgress
+
+@param id The id of the component
+@param progress The progress of the full installation
+@param status The current status of the installation
+
+Emit this signal to give the user some feedback on the current state of a certain component that is
+part of the installation. The semantics are the same as for updateGlobalProgress(). The id is the
+same as the UpdateInfo::identifier property of the UpdateInfo that represents that component.
+
+This signal is typically consumed by the progressModel, which displays it.
+
+@note This signal is ignored unless the Feature::DetailedProgress was set in
+UpdateInstaller::features
+
+@sa UpdateInstaller::updateGlobalProgress, UpdateInstaller::progressModel
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::showEula
+
+@param id An internally used id to identify the EULA
+@param htmlText The EULAs text, formatted as HTML-text
+@param required Specifies whether the EULA must be accepted or not
+
+Emit this signal to make the user accept an EULA. The id is used internally and only actually needed
+for required EULAs, as it is passed to eulaHandled() to report the result. The text is interpreted
+as HTML, but should only consist of the HTML-subset supported by styled QML Labels.
+
+If required is false, the EULA should only be shown to the user, but he doesn't have to accept it.
+If set true however, the user must accept the EULA and the result must be reported via
+eulaHandled().
+
+Required EULAs should block the installation until accepted and their rejection should fail an
+installation.
+
+@sa UpdateInstaller::eulaHandled
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::installSucceeded
+
+@param shouldRestart Specify whether the application should be restarted
+
+Emit this from your custom installer on a successfully completed installation. If you set the
+shouldRestart to true, the user will be asked if he wants to restart the application. If he accepts,
+restartApplication() will be called to do so. Otherwise, the user is not presented the option and
+nothing happens.
+
+@sa UpdateInstaller::installFailed, UpdateInstaller::restartApplication
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::installFailed
+
+@param errorMessage Specify whether the application should be restarted
+
+Emit this from your custom installer on a failed installation. The errorMessage should be a
+localized string to describe what went wrong to the user. Do not include technical details there,
+only general information. Such details should be logged instead.
+
+@sa UpdateInstaller::installSucceeded
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::startInstallImpl
+
+The actual method to start the installation. This should start whatever has to be done to perform
+the installation in a non-blocking manner.
+
+@sa UpdateInstaller::startInstall, UpdateInstaller::installSucceeded,
+UpdateInstaller::installFailed, UpdateInstaller::updateGlobalProgress,
+UpdateInstaller::updateComponentProgress, UpdateInstaller::showEula
+*/
+
+/*!
+@fn QtAutoUpdater::UpdateInstaller::setComponentEnabled
+
+@param id The id of the component to be enabled or disabled
+@param enabled The new state of the component
+
+Call this method from your custom componentModel to enable or disable components as done by the
+user. The id is the same as the UpdateInfo::identifier property of the UpdateInfo that represents
+that component. You can only enable/disable components that have been added to the installer via
+the components property.
+
+@note Disabled components will disappear from the components property, but still be settable via
+this method. To completely remove the, write the property instead.
+
+@sa UpdateInstaller::components, UpdateInstaller::componentModel
+*/
