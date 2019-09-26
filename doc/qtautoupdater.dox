@@ -23,6 +23,23 @@ a gui and the Core-Library.
 */
 
 /*!
+@namespace de::skycoder42::QtAutoUpdater::Core
+
+@brief The QML import for the QtAutoUpdater core QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.0
+
+<b>Available Types</b>
+- Since Version 3.0
+	- @ref de::skycoder42::QtAutoUpdater::Core::QtAutoUpdater "QtAutoUpdater" (singleton)
+	- @ref QtAutoUpdater::UpdateInfo "UpdateInfo" (uncreatable)
+	- @ref QtAutoUpdater::UpdaterBackend "UpdaterBackend" (uncreatable)
+	- @ref QtAutoUpdater::UpdateInstaller "UpdateInstaller" (uncreatable)
+	- @ref QtAutoUpdater::Updater "Updater" (uncreatable)
+*/
+
+/*!
 @page qtautoupdater_image_page Image Page
 
 @brief Shows sample images for the updater for all the supported platforms

@@ -37,9 +37,9 @@ Updater *QmlAutoUpdaterSingleton::createUpdater(QSettings *config, QObject *pare
 	return Updater::create(config, parent);
 }
 
-Updater *QmlAutoUpdaterSingleton::createUpdater(QString key, QVariantMap arguments, QObject *parent) const
+Updater *QmlAutoUpdaterSingleton::createUpdater(QString key, QVariantMap configuration, QObject *parent) const
 {
-	return Updater::create(std::move(key), std::move(arguments), parent);
+	return Updater::create(std::move(key), std::move(configuration), parent);
 }
 
 Updater *QmlAutoUpdaterSingleton::createUpdater(QObject *qmlConfigOrParent) const
