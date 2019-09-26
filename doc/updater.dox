@@ -129,6 +129,11 @@ If none of these work and no config can be found, nullptr is returned. If it is 
 contain the "backend" entry, set to the updater backend to be used. The backend will get initialized
 using the found configuration.
 
+@attention For some update installations, an updater needs to be launched on exit of the running
+application. This only works if the updater lives long enough to catch the
+QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
+to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
+
 @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
 */
 
@@ -144,6 +149,11 @@ QSettings::IniFormat. It must contain the "backend" entry, set to the updater ba
 the file does not exists or backend is invalid, nullptr is returned. Otherwise the created instance,
 initialized using the given configuration.
 
+@attention For some update installations, an updater needs to be launched on exit of the running
+application. This only works if the updater lives long enough to catch the
+QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
+to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
+
 @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
 */
 
@@ -158,6 +168,11 @@ The backend is loaded based on the given configuration. It must contain the "bac
 the updater backend to be used. If the backend is missing or invalid, nullptr is returned. Otherwise
 the created instance, initialized using the given configuration.
 
+@attention For some update installations, an updater needs to be launched on exit of the running
+application. This only works if the updater lives long enough to catch the
+QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
+to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
+
 @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
 */
 
@@ -171,6 +186,11 @@ the created instance, initialized using the given configuration.
 
 The backend is loaded based on the given key. If no backend was found for the key, nullptr is
 returned. Otherwise the created instance. The configuration is used to initialize the backend.
+
+@attention For some update installations, an updater needs to be launched on exit of the running
+application. This only works if the updater lives long enough to catch the
+QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
+to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 
 @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
 */
@@ -189,8 +209,22 @@ the created instance, initialized using the given configuration.
 @note Only use this method if you have to provide your own implementation of the IConfigReader.
 Prefer the other overloads.
 
+@attention For some update installations, an updater needs to be launched on exit of the running
+application. This only works if the updater lives long enough to catch the
+QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
+to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
+
 @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins",
 UpdaterBackend::IConfigReader
+*/
+
+/*!
+@fn QtAutoUpdater::Updater::~Updater
+
+@warning Destroying the updater while it is still running can crash your application! Always make
+shure to abort update checks and wait for them to finish before doing so.
+
+@sa Updater::running, Updater::abortUpdateCheck
 */
 
 /*!

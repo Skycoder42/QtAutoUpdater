@@ -20,10 +20,15 @@ class Q_AUTOUPDATERWIDGETS_EXPORT UpdateController : public QObject
 {
 	Q_OBJECT
 
+	//! The updater beeing used by the controller
 	Q_PROPERTY(QtAutoUpdater::Updater* updater READ updater WRITE setUpdater NOTIFY updaterChanged)
+	//! The display level, managing which parts of the GUI are shown
 	Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged)
+	//! The path to the desktop file of the application
 	Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName NOTIFY desktopFileNameChanged)
+	//! The scope to be used when launching an installation
 	Q_PROPERTY(QtAutoUpdater::Updater::InstallScope installScope READ installScope WRITE setInstallScope NOTIFY installScopeChanged)
+	//! Specifies, whether information about updates should be detailed or not
 	Q_PROPERTY(bool detailedUpdateInfo READ isDetailedUpdateInfo WRITE setDetailedUpdateInfo NOTIFY detailedUpdateInfoChanged)
 
 public:
@@ -35,24 +40,26 @@ public:
 					   */
 		Info = 2,//!< Will show information about updates if available, nothing otherwise.
 		ExtendedInfo = 3,//!< Will show information about the update result, for both cases, updates and no updates.
-		Progress = 4,//!< Shows a (modal) progress dialog while checking for updates.
+		Progress = 4,//!< Shows a modal progress dialog while checking for updates.
 		Ask = 5//!< The highest level. Will ask the user if he wants to check for updates before actually checking.
 	};
 	Q_ENUM(DisplayLevel)
 
+	//! Default constructor without a window. Will be application modal
 	explicit UpdateController(QObject *parent = nullptr);
+	//! Default constructor for a window. Will modal to the parent window
 	explicit UpdateController(QWidget *parentWindow);
-	//! Constructs a new controller with an explicitly set path and a parent. Will be application modal
+	//! Constructs a new controller with an updater but without a window. Will be application modal
 	explicit UpdateController(Updater *updater, QObject *parent = nullptr);
-	//! Constructs a new controller with an explicitly set path and a parent. Will modal to the parent window
+	//! Constructs a new controller with an updater and for a window. Will modal to the parent window
 	explicit UpdateController(Updater *updater, QWidget *parentWindow);
-	~UpdateController() override;
 
-	//! Create a QAction to start this controller from
+	//! Create a QAction to start an update check from
 	static QAction *createUpdateAction(Updater *updater, QObject *parent);
 
+	//! Returns the parent window, if one is used
 	QWidget* parentWindow() const;
-	//! @readAcFn{UpdateController::running}
+	//! @readAcFn{UpdateController::displayLevel}
 	DisplayLevel displayLevel() const;
 	//! @readAcFn{UpdateController::desktopFileName}
 	QString desktopFileName() const;
@@ -75,8 +82,9 @@ public Q_SLOTS:
 	//! @writeAcFn{UpdateController::detailedUpdateInfo}
 	void setDetailedUpdateInfo(bool detailedUpdateInfo);
 
+	//! Starts the controller
 	bool start();
-	//! Starts the controller with the specified display level
+	//! Sets the display level and then starts the controller
 	bool start(DisplayLevel displayLevel);
 
 Q_SIGNALS:

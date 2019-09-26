@@ -1,16 +1,50 @@
 /*!
 @class QtAutoUpdater::UpdateButton
 
-The UpdateButton is a ready-made "button" to check for updates. It is connected to this
-controller and thus will automatically start checking for updates. Since the button itself
-shows a progress, no progress dialog is needed here. For images check the @ref qtautoupdater_image_page "Image Page".
+The UpdateButton is a ready-made "button" to check for updates. It is connected to an updater and
+thus will automatically start checking for updates. It will also display a progress and optionally
+allow canceling and installation of updates.
 
-The button will represent the controllers state and automatically enable/disable itself to
+The button will represent the updaters state and automatically enable/disable itself to
 avoid start beeing called twice. In addition to that, the whole button widget will be disabled
-if the controller gets deleted while the button is still existings. (Even if it wasn't,
-it will not crash if the button is clicked).
+if the updater gets deleted while the button is still existant.
 
-@sa QtAutoUpdater::UpdateController, UpdateController::createUpdateAction, @ref qtautoupdater_image_page "Image Page"
+@sa QtAutoUpdater::Updater, UpdateController::createUpdateAction,
+@ref qtautoupdater_image_page "Image Page"
+*/
+
+/*!
+@property QtAutoUpdater::UpdateButton::updater
+
+@default{`nullptr`}
+
+The button can only be used if the updater was set, either directly or via the constructor. The
+button attaches to the updater and reacts on changes in it's state to react accordingly.
+
+@accessors{
+	@readAc{updater()}
+	@writeAc{setUpdater()}
+	@notifyAc{updaterChanged()}
+}
+
+@sa UpdateButton::mode
+*/
+
+/*!
+@property QtAutoUpdater::UpdateButton::mode
+
+@default{`UpdateButton::ModeFlag::AllowAndShowAll`}
+
+The mode is used to control the buttons behaviour. See UpdateButton::ModeFlag for details about what
+each mode does. By default, all features are enabled.
+
+@accessors{
+	@readAc{mode()}
+	@writeAc{setMode()}
+	@notifyAc{modeChanged()}
+}
+
+@sa UpdateButton::ModeFlag
 */
 
 /*!
@@ -18,96 +52,50 @@ it will not crash if the button is clicked).
 
 @default{`:/QtAutoUpdater/icons/updateRunning.gif`}
 
-The default file will show a simple idle animation. If this does not fit into your ui,
-you can use this property to specify a different animation source.
+The default file will show a simple idle animation. If this does not fit the style of your ui, you
+can use  this property to specify a different animation source.
 
 @accessors{
 	@readAc{animationFile()}
 	@writeAc{setAnimationFile()}
 	@writeAc{setAnimationDevice()}
 	@resetAc{resetAnimationFile()}
+	@notifyAc{animationFileChanged()}
 }
 
 @sa @ref qtautoupdater_image_page "Image Page"
 */
 
 /*!
-@property QtAutoUpdater::UpdateButton::showResult
+@property QtAutoUpdater::UpdateButton::installMode
 
-@default{`true`}
+@default{`Updater::InstallModeFlag::Parallel`}
 
-If set to `true`, after an update check, a short info text will be shown next to the button.
-It will tell the user whether updates are available or not. In addition to that, if updates
-are available, the button will be disabled.<br>
-If set to `false`, the button will not show any information after the update and return to the
-state it had before checking for updates - just a simple button.<br>
-In both cases, while the updater is running, the information will be shown as always.
+The install mode to be passed to Updater::runUpdater, if the ModeFlag::AllowInstall flag is set and
+the user launches an installation via the button.
 
 @accessors{
-	@readAc{isShowingResult()}
-	@writeAc{setShowResult()}
+	@readAc{installMode()}
+	@writeAc{setInstallMode()}
+	@notifyAc{installModeChanged()}
 }
 
-@sa @ref qtautoupdater_image_page "Image Page", UpdateButton::animationFile
+@sa Updater::runUpdater, Updater::InstallModeFlag, UpdateButton::installScope
 */
 
 /*!
-@property QtAutoUpdater::UpdateButton::displayLevel
+@property QtAutoUpdater::UpdateButton::installScope
 
-@default{`UpdateController::ExtendedInfoLevel`}
+@default{`Updater::InstallScope::PreferInternal`}
 
-This will simply be used as parameter for UpdateController::start when the button is clicked.
+The install scope to be passed to Updater::runUpdater, if the ModeFlag::AllowInstall flag is set and
+the user launches an installation via the button.
 
 @accessors{
-	@readAc{displayLevel()}
-	@writeAc{setDisplayLevel()}
+	@readAc{installScope()}
+	@writeAc{setInstallScope()}
+	@notifyAc{installScopeChanged()}
 }
 
-@sa UpdateController::start, UpdateController::DisplayLevel
+@sa Updater::runUpdater, Updater::InstallScope, UpdateButton::installMode
 */
-
-/*!
-@property QtAutoUpdater::UpdateButton::controller
-
-@default{`nullptr`}
-
-The button can only be used correctly if a controller is set. If no controller is set,
-the button will be disabled. Changing the controller will reset the buttons state. If the
-controller gets destroyed, the button will reset and disabled itself automatically.
-
-@note You can manually enable the button, even without a set controller. In this case, all that
-happens is nothing: The button will be there, but just nothing happens if it is clicked.
-
-@accessors{
-	@readAc{controller()}
-	@writeAc{setController()}
-	@notifyAc{controllerChanged()}
-}
-
-@sa QtAutoUpdater::UpdateController, UpdateButton::resetState
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateButton::UpdateButton
-
-@param parent The parent widget of the button
-@param controller The UpdateController to be used by the button
-
-If `controller` is `nullptr`, the button will be disabled until you set a controller manually.
-
-@sa UpdateButton::controller
-*/
-
-/*!
-@fn QtAutoUpdater::UpdateButton::resetState
-
-The button will look like it looks after it's creation. Any progress or message will be reset.
-However, if the UpdateButton itself is disabled because of a missing controller, this will not be
-reset. Neither will the animation file nor the display level be reset.
-
-@note Calling this slot while the updater is running will still reset the button, but after the updater
-has finished, the button will show the result (if enabled).
-
-@sa UpdateButton::showResult, UpdateButton::animationFile, UpdateController::running
-*/
-

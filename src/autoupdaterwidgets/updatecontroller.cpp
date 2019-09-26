@@ -37,15 +37,6 @@ UpdateController::UpdateController(Updater *updater, QWidget *parentWidget) :
 	setUpdater(updater);
 }
 
-UpdateController::~UpdateController()
-{
-	Q_D(UpdateController);
-	if(d->updater && d->updater->isRunning())
-		qCWarning(logController) << "Destroyed while still running! This can crash your application!";
-
-	d->hideProgress();
-}
-
 QAction *UpdateController::createUpdateAction(Updater *updater, QObject *parent)
 {
 	auto updateAction = new QAction {
