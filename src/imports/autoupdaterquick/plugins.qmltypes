@@ -28,7 +28,7 @@ Module {
         "de.skycoder42.QtAutoUpdater.Core 3.0"
     ]
     Component {
-        name: "QmlAutoUpdaterQuickHelper"
+        name: "QtAutoUpdater::QmlAutoUpdaterQuickHelper"
         prototype: "QObject"
         exports: [
             "de.skycoder42.QtAutoUpdater.Quick.internal/QtAutoUpdaterQuick 3.0"
@@ -56,7 +56,7 @@ Module {
         }
     }
     Component {
-        name: "QmlUpdateInfoModel"
+        name: "QtAutoUpdater::QmlUpdateInfoModel"
         prototype: "QAbstractListModel"
         exports: ["de.skycoder42.QtAutoUpdater.Quick/UpdateInfoModel 3.0"]
         exportMetaObjectRevisions: [0]

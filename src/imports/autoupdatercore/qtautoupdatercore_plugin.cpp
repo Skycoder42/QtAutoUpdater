@@ -7,6 +7,7 @@
 #include <QtAutoUpdaterCore/Updater>
 
 #include "qmlautoupdatersingleton.h"
+using namespace QtAutoUpdater;
 
 namespace {
 
@@ -26,10 +27,10 @@ void QtAutoUpdaterCoreDeclarativeModule::registerTypes(const char *uri)
 {
 	Q_ASSERT(qstrcmp(uri, "de.skycoder42.QtAutoUpdater.Core") == 0);
 
-	qmlRegisterUncreatableType<QtAutoUpdater::UpdateInfo>(uri, 3, 0, "UpdateInfo", QStringLiteral("Must be created by using the QtAutoUpdater singleton"));
-	qmlRegisterUncreatableType<QtAutoUpdater::UpdaterBackend>(uri, 3, 0, "UpdaterBackend", QStringLiteral("Cannot be created, only obtained via Updater"));
-	qmlRegisterUncreatableType<QtAutoUpdater::UpdateInstaller>(uri, 3, 0, "UpdateInstaller", QStringLiteral("Cannot be created, only obtained via Updater"));
-	qmlRegisterUncreatableType<QtAutoUpdater::Updater>(uri, 3, 0, "Updater", QStringLiteral("Must be created by using the QtAutoUpdater singleton"));
+	qmlRegisterUncreatableType<UpdateInfo>(uri, 3, 0, "UpdateInfo", QStringLiteral("Must be created by using the QtAutoUpdater singleton"));
+	qmlRegisterUncreatableType<UpdaterBackend>(uri, 3, 0, "UpdaterBackend", QStringLiteral("Cannot be created, only obtained via Updater"));
+	qmlRegisterUncreatableType<UpdateInstaller>(uri, 3, 0, "UpdateInstaller", QStringLiteral("Cannot be created, only obtained via Updater"));
+	qmlRegisterUncreatableType<Updater>(uri, 3, 0, "Updater", QStringLiteral("Must be created by using the QtAutoUpdater singleton"));
 
 	qmlRegisterSingletonType<QmlAutoUpdaterSingleton>(uri, 3, 0, "QtAutoUpdater", create_qtautoupdater);
 

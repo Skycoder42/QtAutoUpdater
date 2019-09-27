@@ -1,4 +1,5 @@
 #include "qmlupdateinfomodel.h"
+using namespace QtAutoUpdater;
 
 QmlUpdateInfoModel::QmlUpdateInfoModel(QObject *parent) :
 	QAbstractListModel{parent}

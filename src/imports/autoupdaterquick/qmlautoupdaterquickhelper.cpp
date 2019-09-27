@@ -1,5 +1,6 @@
 #include "qmlautoupdaterquickhelper.h"
 #include <QtQml/QQmlEngine>
+using namespace QtAutoUpdater;
 
 QmlAutoUpdaterQuickHelper::QmlAutoUpdaterQuickHelper(QObject *parent) :
 	QObject{parent}

@@ -9,7 +9,7 @@ import QtQuick.tooling 1.2
 Module {
     dependencies: ["QtQml 2.13", "QtQml.Models 2.13"]
     Component {
-        name: "QmlAutoUpdaterSingleton"
+        name: "QtAutoUpdater::QmlAutoUpdaterSingleton"
         prototype: "QObject"
         exports: ["de.skycoder42.QtAutoUpdater.Core/QtAutoUpdater 3.0"]
         isCreatable: false
@@ -61,14 +61,14 @@ Module {
             name: "createUpdater"
             type: "QtAutoUpdater::Updater*"
             Parameter { name: "key"; type: "string" }
-            Parameter { name: "arguments"; type: "QVariantMap" }
+            Parameter { name: "configuration"; type: "QVariantMap" }
             Parameter { name: "parent"; type: "QObject"; isPointer: true }
         }
         Method {
             name: "createUpdater"
             type: "QtAutoUpdater::Updater*"
             Parameter { name: "key"; type: "string" }
-            Parameter { name: "arguments"; type: "QVariantMap" }
+            Parameter { name: "configuration"; type: "QVariantMap" }
         }
         Method {
             name: "createUpdater"

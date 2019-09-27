@@ -40,6 +40,25 @@ a gui and the Core-Library.
 */
 
 /*!
+@namespace de::skycoder42::QtAutoUpdater::Quick
+
+@brief The QML import for the QtAutoUpdater quick QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.0
+
+<b>Available Types</b>
+- Since Version 3.0
+	- UpdateInfoModel
+	- ProgressDialog
+	- AskUpdateDialog
+	- UpdateResultDialog
+	- UpdateInfoComponent
+	- UpdateInstallerComponent
+	- UpdateButton
+*/
+
+/*!
 @page qtautoupdater_image_page Image Page
 
 @brief Shows sample images for the updater for all the supported platforms

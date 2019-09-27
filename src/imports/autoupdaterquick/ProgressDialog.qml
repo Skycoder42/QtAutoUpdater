@@ -3,6 +3,14 @@ import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import de.skycoder42.QtAutoUpdater.Core 3.0
 
+/*! @brief A dialog to show the progress of an update check
+ *
+ * You can add this dialog to your UI and connect it to an updater. As soon as the updater is
+ * checking for updates, this dialog will pop up automatically to show the progress and hide again,
+ * once finished.
+ *
+ * @sa QtAutoUpdater::Updater, @ref qtautoupdater_image_page "Image Page"
+ */
 DialogBase {
 	id: progressDialog
 

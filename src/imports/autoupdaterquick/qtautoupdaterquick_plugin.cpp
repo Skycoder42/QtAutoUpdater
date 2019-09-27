@@ -3,6 +3,7 @@
 
 #include "qmlupdateinfomodel.h"
 #include "qmlautoupdaterquickhelper.h"
+using namespace QtAutoUpdater;
 
 namespace {
 

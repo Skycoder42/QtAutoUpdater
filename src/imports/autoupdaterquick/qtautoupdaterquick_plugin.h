@@ -3,6 +3,8 @@
 
 #include <QtQml/QQmlExtensionPlugin>
 
+namespace QtAutoUpdater {
+
 class QtAutoUpdaterQuickDeclarativeModule : public QQmlExtensionPlugin
 {
 	Q_OBJECT
@@ -12,5 +14,7 @@ public:
 	explicit QtAutoUpdaterQuickDeclarativeModule(QObject *parent = nullptr);
 	void registerTypes(const char *uri) override;
 };
+
+}
 
 #endif // QTAUTOUPDATERQUICK_PLUGIN_H

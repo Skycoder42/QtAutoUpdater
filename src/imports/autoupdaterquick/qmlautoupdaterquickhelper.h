@@ -5,6 +5,8 @@
 
 #include <QtAutoUpdaterCore/Updater>
 
+namespace QtAutoUpdater {
+
 class QmlAutoUpdaterQuickHelper : public QObject
 {
 	Q_OBJECT
@@ -17,5 +19,7 @@ public:
 	Q_INVOKABLE QString secondaryInfoKey(QtAutoUpdater::Updater *updater) const;
 	Q_INVOKABLE QString secondaryInfoDisplayName(QtAutoUpdater::Updater *updater) const;
 };
+
+}
 
 #endif // QMLAUTOUPDATERQUICKHELPER_H

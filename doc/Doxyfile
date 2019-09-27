@@ -274,6 +274,7 @@ ALIASES                = "accessors{1}=<table><tr><th colspan= 2>Accessors</th><
 						 userAc{1}=<tr><td><b>USER</b></td><td>\1</td></tr> \
 						 "constantAc=<tr><td colspan= 2><b>CONSTANT</b></td></tr>" \
 						 "finalAc=<tr><td colspan= 2><b>FINAL</b></td></tr>" \
+						 "readonlyAc=<tr><td colspan= 2><b>READONLY</b></td></tr>" \
 						 "default{1}=<b>Default:</b> \1 <br>" \
 						 "readAcFn{1}=READ accessor for \1" \
 						 "writeAcFn{1}=WRITE accessor for \1" \
@@ -342,7 +343,7 @@ OPTIMIZE_OUTPUT_SLICE  = NO
 # Note that for custom extensions you also need to set FILE_PATTERNS otherwise
 # the files are not read by doxygen.
 
-EXTENSION_MAPPING      =
+EXTENSION_MAPPING      = qml=C++
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -916,7 +917,8 @@ FILE_PATTERNS          = *.c \
 						 *.qsf \
 						 *.as \
 						 *.js \
-						 *.qdoc
+						 *.qdoc \
+						 *.qml
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -934,7 +936,13 @@ RECURSIVE              = YES
 EXCLUDE                = ../src/3rdparty \
 						 ../src/plugins \
 						 ../src/jar \
-						 ../src/translations
+						 ../src/translations \
+						 ../src/imports/autoupdaterquick/ProgressItem.qml \
+						 ../src/imports/autoupdaterquick/UpdateInfoPage.qml \
+						 ../src/imports/autoupdaterquick/SelectComponentView.qml \
+						 ../src/imports/autoupdaterquick/InstallView.qml \
+						 ../src/imports/autoupdaterquick/SuccessView.qml \
+						 ../src/imports/autoupdaterquick/UpdateInstallerPage.qml
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -979,7 +987,10 @@ EXCLUDE_SYMBOLS        = QtAutoUpdaterCoreDeclarativeModule \
 						 QNode \
 						 QNodeCreatedChangeBase \
 						 QPaintEngineEx \
-						 QTechniqueFilter
+						 QTechniqueFilter \
+						 DelayButton \
+						 Dialog \
+						 QtObject
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
@@ -1024,7 +1035,7 @@ IMAGE_PATH             = ./images
 # or removed, the anchors will not be placed correctly.
 #
 # Note that for custom extensions or not directly supported extensions you also
-# need to set EXTENSION_MAPPING for the extension otherwise the files are not
+# need to set  for the extension otherwise the files are not
 # properly processed by doxygen.
 
 INPUT_FILTER           =
@@ -1040,7 +1051,7 @@ INPUT_FILTER           =
 # need to set EXTENSION_MAPPING for the extension otherwise the files are not
 # properly processed by doxygen.
 
-FILTER_PATTERNS        =
+FILTER_PATTERNS        = *.qml=doxyqml
 
 # If the FILTER_SOURCE_FILES tag is set to YES, the input filter (if set using
 # INPUT_FILTER) will also be used to filter the input files that are used for
