@@ -13,7 +13,7 @@ details etc., it is recommended to use ProcessBackend instead, as it simplifies 
 amount.
 
 @sa UpdaterPlugin, ProcessBackend, ProcessBackend::features,
-@ref backends_TODO "Updater Backend Plugins"
+@ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!

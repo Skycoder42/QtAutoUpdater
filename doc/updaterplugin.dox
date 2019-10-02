@@ -18,7 +18,7 @@ Q_PLUGIN_METADATA(IID QtAutoUpdater_UpdaterPlugin_iid FILE "my-backend.json")
 Q_INTERFACES(QtAutoUpdater::UpdaterPlugin)
 @endcode
 
-@sa UpdaterBackend, #QtAutoUpdater_UpdaterPlugin_iid, @ref backends_TODO "Updater Backend Plugins"
+@sa UpdaterBackend, #QtAutoUpdater_UpdaterPlugin_iid, @ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!

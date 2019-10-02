@@ -5,7 +5,7 @@ A data gadget that holds details about updates. It is used to present updates in
 id, name and version are common to all backends, any additional information, like size, old versions,
 etc. are different for each backend and stored within the data property.
 
-@sa @ref backends_TODO "Updater Backend Plugins"
+@sa @ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!
@@ -65,12 +65,12 @@ segments only.
 @default{`<empty map>`}
 
 What this map contains depends fully on the backend and any additional information it may provide.
-Check the @ref backends_TODO "Updater Backend Plugins" documentation for more details.
+Check the @ref qtautoupdater_backends "Updater Backend Plugins" documentation for more details.
 
 @accessors{
 	@readAc{data()}
 	@writeAc{setData()}
 }
 
-@sa UpdateInfo::version, @ref backends_TODO "Updater Backend Plugins"
+@sa UpdateInfo::version, @ref qtautoupdater_backends "Updater Backend Plugins"
 */

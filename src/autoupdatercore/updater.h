@@ -112,7 +112,7 @@ public:
 	Q_INVOKABLE int scheduleUpdate(int delaySeconds, bool repeated = false);
 	//! @copydoc Updater::scheduleUpdate(std::chrono::seconds, bool)
 	template <typename TRep, typename TPeriod>
-	int scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated = false);
+	int scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delaySeconds, bool repeated = false);
 	//! Schedules an update for a specific timepoint
 	Q_INVOKABLE int scheduleUpdate(const QDateTime &when);
 	//! @copydoc Updater::scheduleUpdate(const QDateTime &)
@@ -170,10 +170,10 @@ private:
 };
 
 template<typename TRep, typename TPeriod>
-int Updater::scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delay, bool repeated)
+int Updater::scheduleUpdate(const std::chrono::duration<TRep, TPeriod> &delaySeconds, bool repeated)
 {
 	using namespace std::chrono;
-	return scheduleUpdate(duration_cast<seconds>(delay), repeated);
+	return scheduleUpdate(duration_cast<seconds>(delaySeconds), repeated);
 }
 
 template<typename TClock, typename TDur>

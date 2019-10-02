@@ -1,0 +1,157 @@
+/*!
+@page qtautoupdater_backends Backends overview
+
+@brief An overview of the avialable backends
+
+This page lists the different backends that are available, together with their features and how to use them. Refer
+to this page if you want to know details about a particular plugin.
+
+@tableofcontents
+
+@section qtautoupdater_backends_types Special Types
+This pages uses a few special types, which wrap different formats in which you can provide the arguments, mapped to
+a certain Qt type. Those are:
+
+- `list`: is processed by QtAutoUpdater::UpdaterBackend::readStringList. If a symbol is specified in parenthesis
+(e.g. `(;)`), that symbol is used as seperator instead of the default `,`
+- `pathList`: is processed by QtAutoUpdater::ProcessBackend::readPathList
+- `argList`: is processed by QtAutoUpdater::ProcessBackend::readArgumentList
+
+@section qtautoupdater_backends_qtifw Qt Installer Framework
+The QtIFW-Plugin allows you to use a maintenancetool of an
+[Qt Installer Framework](https://doc.qt.io/qtinstallerframework/index.html) installation to check for updates and to
+install them. It requires that an application was installed using a QtIFW installer that uses an online repository
+for the installation. The plugin focusses around the maintenancetool that is deployed with every QtIFW based
+installation.
+
+@subsection qtautoupdater_backends_qtifw_features Features
+- QtAutoUpdater::UpdaterBackend::Feature::CheckUpdates
+- QtAutoUpdater::UpdaterBackend::Feature::TriggerInstall
+- On linux and macOs:
+	- QtAutoUpdater::UpdaterBackend::Feature::ParallelTrigger
+
+@subsection qtautoupdater_backends_qtifw_config Configuration
+ Parameter			| Type											| Default Value	| Description
+--------------------|-----------------------------------------------|---------------|-------------
+ backend			| QString										| `"qtifw"`		| The id of the backend. Must be that value
+ path				| QString										| _special_		| The path to the maintenancetool that is used by the backend
+ extraCheckArgs		| @ref qtautoupdater_backends_types "argList"	| _empty_		| Additional arguments to be passed to the maintenancetool when checking for updates
+ silent				| bool											| `false`		| Run the installer silently in the background
+ extraInstallArgs	| @ref qtautoupdater_backends_types "argList"	| _empty_		| Additional arguments to be passed to the maintenancetool when installing updates
+ runAsAdmin			| bool											| _special_		| Specifies, if the maintenancetool should be executed with elevated rights, when running it as installer
+
+The default value of the `path` depends on the platform beeing used. It is the path, where to expect the
+maintenancetool, assuming the current application is the primary binary that was installed using QtIFW.
+
+The default value of the `runAsAdmin` depends of the result of
+QtAutoUpdater::AdminAuthoriser::needsAdminPermission(path). The path here is the maintenancetool as specified in the
+settings. While this may work for most systems, it is recommended to always explicitly set this parameter to avoid
+problems.
+
+@section qtautoupdater_backends_pkgkit PackageKit
+The plugin based on [PackageKit](https://www.freedesktop.org/software/PackageKit/) is a general plugin that can work
+with any package managing system that supports PackageKit. This includes most popular linux distros like Arch,
+Debian or Fedora. Check the website to see if your distro supports PackageKit and how to configure it properly.
+
+On supported platforms, this plugin can be used to check for updates for certain packages and even install updates,
+if available.
+
+@subsection qtautoupdater_backends_pkgkit_features Features
+- QtAutoUpdater::UpdaterBackend::Feature::CheckUpdates
+- QtAutoUpdater::UpdaterBackend::Feature::CheckProgress
+- QtAutoUpdater::UpdaterBackend::Feature::PerformInstall
+
+@subsection qtautoupdater_backends_pkgkit_config Configuration
+ Parameter			| Type											| Default Value		| Description
+--------------------|-----------------------------------------------|-------------------|-------------
+ backend			| QString										| `"packagekit"`	| The id of the backend. Must be that value
+ packages			| @ref qtautoupdater_backends_types "list (;)"	| _required_		| The list of packages that your application consists of
+
+To use the plugin correctly, you **must** specify the `packages` parameter. It should contain a _semicolon_ seperated
+list of all the packages that make your application (e.g. the primary package, extensions, language packages etc.).
+When checking for updates, only updates for the packages listed here are considered by the plugin. You must always
+enter the packages by the full name. Wildcards are not possible for now.
+
+@section qtautoupdater_backends_choco Chocolatey
+This plugin uses the [Chocolatey](https://chocolatey.org/) package manager for windows to check for updates and
+install them if requested. It is based around the `choco` executable and supports the
+[Chocolatey GUI](https://chocolatey.org/packages/ChocolateyGUI) as GUI to be shown to install updates.
+
+@subsection qtautoupdater_backends_choco_features Features
+- QtAutoUpdater::UpdaterBackend::Feature::CheckUpdates
+- If Chocolatey GUI is installed
+	- QtAutoUpdater::UpdaterBackend::Feature::TriggerInstall
+
+@subsection qtautoupdater_backends_choco_config Configuration
+ Parameter			| Type											| Default Value													| Description
+--------------------|-----------------------------------------------|---------------------------------------------------------------|-------------
+ backend			| QString										| `"chocolatey"`												| The id of the backend. Must be that value
+ packages			| @ref qtautoupdater_backends_types "list"		| _required_													| The list of packages that your application consists of
+ path				| @ref qtautoupdater_backends_types "pathList"	| _system-path_													| A list of paths where to search for the `choco` executable. If not specified, the `PATH` environment variable is used
+ extraCheckArgs		| @ref qtautoupdater_backends_types "argList"	| _empty_														| Additional arguments to be passed to choco when checking for updates
+ guiExePath			| QString										| `"C:\Program Files (x86)\Chocolatey GUI\ChocolateyGui.exe"`	| The path to the Chocolatey GUI binary
+ extraGuiArgs		| @ref qtautoupdater_backends_types "argList"	| _empty_														| Additional arguments to be passed to Chocolatey GUI when installing updates
+ runAsAdmin			| bool											| `true`														| Specifies, if the Chocolatey GUI should be executed with elevated rights
+
+To use the plugin correctly, you **must** specify the `packages` parameter. It should contain a comma seperated
+list of all the packages that make your application, which is typically just a single package name. When checking
+for updates, only updates for the packages listed here are considered by the plugin. You must always enter the
+packages by the full name. Wildcards are not possible for now.
+
+@section qtautoupdater_backends_brew Homebrew
+The plugin uses the [Homebrew](https://brew.sh/) package manager for macOs to check for updates and install them.
+It can install updates in parallel, but also supports launching [Cakebrew](https://www.cakebrew.com/) as external
+install tool, if it is installed.
+
+@subsection qtautoupdater_backends_brew_features Features
+- QtAutoUpdater::UpdaterBackend::Feature::CheckUpdates
+- QtAutoUpdater::UpdaterBackend::Feature::PerformInstall
+- If Cakebrew is installed:
+	- QtAutoUpdater::UpdaterBackend::Feature::TriggerInstall
+	- QtAutoUpdater::UpdaterBackend::Feature::ParallelTrigger
+
+@subsection qtautoupdater_backends_brew_config Configuration
+ Parameter			| Type											| Default Value	| Description
+--------------------|-----------------------------------------------|---------------|-------------
+ backend			| QString										| `"homebrew"`	| The id of the backend. Must be that value
+ packages			| @ref qtautoupdater_backends_types "list"		| _required_	| The list of packages that your application consists of
+ cask				| bool											| `false`		| The package is a cask instead of a normal homebrew package
+ path				| @ref qtautoupdater_backends_types "pathList"	| _system-path_	| A list of paths where to search for the `brew` executable. If not specified, the `PATH` environment variable is used
+ extraUpdateArgs	| @ref qtautoupdater_backends_types "argList"	| _empty_		| Additional arguments to be passed to `brew update` when checking for updates
+ extraOutdatedArgs	| @ref qtautoupdater_backends_types "argList"	| _empty_		| Additional arguments to be passed to `brew outdated` when checking for updates
+ extraInstallArgs	| @ref qtautoupdater_backends_types "argList"	| _empty_		| Additional arguments to be passed to `brew install` when installing updates
+ cakebrewPath		| @ref qtautoupdater_backends_types "pathList"	| _system-apps_	| A list of paths where to search for the `Cakebrew` app bundle. If not specified, the systems standard app locations (QStandardPaths::ApplicationsLocation) are searched
+ extraCakebrewArgs	| @ref qtautoupdater_backends_types "argList"	| _empty_		| Additional arguments to be passed to Cakebrew when installing updates
+
+To use the plugin correctly, you **must** specify the `packages` parameter. It should contain a comma seperated
+list of all the packages that make your application, which is typically just a single package name. When checking
+for updates, only updates for the packages listed here are considered by the plugin. You must always enter the
+packages by the full name. Wildcards are not possible for now. If your package is a cask, set the variable.
+
+@section qtautoupdater_backends_play Google Playstore
+When deploying your app via the [Google Playstore](https://play.google.com/store) for Android, you can use this
+plugin to check for updates and even install them. This works fine for most phones, but be aware that some might
+have disabled various APIs required for this plugin to work.
+
+@subsection qtautoupdater_backends_play_features Features
+- QtAutoUpdater::UpdaterBackend::Feature::CheckUpdates
+- QtAutoUpdater::UpdaterBackend::Feature::PerformInstall
+- QtAutoUpdater::UpdaterBackend::Feature::TriggerInstall
+- QtAutoUpdater::UpdaterBackend::Feature::ParallelTrigger
+
+@subsection qtautoupdater_backends_play_config Configuration
+ Parameter			| Type		| Default Value	| Description
+--------------------|-----------|---------------|-------------
+ backend			| QString	| `"playstore"`	| The id of the backend. Must be that value
+ debug				| bool		| `false`		| If set to true, the [FakeAppUpdateManager](https://developer.android.com/reference/com/google/android/play/core/appupdate/testing/FakeAppUpdateManager.html) is used to simulate an update installation
+ autoResumeInstall	| bool		| _special_		| If enabled, the plugin will check if installations need to be continued on it's initialization and do so, if required.
+
+The `autoResumeInstall` will be set to true by default if initialized from an activity. When run from the
+background, it is false instead.
+
+@section qtautoupdater_backends_webquery Custom WebQuery backend
+This backend can be used if none of the other backends fit your distribution method. While it is recommended to
+create a custom plugin for such cases, for many variants this plugin suffices. It can query a webserver for
+JSON-encoded information about available updates, download a binary or update package of any kind and execute a
+selected binary to perform the update installation.
+*/

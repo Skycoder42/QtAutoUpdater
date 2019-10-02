@@ -7,7 +7,7 @@ feature set of the updater depends on the backend used, but all backends support
 for updates.
 
 @sa @ref index REAMDE.md, QtAutoUpdater::UpdaterBackend, Updater::features,
-@ref backends_TODO "Updater Backend Plugins"
+@ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!
@@ -134,7 +134,7 @@ application. This only works if the updater lives long enough to catch the
 QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 
-@sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
+@sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!
@@ -154,7 +154,7 @@ application. This only works if the updater lives long enough to catch the
 QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 
-@sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
+@sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!
@@ -173,7 +173,7 @@ application. This only works if the updater lives long enough to catch the
 QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 
-@sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
+@sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!
@@ -192,7 +192,7 @@ application. This only works if the updater lives long enough to catch the
 QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 
-@sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins"
+@sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins"
 */
 
 /*!
@@ -214,7 +214,7 @@ application. This only works if the updater lives long enough to catch the
 QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 
-@sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins",
+@sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins",
 UpdaterBackend::IConfigReader
 */
 

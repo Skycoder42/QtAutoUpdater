@@ -64,7 +64,7 @@ public:
 	 * QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 	 * to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 	 *
-	 * @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins", Qt.labs.settings.Settings
+	 * @sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins", Qt.labs.settings.Settings
 	 */
 	Q_INVOKABLE QtAutoUpdater::Updater *createUpdater(QObject *qmlConfigOrParent = nullptr) const;
 	/*! @brief Creates an updater instance using the given QML configuration and parent
@@ -85,7 +85,7 @@ public:
 	 * QCoreApplication::aboutToQuit signal! This means when creating an updater for a backend that may need
 	 * to be run on exit, you should use either `qApp` or `nullptr` as parent for the updater.
 	 *
-	 * @sa Updater::supportedUpdaterBackends, @ref backends_TODO "Updater Backend Plugins", Qt.labs.settings.Settings,
+	 * @sa Updater::supportedUpdaterBackends, @ref qtautoupdater_backends "Updater Backend Plugins", Qt.labs.settings.Settings,
 	 * QSettings
 	 */
 	Q_INVOKABLE QtAutoUpdater::Updater *createUpdater(QObject *qmlConfig,
