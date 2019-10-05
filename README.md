@@ -10,7 +10,7 @@ The Qt auto updater library is a library to automatically check for updates and 
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/5iw2byrvnsdfytxv/branch/master?svg=true)](https://ci.appveyor.com/project/Skycoder42/qtautoupdater/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5b2e3cc66c644869515d2f3a5c3ff49)](https://www.codacy.com/app/Skycoder42/QtAutoUpdater)
 
-> The library was recently updated to version 3.0. That release differes strongly from 2.1. Use the [Porting Guide](port_to_3_0.md) to get your application from 2.1 to 3.0!
+> The library was recently updated to version 3.0. That release differes strongly from 2.1. Use the [Porting Guide](porting_guide.md) to get your application from 2.1 to 3.0!
 
 ## Features
 ### Core Library

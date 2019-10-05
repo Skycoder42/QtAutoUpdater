@@ -18,13 +18,16 @@ qtDocs=$5
 doxyTemplate="$srcDir/Doxyfile"
 doxyRes=Doxyfile.generated
 readme="$destDir/README.md"
+guide="$destDir/porting_guide.md"
 doxme="$scriptDir/doxme.py"
 
 python3 "$doxme" "$srcDir/../README.md"
+python3 "$doxme" "$srcDir/../porting_guide.md" "A guide to port from 2.1.5 to 3.0.0"
 
 cat "$doxyTemplate" > $doxyRes
 echo "PROJECT_NUMBER = \"$version\"" >> $doxyRes
 echo "INPUT += \"$readme\"" >> $doxyRes
+echo "INPUT += \"$guide\"" >> $doxyRes
 echo "USE_MDFILE_AS_MAINPAGE = \"$readme\"" >> $doxyRes
 echo "OUTPUT_DIRECTORY = \"$destDir\"" >> $doxyRes
 echo "QHP_NAMESPACE = \"de.skycoder42.qtautoupdater.$verTag\"" >> $doxyRes

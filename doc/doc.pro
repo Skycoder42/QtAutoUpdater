@@ -4,6 +4,7 @@ OTHER_FILES += Doxyfile \
 	makedoc.sh \
 	doxme.py \
 	../README.md \
+	../porting_guide.md \
 	*.dox \
 	snippets/*.cpp \
 	images/*
