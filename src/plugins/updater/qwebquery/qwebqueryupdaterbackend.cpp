@@ -44,13 +44,17 @@ const QString QWebQueryUpdaterBackend::Install::KeyDownload {QStringLiteral("ins
 const QString QWebQueryUpdaterBackend::Install::KeyTool {QStringLiteral("install/tool")};
 const QString QWebQueryUpdaterBackend::Install::KeyParallel {QStringLiteral("install/parallel")};
 const QString QWebQueryUpdaterBackend::Install::KeyUrl {QStringLiteral("install/url")};
+const QString QWebQueryUpdaterBackend::Install::KeyPath {QStringLiteral("install/path")};
+const QString QWebQueryUpdaterBackend::Install::KeyArguments {QStringLiteral("install/arguments")};
+const QString QWebQueryUpdaterBackend::Install::KeyPwd {QStringLiteral("install/pwd")};
+const QString QWebQueryUpdaterBackend::Install::KeyRunAsAdmin {QStringLiteral("install/runAsAdmin")};
 const QString QWebQueryUpdaterBackend::Install::KeyAddDataArgs {QStringLiteral("install/addDataArgs")};
 const QString QWebQueryUpdaterBackend::Install::KeyDownloadUrl {QStringLiteral("install/downloadUrl")};
 const QString QWebQueryUpdaterBackend::Install::KeyUseInfoDownload {QStringLiteral("install/useInfoDownload")};
 const QString QWebQueryUpdaterBackend::Install::Headers::KeySize {QStringLiteral("install/headers/size")};
 const QString QWebQueryUpdaterBackend::Install::Headers::KeyKey {QStringLiteral("install/headers/%1/key")};
 const QString QWebQueryUpdaterBackend::Install::Headers::KeyValue {QStringLiteral("install/headers/%1/value")};
-const QString QWebQueryUpdaterBackend::Install::KeyExecDownload {QStringLiteral("installer/execDownload")};
+const QString QWebQueryUpdaterBackend::Install::KeyExecDownload {QStringLiteral("install/execDownload")};
 
 const QString QWebQueryUpdaterBackend::ParserAuto {QStringLiteral("auto")};
 const QString QWebQueryUpdaterBackend::ParserVersion {QStringLiteral("version")};
@@ -357,11 +361,11 @@ QString QWebQueryUpdaterBackend::requestUrl(QNetworkReply *reply) const
 #if QT_CONFIG(process)
 std::optional<QString> QWebQueryUpdaterBackend::testForProcess(IConfigReader *config)
 {
-	auto tool = config->value(QStringLiteral("install/tool"));
+	auto tool = config->value(Install::KeyTool);
 	if (!tool)
 		return std::nullopt;
 	QStringList paths;
-	if (const auto mPaths = config->value(QStringLiteral("install/path")); mPaths)
+	if (const auto mPaths = config->value(Install::KeyPath); mPaths)
 		paths = ProcessBackend::readPathList(*mPaths);
 	const auto fullExe = QStandardPaths::findExecutable(tool->toString(), paths);
 	if (QFileInfo{fullExe}.isExecutable())
@@ -375,9 +379,9 @@ std::optional<QString> QWebQueryUpdaterBackend::testForProcess(IConfigReader *co
 bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal, IConfigReader *config, const QString &program, const QList<UpdateInfo> &infos, bool track, const std::optional<QString> &replaceArg)
 {
 	QStringList args;
-	if (const auto mArgs = config->value(QStringLiteral("install/arguments")); mArgs)
+	if (const auto mArgs = config->value(Install::KeyArguments); mArgs)
 		args = ProcessBackend::readArgumentList(*mArgs);
-	if (config->value(QStringLiteral("install/addDataArgs"), false).toBool()) {
+	if (config->value(Install::KeyAddDataArgs, Install::DefaultAddDataArgs).toBool()) {
 		for (const auto &info : infos) {
 			auto data = info.data();
 			if (const auto key = QStringLiteral("arguments"); data.contains(key))
@@ -391,13 +395,13 @@ bool QWebQueryUpdaterBackend::runProcess(QObject *parent, QMetaMethod doneSignal
 	}
 
 	QString pwd;
-	if (const auto mPwd = config->value(QStringLiteral("install/pwd")); mPwd) {
+	if (const auto mPwd = config->value(Install::KeyPwd); mPwd) {
 		pwd = mPwd->toString();
 		if (pwd.isEmpty())
 			pwd = QCoreApplication::applicationDirPath();
 	}
 
-	if (config->value(QStringLiteral("install/runAsAdmin"), AdminAuthoriser::needsAdminPermission(program)).toBool()) {
+	if (config->value(Install::KeyRunAsAdmin, AdminAuthoriser::needsAdminPermission(program)).toBool()) {
 		if (track)
 			qCWarning(logWebBackend) << "Unable to track progress of application executed as root/admin! It will be run detached instead";
 		const auto ok =  AdminAuthoriser::executeAsAdmin(program, args, pwd);

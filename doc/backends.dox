@@ -6,6 +6,9 @@
 This page lists the different backends that are available, together with their features and how to use them. Refer
 to this page if you want to know details about a particular plugin.
 
+@note In all "Arguments for QtAutoUpdater::UpdateInfo::data" sections, the data that is used as the
+QtAutoUpdater::UpdaterBackend::secondaryInfo arguments is highlighted by beeing marked **bold**.
+
 @tableofcontents
 
 @section qtautoupdater_backends_types Special Types
@@ -47,6 +50,11 @@ The default value of the `runAsAdmin` depends of the result of
 QtAutoUpdater::AdminAuthoriser::needsAdminPermission(path). The path here is the maintenancetool as specified in the
 settings. While this may work for most systems, it is recommended to always explicitly set this parameter to avoid
 problems.
+
+@subsection qtautoupdater_backends_qtifw_info_extras Arguments for QtAutoUpdater::UpdateInfo::data
+ Parameter		| Type			| JSON-Type	| Description
+----------------|---------------|-----------|-------
+ <b>size</b>	| quint64		| number	| The size of the update to be downloaded
 
 @section qtautoupdater_backends_pkgkit PackageKit
 The plugin based on [PackageKit](https://www.freedesktop.org/software/PackageKit/) is a general plugin that can work
@@ -98,6 +106,11 @@ list of all the packages that make your application, which is typically just a s
 for updates, only updates for the packages listed here are considered by the plugin. You must always enter the
 packages by the full name. Wildcards are not possible for now.
 
+@subsection qtautoupdater_backends_choco_info_extras Arguments for QtAutoUpdater::UpdateInfo::data
+ Parameter			| Type				| JSON-Type	| Description
+--------------------|-------------------|-----------|-------
+ <b>oldVersion</b>	| QVersionNumber	| string	| The currently installed version that will be replaced by the new one
+
 @section qtautoupdater_backends_brew Homebrew
 The plugin uses the [Homebrew](https://brew.sh/) package manager for macOs to check for updates and install them.
 It can install updates in parallel, but also supports launching [Cakebrew](https://www.cakebrew.com/) as external
@@ -128,6 +141,12 @@ list of all the packages that make your application, which is typically just a s
 for updates, only updates for the packages listed here are considered by the plugin. You must always enter the
 packages by the full name. Wildcards are not possible for now. If your package is a cask, set the variable.
 
+@subsection qtautoupdater_backends_brew_info_extras Arguments for QtAutoUpdater::UpdateInfo::data
+ Parameter			| Type				| JSON-Type	| Cask	| Description
+--------------------|-------------------|-----------|-------|-------------
+ <b>oldVersions</b>	| QVariantList		| array		| no	| The currently installed versions that will be replaced by the new one. Is a list of QVersionNumber. Not available for casks
+ <b>oldVersion</b>	| QVersionNumber	| string	| yes	| The currently installed version that will be replaced by the new one. Only available for casks
+
 @section qtautoupdater_backends_play Google Playstore
 When deploying your app via the [Google Playstore](https://play.google.com/store) for Android, you can use this
 plugin to check for updates and even install them. This works fine for most phones, but be aware that some might
@@ -154,4 +173,159 @@ This backend can be used if none of the other backends fit your distribution met
 create a custom plugin for such cases, for many variants this plugin suffices. It can query a webserver for
 JSON-encoded information about available updates, download a binary or update package of any kind and execute a
 selected binary to perform the update installation.
+
+@subsection qtautoupdater_backends_webquery_features Features
+- QtAutoUpdater::UpdaterBackend::Feature::CheckUpdates
+- QtAutoUpdater::UpdaterBackend::Feature::CheckProgress
+- For downloadable installations:
+	- QtAutoUpdater::UpdaterBackend::Feature::PerformInstall
+- For supported installation
+	- QtAutoUpdater::UpdaterBackend::Feature::TriggerInstall
+	- QtAutoUpdater::UpdaterBackend::Feature::ParallelTrigger (can be optionally enabled)
+
+@subsection qtautoupdater_backends_webquery_config Configuration
+ Parameter					| Type															| Default Value									| Description
+----------------------------|---------------------------------------------------------------|-----------------------------------------------|-------------
+ check/url					| QUrl															| _required_									| The URL to query to check for updates. Must be a URL unterstood and supported by QNetworkAccessManager
+ check/autoQuery			| bool															| `true`										| If enabled, additional information is added as query to the URL. See @ref qtautoupdater_backends_webquery_config_query for more details
+ check/spdy					| bool															| `false`										| Enables the use of the SPDY-Protocol
+ check/http2				| bool															| `false`										| Enables the use of the HTTP2-Protocol
+ check/hsts					| bool															| `false`										| Enables the use of HSTS for TLS-based requests (e.g. HTTPS)
+ check/sslConfiguration		| QSslConfiguration												| `QSslConfiguration::defaultConfiguration()`	| The SSL configuration to use for TLS-based requests (e.g. HTTPS)
+ check/headers				| @ref qtautoupdater_backends_webquery_config_headers "Headers"	| _empty_										| Additional HTTP-Headers to be added to the request. See @ref qtautoupdater_backends_webquery_config_headers for how to specify headers
+ check/verb					| QByteArray													| `"GET"`										| The HTTP-Verb to use for HTTP or HTTPS requests
+ check/body					| QByteArray / QIODevice / QHttpMultiPart						| _empty_										| The body to send to the server with the request. By default, no body is sent (empty request)
+ check/parser				| QString														| `"auto"`										| The parser to use to parse the received data. Can be `"auto"`, `"json"` or `"version"`. See @ref qtautoupdater_backends_webquery_formats for more details
+ install/download			| bool															| `false`										| Specifies if the installation requires the previous download of a file (typically the installer itself)
+ install/tool				| QString														| _empty_										| The binary to execute as installer. Can be left empty if the installer is downloaded or `url` is used
+ install/parallel			| bool															| `false`										| Specifies if the installer can be run in parallel to the running application
+ install/url				| QUrl															| _empty_										| The URL to invoke to start the installer. Typically an app-specific URL to for example trigger an app store. Can be used instead of `tool`
+ install/path				| @ref qtautoupdater_backends_types "pathList"					| _system-path_									| A list of paths where to search for the `tool` executable. If not specified, the `PATH` environment variable is used
+ install/arguments			| @ref qtautoupdater_backends_types "argList"					| _empty_										| Additional arguments to be passed to `tool` when running the installer
+ install/pwd				| QString														| _empty_										| The working directory to be used by `tool`. If unset, the calling processes current working directory is used
+ install/runAsAdmin			| bool															| _special_										| Specifies, if the `tool` should be executed with elevated rights
+ install/addDataArgs		| bool															| `false`										| Specify if additional arguments of the downloaded JSON file are allowed to be added to the installer invokation. See @ref qtautoupdater_backends_webquery_info_extras for the syntax
+ install/downloadUrl		| QUrl															| _empty_										| The URL to download the installer from. Can contain @ref qtautoupdater_backends_webquery_config_placeholders "placeholders"
+ install/useInfoDownload	| bool															| `false`										| Specify if additional arguments of the downloaded JSON file are allowed to be used as download URL. See @ref qtautoupdater_backends_webquery_info_extras for the syntax. Relative URLs are resolve to the `downloadUrl`
+ install/headers			| @ref qtautoupdater_backends_webquery_config_headers "Headers"	| _empty_										| The headers to be added to the installer download request. See @ref qtautoupdater_backends_webquery_config_headers for how to specify headers
+ install/execDownload		| bool															| `false`										| Specify if the downloaded installer data should be used as executable and executed or if instead the path should be passed to the installer tool
+
+All parameter that start with `check/` are used when checking for updates. They are used to construct a web request
+(typically HTTP or HTTPS) to download some kind of information about new updates. This information must be in a
+predefined format (See @ref qtautoupdater_backends_webquery_formats) and is parsed to provide the update
+information.
+
+Optionally, one can specify installer information to allow the user to install updates. All parameters that start
+with `install/` are used for that. There are three ways to launch an installer:
+
+1. **As URL:** Specify a URL as `install/url` when the user triggers the installation, the plugin will use the
+QDesktopServices::openUrl to open that url and launch the corresponding app. You can use this to invoke a certain
+local application (like steam) or open a website in the browser. If `addDataArgs` is set to true, additional
+query parameters can be added to the URL.
+2. **As local tool:** If the installer or updater is a locally available tool (i.e. executable), you can use the
+`install/tool` parameter to specify the binary and the `path`, `arguments`, `pwd` and `runAsAdmin` to customize
+how that tool is executed. If `addDataArgs` is set to true, additional arguments can be added from the JSON to the
+arguments.
+3. **As downloaded tool:** Basically the same as 2, but you use the `install/downloadUrl` to download some file
+before running the installer. If `tool` is set, then this tool is executed and the downloaded file is simply
+passed as argument to that tool. Use the `%{downloadPath}` placeholder somewhere as an argument (even multiple
+times, if required), and this string will be replaced with the temporary path to the downloaded file. If however
+the `tool` is unset, and `execDownload` is set to true, the downloaded file will be made executable and executed
+as the tool (with arguments, path, etc. all just like for a normal tool). But be careful to only use HTTPS for the
+update info and always add a hashsum to the update info to prevent malicious code from beeing downloaded and
+executed!
+
+The default value of the `runAsAdmin` depends of the result of
+QtAutoUpdater::AdminAuthoriser::needsAdminPermission(path). The path here is the maintenancetool as specified in the
+settings. While this may work for most systems, it is recommended to always explicitly set this parameter to avoid
+problems.
+
+@subsubsection qtautoupdater_backends_webquery_config_headers The Headers type
+The headers type is basically just a simple QSettings array. It has a size and various elements. Each element has
+a `key` and a `value` member, defining the header pair. The following example should be helpful to understand it:
+
+@code
+# The config values:
+header/size=2
+header/0/key=Content-Type
+header/0/value=text/plain
+header/1/key=Authorization
+header/1/value=my-secret-passphrase
+
+# The corresponding HTTP-headers
+Content-Type: text/plain
+Authorization: my-secret-passphrase
+@endcode
+
+@subsubsection qtautoupdater_backends_webquery_config_query Additional Query Parameters
+If the `check/autoQuery` is set to true, then the following arguments are added to the URL-query autmatically
+(Only for the check request, not the download request).
+
+ Parameter		| Value
+----------------|-------
+ name			| QCoreApplication::applicationName()
+ version		| QCoreApplication::applicationVersion()
+ domain			| QCoreApplication::organizationDomain()
+ abi			| QSysInfo::buildAbi()
+ kernel-type	| QSysInfo::kernelType()
+ kernel-version	| QSysInfo::kernelVersion()
+ os-type		| QSysInfo::productType()
+ os-version		| QSysInfo::productVersion()
+
+@note Those are always added to the URL, even for
+POST-requests. If you want the query in the POST-body , create it yourself and use the `check/body` parameter to
+add it.
+
+@subsubsection qtautoupdater_backends_webquery_config_placeholders Download URL placeholders
+The following placeholders can be part of the download URL. the will be automatically replaced by the corresponding
+value before invoking the download. The values are taken from the QtAutoUpdater::UpdateInfo that initiated the
+download.
+
+ Placeholder	| Value
+----------------|-------
+ `%{id}`		| QtAutoUpdater::UpdateInfo::identifier()
+ `%{name}`		| QtAutoUpdater::UpdateInfo::name()
+ `%{version}`	| QtAutoUpdater::UpdateInfo::version()
+
+@subsection qtautoupdater_backends_webquery_formats Check Request Formats
+The reply to the check for upates request can have one of two formats: `json` or `version`. There is also `auto`,
+which will guess the format based on the returned `Content-Type` header.
+
+If the `version` format is used, the returned data should be a single, undecorated version string (e.g. `1.1.5`).
+This version is then combined with QCoreApplication::applicationName and QGuiApplication::applicationDisplayName
+to create an QtAutoUpdater::UpdateInfo representing the update to the application. You cannot specify additional
+data via this format.
+
+The second and recommended format is `json`. This format allows you to specify multiple update infos and to add
+extra data. The following shows the JSON scheme:
+
+@code
+[
+	{
+		"identifier": any,
+		"name": string,
+		"version": string,
+		"data": object
+	},
+	...
+]
+@endcode
+
+The json members are mapped directly to the equally named properties of QtAutoUpdater::UpdateInfo. The `data` is
+converted using QJsonValue::toVariant. To see what arguments can be passed via `data`, see
+@ref qtautoupdater_backends_webquery_info_extras
+
+@subsection qtautoupdater_backends_webquery_info_extras Arguments for QtAutoUpdater::UpdateInfo::data
+Unlike for most other backends, many of the data arguments are process internally and thus are used to control
+the plugins behaviour. The following table shows all arguments with special meaning for the plugin and how they
+are processed by it. Of course, you can add whatever data you want in addition to those and they will be simply
+parsed and added to the UpdateInfo, so you can process them in your application code how you like.
+
+ Parameter	| Type			| JSON-Type	| Usage
+------------|---------------|-----------|-------
+ query		| QVariantMap	| object	| A map of keys and values, that are added as URL query parameters to the `install/url` that is used to invoke an installer. The values will be automatically escaped. Is only processed, if `install/addDataArgs` is set to true
+ arguments	| QStringList	| array		| A list of extra arguments to be added to `install/arguments` that are used to run `install/tool`. Is only processed, if `install/addDataArgs` is set to true
+ eulas		| QVariantList	| array		| A list of EULAs to be show via the installer before downloading an installer. Are only shown if a download is done. Each element can either be a simple QString (for a required EULA) or a QVariantMap, with `text` beeing the EULA text and `required` a boolean to specify if the EULA must be accepted or not
+ download	| QUrl			| string	| A URL to be used as download URL for a downloaded installer. If the URL is relative, it is resolved via `install/downloadUrl`. Is only used if `install/useInfoDownload` is set to true.
+ exec		| bool			| bool		| Specifies if the downloaded data of this info can be executed. Both this and `install/execDownload` must be true in order for this to be allowed.
 */

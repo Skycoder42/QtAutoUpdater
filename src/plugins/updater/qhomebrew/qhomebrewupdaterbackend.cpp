@@ -224,7 +224,7 @@ void QHomebrewUpdaterBackend::onCaskOutdated(int exitCode, QIODevice *processDev
 				UpdateInfo info;
 				info.setName(match.captured(1));
 				info.setVersion(QVersionNumber::fromString(match.captured(3)));
-				info.setData(QStringLiteral("oldVersions"), QVariant::fromValue(QVersionNumber::fromString(match.captured(2))));
+				info.setData(QStringLiteral("oldVersion"), QVariant::fromValue(QVersionNumber::fromString(match.captured(2))));
 				info.setIdentifier(info.name());
 				updates.append(info);
 			}

@@ -40,6 +40,10 @@ public:
 		static const QString KeyTool;
 		static const QString KeyParallel;
 		static const QString KeyUrl;
+		static const QString KeyPath;
+		static const QString KeyArguments;
+		static const QString KeyPwd;
+		static const QString KeyRunAsAdmin;
 		static const QString KeyAddDataArgs;
 		static const QString KeyDownloadUrl;
 		static const QString KeyUseInfoDownload;
