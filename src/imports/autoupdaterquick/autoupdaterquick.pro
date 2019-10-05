@@ -30,7 +30,8 @@ QML_FILES += \
 	UpdateInstallerPage.qml \
 	UpdateInstallerComponent.qml \
 	SuccessView.qml \
-	UpdateButton.qml
+	UpdateButton.qml\
+	UpdateAction.qml
 
 RESOURCES += \
 	autoupdaterquick.qrc

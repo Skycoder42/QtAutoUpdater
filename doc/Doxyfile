@@ -988,6 +988,7 @@ EXCLUDE_SYMBOLS        = QtAutoUpdaterCoreDeclarativeModule \
 						 QNodeCreatedChangeBase \
 						 QPaintEngineEx \
 						 QTechniqueFilter \
+						 Action \
 						 DelayButton \
 						 Dialog \
 						 QtObject
