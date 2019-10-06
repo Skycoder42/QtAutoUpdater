@@ -215,5 +215,3 @@ sligthly more complex refactorings. Using this document you should be able to ea
 old to the new version. If you however still have some questions, simply use the
 [GitHub Issues](https://github.com/Skycoder42/QtAutoUpdater/issues) to ask for help. I am aware that such a change
 can be challenging and I am always willing to provide any help I can.
-
-## Examples

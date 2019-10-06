@@ -11,7 +11,7 @@ ApplicationWindow {
 	title: qsTr("Hello World")
 
 	property alias buttonOnly: btnOnlyBox.checked
-	property Updater globalUpdater: QtAutoUpdater.createUpdater("/home/sky/Programming/QtLibraries/QtAutoUpdater/examples/autoupdaterwidgets/SimpleUpdaterGui/example.conf")
+	property Updater globalUpdater: QtAutoUpdater.createUpdater(examplePath)
 
 	StackView {
 		id: stackView
@@ -43,6 +43,26 @@ ApplicationWindow {
 
 				UpdateButton {
 					updater: globalUpdater
+				}
+			}
+
+			MouseArea {
+				anchors.fill: parent
+				z: -10
+
+				acceptedButtons: Qt.RightButton
+				onClicked: {
+					testMenu.x = mouse.x;
+					testMenu.y = mouse.y;
+					testMenu.open();
+				}
+
+				Menu {
+					id: testMenu
+
+					UpdateAction {
+						updater: globalUpdater
+					}
 				}
 			}
 		}

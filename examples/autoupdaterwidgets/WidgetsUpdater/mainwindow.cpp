@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->buttonLayout->addWidget(button);
 
 	QSettings settings;
-	ui->configPathLineEdit->setText(settings.value(QStringLiteral("path")).toString());
+	ui->configPathLineEdit->setText(settings.value(QStringLiteral("path"), QStringLiteral(EXAMPLE_PATH)).toString());
 	ui->hasParentWindowCheckBox->setChecked(settings.value(QStringLiteral("hasParent"), true).toBool());
 	ui->displayLevelComboBox->setCurrentIndex(settings.value(QStringLiteral("level")).toInt());
 	ui->detailedInfosCheckBox->setChecked(settings.value(QStringLiteral("details"), false).toBool());

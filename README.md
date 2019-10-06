@@ -38,14 +38,14 @@ The Qt auto updater library is a library to automatically check for updates and 
 	- Arabic (outdated)
 
 #### Screenshots
-Here some sample screenshots of the gui (The rocket of the information dialog is the "application icon" and depends on your application)
+Here some random sample screenshots of the gui (The rocket of the information dialog is the "application icon" and depends on your application). These are various parts of the GUI in various different styles. The first row shows elements from the widgets module, the second from quick
 
-| Dialog Sample      | Windows                                                  | Mac                                                      | X11                                                      |
-|--------------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-| Progress Dialog	 | ![Progress Dialog](./doc/images/win_dialog_progress.png) | ![Progress Dialog](./doc/images/mac_dialog_progress.png) | ![Progress Dialog](./doc/images/x11_dialog_progress.png) |
-| Information Dialog | ![Information Dialog](./doc/images/win_dialog_info.png)  | ![Information Dialog](./doc/images/mac_dialog_info.png)  | ![Information Dialog](./doc/images/x11_dialog_info.png)  |
-| Update Button		 | ![Update Button](./doc/images/win_button_checking.png)   | ![Update Button](./doc/images/mac_button_checking.png)   | ![Update Button](./doc/images/x11_button_checking.png)   |
-| Update Action		 | ![Update Action](./doc/images/win_action.png)            | ![Update Action](./doc/images/mac_action.png)            | ![Update Action](./doc/images/x11_action.png)            |
+ Element			| Widgets Screenshots								| Quick Screenshots
+--------------------|---------------------------------------------------|-------------------
+ Progress Dialog	| ![macOs Style](./doc/images/mac_progress.png)		| ![Default Style](./doc/images/default_progress.png)
+ Information Dialog	| ![Windows Style](./doc/images/win_info.png)		| ![Material Style](./doc/images/material_info.png)
+ Update Button		| ![Fusion Style](./doc/images/fusion_button.png)	| ![Imagine Style](./doc/images/imagine_button.png)
+ Install Wizard		| ![KDE Style](./doc/images/kde_installer.png)		| ![Universal Style](./doc/images/universal_installer.png)
 
 ## Requirements
 - The core library only depends on QtCore

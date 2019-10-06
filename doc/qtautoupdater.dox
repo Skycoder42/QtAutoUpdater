@@ -61,65 +61,40 @@ a gui and the Core-Library.
 /*!
 @page qtautoupdater_image_page Image Page
 
-@brief Shows sample images for the updater for all the supported platforms
+@brief Shows sample images for the updater for widgets and quick
+
 @tableofcontents
 
-# Images {#autoupdater_controller_images}
-## Windows - Windows 10 {#autoupdater_controller_images_win}
-### The Updater Elements {#autoupdater_controller_images_win_1}
-@image html win_dialog_ask.png "Ask Dialog"<br>
-@image html win_dialog_progress.png "Progress Dialog"<br>
-@image html win_dialog_no_updates.png "No Updates Dialog"<br>
-@image html win_dialog_info.png "Detailed Update Information Dialog"<br>
-@image html win_dialog_info_simple.png "Simple Update Information Dialog"<br>
-@image html win_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
+The following tables show the different parts of the GUI for both the widgets
+and the quick GUI. In both cases, the platform neutral styles have been chosen,
+i.e. Fusion for widgets and Default for Quick. However, all GUIs are designed
+in a way to adjust to any style. They will work with the windows, gtk and macOs
+widgets styles and with the Material, Universal and Imagine quick styles, as
+well as any other style.
 
-### The Update Button {#autoupdater_controller_images_win_2}
-@image html win_button_idle.png "Button before clicking"<br>
-@image html win_button_checking.png "Button while checking"<br>
-@image html win_button_updates.png "Button with updates"<br>
-@image html win_button_no_updates.png "Button without updates"<br>
+If you want to find out how the GUIs look for your specific platform and style,
+try out the examples, as all of these images have been created with the examples.
 
-### The Action {#autoupdater_controller_images_win_3}
-@image html win_action.png "Update action inside a menu and a toolbar"<br>
+@section qtautoupdater_images_main Main Updater GUI
+ Element							| Widgets										| Quick
+------------------------------------|-----------------------------------------------|-------
+ Ask Dialog							| @image html widgets_dialog_ask.png			| @image html quick_dialog_ask.png
+ Progress Dialog					| @image html widgets_dialog_progress.png		| @image html quick_dialog_progress.png
+ No Updates Dialog					| @image html widgets_dialog_none.png			| @image html quick_dialog_none.png
+ Detailed Update Information Dialog	| @image html widgets_dialog_info.png			| @image html quick_dialog_info.png
+ Simple Update Information Dialog	| @image html widgets_dialog_info_simple.png	| @image html quick_dialog_info_simple.png
 
-## Mac - OsX 10.11 {#autoupdater_controller_images_osx}
-The following pictures show the controller with a parent windows. Thus, all dialogs
-are shown as "sheets" to that window. If you create the UpdateController without a widget,
-they will show as normal toplevel windows instead.
+@section qtautoupdater_images_installer Embedded installer GUI
+ Element					| Widgets										| Quick
+----------------------------|-----------------------------------------------|-------
+ Component selection page	| @image html widgets_install_components.png	| @image html quick_install_components.png
+ Installation progress page	| @image html widgets_install_progress.png		| @image html quick_install_progress.png
 
-### The Updater Elements {#autoupdater_controller_images_osx_1}
-@image html mac_dialog_ask.png "Ask Dialog"<br>
-@image html mac_dialog_progress.png "Progress Dialog"<br>
-@image html mac_dialog_no_updates.png "No Updates Dialog"<br>
-@image html mac_dialog_info.png "Detailed Update Information Dialog"<br>
-@image html mac_dialog_info_simple.png "Simple Update Information Dialog"<br>
-@image html mac_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
-
-### The Update Button {#autoupdater_controller_images_osx_2}
-@image html mac_button_idle.png "Button before clicking"<br>
-@image html mac_button_checking.png "Button while checking"<br>
-@image html mac_button_updates.png "Button with updates"<br>
-@image html mac_button_no_updates.png "Button without updates"<br>
-
-### The Action {#autoupdater_controller_images_osx_3}
-@image html mac_action.png "Update action inside a menu and a toolbar"<br>
-
-## X11 - KDE Frameworks 5.31.0 (Breeze Style) {#autoupdater_controller_images_x11}
-### The Updater Elements {#autoupdater_controller_images_x11_1}
-@image html x11_dialog_ask.png "Ask Dialog"<br>
-@image html x11_dialog_progress.png "Progress Dialog"<br>
-@image html x11_dialog_no_updates.png "No Updates Dialog"<br>
-@image html x11_dialog_info.png "Detailed Update Information Dialog"<br>
-@image html x11_dialog_info_simple.png "Simple Update Information Dialog"<br>
-@image html x11_dialog_exit.png "Automatic Run - Exit Notification Dialog"<br>
-
-### The Update Button {#autoupdater_controller_images_x11_2}
-@image html x11_button_idle.png "Button before clicking"<br>
-@image html x11_button_checking.png "Button while checking"<br>
-@image html x11_button_updates.png "Button with updates"<br>
-@image html x11_button_no_updates.png "Button without updates"<br>
-
-### The Action {#autoupdater_controller_images_x11_3}
-@image html x11_action.png "Update action inside a menu and a toolbar"<br>
+@section qtautoupdater_images_button_action UpdateButton and UpdateAction GUI
+ Element					| Widgets									| Quick
+----------------------------|-------------------------------------------|-------
+ Default Button state		| @image html widgets_button_default.png	| @image html quick_button_default.png
+ Checking Button state		| @image html widgets_button_checking.png	| @image html quick_button_checking.png
+ New Updates Button state	| @image html widgets_button_updates.png	| @image html quick_button_updates.png
+ Update action				| @image html widgets_action.png			| @image html quick_action.png
 */
