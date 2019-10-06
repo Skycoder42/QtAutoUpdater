@@ -35,7 +35,7 @@ The Qt auto updater library is a library to automatically check for updates and 
 	- German
 	- French
 	- Spanish (outdated)
-	- Arabic (outdated)
+	- Arabic
 
 #### Screenshots
 Here some random sample screenshots of the gui (The rocket of the information dialog is the "application icon" and depends on your application). These are various parts of the GUI in various different styles. The first row shows elements from the widgets module, the second from quick

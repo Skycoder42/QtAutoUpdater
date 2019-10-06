@@ -6,12 +6,12 @@
     <message>
         <location filename="../imports/autoupdaterquick/AskUpdateDialog.qml" line="+18"/>
         <source>Check for updates?</source>
-        <translation>بالتحقق من التحديثات؟</translation>
+        <translation>أتريد التحقق من التحديثات؟</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Do you want to check for updates now?</source>
-        <translation>هل تريد التحقق من التحديثات الآن؟</translation>
+        <translation>أتريد التحقق من التحديثات الآن؟</translation>
     </message>
 </context>
 <context>
@@ -19,12 +19,12 @@
     <message>
         <location filename="../autoupdaterwidgets/componentspage.ui" line="+14"/>
         <source>Select Components</source>
-        <translation>انتق المكونات</translation>
+        <translation>اختيار المكونات</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Select the components you wish to install.</source>
-        <translation>حدد المكونات التي ترغب في تثبيتها.</translation>
+        <translation>اختر المكونات التي تريد تثبيتها.</translation>
     </message>
 </context>
 <context>
@@ -32,12 +32,12 @@
     <message>
         <location filename="../autoupdaterwidgets/errorpage.ui" line="+14"/>
         <source>Installation failed!</source>
-        <translation></translation>
+        <translation>فشل التثبيت!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The installation could not be completed because of an error during the installation. The error message can be found below.</source>
-        <translation>تعذر إكمال التثبيت بسبب حدوث خطأ أثناء التثبيت. يمكن العثور على رسالة الخطأ أدناه.</translation>
+        <translation>تعذر إكمال التثبيت بسبب حدوث خطأ أثناء التثبيت. رسالة الخطأ أدناه.</translation>
     </message>
     <message>
         <location line="+68"/>
@@ -55,12 +55,12 @@
     <message>
         <location line="+3"/>
         <source>Updates are ready to be installed. Press &lt;Install&gt; to start the installation.</source>
-        <translation>التحديثات جاهزة للتثبيت. صحافة &lt;Install&gt; لبدء التثبيت.</translation>
+        <translation>التحديثات جاهزة للتثبيت. اضغط &lt;ثبّت&gt; لبدء التثبيت.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Show Details</source>
-        <translation>عرض التفاصيل</translation>
+        <translation>اعرض التفاصيل</translation>
     </message>
 </context>
 <context>
@@ -74,7 +74,7 @@
         <location line="+31"/>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>ألغِ</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -84,7 +84,7 @@
     <message>
         <location line="+11"/>
         <source>Install</source>
-        <translation>تثبيت</translation>
+        <translation>ثبّت</translation>
     </message>
     <message numerus="yes">
         <location line="+75"/>
@@ -101,12 +101,12 @@
     <message>
         <location line="+26"/>
         <source>Installation failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>فشل التثبيت!</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Do you want to check for updates now?</source>
-        <translation>هل تريد التحقق من التحديثات الآن؟</translation>
+        <translation>أتريد التحقق من التحديثات الآن؟</translation>
     </message>
 </context>
 <context>
@@ -114,18 +114,18 @@
     <message>
         <location filename="../autoupdaterwidgets/progressdialog.ui" line="+17"/>
         <source>Check for Updates</source>
-        <translation>افحص للتحديثات</translation>
+        <translation>التحقق من التحديثات</translation>
     </message>
     <message>
         <location line="+19"/>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+17"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات…</translation>
+        <translation>جارٍ التحقق من التحديثات…</translation>
     </message>
     <message>
         <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+45"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل…</translation>
+        <translation>جارٍ الإلغاء...</translation>
     </message>
 </context>
 <context>
@@ -157,17 +157,17 @@
     <message>
         <location filename="../plugins/updater/qhomebrew/qhomebrewupdateinstaller.cpp" line="+65"/>
         <source>Starting homebrew…</source>
-        <translation>بدء تشغيل البيرة …</translation>
+        <translation>جارٍ تشغيل homebrew...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Running homebrew in the background to perform the upgrade…</source>
-        <translation>تشغيل البيرة في الخلفية لإجراء الترقية …</translation>
+        <translation>جارٍ تشغيل homebrew في الخلفية لتنفيذ الترقية...</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Homebrew exited with unclean exit code %1</source>
-        <translation>تم إنهاء المشروب برمز الخروج غير النظيف %1</translation>
+        <translation>انتهى Homebrew برمز الخروج %1</translation>
     </message>
 </context>
 <context>
@@ -180,7 +180,7 @@
     <message>
         <location line="+19"/>
         <source>Updating local package database…</source>
-        <translation>تحديث قاعدة بيانات الحزمة المحلية …</translation>
+        <translation>جارٍ تحديث قاعدة بيانات الحزمة المحلية …</translation>
     </message>
     <message>
         <location line="+112"/>
@@ -219,12 +219,12 @@
         <location filename="../plugins/updater/qpackagekit/qpackagekitupdateinstaller.cpp" line="+42"/>
         <location line="+8"/>
         <source>EULA was rejected!</source>
-        <translation>تم رفض EULA!</translation>
+        <translation>رُفضت اتفاقية ترخيص المستخدم النهائي!</translation>
     </message>
     <message>
         <location line="+74"/>
         <source>Waiting for EULA to be accepted…</source>
-        <translation>في انتظار قبول اتفاقية ترخيص المستخدم النهائي …</translation>
+        <translation>جارٍ انتظار قبول اتفاقية ترخيص المستخدم النهائي …</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Eula of package %1&lt;&amp;h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
@@ -233,27 +233,27 @@
     <message>
         <location line="+2"/>
         <source>&lt;h1&gt;Eula of package %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Package Vendor: %3&lt;/p&gt;</source>
-        <translation>&lt;h1&gt;حزمة الحزمة %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;بائع الحزمة: %3&lt;/p&gt;</translation>
+        <translation>&lt;h1&gt;اتفاقية ترخيص المستخدم النهائي للحزمة %1&lt;/h1&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;مزود الحزمة: %3&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Installation failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>فشل التثبيت!</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Installation was canceled.</source>
-        <translation>تم إلغاء التثبيت.</translation>
+        <translation>أُلغي التثبيت.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>A key was required!</source>
-        <translation>مفتاح مطلوب!</translation>
+        <translation>مفتاح ما كان مطلوباً!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Media exchange was required!</source>
-        <translation>التبادل الإعلامي كان مطلوبا!</translation>
+        <translation>التبادل كان مطلوباً!</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -276,27 +276,27 @@
     <message>
         <location line="+2"/>
         <source>Setting up…</source>
-        <translation>تأسيس…</translation>
+        <translation>جارٍ الضبط...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Running…</source>
-        <translation>الجري…</translation>
+        <translation>جارٍ التشغيل…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Querying database…</source>
-        <translation>الاستعلام عن قاعدة البيانات …</translation>
+        <translation>جارٍ الاستعلام عن قاعدة البيانات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Showing information…</source>
-        <translation>عرض المعلومات …</translation>
+        <translation>جارٍ عرض المعلومات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Removing packages…</source>
-        <translation>يزيل الحزم…</translation>
+        <translation>جارٍ إزالة الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -306,62 +306,62 @@
     <message>
         <location line="+2"/>
         <source>Downloading packages…</source>
-        <translation>تنزيل الحزم…</translation>
+        <translation>جارٍ تنزيل الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Installing packages…</source>
-        <translation>يثبّت الحزم…</translation>
+        <translation>جارٍ تثبيت الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Updating packages…</source>
-        <translation>يحدّث الحزم…</translation>
+        <translation>جارٍ تحديث الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cleaning up…</source>
-        <translation>التنظيف…</translation>
+        <translation>جارٍ التنظيف…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Package obsolete!</source>
-        <translation>حزمة عفا عليها الزمن!</translation>
+        <translation>حزمة قديمة!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Resolving package dependencies…</source>
-        <translation>حل تبعيات الحزمة …</translation>
+        <translation>جارٍ حل اعتماديات الحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying package signatures…</source>
-        <translation>التحقق من تواقيع الحزمة …</translation>
+        <translation>جارٍ التحقق من تواقيع الحزمة …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Testing for commit…</source>
-        <translation>اختبار الالتزام …</translation>
+        <translation>جارٍ اختبار الإيداع …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Committing updates…</source>
-        <translation>الالتزام بالتحديثات …</translation>
+        <translation>جارٍ إيداع التحديثات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending request…</source>
-        <translation>طلب إرسال…</translation>
+        <translation>جارٍ إرسال الطلب…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Finished.</source>
-        <translation>تام الصنع.</translation>
+        <translation>انتهى.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل…</translation>
+        <translation>جارٍ الإلغاء...</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -371,7 +371,7 @@
     <message>
         <location line="+2"/>
         <source>Downloading package list…</source>
-        <translation>جار تنزيل الحزمة …</translation>
+        <translation>جار تنزيل قائمة الحزم …</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -396,47 +396,47 @@
     <message>
         <location line="+2"/>
         <source>Repackaging…</source>
-        <translation>تحزيم …</translation>
+        <translation>جارٍ إعادة التحزيم...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Loading cache…</source>
-        <translation>تحميل المخزن…</translation>
+        <translation>جارٍ تحميل المخزن…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning applications…</source>
-        <translation>مسح التطبيقات …</translation>
+        <translation>جارٍ مسح التطبيقات …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Generating package list…</source>
-        <translation>جارٍ إنشاء الحزمة…</translation>
+        <translation>جارٍ إنشاء قائمة الحزم…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for lock…</source>
-        <translation>في انتظار القفل …</translation>
+        <translation>جارٍ انتظار القفل …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for authentication…</source>
-        <translation>في انتظار الاستيثاق…</translation>
+        <translation>جارٍ انتظار الاستيثاق…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Scanning processes…</source>
-        <translation>عمليات المسح …</translation>
+        <translation>جارٍ مسح العمليات...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying executables…</source>
-        <translation>التحقق من الملفات التنفيذية …</translation>
+        <translation>جارٍ التحقق من الملفات التنفيذية …</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verifying libraries…</source>
-        <translation>التحقق من المكتبات …</translation>
+        <translation>جارٍ التحقق من المكتبات …</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -446,7 +446,7 @@
     <message>
         <location line="+2"/>
         <source>Running install hooks…</source>
-        <translation>تشغيل تثبيت خطاطيف …</translation>
+        <translation>جارٍ تشغيل خطاطيف التثبيت...</translation>
     </message>
 </context>
 <context>
@@ -455,7 +455,7 @@
         <location filename="../plugins/updater/qplaystore/qplaystoreupdateinstaller.cpp" line="+22"/>
         <location line="+80"/>
         <source>The installation was canceled by the user!</source>
-        <translation>تم إلغاء التثبيت من قبل المستخدم!</translation>
+        <translation>أُلغي التثبيت من قبل المستخدم!</translation>
     </message>
     <message>
         <location line="-60"/>
@@ -465,42 +465,42 @@
     <message>
         <location line="+7"/>
         <source>No update information available! Try to check for updates again to fix this problem.</source>
-        <translation>لا توجد معلومات التحديث المتاحة! حاول البحث عن التحديثات مرة أخرى لإصلاح هذه المشكلة.</translation>
+        <translation>لا توجد معلومات متاحة عن التحديث! حاول البحث عن التحديثات مرة أخرى لإصلاح هذه المشكلة.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Failed to initiate an update!</source>
-        <translation>فشل في بدء التحديث!</translation>
+        <translation>فشل بدء التحديث!</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Unknown state…</source>
-        <translation>دولة غير معروفة …</translation>
+        <translation>حالة غير معروفة...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Update installation is pending. Please wait…</source>
-        <translation>تحديث التثبيت معلق. يرجى الانتظار…</translation>
+        <translation>تثبيت التحديث معلق. يرجى الانتظار…</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Downloading update…</source>
-        <translation>جار تحميل التحديث…</translation>
+        <translation>جارٍ تنزيل التحديث…</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Update downloaded</source>
-        <translation>تم تحميل التحديث</translation>
+        <translation>نُزّل التحديث</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Installing update…</source>
-        <translation>جاري تثبيت التحديث…</translation>
+        <translation>جارٍ تثبيت التحديث…</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Update installed</source>
-        <translation>تحديث تثبيت</translation>
+        <translation>ثُبّت التحديث</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -510,17 +510,17 @@
     <message>
         <location line="+5"/>
         <source>Update was canceled!</source>
-        <translation>تم إلغاء التحديث!</translation>
+        <translation>أُلغي التحديث!</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Waiting for user confirmation…</source>
-        <translation>انتظار التأكيد…</translation>
+        <translation>جارٍ انتظار تأكيد المستخدم...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>No error occured.</source>
-        <translation>حدث خطأ.</translation>
+        <translation>لم يحدث أي خطأ.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -540,7 +540,7 @@
     <message>
         <location line="+2"/>
         <source>An invalid request was made!</source>
-        <translation>تم تقديم طلب غير صحيح!</translation>
+        <translation>أُنشئ طلب غير صحيح!</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -555,12 +555,12 @@
     <message>
         <location line="+2"/>
         <source>No downloaded update was found!</source>
-        <translation>لم يتم العثور على تحديث تم تنزيله!</translation>
+        <translation>لم يُعثر على تحديث قابلٍ للتنزيل!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Another installation is already in progress!</source>
-        <translation>تثبيت آخر قيد التقدم بالفعل!</translation>
+        <translation>هناك تثبيت آخر يعمل بالفعل!</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -579,12 +579,12 @@
     <message>
         <location line="+17"/>
         <source>Unabled to cache downloaded updates!</source>
-        <translation>غير قادر على تخزين التحديثات التي تم تنزيلها!</translation>
+        <translation>غير قادر على تخزين التحديثات المُنزّلة!</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Downloading update files…</source>
-        <translation>تنزيل ملفات التحديث …</translation>
+        <translation>جارٍ تنزيل ملفات التحديث …</translation>
     </message>
     <message>
         <location line="-107"/>
@@ -594,48 +594,48 @@
     <message>
         <location line="-64"/>
         <source>EULA was rejected!</source>
-        <translation>تم رفض EULA!</translation>
+        <translation>رُفضت اتفاقية ترخيص المستخدم النهائي!</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Network request failed with HTTP status code: %1</source>
-        <translation>فشل طلب الشبكة مع رمز حالة %1</translation>
+        <translation>فشل طلب الشبكة برمز الحالة %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hashsum verification failed! At least one download was corrupted.</source>
-        <translation>فشل التحقق Hashsum! تم تنزيل تنزيل واحد على الأقل.</translation>
+        <translation>فشل التحقق من التجزئة! تنزيل واحد على الأقل تالف.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Processing download…</source>
-        <translation>جاري تنفيذ التنزيل…</translation>
+        <translation>جارٍ معالجة التنزيل…</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+5"/>
         <source>Downloading update…</source>
-        <translation>جار تحميل التحديث…</translation>
+        <translation>جار تنزيل التحديث…</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Processing downloaded data…</source>
-        <translation>جارٍ معالجة البيانات التي تم تنزيلها …</translation>
+        <translation>جارٍ معالجة البيانات المُنزّلة …</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Update installer tool failed!</source>
-        <translation>فشل أداة تحديث المثبت!</translation>
+        <translation>فشل مثبت التحديثات!</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>Launching installer…</source>
-        <translation>المثبت إطلاق…</translation>
+        <translation>جارٍ تشغيل المثبت...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Failed to make downloaded file executable!</source>
-        <translation>فشل في تنزيل الملف القابل للتنفيذ!</translation>
+        <translation>فشل جعل الملف المُنزّل قابلاً للتنفيذ!</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -645,7 +645,7 @@
     <message>
         <location line="+27"/>
         <source>Failed to start updater program!</source>
-        <translation>فشل في بدء برنامج التحديث!</translation>
+        <translation>فشل بدء المحدث!</translation>
     </message>
 </context>
 <context>
@@ -664,7 +664,7 @@
     <message>
         <location line="-3"/>
         <source>Processing downloaded data…</source>
-        <translation>جارٍ معالجة البيانات التي تم تنزيلها …</translation>
+        <translation>جارٍ معالجة البيانات المُنزّلة …</translation>
     </message>
 </context>
 <context>
@@ -685,7 +685,7 @@
     <message>
         <location filename="../autoupdaterwidgets/installwizard.cpp" line="+94"/>
         <source>You must select at least one component to be installed!</source>
-        <translation>يجب عليك تحديد مكون واحد على الأقل ليتم تثبيته!</translation>
+        <translation>يجب تحديد مكون واحد على الأقل لتثبيته!</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -703,32 +703,32 @@
     <message>
         <location line="+1"/>
         <source>Cancel the update installation? This might leave the application in an unrepairable state!</source>
-        <translation>إلغاء تثبيت التحديث؟ هذا قد يترك التطبيق في حالة غير قابلة للإصلاح!</translation>
+        <translation>أتريد إلغاء تثبيت التحديث؟ قد يترك هذا التطبيق في حالة غير قابلة للإصلاح!</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Install</source>
-        <translation>تثبيت</translation>
+        <translation>ثبّت</translation>
     </message>
     <message>
         <location line="+101"/>
         <source>Accept this EULA to continue installation?</source>
-        <translation>هل تريد قبول اتفاقية ترخيص المستخدم هذا لمواصلة التثبيت؟</translation>
+        <translation>أتريد قبول اتفاقية ترخيص المستخدم النهائي هذه لمواصلة التثبيت؟</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>EULA acceptance requested</source>
-        <translation>الموافقة EULA المطلوبة</translation>
+        <translation>الموافقة على اتفاقية ترخيص المستخدم النهائي مطلوبة</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Installation comes with the following EULA</source>
-        <translation>التثبيت يأتي مع EULA التالية</translation>
+        <translation>يأتي التثبيت مع اتفاقيات ترخيص المستخدم النهائي التالية</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>EULA information</source>
-        <translation>المعلومات</translation>
+        <translation>معلومات اتفاقية ترخيص المستخدم النهائي</translation>
     </message>
 </context>
 <context>
@@ -736,7 +736,7 @@
     <message>
         <location line="-245"/>
         <source>Updater installer</source>
-        <translation>المثبت المحدث</translation>
+        <translation>مثبت المحدث</translation>
     </message>
 </context>
 <context>
@@ -744,7 +744,7 @@
     <message>
         <location filename="../autoupdaterwidgets/progressdialog.cpp" line="+35"/>
         <source>Canceling update check…</source>
-        <translation>إلغاء التحقق من التحديث …</translation>
+        <translation>جارٍ إلغاء التحقق من التحديثات …</translation>
     </message>
 </context>
 <context>
@@ -757,12 +757,12 @@
     <message>
         <location line="+2"/>
         <source>Status</source>
-        <translation>الوضعية</translation>
+        <translation>الحالة</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Progress</source>
-        <translation>تقدم</translation>
+        <translation>التقدم</translation>
     </message>
 </context>
 <context>
@@ -774,38 +774,38 @@
         <location line="+17"/>
         <location line="+7"/>
         <source>Check for updates</source>
-        <translation>بالتحقق من التحديثات</translation>
+        <translation>تحقّق من التحديثات</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>No new updates</source>
-        <translation>تحديثات جديدة</translation>
+        <translation>لا تحديثات جديدة</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>ألغِ</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+49"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات…</translation>
+        <translation>جار التحقق من التحديثات…</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل…</translation>
+        <translation>جار الإلغاء...</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Install updates</source>
-        <translation>تثبيت التحديثات</translation>
+        <translation>ثبّت التحديثات</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>New updates are available!</source>
-        <translation>تحديثات جديدة متوفرة!</translation>
+        <translation>تتوفر تحديثات جديدة!</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -815,7 +815,7 @@
     <message>
         <location line="+6"/>
         <source>Installing updates…</source>
-        <translation>جار تثبيت التحديثات…</translation>
+        <translation>جارٍ تثبيت التحديثات…</translation>
     </message>
 </context>
 <context>
@@ -827,32 +827,32 @@
         <location line="+84"/>
         <location line="+35"/>
         <source>Check for Updates</source>
-        <translation>افحص للتحديثات</translation>
+        <translation>تحقّق من التحديثات</translation>
     </message>
     <message>
         <location line="-202"/>
         <source>Do you want to check for updates now?</source>
-        <translation>هل تريد التحقق من التحديثات الآن؟</translation>
+        <translation>أتريد التحقق من التحديثات الآن؟</translation>
     </message>
     <message>
         <location line="+142"/>
         <source>Failed to start the installer to install new updates!</source>
-        <translation>فشل في بدء برنامج التثبيت لتثبيت التحديثات الجديدة!</translation>
+        <translation>فشل بدء المثبت لتثبيت التحديثات الجديدة!</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New updates are available. The update tool will be started to install those as soon as you close the application!</source>
-        <translation>لا تتوفر تحديثات جديدة . سيتم بدء تشغيل أداة التحديث لتثبيت تلك بمجرد إغلاق التطبيق!</translation>
+        <translation>هناك تحديثات جديدة متوفرة. ستُشغّل أداة التحديث لتثبيتها بمجرد إغلاق التطبيق!</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>An error occured while trying to check for updates!</source>
-        <translation>حدث خطأ أثناء محاولة التحقق من وجود تحديثات!</translation>
+        <translation>حدث خطأ أثناء محاولة التحقق من التحديثات!</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Checking for updates was canceled!</source>
-        <translation>تم إلغاء التحقق من التحديثات!</translation>
+        <translation>أُلغي التحقق من التحديثات!</translation>
     </message>
     <message>
         <location line="-62"/>
@@ -863,12 +863,12 @@
     <message>
         <location line="-65"/>
         <source>No new updates available!</source>
-        <translation>لا تتوفر تحديثات جديدة.!</translation>
+        <translation>لا تتوفر تحديثات جديدة!</translation>
     </message>
     <message>
         <location line="-210"/>
         <source>Checks if new updates are available. You will be prompted before updates are installed.</source>
-        <translation>التحقق من توفر تحديثات جديدة. سيُطلب منك قبل تثبيت التحديثات.</translation>
+        <translation>تحقق من توفر تحديثات جديدة. سيتم إعلامك قبل تثبيت التحديثات.</translation>
     </message>
 </context>
 <context>
@@ -882,7 +882,7 @@
     <message>
         <location line="-63"/>
         <source>Install on exit</source>
-        <translation>تثبيت على الخروج</translation>
+        <translation>ثبّت عند الخروج</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -897,52 +897,52 @@
     <message>
         <location line="+110"/>
         <source>Close the application and install updates?</source>
-        <translation>أغلق التطبيق وتثبيت التحديثات؟</translation>
+        <translation>أتريد إغلاق التطبيق وتثبيت التحديثات؟</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Install On Exit</source>
-        <translation>تثبيت عند الخروج</translation>
+        <translation>التثبيت عند الخروج</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Updates will be installed on exit. The update tool will be started as soon as you close the application!</source>
-        <translation>سيتم تثبيت التحديثات عند الخروج. سيتم بدء تشغيل أداة التحديث بمجرد إغلاق التطبيق!</translation>
+        <translation>ستُثبّت التحديثات عند الخروج. ستُشغّل أداة التحديث بمجرد إغلاق التطبيق!</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>There are new updates available! To install the displayed updates, exit this application and start the updater.</source>
-        <translation>هناك تحديثات جديدة متاحة. لتثبيت التحديثات المعروضة ، اخرج من هذا التطبيق وابدأ التحديث.</translation>
+        <translation>هناك تحديثات جديدة متاحة. لتثبيت التحديثات المعروضة ، أغلق هذا التطبيق وابدأ المحدث.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>There are new updates available! You can install them right now by pressing &lt;Install Now&gt; below.</source>
-        <translation>هناك تحديثات جديدة متاحة. يمكنك تثبيتها الآن عن طريق الضغط على &lt;Install Now&gt; أدناه.</translation>
+        <translation>هناك تحديثات جديدة متاحة. يمكنك تثبيتها الآن عن طريق الضغط على &lt;ثبّت الآن&gt; أدناه.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>There are new updates available! You can install them now, without having to exit the application during the update. Alternatively, you can automatically start the installer, when you exit the application.</source>
-        <translation>هناك تحديثات جديدة متاحة. يمكنك تثبيتها الآن ، دون الحاجة إلى الخروج من التطبيق أثناء التحديث. بدلاً من ذلك ، يمكنك بدء برنامج التثبيت تلقائيًا ، عند الخروج من التطبيق.</translation>
+        <translation>هناك تحديثات جديدة متاحة. يمكنك تثبيتها الآن دون الحاجة إلى الخروج من التطبيق أثناء التحديث. بدلاً من ذلك ، يمكنك بدء المثبت تلقائيًا عند الخروج من التطبيق.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>There are new updates available! Installing those requires you to close this application. You can install them now or automatically, when you exit the application.</source>
-        <translation>هناك تحديثات جديدة متاحة. يتطلب تثبيت هذه منك إغلاق هذا التطبيق. يمكنك تثبيتها الآن أو تلقائيًا عند الخروج من التطبيق.</translation>
+        <translation>هناك تحديثات جديدة متاحة. يتطلب تثبيتها إغلاق هذا التطبيق. يمكنك تثبيتها الآن أو تلقائيًا عند الخروج من التطبيق.</translation>
     </message>
     <message>
         <location line="-178"/>
         <source>Check for Updates</source>
-        <translation>افحص للتحديثات</translation>
+        <translation>التحقق من التحديثات</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Install later</source>
-        <translation>ثبت ~لاحقا</translation>
+        <translation>ثبت لاحقاً</translation>
     </message>
     <message>
         <location line="+120"/>
         <source>Install Now?</source>
-        <translation>ثبّت الآن?</translation>
+        <translation>أتريد التثبيت الآن؟</translation>
     </message>
 </context>
 <context>
@@ -950,12 +950,12 @@
     <message>
         <location filename="../autoupdatercore/updateinstaller.cpp" line="-314"/>
         <source>Installation complete</source>
-        <translation>إكمال التثبيت</translation>
+        <translation>اكتمل التثبيت</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Installation failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>فشل التثبيت!</translation>
     </message>
 </context>
 <context>
@@ -963,7 +963,7 @@
     <message>
         <location filename="../autoupdatercore/updater.cpp" line="+233"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات…</translation>
+        <translation>جارٍ التحقق من التحديثات…</translation>
     </message>
 </context>
 <context>
@@ -979,7 +979,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/SelectComponentView.qml" line="+11"/>
         <source>Select Components</source>
-        <translation>انتق المكونات</translation>
+        <translation>اختيار المكونات</translation>
     </message>
 </context>
 <context>
@@ -987,7 +987,7 @@
     <message>
         <location filename="../autoupdaterwidgets/successpage.ui" line="+14"/>
         <source>Installation completed</source>
-        <translation>استكمل التركيب</translation>
+        <translation>اكتمل التثبيت</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -997,7 +997,7 @@
     <message>
         <location line="+31"/>
         <source>Restart application</source>
-        <translation>إعادة تشغيل التطبيق</translation>
+        <translation>أعد تشغيل التطبيق</translation>
     </message>
 </context>
 <context>
@@ -1005,7 +1005,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/SuccessView.qml" line="+11"/>
         <source>Installation successful!</source>
-        <translation>التثبيت بنجاح!</translation>
+        <translation>نجح التثبيت!</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1015,7 +1015,7 @@
     <message>
         <location line="+5"/>
         <source>Press the X-Button to close the installer…</source>
-        <translation>اضغط على زر X لإغلاق برنامج التثبيت …</translation>
+        <translation>اضغط على زر X لإغلاق المثبت…</translation>
     </message>
 </context>
 <context>
@@ -1023,7 +1023,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/UpdateAction.qml" line="+30"/>
         <source>Check for updates</source>
-        <translation>بالتحقق من التحديثات</translation>
+        <translation>تحقّق من التحديثات</translation>
     </message>
 </context>
 <context>
@@ -1032,23 +1032,23 @@
         <location filename="../autoupdaterwidgets/updatebutton.ui" line="+35"/>
         <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="+200"/>
         <source>Check for updates</source>
-        <translation>بالتحقق من التحديثات</translation>
+        <translation>تحقق من التحديثات</translation>
     </message>
     <message>
         <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="-79"/>
         <location line="+3"/>
         <source>Checking for updates…</source>
-        <translation>جار التحقق من وجود تحديثات…</translation>
+        <translation>جار التحقق من التحديثات…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>ألغٍ</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Canceling…</source>
-        <translation>إالغاء, تبطيل…</translation>
+        <translation>جارٍ الإلغاء...</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1058,12 +1058,12 @@
     <message>
         <location line="+1"/>
         <source>Found new updates</source>
-        <translation>العثور على تحديثات جديدة</translation>
+        <translation>عُثر على تحديثات جديدة</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Installing updates…</source>
-        <translation>جار تثبيت التحديثات…</translation>
+        <translation>جارٍ تثبيت التحديثات…</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1071,7 @@
     <message>
         <location filename="../autoupdaterwidgets/updateinfodialog.ui" line="+17"/>
         <source>Check for Updates</source>
-        <translation>افحص للتحديثات</translation>
+        <translation>التحقق من التحديثات</translation>
     </message>
     <message>
         <location line="+54"/>
@@ -1091,27 +1091,27 @@
     <message>
         <location line="+10"/>
         <source>Close and do nothing. You can install updates later.</source>
-        <translation>أغلق ولا تفعل شيئًا. يمكنك تثبيت التحديثات في وقت لاحق.</translation>
+        <translation>أغلق ولا تفعل شيئًا. يمكنك تثبيت التحديثات لاحقاً.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Install later</source>
-        <translation>ثبت ~لاحقا</translation>
+        <translation>ثبت لاحقاً</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>You proceed using the application, and as soon as you close it, the updater will start automatically to install the updates.</source>
-        <translation>يمكنك المتابعة باستخدام التطبيق ، وبمجرد إغلاقه ، سيبدأ المحدث تلقائيًا لتثبيت التحديثات.</translation>
+        <translation>يمكنك المتابعة باستخدام التطبيق ، وبمجرد إغلاقه ، سيُبدأ المحدث تلقائيًا لتثبيت التحديثات.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Install On Exit</source>
-        <translation>تثبيت عند الخروج</translation>
+        <translation>ثبّت عند الخروج</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Closes the application and opens the installer to update the app.</source>
-        <translation>يغلق التطبيق ويفتح برنامج التثبيت لتحديث التطبيق.</translation>
+        <translation>أغلق التطبيق وافتح المثبت لتحديث التطبيق.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1124,22 +1124,22 @@
     <message>
         <location filename="../imports/autoupdaterquick/UpdateInfoPage.qml" line="+37"/>
         <source>Go back without installing updates</source>
-        <translation>العودة دون تثبيت التحديثات</translation>
+        <translation>عُد دون تثبيت التحديثات</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New Updates!</source>
-        <translation>تحديثات جديدة!</translation>
+        <translation>هناك تحديثات جديدة!</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Install on exit</source>
-        <translation>تثبيت على الخروج</translation>
+        <translation>ثبّت عند الخروج</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Install the new updates as soon as you exit the app</source>
-        <translation>قم بتثبيت التحديثات الجديدة بمجرد الخروج من التطبيق</translation>
+        <translation>ثبّت التحديثات الجديدة بمجرد الخروج من التطبيق</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1149,12 +1149,12 @@
     <message>
         <location line="+4"/>
         <source>Install the new updates immediatly.</source>
-        <translation>قم بتثبيت التحديثات الجديدة على الفور.</translation>
+        <translation>ثبّت التحديثات الجديدة فوراً.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source> This will exit the application to start the installer!</source>
-        <translation> سيؤدي ذلك إلى الخروج من التطبيق لبدء برنامج التثبيت!</translation>
+        <translation> سيؤدي ذلك إلى الخروج من التطبيق لبدء المثبت!</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -1174,7 +1174,7 @@
     <message>
         <location line="+7"/>
         <source>Unable to install updates! Failed to launch the update installer.</source>
-        <translation>غير قادر على تثبيت التحديثات! أخفق تشغيل مثبت التحديث.</translation>
+        <translation>غير قادر على تثبيت التحديثات! فشل تشغيل مثبت التحديثات.</translation>
     </message>
 </context>
 <context>
@@ -1182,22 +1182,22 @@
     <message>
         <location filename="../imports/autoupdaterquick/UpdateInstallerPage.qml" line="+83"/>
         <source>Accept EULA?</source>
-        <translation>هل تقبل EULA؟</translation>
+        <translation>أتقبل اتفاقية ترخيص المستخدم النهائي؟</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>EULA provided</source>
-        <translation>شريطة أن</translation>
+        <translation>اتفاقية ترخيص المستخدم النهائي المرفقة</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Go back to the previous page</source>
-        <translation>عد للصفحة السابقة</translation>
+        <translation>عُد للصفحة السابقة</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Go to the next page</source>
-        <translation>الذهاب للصفحة التالية</translation>
+        <translation>اذهب للصفحة التالية</translation>
     </message>
 </context>
 <context>
@@ -1205,7 +1205,7 @@
     <message>
         <location filename="../imports/autoupdaterquick/UpdateResultDialog.qml" line="+122"/>
         <source>Check for updates finished!</source>
-        <translation>التحقق من وجود تحديثات الانتهاء!</translation>
+        <translation>انتهى التحقق من وجود تحديثات!</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1215,17 +1215,17 @@
     <message>
         <location line="+1"/>
         <source>Install on exit</source>
-        <translation>تثبيت على الخروج</translation>
+        <translation>ثبّت عند الخروج</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Install later</source>
-        <translation>ثبت ~لاحقا</translation>
+        <translation>ثبّت لاحقاً</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>حسناً</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -1235,7 +1235,7 @@
     <message>
         <location line="+7"/>
         <source>New updates are available! You can install them now or later</source>
-        <translation>تحديثات جديدة متوفرة يمكنك تثبيتها الآن أو في وقت لاحق</translation>
+        <translation>تتوفر تحديثات جديدة! يمكنك تثبيتها الآن أو لاحقاً</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1245,12 +1245,12 @@
     <message>
         <location line="+7"/>
         <source>An error occured while trying to check for updates.</source>
-        <translation>حدث خطأ أثناء محاولة التحقق من وجود تحديثات.</translation>
+        <translation>حدث خطأ أثناء محاولة التحقق من التحديثات.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Updates are available, but was not able to start the update installer!</source>
-        <translation type="unfinished"></translation>
+        <translation>التحديثات متوفرة، لكن لم يمكن بدأ مثبت التحديثات!</translation>
     </message>
 </context>
 </TS>
