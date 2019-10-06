@@ -4,7 +4,7 @@
 <context>
     <name>AskUpdateDialog</name>
     <message>
-        <location filename="../imports/autoupdaterquick/AskUpdateDialog.qml" line="+10"/>
+        <location filename="../imports/autoupdaterquick/AskUpdateDialog.qml" line="+18"/>
         <source>Check for updates?</source>
         <translation>بالتحقق من التحديثات؟</translation>
     </message>
@@ -32,7 +32,7 @@
     <message>
         <location filename="../autoupdaterwidgets/errorpage.ui" line="+14"/>
         <source>Installation failed!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -118,7 +118,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+9"/>
+        <location filename="../imports/autoupdaterquick/ProgressDialog.qml" line="+17"/>
         <source>Checking for updates…</source>
         <translation>جار التحقق من وجود تحديثات…</translation>
     </message>
@@ -572,7 +572,7 @@
     <name>QWebQueryUpdateInstaller</name>
     <message>
         <location filename="../plugins/updater/qwebquery/qwebqueryupdateinstaller.cpp" line="+57"/>
-        <location line="+128"/>
+        <location line="+129"/>
         <source>Invalid update details!</source>
         <translation>تفاصيل التحديث غير صالحة!</translation>
     </message>
@@ -587,7 +587,7 @@
         <translation>تنزيل ملفات التحديث …</translation>
     </message>
     <message>
-        <location line="-106"/>
+        <location line="-107"/>
         <source>Network request failed with error: %1</source>
         <translation>فشل طلب الشبكة بسبب الخطأ: %1</translation>
     </message>
@@ -607,7 +607,7 @@
         <translation>فشل التحقق Hashsum! تم تنزيل تنزيل واحد على الأقل.</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Processing download…</source>
         <translation>جاري تنفيذ التنزيل…</translation>
     </message>
@@ -651,7 +651,7 @@
 <context>
     <name>QWebQueryUpdaterBackend</name>
     <message>
-        <location filename="../plugins/updater/qwebquery/qwebqueryupdaterbackend.cpp" line="+244"/>
+        <location filename="../plugins/updater/qwebquery/qwebqueryupdaterbackend.cpp" line="+248"/>
         <source>Processing reply…</source>
         <translation>جارٍ معالجة الرد …</translation>
     </message>
@@ -821,7 +821,7 @@
 <context>
     <name>QtAutoUpdater::UpdateController</name>
     <message>
-        <location filename="../autoupdaterwidgets/updatecontroller.cpp" line="+53"/>
+        <location filename="../autoupdaterwidgets/updatecontroller.cpp" line="+44"/>
         <location line="+129"/>
         <location line="+84"/>
         <location line="+84"/>
@@ -1019,10 +1019,18 @@
     </message>
 </context>
 <context>
+    <name>UpdateAction</name>
+    <message>
+        <location filename="../imports/autoupdaterquick/UpdateAction.qml" line="+30"/>
+        <source>Check for updates</source>
+        <translation>بالتحقق من التحديثات</translation>
+    </message>
+</context>
+<context>
     <name>UpdateButton</name>
     <message>
         <location filename="../autoupdaterwidgets/updatebutton.ui" line="+35"/>
-        <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="+115"/>
+        <location filename="../imports/autoupdaterquick/UpdateButton.qml" line="+200"/>
         <source>Check for updates</source>
         <translation>بالتحقق من التحديثات</translation>
     </message>
@@ -1195,7 +1203,7 @@
 <context>
     <name>UpdateResultDialog</name>
     <message>
-        <location filename="../imports/autoupdaterquick/UpdateResultDialog.qml" line="+17"/>
+        <location filename="../imports/autoupdaterquick/UpdateResultDialog.qml" line="+122"/>
         <source>Check for updates finished!</source>
         <translation>التحقق من وجود تحديثات الانتهاء!</translation>
     </message>
@@ -1220,7 +1228,7 @@
         <translation>موافق</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+65"/>
         <source>No new updates available.</source>
         <translation>لا تتوفر تحديثات جديدة.</translation>
     </message>
@@ -1238,6 +1246,11 @@
         <location line="+7"/>
         <source>An error occured while trying to check for updates.</source>
         <translation>حدث خطأ أثناء محاولة التحقق من وجود تحديثات.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Updates are available, but was not able to start the update installer!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

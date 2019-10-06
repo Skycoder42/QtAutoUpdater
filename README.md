@@ -34,7 +34,7 @@ The Qt auto updater library is a library to automatically check for updates and 
 - *Prepared* for translation and fully translated for:
 	- German
 	- French
-	- Spanish
+	- Spanish (outdated)
 	- Arabic (outdated)
 
 #### Screenshots
