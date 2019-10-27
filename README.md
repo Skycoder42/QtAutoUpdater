@@ -86,6 +86,8 @@ There are multiple ways to install the Qt module, sorted by preference:
 ## Usage
 The autoupdater is provided as a Qt module. Thus, all you have to do is add the module, and then, in your project, add `QT += autoupdatercore` or `QT += autoupdaterwidgets` to your .pro file - depending on what you need! For QML, you can import the library as `de.skycoder42.QtAutoUpdater.Core` and `de.skycoder42.QtAutoUpdater.Quick`.
 
+**Note:** When preparing an application for the release, the `windeployqt` and `macdeployqt` will *not* include the plugins! You have to manually copy matching libraries from `<QT_PLUGIN_DIR>/updaters`. The `d` suffix is used on windows and the `_debug` suffix on macos for the debug version of the plugins.
+
 ### Getting started
 The following examples assumes you are using the Qt Installer Framework as backend. The usage is similar for all backends, as you only have to adjust the configuration. This document expects you to already know the installation system you are using. If you are new to all of this, I can personally recommend you to use the Qt Installer Framework. It is relatively easy to use and works for Linux, Windows and macOs.
 
