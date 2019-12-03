@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['polymorphing',['Polymorphing',['https://doc.qt.io/qt-5/class_q_json_serializer.html#aaf1235d174ee19e269d85a9a0d909e72',0,'QJsonSerializer']]],
-  ['priority',['Priority',['https://doc.qt.io/qt-5/class_q_json_type_converter.html#a9ac88a7b6e3e954b825afd56d1558b6d',0,'QJsonTypeConverter']]]
+  ['feature_29734',['Feature',['../class_qt_auto_updater_1_1_update_installer.html#a275c5092ff15d04c73184b5c75dbd599',1,'QtAutoUpdater::UpdateInstaller::Feature()'],['../class_qt_auto_updater_1_1_updater_backend.html#ae2084fa59e18bcef183b5c99118250c2',1,'QtAutoUpdater::UpdaterBackend::Feature()']]]
 ];

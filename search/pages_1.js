@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qdatasyncserver_20documentation',['qdatasyncserver Documentation',['https://doc.qt.io/qt-5/qdatasyncserver.html',0,'']]]
+  ['image_20page_30952',['Image Page',['../qtautoupdater_image_page.html',1,'']]]
 ];

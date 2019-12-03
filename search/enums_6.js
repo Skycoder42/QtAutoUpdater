@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['syncpolicy',['SyncPolicy',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_data_merger.html#ab91bd94e1d261c06ac0d56feb7174f0c',0,'QtDataSync::DataMerger']]],
-  ['syncstate',['SyncState',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_sync_controller.html#af5fc5102475cdfa66405035c4ce6cfd3',0,'QtDataSync::SyncController']]]
+  ['modeflag_29737',['ModeFlag',['../class_qt_auto_updater_1_1_update_button.html#af14c8e329cd41cf802ca77e43ddc90d9',1,'QtAutoUpdater::UpdateButton']]],
+  ['multimapmode_29738',['MultiMapMode',['https://doc.qt.io/qt-5/class_qt_json_serializer_1_1_serializer_base.html#a4890e4a4c4e3c81d741d1a94bfc713ab',0,'QtJsonSerializer::SerializerBase']]]
 ];

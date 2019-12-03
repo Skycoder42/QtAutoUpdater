@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['datamerger',['DataMerger',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_data_merger.html',0,'QtDataSync']]],
-  ['datamerger2',['DataMerger2',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_data_merger2.html',0,'QtDataSync']]],
-  ['datastoremodel',['DataStoreModel',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_data_store_model.html',0,'QtDataSync']]],
-  ['datasyncexception',['DataSyncException',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_data_sync_exception.html',0,'QtDataSync']]],
-  ['defaults',['Defaults',['https://doc.qt.io/qt-5/class_qt_data_sync_1_1_defaults.html',0,'QtDataSync']]]
+  ['delegatechoice_14356',['DelegateChoice',['https://doc.qt.io/qt-5/qml-delegatechoice.html',0,'']]],
+  ['delegatechooser_14357',['DelegateChooser',['https://doc.qt.io/qt-5/qml-delegatechooser.html',0,'']]],
+  ['deserializationexception_14358',['DeserializationException',['https://doc.qt.io/qt-5/class_qt_json_serializer_1_1_deserialization_exception.html',0,'QtJsonSerializer']]],
+  ['dialogbase_14359',['DialogBase',['../classde_1_1skycoder42_1_1_qt_auto_updater_1_1_quick_1_1_dialog_base.html',1,'de::skycoder42::QtAutoUpdater::Quick']]]
 ];
