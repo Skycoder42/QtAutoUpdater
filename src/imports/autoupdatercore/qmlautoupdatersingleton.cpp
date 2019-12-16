@@ -15,14 +15,15 @@ QVariant QmlAutoUpdaterSingleton::createInfo(QVariant identifier, QString name, 
 			version.value<QVersionNumber>() :
 			QVersionNumber::fromString(version.toString()),
 		std::move(data)
-	});
+							   });
 }
 
-QVariantList QmlAutoUpdaterSingleton::infosAsList(const QList<UpdateInfo> &infos) const
+QVariantList QmlAutoUpdaterSingleton::infosAsList(const QVariant &infos) const
 {
+	const auto infoList = infos.value<QList<UpdateInfo>>();
 	QVariantList l;
-	l.reserve(infos.size());
-	for (const auto &info : infos)
+	l.reserve(infoList.size());
+	for (const auto &info : infoList)
 		l.append(QVariant::fromValue(info));
 	return l;
 }

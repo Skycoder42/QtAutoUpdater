@@ -34,7 +34,7 @@ public:
 	//! Creates a QtAutoUpdater::UpdateInfo from the given parameters
 	Q_INVOKABLE QVariant createInfo(QVariant identifier, QString name, const QVariant &version, QVariantMap data = {}) const;
 	//! Converts a list of QtAutoUpdater::UpdateInfos to a QVariantList, which can be consumed in QML
-	Q_INVOKABLE QVariantList infosAsList(const QList<QtAutoUpdater::UpdateInfo> &infos) const;
+	Q_INVOKABLE QVariantList infosAsList(const QVariant &infos) const;
 
 
 	//! @copydoc QtAutoUpdater::Updater::create(const QString &, QObject*)

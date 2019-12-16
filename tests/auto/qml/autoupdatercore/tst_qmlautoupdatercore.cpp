@@ -9,9 +9,9 @@ class Setup : public QObject
 	Q_OBJECT
 
 public:
-	Q_INVOKABLE QVariant createInfoList(const QtAutoUpdater::UpdateInfo &info)
+	Q_INVOKABLE QVariant createInfoList(const QVariant &info)
 	{
-		return QVariant::fromValue(QList<UpdateInfo>{info});
+		return QVariant::fromValue(QList<UpdateInfo>{info.value<UpdateInfo>()});
 	}
 
 public Q_SLOTS:
