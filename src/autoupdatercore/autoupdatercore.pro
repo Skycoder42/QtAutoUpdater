@@ -43,6 +43,7 @@ android {
 	MODULE_DEFINES += "QT_AUTOUPDATER_PLAY_CORE_VERSION=\\\"$$PLAY_CORE_VERSION\\\""
 }
 
+MODULE_PLUGIN_TYPES = updaters
 load(qt_module)
 
 win32:!winrt: LIBS += -lAdvapi32 -lOle32 -lShell32

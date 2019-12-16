@@ -1,0 +1,183 @@
+name: CI build
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 5.14.0
+        platform:
+          - gcc_64
+          - android
+          - wasm_32
+          - msvc2017_64
+          - msvc2017
+          - winrt_x64_msvc2017
+          - winrt_x86_msvc2017
+          - winrt_armv7_msvc2017
+          - mingw73_64
+          - mingw73_32
+          - clang_64
+          - ios
+
+        include:
+          - platform: gcc_64
+            os: ubuntu-latest
+          - platform: android
+            os: ubuntu-latest
+          - platform: wasm_32
+            os: ubuntu-latest
+            emsdk: sdk-fastcomp-1.38.27-64bit
+          - platform: msvc2017_64
+            os: windows-2016
+          - platform: msvc2017
+            os: windows-2016
+          - platform: winrt_x64_msvc2017
+            os: windows-2016
+          - platform: winrt_x86_msvc2017
+            os: windows-2016
+          - platform: winrt_armv7_msvc2017
+            os: windows-2016
+          - platform: mingw73_64
+            os: windows-latest
+          - platform: mingw73_32
+            os: windows-latest
+          - platform: clang_64
+            os: macos-latest
+          - platform: ios
+            os: macos-latest
+
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v1
+      - name: actions/cache emsdk
+        uses: actions/cache@v1
+        if: matrix.platform == 'wasm_32'
+        with:
+          path: emsdk-cache
+          key: ${{runner.os}}-emsdk-${{matrix.emsdk}}
+      - uses: mymindstorm/setup-emsdk@v3
+        if: matrix.platform == 'wasm_32'
+        with:
+          version: ${{matrix.emsdk}}
+          actions-cache-folder: emsdk-cache
+      - name: actions/cache qt
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: qt/${{matrix.version}}/${{matrix.platform}}
+          key: qt-${{matrix.version}}-${{matrix.platform}}
+      - uses: Skycoder42/action-setup-qt@master
+        id: qt
+        with:
+          version: ${{matrix.version}}
+          platform: ${{matrix.platform}}
+          install-args: --verbose
+          cachedir: qt/${{matrix.version}}/${{matrix.platform}}
+      - name: build qthttpserver
+#        if: steps.cache-qt.outputs.cache-hit != 'true' && !contains(matrix.platform, 'mingw')
+        if: steps.cache-qt.outputs.cache-hit != 'true'
+        run: |
+          qmake
+          ${{steps.qt.outputs.make}} qmake_all
+          ${{steps.qt.outputs.make}}
+          ${{steps.qt.outputs.make}} install
+        working-directory: src/3rdparty/qthttpserver
+#      - name: unpack qthttpserver
+#        if: steps.cache-qt.outputs.cache-hit != 'true' && contains(matrix.platform, 'mingw')
+#        run: 7z x "src/3rdparty/qthttpserver-${{matrix.platform}}.zip" "-o${{steps.qt.outputs.qtdir}}" -aoa -y
+      - name: install packagekit
+        if: matrix.platform == 'gcc_64'
+        run: |
+          sudo apt-get -qq install packagekit
+          export PKG_CONFIG_PATH=${{steps.qt.outputs.qtdir}}/lib/pkgconfig/:$PKG_CONFIG_PATH
+          echo "::set-env name=PKG_CONFIG_PATH::$PKG_CONFIG_PATH"
+      - name: build PackageKit-Qt
+        if: steps.cache-qt.outputs.cache-hit != 'true' && matrix.platform == 'gcc_64'
+        run: |
+          sed -i 's/set(BUILD_SHARED_LIBS ON)/set(BUILD_SHARED_LIBS OFF)/g' CMakeLists.txt
+          export CMAKE_PREFIX_PATH=${{steps.qt.outputs.qtdir}}:$CMAKE_PREFIX_PATH
+          mkdir build && cd build
+          cmake \
+            "-DCMAKE_INSTALL_PREFIX=$(qmake -query QT_INSTALL_PREFIX)" \
+            "-DCMAKE_INSTALL_LIBDIR=$(qmake -query QT_INSTALL_LIBS)" \
+            "-DCMAKE_INSTALL_INCLUDEDIR=$(qmake -query QT_INSTALL_HEADERS)" \
+            ".."
+          ${{steps.qt.outputs.make}}
+          ${{steps.qt.outputs.make}} install
+          pkg-config --exists packagekitqt5
+        working-directory: src/3rdparty/PackageKit-Qt
+      - name: qmake
+        run: |
+          qmake CONFIG+=install_ok QT_PLATFORM=${{matrix.platform}}
+          ${{steps.qt.outputs.make}} qmake_all
+      - name: make module
+        run: |
+          ${{steps.qt.outputs.make}}
+          ${{steps.qt.outputs.make}} INSTALL_ROOT="${{steps.qt.outputs.installdir}}" install
+      - name: make tests
+        if: steps.qt.outputs.tests == 'true' && !contains(matrix.platform, 'mingw')
+        run: |
+          ${{steps.qt.outputs.make}} all
+          ${{steps.qt.outputs.make}} ${{steps.qt.outputs.testflags}} run-tests
+      - name: make examples
+        if: matrix.platform == 'gcc_64'
+        run: |
+          ${{steps.qt.outputs.make}} sub-examples
+          cd examples && ${{steps.qt.outputs.make}} INSTALL_ROOT="${{steps.qt.outputs.installdir}}" install
+      - name: make doc
+        if: matrix.platform == 'gcc_64'
+        run: |
+          ${{steps.qt.outputs.make}} doxygen
+          cd doc && ${{steps.qt.outputs.make}} INSTALL_ROOT="${{steps.qt.outputs.installdir}}" install
+      - name: upload module to releases
+        uses: Skycoder42/action-upload-release@master
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          directory: ${{steps.qt.outputs.outdir}}/${{matrix.version}}
+          asset_name: qtautoupdater-${{matrix.platform}}-${{matrix.version}}
+          tag: ${{github.ref}}
+          overwrite: true
+      - name: upload examples to releases
+        uses: Skycoder42/action-upload-release@master
+        if: matrix.platform == 'gcc_64' && startsWith(github.ref, 'refs/tags/')
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          directory: ${{steps.qt.outputs.outdir}}/Examples
+          asset_name: qtautoupdater-examples-${{matrix.version}}
+          tag: ${{github.ref}}
+          overwrite: true
+      - name: upload doc to releases
+        uses: Skycoder42/action-upload-release@master
+        if: matrix.platform == 'gcc_64' && startsWith(github.ref, 'refs/tags/')
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          directory: ${{steps.qt.outputs.outdir}}/Docs
+          asset_name: qtautoupdater-doc-${{matrix.version}}
+          tag: ${{github.ref}}
+          overwrite: true
+
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: recursive
+          path: source
+      - uses: actions/setup-python@v1
+      - uses: Skycoder42/action-deploy-qt@master
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          version: 5.14.0
+          host: ${{secrets.SSHFS_HOST}}
+          key: ${{secrets.SSHFS_KEY}}
+          port: ${{secrets.SSHFS_PORT}}
