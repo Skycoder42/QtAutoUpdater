@@ -87,17 +87,16 @@ jobs:
           install-args: --verbose
           cachedir: qt/${{matrix.version}}/${{matrix.platform}}
       - name: build qthttpserver
-#        if: steps.cache-qt.outputs.cache-hit != 'true' && !contains(matrix.platform, 'mingw')
-        if: steps.cache-qt.outputs.cache-hit != 'true'
+        if: steps.cache-qt.outputs.cache-hit != 'true' && !contains(matrix.platform, 'mingw')
         run: |
           qmake
           ${{steps.qt.outputs.make}} qmake_all
           ${{steps.qt.outputs.make}}
           ${{steps.qt.outputs.make}} install
         working-directory: src/3rdparty/qthttpserver
-#      - name: unpack qthttpserver
-#        if: steps.cache-qt.outputs.cache-hit != 'true' && contains(matrix.platform, 'mingw')
-#        run: 7z x "src/3rdparty/qthttpserver-${{matrix.platform}}.zip" "-o${{steps.qt.outputs.qtdir}}" -aoa -y
+      - name: unpack qthttpserver
+        if: steps.cache-qt.outputs.cache-hit != 'true' && contains(matrix.platform, 'mingw')
+        run: 7z x "src/3rdparty/qthttpserver-${{matrix.platform}}.zip" "-o${{steps.qt.outputs.qtdir}}" -aoa -y
       - name: install packagekit
         if: matrix.platform == 'gcc_64'
         run: |

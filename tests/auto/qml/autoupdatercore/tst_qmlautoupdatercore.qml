@@ -34,7 +34,7 @@ Item {
 													key: "value"
 												});
 			let tList = setup.createInfoList(info);
-			let resList = QtAutoUpdater.infosAsList(tList);
+			let resList = QtAutoUpdater.infosAsList(tList);  // TODO remove deprecated
 			compare(resList.length, 1);
 			compare(resList[0], info);
 		}

@@ -9,6 +9,7 @@
 #include <QtAutoUpdaterCore/Updater>
 #include <QtAutoUpdaterCore/UpdaterBackend>
 
+#include <QtQml/QJSValue>
 
 #ifdef DOXYGEN_RUN
 namespace de::skycoder42::QtAutoUpdater::Core {
@@ -34,7 +35,7 @@ public:
 	//! Creates a QtAutoUpdater::UpdateInfo from the given parameters
 	Q_INVOKABLE QVariant createInfo(QVariant identifier, QString name, const QVariant &version, QVariantMap data = {}) const;
 	//! Converts a list of QtAutoUpdater::UpdateInfos to a QVariantList, which can be consumed in QML
-	Q_INVOKABLE QVariantList infosAsList(const QVariant &infos) const;
+	Q_INVOKABLE Q_DECL_DEPRECATED QJSValue infosAsList(const QJSValue &value) const;
 
 
 	//! @copydoc QtAutoUpdater::Updater::create(const QString &, QObject*)

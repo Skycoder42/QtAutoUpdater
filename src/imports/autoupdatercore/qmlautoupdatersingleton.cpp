@@ -18,14 +18,9 @@ QVariant QmlAutoUpdaterSingleton::createInfo(QVariant identifier, QString name, 
 							   });
 }
 
-QVariantList QmlAutoUpdaterSingleton::infosAsList(const QVariant &infos) const
+QJSValue QmlAutoUpdaterSingleton::infosAsList(const QJSValue &value) const
 {
-	const auto infoList = infos.value<QList<UpdateInfo>>();
-	QVariantList l;
-	l.reserve(infoList.size());
-	for (const auto &info : infoList)
-		l.append(QVariant::fromValue(info));
-	return l;
+	return value;
 }
 
 Updater *QmlAutoUpdaterSingleton::createUpdater(const QString &configPath, QObject *parent) const
