@@ -126,7 +126,7 @@ jobs:
           python -m aqt tool ${{matrix.qtifw-host}} tools_ifw 3.1.1 qt.tools.ifw.31 --outputdir ${{steps.qt.outputs.qtdir}}/qtifw --internal
       - name: copy QtIfw from cache
         if: steps.qt.outputs.tests == 'true'
-        run: cp -a "${{steps.qt.outputs.qtdir}}/qtifw/Tools" "${{steps.qt.outputs.qtdir}}/../../
+        run: cp -a "${{steps.qt.outputs.qtdir}}/qtifw/Tools" "${{steps.qt.outputs.qtdir}}/../../"
         shell: bash
       - name: qmake
         run: |
