@@ -135,6 +135,9 @@ jobs:
         run: |
           ${{steps.qt.outputs.make}}
           ${{steps.qt.outputs.make}} INSTALL_ROOT="${{steps.qt.outputs.installdir}}" install
+      - name: update homebrew cache to prevent timeout
+        if: matrix.platform == 'clang_64'
+        run: brew update
       - name: make tests
         if: steps.qt.outputs.tests == 'true' && !contains(matrix.platform, 'mingw')
         run: |
