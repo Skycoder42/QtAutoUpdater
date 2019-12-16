@@ -75,7 +75,7 @@ jobs:
           actions-cache-folder: emsdk-cache
       - name: actions/cache qt
         uses: actions/cache@v1
-        id: cache
+        id: cache-qt
         with:
           path: qt/${{matrix.version}}/${{matrix.platform}}
           key: qt-${{matrix.version}}-${{matrix.platform}}
