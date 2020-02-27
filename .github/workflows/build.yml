@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 5.14.0
+          - 5.14.1
         platform:
           - gcc_64
           - android
@@ -26,39 +26,33 @@ jobs:
         include:
           - platform: gcc_64
             os: ubuntu-latest
-            qtifw-host: linux
           - platform: android
             os: ubuntu-latest
           - platform: wasm_32
             os: ubuntu-latest
             emsdk: sdk-fastcomp-1.38.27-64bit
           - platform: msvc2017_64
-            os: windows-2016
-            qtifw-host: windows
+            os: windows-latest
           - platform: msvc2017
-            os: windows-2016
-            qtifw-host: windows
+            os: windows-latest
           - platform: winrt_x64_msvc2017
-            os: windows-2016
+            os: windows-latest
           - platform: winrt_x86_msvc2017
-            os: windows-2016
+            os: windows-latest
           - platform: winrt_armv7_msvc2017
             os: windows-2016
           - platform: mingw73_64
             os: windows-latest
-            qtifw-host: windows
           - platform: mingw73_32
             os: windows-latest
-            qtifw-host: windows
           - platform: clang_64
             os: macos-latest
-            qtifw-host: mac
           - platform: ios
             os: macos-latest
 
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           submodules: recursive
       - uses: actions/setup-python@v1
@@ -84,19 +78,22 @@ jobs:
         with:
           version: ${{matrix.version}}
           platform: ${{matrix.platform}}
-          install-args: --verbose
+          packages: qt.tools.ifw.32
           cachedir: qt/${{matrix.version}}/${{matrix.platform}}
-      - name: build qthttpserver
-        if: steps.cache-qt.outputs.cache-hit != 'true' && !contains(matrix.platform, 'mingw')
+      - name: download qthttpserver precompiled binary
+        if: steps.cache-qt.outputs.cache-hit != 'true' && matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          curl -Lo "src/3rdparty/qthttpserver-binary.zip" 'https://github.com/Skycoder42/qt5-httpserver-build/releases/download/${{matrix.version}}/qthttpserver-${{matrix.platform}}-${{matrix.version}}.zip'
+          7z x "src/3rdparty/qthttpserver-binary.zip" "-o${{steps.qt.outputs.qtdir}}/.." -aoa -y
+      - name: build and install qthttpserver
+        if: steps.cache-qt.outputs.cache-hit != 'true' && matrix.os != 'windows-latest'
+        working-directory: src/3rdparty/qthttpserver
         run: |
           qmake
           ${{steps.qt.outputs.make}} qmake_all
           ${{steps.qt.outputs.make}}
           ${{steps.qt.outputs.make}} install
-        working-directory: src/3rdparty/qthttpserver
-      - name: unpack qthttpserver
-        if: steps.cache-qt.outputs.cache-hit != 'true' && contains(matrix.platform, 'mingw')
-        run: 7z x "src/3rdparty/qthttpserver-${{matrix.platform}}.zip" "-o${{steps.qt.outputs.qtdir}}" -aoa -y
       - name: install packagekit
         if: matrix.platform == 'gcc_64'
         run: |
@@ -118,14 +115,9 @@ jobs:
           ${{steps.qt.outputs.make}} install
           pkg-config --exists packagekitqt5
         working-directory: src/3rdparty/PackageKit-Qt
-      - name: install QtIfw to cache
-        if: steps.cache-qt.outputs.cache-hit != 'true' && steps.qt.outputs.tests == 'true'
-        run: |
-          python -m pip install aqtinstall
-          python -m aqt tool ${{matrix.qtifw-host}} tools_ifw 3.1.1 qt.tools.ifw.31 --outputdir ${{steps.qt.outputs.qtdir}}/qtifw --internal
       - name: copy QtIfw from cache
         if: steps.qt.outputs.tests == 'true'
-        run: cp -a "${{steps.qt.outputs.qtdir}}/qtifw/Tools" "${{steps.qt.outputs.qtdir}}/../../"
+        run: cp -a "${{steps.qt.outputs.qtdir}}/Tools" "${{steps.qt.outputs.qtdir}}/../../"
         shell: bash
       - name: qmake
         run: |
@@ -135,9 +127,6 @@ jobs:
         run: |
           ${{steps.qt.outputs.make}}
           ${{steps.qt.outputs.make}} INSTALL_ROOT="${{steps.qt.outputs.installdir}}" install
-      - name: update homebrew cache to prevent timeout
-        if: matrix.platform == 'clang_64'
-        run: brew update
       - name: make tests
         if: steps.qt.outputs.tests == 'true' && !contains(matrix.platform, 'mingw')
         run: |
@@ -167,7 +156,7 @@ jobs:
         if: matrix.platform == 'gcc_64' && startsWith(github.ref, 'refs/tags/')
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
-          directory: ${{steps.qt.outputs.outdir}}/Examples
+          directory: ${{steps.qt.outputs.outdir}}/${{matrix.version}}/${{matrix.platform}}/examples
           asset_name: qtautoupdater-examples-${{matrix.version}}
           tag: ${{github.ref}}
           overwrite: true
@@ -176,7 +165,7 @@ jobs:
         if: matrix.platform == 'gcc_64' && startsWith(github.ref, 'refs/tags/')
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
-          directory: ${{steps.qt.outputs.outdir}}/Docs
+          directory: ${{steps.qt.outputs.outdir}}/${{matrix.version}}/${{matrix.platform}}/doc
           asset_name: qtautoupdater-doc-${{matrix.version}}
           tag: ${{github.ref}}
           overwrite: true
@@ -194,7 +183,7 @@ jobs:
       - uses: Skycoder42/action-deploy-qt@master
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          version: 5.14.0
+          version: 5.14.1
           host: ${{secrets.SSHFS_HOST}}
           key: ${{secrets.SSHFS_KEY}}
           port: ${{secrets.SSHFS_PORT}}
