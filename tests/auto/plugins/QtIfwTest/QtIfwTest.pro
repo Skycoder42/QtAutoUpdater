@@ -23,9 +23,9 @@ DISTFILES += \
 isEmpty(QT_IFW_VERSION): QT_IFW_VERSION = 3.2
 isEmpty(QT_TOOL_PATH): QT_TOOL_PATH = $$[QT_INSTALL_BINS]/../../../Tools
 
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
-DEFINES += BINDIR=\\\"$$clean_path($$QT_TOOL_PATH/QtInstallerFramework/$$QT_IFW_VERSION/bin/)\\\"
-DEFINES += QTDIR=\\\"$$[QT_INSTALL_BINS]/../../../\\\"
+DEFINES += SRCDIR=\\\"$$PWD\\\"
+DEFINES += BINDIR=\\\"$$clean_path($$QT_TOOL_PATH/QtInstallerFramework/$$QT_IFW_VERSION/bin)\\\"
+DEFINES += QTDIR=\\\"$$[QT_INSTALL_BINS]/../../..\\\"
 
 include($$PWD/../testlib/testlib.pri)
 

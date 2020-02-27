@@ -4,11 +4,11 @@
 #include <QtTest>
 #include <plugintest.h>
 
-static const QString configFile = QStringLiteral(SRCDIR) + QStringLiteral("installer/config/config.xml");
-static const QString configScript = QStringLiteral(SRCDIR) + QStringLiteral("installer/config/controller.qs");
-static const QString pkgFile = QStringLiteral(SRCDIR) + QStringLiteral("installer/packages/de.skycoder42.QtAutoUpdaterTestInstaller/meta/package.xml");
-static const QString binarycreator = QStringLiteral(BINDIR) + QStringLiteral("binarycreator");
-static const QString repogen = QStringLiteral(BINDIR) + QStringLiteral("repogen");
+static const QString configFile = QStringLiteral(SRCDIR) + QStringLiteral("/installer/config/config.xml");
+static const QString configScript = QStringLiteral(SRCDIR) + QStringLiteral("/installer/config/controller.qs");
+static const QString pkgFile = QStringLiteral(SRCDIR) + QStringLiteral("/installer/packages/de.skycoder42.QtAutoUpdaterTestInstaller/meta/package.xml");
+static const QString binarycreator = QStringLiteral(BINDIR) + QStringLiteral("/binarycreator");
+static const QString repogen = QStringLiteral(BINDIR) + QStringLiteral("/repogen");
 
 InstallerController::InstallerController(QObject *parent) :
 	QObject{parent}
