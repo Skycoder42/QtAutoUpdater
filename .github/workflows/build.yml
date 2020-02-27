@@ -115,13 +115,9 @@ jobs:
           ${{steps.qt.outputs.make}} install
           pkg-config --exists packagekitqt5
         working-directory: src/3rdparty/PackageKit-Qt
-      - name: copy QtIfw from cache
-        if: steps.qt.outputs.tests == 'true'
-        run: cp -a "${{steps.qt.outputs.qtdir}}/Tools" "${{steps.qt.outputs.qtdir}}/../../"
-        shell: bash
       - name: qmake
         run: |
-          qmake CONFIG+=install_ok QT_PLATFORM=${{matrix.platform}}
+          qmake CONFIG+=install_ok QT_PLATFORM=${{matrix.platform}} "QT_TOOL_PATH=${{steps.qt.outputs.qtdir}}/Tools"
           ${{steps.qt.outputs.make}} qmake_all
       - name: make module
         run: |
