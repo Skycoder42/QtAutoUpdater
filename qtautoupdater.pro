@@ -21,4 +21,5 @@ lupdate.recurse += sub_src
 QMAKE_EXTRA_TARGETS += lupdate
 
 DISTFILES += .qmake.conf \
-	sync.profile
+    sync.profile \
+    .github/workflows/build.yml

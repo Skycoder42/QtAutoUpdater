@@ -8,18 +8,20 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 5.14.1
+          - 5.15.0
         platform:
           - gcc_64
           - android
           - wasm_32
-          - msvc2017_64
-          - msvc2017
-          - winrt_x64_msvc2017
-          - winrt_x86_msvc2017
-          - winrt_armv7_msvc2017
-          - mingw73_64
-          - mingw73_32
+          - msvc2019_64
+          - msvc2019
+          - winrt_x64_msvc2019
+          - winrt_x86_msvc2019
+          - winrt_armv7_msvc2019
+#          - msvc2017_64
+#          - msvc2017
+          - mingw81_64
+          - mingw81_32
           - clang_64
           - ios
 
@@ -30,20 +32,24 @@ jobs:
             os: ubuntu-latest
           - platform: wasm_32
             os: ubuntu-latest
-            emsdk: sdk-fastcomp-1.38.27-64bit
-          - platform: msvc2017_64
+            emsdk: sdk-fastcomp-1.39.8-64bit
+          - platform: msvc2019_64
             os: windows-latest
-          - platform: msvc2017
+          - platform: msvc2019
             os: windows-latest
-          - platform: winrt_x64_msvc2017
+          - platform: winrt_x64_msvc2019
             os: windows-latest
-          - platform: winrt_x86_msvc2017
+          - platform: winrt_x86_msvc2019
             os: windows-latest
-          - platform: winrt_armv7_msvc2017
-            os: windows-2016
-          - platform: mingw73_64
+          - platform: winrt_armv7_msvc2019
             os: windows-latest
-          - platform: mingw73_32
+ #         - platform: msvc2017_64
+ #           os: windows-latest
+ #         - platform: msvc2017
+ #           os: windows-latest
+          - platform: mingw81_64
+            os: windows-latest
+          - platform: mingw81_32
             os: windows-latest
           - platform: clang_64
             os: macos-latest
@@ -56,30 +62,17 @@ jobs:
         with:
           submodules: recursive
       - uses: actions/setup-python@v1
-      - name: actions/cache emsdk
-        uses: actions/cache@v1
-        if: matrix.platform == 'wasm_32'
-        with:
-          path: emsdk-cache
-          key: ${{runner.os}}-emsdk-${{matrix.emsdk}}
-      - uses: mymindstorm/setup-emsdk@v3
+      - uses: mymindstorm/setup-emsdk@v5
         if: matrix.platform == 'wasm_32'
         with:
           version: ${{matrix.emsdk}}
           actions-cache-folder: emsdk-cache
-      - name: actions/cache qt
-        uses: actions/cache@v1
-        id: cache-qt
-        with:
-          path: qt/${{matrix.version}}/${{matrix.platform}}
-          key: qt-${{matrix.version}}-${{matrix.platform}}
       - uses: Skycoder42/action-setup-qt@master
         id: qt
         with:
           version: ${{matrix.version}}
           platform: ${{matrix.platform}}
           packages: qt.tools.ifw.32
-          cachedir: qt/${{matrix.version}}/${{matrix.platform}}
       - name: download qthttpserver precompiled binary
         if: steps.cache-qt.outputs.cache-hit != 'true' && matrix.os == 'windows-latest'
         shell: bash
@@ -138,21 +131,13 @@ jobs:
         run: |
           ${{steps.qt.outputs.make}} doxygen
           cd doc && ${{steps.qt.outputs.make}} INSTALL_ROOT="${{steps.qt.outputs.installdir}}" install
-      - name: upload module to releases
-        uses: Skycoder42/action-upload-release@master
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          directory: ${{steps.qt.outputs.outdir}}/${{matrix.version}}
-          asset_name: qtautoupdater-${{matrix.platform}}-${{matrix.version}}
-          tag: ${{github.ref}}
-          overwrite: true
       - name: upload examples to releases
         uses: Skycoder42/action-upload-release@master
         if: matrix.platform == 'gcc_64' && startsWith(github.ref, 'refs/tags/')
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
-          directory: ${{steps.qt.outputs.outdir}}/${{matrix.version}}/${{matrix.platform}}/examples
+          directory: ${{steps.qt.outputs.outdir}}
+          platform: examples
           asset_name: qtautoupdater-examples-${{matrix.version}}
           tag: ${{github.ref}}
           overwrite: true
@@ -161,8 +146,19 @@ jobs:
         if: matrix.platform == 'gcc_64' && startsWith(github.ref, 'refs/tags/')
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
-          directory: ${{steps.qt.outputs.outdir}}/${{matrix.version}}/${{matrix.platform}}/doc
+          directory: ${{steps.qt.outputs.outdir}}
+          platform: doc
           asset_name: qtautoupdater-doc-${{matrix.version}}
+          tag: ${{github.ref}}
+          overwrite: true
+      - name: upload module to releases
+        uses: Skycoder42/action-upload-release@master
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          directory: ${{steps.qt.outputs.outdir}}
+          platform: ${{matrix.platform}}
+          asset_name: qtautoupdater-${{matrix.platform}}-${{matrix.version}}
           tag: ${{github.ref}}
           overwrite: true
 
@@ -179,7 +175,7 @@ jobs:
       - uses: Skycoder42/action-deploy-qt@master
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          version: 5.14.1
+          version: 5.15.0
           host: ${{secrets.SSHFS_HOST}}
           key: ${{secrets.SSHFS_KEY}}
           port: ${{secrets.SSHFS_PORT}}
