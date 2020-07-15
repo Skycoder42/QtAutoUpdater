@@ -44,6 +44,16 @@ bool TestInstaller::setup()
 	QVERIFY(runGit({
 					   QStringLiteral("init")
 				   }));
+    QVERIFY(runGit({
+                       QStringLiteral("config"),
+                       QStringLiteral("user.email"),
+                       QStringLiteral("you@example.com"),
+                   }));
+    QVERIFY(runGit({
+                       QStringLiteral("config"),
+                       QStringLiteral("user.name"),
+                       QStringLiteral("Your Name"),
+                   }));
 	QVERIFY(runGit({
 					   QStringLiteral("add"),
 					   QDir{_dir.path()}.relativeFilePath(initFile.fileName())
