@@ -12,7 +12,7 @@ jobs:
         platform:
           - gcc_64
           - android
-          - wasm_32
+#          - wasm_32
           - msvc2019_64
           - msvc2019
           - winrt_x64_msvc2019
@@ -30,9 +30,9 @@ jobs:
             os: ubuntu-latest
           - platform: android
             os: ubuntu-latest
-          - platform: wasm_32
-            os: ubuntu-latest
-            emsdk: sdk-fastcomp-1.39.8-64bit
+#          - platform: wasm_32
+#            os: ubuntu-latest
+#            emsdk: sdk-fastcomp-1.39.8-64bit
           - platform: msvc2019_64
             os: windows-latest
           - platform: msvc2019
@@ -170,6 +170,7 @@ jobs:
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           version: 5.15.0
+          excludes: wasm_32
           host: ${{secrets.SSHFS_HOST}}
           key: ${{secrets.SSHFS_KEY}}
           port: ${{secrets.SSHFS_PORT}}
