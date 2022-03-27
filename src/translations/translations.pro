@@ -11,6 +11,7 @@ TRANSLATIONS += \
 	qtautoupdater_es.ts \
 	qtautoupdater_fr.ts \
 	qtautoupdater_ar.ts \
+	qtautoupdater_zh_CN.ts \
 	qtautoupdater_template.ts
 
 CONFIG += lrelease
