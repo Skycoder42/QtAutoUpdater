@@ -1,5 +1,7 @@
 # QtAutoUpdater
 
+> Looking for a Maintainer! See #39
+
 The Qt auto updater library is a library to automatically check for updates and install them based on various backends. This repository includes:
 
  - A library with the basic updater (without any GUI)
